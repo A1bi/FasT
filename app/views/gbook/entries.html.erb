@@ -1,0 +1,27 @@
+<% @title = "Gästebuch" %>		
+		<div class="hl">
+			Gästebuch
+		</div>
+		Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
+		<div class="new">
+			<%= link_to "eintragen", gbook_new_path %>
+		</div>
+		<div class="pages">
+			Seite: <%= render_pages %>
+		</div>
+		<% @entries.each do |entry| %>
+			<div class="box">
+				<div class="top">
+					<%= entry.author %>
+				</div>
+				<div class="con">
+					<div style="text-align: right; font-size: 12px;">
+						am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
+					</div>
+					<%= entry.text %>
+				</div>
+			</div>
+			<% end %>
+		<div class="pages">
+			Seite: <%= render_pages %>
+		</div>

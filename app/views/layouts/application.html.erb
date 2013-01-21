@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch{$meta_keys}" />
+	<title>Freilichtbühne am schiefen Turm e.V.<% if @title %> - <%= @title %><% end %></title>
+	<link rel="shortcut icon" href="/gfx/favicon.ico" />
+	
+	<%= stylesheet_link_tag "application", controller_name, :media => "all" %>
+	<%= javascript_include_tag "application", controller_name %>
+</head>
+<body class="noSlides">
+	<div id="sky"></div>
+	<div id="slides">
+		<div class="slide finished"></div>
+		<div class="slide finished"></div>
+		<div class="fg"></div>
+	</div>
+	<div id="left">
+		<a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
+		<div id="navi">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li class="spacer"></li>
+				<li><a href="/termine">Termine</a></li>
+				<li class="spacer"></li>
+				<li><a href="/info">Informationen</a></li>
+				<li class="spacer"></li>
+				<li><a href="/geschichte">Geschichte</a></li>
+				<li class="spacer"></li>
+				<li><a href="/theater">Theaterstücke</a></li>
+				<li class="spacer"></li>
+				<li><a href="/galerie">Fotogalerie</a></li>
+				<li class="spacer"></li>
+				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
+			</ul>
+		</div>
+	</div>
+	<div id="right">
+		<div id="content">
+			<div class="top"></div>
+			<div class="content">
+
+			<%= yield %>
+
+			</div>
+			<div class="bottom">
+				<div>
+					&copy; 2009 - 2012 Freilichtbühne am schiefen Turm e.V. - <a href="/impressum">Impressum</a> - <a href="/satzung">Satzung</a> - <a href="/agb">AGB</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- {if !$_config.dev && $_config.as_site}
+{$baseUrl="http{if $smarty.server.HTTPS}s{/if}://system.albisigns.de{if $smarty.server.HTTPS}:442{/if}/"}
+
+	<script>var as_site = {$_config.as_site};</script>
+	<script src="{$baseUrl}stats.js"></script>
+	<noscript><img src="{$baseUrl}stats{$_config.as_site}.png" alt="" /></noscript>
+
+{/if} -->
+</body>
+</html>

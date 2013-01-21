@@ -1,0 +1,40 @@
+.welcome {
+	margin-top: 30px;
+	font-size: 20px;
+}
+.teaser {
+	position: relative;
+	width: 610px;
+	height: 230px;
+	margin: 60px auto;
+	background: url(/assets/theater/krippenweihnacht/index_bg.png) no-repeat bottom;	
+}
+.teaser .bottom {
+	position: absolute;
+	bottom: 15px;
+	left: 20px;
+	font-family: "Qlassik", "Arial";
+	font-size: 28px;
+}
+.teaser a {
+	color: #0061bb;
+}
+.ad {
+	position: relative;
+	margin-top: 30px;
+	text-align: center;
+}
+.ad .disclaimer {
+	color: #cccccc;
+	font-size: 12px;
+	padding: 0px 5px;
+}
+.ad .line {
+	position: absolute;
+	height: 1px;
+	background: #cccccc;
+	top: 0px;
+}
+.ad div {
+	margin-top: 10px;
+}
