@@ -1,0 +1,92 @@
+/* adjust content space for microsite */
+#content > .top {
+	background: url(/assets/theater/montevideo/content_top.png) no-repeat;
+	height: 606px;
+}
+#content > .content {
+	background: url(/assets/theater/montevideo/content_first.png) no-repeat;
+	padding: 1px 230px 1px 50px;
+	min-height: 332px;
+}
+#content > .content.next {
+	background: url(/assets/theater/montevideo/content_bg.png) repeat-y;
+	padding: 1px 50px;
+	min-height: 0px;
+}
+#content > .bottom {
+	background: url(/assets/theater/montevideo/content_bottom.png) no-repeat;
+}
+
+@font-face {
+	font-family: 'Ovo';
+	src: url('/assets/ovo.eot');
+	src: url('/assets/ovo.eot?#iefix') format('embedded-opentype'),
+		 url(/assets/ovo.woff) format('woff');
+}
+
+.info {
+	color: #ffffff;
+	text-align: justify;
+	text-shadow: #000000 0px 0px 10px;
+	font-size: 18px;
+	font-family: 'Ovo', cursive;
+}
+.info a {
+	color: #cccccc;
+	font-style: italic;
+	text-decoration: none;
+}
+.info h2 {
+	margin-left: -15px;
+	margin-top: 0px;
+	margin-bottom: 15px;
+	font-size: 26px;
+	font-weight: bold;
+}
+.info .cast {
+	margin: 20px 0px;
+	font-size: 16px;
+}
+.info .cast .row {
+	padding: 4px 0px;
+	overflow: auto;
+}
+.info .cast .row > div {
+	width: 46%;
+	float: left;
+	padding: 0px 10px;
+	vertical-align: top;
+}
+.info .cast .row .small {
+	font-size: 11px;
+}
+.info .cast p {
+	margin: 10px 0px;
+}
+.info .cast .role {
+	text-align: right;
+}
+.info .cast .actor {
+	font-weight: bold;
+	text-align: left;
+}
+.info .cast .newSection div {
+	padding-top: 20px;
+}
+.info .cast .alt {
+	font-size: 13px;
+	background: #2d2d2d;
+	box-shadow: inset 0px 2px 5px black;
+	padding-top: 5px;
+	display: none;
+	width: 100%;
+	margin-bottom: 15px;
+}
+.info .cast .alt span {
+	width: 50px;
+	display: inline-block;
+	text-align: center;
+}
+.info .cast .double .actor, .info .cast .double .alt {
+	cursor: pointer;
+}

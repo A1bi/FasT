@@ -1,4 +1,10 @@
 FasT::Application.routes.draw do
+  get "theater" => "theater#index"
+  get "theater/montevideo"
+  get "theater/hexenjagd"
+  get "theater/medicus"
+  get "theater/phantasus"
+
   get "info" => "info#index"
   get "info/map"
   get "info/weather"

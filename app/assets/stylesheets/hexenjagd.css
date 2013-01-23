@@ -1,0 +1,40 @@
+/* adjust content space for microsite */
+#content > .top {
+	background: url(/assets/theater/hexenjagd/content_top.png) no-repeat;
+	height: 693px;
+}
+#content > .content {
+	background: url(/assets/theater/hexenjagd/content_bg.png) repeat-y;
+	min-height: 0px;
+	padding: 1px 58px;
+}
+#content > .bottom {
+	background: url(/assets/theater/hexenjagd/content_bottom.png) no-repeat;
+}
+
+@font-face {
+	font-family: 'Ovo';
+	src: url('/assets/ovo.eot');
+	src: url('/assets/ovo.eot?#iefix') format('embedded-opentype'),
+		 url(/assets/ovo.woff) format('woff');
+}
+
+.info {
+	color: #b09668;
+	text-align: justify;
+	text-shadow: #000000 1px 1px 10px;
+	font-size: 18px;
+	font-family: 'Ovo', cursive;
+}
+.info a {
+	color: #937d57;
+	font-style: italic;
+	text-decoration: none;
+}
+.info h2 {
+	margin-left: -15px;
+	margin-top: 30px;
+	margin-bottom: 15px;
+	font-size: 26px;
+	font-weight: bold;
+}
