@@ -1,0 +1,72 @@
+.map {
+	width: 90%;
+	margin: auto;
+}
+#map {
+	width: 100%;
+	height: 300px;
+}
+#map .olControlAttribution, #map .olControlScaleLine {
+	font-size: 11px;
+	bottom: 0px;
+	right: 0px;
+	background: rgba(255, 255, 255, 0.7);
+	padding: 4px;
+	border-top-left-radius: 6px;
+}
+#map .olMapViewport {
+	border-radius: 15px;
+	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+#map .olTileImage {
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	-o-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+#map .olPopup {
+	padding: 5px;
+	border-radius: 10px;
+	border-top-right-radius: 0px;
+	box-shadow: 1px 1px 6px #cccccc;
+}
+
+.weather {
+	height: 150px;
+}
+.weather .loader {
+	background: url(/assets/loader.gif) no-repeat;
+	height: 32px;
+	width: 32px;
+	margin: auto;
+	margin-top: 20px;
+}
+.weather .info {
+	position: relative;
+	top: 0px;
+	width: 70%;
+	height: 100%;
+	margin: auto;
+	display: none;
+}
+.weather .icon {
+	position: absolute;
+}
+.weather .data {
+	position: absolute;
+	left: 200px;
+}
+.weather .data h2 {
+	font-size: 30px;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+	margin-bottom: 10px;
+}
+.weather .yahoo {
+	position: absolute;
+	right: -60px;
+	bottom: 0px;
+	font-size: 12px;
+}
+.weather .yahoo img {
+	vertical-align: bottom;
+}

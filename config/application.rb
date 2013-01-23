@@ -60,5 +60,6 @@ module FasT
     config.assets.version = '1.0'
     
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
+    config.assets.paths << Rails.root.join("lib", "assets", "javascripts")
   end
 end
