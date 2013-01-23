@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch{$meta_keys}" />
-	<title>Freilichtbühne am schiefen Turm e.V.<% if @title %> - <%= @title %><% end %></title>
+	<title>Freilichtbühne am schiefen Turm e.V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
 	<link rel="shortcut icon" href="/gfx/favicon.ico" />
 	
 	<%= stylesheet_link_tag "application", controller_name, :media => "all" %>
