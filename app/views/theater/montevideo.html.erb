@@ -1,8 +1,6 @@
 <% title "Das Haus in Montevideo - eine Komödie von Curt Goetz" %>
-<% content_for :head do %>
-<%= stylesheet_link_tag "montevideo", :media => "all" %>
-<%= javascript_include_tag "montevideo" %>
-<% end %>
+<% include_css "montevideo" %>
+<% include_js "montevideo" %>
 	<div class="info">
 		Die „Freilichtbühne am schiefen Turm“ präsentierte im Jahr 2012 den immer jungen Lacherfolg:
 		<br />„<em>Das Haus in Montevideo</em>“ von Curt Goetz.

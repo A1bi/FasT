@@ -2,12 +2,15 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch{$meta_keys}" />
+	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
 	<title>Freilichtbühne am schiefen Turm e.V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
 	<link rel="shortcut icon" href="/gfx/favicon.ico" />
 	
-	<%= stylesheet_link_tag "application", controller_name, :media => "all" %>
-	<%= javascript_include_tag "application", controller_name %>
+	<%= stylesheet_link_tag "application", :media => "all" %>
+	<%= javascript_include_tag "application" %>
+	
+	<% if content_for?(:js_file) %><%= javascript_include_tag yield(:js_file) %><% end %>
+	<% if content_for?(:css_file) %><%= stylesheet_link_tag yield(:css_file), :media => "all" %><% end %>
 	
 	<%= yield(:head) %>
 </head>
