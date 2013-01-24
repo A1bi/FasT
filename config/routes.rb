@@ -1,4 +1,6 @@
 FasT::Application.routes.draw do
+  get "termine" => "dates#jedermann", :as => "dates"
+
   get "theater" => "theater#index"
   get "theater/montevideo"
   get "theater/hexenjagd"
