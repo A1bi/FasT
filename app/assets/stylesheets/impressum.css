@@ -1,0 +1,31 @@
+.contact {
+	float: left;
+	width: 49%;
+}
+.webdesign {
+	float: right;
+	width: 48%;
+}
+.webdesign .con {
+	overflow: auto;
+	width: 100%;
+}
+.webdesign .logo {
+	float: left;
+	margin: 7px;
+}
+.webdesign .info {
+	float: left;
+}
+.webdesign .links {
+	margin-top: 30px;
+}
+h1 {
+	font-size: 16px;
+	margin-top: 0px;
+}
+h2 {
+	font-size: 15px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}

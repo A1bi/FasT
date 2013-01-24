@@ -1,0 +1,19 @@
+.parag {
+	font-weight: bold;
+	margin-top: 20px;
+}
+.parag .nrs {
+	font-weight: normal;
+	/* margin: 10px 20px; */
+}
+.parag .letters {
+	list-style-type: lower-alpha;
+}
+.parag .no {
+	list-style-type: none;
+}
+.headline {
+	font-size: 18px;
+	text-align: center;
+	margin: 10px 0;
+}
