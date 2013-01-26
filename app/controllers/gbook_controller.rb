@@ -35,7 +35,7 @@ class GbookController < ApplicationController
     if !@notice.blank?
       render :action => "new"
     else
-      redirect_to gbook_entries_path
+      redirect_to gbook_path
     end
   end
 end

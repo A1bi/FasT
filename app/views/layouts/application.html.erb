@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
 	<title>Freilichtbühne am schiefen Turm e.V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
-	<link rel="shortcut icon" href="/gfx/favicon.ico" />
+	<link rel="shortcut icon" href="/assets/favicon.ico" />
 	
 	<%= stylesheet_link_tag "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
@@ -25,19 +25,19 @@
 		<a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
 		<div id="navi">
 			<ul>
-				<li><a href="/">Home</a></li>
+				<li><%= link_to "Home", root_path %></li>
 				<li class="spacer"></li>
-				<li><a href="/termine">Termine</a></li>
+				<li><%= link_to "Termine", dates_path %></li>
 				<li class="spacer"></li>
-				<li><a href="/info">Informationen</a></li>
+				<li><%= link_to "Informationen", info_path %></li>
 				<li class="spacer"></li>
-				<li><a href="/geschichte">Geschichte</a></li>
+				<li><%= link_to "Geschichte", gbook_path %></li>
 				<li class="spacer"></li>
-				<li><a href="/theater">Theaterstücke</a></li>
+				<li><%= link_to "Theater", theater_path %></li>
 				<li class="spacer"></li>
-				<li><a href="/galerie">Fotogalerie</a></li>
+				<li>Fotogalerie</li>
 				<li class="spacer"></li>
-				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
+				<li><%= link_to "Gästebuch", gbook_path %></li>
 			</ul>
 		</div>
 	</div>
@@ -56,13 +56,12 @@
 			</div>
 		</div>
 	</div>
-<!-- {if !$_config.dev && $_config.as_site}
-{$baseUrl="http{if $smarty.server.HTTPS}s{/if}://system.albisigns.de{if $smarty.server.HTTPS}:442{/if}/"}
-
-	<script>var as_site = {$_config.as_site};</script>
-	<script src="{$baseUrl}stats.js"></script>
-	<noscript><img src="{$baseUrl}stats{$_config.as_site}.png" alt="" /></noscript>
-
-{/if} -->
+	<% if Rails.env.production? %>
+	<% as_site = 6 %>
+	<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? "442" : "") + "/" %>
+	<script>var as_site = <%= as_site %>;</script>
+	<%= javascript_include_tag base_url + "stats.js" %>
+	<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", :alt => "" %></noscript>
+	<% end %>
 </body>
 </html>

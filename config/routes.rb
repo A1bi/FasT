@@ -17,7 +17,7 @@ FasT::Application.routes.draw do
   # guestbook
   get "g%C3%A4stebuch/neu" => "gbook#new", :as => "gbook_new"
   post "g%C3%A4stebuch" => "gbook#create", :as => "gbook_create"
-  get "g%C3%A4stebuch(/:page)" => "gbook#entries", :as => "gbook_entries"
+  get "g%C3%A4stebuch(/:page)" => "gbook#entries", :as => "gbook"
   
   # static pages
   get "geschichte" => "static#history"
