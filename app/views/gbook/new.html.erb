@@ -1,37 +1,36 @@
 <% title "Gästebuch - Neuer Eintrag" %>
 <% include_css "gbook" %>
-		<form action="<%= gbook_create_path %>" method="post">
-		<input type="hidden" name="codenr" value="{$code}" />
-		<br />
-		<div class="box">
-			<div class="top">
-				Neuer Eintrag
-			</div>
-			<div class="con">
-				<div id="errors">{$msg}</div>
-				<table>
-					<tr class="name">
-						<td>Ihr Name:</td>
-						<td><input type="text" name="entry[author]" value="{$smarty.post.name|escape}" required /></td>
-					</tr>
-					<tr>
-						<td>Ihre Nachricht:</td>
-						<td><textarea name="entry[text]" required>{$smarty.post.text|escape}</textarea></td>
-					</tr>
-					<tr>
-						<td>
-							Sicherheitscode:
-							<br /><img src="http://system.albisigns.de/gfx/captcha/{$code}.jpg" alt="" />
-						</td>
-						<td class="code">
-							<input type="text" name="code" required />
-							<div>Geben Sie einfach die vier Zeichen aus der Grafik in dieses Feld ein.</div>
-						</td>
-					</tr>
-				</table>
-				<div class="submit">
-					<input type="submit" name="submit" value="eintragen" />
-				</div>
+<%= form_for @entry do |f| %>
+	<%= hidden_field :add, :codeNr, :value => @codeNr %>
+	<div class="box">
+		<div class="top">
+			Neuer Eintrag
+		</div>
+		<div class="con">
+			<div id="errors"><%= @notice %></div>
+			<table>
+				<tr class="name">
+					<td>Ihr Name:</td>
+					<td><%= f.text_field :author, :required => true %></td>
+				</tr>
+				<tr>
+					<td>Ihre Nachricht:</td>
+					<td><%= f.text_area :text, :required => true %></td>
+				</tr>
+				<tr>
+					<td>
+						Sicherheitscode:<br />
+						<%= image_tag "http://system.albisigns.de/gfx/captcha/" + @codeNr.to_s + ".jpg", :alt => "" %>
+					</td>
+					<td class="code">
+						<%= text_field :add, :code, :required => true, :size => 4 %>
+						<div>Geben Sie einfach die vier Zeichen aus der Grafik in dieses Feld ein.</div>
+					</td>
+				</tr>
+			</table>
+			<div class="submit">
+				<%= f.submit :value => "eintragen" %>
 			</div>
 		</div>
-		</form>
+	</div>
+<% end %>

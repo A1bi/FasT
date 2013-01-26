@@ -1,4 +1,14 @@
+# encoding: utf-8
+
 class GbookController < ApplicationController
+  
+  before_filter :define_codes, :only => [:new, :create]
+  
+  def define_codes
+    @codes = ["MBSD", "KMPY", "LRWK", "T4A1", "S74P", "ZN6X", "FGRN", "KD5W", "ZUS5", "H73K"]
+    @codeNr = rand(@codes.count) - 1
+  end
+  
   def entries
     @page = (params[:page].to_i < 1) ? 1 : params[:page].to_i
     steps = 5
@@ -10,12 +20,21 @@ class GbookController < ApplicationController
   end
 
   def new
+    @entry = GbookEntry.new
   end
   
   def create
-    @entry = GbookEntry.new(params[:entry])
+    @entry = GbookEntry.new(params[:gbook_entry])
+
+    if @codes[params[:add][:codeNr].to_i] != params[:add][:code].upcase
+      @notice = "Der Code stimmt nicht mit der Grafik überein!"
+    elsif !@entry.save
+      @notice = "Bitte füllen Sie alle Felder aus!"
+    end
     
-    if @entry.save
+    if !@notice.blank?
+      render :action => "new"
+    else
       redirect_to gbook_entries_path
     end
   end
