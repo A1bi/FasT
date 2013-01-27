@@ -1,0 +1,19 @@
+<% title "Fotogalerie" %>
+<% include_css "galleries" %>
+		<div class="hl">
+			Fotogalerie
+		</div>
+		<% @galleries.each do |gallery| %>
+		<div class="box">
+			<div class="top">
+				<%= gallery.title %>
+			</div>
+			<div class="con">
+				<a href="<%= gallery_path(gallery) %>">
+					<% gallery.photos.limit(5).each_with_index do |photo, i| %>
+					<div class="pic<% if (i == 0) %> first<% elsif (i == 4) %> last<% end %>" style="background-image: url(<%= photo.image.url(:thumb) %>);"></div>
+					<% end %>
+				</a>
+			</div>
+		</div>
+		<% end %>

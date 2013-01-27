@@ -11,13 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130116124919) do
+ActiveRecord::Schema.define(:version => 20130127110550) do
+
+  create_table "galleries", :force => true do |t|
+    t.string   "title"
+    t.string   "disclaimer"
+    t.integer  "pos"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "gbook_entries", :force => true do |t|
     t.string   "author"
     t.text     "text"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.string   "text"
+    t.integer  "pos"
+    t.integer  "gallery_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
 end

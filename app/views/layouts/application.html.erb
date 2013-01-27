@@ -31,13 +31,13 @@
 				<li class="spacer"></li>
 				<li><%= link_to "Informationen", info_path %></li>
 				<li class="spacer"></li>
-				<li><%= link_to "Geschichte", gbook_path %></li>
+				<li><%= link_to "Geschichte", history_path %></li>
 				<li class="spacer"></li>
 				<li><%= link_to "Theater", theater_path %></li>
 				<li class="spacer"></li>
-				<li>Fotogalerie</li>
+				<li><%= link_to "Fotogalerie", galleries_path %></li>
 				<li class="spacer"></li>
-				<li><%= link_to "Gästebuch", gbook_path %></li>
+				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
 			</ul>
 		</div>
 	</div>
@@ -51,7 +51,7 @@
 			</div>
 			<div class="bottom">
 				<div>
-					&copy; 2009 - 2012 Freilichtbühne am schiefen Turm e.V. - <a href="/impressum">Impressum</a> - <a href="/satzung">Satzung</a> - <a href="/agb">AGB</a>
+					&copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e.V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "AGB", agb_path %>
 				</div>
 			</div>
 		</div>

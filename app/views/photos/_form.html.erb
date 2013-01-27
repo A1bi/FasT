@@ -1,0 +1,24 @@
+<% include_css "galleries" %>
+<div class="box">
+	<div class="top">
+		Neues Foto erstellen
+	</div>
+	<div class="con">
+		<div id="errors"><%= @notice %></div>
+		<%= form_for [@gallery, @photo] do |f| %>
+		<table>
+			<tr class="name">
+				<td>Foto:</td>
+				<td><%= f.file_field :image %></td>
+			</tr>
+			<tr>
+				<td>Beschreibung:</td>
+				<td><%= f.text_field :text %></td>
+			</tr>
+		</table>
+		<div class="submit">
+			<%= cond_submit f %>
+		</div>
+		<% end %>
+	</div>
+</div>

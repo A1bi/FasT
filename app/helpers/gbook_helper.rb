@@ -4,7 +4,7 @@ module GbookHelper
     
     @pages.times do |i|
       if @page != i+1
-        output += link_to i+1, gbook_path(:page => i+1)
+        output += link_to i+1, gbook_entries_path(:page => i+1)
       else
         output += (i+1).to_s
       end

@@ -1,30 +1,52 @@
+# encoding: utf-8
+
 FasT::Application.routes.draw do
+
   # dates
   get "termine" => "dates#jedermann", :as => "dates"
 
   # theater
-  get "theater" => "theater#index"
-  get "theater/montevideo"
-  get "theater/hexenjagd"
-  get "theater/medicus"
-  get "theater/phantasus"
+  controller :theater, :path => "theater", :as => :theater do
+    get "/", :action => :index
+    get "montevideo"
+    get "hexenjagd"
+    get "medicus"
+    get "phantasus"
+  end
 
   # info
-  get "info" => "info#index"
-  get "info/map"
-  get "info/weather"
-
-  # guestbook
-  get "g%C3%A4stebuch/neu" => "gbook#new", :as => "gbook_new"
-  post "g%C3%A4stebuch" => "gbook#create", :as => "gbook_create"
-  get "g%C3%A4stebuch(/:page)" => "gbook#entries", :as => "gbook"
+  controller :info, :path => "info", :as => :info do
+    get "/", :action => :index
+    get "map"
+    get "weather"
+  end
   
   # static pages
-  get "geschichte" => "static#history"
-  get "impressum" => "static#impressum"
-  get "satzung" => "static#satzung"
-  get "agb" => "static#agb"
+  controller :static do
+    get "geschichte", :action => :history, :as => :history
+    get "impressum"
+    get "satzung"
+    get "agb"
+    
+    root :action => :index
+  end
 
-  root :to => 'static#index'
+  # resources
+  scope :path_names => { :new => "neu", :edit => "bearbeiten" } do
+    
+    # gbook
+    resources :gbook_entries,
+      :controller => :gbook,
+      :path => Rack::Utils.escape("gästebuch"),
+      :only => [:new, :create] do
+        get "(:page)", :action => :index, :as => "", :on => :collection, :constraints => { :page => /\d+/ }
+      end
+      
+    # galeries
+    resources :galleries, :path => "galerie" do
+      resources :photos, :path => "fotos"
+    end
+    
+  end
 
 end

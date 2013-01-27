@@ -6,12 +6,17 @@
 	Hier finden Sie einige Theaterstücke, die wir seit 2004 in Kaisersesch aufgeführt haben.
 </div>
 <div style="margin-top: 20px;" class="hcen">
-	<p><a href="/theater/montevideo"><img src="/assets/theater/montevideo.png" alt="Das Haus in Montevideo" /></a></p>
-	<p><img src="/assets/theater/krippenspiel.png" alt="Krippenspiel" /></p>
-	<p><a href="/theater/hexenjagd"><img src="/assets/theater/hexenjagd.png" alt="Hexenjagd" /></a></p>
-	<p><a href="/theater/medicus"><img src="/assets/theater/medicus.png" alt="Der Medicus vom Orient" /></a></p>
-	<p><a href="/theater/phantasus"><img src="/assets/theater/phantasus.png" alt="Der Riese Phantasus" /></a></p>
-	<p><a href="http://jedermann.theater-kaisersesch.de"><img src="/assets/theater/jedermann.png" alt="Jedermann" /></a></p>
-	<p><img src="/assets/theater/hemd.png" alt="Das Hemd des Glücklichen" /></p>
-	<p><img src="/assets/theater/bannmuenze.png" alt="Die Bannmünze" /></p>
+	<% [
+		["montevideo", "Das Haus in Montevideo", true],
+		["krippenspiel", "Krippenspiel", false],
+		["hexenjagd", "Hexenjagd", true],
+		["medicus", "Der Medicus vom Orient", true],
+		["phantasus", "Der Riese Phantasus", true],
+		["jedermann", "Jedermann", true, "http://jedermann.theater-kaisersesch.de"],
+		["hemd", "Das Hemd des Glücklichen", false],
+		["bannmuenze", "Die Bannmünze", false]
+	].each do |t| %>
+	<% image = image_tag("theater/#{t[0]}.png", :alt => t[1]) %>
+	<p><% if t[3].blank? %><%= link_to_if t[2], image, :action => t[0] %><% else %><%= link_to image, t[3], :target => "_blank" %><% end %></p>
+	<% end %>
 </div>

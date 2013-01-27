@@ -6,10 +6,10 @@ class GbookController < ApplicationController
   
   def define_codes
     @codes = ["MBSD", "KMPY", "LRWK", "T4A1", "S74P", "ZN6X", "FGRN", "KD5W", "ZUS5", "H73K"]
-    @codeNr = rand(@codes.count) - 1
+    @codeNr = rand(@codes.count - 1)
   end
   
-  def entries
+  def index
     @page = (params[:page].to_i < 1) ? 1 : params[:page].to_i
     steps = 5
     
@@ -35,7 +35,7 @@ class GbookController < ApplicationController
     if !@notice.blank?
       render :action => "new"
     else
-      redirect_to gbook_path
+      redirect_to gbook_entries_path
     end
   end
 end
