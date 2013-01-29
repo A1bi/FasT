@@ -48,5 +48,8 @@ FasT::Application.routes.draw do
     end
     
   end
+  
+  get "login" => "sessions#new", :as => :login
+  post "login" => "sessions#create"
 
 end

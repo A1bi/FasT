@@ -27,12 +27,12 @@ class GbookController < ApplicationController
     @entry = GbookEntry.new(params[:gbook_entry])
 
     if @codes[params[:add][:codeNr].to_i] != params[:add][:code].upcase
-      @notice = "Der Code stimmt nicht mit der Grafik überein!"
+      flash.now.alert = "Der Code stimmt nicht mit der Grafik überein!"
     elsif !@entry.save
-      @notice = "Bitte füllen Sie alle Felder aus!"
+      flash.now.alert = "Bitte füllen Sie alle Felder aus!"
     end
     
-    if !@notice.blank?
+    if flash.now[:alert]
       render :action => "new"
     else
       redirect_to gbook_entries_path
