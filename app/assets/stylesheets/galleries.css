@@ -1,10 +1,10 @@
-.box {
+.index .box {
 	width: 580px;
 }
-.box .top {
+.index .box .top {
 	border-radius: 10px 10px 0 0;
 }
-.box .con {
+.index .box .con {
 	padding: 0px;
 	overflow: auto;
 }
@@ -14,10 +14,10 @@
 	height: 145px;
 	background-repeat: no-repeat;
 }
-.box .pic.first {
+.index .box .pic.first {
 	border-radius: 0 0 0 10px;
 }
-.box .pic.last {
+.index .box .pic.last {
 	border-radius: 0 0 10px 0;
 }
 
@@ -103,5 +103,26 @@
 }
 .info div {
 	margin-top: 10px;
+	text-align: center;
+}
+
+.edit .pics {
+	overflow: auto;
+}
+.edit .pic {
+	position: relative;
+	margin: 2px;
+	box-shadow: 0px 0px 5px #cccccc;
+}
+.edit .pic .number {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	background: rgba(0, 0, 0, .7);
+	border-radius: 8px;
+	color: white;
+	padding: 3px 7px;
+	text-shadow: 1px 1px 2px black;
+	font-size: 11px;
 	text-align: center;
 }

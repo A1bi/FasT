@@ -1,2 +1,40 @@
 <% title "Fotogalerie - Galerie bearbeiten" %>
 <%= render "form" %>
+<% content_for :head do %>
+<script>
+	$(function () {
+		var pics = $(".pics");
+	
+		var updateNumbers = function () {
+			$(".pic", pics).each(function (i) {
+				var pos = i + 1;
+				$(".number", this).html(pos);
+				$("input", this).val(pos);
+			});
+		}
+		updateNumbers();
+	
+		$(".pics").sortable({
+			update: updateNumbers
+		});
+	});
+</script>
+<% end %>
+<div class="edit box">
+	<div class="top">Reihenfolge der Fotos bearbeiten</div>
+	<div class="con">
+		<%= form_for @gallery do |f| %>
+		<div class="pics">
+			<%= f.fields_for :pos  do |p| %>
+			<% @gallery.photos.each do |photo| %>
+			<div class="pic" style="background-image: url(<%= photo.image.url(:thumb) %>);">
+				<div class="number"></div>
+				<%= p.hidden_field photo.id, :value => 0 %>
+			</div>
+			<% end %>
+			<% end %>
+		</div>
+		<div class="hcen"><%= f.submit "speichern" %></div>
+		<% end %>
+	</div>
+</div>

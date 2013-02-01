@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class GalleriesController < ApplicationController
   
   restrict_access_to_group :admin, :except => [:index, :show]
@@ -19,7 +21,7 @@ class GalleriesController < ApplicationController
     @gallery = Gallery.find(params[:id])
     @photos = @gallery.photos.order(:pos)
     
-    fresh_when last_modified: @photos.maximum(:updated_at)
+    fresh_when last_modified: @gallery.updated_at
   end
   
   def new
@@ -40,11 +42,22 @@ class GalleriesController < ApplicationController
   end
   
   def update
-    if @gallery.update_attributes(params[:gallery])
-      redirect_to galleries_path
+    # update order of photos?
+    if !params[:gallery][:pos].nil?
+      params[:gallery][:pos].each do |id, pos|
+        Photo.find(id).update_attribute(:pos, pos)
+      end
+      flash.notice = "Die neue Reihenfolge wurde erfolgreich gespeichert!"
+      
+    # just update gallery info
+    elsif @gallery.update_attributes(params[:gallery])
+      flash.notice = "Ihre Änderungen wurden erfolgreich gespeichert!"
     else
-      render :action => "edit"
+      flash.now.alert = "Bitte geben Sie einen Titel an!"
+      return render :action => "edit"
     end
+    
+    redirect_to edit_gallery_path(@gallery)
   end
   
 end
