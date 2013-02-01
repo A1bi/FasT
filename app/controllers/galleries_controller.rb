@@ -1,5 +1,7 @@
 class GalleriesController < ApplicationController
   
+  restrict_access_to_group :admin, :except => [:index, :show]
+  
   before_filter :find_gallery, :only => [:edit, :update]
   
   def find_gallery

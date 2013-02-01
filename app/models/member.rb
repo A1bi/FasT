@@ -11,8 +11,16 @@ class Member < ActiveRecord::Base
   validates :password,
             :length => { :minimum => 6 },
             :on => :create
+            
+  def group
+    {1 => :member, 2 => :admin}[self[:group]] || :none
+  end
+  
+  def group=(group)
+    self[:group] = {:member => 1, :admin => 2}[group] || 0
+  end
   
   def admin?
-    self.group == 2
+    self.group == :admin
   end
 end

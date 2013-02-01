@@ -2,6 +2,8 @@
 
 class GbookController < ApplicationController
   
+  restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
+  
   before_filter :define_codes, :only => [:new, :create]
   
   def define_codes
