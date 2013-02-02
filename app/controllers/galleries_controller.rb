@@ -4,7 +4,7 @@ class GalleriesController < ApplicationController
   
   restrict_access_to_group :admin, :except => [:index, :show]
   
-  before_filter :find_gallery, :only => [:edit, :update]
+  before_filter :find_gallery, :only => [:show, :edit, :update, :destroy]
   
   def find_gallery
     @gallery = Gallery.find(params[:id])
@@ -18,7 +18,6 @@ class GalleriesController < ApplicationController
   end
 
   def show
-    @gallery = Gallery.find(params[:id])
     @photos = @gallery.photos.order(:pos)
     
     fresh_when last_modified: @gallery.updated_at
@@ -58,6 +57,12 @@ class GalleriesController < ApplicationController
     end
     
     redirect_to edit_gallery_path(@gallery)
+  end
+  
+  def destroy
+    @gallery.destroy
+    flash.notice = "Die Galerie wurde erfolgreich gelöscht"
+    redirect_to galleries_path
   end
   
 end

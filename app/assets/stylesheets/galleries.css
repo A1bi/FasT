@@ -1,5 +1,6 @@
 .index .box {
 	width: 580px;
+	position: relative;
 }
 .index .box .top {
 	border-radius: 10px 10px 0 0;
@@ -108,10 +109,11 @@
 
 .edit .pics {
 	overflow: auto;
+	padding: 15px;
 }
 .edit .pic {
 	position: relative;
-	margin: 2px;
+	margin: 15px;
 	box-shadow: 0px 0px 5px #cccccc;
 }
 .edit .pic .number {

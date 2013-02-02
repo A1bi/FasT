@@ -6,6 +6,7 @@
 	</div>
 	<% @galleries.each do |gallery| %>
 	<div class="box">
+		<%= delete_btn gallery, "Möchten Sie diese Galerie wirklich löschen?" if @_member.admin? %>
 		<div class="top">
 			<%= gallery.title %>
 		</div>

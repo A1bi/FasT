@@ -30,6 +30,7 @@
 			<div class="pic" style="background-image: url(<%= photo.image.url(:thumb) %>);">
 				<div class="number"></div>
 				<%= p.hidden_field photo.id, :value => 0 %>
+				<%= delete_btn [@gallery, photo], "Möchten Sie dieses Foto wirklich löschen?" %>
 			</div>
 			<% end %>
 			<% end %>

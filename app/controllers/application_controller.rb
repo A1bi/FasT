@@ -8,16 +8,16 @@ class ApplicationController < ActionController::Base
   protected
   
   def authenticate_user
-    @_member ||= Member.find(session[:user_id]) || Member.new if session[:user_id]
+    @_member ||= (Member.find(session[:user_id]) if session[:user_id]) || Member.new
   end
   
   def restrict_access(group)
     if !@_member.id
       flash.alert = "Bitte loggen Sie sich ein!"
-      redirect_to login_path
+      return redirect_to login_path
     elsif ![:admin, group].include? @_member.group
       flash.alert = "Sie haben nicht die erforderlichen Rechte für diese Aktion!"
-      redirect_to root_path
+      return redirect_to root_path
     end
   end
   

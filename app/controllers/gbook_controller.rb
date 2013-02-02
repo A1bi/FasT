@@ -5,11 +5,17 @@ class GbookController < ApplicationController
   restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
   
   before_filter :define_codes, :only => [:new, :create]
+  before_filter :find_entry, :only => [:destroy]
   
   def define_codes
     @codes = ["MBSD", "KMPY", "LRWK", "T4A1", "S74P", "ZN6X", "FGRN", "KD5W", "ZUS5", "H73K"]
     @codeNr = rand(@codes.count - 1)
   end
+  
+  def find_entry
+    @entry = GbookEntry.find(params[:id])
+  end
+  
   
   def index
     @page = (params[:page].to_i < 1) ? 1 : params[:page].to_i
@@ -39,5 +45,11 @@ class GbookController < ApplicationController
     else
       redirect_to gbook_entries_path
     end
+  end
+  
+  def destroy
+    @entry.destroy
+    flash.notice = "Der Eintrag wurde erfolgreich gelöscht"
+    redirect_to gbook_entries_path
   end
 end

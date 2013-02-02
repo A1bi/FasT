@@ -38,7 +38,7 @@ FasT::Application.routes.draw do
     resources :gbook_entries,
       :controller => :gbook,
       :path => Rack::Utils.escape("gästebuch"),
-      :only => [:new, :create] do
+      :only => [:new, :create, :destroy] do
         get "(:page)", :action => :index, :as => "", :on => :collection, :constraints => { :page => /\d+/ }
       end
       

@@ -6,6 +6,8 @@
 	<title>Freilichtbühne am schiefen Turm e.V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
 	<link rel="shortcut icon" href="/assets/favicon.ico" />
 	
+	<%= csrf_meta_tag %>
+	
 	<%= stylesheet_link_tag "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
 	

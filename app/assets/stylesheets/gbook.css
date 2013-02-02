@@ -40,3 +40,6 @@ textarea {
 	font-size: 10px;
 	margin-top: 4px;
 }
+.box {
+	position: relative;
+}

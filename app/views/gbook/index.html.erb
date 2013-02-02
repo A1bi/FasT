@@ -12,6 +12,7 @@
 		</div>
 		<% @entries.each do |entry| %>
 			<div class="box">
+				<%= delete_btn entry, "Möchten Sie diesen Eintrag wirklich löschen?" if @_member.admin? %>
 				<div class="top">
 					<%= entry.author %>
 				</div>
