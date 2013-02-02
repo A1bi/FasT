@@ -7,15 +7,15 @@
 			Neuer Eintrag
 		</div>
 		<div class="con">
-			<div id="errors"><%= flash.alert %></div>
+			<%= render "errors", :errors => @entry.errors %>
 			<table>
 				<tr class="name">
 					<td>Ihr Name:</td>
-					<td><%= f.text_field :author, :required => true %></td>
+					<td><%= f.text_field :author %></td>
 				</tr>
 				<tr>
 					<td>Ihre Nachricht:</td>
-					<td><%= f.text_area :text, :required => true %></td>
+					<td><%= f.text_area :text %></td>
 				</tr>
 				<tr>
 					<td>

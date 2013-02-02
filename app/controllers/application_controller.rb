@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
@@ -13,11 +11,9 @@ class ApplicationController < ActionController::Base
   
   def restrict_access(group)
     if !@_member.id
-      flash.alert = "Bitte loggen Sie sich ein!"
-      return redirect_to login_path
+      return redirect_to login_path, :alert => t("application.login_required")
     elsif ![:admin, group].include? @_member.group
-      flash.alert = "Sie haben nicht die erforderlichen Rechte für diese Aktion!"
-      return redirect_to root_path
+      return redirect_to root_path, :alert => t("application.access_denied")
     end
   end
   

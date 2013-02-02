@@ -4,7 +4,7 @@
 		Neues Foto erstellen
 	</div>
 	<div class="con">
-		<div id="errors"><%= flash.alert %></div>
+		<%= render "errors", :errors => @photo.errors %>
 		<%= form_for [@gallery, @photo] do |f| %>
 		<table>
 			<tr class="name">

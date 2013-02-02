@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class PhotosController < ApplicationController
   
   before_filter :find_photo, :only => [:edit, :update, :destroy]
@@ -41,7 +39,6 @@ class PhotosController < ApplicationController
   
   def destroy
     @photo.destroy
-    flash.notice = "Das Foto wurde erfolgreich gelöscht"
     redirect_to edit_gallery_path(params[:gallery_id])
   end
   

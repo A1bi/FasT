@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class GbookController < ApplicationController
   
   restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
@@ -33,23 +31,22 @@ class GbookController < ApplicationController
   
   def create
     @entry = GbookEntry.new(params[:gbook_entry])
-
+    
+    @entry.valid?
     if @codes[params[:add][:codeNr].to_i] != params[:add][:code].upcase
-      flash.now.alert = "Der Code stimmt nicht mit der Grafik überein!"
-    elsif !@entry.save
-      flash.now.alert = "Bitte füllen Sie alle Felder aus!"
+      @entry.errors[:base] << t("gbook.wrong_code")
     end
     
-    if flash.now[:alert]
+    if @entry.errors.any?
       render :action => "new"
     else
+      @entry.save
       redirect_to gbook_entries_path
     end
   end
   
   def destroy
     @entry.destroy
-    flash.notice = "Der Eintrag wurde erfolgreich gelöscht"
     redirect_to gbook_entries_path
   end
 end

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class GalleriesController < ApplicationController
   
   restrict_access_to_group :admin, :except => [:index, :show]
@@ -31,7 +29,7 @@ class GalleriesController < ApplicationController
     @gallery = Gallery.new(params[:gallery])
     
     if !@gallery.save
-      render :action => "new"
+      render :action => :new
     else
       redirect_to galleries_path
     end
@@ -46,14 +44,13 @@ class GalleriesController < ApplicationController
       params[:gallery][:pos].each do |id, pos|
         Photo.find(id).update_attribute(:pos, pos)
       end
-      flash.notice = "Die neue Reihenfolge wurde erfolgreich gespeichert!"
+      flash.notice = t("galleries.changed_order")
       
     # just update gallery info
     elsif @gallery.update_attributes(params[:gallery])
-      flash.notice = "Ihre Änderungen wurden erfolgreich gespeichert!"
+      flash.notice = t("application.saved_changes")
     else
-      flash.now.alert = "Bitte geben Sie einen Titel an!"
-      return render :action => "edit"
+      return render :action => :edit
     end
     
     redirect_to edit_gallery_path(@gallery)
@@ -61,7 +58,6 @@ class GalleriesController < ApplicationController
   
   def destroy
     @gallery.destroy
-    flash.notice = "Die Galerie wurde erfolgreich gelöscht"
     redirect_to galleries_path
   end
   

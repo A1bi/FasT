@@ -4,7 +4,7 @@
 		Neue Fotogalerie erstellen
 	</div>
 	<div class="con">
-		<div id="errors"><%= flash.alert %></div>
+	    <%= render "errors", :errors => @gallery.errors %>
 		<%= form_for @gallery do |f| %>
 		<table>
 			<tr class="name">

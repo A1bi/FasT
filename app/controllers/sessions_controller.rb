@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
       session[:user_id] = member.id
       redirect_to root_path
     else
-      flash.now.alert = "E-mail-Adresse oder Passwort falsch!"
+      flash.now.alert = t("sessions.auth_error")
       render :new
     end
   end

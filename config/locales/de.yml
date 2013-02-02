@@ -1,0 +1,31 @@
+de:
+  application:
+    login_required: "Bitte loggen Sie sich ein, um diese Aktion auszuführen."
+    access_denied: "Sie haben nicht die erforderlichen Rechte für diese Aktion."
+    saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert!"
+    submit_create: "erstellen"
+    submit_save: "speichern"
+    btn_delete: "löschen"
+  galleries:
+    changed_order: "Die neue Reihenfolge wurde erfolgreich gespeichert!"
+  gbook:
+    wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
+  sessions:
+    auth_error: "E-mail-Adresse oder Passwort falsch!"
+  activerecord:
+    errors:
+      messages:
+        blank: "Das Feld \"%{attribute}\" darf nicht leer sein!"
+      models:
+        gbook_entry:
+          attributes:
+            text:
+              blank: "Bitte geben Sie eine Nachricht ein."
+            author:
+              blank: "Bitte geben Sie Ihren Namen an."
+        photo:
+          attributes:
+            image:
+              blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
+  attributes:
+    title: "Titel"

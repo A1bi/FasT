@@ -117,6 +117,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt-ruby
   coffee-rails (~> 3.2.1)
+  jquery-rails
   jquery-ui-rails
   paperclip (~> 3.0)
   rails (= 3.2.11)

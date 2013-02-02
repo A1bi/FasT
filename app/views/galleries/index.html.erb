@@ -13,7 +13,7 @@
 		<div class="con">
 			<a href="<%= gallery_path(gallery) %>">
 				<% gallery.photos.limit(4).each_with_index do |photo, i| %>
-				<div class="pic<% if (i == 0) %> first<% elsif (i == 4) %> last<% end %>" style="background-image: url(<%= photo.image.url(:thumb) %>);"></div>
+				<div class="pic<% if (i == 0) %> first<% elsif (i == 3) %> last<% end %>" style="background-image: url(<%= photo.image.url(:thumb) %>);"></div>
 				<% end %>
 			</a>
 		</div>
