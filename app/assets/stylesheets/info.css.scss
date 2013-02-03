@@ -1,0 +1,87 @@
+@import "_mixins";
+
+
+.map {
+	width: 90%;
+	margin: auto;
+}
+
+#map {
+	width: 100%;
+	height: 300px;
+
+	.olControlAttribution, .olControlScaleLine {
+		font-size: 11px;
+		bottom: 0px;
+		right: 0px;
+		background: rgba(255, 255, 255, 0.7);
+		padding: 4px;
+		border-top-left-radius: 6px;
+	}
+
+	.olMapViewport {
+		border-radius: 15px;
+		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.olTileImage {
+		@include transition(opacity, .2s);
+	}
+
+	.olPopup {
+		padding: 5px;
+		box-shadow: 1px 1px 6px #cccccc;
+		border: {
+			radius: 10px;
+			top-right-radius: 0px;
+		}
+	}
+}
+
+.weather {
+	height: 150px;
+
+	.loader {
+		background: url(/assets/loader.gif) no-repeat;
+		height: 32px;
+		width: 32px;
+		margin: auto {
+			top: 20px;
+		}
+	}
+
+	.info {
+		position: relative;
+		top: 0px;
+		width: 70%;
+		height: 100%;
+		margin: auto;
+		display: none;
+	}
+
+	.icon {
+		position: absolute;
+	}
+
+	.data {
+		position: absolute;
+		left: 200px;
+
+		h2 {
+			font-size: 30px;
+			text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+			margin-bottom: 10px;
+		}
+	}
+
+	.yahoo {
+		position: absolute;
+		right: -60px;
+		bottom: 0px;
+		font-size: 12px;
+
+		img {
+			vertical-align: bottom;
+		}
+	}
+}

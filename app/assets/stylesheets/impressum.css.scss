@@ -2,24 +2,30 @@
 	float: left;
 	width: 49%;
 }
+
 .webdesign {
 	float: right;
 	width: 48%;
+
+	.con {
+		overflow: auto;
+		width: 100%;
+	}
+
+	.logo {
+		float: left;
+		margin: 7px;
+	}
+
+	.info {
+		float: left;
+	}
+
+	.links {
+		margin-top: 30px;
+	}
 }
-.webdesign .con {
-	overflow: auto;
-	width: 100%;
-}
-.webdesign .logo {
-	float: left;
-	margin: 7px;
-}
-.webdesign .info {
-	float: left;
-}
-.webdesign .links {
-	margin-top: 30px;
-}
+
 h1 {
 	font-size: 16px;
 	margin-top: 0px;

@@ -1,0 +1,24 @@
+@mixin vendor-specific($property, $value) {
+	@each $vendor in moz, webkit, o, ms {
+		-#{$vendor}-#{$property}: $value;
+	}
+}
+
+@mixin transition($property, $duration) {
+	@include vendor-specific(transition, $property $duration);
+}
+
+@mixin background-gradient($pos, $colors) {
+ 	background: -moz-linear-gradient($pos, $colors);
+ 	background: -webkit-linear-gradient($pos, $colors);
+ 	background: -o-linear-gradient($pos, $colors);
+}
+
+@mixin font-face($name) {
+	@font-face {
+		font-family: "#{$name}";
+		src: url('/assets/#{$name}.eot');
+		src: url('/assets/#{$name}.eot?#iefix') format('embedded-opentype'),
+			 url(/assets/#{$name}.woff) format('woff');
+	}
+}

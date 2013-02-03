@@ -1,0 +1,357 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ */
+
+@import "_mixins";
+
+
+body {
+	background: #0869ed url(/assets/bg.png) repeat-x;
+	color: #043448;
+	position: relative;
+	width: 918px;
+	margin: auto {
+		bottom: 15px;
+	}
+	font: {
+		family: "Arial", "DejaVu Sans";
+		size: 15px;
+	}
+}
+img {
+	border: none;
+}
+a {
+	text-decoration: underline;
+	color: #0064ec;
+	
+	&:hover {
+		text-decoration: none;
+	}
+}
+.shadow {
+	color: inherit;
+	@include transition(text-shadow, .3s);
+	text: {
+		decoration: none;
+		shadow: 0px 0px 2px rgba(230, 33, 32, .5);
+	}
+
+	&:hover {
+		text-shadow: 0px 0px 4px rgba(230, 33, 32, 1);
+	}
+}
+table {
+	width: 100%;
+}
+h3 {
+	margin: {
+		bottom: 4px;
+		top: 20px;
+	}
+}
+
+@include font-face(qlassik);
+
+#sky {
+	width: 993px;
+	height: 283px;
+	background: url(/assets/sky.png) no-repeat;
+	z-index: -1;
+	position: absolute;
+	top: 0px;
+	left: -30px;
+}
+#slides {
+	position: absolute;
+	top: 0px;
+	left: 280px;
+	width: 550px;
+	height: 176px;
+	overflow: hidden;
+
+	div {
+	 	position: absolute;
+	 	top: 0px;
+	 	left: 0px;
+	 	width: 100%;
+	 	height: 100%;
+	}
+
+	.slide {
+	 	background-position: top;
+	 	height: 400px;
+	 	background-repeat: no-repeat;
+	 	display: none;
+		
+		&.ani {
+			z-index: 1;
+		}
+		
+		&.fg {
+		 	background: url(/assets/sky.png) no-repeat {
+		 		position: 0px -285px;
+			}
+		 	z-index: 2;
+		}
+	}
+}
+ 
+#left {
+	position: absolute;
+	width: 258px;
+	left: 5px;
+	z-index: 4;
+}
+#right {
+	position: absolute;
+	width: 699px;
+	right: 0px;
+	z-index: 3;
+}
+#logo {
+	width: 100%;
+	height: 149px;
+	background: url(/assets/left.png) no-repeat;
+	display: inline-block;
+	text-indent: -999px;
+}
+
+// navi
+#navi {
+	position: relative;
+	background: url(/assets/left.png) no-repeat {
+		position: 0px -149px;
+	}
+	height: 510px;
+
+	ul {
+	 	position: relative;
+	 	list-style: none;
+	 	margin: 0px 0px 0px 37px;
+	 	padding: 0px;
+	 	font-family: "Qlassik", "Arial";
+		
+		a {
+		 	color: #ffffff;
+		 	text-decoration: none;
+		}
+		
+		li {
+			padding: 10px 0px 10px 0px;
+			font-size: 28px;
+		 	text-shadow: #000000 1px 1px 5px;
+			
+			&.spacer {
+		 		margin-left: 5px;
+			 	background: #ffffff;
+			 	@include background-gradient(
+					left bottom,
+					(
+						rgba(255, 255, 255, 0) 0%,
+						rgba(255, 255, 255, 1) 50%,
+						rgba(255, 255, 255, 0) 100%
+					)
+				);
+			 	padding: 0px;
+			 	height: 2px;
+			 	width: 60%;
+			}
+			
+			@for $i from 0 through 3 {
+				&:nth-of-type(#{2 + $i * 2}) {
+					width: 76% - 4 * $i;
+			  	}
+			}
+		}
+	}
+}
+
+// content space
+#content {
+	position: relative;
+	width: 100%;
+
+	> .top {
+	 	background: url(/assets/content_top.png) no-repeat;
+	 	height: 55px;
+	 	width: 100%;
+	 	margin-top: 95px;
+	}
+	
+	> .content {
+		position: relative;
+	 	background: url(/assets/content_bg.png) repeat-y;
+	 	padding: 10px 33px;
+	 	min-height: 550px;
+	}
+
+	> .bottom {
+		position: relative;
+		background: url(/assets/content_bottom.png) no-repeat;
+		width: 100%;
+		padding-top: 30px;
+		height: 50px;
+	}
+	
+	> .bottom div {
+		text-align: center;
+		font-size: 11px;
+		color: #ffffff;
+		opacity: 0.6;
+		width: 100%;
+	
+		a {
+			color: #ffffff;
+		}
+	}
+}
+
+
+// common classes
+.hcen {
+	text-align: center;
+}
+.vcen {
+	vertical-align: middle;
+}
+.hl {
+	text-align: center;
+	margin-bottom: 15px;
+	text-shadow: #cccccc 1px 1px 2px;
+	color: #000000;
+	font: {
+		size: 40px;
+		family: "Qlassik", "Arial";
+	}
+}
+.small {
+	font-size: 13px;
+	color: #cccccc;
+}
+.trenner {
+	background: url(/assets/trenner.png) no-repeat;
+	width: 578px;
+	height: 6px;
+	margin: 30px auto;
+}
+.inner {
+	width: 60%;
+	margin: 20px auto;
+	
+	&.newSection {
+		border-top: 1px solid #cccccc;
+		width: 70%;
+	}
+}
+input.btn {
+	font-size: 15px;
+	width: 120px;
+	height: 30px;
+}
+a.delete {
+	position: absolute;
+	right: -7px;
+	top: -12px;
+	background: rgba(0, 0, 0, .5);
+	padding: 2px 5px;
+	color: white;
+	box-shadow: 2px 2px 4px black;
+	font: {
+		weight: bold;
+		size: 12px;
+	}
+	border: 3px solid rgba(0, 0, 0, .6) {
+		radius: 50%;
+	}
+	text: {
+		shadow: 1px 1px 2px black;
+		decoration: none;
+	}
+}
+
+// box
+.box {
+	width: 98%;
+	margin: 15px auto;
+	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
+	border: 1px solid #aae7ff {
+		radius: 10px;
+	}
+	
+	> .top {
+		padding: 3px 10px;
+		color: #ffffff;
+		text-shadow: #000000 1px 1px 3px;
+		font-size: 17px;
+		background: url(/assets/sky.png) no-repeat center;
+		border: {
+			bottom: 1px solid #d7f1fb;
+			radius: 10px;
+		}
+	}
+
+	> .con {
+		padding: 10px;
+	}
+	
+	> .actions {
+		padding: 3px 7px;
+		background: url(/assets/sky.png) no-repeat top;
+		font-size: 12px;
+		color: white;
+		border: {
+			top: 1px solid #cccccc;
+			radius: 0px 0px 10px 10px;
+		}
+		text: {
+			align: right;
+			shadow: 0px 0px 3px rgba(0, 0, 0, .9);
+		}
+	}
+
+	> .actions a {
+		color: white;
+	}
+}
+
+.new_element {
+	text-align: right;
+	
+	> a {
+		box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
+		background: url(/assets/sky.png) no-repeat center;
+		overflow: auto;
+		color: white;
+		display: inline-block;
+		padding: 0px 7px;
+		margin-right: 10px;
+		text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
+		border: 1px solid #aae7ff {
+			radius: 10px;
+		}
+		
+		> div {
+			float: left;
+		}
+		
+		> .plus {
+			font-size: 24px;
+			font-weight: bold;
+			margin-right: 6px;
+		}
+		
+		> .action {
+			padding-top: 5px;
+		}
+	}
+}

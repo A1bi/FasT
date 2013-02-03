@@ -1,0 +1,23 @@
+.parag {
+	font-weight: bold;
+	margin-top: 20px;
+
+	.nrs {
+		font-weight: normal;
+		// margin: 10px 20px;
+	}
+
+	.letters {
+		list-style-type: lower-alpha;
+	}
+
+	.no {
+		list-style-type: none;
+	}
+}
+
+.headline {
+	font-size: 18px;
+	text-align: center;
+	margin: 10px 0;
+}

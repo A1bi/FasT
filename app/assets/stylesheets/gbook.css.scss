@@ -1,18 +1,23 @@
 .pages {
-	margin-left: 10px;
-	margin-top: 10px;
 	font-size: 16px;
 	padding: 3px;
 	width: 150px;
+	margin: {
+		left: 10px;
+		top: 10px;
+	}
 }
 .new {
-	font-family: "Qlassik", "Arial";
 	text-align: right;
-	font-size: 28px;
-}
-.new a {
-	color: #000000;
-	text-decoration: none;
+	font: {
+		family: "Qlassik", "Arial";
+		size: 28px;
+	}
+
+	a {
+		color: #000000;
+		text-decoration: none;
+	}
 }
 #errors {
 	color: #ff0000;
@@ -31,10 +36,11 @@ textarea {
 .submit {
 	text-align: center;
 	margin: 10px;
-}
-.submit input {
-	width: 100px;
-	height: 30px;
+
+	input {
+		width: 100px;
+		height: 30px;
+	}
 }
 .code div {
 	font-size: 10px;
