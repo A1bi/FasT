@@ -269,7 +269,7 @@
  	border-radius: 10px;
  	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
  }
- .box .top {
+ .box > .top {
  	padding: 3px 10px;
  	color: #ffffff;
  	text-shadow: #000000 1px 1px 3px;
@@ -278,6 +278,45 @@
  	border-radius: 10px;
  	background: url(/assets/sky.png) no-repeat center;
  }
- .box .con {
+ .box > .con {
  	padding: 10px;
+ }
+ .box > .actions {
+	padding: 3px 7px;
+	border-top: 1px solid #cccccc;
+	border-radius: 0px 0px 10px 10px;
+	background: url(/assets/sky.png) no-repeat top;
+	text-align: right;
+	font-size: 12px;
+ 	color: white;
+ 	text-shadow: 0px 0px 3px rgba(0, 0, 0, .9);
+ }
+ .box > .actions a {
+	 color: white;
+ }
+ .new_element {
+	 text-align: right;
+ }
+ .new_element > a {
+ 	border: 1px solid #aae7ff;
+ 	border-radius: 10px;
+ 	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
+	background: url(/assets/sky.png) no-repeat center;
+	overflow: auto;
+	color: white;
+	display: inline-block;
+	padding: 0px 7px;
+	margin-right: 10px;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
+ }
+ .new_element > a > div {
+	 float: left;
+ }
+ .new_element > a > .plus {
+	 font-size: 24px;
+	 font-weight: bold;
+	 margin-right: 6px;
+ }
+ .new_element > a > .action {
+	 padding-top: 5px;
  }

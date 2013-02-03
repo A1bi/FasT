@@ -4,19 +4,21 @@
 	<div class="hl">
 		Fotogalerie
 	</div>
+	<%= render "admin_actions_new", :action => "neue Galerie" %>
 	<% @galleries.each do |gallery| %>
 	<div class="box">
-		<%= delete_btn gallery, "Möchten Sie diese Galerie wirklich löschen?" if @_member.admin? %>
 		<div class="top">
 			<%= gallery.title %>
 		</div>
 		<div class="con">
 			<a href="<%= gallery_path(gallery) %>">
 				<% gallery.photos.limit(4).each_with_index do |photo, i| %>
-				<div class="pic<% if (i == 0) %> first<% elsif (i == 3) %> last<% end %>" style="background-image: url(<%= photo.image.url(:thumb) %>);"></div>
+					<% bound = (i == 0) ? "first" : ((i == 3) ? "last" : "") if !@_member.admin? %>
+					<div class="pic <%= bound %>" style="background-image: url(<%= photo.image.url(:thumb) %>);"></div>
 				<% end %>
 			</a>
 		</div>
+		<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
 	</div>
 	<% end %>
 </div>

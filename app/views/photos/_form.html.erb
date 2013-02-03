@@ -9,14 +9,20 @@
 		<table>
 			<tr class="name">
 				<td>Foto:</td>
-				<td><%= f.file_field :image %></td>
+				<td>
+					<% if !@photo.new_record? %>
+						<p><%= image_tag @photo.image.url(:thumb) %></p>
+						Foto ersetzen:<br />
+					<% end %>
+					<%= f.file_field :image %>
+				</td>
 			</tr>
 			<tr>
 				<td>Beschreibung:</td>
 				<td><%= f.text_field :text %></td>
 			</tr>
 		</table>
-		<div class="submit">
+		<div class="hcen submit">
 			<%= cond_submit f %>
 		</div>
 		<% end %>

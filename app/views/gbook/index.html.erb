@@ -12,7 +12,6 @@
 		</div>
 		<% @entries.each do |entry| %>
 			<div class="box">
-				<%= delete_btn entry, "Möchten Sie diesen Eintrag wirklich löschen?" if @_member.admin? %>
 				<div class="top">
 					<%= entry.author %>
 				</div>
@@ -22,8 +21,9 @@
 					</div>
 					<%= entry.text %>
 				</div>
+				<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
 			</div>
-			<% end %>
+		<% end %>
 		<div class="pages">
 			Seite: <%= render_pages %>
 		</div>

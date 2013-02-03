@@ -3,7 +3,7 @@ class GbookController < ApplicationController
   restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
   
   before_filter :define_codes, :only => [:new, :create]
-  before_filter :find_entry, :only => [:destroy]
+  before_filter :find_entry, :only => [:edit, :update, :destroy]
   
   def define_codes
     @codes = ["MBSD", "KMPY", "LRWK", "T4A1", "S74P", "ZN6X", "FGRN", "KD5W", "ZUS5", "H73K"]
@@ -44,6 +44,19 @@ class GbookController < ApplicationController
       redirect_to gbook_entries_path
     end
   end
+	
+	def edit
+	end
+	
+	def update
+		if @entry.update_attributes(params[:gbook_entry])
+			flash.notice = t("application.saved_changes")
+    else
+      return render :action => :edit
+    end
+    
+    redirect_to edit_gbook_entry_path(@entry)
+	end
   
   def destroy
     @entry.destroy

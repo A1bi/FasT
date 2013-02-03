@@ -24,19 +24,20 @@
 <div class="edit box">
 	<div class="top">Reihenfolge der Fotos bearbeiten</div>
 	<div class="con">
+		<%= render "admin_actions_new", :action => "neues Foto", :url => new_gallery_photo_path(@gallery) %>
 		<%= form_for @gallery do |f| %>
-		<div class="pics">
-			<%= f.fields_for :pos  do |p| %>
-			<% @gallery.photos.each do |photo| %>
-			<div class="pic" style="background-image: url(<%= photo.image.url(:thumb) %>);">
-				<div class="number"></div>
-				<%= p.hidden_field photo.id, :value => 0 %>
-				<%= delete_btn [@gallery, photo], "Möchten Sie dieses Foto wirklich löschen?" %>
+			<div class="pics">
+				<%= f.fields_for :pos  do |p| %>
+					<% @gallery.photos.each do |photo| %>
+						<div class="pic" style="background-image: url(<%= photo.image.url(:thumb) %>);">
+							<%= link_to "", edit_gallery_photo_path(@gallery, photo), :class => "number", :title => "bearbeiten" %>
+							<%= p.hidden_field photo.id, :value => 0 %>
+							<%= delete_btn [@gallery, photo], "Möchten Sie dieses Foto wirklich löschen?" %>
+						</div>
+					<% end %>
+				<% end %>
 			</div>
-			<% end %>
-			<% end %>
-		</div>
-		<div class="hcen"><%= f.submit "speichern" %></div>
+			<div class="hcen"><%= f.submit "speichern" %></div>
 		<% end %>
 	</div>
 </div>

@@ -31,7 +31,7 @@ class GalleriesController < ApplicationController
     if !@gallery.save
       render :action => :new
     else
-      redirect_to galleries_path
+      redirect_to edit_gallery_path(@gallery)
     end
   end
   

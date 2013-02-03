@@ -1,0 +1,9 @@
+<% if @_member.admin? %>
+	<% url ||= { :action => "new" } %>
+	<div class="new_element">
+		<%= link_to url do %>
+			<div class="plus">+</div>
+			<div class="action"><%= action %></div>
+		<% end %>
+	</div>
+<% end %>

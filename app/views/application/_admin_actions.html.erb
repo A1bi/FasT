@@ -1,0 +1,6 @@
+<% if @_member.admin? %>
+	<% delete_confirm ||= "dieses Element" %>
+	<div class="actions">
+		<%= link_to "löschen", obj, :method => :delete, :data => { :confirm => "Möchten Sie #{delete_confirm } wirklich löschen?" } %> | <%= link_to "bearbeiten", :action => :edit, :id => obj %>
+	</div>
+<% end %>
