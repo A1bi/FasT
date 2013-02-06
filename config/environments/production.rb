@@ -52,7 +52,6 @@ FasT::Application.configure do
 			if path[0] == "_"
 				false
 			else
-				puts path
 				full_path = Rails.application.assets.resolve(path).to_path
 				app_assets_path = Rails.root.join('app', 'assets').to_path
 				if full_path.starts_with? app_assets_path
