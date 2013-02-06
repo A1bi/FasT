@@ -1,3 +1,7 @@
+//= require jquery.ui.core
+//= require jquery.ui.widget
+//= require jquery.ui.mouse
+
 function Gallery(g) {
 
 	var gallery = g;

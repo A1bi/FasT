@@ -20,9 +20,9 @@ class GbookController < ApplicationController
     steps = 5
     
     @pages = (GbookEntry.count.to_f / steps.to_f).ceil;
-    @entries = GbookEntry.order(:id).reverse_order.limit(steps).offset(steps * (@page - 1)).all
+    @entries = GbookEntry.order(:id).reverse_order.limit(steps).offset(steps * (@page - 1))
     
-    fresh_when last_modified: @entries.first.updated_at
+    fresh_when last_modified: @entries.maximum(:updated_at)
   end
 
   def new
