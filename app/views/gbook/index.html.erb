@@ -19,7 +19,7 @@
 					<div style="text-align: right; font-size: 12px;">
 						am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
 					</div>
-					<%= entry.text %>
+					<%= nl2br entry.text %>
 				</div>
 				<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
 			</div>
