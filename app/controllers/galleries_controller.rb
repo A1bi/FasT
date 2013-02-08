@@ -10,13 +10,13 @@ class GalleriesController < ApplicationController
   
   
   def index
-    @galleries = Gallery.order(:pos)
+    @galleries = Gallery.order(:position)
     
     fresh_when last_modified: @galleries.maximum(:updated_at)
   end
 
   def show
-    @photos = @gallery.photos.order(:pos)
+    @photos = @gallery.photos
     
     fresh_when last_modified: @gallery.updated_at
   end
@@ -39,15 +39,7 @@ class GalleriesController < ApplicationController
   end
   
   def update
-    # update order of photos?
-    if !params[:gallery][:pos].nil?
-      params[:gallery][:pos].each do |id, pos|
-        Photo.find(id).update_attribute(:pos, pos)
-      end
-      flash.notice = t("galleries.changed_order")
-      
-    # just update gallery info
-    elsif @gallery.update_attributes(params[:gallery])
+    if @gallery.update_attributes(params[:gallery])
       flash.notice = t("application.saved_changes")
     else
       return render :action => :edit
@@ -61,4 +53,10 @@ class GalleriesController < ApplicationController
     redirect_to galleries_path
   end
   
+	def sort
+		params[:gallery].each_with_index do |id, index|
+			Gallery.find(id).update_attribute(:position, index+1)
+		end
+		render :nothing => true
+	end
 end

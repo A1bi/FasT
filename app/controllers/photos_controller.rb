@@ -42,4 +42,10 @@ class PhotosController < ApplicationController
     redirect_to edit_gallery_path(params[:gallery_id])
   end
   
+	def sort
+		params[:photo].each_with_index do |id, index|
+			Photo.find(id).update_attribute(:position, index+1)
+		end
+		render :nothing => true
+	end
 end

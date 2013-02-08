@@ -2,38 +2,38 @@
 <% include_css "galleries" %>
 <% include_js "galleries" %>
 <% content_for :head do %>
-<script>
-(function () {
-	var g = new Gallery("<%= @gallery.id %>");
-	g.addPics([
-<% @photos.each do |photo| %>
-		{path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>"},
+	<script>
+		(function () {
+			var g = new Gallery("<%= @gallery.id %>");
+			g.addPics([
+		<% @photos.each do |photo| %>
+				{path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>"},
+		<% end %>
+			]);
+			g.init();
+		})();
+	</script>
 <% end %>
-	]);
-	g.init();
-})();
-</script>
-<% end %>
-		<div class="picFrame">
-			<div class="pic"></div>
-			<div class="directions">
-				<div class="next">
-					<div class="space"></div>
-					<div class="arrow"></div>
-				</div>
-				<div class="prev">
-					<div class="space"></div>
-					<div class="arrow"></div>
-				</div>
-			</div>
-			<div class="bar">
-				<div class="number">Foto <span></span> von <span></span></div>
-				<div class="desc"></div>
-			</div>
+<div class="photoFrame">
+	<div class="photo"></div>
+	<div class="directions">
+		<div class="next">
+			<div class="space"></div>
+			<div class="arrow"></div>
 		</div>
-		<div class="info">
-			<div class="desc"></div>
-			<div class="disclaimer small">
-				<%= @gallery.disclaimer %>
-			</div>
+		<div class="prev">
+			<div class="space"></div>
+			<div class="arrow"></div>
 		</div>
+	</div>
+	<div class="bar">
+		<div class="number">Foto <span></span> von <span></span></div>
+		<div class="desc"></div>
+	</div>
+</div>
+<div class="info">
+	<div class="desc"></div>
+	<div class="disclaimer small">
+		<%= @gallery.disclaimer %>
+	</div>
+</div>

@@ -6,8 +6,6 @@ de:
     submit_create: "erstellen"
     submit_save: "speichern"
     btn_delete: "löschen"
-  galleries:
-    changed_order: "Die neue Reihenfolge wurde erfolgreich gespeichert!"
   gbook:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
   sessions:

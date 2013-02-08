@@ -2,7 +2,7 @@
 
 
 .index {
-	.box {
+	.gallery {
 		width: 580px;
 		position: relative;
 		
@@ -15,7 +15,7 @@
 			overflow: auto;
 		}
 		
-		.pic {
+		.photo {
 			&.first {
 				border-radius: 0 0 0 10px;
 			}
@@ -26,25 +26,21 @@
 	}
 }
 
-.box {
-	.pic {
-		float: left;
-		width: 145px;
-		height: 145px;
-		background-repeat: no-repeat;
-	}
+.photo {
+	float: left;
+	width: 145px;
+	height: 145px;
+	background-repeat: no-repeat;
 }
 
-
-
-.picFrame {
+.photoFrame {
 	position: relative;
 	width: 600px;
 	margin: auto;
 	background: black;
 	overflow: auto;
 
-	.pic {
+	.photo {
 		position: relative;
 		margin: auto;
 		@include vendor-specific(user-select, none);
@@ -137,28 +133,29 @@
 }
 
 .edit {
-	.pics {
+	#photos {
 		overflow: auto;
 		padding: 15px;
-	}
 	
-	.pic {
-		position: relative;
-		margin: 15px;
-		box-shadow: 0px 0px 5px #cccccc;
+		.photo {
+			position: relative;
+			margin: 15px;
+			box-shadow: 0px 0px 5px #cccccc;
 
-		.number {
-			position: absolute;
-			bottom: 5px;
-			left: 5px;
-			background: rgba(0, 0, 0, .7);
-			border-radius: 8px;
-			color: white;
-			padding: 3px 7px;
-			font-size: 11px;
-			text: {
-				shadow: 1px 1px 2px black;
-				align: center;
+			.number {
+				position: absolute;
+				bottom: 5px;
+				left: 5px;
+				background: rgba(0, 0, 0, .7);
+				border-radius: 8px;
+				color: white;
+				padding: 3px 7px;
+				font-size: 11px;
+				z-index: 2;
+				text: {
+					shadow: 1px 1px 2px black;
+					align: center;
+				}
 			}
 		}
 	}

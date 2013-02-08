@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130128193500) do
+ActiveRecord::Schema.define(:version => 20130208194309) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
     t.string   "disclaimer"
-    t.integer  "pos"
+    t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20130128193500) do
 
   create_table "photos", :force => true do |t|
     t.string   "text"
-    t.integer  "pos"
+    t.integer  "position"
     t.integer  "gallery_id"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false

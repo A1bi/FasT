@@ -1,8 +1,3 @@
-//= require jquery.ui.core
-//= require jquery.ui.widget
-//= require jquery.ui.mouse
-//= require jquery.ui.sortable
-
 function Gallery(g) {
 
 	var gallery = g;
@@ -16,7 +11,7 @@ function Gallery(g) {
 	var updatePic = function () {
 		var curPic = pics[cur];
 		
-		$(".pic img").attr("src", curPic.path).load(function () {
+		$(".photo img").attr("src", curPic.path).load(function () {
 			$(this).parent().css({width: $(this).width()});
 			
 			var nextPic = pics[getIndex(1)];
@@ -75,7 +70,7 @@ function Gallery(g) {
 	
 	this.init = function () {
 		$(function () {
-			$(".pic").append($("<img>").attr("alt", ""));
+			$(".photo").append($("<img>").attr("alt", ""));
 			registerEvents();
 		
 			goNext();

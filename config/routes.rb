@@ -39,13 +39,22 @@ FasT::Application.routes.draw do
       :controller => :gbook,
       :path => Rack::Utils.escape("gästebuch"),
       :except => [:show] do
-        get "(:page)", :action => :index, :as => "", :on => :collection, :constraints => { :page => /\d+/ }
+        collection do
+					get "(:page)", :action => :index, :as => "", :constraints => { :page => /\d+/ }
+				end
       end
       
-    # galeries
+    # galleries
     resources :galleries, :path => "galerie" do
-      resources :photos, :path => "fotos"
-    end
+			collection do
+				post "sort"
+			end
+      resources :photos, :path => "fotos" do
+				collection do
+					post "sort"
+				end
+			end
+		end
     
   end
   

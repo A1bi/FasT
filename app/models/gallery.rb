@@ -1,7 +1,7 @@
 class Gallery < ActiveRecord::Base
-  attr_accessible :disclaimer, :pos, :title
+  attr_accessible :disclaimer, :position, :title
   
-  has_many :photos, :order => :pos, :dependent => :destroy
+  has_many :photos, :order => :position, :dependent => :destroy
   
   validates :title, :presence => true
 end
