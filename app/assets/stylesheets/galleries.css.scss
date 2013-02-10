@@ -26,11 +26,13 @@
 	}
 }
 
-.photo {
-	float: left;
-	width: 145px;
-	height: 145px;
-	background-repeat: no-repeat;
+.index, .edit {
+	.photo {
+		float: left;
+		width: 145px;
+		height: 145px;
+		background-repeat: no-repeat;
+	}
 }
 
 .photoFrame {
@@ -134,8 +136,15 @@
 
 .edit {
 	#photos {
-		overflow: auto;
 		padding: 15px;
+		
+		&:after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0px;
+			clear: both;
+		}
 	
 		.photo {
 			position: relative;
