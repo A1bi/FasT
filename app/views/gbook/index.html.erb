@@ -4,9 +4,7 @@
 			Gästebuch
 		</div>
 		Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
-		<div class="new">
-			<%= link_to "eintragen", new_gbook_entry_path %>
-		</div>
+		<%= render "new_button", :action => "eintragen" %>
 		<div class="pages">
 			Seite: <%= render_pages %>
 		</div>
