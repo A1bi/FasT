@@ -10,7 +10,7 @@ server "85.214.76.70", :web, :app, :db, primary: true
 set :user, "deployer"
 set :application, "FasT"
 set :github_user, "A1bi"
-set :server_name, "theater-kaisersesch.de www.theater-kaisersesch.de"
+set :domain_name, "theater-kaisersesch.de"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
