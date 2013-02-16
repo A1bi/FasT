@@ -10,6 +10,7 @@ de:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
   sessions:
     auth_error: "E-mail-Adresse oder Passwort falsch!"
+    
   activerecord:
     errors:
       messages:
@@ -25,5 +26,17 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
+              
   attributes:
     title: "Titel"
+    
+  number:
+    currency:
+      format:
+        format: "%n %u"
+        unit: "€"
+        separator: ","
+        
+  date:
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]

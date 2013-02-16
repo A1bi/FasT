@@ -2,6 +2,8 @@
 
 FasT::Application.routes.draw do
 
+  get "tickets/new"
+
   # dates
   get "termine" => "dates#jedermann", :as => "dates"
 

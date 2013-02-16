@@ -35,10 +35,10 @@ end
 
 # ticket types
 [
-	{ name: "Kinder", price: 6.5 },
+	{ name: "Kinder", info: "Jugendliche bis 16 Jahre", price: 6.5 },
 	{ name: "Erwachsene", price: 12.5 }
 ].each do |type|
-	type = Tickets::TicketType.create(type)
+	type = Tickets::TicketType.create(type, without_protection: true)
 end
 
 # reservations
