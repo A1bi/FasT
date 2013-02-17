@@ -1,3 +1,5 @@
+@import "../_seats";
+
 @mixin box {
 	position: relative;
 	border: 1px solid #cccccc;
@@ -5,52 +7,61 @@
 	padding: 10px;
 }
 
-.tickets_seat {
-	cursor: move;
+#seats {
+	width: 95%;
+	margin: auto;
 	
-	.row {
-		font-weight: bold;
-		display: none;
+	.seating {
+		@include box;
 	}
+
+	.tickets_seat {
+		cursor: move;
 	
-	&:hover:not(:active) {
-		.number {
+		.row {
+			font-weight: bold;
 			display: none;
 		}
+	
+		&:hover:not(:active) {
+			.number {
+				display: none;
+			}
 		
-		.row {
-			display: block;
+			.row {
+				display: block;
+			}
 		}
 	}
-}
 
-.actions {
-	overflow: auto;
-	margin-top: 10px;
+	.actions {
+		overflow: auto;
+		margin-top: 10px;
 	
-	.blocks {
-		width: 40%;
-		float: left;
-		@include box;
+		.blocks {
+			width: 40%;
+			float: left;
+			@include box;
 		
-		.tickets_block {
-			overflow: auto;
-			margin: 3px 0px;
+			.tickets_block {
+				overflow: auto;
+				margin: 3px 0px;
 			
-			.tickets_seat, .name {
-				position: relative;
-				float: left;
-			}
+				.tickets_seat, .name {
+					position: relative;
+					float: left;
+				}
 			
-			.name {
-				margin-left: 6px;
+				.name {
+					margin-left: 6px;
+				}
 			}
 		}
-	}
 	
-	.seats {
-		float: right;
-		width: 50%;
-		@include box;
+		.seats {
+			float: right;
+			width: 50%;
+			@include box;
+		}
 	}
 }

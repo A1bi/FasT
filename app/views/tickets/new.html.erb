@@ -17,7 +17,7 @@
 </div>
 <div class="stepBox">
 	<div class="stepCon date">
-		Bitte wählen Sie Ihre gewünschte Aufführung:
+		<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
 		<ul class="inner">
 			<% @event.dates.each do |date| %>
 				<%= content_tag_for(:li, date, :data => { :id => date.id }) do %>
@@ -26,7 +26,7 @@
 			<% end %>
 		</ul>
 		<div class="number">
-			Bitte wählen Sie die gewünschte Anzahl an Karten:
+			<div>Bitte wählen Sie die gewünschte Anzahl an Karten:</div>
 			<table class="inner rTable">
 				<% @ticket_types.each do |type| %>
 					<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
@@ -47,6 +47,16 @@
 				</tr>
 			</table>
 		</div>
+	</div>
+	<div class="stepCon seats">
+		<div>Bitte wählen Sie Ihre gewünschten Sitzplätze.</div>
+		<div class="seating noPadding">
+			<% @seats.each do |seat| %>
+				<%= div_for(seat, :data => { :id => seat.id }, :style => "left: " + (seat.position_x).to_s + "%; top: " + (seat.position_y).to_s + "%;") do %>
+				<% end %>
+			<% end %>
+		</div>
+		<div class="hcen">Legende: bla</div>
 	</div>
 	<div class="stepCon address">
 		Bitte füllen Sie die folgenden Felder entsprechend aus:

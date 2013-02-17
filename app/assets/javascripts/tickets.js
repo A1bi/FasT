@@ -105,6 +105,19 @@ var tickets = {
 		}),
 		
 		$.extend({}, Step, {
+			name: "seats",
+			
+			validate: function () {
+				
+			},
+			
+			registerEvents: function () {
+				var _this = this;
+				
+			}
+		}),
+		
+		$.extend({}, Step, {
 			name: "address",
 			
 			validate: function () {
@@ -118,8 +131,9 @@ var tickets = {
 		})
 	],
 	
-	toggleBtn: function (btn, toggle) {
-		$(".btn."+btn).toggleClass("disabled", !toggle);
+	toggleBtn: function (btn, toggle, style_class) {
+		style_class = style_class || "disabled";
+		$(".btn."+btn).toggleClass(style_class, !toggle);
 	},
 	
 	toggleNextBtn: function (toggle) {
@@ -127,7 +141,8 @@ var tickets = {
 	},
 	
 	toggleLoadingBtn: function (toggle) {
-		$(".btn.next").toggleClass("loading", toggle);
+		this.toggleBtn("next", !toggle, "loading");
+		this.toggleBtn("prev", !toggle);
 	},
 	
 	goNext: function ($this) {
@@ -208,6 +223,7 @@ var tickets = {
 		});
 		
 		this.registerEvents();
+		this.currentStepIndex = 0;
 		this.showNext();
 	}
 }

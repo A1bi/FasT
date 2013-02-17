@@ -1,13 +1,7 @@
-@mixin box {
-	position: relative;
-	border: 1px solid #cccccc;
-	border-radius: 10px;
-	padding: 10px;
-}
-
 .seating {
+	position: relative;
 	height: 400px;
-	@include box;
+	box-shadow: inset 0px 0px 8px #cccccc;
 }
 
 .tickets_seat {
