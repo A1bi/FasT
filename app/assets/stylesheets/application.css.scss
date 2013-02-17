@@ -153,14 +153,14 @@ h3 {
 			
 			&.spacer {
 		 		margin-left: 5px;
-			 	background: #ffffff;
 			 	@include background-gradient(
 					left bottom,
 					(
 						rgba(255, 255, 255, 0) 0%,
 						rgba(255, 255, 255, 1) 50%,
 						rgba(255, 255, 255, 0) 100%
-					)
+					),
+					white
 				);
 			 	padding: 0px;
 			 	height: 2px;

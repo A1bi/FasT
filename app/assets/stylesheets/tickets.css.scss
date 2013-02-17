@@ -1,3 +1,5 @@
+@import "_mixins";
+
 .front {
 	font-size: 16px;
 	margin-left: 10px;
@@ -66,21 +68,11 @@
 		
 		&.alert {
 			opacity: 1;
-			-moz-transition: opacity .2s;
-			-webkit-transition: opacity .2s;
-			-o-transition: opacity .2s;
+			@include transition(opacity, .2s);
 		}
 		
 		&.highlighted {
-			-moz-animation-name: alert;
-			-moz-animation-duration: .3s;
-			-moz-animation-iteration-count: 2;
-			-webkit-animation-name: alert;
-			-webkit-animation-duration: .3s;
-			-webkit-animation-iteration-count: 2;
-			-o-animation-name: alert;
-			-o-animation-duration: .3s;
-			-o-animation-iteration-count: 2;
+			@include animation(alert, .3s, 2);
 		}
 	}
 	
@@ -92,19 +84,7 @@
 .btn {
 	padding: 5px 20px;
 	border-radius: 20px;
-	background: #0869ed;
-	background: -moz-linear-gradient(
-		top,
-		#0668ec 0%, #b8e1f9 90%
-    );
-	background: -webkit-linear-gradient(
-		top,
-		#0668ec 0%, #b8e1f9 90%
-    );
-	background: -o-linear-gradient(
-		top,
-		#0668ec 0%, #b8e1f9 90%
-    );
+	@include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
 	color: #ffffff;
 	text-decoration: none;
 	box-shadow: #666666 0px 0px 6px;
@@ -159,25 +139,7 @@
 	}
 }
 
-@-moz-keyframes alert {
-	from {
-	}
-	50% {
-		text-shadow: 0px 0px 7px red;
-	}
-	to {
-	}
-}
-@-webkit-keyframes alert {  
-	from {
-	}
-	50% {
-		text-shadow: 0px 0px 7px red;
-	}
-	to {
-	}
-}
-@-o-keyframes alert {  
+@include keyframes(alert) {
 	from {
 	}
 	50% {
@@ -188,9 +150,10 @@
 }
 
 .rTable {
-	border-spacing: 0px;
-	border-radius: 10px;
-	border: 1px solid #cccccc;
+	border: 1px solid #cccccc {
+		spacing: 0px;
+		radius: 10px;
+	}
 	
 	td {
 		padding: 7px;
@@ -243,21 +206,13 @@ table td {
 	.step {
 		position: relative;
 		float: left;
-		width: 25%;
+		width: 20%;
 		text-align: center;
 		padding: 2px 0px;
 		font-size: 12px;
 		color: #cccccc;
 		z-index: 2;
-		-moz-transition-property: color;
-		-moz-transition-duration: .5s;
-		-moz-transition-timing-function: ease-in-out;
-		-webkit-transition-property: color;
-		-webkit-transition-duration: .5s;
-		-webkit-transition-timing-function: ease-in-out;
-		-o-transition-property: color;
-		-o-transition-duration: .5s;
-		-o-transition-timing-function: ease-in-out;
+		@include transition(color, .5s, ease-in-out);
 		
 		&.current {
 			color: #ffffff;
@@ -267,42 +222,10 @@ table td {
 			position: absolute;
 			top: 0px;
 			left: 0px;
-			background: #0668ec;
-			background: -moz-linear-gradient(
-				top,
-				#b8e1f9 0%, #0668ec 100%
-		    );
-			background: -webkit-linear-gradient(
-				top,
-				#b8e1f9 0%, #0668ec 100%
-			);
-			background: -o-linear-gradient(
-				top,
-				#b8e1f9 0%, #0668ec 100%
-			);
 			height: 100%;
-			-moz-transition-property: left;
-			-moz-transition-duration: .5s;
-			-moz-transition-timing-function: ease-in-out;
-			-webkit-transition-property: left;
-			-webkit-transition-duration: .5s;
-			-webkit-transition-timing-function: ease-in-out;
-			-o-transition-property: left;
-			-o-transition-duration: .5s;
-			-o-transition-timing-function: ease-in-out;
+		 	@include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
+			@include transition(left, .5s, ease-in-out);
 		}
-	}
-	
-	&.address .step.bar {
-		left: 25%;
-	}
-	
-	&.payment .step.bar {
-		left: 50%;
-	}
-	
-	&.confirm .step.bar {
-		left: 75%;
 	}
 }
 

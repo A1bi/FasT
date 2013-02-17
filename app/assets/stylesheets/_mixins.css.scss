@@ -4,14 +4,17 @@
 	}
 }
 
-@mixin transition($property, $duration) {
-	@include vendor-specific(transition, $property $duration);
+@mixin transition($property, $duration, $ease: "") {
+	@include vendor-specific(transition, $property $duration #{$ease});
 }
 
-@mixin background-gradient($pos, $colors) {
- 	background: -moz-linear-gradient($pos, $colors);
- 	background: -webkit-linear-gradient($pos, $colors);
- 	background: -o-linear-gradient($pos, $colors);
+@mixin background-gradient($pos, $colors, $default: "") {
+	@if $default != "" {
+		background: #{$default};
+	}
+	@each $vendor in moz, webkit, o, ms {
+		background: -#{$vendor}-linear-gradient($pos, $colors);
+	}
 }
 
 @mixin font-face($name) {
@@ -21,4 +24,19 @@
 		src: url('/assets/#{$name}.eot?#iefix') format('embedded-opentype'),
 			 url(/assets/#{$name}.woff) format('woff');
 	}
+}
+
+@mixin animation($name, $duration, $iteration: "") {
+	@include vendor-specific(animation-name, $name);
+	@include vendor-specific(animation-duration, $duration);
+	@if $iteration != "" {
+		@include vendor-specific(animation-iteration-count, $iteration);
+	}
+}
+
+@mixin keyframes($name) {
+	@-moz-keyframes #{$name} { @content; }
+	@-webkit-keyframes #{$name} { @content; }
+	@-o-keyframes #{$name} { @content; }
+	@-ms-keyframes #{$name} { @content; }
 }

@@ -162,12 +162,10 @@ var tickets = {
 	},
 	
 	updateProgress: function() {
-		var progressBox = $(".progress"), _this = this;
-		$.each(this.steps, function (i, step) {
-			var isCurrent = step == _this.currentStep;
-			progressBox.toggleClass(step.name, isCurrent);
-			progressBox.find(".step").eq(i+1).toggleClass("current", isCurrent);
-		});
+		var progressBox = $(".progress");
+		progressBox.find(".current").removeClass("current");
+		var current = progressBox.find(".step").eq(this.currentStepIndex+1).addClass("current");
+		progressBox.find(".bar").css("left", current.position().left);
 	},
 	
 	moveInCurrentStep: function () {
