@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def self.restrict_access_to_group(group, options = nil)
+  def self.restrict_access_to_group(group, options = {})
     before_filter options do |c|
       c.restrict_access group
     end

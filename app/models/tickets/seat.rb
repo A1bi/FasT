@@ -1,5 +1,5 @@
 class Tickets::Seat < ActiveRecord::Base
-  attr_accessible :number, :row
+  attr_accessible :number, :row, :position_x, :position_y
 	
 	belongs_to :block
 	has_many :reservations

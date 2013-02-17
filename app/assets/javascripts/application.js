@@ -16,4 +16,5 @@
 //= require jquery.ui.widget
 //= require jquery.ui.mouse
 //= require jquery.ui.sortable
+//= require jquery.ui.draggable
 //= require main

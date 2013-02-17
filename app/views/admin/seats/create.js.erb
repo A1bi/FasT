@@ -1,0 +1,5 @@
+$(".seating").append("<%= j render("seats") %>");
+updateDraggables();
+$("#new_tickets_seat").each(function () {
+	this.reset();
+});

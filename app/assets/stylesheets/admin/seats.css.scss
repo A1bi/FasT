@@ -1,0 +1,56 @@
+@mixin box {
+	position: relative;
+	border: 1px solid #cccccc;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.tickets_seat {
+	cursor: move;
+	
+	.row {
+		font-weight: bold;
+		display: none;
+	}
+	
+	&:hover:not(:active) {
+		.number {
+			display: none;
+		}
+		
+		.row {
+			display: block;
+		}
+	}
+}
+
+.actions {
+	overflow: auto;
+	margin-top: 10px;
+	
+	.blocks {
+		width: 40%;
+		float: left;
+		@include box;
+		
+		.tickets_block {
+			overflow: auto;
+			margin: 3px 0px;
+			
+			.tickets_seat, .name {
+				position: relative;
+				float: left;
+			}
+			
+			.name {
+				margin-left: 6px;
+			}
+		}
+	}
+	
+	.seats {
+		float: right;
+		width: 50%;
+		@include box;
+	}
+}

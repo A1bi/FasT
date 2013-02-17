@@ -1,0 +1,6 @@
+<% @seats.each_with_index do |seat, index| %>
+	<%= div_for(seat, :data => { :id => seat.id }, :style => "left: " + (seat.position_x).to_s + "%; top: " + (seat.position_y).to_s + "%; background: " + seat.block.color + ";") do %>
+		<div class="number"><%= seat.number %></div>
+		<div class="row"><%= seat.row %></div>
+	<% end %>
+<% end %>

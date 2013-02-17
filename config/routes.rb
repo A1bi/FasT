@@ -63,5 +63,9 @@ FasT::Application.routes.draw do
   get "login" => "sessions#new", :as => :login
   post "login" => "sessions#create"
   get "logout" => "sessions#destroy", :as => :logout
+	
+	namespace :admin, :path => "vorstand" do
+		resources :seats, :path => "sitzplan", :except => [:new]
+	end
 
 end

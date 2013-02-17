@@ -1,0 +1,23 @@
+@mixin box {
+	position: relative;
+	border: 1px solid #cccccc;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.seating {
+	height: 400px;
+	@include box;
+}
+
+.tickets_seat {
+	position: absolute;
+	width: 18px;
+	height: 16.5px;
+	border: 1px solid #cccccc;
+	font-size: 12px;
+	text-align: center;
+	color: white;
+	text-shadow: 0px 0px 3px black;
+	padding-top: 2.5px;
+}

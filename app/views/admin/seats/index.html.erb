@@ -1,0 +1,40 @@
+<% title "Sitzplan bearbeiten" %>
+<% include_js "admin/seats" %>
+<% content_for :head do %>
+	<%= stylesheet_link_tag "seats", "admin/seats", :media => "all" %>
+<% end %>
+<div class="hl">Sitzplan bearbeiten</div>
+<div class="seating" data-edit-url="<%= admin_seat_path("") %>">
+	<%= render "seats" %>
+</div>
+<div class="actions">
+	<div class="blocks">
+		<div class="hcen">Blöcke</div>
+		<%= div_for @blocks do |block| %>
+			<div class="tickets_seat" style="background: <%= block.color %>;"></div>
+			<div class="name"><%= block.name %></div>
+		<% end %>
+	</div>
+	<div class="seats">
+		<div class="hcen">Neue Sitzplätze erstellen</div>
+		<%= form_for @new_seat, url: admin_seats_path, remote: true do |f| %>
+			<table>
+				<tr>
+					<td>Anzahl:</td>
+					<td><%= f.text_field :number, size: 3 %></td>
+				</tr>
+				<tr>
+					<td>Block:</td>
+					<td>
+						<%= f.collection_select :block_id, @blocks, :id, :name, :prompt => 'Bitte wählen Sie einen Block' %>
+					</td>
+				</tr>
+				<tr>
+					<td>Reihe:</td>
+					<td><%= f.text_field :row, size: 3 %></td>
+				</tr>
+			</table>
+			<div class="hcen"><%= f.submit "erstellen", disable_with: "..." %></div>
+		<% end %>
+	</div>
+</div>
