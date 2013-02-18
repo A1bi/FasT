@@ -2,8 +2,6 @@
 
 FasT::Application.routes.draw do
 
-  get "tickets/new"
-
   # dates
   get "termine" => "dates#jedermann", :as => "dates"
 
@@ -59,6 +57,11 @@ FasT::Application.routes.draw do
 		end
     
   end
+	
+	controller :tickets, :path => "tickets" do
+		get "bestellen", :action => :new, :as => :new_ticket
+		get "seats", :as => :ticket_seats
+	end
   
   get "login" => "sessions#new", :as => :login
   post "login" => "sessions#create"

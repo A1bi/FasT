@@ -320,6 +320,15 @@ table td {
 			
 			.tickets_seat {
 				cursor: pointer;
+				background: green;
+				
+				&.taken {
+					background: red;
+				}
+				&.selected {
+					background: yellow;
+					border-width: 2px;
+				}
 			}
 		}
 		

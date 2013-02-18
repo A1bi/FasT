@@ -45,6 +45,7 @@ var tickets = {
 	stepBox: null,
 	currentStepIndex: -1,
 	currentStep: null,
+	order: {},
 	
 	steps: [
 		$.extend({}, Step, {
@@ -75,6 +76,7 @@ var tickets = {
 			choseDate: function ($this) {
 				$this.parent().find(".selected").removeClass("selected");
 				$this.addClass("selected");
+				this.delegate.order['date'] = $this.data("id");
 				
 				this.slideToggle(this.box.find("div.number"), true);
 			},
@@ -111,9 +113,24 @@ var tickets = {
 				
 			},
 			
-			registerEvents: function () {
+			updateSeats: function () {
 				var _this = this;
 				
+				if (this.delegate.order.date) {
+					$.getJSON("/tickets/seats", {date: this.delegate.order.date}, function (seats) {
+						$.each(seats, function (index, seat) {
+							_this.box.find("#tickets_seat_" + seat.id).toggleClass("taken", !seat.available);
+						});
+					});
+				}
+				
+				setTimeout(function () {
+					_this.updateSeats();
+				}, 5000);
+			},
+			
+			registerEvents: function () {
+				this.updateSeats();
 			}
 		}),
 		
@@ -223,7 +240,6 @@ var tickets = {
 		});
 		
 		this.registerEvents();
-		this.currentStepIndex = 0;
 		this.showNext();
 	}
 }
