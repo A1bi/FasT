@@ -10,6 +10,11 @@ de:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
   sessions:
     auth_error: "E-mail-Adresse oder Passwort falsch!"
+  tickets:
+    errors:
+      seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
+      seat_taken: "Ihr gewählter Sitzplatz wurde in der Zwischenzeit von jemand anderem reserviert. Bitte wählen Sie einen anderen Platz."
+      date_not_found: "Das gewählte Datum wurde nicht gefunden."
     
   activerecord:
     errors:

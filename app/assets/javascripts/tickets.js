@@ -117,8 +117,8 @@ var tickets = {
 				var _this = this;
 				
 				if (this.delegate.order.date) {
-					$.getJSON("/tickets/seats", {date: this.delegate.order.date}, function (seats) {
-						$.each(seats, function (index, seat) {
+					$.getJSON("/tickets/seats", {date: this.delegate.order.date}, function (response) {
+						$.each(response.seats, function (index, seat) {
 							_this.box.find("#tickets_seat_" + seat.id).toggleClass("taken", !seat.available);
 						});
 					});
@@ -130,7 +130,21 @@ var tickets = {
 			},
 			
 			registerEvents: function () {
+				var _this = this;
+				
 				this.updateSeats();
+				this.box.find(".tickets_seat").click(function () {
+					var $seat = $(this).addClass("selected");
+					var data = {
+						id: $seat.data("id"),
+						date: _this.delegate.order.date
+					}
+					$.post("/tickets/reserve_seat", data, function (response) {
+						if (!response.ok) {
+							$seat.removeClass("selected");
+						}
+					}, "json");
+				});
 			}
 		}),
 		
