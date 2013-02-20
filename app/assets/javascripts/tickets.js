@@ -46,6 +46,7 @@ var tickets = {
 	currentStepIndex: -1,
 	currentStep: null,
 	order: {},
+	observers: {},
 	
 	steps: [
 		$.extend({}, Step, {
@@ -76,15 +77,19 @@ var tickets = {
 			choseDate: function ($this) {
 				$this.parent().find(".selected").removeClass("selected");
 				$this.addClass("selected");
-				this.delegate.order['date'] = $this.data("id");
-				
 				this.slideToggle(this.box.find("div.number"), true);
+				
+				this.delegate.updateOrder("date", $this.data("id"));
 			},
 			
 			choseNumber: function ($this) {
 				var typeBox = $this.parents("tr");
 				typeBox.find("td.total span").html(this.formatCurrency(this.getTypeTotal(typeBox)));
 				this.updateTotal();
+				
+				var numbers = this.delegate.order.numbers || {};
+				numbers[typeBox.data("id")] = $this.val();
+				this.delegate.updateOrder("numbers", numbers);
 			},
 			
 			validate: function () {
@@ -108,31 +113,32 @@ var tickets = {
 		
 		$.extend({}, Step, {
 			name: "seats",
+			updateTimer: null,
 			
 			validate: function () {
 				
 			},
 			
-			updateSeats: function () {
+			updateSeats: function (date) {
 				var _this = this;
+				clearTimeout(this.updateTimer);
 				
 				if (this.delegate.order.date) {
-					$.getJSON("/tickets/seats", {date: this.delegate.order.date}, function (response) {
+					$.getJSON("/tickets/seats", {date: date}, function (response) {
 						$.each(response.seats, function (index, seat) {
 							_this.box.find("#tickets_seat_" + seat.id).toggleClass("taken", !seat.available);
 						});
 					});
 				}
 				
-				setTimeout(function () {
-					_this.updateSeats();
+				this.updateTimer = setTimeout(function () {
+					_this.updateSeats(date);
 				}, 5000);
 			},
 			
 			registerEvents: function () {
 				var _this = this;
 				
-				this.updateSeats();
 				this.box.find(".tickets_seat").click(function () {
 					var $seat = $(this).addClass("selected");
 					var data = {
@@ -144,6 +150,10 @@ var tickets = {
 							$seat.removeClass("selected");
 						}
 					}, "json");
+				});
+				
+				this.delegate.observeOrder("date", function (date) {
+					_this.updateSeats(date);
 				});
 			}
 		}),
@@ -236,6 +246,28 @@ var tickets = {
 		} else {
 			$(".stepBox").css(props);
 		}
+	},
+	
+	getObservers: function (prop) {
+		var observers = prop && this.observers[prop];
+	    if (!observers) {
+			observers = this.observers[prop] = $.Callbacks();
+		}
+		
+		return observers;
+	},
+	
+	observeOrder: function (prop, callback) {
+		this.getObservers(prop).add(callback);
+	},
+	
+	notifyObservers: function (prop, value) {
+		this.getObservers(prop).fire(value);
+	},
+	
+	updateOrder: function (prop, value) {
+		this.order[prop] = value;
+		this.notifyObservers(prop, value);
 	},
 	
 	registerEvents: function () {
