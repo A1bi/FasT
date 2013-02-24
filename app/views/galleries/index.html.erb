@@ -15,9 +15,7 @@
 	</script>
 <% end if @_member.admin? %>
 <div class="index">
-	<div class="hl">
-		Fotogalerie
-	</div>
+	<div class="hl">Fotogalerie</div>
 	<%= render "new_button", :action => "neue Galerie" %>
 	<div id="galleries" data-sort-url="<%= sort_galleries_path %>">
 		<%= div_for @galleries, :class => "box" do |gallery| %>
@@ -28,7 +26,7 @@
 				<a href="<%= gallery_path(gallery) %>">
 					<% gallery.photos.limit(4).each_with_index do |photo, i| %>
 						<% bound = (i == 0) ? "first" : ((i == 3) ? "last" : "") if !@_member.admin? %>
-						<%= image_tag photo.image.url(:thumb), :alt => "", :class => "photo" %>
+						<%= image_tag photo.image.url(:thumb), :alt => "", :class => "photo #{bound}" %>
 					<% end %>
 				</a>
 			</div>
