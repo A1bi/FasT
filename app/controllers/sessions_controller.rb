@@ -3,6 +3,8 @@ class SessionsController < ApplicationController
     member = Member.where({:email => params[:email]}).first
     if member && member.authenticate(params[:password])
       session[:user_id] = member.id
+			member.last_login = Time.zone.now
+			member.save
       redirect_to root_path
     else
       flash.now.alert = t("sessions.auth_error")
