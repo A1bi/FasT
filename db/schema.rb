@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130217162638) do
+ActiveRecord::Schema.define(:version => 20130225205413) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -61,9 +61,11 @@ ActiveRecord::Schema.define(:version => 20130217162638) do
   create_table "tickets_bunches", :force => true do |t|
     t.boolean  "paid"
     t.float    "total"
-    t.integer  "cencellation_id"
+    t.integer  "cancellation_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "assignable_id"
+    t.string   "assignable_type"
   end
 
   create_table "tickets_cancellations", :force => true do |t|
@@ -93,6 +95,17 @@ ActiveRecord::Schema.define(:version => 20130217162638) do
     t.integer  "loggable_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "tickets_orders", :force => true do |t|
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "gender"
+    t.string   "phone"
+    t.integer  "plz"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tickets_reservations", :force => true do |t|

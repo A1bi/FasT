@@ -1,5 +1,5 @@
 class Tickets::Ticket < ActiveRecord::Base
-	include Cancellable
+	include Tickets::Cancellable
 	
 	belongs_to :bunch
 	belongs_to :type, :class_name => Tickets::TicketType
