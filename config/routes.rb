@@ -62,6 +62,8 @@ FasT::Application.routes.draw do
 		get "bestellen", :action => :new, :as => :new_tickets
 		get "seats", :as => :tickets_seats
 		post "reserve_seat", :as => :tickets_reserve_seat
+		post "update_order", :as => :tickets_update_order
+		get "order_info", :as => :tickets_order_info
 	end
   
   get "login" => "sessions#new", :as => :login

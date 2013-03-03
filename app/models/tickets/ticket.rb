@@ -3,7 +3,10 @@ class Tickets::Ticket < ActiveRecord::Base
 	
 	belongs_to :bunch
 	belongs_to :type, :class_name => Tickets::TicketType
-	belongs_to :reservation
+	belongs_to :reservation, :validate => true
+	
+	validates_presence_of :type
+	validates_presence_of :reservation, :on => :create
 	
 	def date
 		self.reservation.date
@@ -15,6 +18,6 @@ class Tickets::Ticket < ActiveRecord::Base
 	
 	def type=(type)
     super
-		self.price = type.price
+		self.price = self.type.try(:price)
   end
 end

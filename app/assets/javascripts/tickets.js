@@ -1,11 +1,13 @@
 var Step = {
 	box: null,
 	delegate: null,
+	info: null,
 	
 	init: function (delegate) {
 		this.delegate = delegate;
 		this.box = $(".stepCon." + this.name);
 		this.registerEvents();
+		this.info = {};
 	},
 	
 	moveIn: function () {
@@ -37,6 +39,20 @@ var Step = {
 		} else {
 			obj.slideUp(props);
 		}
+	},
+	
+	updateOrder: function (callback) {
+		this.delegate.updateOrder(this, callback);
+	},
+	
+	handleErrors: function () {},
+	
+	validate: function () {
+		var _this = this;
+		this.updateOrder(function (response) {
+			_this.delegate.validatedStep(response.ok);
+			if (!response.ok) _this.handleErrors(response.errors);
+		});
 	}
 }
 
@@ -71,7 +87,7 @@ var tickets = {
 					}
 				});
 				
-				this.delegate.toggleNextBtn(this.isValid());
+				this.delegate.toggleNextBtn(total > 0);
 			},
 			
 			choseDate: function ($this) {
@@ -79,7 +95,8 @@ var tickets = {
 				$this.addClass("selected");
 				this.slideToggle(this.box.find("div.number"), true);
 				
-				this.delegate.updateOrder("date", $this.data("id"));
+				this.info.date = $this.data("id");
+				this.updateOrder();
 			},
 			
 			choseNumber: function ($this) {
@@ -87,17 +104,11 @@ var tickets = {
 				typeBox.find("td.total span").html(this.formatCurrency(this.getTypeTotal(typeBox)));
 				this.updateTotal();
 				
-				var numbers = this.delegate.order.numbers || {};
+				var numbers = this.info.numbers || {};
 				numbers[typeBox.data("id")] = $this.val();
-				this.delegate.updateOrder("numbers", numbers);
-			},
-			
-			validate: function () {
-				this.delegate.validatedStep(this.isValid());
-			},
-			
-			isValid: function () {
-				return total > 0;
+				
+				this.info.numbers = numbers;
+				this.updateOrder();
 			},
 			
 			registerEvents: function () {
@@ -115,25 +126,17 @@ var tickets = {
 			name: "seats",
 			updateTimer: null,
 			
-			validate: function () {
-				
-			},
-			
-			updateSeats: function (date) {
+			updateSeats: function () {
 				var _this = this;
 				clearTimeout(this.updateTimer);
 				
-				if (this.delegate.order.date) {
-					$.getJSON("/tickets/seats", {date: date}, function (response) {
-						$.each(response.seats, function (index, seat) {
-							_this.box.find("#tickets_seat_" + seat.id).toggleClass("taken", !seat.available);
-						});
+				$.getJSON("/tickets/seats", function (response) {
+					$.each(response.seats, function (index, seat) {
+						_this.box.find("#tickets_seat_" + seat.id).toggleClass("taken", !seat.available);
 					});
-				}
+				});
 				
-				this.updateTimer = setTimeout(function () {
-					_this.updateSeats(date);
-				}, 5000);
+				this.updateTimer = setTimeout(this.updateSeats, 5000);
 			},
 			
 			registerEvents: function () {
@@ -153,21 +156,32 @@ var tickets = {
 				});
 				
 				this.delegate.observeOrder("date", function (date) {
-					_this.updateSeats(date);
+					if (date['date']) _this.updateSeats();
 				});
 			}
 		}),
 		
 		$.extend({}, Step, {
 			name: "address",
+			info: {},
 			
-			validate: function () {
-				
+			handleErrors: function (errors) {
+				var _this = this;
+
+				$.each(errors, function (key, error) {
+					_this.box.find("#tickets_order_" + key).val("FAAAAALLLSCH!!");
+				});
 			},
 			
 			registerEvents: function () {
 				var _this = this;
 				
+				this.box.find(".field").change(function () {
+					$.each($(this).parents("form").serializeArray(), function () {
+						_this.info[this.name] = this.value;
+					});
+					console.log(_this.info);
+				});
 			}
 		})
 	],
@@ -265,9 +279,17 @@ var tickets = {
 		this.getObservers(prop).fire(value);
 	},
 	
-	updateOrder: function (prop, value) {
-		this.order[prop] = value;
-		this.notifyObservers(prop, value);
+	updateOrder: function (step, callback) {
+		this.notifyObservers(step.name, step.info);
+		if (callback) {
+			var update = {
+				order: {
+					step: step.name,
+					info: step.info
+				}
+			};
+			$.post("/tickets/update_order", update, callback, "json");
+		}
 	},
 	
 	registerEvents: function () {
