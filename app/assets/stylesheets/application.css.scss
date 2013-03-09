@@ -13,6 +13,10 @@
 
 @import "_mixins";
 
+$faint-blue: #d7f1fb;
+$light-blue: #aae7ff;
+$dark-blue: #216bed;
+
 
 body {
 	background: #0869ed url(/assets/bg.png) repeat-x;
@@ -191,7 +195,7 @@ h3 {
 	> .content {
 		position: relative;
 	 	background: url(/assets/content_bg.png) repeat-y;
-	 	padding: 10px 33px;
+	 	padding: 10px 35px 10px 33px;
 	 	min-height: 550px;
 	}
 
@@ -282,25 +286,41 @@ a.delete {
 	cursor: move;
 }
 
+@mixin box-border {
+	border-radius: 10px;
+}
+
+@mixin box-shadow {
+	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px $faint-blue;
+}
+
+@mixin box-shadow-border {
+	@include box-border;
+	@include box-shadow;
+	border: 1px solid $light-blue;
+}
+
+@mixin box-sky($position: center) {
+	background: url(/assets/sky.png) no-repeat $position;
+}
+
+@mixin box-white-text {
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
+	color: white;
+}
+
 // box
 .box {
 	width: 98%;
 	margin: 15px auto;
-	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
-	border: 1px solid #aae7ff {
-		radius: 10px;
-	}
+	@include box-shadow-border;
 	
 	> .top {
+		@include box-border;
+		@include box-sky;
+		@include box-white-text;
 		padding: 3px 10px;
-		color: #ffffff;
-		text-shadow: #000000 1px 1px 3px;
 		font-size: 17px;
-		background: url(/assets/sky.png) no-repeat center;
-		border: {
-			bottom: 1px solid #d7f1fb;
-			radius: 10px;
-		}
 	}
 
 	> .con {
@@ -308,8 +328,8 @@ a.delete {
 	}
 	
 	> .actions {
+		@include box-sky(top);
 		padding: 3px 7px;
-		background: url(/assets/sky.png) no-repeat top;
 		font-size: 12px;
 		color: white;
 		border: {
@@ -331,17 +351,13 @@ a.delete {
 	text-align: right;
 	
 	> a {
-		box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
-		background: url(/assets/sky.png) no-repeat center;
+		@include box-shadow-border;
+		@include box-sky;
+		@include box-white-text;
 		overflow: auto;
-		color: white;
 		display: inline-block;
 		padding: 0px 7px;
-		text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
 		margin: 10px;
-		border: 1px solid #aae7ff {
-			radius: 10px;
-		}
 		
 		> div {
 			float: left;
@@ -355,6 +371,74 @@ a.delete {
 		
 		> .action {
 			padding-top: 5px;
+		}
+	}
+}
+
+table.rounded {
+	$border-radius: 10px;
+	$border-inner: 1px $faint-blue solid;
+	$border-outer: 1px $light-blue solid;
+	
+	@include box-border;
+	@include box-shadow;
+	border-spacing: 0px;
+	
+	tr {
+		&:first-child {
+			td, th {
+				border-top: $border-outer;
+				
+				&:first-child {
+					border-top-left-radius: $border-radius;
+				}
+				
+				&:last-child {
+					border-top-right-radius: $border-radius;
+				}
+			}
+		}
+		
+		&:last-child {
+			td {
+				border-bottom: $border-outer;
+				
+				&:first-child {
+					border-bottom-left-radius: $border-radius;
+				}
+				
+				&:last-child {
+					border-bottom-right-radius: $border-radius;
+				}
+			}
+		}
+		
+		td, th {
+			border-bottom: $border-inner;
+			border-left: $border-inner;
+			padding: 3px 5px;
+			
+			&:first-child {
+				border-left: $border-outer;
+			}
+			
+			&:last-child {
+				border-right: $border-outer;
+			}
+			
+			&.id {
+				width: 7%;
+				text-align: center;
+			}
+		}
+		
+		th {
+			@include box-sky;
+			@include box-white-text;
+		}
+		
+		td {
+			font-size: 13px;
 		}
 	}
 }

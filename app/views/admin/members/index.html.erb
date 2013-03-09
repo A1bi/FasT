@@ -1,13 +1,15 @@
 <% title "Mitgliederverwaltung" %>
-<table>
+<div class="hl">Mitgliederliste</div>
+<%= render "new_button", :action => "neues Mitglied" %>
+<table class="rounded">
 	<tr>
-		<td>#</td>
-		<td>Nachname</td>
-		<td>Vorname</td>
+		<th class="id">#</th>
+		<th>Nachname</th>
+		<th>Vorname</th>
 	</tr>
 	<% @members.each do |member| %>
 		<tr>
-			<td><%= member.id %></td>
+			<td class="id"><%= member.id %></td>
 			<td><%= member.last_name %></td>
 			<td><%= member.first_name %></td>
 		</tr>
