@@ -1,0 +1,15 @@
+<% title "Mitgliederverwaltung" %>
+<table>
+	<tr>
+		<td>#</td>
+		<td>Nachname</td>
+		<td>Vorname</td>
+	</tr>
+	<% @members.each do |member| %>
+		<tr>
+			<td><%= member.id %></td>
+			<td><%= member.last_name %></td>
+			<td><%= member.first_name %></td>
+		</tr>
+	<% end %>
+</table>

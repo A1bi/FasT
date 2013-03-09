@@ -56,6 +56,10 @@ FasT::Application.routes.draw do
 			end
 		end
     
+  	namespace :admin, :path => "vorstand" do
+  		resources :members, :path => "mitglieder"
+  	end
+    
   end
   
   get "login" => "sessions#new", :as => :login
