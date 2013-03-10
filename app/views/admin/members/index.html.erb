@@ -1,17 +1,26 @@
 <% title "Mitgliederverwaltung" %>
-<div class="hl">Mitgliederliste</div>
+<div class="hl">Mitgliederverwaltung</div>
 <%= render "new_button", :action => "neues Mitglied" %>
 <table class="rounded">
-	<tr>
-		<th class="id">#</th>
-		<th>Nachname</th>
-		<th>Vorname</th>
-	</tr>
-	<% @members.each do |member| %>
+	<thead>
 		<tr>
-			<td class="id"><%= member.id %></td>
-			<td><%= member.last_name %></td>
-			<td><%= member.first_name %></td>
+			<th class="id">#</th>
+			<th>Nachname</th>
+			<th>Vorname</th>
+			<th class="actions"></th>
 		</tr>
-	<% end %>
+	</thead>
+	<tbody>
+		<% @members.each do |member| %>
+			<tr>
+				<td class="id"><%= member.id %></td>
+				<td><%= member.last_name %></td>
+				<td><%= member.first_name %></td>
+				<td class="actions">
+					<%= link_to "bearbeiten", edit_admin_member_path(member) %>
+					<%= link_to "löschen", [:admin, member], :method => :delete, :data => { :confirm => "Möchten Sie dieses Mitglied wirklich löschen?" } %>
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
 </table>

@@ -262,6 +262,15 @@ input.btn {
 	width: 120px;
 	height: 30px;
 }
+.submit {
+	text-align: center;
+	margin: 10px;
+
+	input {
+		width: 100px;
+		height: 30px;
+	}
+}
 a.delete {
 	position: absolute;
 	right: -7px;
@@ -285,6 +294,7 @@ a.delete {
 .move_handle {
 	cursor: move;
 }
+
 
 @mixin box-border {
 	border-radius: 10px;
@@ -384,7 +394,7 @@ table.rounded {
 	@include box-shadow;
 	border-spacing: 0px;
 	
-	tr {
+	*:first-child tr {
 		&:first-child {
 			td, th {
 				border-top: $border-outer;
@@ -412,7 +422,9 @@ table.rounded {
 				}
 			}
 		}
-		
+	}
+	
+	tr {	
 		td, th {
 			border-bottom: $border-inner;
 			border-left: $border-inner;
@@ -429,6 +441,10 @@ table.rounded {
 			&.id {
 				width: 7%;
 				text-align: center;
+			}
+			
+			&.actions {
+				width: 10%;
 			}
 		}
 		

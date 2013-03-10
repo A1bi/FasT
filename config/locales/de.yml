@@ -10,6 +10,10 @@ de:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
   sessions:
     auth_error: "E-mail-Adresse oder Passwort falsch!"
+  members:
+    groups:
+      admin: "Vorstand"
+      member: "Mitglied"
   activerecord:
     errors:
       messages:
@@ -25,5 +29,9 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
+        member:
+          attributes:
+            email:
+              invalid: "Die e-mail-Adresse ist ungültig."
   attributes:
     title: "Titel"

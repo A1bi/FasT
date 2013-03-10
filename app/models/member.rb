@@ -1,5 +1,7 @@
 class Member < ActiveRecord::Base
-  attr_accessible :email, :first_name, :group, :group_name, :last_name, :password, :password_confirmation
+	attr_accessible
+	attr_accessible :email, :password, :password_confirmation, :as => :member
+	attr_accessible :email, :first_name, :last_name, :group, :as => :admin
 	has_secure_password
 	
   validates :email,
@@ -9,7 +11,7 @@ class Member < ActiveRecord::Base
             
   validates :password,
             :length => { :minimum => 6 },
-            :on => :create
+						:on => :create
             
 	def group_name
 		self.class.groups[self.group] || :none
@@ -22,6 +24,10 @@ class Member < ActiveRecord::Base
   def admin?
     self.group_name == :admin
   end
+	
+	def set_random_password
+		self.password = SecureRandom.hex(16)
+	end
 	
 	private
 	def self.groups
