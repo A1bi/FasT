@@ -57,8 +57,17 @@ FasT::Application.routes.draw do
 		end
     
   	namespace :admin, :path => "vorstand" do
-  		resources :members, :path => "mitglieder"
+  		resources :members, :path => "mitglieder", :except => [:show]
   	end
+		
+		namespace :members, :path => "mitglieder" do
+			resource :member, :path => "mitgliedschaft", :controller => :member, :only => [:edit, :update] do
+				collection do
+					get "activate", :path => "aktivieren"
+					put "finish_activation"
+				end
+			end
+		end
     
   end
   

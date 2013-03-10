@@ -10,8 +10,7 @@ class Member < ActiveRecord::Base
             :format => { :with => /^([a-z0-9-]+\.?)+@([a-z0-9-]+\.)+[a-z]{2,9}$/i }
             
   validates :password,
-            :length => { :minimum => 6 },
-						:on => :create
+            :length => { :minimum => 6 }
             
 	def group_name
 		self.class.groups[self.group] || :none
@@ -26,11 +25,24 @@ class Member < ActiveRecord::Base
   end
 	
 	def set_random_password
-		self.password = SecureRandom.hex(16)
+		self.password = self.class.random_hash
+	end
+	
+	def set_activation_code
+		self.activation_code = self.class.random_hash
+	end
+	
+	def activate
+		self.activation_code = nil
 	end
 	
 	private
+	
 	def self.groups
 		{1 => :member, 2 => :admin}
+	end
+	
+	def self.random_hash
+		SecureRandom.hex(16)
 	end
 end

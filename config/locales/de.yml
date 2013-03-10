@@ -33,5 +33,8 @@ de:
           attributes:
             email:
               invalid: "Die e-mail-Adresse ist ungültig."
+            password:
+              confirmation: "Die Passwörter stimmen nicht überein."
+              too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
   attributes:
     title: "Titel"
