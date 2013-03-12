@@ -11,8 +11,8 @@
 	<%= stylesheet_link_tag "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
 	
-	<% if content_for?(:js_file) %><%= javascript_include_tag yield(:js_file) %><% end %>
-	<% if content_for?(:css_file) %><%= stylesheet_link_tag yield(:css_file), :media => "all" %><% end %>
+	<%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
+	<%= stylesheet_link_tag yield(:css_file), :media => "all" if content_for?(:css_file) %>
 	
 	<%= yield(:head) %>
 </head>
@@ -47,9 +47,19 @@
 		<div id="content">
 			<div class="top"></div>
 			<div class="content">
-
-			<%= yield %>
-
+				<% if @_member.id %>
+					<ul class="navi">
+						<li>Mitgliederbereich</li>
+						<% [[:main, :index], [:member, :edit]].each do |url| %>
+							<% options = { class: :selected } if controller.controller_name == url[0].to_s %>
+							<%= content_tag :li, options do %>
+								<%= link_to t("members.navi." + url[0].to_s), :controller => "members/" + url[0].to_s, :action => url[1] %>
+							<% end %>
+						<% end %>
+						<li><%= link_to "Logout", logout_path %></li>
+					</ul>
+				<% end %>
+				<%= yield %>
 			</div>
 			<div class="bottom">
 				<div>

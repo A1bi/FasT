@@ -14,6 +14,9 @@ de:
     groups:
       admin: "Vorstand"
       member: "Mitglied"
+    navi:
+      main: "Hauptseite"
+      member: "Meine Mitgliedschaft"
   activerecord:
     errors:
       messages:

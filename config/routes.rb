@@ -67,6 +67,8 @@ FasT::Application.routes.draw do
 					put "finish_activation"
 				end
 			end
+			
+			root :to => "main#index"
 		end
     
   end

@@ -197,6 +197,58 @@ h3 {
 	 	background: url(/assets/content_bg.png) repeat-y;
 	 	padding: 10px 35px 10px 33px;
 	 	min-height: 550px;
+
+		ul.navi {
+			margin: 10px auto;
+			padding: 0px;
+			width: 90%;
+			display: table;
+			
+			li {
+				list-style-type: none;
+				display: table-cell;
+				text-align: center;
+				border: {
+					right: 1px solid #c99c9c;
+					bottom: 2px solid #cccccc;
+				}
+				color: white;
+				@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+				
+				&:hover:not(:first-child) {
+					@include background-gradient(top, (#ff5451 0%, red 70%));
+				}
+					
+				&:first-child {
+					width: 25%;
+					font-weight: bold;
+					text-shadow: 1px 1px 3px black;
+					border: {
+						bottom-left-radius: 10px;
+						top-left-radius: 10px;
+					}
+				}
+				
+				&:last-child {
+					border: {
+						bottom-right-radius: 10px;
+						top-right-radius: 10px;
+						right: none;
+					}
+				}
+				
+				&.selected {
+					border-bottom-color: #690000;
+				}
+				
+				a {
+					display: block;
+					color: white;
+					text-decoration: none;
+					line-height: 30px;
+				}
+			}
+		}
 	}
 
 	> .bottom {
