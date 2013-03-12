@@ -16,7 +16,7 @@ namespace :deploy do
 	
   desc "Symlink the uploads folder"
   task :symlink_uploads, roles: :app do
-    run "ln -nfs #{shared_path}/uploads #{release_path}/public/uploads"
+    run "ln -nfs #{shared_path}/uploads #{current_release}/public/uploads"
   end
   after "deploy:finalize_update", "deploy:symlink_uploads"
 end

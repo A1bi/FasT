@@ -16,7 +16,7 @@
 <% end if @_member.admin? %>
 <div class="index">
 	<div class="hl">Fotogalerie</div>
-	<%= render "new_button", :action => "neue Galerie" %>
+	<%= render "new_button", :action => "neue Galerie", :admin_required => true %>
 	<div id="galleries" data-sort-url="<%= sort_galleries_path %>">
 		<%= div_for @galleries, :class => "box" do |gallery| %>
 			<div class="top<% if @_member.admin? %> move_handle<% end %>">
