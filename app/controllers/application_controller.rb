@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   
   def restrict_access
     if !@_member.id
-      return redirect_to login_path, :alert => t("application.login_required")
+      return redirect_to members_login_path, :alert => t("application.login_required")
     elsif ![:admin, @restricted_to_group].include? @_member.group_name
       return redirect_to root_path, :alert => t("application.access_denied")
     end

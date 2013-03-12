@@ -45,18 +45,19 @@
 	</div>
 	<div id="right">
 		<div id="content">
-			<div class="top"></div>
+			<div class="top">
+				<%= link_to "Mitglieder-Login", members_login_path, :class => :login if !@_member.id %>
+			</div>
 			<div class="content">
 				<% if @_member.id %>
 					<ul class="navi">
 						<li>Mitgliederbereich</li>
-						<% [[:main, :index], [:member, :edit]].each do |url| %>
+						<% [[:main, :index], [:member, :edit], [:sessions, :destroy]].each do |url| %>
 							<% options = { class: :selected } if controller.controller_name == url[0].to_s %>
 							<%= content_tag :li, options do %>
 								<%= link_to t("members.navi." + url[0].to_s), :controller => "members/" + url[0].to_s, :action => url[1] %>
 							<% end %>
 						<% end %>
-						<li><%= link_to "Logout", logout_path %></li>
 					</ul>
 				<% end %>
 				<%= yield %>

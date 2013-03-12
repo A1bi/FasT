@@ -17,6 +17,7 @@ de:
     navi:
       main: "Hauptseite"
       member: "Meine Mitgliedschaft"
+      sessions: "Logout"
   activerecord:
     errors:
       messages:

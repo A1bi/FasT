@@ -1,4 +1,6 @@
-class SessionsController < ApplicationController
+class Members::SessionsController < Members::MembersController
+	ignore_restrictions
+	
   def create
     member = Member.where({:email => params[:email]}).first
     if member && member.authenticate(params[:password])

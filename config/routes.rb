@@ -68,13 +68,13 @@ FasT::Application.routes.draw do
 				end
 			end
 			
+			get "login" => "sessions#new", :as => :login
+			post "login" => "sessions#create"
+			get "logout" => "sessions#destroy", :as => :logout
+			
 			root :to => "main#index"
 		end
     
   end
-  
-  get "login" => "sessions#new", :as => :login
-  post "login" => "sessions#create"
-  get "logout" => "sessions#destroy", :as => :logout
 
 end

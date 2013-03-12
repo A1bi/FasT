@@ -32,6 +32,6 @@ class Members::MemberController < Members::MembersController
 	private
 	
 	def redirect_to_login
-		redirect_to login_path
+		redirect_to members_login_path
 	end
 end

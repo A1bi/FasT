@@ -190,6 +190,23 @@ h3 {
 	 	height: 55px;
 	 	width: 100%;
 	 	margin-top: 95px;
+		
+		.login {
+			position: absolute;
+			top: 28px;
+			right: 18px;
+			padding: 3px 9px;
+			border-radius: 9px 0px 0px 9px;
+			color: white;
+			font-size: 13px;
+			display: block;
+			text-decoration: none;
+			@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+			
+			&:hover {
+				@include background-gradient(top, (#ff5451 0%, red 70%));
+			}
+		}
 	}
 	
 	> .content {
