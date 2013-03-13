@@ -16,6 +16,6 @@ class Members::SessionsController < Members::MembersController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path
+    redirect_to root_path, :notice => t("sessions.logout")
   end
 end

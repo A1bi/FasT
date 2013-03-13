@@ -60,6 +60,14 @@
 						<% end %>
 					</ul>
 				<% end %>
+				<% flash.each do |type, msg| %>
+					<div class="messages <%= type %>">
+						<div class="icon"></div>
+				      <ul>
+							<li><%= msg %></li>
+						</ul>
+					</div>
+				<% end %>
 				<%= yield %>
 			</div>
 			<div class="bottom">

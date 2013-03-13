@@ -2,14 +2,15 @@ de:
   application:
     login_required: "Bitte loggen Sie sich ein, um diese Aktion auszuführen."
     access_denied: "Sie haben nicht die erforderlichen Rechte für diese Aktion."
-    saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert!"
+    saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert."
     submit_create: "erstellen"
     submit_save: "speichern"
     btn_delete: "löschen"
   gbook:
-    wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
+    wrong_code: "Der Code stimmt nicht mit der Grafik überein."
   sessions:
-    auth_error: "E-mail-Adresse oder Passwort falsch!"
+    auth_error: "E-mail-Adresse oder Passwort falsch."
+    logout: "Sie wurden erfolgreich ausgeloggt."
   members:
     groups:
       admin: "Vorstand"
@@ -21,7 +22,7 @@ de:
   activerecord:
     errors:
       messages:
-        blank: "Das Feld \"%{attribute}\" darf nicht leer sein!"
+        blank: "Das Feld \"%{attribute}\" darf nicht leer sein."
       models:
         gbook_entry:
           attributes:
