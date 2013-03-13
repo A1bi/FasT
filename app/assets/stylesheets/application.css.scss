@@ -282,6 +282,59 @@ a.delete {
 	cursor: move;
 }
 
+.messages {
+	width: 95%;
+	margin: 15px auto;
+	padding: 8px 10px;
+	color: white;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
+	overflow: auto;
+	background: #239915;
+	border: 1px solid #005806 {
+		radius: 10px;
+	}
+	
+	.icon {
+		background: url(/assets/messages.png) no-repeat;
+		width: 28px;
+		height: 24px;
+		float: left;
+		margin-right: 8px;
+	}
+	
+	ul {
+		margin: 0px;
+		padding: 0px;
+		float: left;
+		list-style-type: none;
+		
+		li {
+			padding: 3px 0px;
+		}
+	}
+	
+	&.alert {
+		border-color: #470000;
+		background: #8a0300;
+		
+		.icon {
+			width: 24px;
+			background-position: -28px 0px;
+		}
+	}
+	
+	&.warning {
+		border-color: #b57223;
+		background: #e79d34;
+		
+		.icon {
+			width: 8px;
+			margin-left: 5px;
+			background-position: -52px 0px;
+		}
+	}
+}
+
 // box
 .box {
 	width: 98%;

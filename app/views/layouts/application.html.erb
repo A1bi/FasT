@@ -47,6 +47,14 @@
 		<div id="content">
 			<div class="top"></div>
 			<div class="content">
+				<% flash.each do |type, msg| %>
+					<div class="messages <%= type %>">
+						<div class="icon"></div>
+				      <ul>
+							<li><%= msg %></li>
+						</ul>
+					</div>
+				<% end %>
 
 			<%= yield %>
 
