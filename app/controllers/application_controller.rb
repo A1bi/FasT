@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     if !@_member.id
       return redirect_to members_login_path, :flash => { :warning => t("application.login_required") }
     elsif ![:admin, @restricted_to_group].include? @_member.group_name
-      return redirect_to root_path, :alert => t("application.access_denied")
+      return redirect_to members_root_path, :alert => t("application.access_denied")
     end
   end
 	

@@ -1,0 +1,23 @@
+<%= form_for @date do |f| %>
+	<table class="rounded">
+		<tr>
+			<td>Datum</td>
+			<td><%= f.date_select :datetime %></td>
+		</tr>
+		<tr>
+			<td>Uhrzeit</td>
+			<td><%= f.time_select :datetime, :ignore_date => true %> Uhr</td>
+		</tr>
+		<tr>
+			<td>Betroffene Rollen / Szenen</td>
+			<td><%= f.text_field :info %></td>
+		</tr>
+		<tr>
+			<td>Ort</td>
+			<td><%= f.text_field :location %></td>
+		</tr>
+	</table>
+	<div class="submit">
+		<%= cond_submit f %>
+	</div>
+<% end %>

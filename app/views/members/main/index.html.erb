@@ -1,0 +1,22 @@
+<% title "Mitgliederbereich - Hauptseite" %>
+<p>Hallo <%= @_member.first_name %>!</p>
+<p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Erstmal beschränkt sich dies auf unsere Probentermine, in Zukunft werden wir diesen Bereich aber weiter ausbauen.</p>
+<div class="trenner"></div>
+<div class="hl">Probentermine</div>
+<%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
+<table class="rounded">
+	<tr>
+		<th>Datum</th>
+		<th>Uhrzeit</th>
+		<th>Betroffene Rollen / Szenen</th>
+		<th>Ort</th>
+		<% if @_member.admin? %><th></th><% end %>
+	</tr>
+	<%= content_tag_for :tr, @dates do |date| %>
+		<td><%= l date.datetime, format: "%A, %d. %B" %></td>
+		<td><%= date.datetime.strftime("%H.%M") %> Uhr</td>
+		<td><%= date.info %></td>
+		<td><%= date.location %></td>
+		<% if @_member.admin? %><td><%= link_to "bearbeiten", edit_members_date_path(date) %> <%= link_to "löschen", date, :method => :delete, :data => { :confirm => "Möchten Sie diesen Termin wirklich löschen?" } %></td><% end %>
+	<% end %>
+</table>

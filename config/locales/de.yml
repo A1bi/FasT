@@ -43,3 +43,29 @@ de:
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
   attributes:
     title: "Titel"
+  date:
+    month_names:
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
+    day_names:
+      - Sonntag
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
+    order:
+      - :day
+      - :month
+      - :year

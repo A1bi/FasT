@@ -7,7 +7,7 @@ class Members::SessionsController < Members::MembersController
       session[:user_id] = member.id
 			member.last_login = Time.zone.now
 			member.save
-      redirect_to root_path
+      redirect_to members_root_path
     else
       flash.now.alert = t("sessions.auth_error")
       render :new
