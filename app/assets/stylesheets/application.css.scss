@@ -216,21 +216,47 @@ h3 {
 	 	min-height: 550px;
 
 		ul.navi {
-			margin: 10px auto;
+			margin: auto;
 			padding: 0px;
 			width: 90%;
 			display: table;
+			
+			&:first-child {
+				li {
+					&:first-child {
+						border-top-left-radius: 10px;
+					}
+				
+					&:last-child {
+						border-top-right-radius: 10px;
+					}
+				}
+			}
+			
+			&:last-of-type {
+				margin-bottom: 15px;
+				
+				li {
+					&:first-child {
+						border-bottom-left-radius: 10px;
+					}
+				
+					&:last-child {
+						border-bottom-right-radius: 10px;
+					}
+				}
+			}
 			
 			li {
 				list-style-type: none;
 				display: table-cell;
 				text-align: center;
+				color: white;
+				@include background-gradient(top, (#ff5451 0%, #db0303 70%));
 				border: {
 					right: 1px solid #c99c9c;
 					bottom: 2px solid #cccccc;
 				}
-				color: white;
-				@include background-gradient(top, (#ff5451 0%, #db0303 70%));
 				
 				&:hover:not(:first-child) {
 					@include background-gradient(top, (#ff5451 0%, red 70%));
@@ -240,22 +266,15 @@ h3 {
 					width: 25%;
 					font-weight: bold;
 					text-shadow: 1px 1px 3px black;
-					border: {
-						bottom-left-radius: 10px;
-						top-left-radius: 10px;
-					}
 				}
 				
 				&:last-child {
-					border: {
-						bottom-right-radius: 10px;
-						top-right-radius: 10px;
-						right: none;
-					}
+					border-right: none;
 				}
 				
 				&.selected {
 					border-bottom-color: #690000;
+					text-shadow: 0px 0px 2px black;
 				}
 				
 				a {
@@ -263,6 +282,20 @@ h3 {
 					color: white;
 					text-decoration: none;
 					line-height: 30px;
+				}
+			}
+			
+			&.admins {
+				li {
+					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%));
+					
+					&:hover:not(:first-child) {
+						@include background-gradient(top, (#ffdf38 0%, #e0d702 70%));
+					}
+					
+					&.selected {
+						border-bottom-color: #64410d;
+					}
 				}
 			}
 		}

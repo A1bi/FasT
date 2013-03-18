@@ -19,6 +19,7 @@ de:
       main: "Hauptseite"
       member: "Meine Mitgliedschaft"
       sessions: "Logout"
+      members: "Mitgliederverwaltung"
   activerecord:
     errors:
       messages:
