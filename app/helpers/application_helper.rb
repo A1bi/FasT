@@ -19,11 +19,6 @@ module ApplicationHelper
     end
     form.submit :value => value
   end
-  
-  def delete_btn(obj, msg = "")
-    data = { :confirm => msg } if msg
-    link_to "X", obj, :method => :delete, :class => :delete, :title => t("application.btn_delete"), :data => data
-  end
 	
 	def nl2br(text)
 		h(text).gsub(/\n/, "<br />").html_safe

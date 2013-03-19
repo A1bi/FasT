@@ -150,9 +150,12 @@
 			position: relative;
 			margin: 15px;
 			box-shadow: 0px 0px 5px #cccccc;
+			
+			> div {
+				position: absolute;
+			}
 
 			.number {
-				position: absolute;
 				bottom: 5px;
 				left: 5px;
 				background: rgba(0, 0, 0, .7);
@@ -164,6 +167,20 @@
 				text: {
 					shadow: 1px 1px 2px black;
 					align: center;
+				}
+			}
+			
+			.actions {
+				bottom: 4px;
+				right: 5px;
+				opacity: .8;
+				
+				&:hover {
+					opacity: 1;
+				}
+				
+				a {
+					border: 1px solid white;
 				}
 			}
 		}

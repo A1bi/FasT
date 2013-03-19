@@ -373,26 +373,6 @@ input.btn {
 		height: 30px;
 	}
 }
-a.delete {
-	position: absolute;
-	right: -7px;
-	top: -12px;
-	background: rgba(0, 0, 0, .5);
-	padding: 2px 5px;
-	color: white;
-	box-shadow: 2px 2px 4px black;
-	font: {
-		weight: bold;
-		size: 12px;
-	}
-	border: 3px solid rgba(0, 0, 0, .6) {
-		radius: 50%;
-	}
-	text: {
-		shadow: 1px 1px 2px black;
-		decoration: none;
-	}
-}
 .move_handle {
 	cursor: move;
 }
@@ -494,16 +474,11 @@ a.delete {
 	
 	> .actions {
 		@include box-sky(top);
-		padding: 3px 7px;
-		font-size: 12px;
-		color: white;
+		text-align: right;
+		padding: 2px 7px;
 		border: {
 			top: 1px solid #cccccc;
 			radius: 0px 0px 10px 10px;
-		}
-		text: {
-			align: right;
-			shadow: 0px 0px 3px rgba(0, 0, 0, .9);
 		}
 	}
 
@@ -559,21 +534,21 @@ table.rounded {
 		}
 	}
 	
-	*:first-child tr {
-		&:first-child {
-			td, th {
-				border-top: $border-outer;
-				
-				&:first-child {
-					border-top-left-radius: $border-radius;
-				}
-				
-				&:last-child {
-					border-top-right-radius: $border-radius;
-				}
+	*:first-child tr:first-child {
+		td, th {
+			border-top: $border-outer;
+			
+			&:first-child {
+				border-top-left-radius: $border-radius;
+			}
+			
+			&:last-child {
+				border-top-right-radius: $border-radius;
 			}
 		}
-		
+	}
+	
+	tr {
 		&:last-child {
 			td {
 				border-bottom: $border-outer;
@@ -587,9 +562,7 @@ table.rounded {
 				}
 			}
 		}
-	}
-	
-	tr {	
+		
 		td, th {
 			border-bottom: $border-inner;
 			border-left: $border-inner;
@@ -609,7 +582,8 @@ table.rounded {
 			}
 			
 			&.actions {
-				width: 10%;
+				width: 8%;
+				text-align: center;
 			}
 		}
 		
@@ -620,6 +594,24 @@ table.rounded {
 		
 		td {
 			font-size: 13px;
+		}
+	}
+}
+
+.actions {
+	a {
+		width: 15px;
+		height: 15px;
+		background: $light-blue url(/assets/actions.png) no-repeat;
+		border-radius: 2px;
+		display: inline-block;
+		
+		&.edit {
+			background-position: 0px 1px;
+		}
+		
+		&.delete {
+			background-position: -15px 1px;
 		}
 	}
 }

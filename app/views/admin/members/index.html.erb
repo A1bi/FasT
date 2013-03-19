@@ -17,8 +17,7 @@
 				<td><%= member.last_name %></td>
 				<td><%= member.first_name %></td>
 				<td class="actions">
-					<%= link_to "bearbeiten", edit_admin_member_path(member) %>
-					<%= link_to "löschen", [:admin, member], :method => :delete, :data => { :confirm => "Möchten Sie dieses Mitglied wirklich löschen?" } %>
+					<%= render "admin_actions", :obj => [:admin, member], :delete_confirm => "dieses Mitglied" %>
 				</td>
 			</tr>
 		<% end %>

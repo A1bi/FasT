@@ -30,7 +30,10 @@
 					<% end %>
 				</a>
 			</div>
-			<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
+			<%= content_tag :div, :class => :actions do %>
+				<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
+			<% end if @_member.admin? %>
+			
 		<% end %>
 	</div>
 </div>

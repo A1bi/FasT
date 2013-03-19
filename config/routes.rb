@@ -49,7 +49,7 @@ FasT::Application.routes.draw do
 			collection do
 				post "sort"
 			end
-      resources :photos, :path => "fotos" do
+      resources :photos, :path => "fotos", :except => [:index] do
 				collection do
 					post "sort"
 				end

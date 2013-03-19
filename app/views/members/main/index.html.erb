@@ -17,6 +17,8 @@
 		<td><%= date.datetime.strftime("%H.%M") %> Uhr</td>
 		<td><%= date.info %></td>
 		<td><%= date.location %></td>
-		<% if @_member.admin? %><td><%= link_to "bearbeiten", edit_members_date_path(date) %> <%= link_to "löschen", date, :method => :delete, :data => { :confirm => "Möchten Sie diesen Termin wirklich löschen?" } %></td><% end %>
+		<%= content_tag :td, :class => :actions do %>
+			<%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
+		<% end if @_member.admin? %>
 	<% end %>
 </table>
