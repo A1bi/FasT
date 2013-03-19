@@ -10,7 +10,8 @@ class Member < ActiveRecord::Base
             :format => { :with => /^([a-z0-9-]+\.?)+@([a-z0-9-]+\.)+[a-z]{2,9}$/i }
             
   validates :password,
-            :length => { :minimum => 6 }
+            :length => { :minimum => 6 },
+						:if => :password_digest_changed?
             
 	def group_name
 		self.class.groups[self.group] || :none

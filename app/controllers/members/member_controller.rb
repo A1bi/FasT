@@ -23,6 +23,7 @@ class Members::MemberController < Members::MembersController
 	
 	def update
 		if @_member.update_attributes(params[:member], :as => :member)
+			flash.notice = t("application.saved_changes")
 			redirect_to :action => :edit
 		else
 			render :action => :edit

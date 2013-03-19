@@ -26,7 +26,7 @@ class Admin::MembersController < Admin::AdminController
 	
 	def update
 		if @member.save
-			redirect_to edit_admin_member_path(@member)
+			redirect_to edit_admin_member_path(@member), :notice => t("application.saved_changes")
 		else
 			render :action => :edit
 		end
