@@ -14,8 +14,13 @@ class Members::MemberController < Members::MembersController
 		@member.password_confirmation = params[:member][:password_confirmation]
 		if @member.valid?
 			@member.activate
+			@member.logged_in
 			@member.save
-			redirect_to root_path
+			
+			session[:user_id] = @member.id
+			
+			flash.notice = t("members.member.activated")
+			redirect_to members_root_path
 		else
 			render :action => :activate
 		end

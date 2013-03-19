@@ -37,6 +37,10 @@ class Member < ActiveRecord::Base
 		self.activation_code = nil
 	end
 	
+	def logged_in
+		self.last_login = Time.zone.now
+	end
+	
 	private
 	
 	def self.groups

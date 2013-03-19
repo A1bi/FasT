@@ -14,6 +14,7 @@ class Admin::MembersController < Admin::AdminController
 	
 	def create
 		@member.set_random_password
+		@member.set_activation_code
 		if @member.save
 			redirect_to :action => :index
 		else

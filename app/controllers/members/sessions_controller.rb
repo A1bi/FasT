@@ -5,7 +5,7 @@ class Members::SessionsController < Members::MembersController
     member = Member.where({:email => params[:email]}).first
     if member && member.authenticate(params[:password])
       session[:user_id] = member.id
-			member.last_login = Time.zone.now
+			member.logged_in
 			member.save
       redirect_to members_root_path
     else
