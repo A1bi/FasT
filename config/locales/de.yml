@@ -22,6 +22,12 @@ de:
       members: "Mitgliederverwaltung"
     member:
       activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
+  action_mailer:
+    defaults:
+      from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
+  member_mailer:
+    activation:
+      subject: "Willkommen im Mitgliederbereich!"
   activerecord:
     errors:
       messages:

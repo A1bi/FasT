@@ -24,6 +24,10 @@
 					<td>Gruppe:</td>
 					<td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
 				</tr>
+				<%= content_tag :tr do %>
+					<td>Aktivierungsmail zusenden:</td>
+					<td><%= check_box :activation, :send, :checked => true %></td>
+				<% end if @member.new_record? %>
 			</table>
 			<div class="submit">
 				<%= cond_submit f %>
