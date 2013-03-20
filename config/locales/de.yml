@@ -47,11 +47,15 @@ de:
           attributes:
             email:
               invalid: "Die e-mail-Adresse ist ungültig."
+              taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."
             password:
               confirmation: "Die Passwörter stimmen nicht überein."
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
   attributes:
     title: "Titel"
+    email: "e-mail-Adresse"
+    first_name: "Vorname"
+    last_name: "Nachname"
   date:
     month_names:
       - Januar

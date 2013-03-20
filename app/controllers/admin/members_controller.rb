@@ -16,7 +16,7 @@ class Admin::MembersController < Admin::AdminController
 		@member.set_random_password
 		@member.set_activation_code
 		if @member.save
-			MemberMailer.activation(@member).deliver if params[:activation][:send] == "1"
+			@member.send_activation_mail if params[:activation][:send] == "1"
 			
 			redirect_to :action => :index
 		else
@@ -58,6 +58,7 @@ class Admin::MembersController < Admin::AdminController
 	end
 	
 	def update_member
+		@member.email_can_be_blank = true
 		@member.assign_attributes(params[:member], :as => :admin)
 	end
 end

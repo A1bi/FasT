@@ -18,15 +18,24 @@
 				</tr>
 				<tr>
 					<td>e-mail-Adresse:</td>
-					<td><%= f.text_field :email, :required => true %></td>
+					<td><%= f.text_field :email %></td>
+				</tr>
+				<tr>
+					<td>Geburtstag:</td>
+					<td><%= f.date_select :birthday, :include_blank => true, :start_year => 1910, :end_year => Date.today.year %></td>
 				</tr>
 				<tr>
 					<td>Gruppe:</td>
 					<td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
 				</tr>
 				<%= content_tag :tr do %>
-					<td>Aktivierungsmail zusenden:</td>
-					<td><%= check_box :activation, :send, :checked => true %></td>
+					<td>
+						Aktivierungsmail zusenden:
+					</td>
+					<td>
+						<%= check_box :activation, :send, :checked => true %>
+						<div class="small">Wird nur versendet, wenn e-mail-Adresse angegeben.</div>
+					</td>
 				<% end if @member.new_record? %>
 			</table>
 			<div class="submit">
