@@ -47,8 +47,17 @@ class Member < ActiveRecord::Base
 		self.last_login = Time.zone.now
 	end
 	
+	def reset_password
+		self.set_random_password
+		self.set_activation_code
+	end
+	
 	def send_activation_mail
-		MemberMailer.activation(self).deliver if self.email.present?
+		if self.email.present?
+			MemberMailer.activation(self).deliver
+			return true
+		end
+		false
 	end
 	
 	private

@@ -13,8 +13,7 @@ class Admin::MembersController < Admin::AdminController
 	end
 	
 	def create
-		@member.set_random_password
-		@member.set_activation_code
+		@member.reset_password
 		if @member.save
 			@member.send_activation_mail if params[:activation][:send] == "1"
 			
