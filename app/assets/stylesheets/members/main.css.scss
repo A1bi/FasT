@@ -8,3 +8,13 @@
 		color: #cccccc;
 	}
 }
+.files td {
+	&:first-child {
+		width: 8%;
+		text-align: center;
+	}
+	
+	&.download {
+		width: 1%;
+	}
+}

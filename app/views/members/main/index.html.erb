@@ -1,7 +1,7 @@
 <% title "Mitgliederbereich - Hauptseite" %>
 <% include_css "members/main" %>
 <p>Hallo <%= @_member.first_name %>!</p>
-<p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Erstmal beschränkt sich dies auf unsere Probentermine, in Zukunft werden wir diesen Bereich aber weiter ausbauen.</p>
+<p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Erstmal beschränkt sich dies auf unsere Probentermine und Downloads, in Zukunft werden wir diesen Bereich aber weiter ausbauen.</p>
 <div class="trenner"></div>
 <div class="hl">Probentermine</div>
 <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
@@ -27,3 +27,21 @@
 	Abonnieren in: <%= link_to "iCal", members_dates_url(:format => :ics, :protocol => "webcal") %> | <%= link_to "Outlook", members_dates_url(:format => :ics, :protocol => "webcal") %> | 
 	<%= link_to "Google Calendar", "http://www.google.com/calendar/render?cid=" + u(members_dates_url(:format => :ics)) %>
 </div>
+<div class="trenner"></div>
+<div class="hl">Downloads</div>
+<%= render "new_button", :action => "Neue Datei", :url => new_members_file_path, :admin_required => true %>
+<table class="rounded files">
+	<%= content_tag_for :tr, @files do |file| %>
+		<td><%= image_tag "misc/files/#{File.extname(file.path)[1..-1]}.png", :alt => :pdf %></td>
+		<td>
+			<%= file.title %>
+			<div class="small">
+				<%= file.description %>
+			</div>
+		</td>
+		<td class="download"><%= link_to "download", file.path, :target => "_blank" %></td>
+		<%= content_tag :td, :class => :actions do %>
+			<%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
+		<% end if @_member.admin? %>
+	<% end %>
+</table>

@@ -68,6 +68,7 @@ FasT::Application.routes.draw do
 				end
 			end
 			resources :dates, :path => "termine", :except => [:show]
+			resources :files, :path => "dateien", :except => [:index, :show]
 			
 			get "login" => "sessions#new", :as => :login
 			post "login" => "sessions#create"
