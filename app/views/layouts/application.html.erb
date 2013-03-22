@@ -67,11 +67,11 @@
 		</div>
 	</div>
 	<% if Rails.env.production? %>
-	<% as_site = 6 %>
-	<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? "442" : "") + "/" %>
-	<script>var as_site = <%= as_site %>;</script>
-	<%= javascript_include_tag base_url + "stats.js" %>
-	<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", :alt => "" %></noscript>
+		<% as_site = 6 %>
+		<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? ":442" : "") + "/" %>
+		<script>var as_site = <%= as_site %>;</script>
+		<%= javascript_include_tag base_url + "stats.js" %>
+		<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", :alt => "" %></noscript>
 	<% end %>
 </body>
 </html>
