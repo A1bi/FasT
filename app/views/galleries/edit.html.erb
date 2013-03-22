@@ -29,8 +29,10 @@
 		<div id="photos" data-sort-url="<%= sort_gallery_photos_path(@gallery) %>">
 			<%= div_for @gallery.photos do |photo| %>
 				<%= image_tag photo.image.url(:thumb), :alt => photo.text, :class => "move_handle" %>
-				<%= link_to "", edit_gallery_photo_path(@gallery, photo), :class => "number", :title => "bearbeiten" %>
-				<%= delete_btn [@gallery, photo], "Möchten Sie dieses Foto wirklich löschen?" %>
+				<div class="number"></div>
+				<div class="actions">
+					<%= render "admin_actions", :obj => [@gallery, photo], :delete_confirm => "dieses Foto" %>
+				</div>
 			<% end %>
 		</div>
 	</div>

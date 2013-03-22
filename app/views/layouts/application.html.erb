@@ -11,8 +11,8 @@
 	<%= stylesheet_link_tag "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
 	
-	<% if content_for?(:js_file) %><%= javascript_include_tag yield(:js_file) %><% end %>
-	<% if content_for?(:css_file) %><%= stylesheet_link_tag yield(:css_file), :media => "all" %><% end %>
+	<%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
+	<%= stylesheet_link_tag yield(:css_file), :media => "all" if content_for?(:css_file) %>
 	
 	<%= yield(:head) %>
 </head>
@@ -45,8 +45,16 @@
 	</div>
 	<div id="right">
 		<div id="content">
-			<div class="top"></div>
+			<div class="top">
+				<%= link_to "Mitglieder-Login", members_login_path, :class => :login if !@_member.id %>
+			</div>
 			<div class="content">
+				<% if @_member.id %>
+					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => "members", :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
+					<% if @_member.admin? %>
+						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => "admin", :css_class => "admins", :controllers => [[:members, :index]] %>
+					<% end %>
+				<% end %>
 				<% flash.each do |type, msg| %>
 					<div class="messages <%= type %>">
 						<div class="icon"></div>
@@ -55,9 +63,7 @@
 						</ul>
 					</div>
 				<% end %>
-
-			<%= yield %>
-
+				<%= yield %>
 			</div>
 			<div class="bottom">
 				<div>

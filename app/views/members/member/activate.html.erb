@@ -1,0 +1,26 @@
+<% title "Mitgliedskonto aktivieren" %>
+<div class="hl">Willkommen im Mitgliederbereich!</div>
+<p>Hallo <%= @member.first_name %>!</p>
+<p>Bevor du dich das erste Mal im Mitgliederbereich umsiehst, musst du dein persönliches Passwort festlegen, mit dem du dich hier in Zukunft einloggen kannst.</p>
+<%= render "errors", :errors => @member.errors %>
+<%= form_for @member, :url => finish_activation_members_member_path do |f| %>
+<%= f.hidden_field :id %>
+<%= f.hidden_field :activation_code %>
+<table class="rounded panel">
+	<tr>
+		<td>e-mail Adresse:</td>
+		<td><%= @member.email %></td>
+	</tr>
+	<tr>
+		<td>Passwort:</td>
+		<td><%= f.password_field :password %></td>
+	</tr>
+	<tr>
+		<td>Passwort wiederholen:</td>
+		<td><%= f.password_field :password_confirmation %></td>
+	</tr>
+</table>
+<div class="submit">
+	<%= f.submit "speichern" %>
+</div>
+<% end %>
