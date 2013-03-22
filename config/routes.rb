@@ -67,7 +67,7 @@ FasT::Application.routes.draw do
 					put "finish_activation"
 				end
 			end
-			resources :dates, :path => "termine", :except => [:index, :show]
+			resources :dates, :path => "termine", :except => [:show]
 			
 			get "login" => "sessions#new", :as => :login
 			post "login" => "sessions#create"

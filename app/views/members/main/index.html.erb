@@ -1,4 +1,5 @@
 <% title "Mitgliederbereich - Hauptseite" %>
+<% include_css "members/main" %>
 <p>Hallo <%= @_member.first_name %>!</p>
 <p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Erstmal beschränkt sich dies auf unsere Probentermine, in Zukunft werden wir diesen Bereich aber weiter ausbauen.</p>
 <div class="trenner"></div>
@@ -22,3 +23,7 @@
 		<% end if @_member.admin? %>
 	<% end %>
 </table>
+<div class="export">
+	Abonnieren in: <%= link_to "iCal", members_dates_url(:format => :ics, :protocol => "webcal") %> | <%= link_to "Outlook", members_dates_url(:format => :ics, :protocol => "webcal") %> | 
+	<%= link_to "Google Calendar", "http://www.google.com/calendar/render?cid=" + u(members_dates_url(:format => :ics)) %>
+</div>

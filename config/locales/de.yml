@@ -22,6 +22,11 @@ de:
       members: "Mitgliederverwaltung"
     member:
       activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
+    dates:
+      ics:
+        calname: "Freilichtbühne am schiefen Turm"
+        caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
+        summary: "Theater-Probe"
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
