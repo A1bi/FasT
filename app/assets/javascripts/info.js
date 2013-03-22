@@ -15,7 +15,7 @@ function Weather() {
 	var initWeather = function () {
 		var wBox = $(".weather");
 		
-		var image = $("<img />").attr("src", "http://l.yimg.com/a/i/us/nws/weather/gr/"+weatherData.code+weatherData.daytime+".png");
+		var image = $("<img />").attr("src", "/assets/info/weather/"+weatherData.code+weatherData.daytime+".png");
 		$(".icon", wBox).append(image);
 		var weatherBox = $(".weather");
 		
@@ -39,7 +39,7 @@ function Weather() {
 $(function () {
 	// init map data
 	$.getJSON("/info/map.json", function (data) {
-		var map = new Map("map");
+		var map = new Map("map", ["/assets/info/tiles/${z}/${x}/${y}.png"]);
 		
 		$.each(data.icons, function (key, value) {
 			data.icons[key].file = '/assets/info/' + value.file;
