@@ -1,5 +1,5 @@
 var slideshow = new function () {
-	var cur;
+	var cur = 0;
 
 	var next = function () {
 		if (slides.length < 1) return;
@@ -11,7 +11,7 @@ var slideshow = new function () {
 		
 		var url =
 			"/system/photos/images/000/000/"
-			+ ("000" + currentSlide[0]).slice(currentSlide[0].toString.length)
+			+ ("000" + currentSlide[0]).slice(currentSlide[0].toString().length)
 			+ "/slide/" + currentSlide[1] + "?" + currentSlide[2];
 
 		$("#slides .ani").removeClass("ani");
@@ -37,8 +37,11 @@ var slideshow = new function () {
 	}
 
 	$(function () {
-		if (!$("body").is(".noSlides")) {
-			cur = Math.round(Math.random() * slides.length-1);
+		if (!$("body").is(".noSlides") && slides.length > 1) {
+			slides.sort(function (a, b) {
+				return 0.5 - Math.random();
+			});
+			
 			next();
 		}
 	});
