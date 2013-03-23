@@ -155,9 +155,7 @@
 				position: absolute;
 			}
 
-			.number {
-				bottom: 5px;
-				left: 5px;
+			.circle {
 				background: rgba(0, 0, 0, .7);
 				border-radius: 8px;
 				color: white;
@@ -167,6 +165,31 @@
 				text: {
 					shadow: 1px 1px 2px black;
 					align: center;
+				}
+				
+				&.number {
+					bottom: 5px;
+					left: 5px;
+				}
+				
+				&.slide {
+					top: 5px;
+					right: 5px;
+					opacity: .3;
+					
+					&.isSlide {
+						opacity: 1;
+						font-weight: bold;
+						
+						a {
+							color: $light-blue;
+						}
+					}
+					
+					a {
+						color: white;
+						text-decoration: none;
+					}
 				}
 			}
 			

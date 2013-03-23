@@ -29,4 +29,7 @@ class ApplicationController < ActionController::Base
     before_filter :restrict_access, options
   end
   
+	def disable_slides
+		@no_slides = true
+	end
 end

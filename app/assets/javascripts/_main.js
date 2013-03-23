@@ -1,18 +1,18 @@
-/*var slideshow = new function () {
-	var cur = Math.round(Math.random() * slides.length-1);
+var slideshow = new function () {
+	var cur;
 
 	var next = function () {
 		if (slides.length < 1) return;
 
-		if (Math.random() * 6 > 5) {
-			$("#slides .finished").hide();
-			$("#slides .ani").fadeOut(1500);
-			setTimeout(next, 10000);
-			return;
-		}
 		setTimeout(next, 7500);
 
 		if (++cur >= slides.length) cur = 0;
+		var currentSlide = slides[cur];
+		
+		var url =
+			"/system/photos/images/000/000/"
+			+ ("000" + currentSlide[0]).slice(currentSlide[0].toString.length)
+			+ "/slide/" + currentSlide[1] + "?" + currentSlide[2];
 
 		$("#slides .ani").removeClass("ani");
 		$("#slides .finished").first()
@@ -20,7 +20,7 @@
 		.removeClass("finished")
 		.addClass("ani")
 		.css({
-			"background-image": "url(/gfx/cache/slides/" + slides[cur] + ".jpg)"
+			"background-image": "url(" + url + ")"
 		})
 		.fadeIn(1500)
 		.animate({
@@ -38,10 +38,11 @@
 
 	$(function () {
 		if (!$("body").is(".noSlides")) {
+			cur = Math.round(Math.random() * slides.length-1);
 			next();
 		}
 	});
-};*/
+};
 
 function deobfuscate(text) {
 	return text.replace(/z|q|w|u/g, "");

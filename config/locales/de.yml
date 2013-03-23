@@ -8,9 +8,15 @@ de:
     btn_delete: "löschen"
   gbook:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein."
-  sessions:
-    auth_error: "E-mail-Adresse oder Passwort falsch."
-    logout: "Sie wurden erfolgreich ausgeloggt."
+  galleries:
+    edit:
+      is_slide:
+        false: "Dieses Foto ist nicht Teil der Diashow."
+        true: "Dieses Foto ist Teil der Diashow."
+  photos:
+    toggle_slide:
+      false: "Das Foto wurde aus der Diashow entfernt."
+      true: "Das Foto wurde zur Diashow hinzugefügt."
   members:
     groups:
       admin: "Vorstand"
@@ -20,6 +26,9 @@ de:
       member: "Mein Mitgliedskonto"
       sessions: "Logout"
       members: "Mitgliederverwaltung"
+    sessions:
+      auth_error: "E-mail-Adresse oder Passwort falsch."
+      logout: "Sie wurden erfolgreich ausgeloggt."
     member:
       activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
     dates:

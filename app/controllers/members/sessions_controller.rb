@@ -9,13 +9,13 @@ class Members::SessionsController < Members::MembersController
 			member.save
       redirect_to members_root_path
     else
-      flash.now.alert = t("sessions.auth_error")
+      flash.now.alert = t("members.sessions.auth_error")
       render :new
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path, :notice => t("sessions.logout")
+    redirect_to root_path, :notice => t("members.sessions.logout")
   end
 end

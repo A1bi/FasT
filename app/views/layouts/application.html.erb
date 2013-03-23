@@ -15,8 +15,14 @@
 	<%= stylesheet_link_tag yield(:css_file), :media => "all" if content_for?(:css_file) %>
 	
 	<%= yield(:head) %>
+	
+	<% cache "photos_slides" do %>
+		<script>
+			var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
+		</script>
+	<% end if !@no_slides %>
 </head>
-<body class="noSlides">
+<body<% if @no_slides %> class="noSlides"<% end %>>
 	<div id="sky"></div>
 	<div id="slides">
 		<div class="slide finished"></div>

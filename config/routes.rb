@@ -53,6 +53,9 @@ FasT::Application.routes.draw do
 				collection do
 					post "sort"
 				end
+				member do
+					put "toggle_slide"
+				end
 			end
 		end
     
@@ -62,7 +65,7 @@ FasT::Application.routes.draw do
 		
 		namespace :members, :path => "mitglieder" do
 			resource :member, :path => "mitgliedschaft", :controller => :member, :only => [:edit, :update] do
-				collection do
+				member do
 					get "activate", :path => "aktivieren"
 					put "finish_activation"
 				end

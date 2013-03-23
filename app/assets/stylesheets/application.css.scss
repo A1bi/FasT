@@ -13,10 +13,6 @@
 
 @import "_mixins";
 
-$faint-blue: #d7f1fb;
-$light-blue: #aae7ff;
-$dark-blue: #216bed;
-
 
 body {
 	background: #0869ed url(/assets/bg.png) repeat-x;
@@ -100,13 +96,13 @@ h3 {
 		&.ani {
 			z-index: 1;
 		}
+	}
 		
-		&.fg {
-		 	background: url(/assets/sky.png) no-repeat {
-		 		position: 0px -285px;
-			}
-		 	z-index: 2;
+	.fg {
+	 	background: url(/assets/sky.png) no-repeat {
+	 		position: 0px -285px;
 		}
+	 	z-index: 2;
 	}
 }
  
