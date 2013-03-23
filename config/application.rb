@@ -61,7 +61,5 @@ module FasT
     
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.assets.paths << Rails.root.join("lib", "assets", "javascripts")
-		
-		config.session_store :cookie_store, :secure => true
   end
 end

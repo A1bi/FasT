@@ -1,7 +1,7 @@
 <% title "Mitgliederbereich - Hauptseite" %>
 <% include_css "members/main" %>
-<p>Hallo <%= @_member.first_name %>!</p>
-<p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Erstmal beschränkt sich dies auf unsere Probentermine und Downloads, in Zukunft werden wir diesen Bereich aber weiter ausbauen.</p>
+<p><b>Hallo <%= @_member.first_name %>!</b></p>
+<p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Vorerst beschränkt sich dies auf unsere Probentermine und Downloads. In den kommenden Monaten werden wir diesen Bereich aber weiter ausbauen.</p>
 <div class="trenner"></div>
 <div class="hl">Probentermine</div>
 <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
@@ -24,8 +24,9 @@
 	<% end %>
 </table>
 <div class="export">
-	Abonnieren in: <%= link_to "iCal", members_dates_url(:format => :ics, :protocol => "webcal") %> | <%= link_to "Outlook", members_dates_url(:format => :ics, :protocol => "webcal") %> | 
-	<%= link_to "Google Calendar", "http://www.google.com/calendar/render?cid=" + u(members_dates_url(:format => :ics)) %>
+	<% webcal_url = members_dates_url(:format => :ics, :protocol => "webcal") %>
+	Abonnieren in: <%= link_to "iCal", webcal_url %> | <%= link_to "Outlook", webcal_url %> | 
+	<%= link_to "Google Calendar", "https://www.google.com/calendar/render?cid=" + webcal_url, :target => "_blank" %>
 </div>
 <div class="trenner"></div>
 <div class="hl">Downloads</div>
