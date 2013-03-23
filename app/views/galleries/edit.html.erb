@@ -29,8 +29,8 @@
 		<div id="photos" data-sort-url="<%= sort_gallery_photos_path(@gallery) %>">
 			<%= div_for @gallery.photos do |photo| %>
 				<%= image_tag photo.image.url(:thumb), :alt => photo.text, :class => "move_handle" %>
-				<%= content_tag :div, :class => [:circle, :slide, (photo.slide? ? :isSlide : nil)], :title => t(".is_slide")[photo.slide?]  do %>
-					<%= link_to "Diashow", gallery_photo_toggle_slide_path(@gallery, photo), :method => :put%>
+				<%= content_tag :div, :class => [:circle, :slide, (photo.slide? ? :isSlide : nil)], :title => t(".is_slide")[photo.slide?] do %>
+					<%= link_to "Diashow", toggle_slide_gallery_photo_path(@gallery, photo), :method => :put %>
 				<% end %>
 				<div class="circle number"></div>
 				<div class="actions">
