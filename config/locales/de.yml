@@ -46,6 +46,9 @@ de:
     errors:
       messages:
         blank: "Das Feld \"%{attribute}\" darf nicht leer sein."
+      attributes:
+        email:
+          invalid: "Die e-mail-Adresse ist ungültig."
       models:
         gbook_entry:
           attributes:
@@ -60,7 +63,6 @@ de:
         member:
           attributes:
             email:
-              invalid: "Die e-mail-Adresse ist ungültig."
               taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."
             password:
               confirmation: "Die Passwörter stimmen nicht überein."

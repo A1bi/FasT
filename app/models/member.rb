@@ -11,7 +11,7 @@ class Member < ActiveRecord::Base
   validates :email,
 						:allow_blank => true,
             :uniqueness => true,
-            :format => { :with => /^([a-z0-9-]+\.?)+@([a-z0-9-]+\.)+[a-z]{2,9}$/i }
+            :email_format => true
             
   validates :password,
             :length => { :minimum => 6 },
