@@ -1,17 +1,14 @@
 class GbookController < ApplicationController
-  
   restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
   
   before_filter :find_entry, :only => [:edit, :update, :destroy]
+	
+	cache_sweeper :gbook_entry_sweeper
   
   def index
-    @page = (params[:page].to_i < 1) ? 1 : params[:page].to_i
-    steps = 5
-    
-    @pages = (GbookEntry.count.to_f / steps.to_f).ceil;
-    @entries = GbookEntry.order(:id).reverse_order.limit(steps).offset(steps * (@page - 1))
-    
-    fresh_when last_modified: @entries.maximum(:updated_at)
+		@steps = 5
+		@page = (params[:page].to_i < 1) ? 1 : params[:page].to_i
+    @entries = GbookEntry.order(:id).reverse_order.limit(@steps).offset(@steps * (@page - 1))
   end
 
   def new
