@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
 	attr_accessible
 	attr_accessible :email, :password, :password_confirmation, :as => :member
-	attr_accessible :email, :first_name, :last_name, :group, :birthday, :as => :admin
+	attr_accessible :email, :first_name, :last_name, :nickname, :group, :birthday, :as => :admin
 	has_secure_password
 	
 	attr_accessor :email_can_be_blank
@@ -18,6 +18,10 @@ class Member < ActiveRecord::Base
 						:if => :password_digest_changed?
 						
 	validates_presence_of :first_name, :last_name
+	
+	def nickname
+		super.presence || self.first_name
+	end
             
 	def group_name
 		self.class.groups[self.group] || :none
