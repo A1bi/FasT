@@ -60,7 +60,7 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
-        member:
+        members/member:
           attributes:
             email:
               taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   protected
   
   def authenticate_user
-    @_member ||= (Member.find(session[:user_id]) if session[:user_id]) || Member.new
+    @_member ||= (Members::Member.find(session[:user_id]) if session[:user_id]) || Members::Member.new
   end
   
   def restrict_access

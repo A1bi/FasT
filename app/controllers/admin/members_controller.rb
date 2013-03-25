@@ -6,7 +6,7 @@ class Admin::MembersController < Admin::AdminController
 	before_filter :update_member, :only => [:create, :update]
 	
   def index
-    @members = Member.order(:last_name).order(:first_name)
+    @members = Members::Member.order(:last_name).order(:first_name)
   end
 	
 	def new
@@ -43,21 +43,21 @@ class Admin::MembersController < Admin::AdminController
 	
 	def find_groups
 		@groups = [];
-		Member.groups.each do |id, name|
+		Members::Member.groups.each do |id, name|
 			@groups << [t("members.groups." + name.to_s), id]
 		end
 	end
 	
 	def find_member
-		@member = Member.find(params[:id])
+		@member = Members::Member.find(params[:id])
 	end
 	
 	def prepare_new_member
-		@member = Member.new
+		@member = Members::Member.new
 	end
 	
 	def update_member
 		@member.email_can_be_blank = true
-		@member.assign_attributes(params[:member], :as => :admin)
+		@member.assign_attributes(params[:members_member], :as => :admin)
 	end
 end

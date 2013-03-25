@@ -2,7 +2,7 @@ class Members::SessionsController < Members::MembersController
 	ignore_restrictions
 	
   def create
-    member = Member.where({:email => params[:email]}).first
+    member = Members::Member.where({:email => params[:email]}).first
     if member && member.authenticate(params[:password])
       session[:user_id] = member.id
 			member.logged_in
