@@ -2,7 +2,9 @@ class PhotosController < ApplicationController
   restrict_access_to_group :admin
 	
   before_filter :find_photo, :only => [:edit, :update, :destroy, :toggle_slide]
-  before_filter :find_gallery, :only => [:new, :edit, :create]  
+  before_filter :find_gallery, :only => [:new, :edit, :create]
+	
+	cache_sweeper :gallery_sweeper, :only => [:create, :update, :destroy, :sort]
   
   def new
     @photo = @gallery.photos.new
@@ -35,9 +37,13 @@ class PhotosController < ApplicationController
   end
   
 	def sort
+		photo = nil
 		params[:photo].each_with_index do |id, index|
-			Photo.find(id).update_attribute(:position, index+1)
+			photo = Photo.find(id)
+			photo.update_column(:position, index+1)
 		end
+		photo.gallery.update_attribute(:updated_at, Time.now)
+		
 		render :nothing => true
 	end
 	

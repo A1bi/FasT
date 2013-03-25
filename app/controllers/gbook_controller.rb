@@ -3,7 +3,7 @@ class GbookController < ApplicationController
   
   before_filter :find_entry, :only => [:edit, :update, :destroy]
 	
-	cache_sweeper :gbook_entry_sweeper
+	cache_sweeper :gbook_entry_sweeper, :only => [:create, :update, :destroy]
   
   def index
 		@steps = 5

@@ -2,17 +2,19 @@
 <% include_css "galleries" %>
 <% include_js "galleries" %>
 <% content_for :head do %>
-	<script>
-		(function () {
-			var g = new Gallery("<%= @gallery.id %>");
-			g.addPics([
-		<% @photos.each do |photo| %>
-				{path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>"},
-		<% end %>
-			]);
-			g.init();
-		})();
-	</script>
+	<% cache [:galleries, :show, @gallery] do %>
+		<script>
+			(function () {
+				var g = new Gallery("<%= @gallery.id %>");
+				g.addPics([
+			<% @photos.each do |photo| %>
+					{path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>"},
+			<% end %>
+				]);
+				g.init();
+			})();
+		</script>
+	<% end %>
 <% end %>
 <div class="photoFrame">
 	<div class="photo"></div>
