@@ -1,8 +1,11 @@
-$(function () {
+$(window).load(function () {
 	var ad = $(".ad");
 	var text = $(".disclaimer", ad);
+	var prev = ad.prev();
 	
 	$("<div>").addClass("line")
 	.css({width: text.position().left}).appendTo(ad)
 	.clone().css({right: 0}).appendTo(ad);
+	
+	$("#content .content").css("min-height", ad.outerHeight(true) + prev.position().top + prev.outerHeight(true));
 });
