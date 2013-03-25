@@ -11,12 +11,18 @@
 	<%= stylesheet_link_tag "application", :media => "all" %>
 	<%= javascript_include_tag "application" %>
 	
-	<% if content_for?(:js_file) %><%= javascript_include_tag yield(:js_file) %><% end %>
-	<% if content_for?(:css_file) %><%= stylesheet_link_tag yield(:css_file), :media => "all" %><% end %>
+	<%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
+	<%= stylesheet_link_tag yield(:css_file), :media => "all" if content_for?(:css_file) %>
 	
 	<%= yield(:head) %>
+	
+	<% cache "photos_slides" do %>
+		<script>
+			var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
+		</script>
+	<% end if !@no_slides %>
 </head>
-<body class="noSlides">
+<body<% if @no_slides %> class="noSlides"<% end %>>
 	<div id="sky"></div>
 	<div id="slides">
 		<div class="slide finished"></div>
@@ -45,11 +51,25 @@
 	</div>
 	<div id="right">
 		<div id="content">
-			<div class="top"></div>
+			<div class="top">
+				<%= link_to "Mitglieder-Login", members_login_path, :class => :login if !@_member.id %>
+			</div>
 			<div class="content">
-
-			<%= yield %>
-
+				<% if @_member.id %>
+					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => "members", :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
+					<% if @_member.admin? %>
+						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => "admin", :css_class => "admins", :controllers => [[:members, :index]] %>
+					<% end %>
+				<% end %>
+				<% flash.each do |type, msg| %>
+					<div class="messages <%= type %>">
+						<div class="icon"></div>
+				      <ul>
+							<li><%= msg %></li>
+						</ul>
+					</div>
+				<% end %>
+				<%= yield %>
 			</div>
 			<div class="bottom">
 				<div>
@@ -59,11 +79,11 @@
 		</div>
 	</div>
 	<% if Rails.env.production? %>
-	<% as_site = 6 %>
-	<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? "442" : "") + "/" %>
-	<script>var as_site = <%= as_site %>;</script>
-	<%= javascript_include_tag base_url + "stats.js" %>
-	<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", :alt => "" %></noscript>
+		<% as_site = 6 %>
+		<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? ":442" : "") + "/" %>
+		<script>var as_site = <%= as_site %>;</script>
+		<%= javascript_include_tag base_url + "stats.js" %>
+		<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", :alt => "" %></noscript>
 	<% end %>
 </body>
 </html>

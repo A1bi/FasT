@@ -1,4 +1,4 @@
-<% if @_member.admin? %>
+<% if !(admin_required ||= false) || @_member.admin? %>
 	<% url ||= { :action => "new" } %>
 	<div class="new_element">
 		<%= link_to url do %>

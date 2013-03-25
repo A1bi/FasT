@@ -5,23 +5,23 @@
 		</div>
 		Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
 		<%= render "new_button", :action => "eintragen" %>
-		<div class="pages">
-			Seite: <%= render_pages %>
-		</div>
-		<% @entries.each do |entry| %>
-			<div class="box">
-				<div class="top">
-					<%= entry.author %>
-				</div>
-				<div class="con">
-					<div style="text-align: right; font-size: 12px;">
-						am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
+		<%= render "page_navi" %>
+		<% cache [:gbook_page, @page, @_member.admin?] do %>
+			<% @entries.each do |entry| %>
+				<div class="box">
+					<div class="top">
+						<%= entry.author %>
 					</div>
-					<%= nl2br entry.text %>
+					<div class="con">
+						<div style="text-align: right; font-size: 12px;">
+							am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
+						</div>
+						<%= nl2br entry.text %>
+					</div>
+					<%= content_tag :div, :class => :actions do %>
+						<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
+					<% end if @_member.admin? %>
 				</div>
-				<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
-			</div>
+			<% end %>
 		<% end %>
-		<div class="pages">
-			Seite: <%= render_pages %>
-		</div>
+		<%= render "page_navi" %>

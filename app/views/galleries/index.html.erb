@@ -14,25 +14,29 @@
 		});
 	</script>
 <% end if @_member.admin? %>
+<% cache [:galleries, :index, :all, @_member.admin?] do %>
 <div class="index">
-	<div class="hl">
-		Fotogalerie
-	</div>
-	<%= render "new_button", :action => "neue Galerie" %>
+	<div class="hl">Fotogalerie</div>
+	<%= render "new_button", :action => "neue Galerie", :admin_required => true %>
 	<div id="galleries" data-sort-url="<%= sort_galleries_path %>">
 		<%= div_for @galleries, :class => "box" do |gallery| %>
-			<div class="top<% if @_member.admin? %> move_handle<% end %>">
-				<%= gallery.title %>
-			</div>
-			<div class="con">
-				<a href="<%= gallery_path(gallery) %>">
-					<% gallery.photos.limit(4).each_with_index do |photo, i| %>
-						<% bound = (i == 0) ? "first" : ((i == 3) ? "last" : "") if !@_member.admin? %>
-						<%= image_tag photo.image.url(:thumb), :alt => "", :class => "photo" %>
-					<% end %>
-				</a>
-			</div>
-			<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
+			<% cache [:galleries, :index, gallery, @_member.admin?] do %>
+				<div class="top<% if @_member.admin? %> move_handle<% end %>">
+					<%= gallery.title %>
+				</div>
+				<div class="con">
+					<a href="<%= gallery_path(gallery) %>">
+						<% gallery.photos.limit(4).each_with_index do |photo, i| %>
+							<% bound = (i == 0) ? "first" : ((i == 3) ? "last" : "") if !@_member.admin? %>
+							<%= image_tag photo.image.url(:thumb), :alt => "", :class => "photo #{bound}" %>
+						<% end %>
+					</a>
+				</div>
+				<%= content_tag :div, :class => :actions do %>
+					<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
+				<% end if @_member.admin? %>
+			<% end %>
 		<% end %>
 	</div>
 </div>
+<% end %>

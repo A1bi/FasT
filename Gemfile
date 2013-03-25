@@ -25,6 +25,8 @@ gem 'paperclip', '~> 3.0'
 
 gem 'bcrypt-ruby'
 
+gem 'icalendar'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -38,6 +40,7 @@ gem 'unicorn'
 group :development do
   gem "capistrano"
 	gem 'sqlite3'
+	gem "ffaker"
 end
 
 group :production do

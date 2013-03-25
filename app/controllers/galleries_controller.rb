@@ -1,24 +1,17 @@
 class GalleriesController < ApplicationController
-  
   restrict_access_to_group :admin, :except => [:index, :show]
   
+	before_filter :disable_slides, :except => [:index]
   before_filter :find_gallery, :only => [:show, :edit, :update, :destroy]
-  
-  def find_gallery
-    @gallery = Gallery.find(params[:id])
-  end
-  
+	
+	cache_sweeper :gallery_sweeper, :only => [:create, :update, :destroy, :sort]
   
   def index
     @galleries = Gallery.order(:position)
-    
-    fresh_when last_modified: @galleries.maximum(:updated_at)
   end
 
   def show
     @photos = @gallery.photos
-    
-    fresh_when last_modified: @gallery.updated_at
   end
   
   def new
@@ -59,4 +52,10 @@ class GalleriesController < ApplicationController
 		end
 		render :nothing => true
 	end
+	
+	private
+	
+  def find_gallery
+    @gallery = Gallery.find(params[:id])
+  end
 end

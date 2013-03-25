@@ -17,18 +17,6 @@
 					<td>Ihre Nachricht:</td>
 					<td><%= f.text_area :text, :required => true %></td>
 				</tr>
-				<% if @entry.new_record? %>
-				<tr>
-					<td>
-						Sicherheitscode:<br />
-						<%= image_tag "http://system.albisigns.de/gfx/captcha/" + @codeNr.to_s + ".jpg", :alt => "" %>
-					</td>
-					<td class="code">
-						<%= text_field :add, :code, :required => true, :size => 4 %>
-						<div>Geben Sie einfach die vier Zeichen aus der Grafik in dieses Feld ein.</div>
-					</td>
-				</tr>
-				<% end %>
 			</table>
 			<div class="submit">
 				<%= f.submit :value => "eintragen" %>

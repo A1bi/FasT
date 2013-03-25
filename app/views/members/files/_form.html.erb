@@ -1,0 +1,19 @@
+<%= form_for @file do |f| %>
+	<table class="rounded">
+		<tr>
+			<td>Titel</td>
+			<td><%= f.text_field :title %></td>
+		</tr>
+		<tr>
+			<td>Beschreibung</td>
+			<td><%= f.text_field :description %></td>
+		</tr>
+		<tr>
+			<td>Pfad</td>
+			<td><%= f.text_field :path %></td>
+		</tr>
+	</table>
+	<div class="submit">
+		<%= cond_submit f %>
+	</div>
+<% end %>

@@ -2,24 +2,58 @@ de:
   application:
     login_required: "Bitte loggen Sie sich ein, um diese Aktion auszuführen."
     access_denied: "Sie haben nicht die erforderlichen Rechte für diese Aktion."
-    saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert!"
+    saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert."
     submit_create: "erstellen"
     submit_save: "speichern"
     btn_delete: "löschen"
   gbook:
-    wrong_code: "Der Code stimmt nicht mit der Grafik überein!"
-  sessions:
-    auth_error: "E-mail-Adresse oder Passwort falsch!"
+    wrong_code: "Der Code stimmt nicht mit der Grafik überein."
+  galleries:
+    edit:
+      is_slide:
+        false: "Dieses Foto ist nicht Teil der Diashow."
+        true: "Dieses Foto ist Teil der Diashow."
+  photos:
+    toggle_slide:
+      false: "Das Foto wurde aus der Diashow entfernt."
+      true: "Das Foto wurde zur Diashow hinzugefügt."
+  members:
+    groups:
+      admin: "Vorstand"
+      member: "Mitglied"
+    navi:
+      main: "Hauptseite"
+      member: "Mein Mitgliedskonto"
+      sessions: "Logout"
+      members: "Mitgliederverwaltung"
+    sessions:
+      auth_error: "E-mail-Adresse oder Passwort falsch."
+      logout: "Sie wurden erfolgreich ausgeloggt."
+    member:
+      activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
+    dates:
+      ics:
+        calname: "Freilichtbühne am schiefen Turm"
+        caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
+        summary: "Theater-Probe"
   tickets:
     errors:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
       seat_taken: "Ihr gewählter Sitzplatz wurde in der Zwischenzeit von jemand anderem reserviert. Bitte wählen Sie einen anderen Platz."
       date_not_found: "Das gewählte Datum wurde nicht gefunden."
-    
+  action_mailer:
+    defaults:
+      from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
+  member_mailer:
+    activation:
+      subject: "Willkommen im Mitgliederbereich!"
   activerecord:
     errors:
       messages:
-        blank: "Das Feld \"%{attribute}\" darf nicht leer sein!"
+        blank: "Das Feld \"%{attribute}\" darf nicht leer sein."
+      attributes:
+        email:
+          invalid: "Die e-mail-Adresse ist ungültig."
       models:
         gbook_entry:
           attributes:
@@ -31,17 +65,48 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
-              
+        members/member:
+          attributes:
+            email:
+              taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."
+            password:
+              confirmation: "Die Passwörter stimmen nicht überein."
+              too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
   attributes:
     title: "Titel"
-    
+    email: "e-mail-Adresse"
+    first_name: "Vorname"
+    last_name: "Nachname"
+  date:
+    month_names:
+      - 
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
+    day_names:
+      - Sonntag
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
+    order:
+      - :day
+      - :month
+      - :year
   number:
     currency:
       format:
         format: "%n %u"
         unit: "€"
         separator: ","
-        
-  date:
-    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
-    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]

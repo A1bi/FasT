@@ -1,0 +1,9 @@
+<%= content_tag :ul, class: ["navi", (css_class ||= nil)] do %>
+	<li><%= title %></li>
+	<% controllers.each do |url| %>
+		<% options = { class: :selected } if controller.controller_name == url[0].to_s %>
+		<%= content_tag :li, options do %>
+			<%= link_to t("members.navi." + url[0].to_s), :controller => namespace + "/" + url[0].to_s, :action => url[1] %>
+		<% end %>
+	<% end %>
+<% end %>

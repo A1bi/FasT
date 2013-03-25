@@ -9,6 +9,14 @@ end
 
 namespace :deploy do
   task :install do
-    run "mkdir -p #{shared_path}/config"
+		%w[config uploads].each do |dir|
+    	run "mkdir -p #{shared_path}/#{dir}"
+		end
   end
+	
+  desc "Symlink the uploads folder"
+  task :symlink_uploads, roles: :app do
+    run "ln -nfs #{shared_path}/uploads #{current_release}/public/uploads"
+  end
+  after "deploy:finalize_update", "deploy:symlink_uploads"
 end

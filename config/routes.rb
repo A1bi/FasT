@@ -49,11 +49,36 @@ FasT::Application.routes.draw do
 			collection do
 				post "sort"
 			end
-      resources :photos, :path => "fotos" do
+      resources :photos, :path => "fotos", :except => [:index] do
 				collection do
 					post "sort"
 				end
+				member do
+					put "toggle_slide"
+				end
 			end
+		end
+    
+  	namespace :admin, :path => "vorstand" do
+  		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members
+			resources :seats, :path => "sitzplan", :except => [:new]
+  	end
+		
+		namespace :members, :path => "mitglieder" do
+			resource :member, :path => "mitgliedschaft", :controller => :member, :only => [:edit, :update] do
+				member do
+					get "activate", :path => "aktivieren"
+					put "finish_activation"
+				end
+			end
+			resources :dates, :path => "termine", :except => [:show]
+			resources :files, :path => "dateien", :except => [:index, :show]
+			
+			get "login" => "sessions#new", :as => :login
+			post "login" => "sessions#create"
+			get "logout" => "sessions#destroy", :as => :logout
+			
+			root :to => "main#index"
 		end
     
   end
@@ -64,14 +89,6 @@ FasT::Application.routes.draw do
 		post "reserve_seat", :as => :tickets_reserve_seat
 		post "update_order", :as => :tickets_update_order
 		get "order_info", :as => :tickets_order_info
-	end
-  
-  get "login" => "sessions#new", :as => :login
-  post "login" => "sessions#create"
-  get "logout" => "sessions#destroy", :as => :logout
-	
-	namespace :admin, :path => "vorstand" do
-		resources :seats, :path => "sitzplan", :except => [:new]
 	end
 
 end

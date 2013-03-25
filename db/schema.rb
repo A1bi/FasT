@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225205413) do
+ActiveRecord::Schema.define(:version => 20130325133347) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -28,7 +28,23 @@ ActiveRecord::Schema.define(:version => 20130225205413) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "members", :force => true do |t|
+  create_table "members_dates", :force => true do |t|
+    t.datetime "datetime"
+    t.string   "info"
+    t.string   "location"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "members_files", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "path"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "members_members", :force => true do |t|
     t.string   "email"
     t.string   "password_digest"
     t.string   "first_name"
@@ -37,18 +53,22 @@ ActiveRecord::Schema.define(:version => 20130225205413) do
     t.datetime "last_login"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "activation_code"
+    t.date     "birthday"
+    t.string   "nickname"
   end
 
   create_table "photos", :force => true do |t|
     t.string   "text"
     t.integer  "position"
     t.integer  "gallery_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.boolean  "is_slide",           :default => false
   end
 
   create_table "tickets_blocks", :force => true do |t|

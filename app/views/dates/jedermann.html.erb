@@ -1,6 +1,18 @@
 <% title "Termine - Sommernachtstheater 2013 - Jedermann"%>
-<div class="hcen" style="margin-top: 100px;">
-	<%= image_tag "theater/jedermann/teaser.png", :alt => "Jedermann 2013" %>
+<% include_css "dates" %>
+<div class="jedermann hcen">
+	<%= render "jedermann_banner" %>
 	<div class="trenner"></div>
+	<div class="hl">Aufführungen</div>
+	<table class="rounded panel">
+		<% [16, 17, 23, 24, 30, 31].each do |day| %>
+			<% date = Date.new(2013,8,day) %>
+			<tr>
+				<td class="day"><%= l date, format: "%A" %></td>
+				<td class="date"><%= l date, format: "%d. %B %Y" %></td>
+				<td class="time">20 Uhr</td>
+			</tr>
+		<% end %>
+	</table>
 	<p>Weitere Informationen folgen bald!</p>
 </div>

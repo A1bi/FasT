@@ -96,13 +96,13 @@ h3 {
 		&.ani {
 			z-index: 1;
 		}
+	}
 		
-		&.fg {
-		 	background: url(/assets/sky.png) no-repeat {
-		 		position: 0px -285px;
-			}
-		 	z-index: 2;
+	.fg {
+	 	background: url(/assets/sky.png) no-repeat {
+	 		position: 0px -285px;
 		}
+	 	z-index: 2;
 	}
 }
  
@@ -186,13 +186,115 @@ h3 {
 	 	height: 55px;
 	 	width: 100%;
 	 	margin-top: 95px;
+		
+		.login {
+			position: absolute;
+			top: 28px;
+			right: 18px;
+			padding: 3px 9px;
+			border-radius: 9px 0px 0px 9px;
+			color: white;
+			font-size: 13px;
+			display: block;
+			text-decoration: none;
+			@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+			
+			&:hover {
+				@include background-gradient(top, (#ff5451 0%, red 70%));
+			}
+		}
 	}
 	
 	> .content {
 		position: relative;
 	 	background: url(/assets/content_bg.png) repeat-y;
-	 	padding: 10px 33px;
+	 	padding: 10px 35px 10px 33px;
 	 	min-height: 550px;
+
+		ul.navi {
+			margin: auto;
+			padding: 0px;
+			width: 90%;
+			display: table;
+			
+			&:first-child {
+				li {
+					&:first-child {
+						border-top-left-radius: 10px;
+					}
+				
+					&:last-child {
+						border-top-right-radius: 10px;
+					}
+				}
+			}
+			
+			&:last-of-type {
+				margin-bottom: 15px;
+				
+				li {
+					&:first-child {
+						border-bottom-left-radius: 10px;
+					}
+				
+					&:last-child {
+						border-bottom-right-radius: 10px;
+					}
+				}
+			}
+			
+			li {
+				list-style-type: none;
+				display: table-cell;
+				text-align: center;
+				color: white;
+				@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+				border: {
+					right: 1px solid #c99c9c;
+					bottom: 2px solid #cccccc;
+				}
+				
+				&:hover:not(:first-child) {
+					@include background-gradient(top, (#ff5451 0%, red 70%));
+				}
+					
+				&:first-child {
+					width: 25%;
+					font-weight: bold;
+					text-shadow: 1px 1px 3px black;
+				}
+				
+				&:last-child {
+					border-right: none;
+				}
+				
+				&.selected {
+					border-bottom-color: #690000;
+					text-shadow: 0px 0px 2px black;
+				}
+				
+				a {
+					display: block;
+					color: white;
+					text-decoration: none;
+					line-height: 30px;
+				}
+			}
+			
+			&.admins {
+				li {
+					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%));
+					
+					&:hover:not(:first-child) {
+						@include background-gradient(top, (#ffdf38 0%, #e0d702 70%));
+					}
+					
+					&.selected {
+						border-bottom-color: #64410d;
+					}
+				}
+			}
+		}
 	}
 
 	> .bottom {
@@ -258,49 +360,108 @@ input.btn {
 	width: 120px;
 	height: 30px;
 }
-a.delete {
-	position: absolute;
-	right: -7px;
-	top: -12px;
-	background: rgba(0, 0, 0, .5);
-	padding: 2px 5px;
-	color: white;
-	box-shadow: 2px 2px 4px black;
-	font: {
-		weight: bold;
-		size: 12px;
-	}
-	border: 3px solid rgba(0, 0, 0, .6) {
-		radius: 50%;
-	}
-	text: {
-		shadow: 1px 1px 2px black;
-		decoration: none;
+.submit {
+	text-align: center;
+	margin: 10px;
+
+	input {
+		width: 100px;
+		height: 30px;
 	}
 }
 .move_handle {
 	cursor: move;
 }
 
+.messages {
+	width: 95%;
+	margin: 15px auto;
+	padding: 8px 10px;
+	color: white;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
+	overflow: auto;
+	background: #239915;
+	border: 1px solid #005806 {
+		radius: 10px;
+	}
+	
+	.icon {
+		background: url(/assets/messages.png) no-repeat;
+		width: 28px;
+		height: 24px;
+		float: left;
+		margin-right: 8px;
+	}
+	
+	ul {
+		margin: 0px;
+		padding: 0px;
+		float: left;
+		list-style-type: none;
+		
+		li {
+			padding: 3px 0px;
+		}
+	}
+	
+	&.alert {
+		border-color: #470000;
+		background: #8a0300;
+		
+		.icon {
+			width: 24px;
+			background-position: -28px 0px;
+		}
+	}
+	
+	&.warning {
+		border-color: #b57223;
+		background: #e79d34;
+		
+		.icon {
+			width: 8px;
+			margin-left: 5px;
+			background-position: -52px 0px;
+		}
+	}
+}
+
+
+@mixin box-border {
+	border-radius: 10px;
+}
+
+@mixin box-shadow {
+	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px $faint-blue;
+}
+
+@mixin box-shadow-border {
+	@include box-border;
+	@include box-shadow;
+	border: 1px solid $light-blue;
+}
+
+@mixin box-sky($position: center) {
+	background: url(/assets/sky.png) no-repeat $position;
+}
+
+@mixin box-white-text {
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
+	color: white;
+}
+
 // box
 .box {
 	width: 98%;
 	margin: 15px auto;
-	box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
-	border: 1px solid #aae7ff {
-		radius: 10px;
-	}
+	@include box-shadow-border;
 	
 	> .top {
+		@include box-border;
+		@include box-sky;
+		@include box-white-text;
 		padding: 3px 10px;
-		color: #ffffff;
-		text-shadow: #000000 1px 1px 3px;
 		font-size: 17px;
-		background: url(/assets/sky.png) no-repeat center;
-		border: {
-			bottom: 1px solid #d7f1fb;
-			radius: 10px;
-		}
 	}
 
 	> .con {
@@ -308,17 +469,12 @@ a.delete {
 	}
 	
 	> .actions {
-		padding: 3px 7px;
-		background: url(/assets/sky.png) no-repeat top;
-		font-size: 12px;
-		color: white;
+		@include box-sky(top);
+		text-align: right;
+		padding: 2px 7px;
 		border: {
 			top: 1px solid #cccccc;
 			radius: 0px 0px 10px 10px;
-		}
-		text: {
-			align: right;
-			shadow: 0px 0px 3px rgba(0, 0, 0, .9);
 		}
 	}
 
@@ -331,17 +487,13 @@ a.delete {
 	text-align: right;
 	
 	> a {
-		box-shadow: 0px 2px 4px 1px #e1e1e1, inset 0 0 2px 2px #d7f1fb;
-		background: url(/assets/sky.png) no-repeat center;
+		@include box-shadow-border;
+		@include box-sky;
+		@include box-white-text;
 		overflow: auto;
-		color: white;
 		display: inline-block;
 		padding: 0px 7px;
-		text-shadow: 1px 1px 3px rgba(0, 0, 0, .8);
 		margin: 10px;
-		border: 1px solid #aae7ff {
-			radius: 10px;
-		}
 		
 		> div {
 			float: left;
@@ -355,6 +507,107 @@ a.delete {
 		
 		> .action {
 			padding-top: 5px;
+		}
+	}
+}
+
+table.rounded {
+	$border-radius: 10px;
+	$border-inner: 1px $faint-blue solid;
+	$border-outer: 1px $light-blue solid;
+	
+	@include box-border;
+	@include box-shadow;
+	border-spacing: 0px;
+	
+	&.panel {
+		width: 60%;
+		margin: auto;
+		margin-top: 30px;
+		
+		td, th {
+			padding: 6px 10px;
+		}
+	}
+	
+	*:first-child tr:first-child {
+		td, th {
+			border-top: $border-outer;
+			
+			&:first-child {
+				border-top-left-radius: $border-radius;
+			}
+			
+			&:last-child {
+				border-top-right-radius: $border-radius;
+			}
+		}
+	}
+	
+	tr {
+		&:last-child {
+			td {
+				border-bottom: $border-outer;
+				
+				&:first-child {
+					border-bottom-left-radius: $border-radius;
+				}
+				
+				&:last-child {
+					border-bottom-right-radius: $border-radius;
+				}
+			}
+		}
+		
+		td, th {
+			border-bottom: $border-inner;
+			border-left: $border-inner;
+			padding: 3px 5px;
+			
+			&:first-child {
+				border-left: $border-outer;
+			}
+			
+			&:last-child {
+				border-right: $border-outer;
+			}
+			
+			&.id {
+				width: 7%;
+				text-align: center;
+			}
+			
+			&.actions {
+				width: 8%;
+				text-align: center;
+			}
+		}
+		
+		th {
+			@include box-sky;
+			@include box-white-text;
+		}
+		
+		td {
+			font-size: 13px;
+		}
+	}
+}
+
+.actions {
+	a {
+		width: 15px;
+		height: 15px;
+		background: $light-blue url(/assets/actions.png) no-repeat;
+		border-radius: 2px;
+		display: inline-block;
+		
+		&.edit {
+			background-position: 0px 1px;
+		}
+		
+		&.delete {
+			background-position: -15px 1px;
 		}
 	}
 }

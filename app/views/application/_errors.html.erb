@@ -1,9 +1,10 @@
 <% if errors.any? %>
-  <div class="msg">
-    <ul>
-    <% errors.each do |attr, msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
+	<div class="messages alert">
+		<div class="icon"></div>
+      <ul>
+	      <% errors.each do |attr, msg| %>
+				<%= content_tag :li, msg %>
+	      <% end %>
+      </ul>
+	</div>
 <% end %>
