@@ -28,7 +28,7 @@ module Admin
 	
 		def update
 			if @member.save
-				redirect_to edit_admin_member_path(@member), :notice => t("application.saved_changes")
+				redirect_to edit_admin_members_member_path(@member), :notice => t("application.saved_changes")
 			else
 				render :action => :edit
 			end

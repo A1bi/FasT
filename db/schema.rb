@@ -28,20 +28,6 @@ ActiveRecord::Schema.define(:version => 20130325133347) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "members_members", :force => true do |t|
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "group"
-    t.datetime "last_login"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.string   "activation_code"
-    t.date     "birthday"
-    t.string   "nickname"
-  end
-
   create_table "members_dates", :force => true do |t|
     t.datetime "datetime"
     t.string   "info"
@@ -56,6 +42,20 @@ ActiveRecord::Schema.define(:version => 20130325133347) do
     t.string   "path"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "members_members", :force => true do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "group"
+    t.datetime "last_login"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "activation_code"
+    t.date     "birthday"
+    t.string   "nickname"
   end
 
   create_table "photos", :force => true do |t|

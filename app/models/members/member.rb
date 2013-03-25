@@ -22,6 +22,10 @@ class Members::Member < ActiveRecord::Base
 	def nickname
 		super.presence || self.first_name
 	end
+	
+	def group
+		self[:group] || 1
+	end
             
 	def group_name
 		self.class.groups[self.group] || :none
