@@ -61,7 +61,7 @@ FasT::Application.routes.draw do
     
   	namespace :admin, :path => "vorstand" do
   		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members
-			resources :seats, :path => "sitzplan", :except => [:new]
+			resources :seats, :path => "sitzplan", :except => [:new, :edit, :show]
   	end
 		
 		namespace :members, :path => "mitglieder" do

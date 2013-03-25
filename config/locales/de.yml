@@ -26,6 +26,7 @@ de:
       member: "Mein Mitgliedskonto"
       sessions: "Logout"
       members: "Mitgliederverwaltung"
+      seats: "Sitzplan"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."

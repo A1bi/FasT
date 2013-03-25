@@ -44,18 +44,29 @@ event = Tickets::Event.create(name: "Test-Event")
 end
 
 # seat blocks
+colors = %w(red green blue)
+x = 5
+y = 10
 3.times do |i|
-	block = Tickets::Block.create(name: (i+1).to_s)
+	block = Tickets::Block.create(name: (i+1).to_s, color: colors[i])
 	
 	# seats
-	4.times do |row|
-		10.times do |number|
+	x2 = nil
+	6.times do |row|
+		x2 = x
+		y2 = y + row * 5
+		6.times do |number|
 			seat = block.seats.new
 			seat.number = number+1
 			seat.row = row+1
+			seat.position_x = x2
+			seat.position_y = y2
 			seat.save
+			x2 = x2 + 4.1
 		end
 	end
+	
+	x = x2 + 6
 end
 
 # ticket types
