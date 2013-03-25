@@ -40,6 +40,7 @@ gem 'unicorn'
 group :development do
   gem "capistrano"
 	gem 'sqlite3'
+	gem "ffaker"
 end
 
 group :production do
