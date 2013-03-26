@@ -64,7 +64,7 @@
 		<table class="inner">
 			<tr>
 				<td>Anrede:</td>
-				<td><select name="gender"><option value="1">Frau</option><option value="2">Herr</option></select></td>
+				<td><%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %></td>
 			</tr>
 			<tr>
 				<td>Vorname:</td>
