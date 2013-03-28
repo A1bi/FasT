@@ -13,10 +13,12 @@ $dark-blue: #216bed;
 	@include vendor-specific(transition, $property $duration);
 }
 
-@mixin background-gradient($pos, $colors) {
+@mixin background-gradient($pos, $colors, $fallback: "") {
+	@if $fallback != "" { background: $fallback; }
  	background: -moz-linear-gradient($pos, $colors);
  	background: -webkit-linear-gradient($pos, $colors);
  	background: -o-linear-gradient($pos, $colors);
+	background: -ms-linear-gradient($pos, $colors);
 }
 
 @mixin font-face($name) {

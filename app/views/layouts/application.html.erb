@@ -52,10 +52,10 @@
 	<div id="right">
 		<div id="content">
 			<div class="top">
-				<%= link_to "Mitglieder-Login", members_login_path, :class => :login if !@_member.id %>
+				<%= link_to "Mitglieder-Login", members_login_path, :class => :login if !@no_member_controls && !@_member.id %>
 			</div>
 			<div class="content">
-				<% if @_member.id %>
+				<% if !@no_member_controls && @_member.id %>
 					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => "members", :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
 					<% if @_member.admin? %>
 						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => "admin", :css_class => "admins", :controllers => [[:members, :index]] %>

@@ -153,14 +153,14 @@ h3 {
 			
 			&.spacer {
 		 		margin-left: 5px;
-			 	background: #ffffff;
 			 	@include background-gradient(
 					left bottom,
 					(
 						rgba(255, 255, 255, 0) 0%,
 						rgba(255, 255, 255, 1) 50%,
 						rgba(255, 255, 255, 0) 100%
-					)
+					),
+					white
 				);
 			 	padding: 0px;
 			 	height: 2px;
@@ -197,10 +197,10 @@ h3 {
 			font-size: 13px;
 			display: block;
 			text-decoration: none;
-			@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+			@include background-gradient(top, (#ff5451 0%, #db0303 70%), #db0303);
 			
 			&:hover {
-				@include background-gradient(top, (#ff5451 0%, red 70%));
+				@include background-gradient(top, (#ff5451 0%, red 70%), red);
 			}
 		}
 	}
@@ -248,14 +248,14 @@ h3 {
 				display: table-cell;
 				text-align: center;
 				color: white;
-				@include background-gradient(top, (#ff5451 0%, #db0303 70%));
+				@include background-gradient(top, (#ff5451 0%, #db0303 70%), #db0303);
 				border: {
 					right: 1px solid #c99c9c;
 					bottom: 2px solid #cccccc;
 				}
 				
 				&:hover:not(:first-child) {
-					@include background-gradient(top, (#ff5451 0%, red 70%));
+					@include background-gradient(top, (#ff5451 0%, red 70%), red);
 				}
 					
 				&:first-child {
@@ -283,10 +283,10 @@ h3 {
 			
 			&.admins {
 				li {
-					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%));
+					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%), #e2c939);
 					
 					&:hover:not(:first-child) {
-						@include background-gradient(top, (#ffdf38 0%, #e0d702 70%));
+						@include background-gradient(top, (#ffdf38 0%, #e0d702 70%), #e0d702);
 					}
 					
 					&.selected {

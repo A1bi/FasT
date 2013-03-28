@@ -1,37 +1,54 @@
-.contact {
-	float: left;
-	width: 49%;
-}
+.impressum {
+	overflow: auto;
 
-.webdesign {
-	float: right;
-	width: 48%;
-
-	.con {
-		overflow: auto;
-		width: 100%;
-	}
-
-	.logo {
+	.contact {
 		float: left;
-		margin: 7px;
+		width: 60%;
+		
+		hr {
+			width: 90%;
+			height: 0px;
+			margin: 15px auto;
+			border: {
+				top: none;
+				bottom-color: #cccccc;
+			}
+		}
+	
+		.board {
+			overflow: auto;
+		
+			div {
+				float: left;
+			
+				&:first-child {
+					padding-right: 50px;
+				}
+			}
+		}
+		
+		.links {
+			margin-bottom: 5px;
+			color: #cccccc;
+			
+			a {
+				color: #cccccc;
+			}
+		}
 	}
 
-	.info {
-		float: left;
+	.webdesign {
+		float: right;
+		width: 37%;
 	}
 
-	.links {
-		margin-top: 30px;
+	h1 {
+		font-size: 16px;
+		margin-top: 0px;
 	}
-}
-
-h1 {
-	font-size: 16px;
-	margin-top: 0px;
-}
-h2 {
-	font-size: 15px;
-	margin-top: 10px;
-	margin-bottom: 0px;
+	h2 {
+		font-size: 15px;
+		margin-top: 10px;
+		margin-bottom: 0px;
+	}
 }

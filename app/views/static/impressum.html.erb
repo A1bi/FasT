@@ -1,50 +1,46 @@
 <% title "Impressum" %>
 <% include_css "impressum" %>
-		<div>
-			<div class="box contact">
-				<div class="top">
-					Kontakt
-				</div>
-				<div class="con">
-					<h1>Freilichtbühne am schiefen Turm e.V.</h1>
-					Postfach 1262
-					<br />56759 Kaisersesch
-					<p>e-mail: <script>document.write(deobfuscate("wiuznfuquow@tzqhqeaqtuuer-zkqawisqeuwrusuesczh.wqqduze"));</script></p>
-
-					<h1>Vorstand</h1>
+<div class="impressum">
+	<div class="box contact">
+		<div class="top">
+			Kontakt
+		</div>
+		<div class="con">
+			<h1>Freilichtbühne am schiefen Turm e.V.</h1>
+			Postfach 1262
+			<br />56759 Kaisersesch
+			<p>e-mail: <script>document.write(deobfuscate("wiuznfuquow@tzqhqeaqtuuer-zkqawisqeuwrusuesczh.wqqduze"));</script></p>
+			<hr />
+			<h1>Vorstand</h1>
+			<div class="board">
+				<div>
 					<h2>1. Vorsitzende</h2>
 					Sabine Lübke
 					<br />Auf der Wacht 11a
 					<br />56759 Kaisersesch
-
+				</div>
+				<div>
 					<h2>2. Vorsitzende</h2>
 					Susanne Schubert
 					<br />Im Haag 2
 					<br />56759 Kaisersesch
 				</div>
 			</div>
-			<div class="webdesign">
-				<div class="box">
-					<div class="top">
-						Webdesign
-					</div>
-					<div class="con">
-						<div class="logo">
-							<img src="http://albisigns.de/images/disclogo.png" alt="Albisigns" />
-						</div>
-						<div class="info">
-							<h1>Albisigns</h1>
-							Albrecht Oster
-							<br />Masburger Straße 1c
-							<br />56759 Kaisersesch
-							<p>web: <a href="http://albisigns.de" target="_blank">www.albisigns.de</a><br />
-							e-mail: <script>document.write(deobfuscate("wiuznfuquow@azlwwbqiwzsiuzguwnsu.wqqduze"));</script></p>
-						</div>
-					</div>
-				</div>
-				<div class="links">
-					Unsere Satzung finden Sie <%= link_to "hier", satzung_path %>.
-					<br />Bitte beachten Sie auch unsere <%= link_to "AGB", agb_path %>.
-				</div>
+			<hr />
+			<div class="links hcen">
+				<%= link_to "Satzung", satzung_path %> | <%= link_to "AGB", agb_path %>
 			</div>
 		</div>
+	</div>
+	<div class="box webdesign">
+		<div class="top">
+			Website
+		</div>
+		<div class="con">
+			<h1>Albrecht Oster</h1>
+			Masburger Straße 1c
+			<br />56759 Kaisersesch
+			<p>e-mail: <script>document.write(deobfuscate("wiuznfuquow@azlwwbqiwzsiuzguwnsu.wqqduze"));</script></p>
+		</div>
+	</div>
+</div>

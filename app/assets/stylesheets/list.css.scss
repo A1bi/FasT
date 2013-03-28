@@ -1,18 +1,36 @@
 .parag {
-	font-weight: bold;
 	margin-top: 20px;
+	
+	h3 {
+		font-size: 16px;
+		margin: 15px 0px;
+	}
+	
+	p {
+		margin: 7px 0px;
+	}
 
 	.nrs {
 		font-weight: normal;
-		// margin: 10px 20px;
+		margin: 0px 20px;
 	}
 
-	.letters {
-		list-style-type: lower-alpha;
-	}
+	ol {
+		&.nrs {
+			margin: 0px 10px;
+		}
+		
+		&.letters {
+			list-style-type: lower-alpha;
+		}
 
-	.no {
-		list-style-type: none;
+		&.no {
+			list-style-type: none;
+		}
+		
+		li {
+			margin: 4px 0px;
+		}
 	}
 }
 
@@ -20,4 +38,8 @@
 	font-size: 18px;
 	text-align: center;
 	margin: 10px 0;
+}
+
+.closure {
+	margin-top: 40px;
 }
