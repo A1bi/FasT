@@ -8,7 +8,6 @@ class TicketsController < ApplicationController
 		@ticket_types = Tickets::TicketType.order(:price)
   end
 	
-	
 	def order_info
 		@response[:order] = {
 			step: session[:order][:step],
@@ -22,7 +21,7 @@ class TicketsController < ApplicationController
 		params[:order] ||= {}
 		params[:order][:info] ||= {}
 
-		order_info = session[:order] ||= { step: nil, info: {} }
+		order_info = session[:order] ||= { step: nil, info: {}, reservations: [] }
 		current_step = order_info[:step] = params[:order][:step].to_sym
 		order_info[:info][current_step] = params[:order][:info]
 		order_info[:info][current_step] = params[:order][:info][:tickets_order] if current_step == :address

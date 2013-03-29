@@ -126,9 +126,16 @@ function SeatsStep(delegate) {
 			$.post("/tickets/reserve_seat", data, function (response) {
 				if (!response.ok) {
 					$seat.removeClass("selected");
+				} else {
+				  _this.delegate.node.emit("reservedSeat", { seatId: data.id });
 				}
 			}, "json");
 		});
+
+    this.delegate.node.on("reservedSeat", function (data) {
+      _this.box.find("#tickets_seat_" + data.seatId).addClass("taken");
+      console.log(_this.box.find("#tickets_seat_" + data.seatId));
+    });
 	};
 	
 	Step.call(this, "seats", delegate);
@@ -187,6 +194,7 @@ var ticketing = new function () {
 	this.order = {};
 	this.observers = {};
 	this.steps = [];
+  this.node = null;
 	var _this = this;
 	
 	this.toggleBtn = function (btn, toggle, style_class) {
@@ -302,6 +310,8 @@ var ticketing = new function () {
 	};
 	
 	$(function () {
+    _this.node = io.connect("http://" + window.location.host + ":3010");
+    
 		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
 			stepClass.prototype = Step.prototype;
 			_this.steps.push(new stepClass(_this));

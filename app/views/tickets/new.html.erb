@@ -1,6 +1,9 @@
 <% title "Tickets bestellen" %>
 <% include_css "tickets" %>
 <% include_js "tickets" %>
+<% content_for(:head) do %>
+   <%= javascript_include_tag "http://" + request.host + ":3010/socket.io/socket.io.js" %>
+<% end %>
 <div class="secure">
 	<span><img src="/assets/tickets/secure.png" alt="" /> Ihre Bestellung wird über eine gesicherte Verbindung ausgeführt.</span>
 </div>	
