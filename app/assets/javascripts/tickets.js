@@ -310,7 +310,7 @@ var ticketing = new function () {
 	};
 	
 	$(function () {
-    _this.node = io.connect("http://" + window.location.host + ":3010");
+    _this.node = io.connect("", { resource: "node" });
     
 		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
 			stepClass.prototype = Step.prototype;
