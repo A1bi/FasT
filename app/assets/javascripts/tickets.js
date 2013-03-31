@@ -115,26 +115,28 @@ function DateStep(delegate) {
 function SeatsStep(delegate) {
 	this.updateTimer = null;
 	var _this = this;
+  
+  this.updateSeats = function (seats) {
+    $.each(seats, function (seatId, seatInfo) {
+      _this.box.find("#tickets_seat_" + seatId)
+        .toggleClass("selected", false)
+        .toggleClass("taken", seatInfo.reserved);
+    });
+  };
 	
 	this.registerEvents = function () {
-		this.box.find(".tickets_seat").click(function () {
+    this.box.find(".tickets_seat").click(function () {
 			var $seat = $(this).addClass("selected");
-			var data = {
-				id: $seat.data("id"),
-				date: _this.delegate.order.date
-			}
-			$.post("/tickets/reserve_seat", data, function (response) {
-				if (!response.ok) {
-					$seat.removeClass("selected");
-				} else {
-				  _this.delegate.node.emit("reservedSeat", { seatId: data.id });
-				}
-			}, "json");
+      
+      _this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") });
 		});
+    
+    this.delegate.node.on("updateSeats", function (res) {
+      _this.updateSeats(res.seats);
+    });
 
-    this.delegate.node.on("reservedSeat", function (data) {
-      _this.box.find("#tickets_seat_" + data.seatId).addClass("taken");
-      console.log(_this.box.find("#tickets_seat_" + data.seatId));
+    this.delegate.node.on("reservedSeat", function (res) {
+      if (!res.ok) _this.box.find("#tickets_seat_" + res.seatId).removeClass("selected").addClass("taken");
     });
 	};
 	

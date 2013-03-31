@@ -1,21 +1,11 @@
 class TicketsController < ApplicationController
-	before_filter :prepare_ajax_response, :only => [:seats, :reserve_seat, :update_order, :order_info]
-	before_filter :check_date, :only => [:seats, :reserve_seat]
+	before_filter :prepare_ajax_response, :only => [:update_order]
 	
   def new
-		@event = Tickets::Event.last
+		@event = Tickets::Event.current
 		@seats = Tickets::Seat.order(:number)
 		@ticket_types = Tickets::TicketType.order(:price)
   end
-	
-	def order_info
-		@response[:order] = {
-			step: session[:order][:step],
-			info: session[:order][:info]
-		}
-		
-		send_ajax_response
-	end
 	
 	def update_order
 		params[:order] ||= {}
@@ -46,53 +36,7 @@ class TicketsController < ApplicationController
 		send_ajax_response
 	end
 	
-	def seats
-		@response[:seats] = []
-		Tickets::Seat.includes_reserved_on_date(@date).each do |seat|
-			@response[:seats] << {
-				id: seat.id,
-				available: !seat.reserved
-			}
-		end
-		
-		send_ajax_response
-	end
-	
-	def reserve_seat
-		order = prepared_order
-		
-		seat = Tickets::Seat.find(params[:id])
-		if seat.nil?
-			error_ajax_response({ seats: t("tickets.errors.seat_not_found") })
-		else
-			@response[:seat] = seat.id
-			reservation = seat.reserve_on_date(@date)
-			if reservation.nil?
-				error_ajax_response({ seats: t("tickets.errors.seat_taken") })
-			else
-				(session[:order][:reservations] ||= []) << reservation.id
-			end
-		end
-		
-		send_ajax_response
-	end
-	
-	
 	private
-	
-	def check_date
-		date_id = session.try(:[], :order).try(:[], :info).try(:[], :date).try(:[], :date)
-		if !date_id
-			error_ajax_response({ seats: "date not set yet" })
-			return send_ajax_response
-		else
-			@date = Tickets::EventDate.find(date_id)
-			if @date.nil?
-				error_ajax_response({ seats: t("tickets.date_not_found") })
-				return send_ajax_response
-			end
-		end
-	end
 	
 	def prepared_order
 		# remove expired reservations
