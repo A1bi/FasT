@@ -119,28 +119,43 @@ function SeatsStep(delegate) {
   this.updateSeats = function (seats) {
     $.each(seats, function (seatId, seatInfo) {
       _this.box.find("#tickets_seat_" + seatId)
-        .toggleClass("selected", false)
+        .toggleClass("selected", seatInfo.selected)
         .toggleClass("taken", seatInfo.reserved);
+    });
+    
+    this.updateAvailableSeats();
+  };
+  
+  this.updateAvailableSeats = function () {
+    this.box.find(".tickets_seat").each(function () {
+      $(this).toggleClass("available", $(this).is(":not(.taken):not(.selected)"));
+    });
+  };
+  
+  this.reserveSeat = function ($seat) {
+    if (!$seat.is(".available")) return;
+    
+    $seat.addClass("selected");
+    _this.updateAvailableSeats();
+    
+    _this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") }, function (res) {
+      if (!res.ok) $seat.removeClass("selected").addClass("taken");
     });
   };
 	
 	this.registerEvents = function () {
     this.box.find(".tickets_seat").click(function () {
-			var $seat = $(this).addClass("selected");
-      
-      _this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") });
+      _this.reserveSeat($(this));
 		});
     
     this.delegate.node.on("updateSeats", function (res) {
       _this.updateSeats(res.seats);
     });
-
-    this.delegate.node.on("reservedSeat", function (res) {
-      if (!res.ok) _this.box.find("#tickets_seat_" + res.seatId).removeClass("selected").addClass("taken");
-    });
 	};
 	
 	Step.call(this, "seats", delegate);
+  
+  this.updateAvailableSeats();
 }
 
 function AddressStep(delegate) {
@@ -301,7 +316,7 @@ var ticketing = new function () {
 					info: step.info
 				}
 			};
-			$.post("/tickets/update_order", update, callback, "json");
+			this.node.emit("updateOrder", update, callback);
 		}
 	};
 	
@@ -312,7 +327,11 @@ var ticketing = new function () {
 	};
 	
 	$(function () {
-    _this.node = io.connect("", { resource: "node" });
+    // TODO: error handling (connection to server refused or lost)
+    _this.node = io.connect("", {
+      "resource": "node",
+      "sync disconnect on unload": true
+    });
     
 		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
 			stepClass.prototype = Step.prototype;

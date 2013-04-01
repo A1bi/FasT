@@ -319,12 +319,15 @@ table td {
 			border-width: 1px 0px;
 			
 			.tickets_seat {
-				cursor: pointer;
-				background: green;
+        &.available {
+  				cursor: pointer;
+  				background: green;
+        }
 				
 				&.taken {
 					background: red;
 				}
+        
 				&.selected {
 					background: yellow;
 					border-width: 2px;
