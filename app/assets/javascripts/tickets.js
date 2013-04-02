@@ -114,10 +114,17 @@ function DateStep(delegate) {
 
 function SeatsStep(delegate) {
 	this.updateTimer = null;
+  this.seats = {};
+  this.date = 0;
 	var _this = this;
   
   this.updateSeats = function (seats) {
-    $.each(seats, function (seatId, seatInfo) {
+    $.extend(true, this.seats, seats);
+    this.updateSeatPlan();
+  };
+  
+  this.updateSeatPlan = function () {
+    $.each(this.seats[this.date], function (seatId, seatInfo) {
       _this.box.find("#tickets_seat_" + seatId)
         .toggleClass("selected", seatInfo.selected)
         .toggleClass("taken", seatInfo.reserved);
@@ -150,6 +157,13 @@ function SeatsStep(delegate) {
     
     this.delegate.node.on("updateSeats", function (res) {
       _this.updateSeats(res.seats);
+    });
+    
+    this.delegate.observeOrder("date", function (info) {
+      if (_this.date != info.date) {
+        _this.date = info.date;
+        _this.updateSeatPlan();
+      }
     });
 	};
 	
