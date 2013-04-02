@@ -178,7 +178,10 @@ function AddressStep(delegate) {
 	this.registerEvents = function () {
 		this.box.find(".field").change(function () {
 			$.each($(this).parents("form").serializeArray(), function () {
-				_this.info[this.name] = this.value;
+        var pattern = /tickets_order\[([a-z_]+)\]/;
+        if (pattern.test(this.name)) {
+          _this.info[this.name.replace(pattern, "$1")] = this.value;
+        }
 			});
 		});
 	};
@@ -196,8 +199,9 @@ function AddressStep(delegate) {
 	
 	this.afterValidate = function (response) {
 		this.toggleFormFields(true);
+    this.box.find("tr").removeClass("error");
 		$.each(response.errors, function (key, error) {
-			_this.box.find("#tickets_order_" + key).val("FAAAAALLLSCH!!");
+			_this.box.find("#tickets_order_" + key).parents("tr").addClass("error").find(".msg").html(error);
 		});
 	};
 }

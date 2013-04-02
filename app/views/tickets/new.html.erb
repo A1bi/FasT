@@ -62,50 +62,38 @@
 		<div class="hcen">Legende: bla</div>
 	</div>
 	<div class="stepCon address">
-		Bitte füllen Sie die folgenden Felder entsprechend aus:
+		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
 		<%= form_for Tickets::Order.new, :url => "" do |f| %>
-		<table class="inner">
-			<tr>
-				<td>Anrede:</td>
-				<td><%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %></td>
-			</tr>
-			<tr>
-				<td>Vorname:</td>
-				<td><%= f.text_field :first_name, :class => "field" %></td>
-			</tr>
-			<tr>
-				<td>Nachname:</td>
-				<td><%= f.text_field :last_name, :class => "field" %></td>
-			</tr>
-			<tr>
-				<td>Gruppe:</td>
-				<td>
-					<input type="text" name="affiliation" value="" class="field" />
-					<div class="small">Falls Sie Karten für eine Gruppe bestellen, können Sie diese hier angeben. Ansonsten lassen Sie dieses Feld einfach frei.</div>
-				</td>
-			</tr>
-		</table>
-		<div class="inner newSection"></div>
-		<table class="inner">
-			<tr>
-				<td>PLZ:</td>
-				<td><%= f.text_field :plz, :class => "field" %></td>
-			</tr>
-			<tr>
-				<td>Telefon:</td>
-				<td><%= f.text_field :phone, :class => "field" %></td>
-			</tr>
-		</table>
-		<div class="inner newSection"></div>
-		<table class="inner">
-			<tr>
-				<td>e-mail-Adresse:</td>
-				<td>
-					<%= f.text_field :email, :class => "field" %>
-					<div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an sie später Ihre Karten geschickt werden!</div>
-				</td>
-			</tr>
-		</table>
+   		<table class="inner">
+            <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
+               <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
+               <%= f.text_field :first_name, :class => "field" %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
+               <%= f.text_field :last_name, :class => "field" %>
+            <% end %>
+   		</table>
+   		<div class="inner newSection"></div>
+   		<table class="inner">
+            <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
+               <%= f.text_field :plz, :class => "field" %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
+               <%= f.text_field :phone, :class => "field" %>
+            <% end %>
+   		</table>
+   		<div class="inner newSection"></div>
+   		<table class="inner">
+            <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
+               <%= f.text_field :email, :class => "field" %>
+               <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an sie später Ihre Karten geschickt werden!</div>
+            <% end %>
+   		</table>
 		<% end %>
 		<div class="small">
 			Diese Daten sind nur für eventuelle Rückfragen erforderlich und werden nach der Aufführung vollständig aus unserem System gelöscht.
@@ -163,7 +151,7 @@
 		</div>
 	</div>
 	<div class="stepCon confirm">
-		Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf "bestätigen".
+		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf "bestätigen".</div>
 		<table class="inner rTable">
 			<tr>
 				<td>Name:</td>
