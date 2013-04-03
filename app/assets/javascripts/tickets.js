@@ -11,6 +11,7 @@ Step.prototype = {
 	moveIn: function () {
 		this.box.show().animate({left: "0%"});
 		this.resizeDelegateBox(true);
+    this.toggleFormFields(true);
 	},
 	
 	moveOut: function (left) {
@@ -37,6 +38,10 @@ Step.prototype = {
 			obj.slideUp(props);
 		}
 	},
+  
+	toggleFormFields: function (toggle) {
+		this.box.find("input, select, textarea").attr("disabled", !toggle);
+	},
 	
 	updateOrder: function (callback) {
 		this.delegate.updateOrder(this, callback);
@@ -44,13 +49,17 @@ Step.prototype = {
 	
 	validate: function () {
 		var _this = this;
+    this.toggleFormFields(false);
 		this.updateOrder(function (response) {
 			_this.afterValidate(response);
 			_this.delegate.validatedStep(response.ok);
 		});
 	},
 	
-	afterValidate: function () {},
+	afterValidate: function (response) {
+    if (!response.ok) this.toggleFormFields(true);
+	},
+  
 	registerEvents: function () {}
 };
 
@@ -174,31 +183,26 @@ function SeatsStep(delegate) {
 
 function AddressStep(delegate) {
 	var _this = this;
-	
-	this.registerEvents = function () {
-		this.box.find(".field").change(function () {
-			$.each($(this).parents("form").serializeArray(), function () {
-        var pattern = /tickets_order\[([a-z_]+)\]/;
-        if (pattern.test(this.name)) {
-          _this.info[this.name.replace(pattern, "$1")] = this.value;
-        }
-			});
+  
+  this.updateInfo = function () {
+		$.each(_this.box.find("form").serializeArray(), function () {
+      var pattern = /tickets_order\[([a-z_]+)\]/;
+      if (pattern.test(this.name)) {
+        _this.info[this.name.replace(pattern, "$1")] = this.value;
+      }
 		});
-	};
+  };
 	
 	Step.call(this, "address", delegate);
 	
-	this.toggleFormFields = function (toggle) {
-		this.box.find("form input").attr("disabled", !toggle);
-	};
-	
 	this.validate = function () {
-		this.toggleFormFields(false);
+    this.updateInfo();
 		Step.prototype.validate.call(this);
 	};
 	
 	this.afterValidate = function (response) {
-		this.toggleFormFields(true);
+    Step.prototype.afterValidate.call(this, response);
+    
     this.box.find("tr").removeClass("error");
 		$.each(response.errors, function (key, error) {
 			_this.box.find("#tickets_order_" + key).parents("tr").addClass("error").find(".msg").html(error);
@@ -214,6 +218,13 @@ function PaymentStep(delegate) {
 
 function ConfirmStep(delegate) {
 	var _this = this;
+  
+  this.registerEvents = function () {
+    this.box.find(".accept :checkbox").click(function () {
+      _this.info.accepted = $(this).is(":checked");
+      _this.delegate.toggleNextBtn(_this.info.accepted);
+    });
+  }
 	
 	Step.call(this, "confirm", delegate);
 }
@@ -243,7 +254,7 @@ var ticketing = new function () {
 	
 	this.toggleLoadingBtn = function (toggle) {
 		this.toggleBtn("next", !toggle, "loading");
-		this.toggleBtn("prev", !toggle);
+		if (this.currentStepIndex > 0) this.toggleBtn("prev", !toggle);
 	};
 	
 	this.goNext = function ($this) {
