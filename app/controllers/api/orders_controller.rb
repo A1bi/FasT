@@ -8,9 +8,11 @@ class Api::OrdersController < ApplicationController
 		info[:numbers].each do |type_id, number|
 			type = Tickets::TicketType.find_by_id(type_id)
 			number.to_i.times do
-				ticket = order.bunch.tickets.build
+				ticket = Tickets::Ticket.new
 				ticket.type = type
-				ticket.reservation = Tickets::Reservation.first
+				ticket.seat_id = info[:seats].shift
+        ticket.date_id = info[:date]
+        order.bunch.tickets << ticket
 			end
 		end
     

@@ -77,21 +77,6 @@ end
 	type = Tickets::TicketType.create(type, without_protection: true)
 end
 
-# reservations
-3.times do |i|
-	r = Tickets::EventDate.order("RANDOM()").first.reservations.new
-	r.seat = Tickets::Seat.order("RANDOM()").first
-	r.save
-end
-
-# tickets
-2.times do |i|
-	ticket = Tickets::Ticket.new
-	ticket.number = rand(100000..999999)
-	ticket.type = Tickets::TicketType.order("RANDOM()").first
-	Tickets::Reservation.order("RANDOM()").first.ticket = ticket
-end
-
 
 # clear cache
 Rails.cache.clear

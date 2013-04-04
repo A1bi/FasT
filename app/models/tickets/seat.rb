@@ -3,27 +3,9 @@ class Tickets::Seat < ActiveRecord::Base
 	
 	belongs_to :block
 	has_many :reservations
-	
-	def self.includes_reserved_on_date(date)
-		return [] if date.nil?
-		
-		select("tickets_seats.*, COUNT(tickets_reservations.id) > 0 AS reserved")
-		.joins("LEFT JOIN tickets_reservations ON tickets_reservations.seat_id = tickets_seats.id AND tickets_reservations.date_id = " + date.id.to_s)
-		.group("tickets_seats.id")
-	end
-	
-	def reserved
-		nil if (self[:reserved].nil?)
-		self[:reserved] == 1
-	end
+  has_many :tickets
 	
 	def available_on_date?(date)
-		self.reservations.where(date_id: date).count < 1
-	end
-	
-	def reserve_on_date(date)
-		return nil unless self.available_on_date?(date)
-		
-		Tickets::Reservation.create({ date: date, seat: self }, without_protection: true)
+    tickets.where(date_id: date).empty? && reservations.where(date_id: date).empty?
 	end
 end
