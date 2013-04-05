@@ -4,6 +4,24 @@
 }
 .teaser {
 	margin: 30px 0px;
+  
+  &.montevideo2013 {
+    position: relative;
+    background: url(/assets/theater/montevideo/teaser2013.png);
+    width: 500px;
+    height: 360px;
+    margin: auto;
+    
+    > a {
+      position: absolute;
+      bottom: 7px;
+      left: 60px;
+      color: white;
+      font-family: "Qlassik", "Arial";
+      font-size: 27px;
+      text-shadow: 1px 1px 4px black;
+    }
+  }
 }
 .ad {
 	position: absolute;

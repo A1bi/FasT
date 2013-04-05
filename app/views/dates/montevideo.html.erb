@@ -1,0 +1,50 @@
+<% title "Das Haus in Montevideo - Gastspiel in Bad Bertrich" %>
+<% include_css "dates" %>
+<div class="montevideo">
+   <h3 class="hcen">
+      Bad Bertrich: Die Fünfziger-Jahre sind zurück<br />
+      Komödien-Evergreen auf der Bühne im Großen Kursaal
+   </h3>
+   <div class="title">
+   	<%= link_to theater_montevideo_path do %>
+         <%= image_tag "theater/montevideo/title.png", :alt => "Das Haus in Montevideo" %>
+      <% end %>
+   </div>
+   <div class="info">
+      <p>Schon heute können sich die Fans der Freilichtbühne am schiefen Turm e. V., Kaisersesch, und die treuen Besucher und Kurgäste von Bad Bertrich auf ein besonderes Highlight im Juni freuen.</p>
+      <p>Die Escher Freilichtbühne führt ihr letztjähriges, überaus erfolgreiches, Sommernachtstheater „<%= link_to "Das Haus in Montevideo", theater_montevideo_path %>“, im Großen Kursaal auf.</p>
+      <p>Die Schauspieltruppe hat sich in den letzten Jahren mit ausgewählten und professionell inszenierten Stücken bereits überregional einen guten Namen gemacht. Mit der Aufführung im Großen Kursaal betreten die Schauspieler nun jedoch erstmals im wahrsten Sinne des Wortes „die Bretter, die die Welt bedeuten“. Als klassische Freilichtbühne wurde noch nie in der Vereinsgeschichte auf einer Saalbühne gespielt. Man darf gespannt sein, wie der langjährige Regisseur, Helmut Mattern“ und die vielen Akteure diese Herausforderung meistern werden.</p>
+      <div class="poster">
+         <%= link_to "/uploads/plakat-montevideo-2013.pdf" do %>
+            <%= image_tag "theater/montevideo/poster2013.jpg" %>
+         <% end %>
+      </div>
+      <p>Ein Lacherfolg ist aber schon heute, so wie seit über 60 Jahren, garantiert, wenn einem Moralapostel wie dem despotischen Professor Nägler seine vermeintlichen Tugenden über die Habgier und intellektuelle Haarspalterei verloren gehen. Dies ist Stoff genug für eine beißende Gesellschaftskomödie, die auch heute nichts von ihrem Witz und ihrer Ironie verloren hat.</p>
+      <p>So lebt der moralisch integre Professor in den Fünfziger-Jahren des letzten Jahrhunderts mit Gattin und zwölf minderjährigen Kindern in bescheidenen Verhältnissen. Vor langer Zeit verstieß er hartherzig seine jüngere Schwester, die ein uneheliches Kind erwartete. In deren Testament wird nun seine Tochter Atlanta großzügig bedacht, allerdings nur mit Auflagen, die den sittenstrengen Vater in arge Gewissensnöte stürzen, sein Weltbild kräftig durcheinanderwirbeln und die Lach- und Schmunzelmuskeln der Zuschauer arg beanspruchen.</p>
+   </div>
+   <table class="rounded panel">
+   	<tr>
+   		<td class="day">Samstag</td>
+   		<td class="date">8. Juni 2013</td>
+   		<td class="time">20 Uhr</td>
+   	</tr>
+      <tr>
+         <td colspan="3">im Großen Kursaal Bad Bertrich</td>
+      </tr>
+   </table>
+   <div class="trenner"></div>
+   <div class="hl">
+   	Kartenvorverkauf
+      <div class="small">ab sofort</div>
+   </div>
+   <div class="hcen">
+      Eintritt: <b>12 €</b> <span class="small">(<b>10 €</b> mit Gästekarte)</span>
+   </div>
+   <div class="stores">
+   	<b>Verkauf über:</b>
+   	<ul>
+   		<li><%= link_to "www.ticketregional.de", "http://www.ticket-regional.de/events_info.php?eventID=75232", :target => "_blank" %></li>
+   		<li>Touristik-Agentur Bad Bertrich, Tel.: 02674 / 932222</li>
+   	</ul>
+   </div>
+</div>

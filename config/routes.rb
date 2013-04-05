@@ -3,7 +3,10 @@
 FasT::Application.routes.draw do
 
   # dates
-  get "termine" => "dates#jedermann", :as => "dates"
+  controller :dates, :path => "termine", :as => :dates do
+    root :action => :jedermann, :as => ""
+    get "montevideo"
+  end
 
   # theater
   controller :theater, :path => "theater", :as => :theater do

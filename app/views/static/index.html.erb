@@ -9,9 +9,15 @@
 				<%= render "dates/jedermann_banner" %>
 			<% end %>
 		</div>
+		<div class="trenner"></div>
+		<div class="teaser montevideo2013">
+			<%= link_to "Gastspiel in Bad Bertrich", dates_montevideo_path %>
+		</div>
 		<div class="ad">
 			<span class="disclaimer">Mit freundlicher Unterstützung von:</span>
 			<div>
-				<a href="http://www.lotto-rlp.de" target="_blank"><img src="/assets/misc/ad-lotto.png" alt="" /></a>
+            <%= link_to "https://www.lotto-rlp.de", :target => "_blank" do %>
+               <%= image_tag "misc/ad-lotto.png" %>
+            <% end %>
 			</div>
 		</div>
