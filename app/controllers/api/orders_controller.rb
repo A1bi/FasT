@@ -18,6 +18,11 @@ class Api::OrdersController < ApplicationController
     
     order.attributes = info[:address]
     
+    order.pay_method = info[:payment].delete(:method)
+    if order.pay_method == "charge"
+      order.build_bank_charge(info[:payment])
+    end
+    
     response = {
       ok: false,
       errors: {}

@@ -63,8 +63,8 @@
 	</div>
 	<div class="stepCon address">
 		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
-		<%= form_for Tickets::Order.new, :url => "" do |f| %>
-   		<table class="inner">
+		<%= form_for :address do |f| %>
+   		<table class="inner form">
             <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
                <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
             <% end %>
@@ -78,7 +78,7 @@
             <% end %>
    		</table>
    		<div class="inner newSection"></div>
-   		<table class="inner">
+   		<table class="inner form">
             <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
                <%= f.text_field :plz, :class => "field" %>
             <% end %>
@@ -88,7 +88,7 @@
             <% end %>
    		</table>
    		<div class="inner newSection"></div>
-   		<table class="inner">
+   		<table class="inner form">
             <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
                <%= f.text_field :email, :class => "field" %>
                <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an sie später Ihre Karten geschickt werden!</div>
@@ -100,7 +100,8 @@
 		</div>
 	</div>
 	<div class="stepCon payment">
-		Bitte wählen Sie eine der folgenden Zahlungsmethoden aus:
+		<div>Bitte wählen Sie eine der folgenden Zahlungsmethoden aus:</div>
+      <%= form_for :payment do |f| %>
 		<table class="inner">
 			<tr>
 				<td class="radio"><input type="radio" name="method" value="charge" /></td>
@@ -117,38 +118,32 @@
 				</td>
 			</tr>
 		</table>
-		<div class="inner rTable blocker transferDisabled">
-			Überweisungen akzeptieren wir nur bis spätestens <b>drei Tage vor der Aufführung</b>. Da dies bei Ihrer gewünschten Aufführung nicht mehr möglich ist, bitten wir Sie, stattdessen das Lastschriftverfahren zu wählen.
-		</div>
 		<div class="charge">
 			<div>
 				Bitte geben für das Lastschriftverfahren Ihre Bankdaten an:
 			</div>
-			<table class="inner">
-				<tr>
-					<td>Kontoinhaber:</td>
-					<td style="width: 70%;"><input type="text" name="name" value="" class="field" /></td>
-				</tr>
-				<tr>
-					<td>Kontonummer:</td>
-					<td><input type="text" name="number" value="" class="field" maxlength="10" /></td>
-				</tr>
-				<tr>
-					<td>BLZ:</td>
-					<td><input type="text" name="blz" value="" class="field" maxlength="8" /></td>
-				</tr>
-				<tr>
-					<td>Name der Bank:</td>
-					<td><input type="text" name="bank" value="" class="field" /></td>
-				</tr>
+			<table class="inner form">
+        <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
+          <%= f.text_field :name %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
+          <%= f.text_field :number %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
+          <%= f.text_field :blz %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
+          <%= f.text_field :bank %>
+        <% end %>
 			</table>
 			<div class="small">
 				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
 			</div>
-			<div class="accept">
-				<input type="checkbox" name="accepted" /> Ich akzeptiere, dass mein Konto mit dem zu zahlenden Betrag belastet wird.
-			</div>
 		</div>
+      <% end %>
 	</div>
 	<div class="stepCon confirm">
 		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf "bestätigen".</div>
@@ -221,7 +216,7 @@
 		</div>
 		<div class="payment">
 			<div class="transfer inner">
-				Bitte überweisen Sie den Betrag von <b><span class="total">10</span> €</b> auf folgendes Konto:
+				Bitte überweisen Sie den Betrag von <b><span class="total"></span> €</b> auf folgendes Konto:
 				<table class="rTable">
 					<tr>
 						<td>Kontoinhaber:</td>

@@ -42,6 +42,16 @@ Step.prototype = {
 	toggleFormFields: function (toggle) {
 		this.box.find("input, select, textarea").attr("disabled", !toggle);
 	},
+  
+  updateInfo: function () {
+    var _this = this;
+		$.each(this.box.find("form").serializeArray(), function () {
+      var pattern = new RegExp(_this.name + "\\[([a-z_]+)\\]");
+      if (pattern.test(this.name)) {
+        _this.info[this.name.replace(pattern, "$1")] = this.value;
+      }
+		});
+  },
 	
 	updateOrder: function (callback) {
 		this.delegate.updateOrder(this, callback);
@@ -57,7 +67,15 @@ Step.prototype = {
 	},
 	
 	afterValidate: function (response) {
-    if (!response.ok) this.toggleFormFields(true);
+    var _this = this;
+    if (!response.ok) {
+      this.toggleFormFields(true);
+      
+      this.box.find("tr").removeClass("error");
+  		$.each(response.errors, function (key, error) {
+  			_this.box.find("#" + _this.name + "_" + key).parents("tr").addClass("error").find(".msg").html(error);
+  		});
+    }
 	},
   
 	registerEvents: function () {}
@@ -77,6 +95,8 @@ function DateStep(delegate) {
 	};
 	
 	Step.call(this, "date", delegate);
+  
+  this.info.numbers = {};
 
 	this.formatCurrency = function (value) {
 		return value.toFixed(2).toString().replace(".", ",");
@@ -113,10 +133,7 @@ function DateStep(delegate) {
 		typeBox.find("td.total span").html(this.formatCurrency(this.getTypeTotal(typeBox)));
 		this.updateTotal();
 		
-		var numbers = this.info.numbers || {};
-		numbers[typeBox.data("id")] = $this.val();
-		
-		this.info.numbers = numbers;
+		this.info.numbers[typeBox.data("id")] = $this.val();
 		this.updateOrder();
 	};
 }
@@ -183,37 +200,37 @@ function SeatsStep(delegate) {
 
 function AddressStep(delegate) {
 	var _this = this;
-  
-  this.updateInfo = function () {
-		$.each(_this.box.find("form").serializeArray(), function () {
-      var pattern = /tickets_order\[([a-z_]+)\]/;
-      if (pattern.test(this.name)) {
-        _this.info[this.name.replace(pattern, "$1")] = this.value;
-      }
-		});
-  };
-	
-	Step.call(this, "address", delegate);
 	
 	this.validate = function () {
     this.updateInfo();
 		Step.prototype.validate.call(this);
 	};
-	
-	this.afterValidate = function (response) {
-    Step.prototype.afterValidate.call(this, response);
-    
-    this.box.find("tr").removeClass("error");
-		$.each(response.errors, function (key, error) {
-			_this.box.find("#tickets_order_" + key).parents("tr").addClass("error").find(".msg").html(error);
-		});
-	};
+  
+  Step.call(this, "address", delegate);
 }
 
 function PaymentStep(delegate) {
 	var _this = this;
+  
+  this.registerEvents = function () {
+    this.box.find("[name=method]").click(function () {
+      _this.info.method = $(this).val();
+      _this.slideToggle(_this.box.find(".charge"), _this.info.method == "charge");
+      _this.delegate.toggleNextBtn(true);
+    });
+  };
+  
+	this.validate = function () {
+    this.updateInfo();
+		Step.prototype.validate.call(this);
+	};
 	
 	Step.call(this, "payment", delegate);
+  
+  this.moveIn = function () {
+    this.delegate.toggleNextBtn(this.info.method);
+    Step.prototype.moveIn.call(this);
+  };
 }
 
 function ConfirmStep(delegate) {
@@ -224,7 +241,7 @@ function ConfirmStep(delegate) {
       _this.info.accepted = $(this).is(":checked");
       _this.delegate.toggleNextBtn(_this.info.accepted);
     });
-  }
+  };
 	
 	Step.call(this, "confirm", delegate);
 }

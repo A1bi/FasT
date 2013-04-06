@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404163731) do
+ActiveRecord::Schema.define(:version => 20130406183834) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -71,6 +71,17 @@ ActiveRecord::Schema.define(:version => 20130404163731) do
     t.boolean  "is_slide",           :default => false
   end
 
+  create_table "tickets_bank_charges", :force => true do |t|
+    t.string   "name"
+    t.integer  "number"
+    t.integer  "blz"
+    t.string   "bank"
+    t.string   "chargeable_type"
+    t.integer  "chargeable_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "tickets_blocks", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                      :null => false
@@ -126,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20130404163731) do
     t.integer  "plz"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "pay_method"
   end
 
   create_table "tickets_reservations", :force => true do |t|

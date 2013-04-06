@@ -313,6 +313,23 @@ table td {
 		padding: 10px;
 		display: none;
 	}
+  
+	table.form {
+		border-collapse: collapse;
+
+  	td {
+  		padding: 5px;
+	
+  		.small {
+  			margin-top: 5px;
+  			color: #000000;
+  		}
+  	}
+
+  	tr td:first-child {
+  		width: 30%;
+  	}
+  }
 	
 	&.date {
 		ul {
@@ -387,22 +404,7 @@ table td {
 	}
 	
 	&.address {
-		table {
-			border-collapse: collapse;
-		}
-	
-		td {
-			padding: 5px;
-		
-			.small {
-				margin-top: 5px;
-				color: #000000;
-			}
-		}
-	
-		tr td:first-child {
-			width: 30%;
-		}
+
 	}
 	
 	&.payment {
