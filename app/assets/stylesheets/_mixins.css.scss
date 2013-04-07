@@ -31,12 +31,15 @@ $dark-blue: #216bed;
 	}
 }
 
-@mixin animation($name, $duration, $iteration: "") {
+@mixin animation($name, $duration, $iteration: "", $alternate: false) {
 	@include vendor-specific(animation-name, $name);
 	@include vendor-specific(animation-duration, $duration);
 	@if $iteration != "" {
 		@include vendor-specific(animation-iteration-count, $iteration);
 	}
+  @if $alternate {
+    @include vendor-specific(animation-direction, alternate);
+  }
 }
 
 @mixin keyframes($name) {

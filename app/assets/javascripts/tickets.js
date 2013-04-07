@@ -167,6 +167,7 @@ function SeatsStep(delegate) {
   
   this.reserveSeat = function ($seat) {
     if (!$seat.is(".available")) return;
+    this.delegate.killExpirationTimer();
     
     $seat.addClass("selected");
     _this.updateAvailableSeats();
@@ -258,6 +259,7 @@ var ticketing = new function () {
 	this.observers = {};
 	this.steps = [];
   this.node = null;
+  this.expirationTimer = null;
 	var _this = this;
 	
 	this.toggleBtn = function (btn, toggle, style_class) {
@@ -363,13 +365,36 @@ var ticketing = new function () {
 				}
 			};
 			this.node.emit("updateOrder", update, callback);
+      this.killExpirationTimer();
 		}
 	};
+  
+  this.updateExpirationCounter = function (seconds) {
+    if (seconds < 0) return;
+    this.stepBox.find(".expiration span").html(seconds);
+    this.expirationTimer = setTimeout(function () {
+      _this.updateExpirationCounter(--seconds);
+    }, 1000);
+  };
+  
+  this.killExpirationTimer = function () {
+    _this.stepBox.find(".expiration").slideUp();
+    clearTimeout(this.expirationTimer);
+  };
 	
 	this.registerEvents = function () {
 		$(".btn").click(function () {
 			_this.goNext($(this));
 		});
+    
+    this.node.on("aboutToExpire", function (data) {
+      _this.stepBox.find(".expiration").slideDown();
+      _this.updateExpirationCounter(data.secondsLeft);
+    });
+    
+    this.node.on("expired", function () {
+      alert("Sitzung abgelaufen.");
+    });
 	};
 	
 	$(function () {

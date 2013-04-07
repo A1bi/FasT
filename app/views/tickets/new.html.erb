@@ -19,6 +19,7 @@
 	<div class="step">Bestätigen</div>
 </div>
 <div class="stepBox">
+  <div class="expiration">Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</div>
 	<div class="stepCon date">
 		<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
 		<ul class="inner">
@@ -101,49 +102,49 @@
 	</div>
 	<div class="stepCon payment">
 		<div>Bitte wählen Sie eine der folgenden Zahlungsmethoden aus:</div>
-      <%= form_for :payment do |f| %>
-		<table class="inner">
-			<tr>
-				<td class="radio"><input type="radio" name="method" value="charge" /></td>
-				<td>
-					<b>Lastschrift</b>
-					<div class="small">Schnell und bequem, Sie erhalten Ihre Karten sofort nach der Bestellung!</div>
-				</td>
-			</tr>
-			<tr>
-				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
-				<td>
-					<b>Vorkasse per Überweisung</b>
-					<div class="small">Sie erhalten Ihre Karten nach Zahlungseingang.</div>
-				</td>
-			</tr>
-		</table>
-		<div class="charge">
-			<div>
-				Bitte geben für das Lastschriftverfahren Ihre Bankdaten an:
-			</div>
-			<table class="inner form">
-        <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
-          <%= f.text_field :name %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
-          <%= f.text_field :number %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
-          <%= f.text_field :blz %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
-          <%= f.text_field :bank %>
-        <% end %>
-			</table>
-			<div class="small">
-				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
-			</div>
-		</div>
-      <% end %>
+    <%= form_for :payment do |f| %>
+  		<table class="inner">
+  			<tr>
+  				<td class="radio"><input type="radio" name="method" value="charge" /></td>
+  				<td>
+  					<b>Lastschrift</b>
+  					<div class="small">Schnell und bequem, Sie erhalten Ihre Karten sofort nach der Bestellung!</div>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
+  				<td>
+  					<b>Vorkasse per Überweisung</b>
+  					<div class="small">Sie erhalten Ihre Karten nach Zahlungseingang.</div>
+  				</td>
+  			</tr>
+  		</table>
+  		<div class="charge">
+  			<div>
+  				Bitte geben für das Lastschriftverfahren Ihre Bankdaten an:
+  			</div>
+  			<table class="inner form">
+          <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
+            <%= f.text_field :name %>
+          <% end %>
+          <tr class="spacer"></tr>
+          <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
+            <%= f.text_field :number %>
+          <% end %>
+          <tr class="spacer"></tr>
+          <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
+            <%= f.text_field :blz %>
+          <% end %>
+          <tr class="spacer"></tr>
+          <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
+            <%= f.text_field :bank %>
+          <% end %>
+  			</table>
+  			<div class="small">
+  				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
+  			</div>
+  		</div>
+    <% end %>
 	</div>
 	<div class="stepCon confirm">
 		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf "bestätigen".</div>
@@ -251,7 +252,6 @@
 </div>
 <div class="btns">
 	<div class="btn prev disabled">zurück</div>
-	<div class="msg"></div>
 	<div class="btn next disabled">
 		<span class="action">weiter</span>
 		<span class="spinner"><img src="/assets/tickets/loading.gif" alt="Bitte warten" /></span>
