@@ -4,7 +4,7 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
 	<div class="seating" data-edit-url="<%= admin_seat_path("") %>">
-		<%= render "seats" %>
+		<%= render "application/tickets/seats", :seats => @seats, :colors => true, :numbers => true %>
 	</div>
 	<div class="actions">
 		<div class="blocks">

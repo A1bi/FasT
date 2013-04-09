@@ -1,3 +1,5 @@
+//= require _seats
+
 function Step(name, delegate) {
 	this.name = name;
 	this.box = $(".stepCon." + this.name);
@@ -142,6 +144,7 @@ function SeatsStep(delegate) {
 	this.updateTimer = null;
   this.seats = {};
   this.date = 0;
+  this.seating = null;
 	var _this = this;
   
   this.updateSeats = function (seats) {
@@ -192,6 +195,10 @@ function SeatsStep(delegate) {
         _this.updateSeatPlan();
       }
     });
+    
+    this.box.show();
+    this.seating = new Seating(this.box.find(".seating"), false);
+    this.box.hide();
 	};
 	
 	Step.call(this, "seats", delegate);

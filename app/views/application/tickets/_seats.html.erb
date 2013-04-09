@@ -1,0 +1,9 @@
+<% @seats.each_with_index do |seat, index| %>
+  <% options = { :style => "background: " + seat.block.color + ";" } if (colors ||= false) %>
+  <%= div_for(seat, (options || {}).merge(:data => { :id => seat.id, :"grid-x" => seat.position_x, :"grid-y" => seat.position_y }) ) do %>
+    <% if (numbers ||= false) %>
+      <div class="number"><%= seat.number %></div>
+      <div class="row"><%= seat.row %></div>
+    <% end %>
+  <% end %>
+<% end %>

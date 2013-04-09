@@ -46,7 +46,7 @@ end
 # seat blocks
 colors = %w(red green blue)
 x = 5
-y = 10
+y = 5
 3.times do |i|
 	block = Tickets::Block.create(name: (i+1).to_s, color: colors[i])
 	
@@ -62,7 +62,7 @@ y = 10
 			seat.position_x = x2
 			seat.position_y = y2
 			seat.save
-			x2 = x2 + 4.1
+			x2 = x2 + 4
 		end
 	end
 	

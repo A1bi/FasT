@@ -17,21 +17,6 @@
 
 	.tickets_seat {
 		cursor: move;
-	
-		.row {
-			font-weight: bold;
-			display: none;
-		}
-	
-		&:hover:not(:active) {
-			.number {
-				display: none;
-			}
-		
-			.row {
-				display: block;
-			}
-		}
 	}
 
 	.actions {

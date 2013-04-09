@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406183834) do
+ActiveRecord::Schema.define(:version => 20130409194228) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -152,10 +152,10 @@ ActiveRecord::Schema.define(:version => 20130406183834) do
     t.integer  "number"
     t.integer  "row"
     t.integer  "block_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-    t.float    "position_x", :default => 0.0
-    t.float    "position_y", :default => 0.0
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+    t.integer  "position_x", :default => 0
+    t.integer  "position_y", :default => 0
   end
 
   create_table "tickets_ticket_types", :force => true do |t|

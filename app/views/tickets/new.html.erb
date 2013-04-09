@@ -55,10 +55,7 @@
 	<div class="stepCon seats">
 		<div>Bitte wählen Sie Ihre gewünschten Sitzplätze.</div>
 		<div class="seating noPadding">
-			<% @seats.each do |seat| %>
-				<%= div_for(seat, :data => { :id => seat.id }, :style => "left: " + (seat.position_x).to_s + "%; top: " + (seat.position_y).to_s + "%;") do %>
-				<% end %>
-			<% end %>
+			<%= render "application/tickets/seats", :seats => @seats %>
 		</div>
 		<div class="hcen">Legende: bla</div>
 	</div>

@@ -1,5 +1,6 @@
+//= require _seats
+
 @import "_mixins";
-@import "_seats";
 
 .front {
 	font-size: 16px;
@@ -360,34 +361,8 @@ table td {
 	}
 	
 	&.seats {
-		.seating {
-			margin: 10px 0px;
-			border: #cccccc solid;
-			border-width: 1px 0px;
-			
-			.tickets_seat {
-        &.available {
-  				cursor: pointer;
-  				background: green;
-        }
-				
-				&.taken {
-					background: red;
-				}
-        
-				&.selected {
-					background: yellow;
-					border-width: 2px;
-				}
-			}
-		}
-		
-		.tickets_seat {
-			position: absolute;
-			width: 15px;
-			height: 15px;
-			background: black;
-		}
+    .seating {
+    }
 	}
 	
 	&.address {
