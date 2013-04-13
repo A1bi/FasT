@@ -1,5 +1,5 @@
-module Tickets
+module Ticketing
   def self.table_name_prefix
-    'tickets_'
+    'ticketing_'
   end
 end

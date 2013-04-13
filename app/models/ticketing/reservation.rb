@@ -1,6 +1,6 @@
-class Tickets::Reservation < ActiveRecord::Base
+class Ticketing::Reservation < ActiveRecord::Base
 	belongs_to :seat
-	belongs_to :date, :class_name => Tickets::EventDate
+	belongs_to :date, :class_name => Ticketing::EventDate
 	
 	validates_presence_of :seat, :date
 	

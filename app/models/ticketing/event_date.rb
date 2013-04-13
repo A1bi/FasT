@@ -1,4 +1,4 @@
-class Tickets::EventDate < ActiveRecord::Base
+class Ticketing::EventDate < ActiveRecord::Base
   attr_accessible :date
 	
 	belongs_to :event

@@ -1,4 +1,4 @@
-module Tickets::Loggable
+module Ticketing::Loggable
 	extend ActiveSupport::Concern
 	
 	included do

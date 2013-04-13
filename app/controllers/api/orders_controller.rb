@@ -2,13 +2,13 @@ class Api::OrdersController < ApplicationController
   def create
     info = params[:order]
     
-    order = Tickets::Order.new
+    order = Ticketing::Order.new
     order.build_bunch
     
-		info[:numbers].each do |type_id, number|
-			type = Tickets::TicketType.find_by_id(type_id)
+		info[:tickets].each do |type_id, number|
+			type = Ticketing::TicketType.find_by_id(type_id)
 			number.to_i.times do
-				ticket = Tickets::Ticket.new
+				ticket = Ticketing::Ticket.new
 				ticket.type = type
 				ticket.seat_id = info[:seats].shift
         ticket.date_id = info[:date]

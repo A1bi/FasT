@@ -83,8 +83,8 @@ FasT::Application.routes.draw do
     
   end
 	
-	controller :tickets, :path => "tickets" do
-		get "bestellen", :action => :new, :as => :new_ticket
+	controller :orders, :path => "tickets" do
+		get "bestellen", :action => :new, :as => :new_order
 	end
 	
   namespace :api do

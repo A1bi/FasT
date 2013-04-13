@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409194228) do
+ActiveRecord::Schema.define(:version => 20130413142754) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.boolean  "is_slide",           :default => false
   end
 
-  create_table "tickets_bank_charges", :force => true do |t|
+  create_table "ticketing_bank_charges", :force => true do |t|
     t.string   "name"
     t.integer  "number"
     t.integer  "blz"
@@ -82,14 +82,14 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.datetime "updated_at",      :null => false
   end
 
-  create_table "tickets_blocks", :force => true do |t|
+  create_table "ticketing_blocks", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.string   "color",      :default => "black"
   end
 
-  create_table "tickets_bunches", :force => true do |t|
+  create_table "ticketing_bunches", :force => true do |t|
     t.boolean  "paid"
     t.float    "total"
     t.integer  "cancellation_id"
@@ -99,26 +99,26 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.string   "assignable_type"
   end
 
-  create_table "tickets_cancellations", :force => true do |t|
+  create_table "ticketing_cancellations", :force => true do |t|
     t.string   "reason"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "tickets_event_dates", :force => true do |t|
+  create_table "ticketing_event_dates", :force => true do |t|
     t.datetime "date"
     t.integer  "event_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "tickets_events", :force => true do |t|
+  create_table "ticketing_events", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "tickets_log_events", :force => true do |t|
+  create_table "ticketing_log_events", :force => true do |t|
     t.string   "name"
     t.string   "info"
     t.integer  "member_id"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.datetime "updated_at",    :null => false
   end
 
-  create_table "tickets_orders", :force => true do |t|
+  create_table "ticketing_orders", :force => true do |t|
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.string   "pay_method"
   end
 
-  create_table "tickets_reservations", :force => true do |t|
+  create_table "ticketing_reservations", :force => true do |t|
     t.datetime "expires"
     t.integer  "date_id"
     t.integer  "seat_id"
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "tickets_seats", :force => true do |t|
+  create_table "ticketing_seats", :force => true do |t|
     t.integer  "number"
     t.integer  "row"
     t.integer  "block_id"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.integer  "position_y", :default => 0
   end
 
-  create_table "tickets_ticket_types", :force => true do |t|
+  create_table "ticketing_ticket_types", :force => true do |t|
     t.string   "name"
     t.float    "price"
     t.datetime "created_at", :null => false
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20130409194228) do
     t.string   "info"
   end
 
-  create_table "tickets_tickets", :force => true do |t|
+  create_table "ticketing_tickets", :force => true do |t|
     t.integer  "number"
     t.float    "price"
     t.integer  "bunch_id"

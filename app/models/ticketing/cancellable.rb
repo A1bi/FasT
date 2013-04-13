@@ -1,4 +1,4 @@
-module Tickets::Cancellable
+module Ticketing::Cancellable
 	extend ActiveSupport::Concern
 	include Loggable
 	

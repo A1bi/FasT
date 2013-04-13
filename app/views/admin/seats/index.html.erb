@@ -4,13 +4,13 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
 	<div class="seating" data-edit-url="<%= admin_seat_path("") %>">
-		<%= render "application/tickets/seats", :seats => @seats, :colors => true, :numbers => true %>
+		<%= render "application/ticketing/seats", :seats => @seats, :colors => true, :numbers => true %>
 	</div>
 	<div class="actions">
 		<div class="blocks">
 			<div class="hcen">Blöcke</div>
 			<%= div_for @blocks do |block| %>
-				<div class="tickets_seat" style="background: <%= block.color %>;"></div>
+				<div class="ticketing_seat" style="background: <%= block.color %>;"></div>
 				<div class="name"><%= block.name %></div>
 			<% end %>
 		</div>

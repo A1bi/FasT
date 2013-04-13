@@ -1,10 +1,10 @@
-class Tickets::Ticket < ActiveRecord::Base
-	include Tickets::Cancellable
+class Ticketing::Ticket < ActiveRecord::Base
+	include Ticketing::Cancellable
 	
 	belongs_to :bunch
-	belongs_to :type, :class_name => Tickets::TicketType
+	belongs_to :type, :class_name => Ticketing::TicketType
   belongs_to :seat
-	belongs_to :date, :class_name => Tickets::EventDate
+	belongs_to :date, :class_name => Ticketing::EventDate
 	
 	validates_presence_of :type, :seat, :date
   validate :check_reserved

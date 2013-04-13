@@ -15,7 +15,7 @@
 		@include box;
 	}
 
-	.tickets_seat {
+	.ticketing_seat {
 		cursor: move;
 	}
 
@@ -28,11 +28,11 @@
 			float: left;
 			@include box;
 		
-			.tickets_block {
+			.ticketing_block {
 				overflow: auto;
 				margin: 3px 0px;
 			
-				.tickets_seat, .name {
+				.ticketing_seat, .name {
 					position: relative;
 					float: left;
 				}

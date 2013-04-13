@@ -1,6 +1,6 @@
 <% title "Tickets bestellen" %>
-<% include_css "tickets" %>
-<% include_js "tickets" %>
+<% include_css "orders" %>
+<% include_js "orders" %>
 <% content_for(:head) do %>
    <%= javascript_include_tag "/node/socket.io.js" %>
 <% end %>
@@ -55,7 +55,7 @@
 	<div class="stepCon seats">
 		<div>Bitte wählen Sie Ihre gewünschten Sitzplätze.</div>
 		<div class="seating noPadding">
-			<%= render "application/tickets/seats", :seats => @seats %>
+			<%= render "application/ticketing/seats", :seats => @seats %>
 		</div>
 		<div class="hcen">Legende: bla</div>
 	</div>

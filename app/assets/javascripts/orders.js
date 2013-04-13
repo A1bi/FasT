@@ -98,7 +98,7 @@ function DateStep(delegate) {
 	
 	Step.call(this, "date", delegate);
   
-  this.info.numbers = {};
+  this.info.tickets = {};
 
 	this.formatCurrency = function (value) {
 		return value.toFixed(2).toString().replace(".", ",");
@@ -111,7 +111,7 @@ function DateStep(delegate) {
 	this.updateTotal = function () {
 		total = 0, _this = this;
 		this.box.find(".number tr").each(function () {
-			if ($(this).is(".tickets_ticket_type")) {
+			if ($(this).is(".ticketing_ticket_type")) {
 				total += _this.getTypeTotal($(this));
 			} else {
 				$(this).find(".total span").html(_this.formatCurrency(total))
@@ -135,7 +135,7 @@ function DateStep(delegate) {
 		typeBox.find("td.total span").html(this.formatCurrency(this.getTypeTotal(typeBox)));
 		this.updateTotal();
 		
-		this.info.numbers[typeBox.data("id")] = $this.val();
+		this.info.tickets[typeBox.data("id")] = parseInt($this.val());
 		this.updateOrder();
 	};
 }
@@ -154,7 +154,7 @@ function SeatsStep(delegate) {
   
   this.updateSeatPlan = function () {
     $.each(this.seats[this.date], function (seatId, seatInfo) {
-      _this.box.find("#tickets_seat_" + seatId)
+      _this.box.find("#ticketing_seat_" + seatId)
         .toggleClass("selected", seatInfo.selected)
         .toggleClass("taken", seatInfo.reserved);
     });
@@ -163,7 +163,7 @@ function SeatsStep(delegate) {
   };
   
   this.updateAvailableSeats = function () {
-    this.box.find(".tickets_seat").each(function () {
+    this.box.find(".ticketing_seat").each(function () {
       $(this).toggleClass("available", $(this).is(":not(.taken):not(.selected)"));
     });
   };
@@ -181,7 +181,7 @@ function SeatsStep(delegate) {
   };
 	
 	this.registerEvents = function () {
-    this.box.find(".tickets_seat").click(function () {
+    this.box.find(".ticketing_seat").click(function () {
       _this.reserveSeat($(this));
 		});
     

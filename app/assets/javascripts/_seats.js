@@ -48,7 +48,7 @@ function Seating(container, draggable) {
   
   this.calculateGridCells(container);
     
-  var seats = container.find(".tickets_seat");
+  var seats = container.find(".ticketing_seat");
   this.initSeats(seats);
   if (draggable) this.initDraggables(seats);
 

@@ -1,5 +1,5 @@
-class Tickets::Bunch < ActiveRecord::Base
-	include Tickets::Cancellable
+class Ticketing::Bunch < ActiveRecord::Base
+	include Ticketing::Cancellable
 	
 	has_many :tickets, :after_add => :added_ticket
 	belongs_to :assignable, :polymorphic => true
