@@ -406,7 +406,7 @@ var ticketing = new function () {
 	
 	$(function () {
     // TODO: error handling (connection to server refused or lost)
-    _this.node = io.connect("", {
+    _this.node = io.connect("/order", {
       "resource": "node",
       "sync disconnect on unload": true
     });
