@@ -45,6 +45,9 @@
 			<div class="submit">
 				<%= cond_submit f %>
 			</div>
+      <%= content_tag :div, :class => [:small, :hcen] do %>
+        <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, :method => :post, :data => { :confirm => "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
+      <% end if !@member.new_record? && @member.email.present? %>
 		</div>
 	</div>
 <% end %>

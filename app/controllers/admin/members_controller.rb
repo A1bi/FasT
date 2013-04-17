@@ -1,7 +1,7 @@
 module Admin
 	class MembersController < BaseController
 		before_filter :find_groups, :only => [:new, :edit, :create, :update]
-		before_filter :find_member, :only => [:edit, :update, :destroy]
+		before_filter :find_member, :only => [:edit, :update, :destroy, :reactivate]
 		before_filter :prepare_new_member, :only => [:new, :create]
 		before_filter :update_member, :only => [:create, :update]
 	
@@ -38,7 +38,14 @@ module Admin
 			@member.destroy
 			redirect_to :action => :index
 		end
-	
+    
+    def reactivate
+      @member.reset_password
+      @member.send_activation_mail if @member.save
+      
+      redirect_to edit_admin_members_member_path(@member), :notice => t("admin.members.sent_activation_mail")
+    end
+    
 		protected
 	
 		def find_groups

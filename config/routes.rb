@@ -63,7 +63,11 @@ FasT::Application.routes.draw do
 		end
     
   	namespace :admin, :path => "vorstand" do
-  		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members
+  		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members do
+        member do
+          post "reactivate", :path => "reaktivieren"
+        end
+      end
   	end
 		
 		namespace :members, :path => "mitglieder" do

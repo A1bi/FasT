@@ -17,6 +17,9 @@ de:
     toggle_slide:
       false: "Das Foto wurde aus der Diashow entfernt."
       true: "Das Foto wurde zur Diashow hinzugefügt."
+  admin:
+    members:
+      sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
   members:
     groups:
       admin: "Vorstand"
