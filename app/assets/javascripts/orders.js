@@ -155,7 +155,7 @@ function SeatsStep(delegate) {
   this.updateSeatPlan = function () {
     $.each(this.seats[this.date], function (seatId, seatInfo) {
       _this.box.find("#ticketing_seat_" + seatId)
-        .toggleClass("selected", seatInfo.selected)
+        .toggleClass("selected", seatInfo.selected === true)
         .toggleClass("taken", seatInfo.reserved);
     });
     

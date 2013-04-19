@@ -88,7 +88,6 @@ FasT::Application.routes.draw do
 	end
 	
   namespace :api do
-    resources :seats, :only => [:index]
     resources :orders, :only => [:create]
     get "events/current", :as => "current_event"
   end
