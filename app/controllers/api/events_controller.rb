@@ -5,8 +5,8 @@ class Api::EventsController < ApplicationController
     
     response = {
       name: event.name,
-      dates: dates.map { |date| { id: date.id, date: date.date.to_i } },
-      ticket_types: Ticketing::TicketType.all.map { |type| { id: type.id, name: type.name, info: type.info, price: type.price } },
+      dates: dates.map { |date| { id: date.id.to_s, date: date.date.to_i } },
+      ticket_types: Ticketing::TicketType.all.map { |type| { id: type.id.to_s, name: type.name, info: type.info, price: type.price } },
       
       seats: Ticketing::Seat.includes(:tickets, :reservations).all.map do |seat|
         reserved = {};
@@ -25,7 +25,7 @@ class Api::EventsController < ApplicationController
           reserved[date.id] = dateReserved
         end
         
-        { :id => seat.id, :reserved => reserved, :grid => { :x => seat.position_x, :y => seat.position_y } }
+        { :id => seat.id.to_s, :reserved => reserved, :grid => { :x => seat.position_x, :y => seat.position_y } }
       end
     }
     
