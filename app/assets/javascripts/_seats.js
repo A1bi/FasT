@@ -5,7 +5,7 @@ function Seating(container, draggable) {
   var _this = this;
   
   this.calculateGridCells = function (parent) {
-    this.grid = [Math.floor(parent.width() / this.maxCells.x), Math.floor(parent.height() / this.maxCells.y)];
+    this.grid = [parent.width() / this.maxCells.x, parent.height() / this.maxCells.y];
   };
   
   this.getGridPos = function (ui) {
@@ -23,16 +23,20 @@ function Seating(container, draggable) {
     });
   };
   
+  this.dragging = function (event, ui) {
+    ui.position.left = Math.floor(ui.position.left / _this.grid[0]) * _this.grid[0];
+    ui.position.top = Math.floor(ui.position.top / _this.grid[1]) * _this.grid[1];
+  };
+  
   this.initDraggables = function (seats) {
     seats.draggable({
       containment: "parent",
-      grid: this.grid,
+      drag: this.dragging,
       stop: this.changedPos
     });
   };
   
   this.initSeats = function (seats) {
-    var _this = this;
     var sizes = { x: this.grid[0] * this.sizeFactors.x, y: this.grid[1] * this.sizeFactors.y };
     
     seats.each(function () {
