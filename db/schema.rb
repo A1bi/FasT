@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130413142754) do
+ActiveRecord::Schema.define(:version => 20130423182152) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -144,6 +144,18 @@ ActiveRecord::Schema.define(:version => 20130413142754) do
     t.datetime "expires"
     t.integer  "date_id"
     t.integer  "seat_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_retail_orders", :force => true do |t|
+    t.integer  "store_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_retail_stores", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

@@ -1,11 +1,18 @@
 class Api::OrdersController < ApplicationController
   def create
+    response = {
+      ok: false,
+      errors: []
+    }
+    
     info = params[:order]
+    retailId = params[:retailId]
     
-    order = Ticketing::Order.new
+    order = ((retailId.present?) ? Ticketing::Retail::Order : Ticketing::Order).new
+    
     order.build_bunch
-    
 		info[:tickets].each do |type_id, number|
+      next if number < 1
 			type = Ticketing::TicketType.find_by_id(type_id)
 			number.to_i.times do
 				ticket = Ticketing::Ticket.new
@@ -15,23 +22,23 @@ class Api::OrdersController < ApplicationController
         order.bunch.tickets << ticket
 			end
 		end
+  
+    if retailId.blank?
+      order.attributes = info[:address]
+
+      order.pay_method = (info[:payment] ||= {}).delete(:method)
+      if order.pay_method == "charge"
+        order.build_bank_charge(info[:payment])
+      end
     
-    order.attributes = info[:address]
-    
-    order.pay_method = info[:payment].delete(:method)
-    if order.pay_method == "charge"
-      order.build_bank_charge(info[:payment])
-    end
-    
-    response = {
-      ok: false,
-      errors: {}
-    }
-    if order.save
-      response[:ok] = true
     else
-      response[:errors][:general] = "Unknown error"
+      order.store = Ticketing::Retail::Store.find_by_id(retailId)
     end
+    
+    if !order.save
+      response[:errors] << "Unknown error"
+    end
+    response[:ok] = true if response[:errors].empty?
     
     render :json => response
   end

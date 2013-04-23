@@ -37,7 +37,7 @@ Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6
 
 ## ticket system
 # events
-event = Tickets::Event.create(name: "Test-Event")
+event = Ticketing::Event.create(name: "Test-Event")
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
@@ -48,7 +48,7 @@ colors = %w(red green blue)
 x = 5
 y = 5
 3.times do |i|
-	block = Tickets::Block.create(name: (i+1).to_s, color: colors[i])
+	block = Ticketing::Block.create(name: (i+1).to_s, color: colors[i])
 	
 	# seats
 	x2 = nil
@@ -74,8 +74,11 @@ end
 	{ name: "Kinder", info: "Jugendliche bis 16 Jahre", price: 6.5 },
 	{ name: "Erwachsene", price: 12.5 }
 ].each do |type|
-	type = Tickets::TicketType.create(type, without_protection: true)
+	type = Ticketing::TicketType.create(type, without_protection: true)
 end
+
+# retail stores
+Ticketing::Retail::Store.create(:name => "Meyers Buchhandlung")
 
 
 # clear cache
