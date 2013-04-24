@@ -35,10 +35,15 @@ class Api::OrdersController < ApplicationController
       order.store = Ticketing::Retail::Store.find_by_id(retailId)
     end
     
-    if !order.save
+    if order.save
+      response[:ok] = true
+      response[:order] = {
+        id: order.id,
+        tickets: order.bunch.tickets.map { |ticket| { id: ticket.id } }
+      }
+    else
       response[:errors] << "Unknown error"
     end
-    response[:ok] = true if response[:errors].empty?
     
     render :json => response
   end
