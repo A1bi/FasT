@@ -22,7 +22,7 @@ module Members
 			      timezone_id             "Europe/Berlin"
 			    end
 				
-					Date.not_expired.find_each do |date|
+					Date.find_each do |date|
 						cal.event do
 							uid							"FASTEVENT-#{date.id}"
 							dtstart					date.datetime.to_datetime
@@ -32,6 +32,11 @@ module Members
 							location				date.location
 							klass						"PUBLIC"
 							last_modified		date.updated_at.to_datetime
+              
+              alarm do
+                action "AUDIO"
+                trigger "-P0DT0H45M0S"
+              end
 						end
 					end
 				
