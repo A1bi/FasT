@@ -1,6 +1,9 @@
-class Ticketing::Retail::Order < ActiveRecord::Base
-  has_one :bunch, :class_name => Ticketing::Bunch, :as => :assignable, :validate => true
-  belongs_to :store
+module Ticketing
+  class Retail::Order < ActiveRecord::Base
+    include Orderable
+
+    belongs_to :store
   
-  validates_presence_of :bunch, :store
+    validates_presence_of :store
+  end
 end

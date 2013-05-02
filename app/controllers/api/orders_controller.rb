@@ -8,7 +8,7 @@ class Api::OrdersController < ApplicationController
     info = params[:order]
     retailId = params[:retailId]
     
-    order = ((retailId.present?) ? Ticketing::Retail::Order : Ticketing::Order).new
+    order = ((retailId.present?) ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     
     order.build_bunch
 		info[:tickets].each do |type_id, number|
@@ -37,10 +37,6 @@ class Api::OrdersController < ApplicationController
     
     if order.save
       response[:ok] = true
-      response[:order] = {
-        id: order.id,
-        tickets: order.bunch.tickets.map { |ticket| { id: ticket.id } }
-      }
     else
       response[:errors] << "Unknown error"
     end
