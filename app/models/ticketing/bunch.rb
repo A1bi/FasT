@@ -1,12 +1,14 @@
-class Ticketing::Bunch < ActiveRecord::Base
-	include Ticketing::Cancellable
+module Ticketing
+  class Bunch < ActiveRecord::Base
+  	include Cancellable
 	
-	has_many :tickets, :after_add => :added_ticket
-	belongs_to :assignable, :polymorphic => true
+  	has_many :tickets, :after_add => :added_ticket
+  	belongs_to :assignable, :polymorphic => true
 	
-	validates_length_of :tickets, :minimum => 1
+  	validates_length_of :tickets, :minimum => 1
 	
-  def added_ticket(ticket)
-    self[:total] = ticket.type.price.to_f + total.to_f
+    def added_ticket(ticket)
+      self[:total] = ticket.type.price.to_f + total.to_f
+    end
   end
 end

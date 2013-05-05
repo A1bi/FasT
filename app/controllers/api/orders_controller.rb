@@ -43,4 +43,10 @@ class Api::OrdersController < ApplicationController
     
     render :json => response
   end
+  
+  def retail
+    orders = Ticketing::Retail::Order.by_store(params[:store_id]).api_hash
+    
+    render :json => orders
+  end
 end

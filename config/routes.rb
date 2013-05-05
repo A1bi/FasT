@@ -88,7 +88,11 @@ FasT::Application.routes.draw do
 	end
 	
   namespace :api do
-    resources :orders, :only => [:create]
+    resources :orders, :only => [:create] do
+      collection do
+        get "retail/:store_id", :action => :retail
+      end
+    end
     get "events/current", :as => "current_event"
   end
 
