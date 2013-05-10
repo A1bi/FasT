@@ -25,7 +25,7 @@ class Api::EventsController < ApplicationController
           reserved[date.id] = dateReserved
         end
         
-        { :id => seat.id.to_s, :reserved => reserved, :grid => { :x => seat.position_x, :y => seat.position_y } }
+        { :id => seat.id.to_s, :block => seat.block.name, :row => seat.row.to_s, :number => seat.number.to_s, :reserved => reserved, :grid => { :x => seat.position_x, :y => seat.position_y } }
       end
     }
     
