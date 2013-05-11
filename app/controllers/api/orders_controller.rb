@@ -49,4 +49,13 @@ class Api::OrdersController < ApplicationController
     
     render :json => orders
   end
+  
+  def mark_paid
+    order = Ticketing::Retail::Order.find(params[:id])
+    order.bunch.update_attribute(:paid, true)
+    
+    render :json => {
+      ok: true
+    }
+  end
 end

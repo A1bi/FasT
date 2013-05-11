@@ -89,6 +89,9 @@ FasT::Application.routes.draw do
 	
   namespace :api do
     resources :orders, :only => [:create] do
+      member do
+        post "mark_paid"
+      end
       collection do
         get "retail/:store_id", :action => :retail
       end

@@ -80,6 +80,26 @@ end
 # retail stores
 Ticketing::Retail::Store.create(:name => "Meyers Buchhandlung")
 
+# retail orders
+available_seats = Ticketing::Seat.includes(:tickets, :reservations).having("COUNT(ticketing_tickets.id) + COUNT(ticketing_reservations.id) < 1").group("ticketing_seats.id")
+date = Ticketing::EventDate.last
+i = 0
+3.times do
+  order = Ticketing::Retail::Order.new
+  order.store = Ticketing::Retail::Store.first
+  order.build_bunch
+  
+  (1 + random(5)).times do
+    ticket = Ticketing::Ticket.new
+    ticket.date = date
+    ticket.seat = available_seats.offset(i).first
+    ticket.type = Ticketing::TicketType.order("RANDOM()").first
+    order.bunch.tickets << ticket
+    i = i+1
+  end
+  
+  order.save
+end
 
 # clear cache
 Rails.cache.clear
