@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502180534) do
+ActiveRecord::Schema.define(:version => 20130512173100) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20130502180534) do
     t.datetime "updated_at",      :null => false
     t.integer  "assignable_id"
     t.string   "assignable_type"
+    t.integer  "number"
   end
 
   create_table "ticketing_cancellations", :force => true do |t|
@@ -138,8 +139,9 @@ ActiveRecord::Schema.define(:version => 20130502180534) do
 
   create_table "ticketing_retail_orders", :force => true do |t|
     t.integer  "store_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "queue_number"
   end
 
   create_table "ticketing_retail_stores", :force => true do |t|

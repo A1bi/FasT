@@ -24,7 +24,7 @@ class NodeApi
     make_request("push", data)
   end
   
-  def self.push_to_retail_manager(action, retailId, info = nil)
-    push(action, [:retailManager], [retailId], info)
+  def self.push_to_retail_checkout(action, retailId, info = nil)
+    push(action, ["retailCheckout"], [retailId], info)
   end
 end

@@ -52,7 +52,7 @@ class Api::OrdersController < ApplicationController
   
   def mark_paid
     order = Ticketing::Retail::Order.find(params[:id])
-    order.bunch.update_attribute(:paid, true)
+    order.mark_as_paid
     
     render :json => {
       ok: true
