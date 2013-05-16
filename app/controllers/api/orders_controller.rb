@@ -37,6 +37,7 @@ class Api::OrdersController < ApplicationController
     
     if order.save
       response[:ok] = true
+      response[:order] = order.api_hash
     else
       response[:errors] << "Unknown error"
     end
