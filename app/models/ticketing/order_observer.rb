@@ -7,10 +7,14 @@ module Ticketing
     end
     alias_method :after_destroy, :after_save
     
+    def after_create(order)
+      OrderMailer.confirmation(order).deliver if order.is_a? Web::Order
+    end
+    
     private
     
     def update_retail_checkout(order)
-      if order.class == Retail::Order
+      if order.is_a? Retail::Order
         NodeApi.push_to_retail_checkout("updateOrders", order.store.id, Retail::Order.by_store(order.store).api_hash)
       end
     end

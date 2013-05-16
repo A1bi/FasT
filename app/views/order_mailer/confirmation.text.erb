@@ -1,0 +1,35 @@
+Sehr geehrte<% if @order.gender == 0 %> Frau<% else %>r Herr<% end %> <%= @order.last_name %>,
+
+vielen Dank für Ihre Bestellung!
+
+
+Folgende Tickets für die Aufführung am <%= l @order.bunch.tickets[0].date.date, format: "%A, den %d. %B um %H.%M" %> Uhr haben Sie bestellt:
+
+<% @order.bunch.tickets.each do |ticket| %>
+<%= ticket.type.name %> - <%= number_to_currency(ticket.price) %>
+<% end %>
+---------------------------------
+Gesamtbetrag: <%= number_to_currency(@order.bunch.total) %>
+
+
+<% if @order.pay_method == "charge" %>
+Der Betrag wird in den kommenden Tagen von dem von Ihnen angegebenen Konto abgebucht.
+
+Ihre Karten werden in wenigen Momenten auf dieser e-mail-Adresse eintreffen!
+<% else %>
+Bitte überweisen Sie den Betrag von <%= number_to_currency(@order.bunch.total) %> auf folgendes Konto:
+
+Kontoinhaber: Freilichtbühne am schiefen Turm e.V.
+Kontonummer: 178167
+BLZ: 57069144
+Kreditinstitut: Raiffeisenbank Kaisersesch
+Verwendungszweck: Order <%= @order.bunch.number %>
+
+Sie erhalten Ihre Tickets sofort nach Zahlungsgeingang.
+<% end %>
+
+
+
+Wir wünschen Ihnen viel Spaß bei der Aufführung!
+
+Die Freilichtbühne am schiefen Turm Kaisersesch

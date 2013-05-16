@@ -48,6 +48,9 @@ de:
   member_mailer:
     activation:
       subject: "Willkommen im Mitgliederbereich!"
+  order_mailer:
+    confirmation:
+      subject: "Ihre Bestellung"
   activerecord:
     errors:
       messages:
