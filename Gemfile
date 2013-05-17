@@ -27,6 +27,8 @@ gem 'bcrypt-ruby'
 
 gem 'icalendar'
 
+gem 'prawn'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -38,13 +40,13 @@ gem 'unicorn'
 
 # Deploy with Capistrano
 group :development do
-  gem "capistrano"
+  gem 'capistrano'
 	gem 'sqlite3'
-	gem "ffaker"
+	gem 'ffaker'
 end
 
 group :production do
-	gem "mysql2"
+	gem 'mysql2'
 end
 
 # To use debugger
