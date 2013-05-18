@@ -1,3 +1,14 @@
+GIT
+  remote: git://github.com/prawnpdf/prawn.git
+  revision: fba53264342fbfd5069b20c84f45664275c74931
+  tag: 1.0.0.rc2
+  specs:
+    prawn (1.0.0.rc2)
+      afm
+      pdf-reader (>= 0.9.0, < 2.0)
+      ruby-rc4
+      ttfunk (~> 1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -85,9 +96,6 @@ GEM
       ruby-rc4
       ttfunk
     polyglot (0.3.3)
-    prawn (0.12.0)
-      pdf-reader (>= 0.9.0)
-      ttfunk (~> 1.0.2)
     rack (1.4.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -156,7 +164,7 @@ DEPENDENCIES
   jquery-ui-rails
   mysql2
   paperclip (~> 3.0)
-  prawn
+  prawn!
   rails (= 3.2.11)
   sass-rails (~> 3.2.3)
   sqlite3

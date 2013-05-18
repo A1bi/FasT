@@ -4,10 +4,16 @@ class TicketsPDF < Prawn::Document
   include ActionView::Helpers::NumberHelper
   
   TICKET_WIDTH = 595
-  TICKET_HEIGHT = 240
+  TICKET_HEIGHT = 220
   
   def initialize
-    super page_size: [TICKET_WIDTH, TICKET_HEIGHT], margin: [10, 40, 10, 10]
+    super page_size: "A4", margin: [10, 0, 10, 0], info: {
+      Title:         t(:title),
+      Author:        t(:author),
+      Creator:       t(:creator),
+      Producer:      t(:creator),
+      CreationDate:  Time.now
+    }
     
     fill_color "000000"
     stroke_color "000000"
@@ -19,7 +25,10 @@ class TicketsPDF < Prawn::Document
     font "Avenir"
     @font_sizes = { normal: 16, small: 13, tiny: 11 }
     
-    @tickets_drawn = 0
+    indent(20, 20) do
+      text t(:notes)
+    end
+    draw_cut_line
   end
   
   def add_order(order)
@@ -35,25 +44,33 @@ class TicketsPDF < Prawn::Document
   private
 
   def draw_ticket(ticket)
-    start_new_page if @tickets_drawn > 0
-    
-    barcodeWidth = 60
-    bounding_box([0, bounds.height], width: barcodeWidth, height: bounds.height) do
-      draw_barcode_for_ticket ticket
+    if cursor - TICKET_HEIGHT < 0
+      start_new_page
     end
     
-    bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth) do
-      move_down 4
-      indent(30) do
-        # draw_logo
-        draw_event_info_for_date ticket.date
-        draw_seat_info ticket.seat
-        draw_ticket_type_info ticket.type
-        draw_bottom_info_for_ticket ticket
+    bounding_box([0, cursor], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
+      indent(10, 20) do
+        barcodeWidth = 60
+        bounding_box([0, bounds.height], width: barcodeWidth, height: bounds.height) do
+          draw_barcode_for_ticket ticket
+        end
+
+        bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth, height: bounds.height) do
+          move_down 4
+          indent(30) do
+            # draw_logo
+            draw_event_info_for_date ticket.date
+            draw_seat_info ticket.seat
+            draw_ticket_type_info ticket.type
+            draw_bottom_info_for_ticket ticket
+          end
+        end
       end
     end
     
-    @tickets_drawn = @tickets_drawn + 1
+    if cursor > TICKET_HEIGHT / 3
+      draw_cut_line
+    end
   end
 
   def draw_barcode_for_ticket(ticket)
@@ -94,30 +111,32 @@ class TicketsPDF < Prawn::Document
   def draw_seat_info(seat)
     texts = array_of_texts_with_translations %w(block row seat), [seat.block.name, seat.row, seat.number]
     draw_horizontal_array_of_texts texts, :small, 8
-  
-    move_up 35
   end
 
   def draw_ticket_type_info(type)
-    font_size_name :normal do
-      text type.name, align: :right
-      text number_to_currency(type.price), align: :right
+    move_up 45
+    
+    indent(0, 20) do
+      font_size_name :normal do
+        text type.name, align: :right
+        text number_to_currency(type.price), align: :right
+      end
     end
-
-    move_down 23
   end
 
   def draw_bottom_info_for_ticket(ticket)
-    draw_line(0.5) do
-      horizontal_line 0, bounds.right
-    end
+    bounding_box([0, 20], width: bounds.width, height: 20) do
+      draw_line(0.5) do
+        horizontal_line 0, bounds.right
+      end
     
-    move_down 4
+      move_down 4
     
-    indent(5) do
-      texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.bunch.number]
-      texts.push t(:website)
-      draw_horizontal_array_of_texts texts, :tiny, 15
+      indent(5) do
+        texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.bunch.number]
+        texts.push t(:website)
+        draw_horizontal_array_of_texts texts, :tiny, 15
+      end
     end
   end
   
@@ -148,6 +167,15 @@ class TicketsPDF < Prawn::Document
     line_width = width
     stroke do
       yield
+    end
+  end
+  
+  def draw_cut_line
+    pad(15) do
+      dash(10, space: 5, phase: 0)
+      horizontal_line(10, bounds.width)
+      stroke
+      undash
     end
   end
   
