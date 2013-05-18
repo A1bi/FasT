@@ -42,6 +42,16 @@ de:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
       seat_taken: "Ihr gewählter Sitzplatz wurde in der Zwischenzeit von jemand anderem reserviert. Bitte wählen Sie einen anderen Platz."
       date_not_found: "Das gewählte Datum wurde nicht gefunden."
+  tickets_pdf:
+    event_date_format: "%A, den %d. %B um %H.%M Uhr"
+    ticket: "Ticket"
+    order: "Order"
+    block: "Block"
+    row: "Reihe"
+    seat: "Sitz"
+    website: "www.theater-kaisersesch.de"
+    location: "Historischer Ortskern, Kaisersesch"
+    opens: "Einlass ab 19.00 Uhr"
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"

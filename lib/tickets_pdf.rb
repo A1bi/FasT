@@ -82,17 +82,17 @@ class TicketsPDF < Prawn::Document
     end
   
     font_size_name :normal do
-      text (I18n.l date.date, format: "%A, den %d. %B um %H.%M Uhr")
+      text (I18n.l date.date, format: t(:event_date_format))
     end
   
     font_size_name :small do
-      pad_bottom(10) { text "Einlass ab 19.00 Uhr" }
-      pad_bottom(30) { text "Historischer Ortskern, Kaisersesch" }
+      pad_bottom(10) { text t(:opens) }
+      pad_bottom(30) { text t(:location) }
     end
   end
 
   def draw_seat_info(seat)
-    texts = ["Block: #{seat.block.name}", "Reihe: #{seat.row}", "Sitz: #{seat.number}"]
+    texts = array_of_texts_with_translations %w(block row seat), [seat.block.name, seat.row, seat.number]
     draw_horizontal_array_of_texts texts, :small, 8
   
     move_up 35
@@ -115,8 +115,15 @@ class TicketsPDF < Prawn::Document
     move_down 4
     
     indent(5) do
-      texts = ["Ticket: #{ticket.number}", "Order: #{ticket.bunch.number}", "www.theater-kaisersesch.de"]
+      texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.bunch.number]
+      texts.push t(:website)
       draw_horizontal_array_of_texts texts, :tiny, 15
+    end
+  end
+  
+  def array_of_texts_with_translations(keys, values)
+    values.each_with_index.map do |value, i|
+      "#{t(keys[i])}: #{value}"
     end
   end
 
@@ -142,5 +149,9 @@ class TicketsPDF < Prawn::Document
     stroke do
       yield
     end
+  end
+  
+  def t(key)
+    I18n.t(key, :scope => :tickets_pdf)
   end
 end
