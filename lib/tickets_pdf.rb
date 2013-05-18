@@ -61,8 +61,11 @@ class TicketsPDF < Prawn::Document
     height = bounds.width - margin
     width = bounds.height
   
-    # rotate
-    # draw barcode
+    rotate(-90, :origin => [0, bounds.height]) do
+      bounding_box([0, bounds.height + height], width: width, height: height) do
+        BarcodePDF.draw_content("T#{ticket.number}M1", self)
+      end
+    end
     
     draw_line(0.5) do
       vertical_line 0, bounds.height, at: height + margin - 0.5
@@ -79,7 +82,7 @@ class TicketsPDF < Prawn::Document
     end
   
     font_size_name :normal do
-      text (I18n.l date.date, format: "%A, den %d. %B um %H.%M")
+      text (I18n.l date.date, format: "%A, den %d. %B um %H.%M Uhr")
     end
   
     font_size_name :small do
