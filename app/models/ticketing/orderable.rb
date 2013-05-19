@@ -21,6 +21,17 @@ module Ticketing
         hash[:queue_number] = queue_number.to_s if self.is_a? Ticketing::Retail::Order
         hash
       end
+      
+      def mark_as_paid
+        return if bunch.paid
+      
+        bunch.paid = true
+        self[:queue_number] = nil if self.is_a? Ticketing::Retail::Order
+        bunch.save
+        save
+        
+        bunch.log(:marked_as_paid, nil)
+      end
   	end
     
     module ClassMethods

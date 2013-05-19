@@ -65,6 +65,8 @@ de:
   order_mailer:
     confirmation:
       subject: "Ihre Bestellung"
+    payment_received:
+      subject: "Ihre Tickets"
   activerecord:
     errors:
       messages:
