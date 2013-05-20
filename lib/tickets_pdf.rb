@@ -58,7 +58,6 @@ class TicketsPDF < Prawn::Document
         bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth, height: bounds.height) do
           move_down 4
           indent(30) do
-            # draw_logo
             draw_event_info_for_date ticket.date
             draw_seat_info ticket.seat
             draw_ticket_type_info ticket.type
@@ -89,11 +88,27 @@ class TicketsPDF < Prawn::Document
     end
   end
 
-  # def draw_logo
-  #
-  # end
-
   def draw_event_info_for_date(date)
+    font_size_name :small do
+      header = t(:header)
+      box_height = height_of header
+      bounding_box([0, cursor], width: bounds.width, height: box_height) do
+        text_width = 0
+        character_spacing 1 do
+          text_width = width_of header
+          text header, align: :center, valign: :center
+        end
+    
+        move_cursor_to box_height / 2
+        draw_line(0.5) do
+          padding = 10
+          text_start = bounds.width / 2 - text_width / 2
+          horizontal_line 0, text_start - padding
+          horizontal_line text_start + text_width + padding, bounds.width
+        end
+      end
+    end
+    
     font("SnellRoundhand", size: 40) do
       pad_bottom(4) { text date.event.name }
     end
@@ -104,12 +119,12 @@ class TicketsPDF < Prawn::Document
   
     font_size_name :small do
       pad_bottom(10) { text t(:opens) }
-      pad_bottom(30) { text t(:location) }
+      pad_bottom(15) { text t(:location) }
     end
   end
 
   def draw_seat_info(seat)
-    texts = array_of_texts_with_translations %w(block row seat), [seat.block.name, seat.row, seat.number]
+    texts = array_of_texts_with_translations %w(block seat), [seat.block.name, seat.number]
     draw_horizontal_array_of_texts texts, :small, 8
   end
 
@@ -150,6 +165,7 @@ class TicketsPDF < Prawn::Document
     font_size_name size do
       table([texts]) do |table|
         table.cells.padding = [0, padding]
+        table.cells.valign = :bottom
         table.cells.border_width = 0.3
         table.columns(0..-2).borders = [:right]
         table.column(-1).borders = []
@@ -173,7 +189,7 @@ class TicketsPDF < Prawn::Document
   def draw_cut_line
     pad(15) do
       dash(10, space: 5, phase: 0)
-      horizontal_line(10, bounds.width)
+      horizontal_line(0, bounds.width)
       stroke
       undash
     end
