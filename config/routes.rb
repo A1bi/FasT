@@ -62,6 +62,7 @@ FasT::Application.routes.draw do
   	namespace :admin, :path => "vorstand" do
   		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members
 			resources :seats, :path => "sitzplan", :except => [:new, :edit, :show]
+      resources :ticketing_blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show], :controller => :blocks
   	end
 		
 		namespace :members, :path => "mitglieder" do

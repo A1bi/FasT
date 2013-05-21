@@ -4,15 +4,23 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
 	<div class="seating" data-edit-url="<%= admin_seat_path("") %>">
-		<%= render "application/ticketing/seats", :seats => @seats, :colors => true, :numbers => true %>
+		<%= render "application/ticketing/seats", seats: @seats, colors: true, numbers: true %>
 	</div>
-	<div class="actions">
+	<div class="bottom">
 		<div class="blocks">
 			<div class="hcen">Blöcke</div>
-			<%= div_for @blocks do |block| %>
-				<div class="ticketing_seat" style="background: <%= block.color %>;"></div>
-				<div class="name"><%= block.name %></div>
-			<% end %>
+      <div id="blocks">
+        <%= div_for @blocks do |block| %>
+        	<div class="ticketing_seat" style="background: <%= block.color %>;"></div>
+        	<div class="name"><%= block.name %></div>
+          <div class="actions">
+            <%= render "admin_actions", obj: [:admin, block], delete_confirm: "diesen Block", remote_edit: true %>
+          </div>
+        <% end %>
+      </div>
+      <div class="new">
+        <%= link_to "neuer Block", new_admin_ticketing_block_path, id: "new_link", remote: true %>
+      </div>
 		</div>
 		<div class="seats">
 			

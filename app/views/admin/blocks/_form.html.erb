@@ -1,0 +1,5 @@
+<%= form_for [:admin, @block] do |f| %>
+  Farbe: <%= f.text_field :color %><br />
+  Name: <%= f.text_field :name %><br />
+  <%= f.submit "speichern" %>
+<% end %>
