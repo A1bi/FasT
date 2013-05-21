@@ -1,5 +1,7 @@
 //= require _seats
 
 $(function () {
-  new Seating($(".seating"), true);
+  var seating = new Seating($(".seating"));
+  seating.initDraggables();
+  seating.initSelectables();
 });

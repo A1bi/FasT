@@ -1,7 +1,10 @@
-function Seating(container, draggable) {
+function Seating(container) {
   this.maxCells = { x: 100, y: 60 };
   this.sizeFactors = { x: 3.5, y: 3 };
   this.grid = null;
+  this.selecting = false;
+  this.container = container;
+  this.seats = this.container.find(".ticketing_seat");
   var _this = this;
   
   this.calculateGridCells = function (parent) {
@@ -28,18 +31,50 @@ function Seating(container, draggable) {
     ui.position.top = Math.floor(ui.position.top / _this.grid[1]) * _this.grid[1];
   };
   
-  this.initDraggables = function (seats) {
-    seats.draggable({
+  this.initDraggables = function () {
+    this.seats.draggable({
       containment: "parent",
       drag: this.dragging,
       stop: this.changedPos
     });
   };
   
-  this.initSeats = function (seats) {
+  this.initSelectables = function () {
+    var _this = this;
+    
+    $(document).keydown(function (event) {
+      _this.toggleSelecting(event, true);
+    })
+    .keyup(function (event) {
+      _this.toggleSelecting(event, false);
+    });
+      
+    this.container.click(function (event) {
+      var seat = $(event.target);
+      if (!seat.is(".ticketing_seat")) {
+        seat = seat.parents(".ticketing_seat");
+      }
+      var isSeat = seat.is(".ticketing_seat");
+      if (!isSeat || !_this.selecting) {
+        _this.seats.removeClass("selected");
+      }
+      if (isSeat) {
+        seat.toggleClass("selected");
+      }
+    });
+  };
+  
+  this.toggleSelecting = function (event, toggle) {
+    if (event.which == 91) {
+      this.selecting = toggle;
+      this.container.toggleClass("selecting", toggle);
+    }
+  };
+  
+  this.initSeats = function () {
     var sizes = { x: this.grid[0] * this.sizeFactors.x, y: this.grid[1] * this.sizeFactors.y };
     
-    seats.each(function () {
+    this.seats.each(function () {
       var item = $(this);
       item.css({
         left: item.data("grid-x") * _this.grid[0],
@@ -50,10 +85,7 @@ function Seating(container, draggable) {
     });
   };
   
-  this.calculateGridCells(container);
-    
-  var seats = container.find(".ticketing_seat");
-  this.initSeats(seats);
-  if (draggable) this.initDraggables(seats);
+  this.calculateGridCells(this.container);
+  this.initSeats();
 
 };

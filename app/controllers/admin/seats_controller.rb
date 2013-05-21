@@ -9,21 +9,7 @@ module Admin
 		end
 	
 		def create
-			@seats = []
-			maxNumber = Ticketing::Seat.where(row: params[:ticketing_seat][:row], block_id: params[:ticketing_seat][:block_id]).maximum(:number) || 0
-		
-			params[:ticketing_seat][:number].to_i.times do |i|
-				seat = Ticketing::Seat.new({
-					row: params[:ticketing_seat][:row],
-					number: maxNumber+i+1,
-				});
-				seat.block_id = params[:ticketing_seat][:block_id]
-				if seat.save!
-					@seats << seat
-				end
-			end
-		
-			render "create.js"
+			
 		end
 	
 		def update

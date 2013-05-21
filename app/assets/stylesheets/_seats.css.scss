@@ -15,20 +15,6 @@
   width: 15px;
   height: 15px;
   
-  &.available {
-		cursor: pointer;
-		background: green;
-  }
-	
-	&.taken {
-		background: red;
-	}
-  
-	&.selected {
-		background: yellow;
-		border-width: 2px;
-	}
-  
 	.row {
 		font-weight: bold;
 		display: none;

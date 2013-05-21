@@ -13,10 +13,20 @@
 	
 	.seating {
 		@include box;
-	}
-
-	.ticketing_seat {
-		cursor: move;
+    
+  	.ticketing_seat {
+  		cursor: move;
+      
+      &.selected {
+        border-color: red;
+      }
+  	}
+    
+    &.selecting {
+    	.ticketing_seat {
+    		cursor: pointer;
+    	}
+    }
 	}
 
 	.actions {

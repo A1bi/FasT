@@ -15,26 +15,7 @@
 			<% end %>
 		</div>
 		<div class="seats">
-			<div class="hcen">Neue Sitzplätze erstellen</div>
-			<%= form_for @new_seat, url: admin_seats_path, remote: true do |f| %>
-				<table>
-					<tr>
-						<td>Anzahl:</td>
-						<td><%= f.text_field :number, size: 3 %></td>
-					</tr>
-					<tr>
-						<td>Block:</td>
-						<td>
-							<%= f.collection_select :block_id, @blocks, :id, :name, :prompt => 'Bitte wählen Sie einen Block' %>
-						</td>
-					</tr>
-					<tr>
-						<td>Reihe:</td>
-						<td><%= f.text_field :row, size: 3 %></td>
-					</tr>
-				</table>
-				<div class="hcen"><%= f.submit "erstellen", disable_with: "..." %></div>
-			<% end %>
+			
 		</div>
 	</div>
 </div>
