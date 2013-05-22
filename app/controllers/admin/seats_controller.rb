@@ -5,11 +5,25 @@ module Admin
 		def index
 			@seats = Ticketing::Seat.order(:number)
 			@blocks = Ticketing::Block.order(:id)
-			@new_seat = Ticketing::Seat.new
+			@new_seats = @blocks.map do |block|
+        seat = Ticketing::Seat.new
+        seat.block = block
+        seat
+      end
 		end
 	
 		def create
-			
+			seat = Ticketing::Seat.new(params[:seat])
+      if seat.save
+        render json: {
+          ok: true,
+          id: seat.id
+        }
+      else
+        render json: {
+          ok: false
+        }
+      end
 		end
 	
 		def update

@@ -28,6 +28,35 @@
     	}
     }
 	}
+  
+  .new_seat {
+    @include box;
+    margin-top: 10px;
+    overflow: auto;
+    
+    > div {
+      float: left;
+      padding: 0px 10px;
+      border-right: 1px solid #cccccc;
+      vertical-align: top;
+      height: 20px;
+    }
+    
+    .ticketing_seat {
+      position: relative;
+      float: left;
+      margin-left: 10px;
+      cursor: move;
+      
+      &:first-child {
+        margin: 0px;
+      }
+    }
+    
+    input {
+      width: 30px;
+    }
+  }
 
 	.bottom {
 		overflow: auto;

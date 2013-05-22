@@ -11,8 +11,7 @@ function Seating(container) {
     this.grid = [parent.width() / this.maxCells.x, parent.height() / this.maxCells.y];
   };
   
-  this.getGridPos = function (ui) {
-    var pos = ui.position;
+  this.getGridPos = function (pos) {
     return { position_x: Math.floor(pos.left / this.grid[0]), position_y: Math.floor(pos.top / this.grid[1]) };
   };
   
@@ -21,7 +20,7 @@ function Seating(container) {
     $.ajax(ui.helper.parent().data("edit-url") + id, {
       method: "PUT",
       data: {
-        seat: _this.getGridPos(ui)
+        seat: _this.getGridPos(ui.position)
       }
     });
   };
@@ -31,8 +30,8 @@ function Seating(container) {
     ui.position.top = Math.floor(ui.position.top / _this.grid[1]) * _this.grid[1];
   };
   
-  this.initDraggables = function () {
-    this.seats.draggable({
+  this.initDraggables = function (seat) {
+    (seat || this.seats).draggable({
       containment: "parent",
       drag: this.dragging,
       stop: this.changedPos
