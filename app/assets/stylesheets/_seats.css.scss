@@ -14,19 +14,4 @@
   background: black;
   width: 15px;
   height: 15px;
-  
-	.row {
-		font-weight: bold;
-		display: none;
-	}
-
-	&:hover:not(:active) {
-		.number {
-			display: none;
-		}
-	
-		.row {
-			display: block;
-		}
-	}
 }

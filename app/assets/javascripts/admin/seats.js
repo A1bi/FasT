@@ -43,7 +43,6 @@ $(function () {
         method: "POST",
         data: {
           seat: {
-            row: 0,
             number: newSeat.data("number"),
             block_id: newSeat.data("block"),
             position_x: pos.position_x,
