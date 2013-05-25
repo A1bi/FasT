@@ -21,24 +21,28 @@
       <%= render "application/ticketing/seats", seats: @new_seats, colors: true, numbers: true %>
     </div>
   </div>
-	<div class="bottom">
-		<div class="blocks">
-			<div class="hcen">Blöcke</div>
-      <div id="blocks">
-        <%= div_for @blocks do |block| %>
-        	<div class="ticketing_seat" style="background: <%= block.color %>;"></div>
-        	<div class="name"><%= block.name %></div>
-          <div class="actions">
+	<div class="blocks">
+		<div class="hcen">Blöcke</div>
+    <div id="blocks">
+      <table>
+        <%= content_tag_for :tr, @blocks do |block| %>
+          <td><div class="ticketing_seat" style="background: <%= block.color %>;"></div></td>
+      	  <td class="name"><%= block.name %></td>
+          <td><%= block.seats.count %> Sitzplätze</td>
+          <td class="actions">
             <%= render "admin_actions", obj: [:admin, block], delete_confirm: "diesen Block", remote_edit: true %>
-          </div>
+          </td>
         <% end %>
-      </div>
-      <div class="new">
-        <%= link_to "neuer Block", new_admin_ticketing_block_path, id: "new_link", remote: true %>
-      </div>
-		</div>
-		<div class="seats">
-			
-		</div>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><%= @seats.count %> Sitzplätze</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div class="new">
+      <%= link_to "neuer Block", new_admin_ticketing_block_path, id: "new_link", remote: true %>
+    </div>
 	</div>
 </div>

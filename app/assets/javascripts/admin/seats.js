@@ -15,6 +15,21 @@ $(function () {
     });
   }
   
+  function updateSelectedSeats(method, attrs) {
+    var data = {
+      seat: attrs,
+      ids: selectedSeatIds
+    };
+    
+    $.ajax(seatingBox.data("update-multiple-url"), {
+      method: method,
+      data: data,
+      success: function () {
+        seating.reload();
+      }
+    });
+  }
+  
   var seatTemplate = seatingBox.find(".ticketing_seat").first();
   $(".new_seat .ticketing_seat")
   .draggable({
@@ -81,29 +96,22 @@ $(function () {
   
   editSeats.find("input, select").change(function () {
     var $this = $(this),
-        attr,
-        data = { seat: {}, ids: [] };
+        attr;
     if ($this.is("input")) {
       selectedSeats.find(".number").html($this.val());
       attr = "number";
     } else {
       attr = "block_id";
     }
-    data.seat[attr] = $this.val();
-    data.ids = selectedSeatIds;
-    
-    $.ajax(seatingBox.data("update-multiple-url"), {
-      method: "PUT",
-      data: data
-    });
+    var attrs = {};
+    attrs[attr] = $this.val();
+
+    updateSelectedSeats("PUT", attrs);
   });
   
   editSeats.find("a").click(function (event) {
     if (confirm($(this).data("confirm-msg"))) {
-      $.ajax(seatingBox.data("update-multiple-url"), {
-        method: "DELETE",
-        data: { ids: selectedSeatIds }
-      });
+      updateSelectedSeats("DELETE");
     }
     
     event.preventDefault();

@@ -40,7 +40,6 @@ function Seating(container) {
   };
   
   this.initSelectables = function (callback) {
-    var _this = this;
     this.callbacks.selected = callback;
     
     $(document).keydown(function (event) {
@@ -72,6 +71,16 @@ function Seating(container) {
       this.selecting = toggle;
       this.container.toggleClass("selecting", toggle);
     }
+  };
+  
+  this.reload = function () {
+    $.getJSON(location.href + ".json", function (response) {
+      if (response.ok) {
+        _this.container.html(response.html);
+        _this.seats = $(_this.seats.selector);
+        _this.initSeats();
+      }
+    });
   };
   
   this.initSeats = function () {

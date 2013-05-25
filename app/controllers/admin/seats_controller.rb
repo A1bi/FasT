@@ -4,11 +4,19 @@ module Admin
 	
 		def index
 			@seats = Ticketing::Seat.order(:number)
-			@blocks = Ticketing::Block.order(:id)
-			@new_seats = @blocks.map do |block|
-        seat = Ticketing::Seat.new
-        seat.block = block
-        seat
+      
+      respond_to do |format|
+        
+        format.html do
+    			@blocks = Ticketing::Block.order(:id)
+    			@new_seats = @blocks.map do |block|
+            seat = Ticketing::Seat.new
+            seat.block = block
+            seat
+          end
+        end
+        
+        format.json { render json: { ok: true, html: render_to_string("_seats.html", formats: :html, layout: false) } }
       end
 		end
 	

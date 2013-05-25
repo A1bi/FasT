@@ -5,6 +5,7 @@
 	border: 1px solid #cccccc;
 	border-radius: 10px;
 	padding: 10px;
+  margin-top: 10px;
 }
 
 #seats {
@@ -31,7 +32,6 @@
   
   .new_seat, .edit_seats {
     @include box;
-    margin-top: 10px;
     overflow: auto;
     
     > div, > form > div {
@@ -69,47 +69,40 @@
       border: none !important;
     }
   }
-
-	.bottom {
-		overflow: auto;
-		margin-top: 10px;
 	
-		.blocks {
-			width: 40%;
-			float: left;
-			@include box;
-		
-			.ticketing_block {
-				overflow: auto;
-				margin: 3px 0px;
-			
-				.ticketing_seat, .name {
-					position: relative;
-					float: left;
-				}
-			
-				.name {
-					margin-left: 6px;
-				}
-        
-				.actions {
-					float: right;
-				}
-			}
+	.blocks {
+		@include box;
+    
+    table {
+      border-collapse: collapse;
       
-      .new {
-        margin: 10px;
-        
-        input[type=text] {
-          width: 130px;
-        }
+      tr:last-child td {
+        border-top: 1px solid black;
       }
-		}
-	
-		.seats {
-			float: right;
-			width: 50%;
-			@include box;
-		}
+      
+      tr td:first-child {
+        width: 15px;
+      }
+      
+      td {
+        padding: 5px;
+      }
+      
+      .ticketing_seat {
+        position: relative;
+      }
+      
+      .actions {
+        text-align: right;
+      }
+    }
+    
+    .new {
+      margin: 10px;
+      
+      input[type=text] {
+        width: 130px;
+      }
+    }
 	}
 }
