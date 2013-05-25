@@ -5,6 +5,7 @@ function Seating(container) {
   this.selecting = false;
   this.container = container;
   this.seats = this.container.find(".ticketing_seat");
+  this.callbacks = { selected: function () {} }
   var _this = this;
   
   this.calculateGridCells = function (parent) {
@@ -17,7 +18,7 @@ function Seating(container) {
   
   this.changedPos = function (event, ui) {
     var id = ui.helper.data("id");
-    $.ajax(ui.helper.parent().data("edit-url") + id, {
+    $.ajax(ui.helper.parent().data("update-url") + id, {
       method: "PUT",
       data: {
         seat: _this.getGridPos(ui.position)
@@ -38,8 +39,9 @@ function Seating(container) {
     });
   };
   
-  this.initSelectables = function () {
+  this.initSelectables = function (callback) {
     var _this = this;
+    this.callbacks.selected = callback;
     
     $(document).keydown(function (event) {
       _this.toggleSelecting(event, true);
@@ -60,6 +62,8 @@ function Seating(container) {
       if (isSeat) {
         seat.toggleClass("selected");
       }
+      
+      _this.callbacks.selected(_this.seats.filter(".selected"));
     });
   };
   

@@ -3,9 +3,17 @@
 <% include_css "admin/seats" %>
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
-	<div class="seating" data-edit-url="<%= admin_seat_path("") %>" data-create-url="<%= admin_seats_path %>">
+	<div class="seating" data-update-url="<%= admin_seat_path("") %>" data-update-multiple-url="<%= update_multiple_admin_seats_path %>" data-create-url="<%= admin_seats_path %>">
 		<%= render "application/ticketing/seats", seats: @seats, colors: true, numbers: true %>
 	</div>
+  <div class="edit_seats">
+    <%= form_for Ticketing::Seat.new, url: "" do |f| %>
+      <div>Sitzplätze bearbeiten</div>
+      <div>Nummer: <%= f.text_field :number %></div>
+      <div>Block: <%= f.select :block_id, options_from_collection_for_select(@blocks, :id, :name) %></div>
+      <div><%= link_to "löschen", "", { :data => { :"confirm-msg" => "Möchten Sie die markierten Sitzplätze wirklich löschen?" } } %></div>
+    <% end %>
+  </div>
   <div class="new_seat">
     <div>neuen Sitzplatz hinzufügen</div>
     <div>Nummer: <%= text_field_tag :number, 1 %></div>

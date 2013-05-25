@@ -31,6 +31,19 @@ module Admin
 		
 			render nothing: true
 		end
+    
+		def update_multiple
+      params[:seat] = [params[:seat]] * params[:ids].count
+			Ticketing::Seat.update(params[:ids], params[:seat])
+		
+			render nothing: true
+		end
+    
+    def destroy_multiple
+      Ticketing::Seat.destroy(params[:ids])
+      
+      render nothing: true
+    end
 	
 		private
 	

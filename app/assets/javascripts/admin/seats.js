@@ -5,6 +5,8 @@ $(function () {
   var seating = new Seating(seatingBox);
   var numberInput = $(".new_seat input");
   var newSeats = $(".new_seat .ticketing_seat");
+  var editSeats = $(".edit_seats");
+  var selectedSeats, selectedSeatIds;
   
   function updateNewSeatNumber() {
     newSeats.each(function () {
@@ -66,16 +68,68 @@ $(function () {
     }
   });
   
-  numberInput.change(function () {
+  numberInput
+  .change(function () {
     $(this).val(function (index, val) {
       return parseInt(val) || 1;
     });
     updateNewSeatNumber();
+  })
+  .click(function () {
+    $(this).val("");
+  });
+  
+  editSeats.find("input, select").change(function () {
+    var $this = $(this),
+        attr,
+        data = { seat: {}, ids: [] };
+    if ($this.is("input")) {
+      selectedSeats.find(".number").html($this.val());
+      attr = "number";
+    } else {
+      attr = "block_id";
+    }
+    data.seat[attr] = $this.val();
+    data.ids = selectedSeatIds;
+    
+    $.ajax(seatingBox.data("update-multiple-url"), {
+      method: "PUT",
+      data: data
+    });
+  });
+  
+  editSeats.find("a").click(function (event) {
+    if (confirm($(this).data("confirm-msg"))) {
+      $.ajax(seatingBox.data("update-multiple-url"), {
+        method: "DELETE",
+        data: { ids: selectedSeatIds }
+      });
+    }
+    
+    event.preventDefault();
   });
   
   newSeats.addClass("draggable");
   
   updateNewSeatNumber();
   seating.initDraggables();
-  seating.initSelectables();
+  
+  seating.initSelectables(function (seats) {
+    selectedSeats = seats;
+    selectedSeatIds = [];
+    selectedSeats.each(function () {
+      selectedSeatIds.push($(this).data("id"));
+    });
+    var selection = selectedSeats.length > 0;
+    editSeats.toggle(selection);
+    
+    if (selection) {
+      var numberField = editSeats.find("input");
+      if (selectedSeats.length == 1) {
+        numberField.val(selectedSeats.eq(0).data("number")).removeAttr("disabled");
+      } else {
+        numberField.val("").attr("disabled", "disabled");
+      }
+    }
+  });
 });

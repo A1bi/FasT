@@ -29,17 +29,21 @@
     }
 	}
   
-  .new_seat {
+  .new_seat, .edit_seats {
     @include box;
     margin-top: 10px;
     overflow: auto;
     
-    > div {
+    > div, > form > div {
       float: left;
       padding: 0px 10px;
       border-right: 1px solid #cccccc;
       vertical-align: top;
       height: 20px;
+      
+      &:last-of-type {
+        border: none;
+      }
     }
     
     .ticketing_seat {
@@ -55,6 +59,14 @@
     
     input {
       width: 30px;
+    }
+  }
+  
+  .edit_seats {
+    display: none;
+    
+    div:first-child {
+      border: none !important;
     }
   }
 
