@@ -281,7 +281,7 @@ h3 {
 				}
 			}
 			
-			&.admins {
+			&.admins, &.ticketing {
 				li {
 					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%));
 					

@@ -1,4 +1,4 @@
-module Admin
+module Ticketing
   class BlocksController < BaseController
     before_filter :find_block, :only => [:edit, :update, :destroy]
     
@@ -29,7 +29,7 @@ module Admin
     end
     
     def redirect_to_seating
-      redirect_to admin_seats_path
+      redirect_to ticketing_seats_path
     end
   end
 end

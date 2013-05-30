@@ -61,14 +61,17 @@ FasT::Application.routes.draw do
     
   	namespace :admin, :path => "vorstand" do
   		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members
+  	end
+    
+    namespace :ticketing, :path => "vorverkauf" do
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do
           put :update_multiple
           delete :update_multiple, :action => :destroy_multiple
         end
       end
-      resources :ticketing_blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show], :controller => :blocks
-  	end
+      resources :blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show]
+    end
 		
 		namespace :members, :path => "mitglieder" do
 			resource :member, :path => "mitgliedschaft", :controller => :member, :only => [:edit, :update] do
