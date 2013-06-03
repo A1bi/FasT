@@ -2,6 +2,24 @@
 	position: relative;
 	height: 400px;
 	box-shadow: inset 0px 0px 8px #cccccc;
+  
+  .ticketing_seat {
+    cursor: pointer;
+  }
+  
+  &.selectable {
+    .ticketing_seat {
+      &.selected {
+        border-color: red;
+      }
+    }
+  }
+  
+  &.draggable:not(.selecting) {
+    .ticketing_seat {
+      cursor: move;
+    }
+  }
 }
 
 .ticketing_seat {
@@ -14,4 +32,17 @@
   background: black;
   width: 15px;
   height: 15px;
+  
+  &.available {
+		background: green;
+  }
+
+	&.taken {
+    cursor: auto;
+		background: red;
+	}
+  
+  &.reserved {
+    background: orange;
+  }
 }

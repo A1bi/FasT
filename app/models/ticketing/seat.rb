@@ -10,4 +10,12 @@ class Ticketing::Seat < ActiveRecord::Base
 	def available_on_date?(date)
     tickets.where(date_id: date).empty? && reservations.where(date_id: date).empty?
 	end
+  
+  def reserved_on_date?(date)
+    !reservations.where(date_id: date).empty?
+  end
+  
+  def booked_on_date?(date)
+    !tickets.where(date_id: date).empty?
+  end
 end

@@ -362,15 +362,6 @@ table td {
 	
 	&.seats {
     .seating .ticketing_seat {
-      &.available {
-    		cursor: pointer;
-    		background: green;
-      }
-	
-    	&.taken {
-    		background: red;
-    	}
-  
     	&.selected {
     		background: yellow;
     		border-width: 2px;

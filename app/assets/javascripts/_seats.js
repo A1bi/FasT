@@ -32,6 +32,8 @@ function Seating(container) {
   };
   
   this.initDraggables = function (seat) {
+    this.container.addClass("draggable");
+    
     (seat || this.seats).draggable({
       containment: "parent",
       drag: this.dragging,
@@ -41,6 +43,8 @@ function Seating(container) {
   
   this.initSelectables = function (callback) {
     this.callbacks.selected = callback;
+    
+    this.container.addClass("selectable");
     
     $(document).keydown(function (event) {
       _this.toggleSelecting(event, true);
@@ -62,7 +66,13 @@ function Seating(container) {
         seat.toggleClass("selected");
       }
       
-      _this.callbacks.selected(_this.seats.filter(".selected"));
+      var seats = _this.seats.filter(".selected"),
+          ids = [];
+      seats.each(function () {
+        ids.push($(this).data("id"));
+      });
+      
+      _this.callbacks.selected(seats, ids);
     });
   };
   

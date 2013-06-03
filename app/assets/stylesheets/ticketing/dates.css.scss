@@ -1,0 +1,43 @@
+@import "../_seats";
+
+@mixin box {
+  position: relative;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.seating {
+  @include box;
+  height: 300px;
+}
+
+.reservation {
+  @include box;
+  overflow: auto;
+  display: none;
+  
+  form {
+    > div {
+      float: left;
+      padding: 0px 10px;
+      border-right: 1px solid #cccccc;
+      vertical-align: top;
+      height: 20px;
+    }
+    
+    &:last-of-type > div:last-of-type {
+      border: none;
+    }
+  }
+  
+  form > div:first-child {
+    border: none !important;
+  }
+  
+  #new_group_name {
+    width: 100px;
+    display: none;
+  }
+}

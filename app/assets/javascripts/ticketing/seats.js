@@ -1,12 +1,12 @@
 //= require _seats
 
 $(function () {
-  var seatingBox = $(".seating")
-  var seating = new Seating(seatingBox);
-  var numberInput = $(".new_seat input");
-  var newSeats = $(".new_seat .ticketing_seat");
-  var editSeats = $(".edit_seats");
-  var selectedSeats, selectedSeatIds;
+  var seatingBox = $(".seating"),
+      seating = new Seating(seatingBox),
+      numberInput = $(".new_seat input"),
+      newSeats = $(".new_seat .ticketing_seat"),
+      editSeats = $(".edit_seats"),
+      selectedSeats, selectedSeatIds;
   
   function updateNewSeatNumber() {
     newSeats.each(function () {
@@ -122,12 +122,9 @@ $(function () {
   updateNewSeatNumber();
   seating.initDraggables();
   
-  seating.initSelectables(function (seats) {
+  seating.initSelectables(function (seats, ids) {
     selectedSeats = seats;
-    selectedSeatIds = [];
-    selectedSeats.each(function () {
-      selectedSeatIds.push($(this).data("id"));
-    });
+    selectedSeatIds = ids;
     var selection = selectedSeats.length > 0;
     editSeats.toggle(selection);
     

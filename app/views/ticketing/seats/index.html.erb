@@ -4,7 +4,7 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
   <div class="seating" data-update-url="<%= ticketing_seat_path("") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
-    <%= render "application/ticketing/seats", seats: @seats, colors: true, numbers: true %>
+    <%= render "application/ticketing/seats", seats: @seats, numbers: true %>
   </div>
   <div class="edit_seats">
     <%= form_for Ticketing::Seat.new, url: "" do |f| %>

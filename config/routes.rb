@@ -64,6 +64,7 @@ FasT::Application.routes.draw do
   	end
     
     namespace :ticketing, :path => "vorverkauf" do
+      resources :event_dates, :path => "termine", :only => [:index, :show, :new], :controller => :dates
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do
           put :update_multiple
@@ -71,6 +72,12 @@ FasT::Application.routes.draw do
         end
       end
       resources :blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show]
+      resources :reservations, :only => [] do
+        collection do
+          put :update
+          delete :destroy
+        end
+      end
     end
 		
 		namespace :members, :path => "mitglieder" do
