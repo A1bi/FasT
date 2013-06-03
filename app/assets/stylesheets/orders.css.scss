@@ -59,64 +59,64 @@
 	margin: auto;
 	margin-top: 10px;
 	height: 50px;
-}
+  
+  .btn {
+  	padding: 5px 20px;
+  	border-radius: 20px;
+  	@include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
+  	color: #ffffff;
+  	text-decoration: none;
+  	box-shadow: #666666 0px 0px 6px;
+  	margin: 10px;
+  	cursor: pointer;
 
-.btn {
-	padding: 5px 20px;
-	border-radius: 20px;
-	@include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
-	color: #ffffff;
-	text-decoration: none;
-	box-shadow: #666666 0px 0px 6px;
-	margin: 10px;
-	cursor: pointer;
+  	&:hover {
+  		text-decoration: underline;
+  		box-shadow: #666666 0px 0px 8px;
+  	}
 
-	&:hover {
-		text-decoration: underline;
-		box-shadow: #666666 0px 0px 8px;
-	}
+  	.spinner {
+  		position: absolute;
+  		top: 5px;
+  		right: 8px;
+  		display: none;
+  	}
 
-	.spinner {
-		position: absolute;
-		top: 5px;
-		right: 8px;
-		display: none;
-	}
-
-	&.loading {
-		.spinner {
-			display: block;
-			padding-left: 2px;
-			vertical-align: top;
-		}
+  	&.loading {
+  		.spinner {
+  			display: block;
+  			padding-left: 2px;
+  			vertical-align: top;
+  		}
 		
-		.action {
-			padding-right: 10px;
-		}
-	}
+  		.action {
+  			padding-right: 10px;
+  		}
+  	}
 
-	&.disabled, &.loading {
-		cursor: default;
-		background: #cccccc;
+  	&.disabled, &.loading {
+  		cursor: default;
+  		background: #cccccc;
 		
-		&:hover {
-			text-decoration: none;
-			box-shadow: #666666 0px 0px 6px;
-		}
-	}
+  		&:hover {
+  			text-decoration: none;
+  			box-shadow: #666666 0px 0px 6px;
+  		}
+  	}
 
-	&.prev, &.next {
-		position: absolute;
-		top: 0px;
-	}
+  	&.prev, &.next {
+  		position: absolute;
+  		top: 0px;
+  	}
 	
-	&.prev {
-		left: 0px;
-	}
+  	&.prev {
+  		left: 0px;
+  	}
 	
-	&.next {
-		right: 0px;
-	}
+  	&.next {
+  		right: 0px;
+  	}
+  }
 }
 
 .rTable {
@@ -201,14 +201,25 @@ table td {
 
 .stepBox {
 	margin-top: 30px;
-	height: 50px;
+	min-height: 250px;
+  
+  .modal_alert {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .85);
+    z-index: 3;
+    display: none;
+    
+    .messages {
+      margin: 80px auto;
+      width: 70%;
+    }
+  }
   
   .expiration {
-    padding: 5px;
-    width: 100%;
-    font-size: 14px;
-    text-align: center;
-    color: #7e0005;
+    width: 80%;
+    color: white;
     display: none;
     @include animation(expiration, .8s, infinite, true);
   }
@@ -216,10 +227,10 @@ table td {
 
 @include keyframes(expiration) {
 	from {
-    color: #7e0005;
+    color: red;
 	}
 	to {
-    color: red;
+    color: white;
 	}
 }
 

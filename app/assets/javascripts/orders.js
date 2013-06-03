@@ -267,6 +267,7 @@ var ticketing = new function () {
 	this.steps = [];
   this.node = null;
   this.expirationTimer = null;
+  this.aborted = false;
 	var _this = this;
 	
 	this.toggleBtn = function (btn, toggle, style_class) {
@@ -282,6 +283,10 @@ var ticketing = new function () {
 		this.toggleBtn("next", !toggle, "loading");
 		if (this.currentStepIndex > 0) this.toggleBtn("prev", !toggle);
 	};
+  
+  this.hideOrderControls = function () {
+    $(".progress, .btns").slideUp();
+  };
 	
 	this.goNext = function ($this) {
 		if ($this.is(".disabled")) return;
@@ -308,6 +313,13 @@ var ticketing = new function () {
 		this.updateCurrentStep(-1);
 		this.moveInCurrentStep();
 	};
+  
+  this.showModalAlert = function (msg) {
+    if (this.aborted) return;
+    this.aborted = true;
+    this.stepBox.find(".modal_alert").fadeIn().find("li").first().html(msg);
+    this.hideOrderControls();
+  };
 	
 	this.updateCurrentStep = function (inc) {
 		this.currentStepIndex += inc;
@@ -400,24 +412,36 @@ var ticketing = new function () {
     });
     
     this.node.on("expired", function () {
-      alert("Sitzung abgelaufen.");
+      _this.stepBox.find(".expiration").slideUp();
+      _this.showModalAlert("Ihre Sitzung ist abgelaufen.<br />Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.");
+    });
+    
+    this.node.on("disconnect", function () {
+      _this.showModalAlert("Die Verbindung zum Server wurde unterbrochen.<br />Bitte geben Sie Ihre Bestellung erneut auf.<br />Wir entschuldigen uns für diesen Vorfall.");
     });
 	};
 	
 	$(function () {
-    // TODO: error handling (connection to server refused or lost)
-    _this.node = io.connect("/web", {
-      "resource": "node",
-      "sync disconnect on unload": true
-    });
-    
-		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
-			stepClass.prototype = Step.prototype;
-			_this.steps.push(new stepClass(_this));
-		});
-		
 		_this.stepBox = $(".stepBox");
-		_this.registerEvents();
-		_this.showNext();
+    
+    try {
+      _this.node = io.connect("/web", {
+        "resource": "node",
+        "reconnect": false,
+        "sync disconnect on unload": true
+      });
+      
+      _this.registerEvents();
+      
+  		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
+  			stepClass.prototype = Step.prototype;
+  			_this.steps.push(new stepClass(_this));
+  		});
+		
+  		_this.showNext();
+      
+    } catch(err) {
+      _this.showModalAlert("Derzeit ist keine Buchung möglich.<br />Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.");
+    }
 	});
 }

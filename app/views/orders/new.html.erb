@@ -19,7 +19,21 @@
 	<div class="step">Bestätigen</div>
 </div>
 <div class="stepBox">
-  <div class="expiration">Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</div>
+  <div class="modal_alert">
+		<div class="messages alert">
+			<div class="icon"></div>
+      <ul>
+			  <li></li>
+        <li><%= link_to "Bestellvorgang neu starten", new_order_path, class: :btn %></li>
+		  </ul>
+	  </div>
+  </div>
+	<div class="messages warning expiration">
+		<div class="icon"></div>
+    <ul>
+		  <li>Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</li>
+	  </ul>
+	</div>
 	<div class="stepCon date">
 		<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
 		<ul class="inner">
