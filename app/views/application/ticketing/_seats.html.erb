@@ -5,4 +5,5 @@
       <div class="number"><%= seat.number %></div>
     <% end %>
   <% end %>
+  <% if !(no_stage ||= false) %><div class="stage">Bühne</div><% end %>
 <% end %>

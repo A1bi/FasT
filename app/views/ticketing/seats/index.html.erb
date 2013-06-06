@@ -18,7 +18,7 @@
     <div>neuen Sitzplatz hinzufügen</div>
     <div>Nummer: <%= text_field_tag :number, 1 %></div>
     <div class="blocks">
-      <%= render "application/ticketing/seats", seats: @new_seats, colors: true, numbers: true %>
+      <%= render "application/ticketing/seats", seats: @new_seats, colors: true, numbers: true, no_stage: true %>
     </div>
   </div>
   <div class="blocks">

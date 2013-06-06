@@ -20,6 +20,21 @@
       cursor: move;
     }
   }
+  
+  .stage {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    margin-left: -40%;
+    width: 80%;
+    height: 5%;
+    background: #43a1ca;
+    border: 1px solid #3d5eaf;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    padding: 10px;
+  }
 }
 
 .ticketing_seat {

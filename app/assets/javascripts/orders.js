@@ -10,9 +10,18 @@ function Step(name, delegate) {
 }
 
 Step.prototype = {
-	moveIn: function () {
-		this.box.show().animate({left: "0%"});
-		this.resizeDelegateBox(true);
+	moveIn: function (animate) {
+    animate = animate !== false;
+    
+    this.box.show();
+    var props = { left: "0%" };
+    if (animate) {
+      this.box.animate(props);
+    } else {
+      this.box.css(props);
+    }
+    this.delegate.setNextBtnText();
+		this.resizeDelegateBox(animate);
     this.toggleFormFields(true);
 	},
 	
@@ -70,13 +79,14 @@ Step.prototype = {
 	
 	afterValidate: function (response) {
     var _this = this;
+    this.box.find("tr").removeClass("error");
     if (!response.ok) {
       this.toggleFormFields(true);
       
-      this.box.find("tr").removeClass("error");
   		$.each(response.errors, function (key, error) {
   			_this.box.find("#" + _this.name + "_" + key).parents("tr").addClass("error").find(".msg").html(error);
   		});
+      this.resizeDelegateBox(true);
     }
 	},
   
@@ -84,11 +94,10 @@ Step.prototype = {
 };
 
 function DateStep(delegate) {
-	this.total = 0;
 	var _this = this;
 	
 	this.registerEvents = function () {
-		this.box.find("li").click(function (xfg) {
+		this.box.find("li").click(function () {
 			_this.choseDate($(this));
 		});
 		this.box.find("select").change(function () {
@@ -109,16 +118,19 @@ function DateStep(delegate) {
 	};
 	
 	this.updateTotal = function () {
-		total = 0, _this = this;
+		var total = 0;
+    this.info.numberOfTickets = 0;
 		this.box.find(".number tr").each(function () {
 			if ($(this).is(".ticketing_ticket_type")) {
-				total += _this.getTypeTotal($(this));
+        var $this = $(this);
+        _this.info.numberOfTickets += parseInt($this.find("select").val());
+				total += _this.getTypeTotal($this);
 			} else {
-				$(this).find(".total span").html(_this.formatCurrency(total))
+				$(this).find(".total span").html(_this.formatCurrency(total));
 			}
 		});
 		
-		this.delegate.toggleNextBtn(total > 0);
+		this.delegate.toggleNextBtn(this.info.numberOfTickets > 0);
 	};
 	
 	this.choseDate = function ($this) {
@@ -127,6 +139,7 @@ function DateStep(delegate) {
 		this.slideToggle(this.box.find("div.number"), true);
 		
 		this.info.date = $this.data("id");
+    this.info.localizedDate = $this.text();
 		this.updateOrder();
 	};
 	
@@ -145,6 +158,7 @@ function SeatsStep(delegate) {
   this.seats = {};
   this.date = 0;
   this.seating = null;
+  this.seatsToSelect = 0;
 	var _this = this;
   
   this.updateSeats = function (seats) {
@@ -163,7 +177,7 @@ function SeatsStep(delegate) {
   };
   
   this.updateAvailableSeats = function () {
-    this.box.find(".ticketing_seat").each(function () {
+    this.seating.seats.each(function () {
       $(this).toggleClass("available", $(this).is(":not(.taken):not(.selected)"));
     });
   };
@@ -173,15 +187,41 @@ function SeatsStep(delegate) {
     this.delegate.killExpirationTimer();
     
     $seat.addClass("selected");
-    _this.updateAvailableSeats();
+    this.updateAvailableSeats();
     
-    _this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") }, function (res) {
+    this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") }, function (res) {
       if (!res.ok) $seat.removeClass("selected").addClass("taken");
+      if (_this.box.find(".error").is(":visible")) _this.updateSeatsToSelectMessage();
     });
+  };
+  
+  this.validate = function () {
+    this.updateSeatsToSelectMessage();
+    
+    Step.prototype.validate.call(this);
+  };
+  
+  this.updateSeatsToSelectMessage = function () {
+    var diff = this.seatsToSelect - this.seating.seats.filter(".selected").length;
+    var errorBox = this.box.find(".error");
+    if (diff > 0) {
+      errorBox.find(".number").text(diff);
+      this.toggleMessageCssClass(errorBox, diff, "error");
+    }
+    this.slideToggle(errorBox, diff > 0);
+  };
+  
+  this.toggleMessageCssClass = function (box, number, preservedClass) {
+    var cssClass = (number != 1) ? "plural" : "singular";
+    box.removeClass().addClass(preservedClass + " message " + cssClass);
   };
 	
 	this.registerEvents = function () {
-    this.box.find(".ticketing_seat").click(function () {
+    this.box.show();
+    this.seating = new Seating(this.box.find(".seating"));
+    this.box.hide();
+    
+    this.seating.seats.click(function () {
       _this.reserveSeat($(this));
 		});
     
@@ -194,11 +234,11 @@ function SeatsStep(delegate) {
         _this.date = info.date;
         _this.updateSeatPlan();
       }
+      
+      _this.seatsToSelect = info.numberOfTickets;
+      _this.box.find(".number span").text(_this.seatsToSelect);
+      _this.toggleMessageCssClass(_this.box.find(".note"), _this.seatsToSelect, "note");
     });
-    
-    this.box.show();
-    this.seating = new Seating(this.box.find(".seating"), false);
-    this.box.hide();
 	};
 	
 	Step.call(this, "seats", delegate);
@@ -213,6 +253,11 @@ function AddressStep(delegate) {
     this.updateInfo();
 		Step.prototype.validate.call(this);
 	};
+  
+  this.moveIn = function () {
+    this.delegate.toggleNextBtn(true);
+    Step.prototype.moveIn.call(this);
+  };
   
   Step.call(this, "address", delegate);
 }
@@ -249,12 +294,63 @@ function ConfirmStep(delegate) {
       _this.info.accepted = $(this).is(":checked");
       _this.delegate.toggleNextBtn(_this.info.accepted);
     });
+    
+    this.delegate.observeOrder("date", function (info) {
+      var total = 0;
+      $.each(info.tickets, function (typeId, number) {
+        var typeBox = _this.box.find("#ticketing_ticket_type_" + typeId);
+        typeBox.find(".number").text(number || 0);
+        var totalBox = typeBox.find(".total");
+        var subtotal = totalBox.data("price") * number;
+        totalBox.find("span").text(_this.formatCurrency(subtotal));
+        total += subtotal;
+      });
+      _this.box.find(".total .total span").text(_this.formatCurrency(total));
+      _this.box.find(".date").text(info.localizedDate);
+    });
+    $.each(["address", "payment"], function (i, key) {
+      _this.delegate.observeOrder(key, function (info) {
+        if (key == "payment") {
+          _this.box.find(".payment").removeClass("transfer charge").addClass(info.method);
+        }
+        _this.updateSummary(info, key);
+      });
+    });
+  };
+  
+  this.updateSummary = function (info, part) {
+    $.each(info, function (key, value) {
+      _this.box.find("."+part+" ."+key).text(value);
+    });
+  };
+  
+	this.formatCurrency = function (value) {
+		return value.toFixed(2).toString().replace(".", ",");
+	};
+  
+  this.moveIn = function () {
+    Step.prototype.moveIn.call(this);
+    this.delegate.toggleNextBtn(this.info.accepted);
+    this.delegate.setNextBtnText("bestellen");
   };
 	
 	Step.call(this, "confirm", delegate);
 }
 
 function FinishStep(delegate) {
+  var _this = this;
+  
+  this.registerEvents = function () {
+    this.delegate.observeOrder("payment", function (info) {
+      _this.box.find(".tickets").toggle(info.payment == "charge");
+    });
+  };
+  
+  this.moveIn = function () {
+    this.delegate.hideOrderControls();
+    Step.prototype.moveIn.call(this);
+  };
+  
 	Step.call(this, "finish", delegate);
 }
 
@@ -266,6 +362,7 @@ var ticketing = new function () {
 	this.observers = {};
 	this.steps = [];
   this.node = null;
+  this.expirationBox = null;
   this.expirationTimer = null;
   this.aborted = false;
 	var _this = this;
@@ -284,6 +381,10 @@ var ticketing = new function () {
 		if (this.currentStepIndex > 0) this.toggleBtn("prev", !toggle);
 	};
   
+  this.setNextBtnText = function (text) {
+    $(".btn.next .action").text(text || "weiter");
+  };
+  
   this.hideOrderControls = function () {
     $(".progress, .btns").slideUp();
   };
@@ -300,12 +401,12 @@ var ticketing = new function () {
 		}
 	};
 	
-	this.showNext = function () {
+	this.showNext = function (animate) {
 		if (this.currentStep) {
 			this.currentStep.moveOut(true);
 		}
 		this.updateCurrentStep(1);
-		this.moveInCurrentStep();
+		this.moveInCurrentStep(animate);
 	};
 	
 	this.showPrev = function () {
@@ -333,27 +434,29 @@ var ticketing = new function () {
 		progressBox.find(".bar").css("left", current.position().left);
 	};
 	
-	this.moveInCurrentStep = function () {
-		this.currentStep.moveIn();
+	this.moveInCurrentStep = function (animate) {
+		this.currentStep.moveIn(animate);
 		this.toggleBtn("prev", this.currentStepIndex > 0);
 		this.updateProgress();
 	};
 	
 	this.validatedStep = function (ok, info) {
 		if (ok) {
-			this.showNext();
+			this.showNext(true);
+		} else {
+		  $("body").animate({ scrollTop: this.stepBox.position().top });
 		}
 		
 		this.toggleLoadingBtn(false);
 	};
 	
 	this.resizeStepBox = function (height, animated) {
-		var props = {height: height};
+		var props = { height: height };
 		
 		if (animated) {
 			this.stepBox.animate(props);
 		} else {
-			$(".stepBox").css(props);
+			this.stepBox.css(props);
 		}
 	};
 	
@@ -390,14 +493,14 @@ var ticketing = new function () {
   
   this.updateExpirationCounter = function (seconds) {
     if (seconds < 0) return;
-    this.stepBox.find(".expiration span").html(seconds);
+    this.expirationBox.find("span").text(seconds);
     this.expirationTimer = setTimeout(function () {
       _this.updateExpirationCounter(--seconds);
     }, 1000);
   };
   
   this.killExpirationTimer = function () {
-    _this.stepBox.find(".expiration").slideUp();
+    this.expirationBox.slideUp();
     clearTimeout(this.expirationTimer);
   };
 	
@@ -407,12 +510,12 @@ var ticketing = new function () {
 		});
     
     this.node.on("aboutToExpire", function (data) {
-      _this.stepBox.find(".expiration").slideDown();
+      _this.expirationBox.slideDown();
       _this.updateExpirationCounter(data.secondsLeft);
     });
     
     this.node.on("expired", function () {
-      _this.stepBox.find(".expiration").slideUp();
+      _this.expirationBox.slideUp();
       _this.showModalAlert("Ihre Sitzung ist abgelaufen.<br />Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.");
     });
     
@@ -423,6 +526,7 @@ var ticketing = new function () {
 	
 	$(function () {
 		_this.stepBox = $(".stepBox");
+    _this.expirationBox = $(".expiration");
     
     try {
       _this.node = io.connect("/web", {
@@ -438,7 +542,7 @@ var ticketing = new function () {
   			_this.steps.push(new stepClass(_this));
   		});
 		
-  		_this.showNext();
+  		_this.showNext(false);
       
     } catch(err) {
       _this.showModalAlert("Derzeit ist keine Buchung möglich.<br />Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.");

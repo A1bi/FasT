@@ -146,23 +146,6 @@ table td {
 	vertical-align: top;
 }
 
-.secure {
-	margin: 10px;
-	text-align: right;
-	opacity: 0.8;
-	
-	span {
-		background: #cccccc;
-		font-size: 10px;
-		border-radius: 10px;
-		padding: 3px 8px;
-	}
-	
-	img {
-		vertical-align: bottom;
-	}
-}
-
 .progress, .stepBox {
 	position: relative;
 	border: 1px solid #cccccc;
@@ -199,6 +182,21 @@ table td {
 	}
 }
 
+.expiration {
+  width: 80%;
+  display: none;
+  @include animation(expiration, .8s, infinite, true);
+}
+
+@include keyframes(expiration) {
+	from {
+    color: red;
+	}
+	to {
+    color: white;
+	}
+}
+
 .stepBox {
 	margin-top: 30px;
 	min-height: 250px;
@@ -216,22 +214,6 @@ table td {
       width: 70%;
     }
   }
-  
-  .expiration {
-    width: 80%;
-    color: white;
-    display: none;
-    @include animation(expiration, .8s, infinite, true);
-  }
-}
-
-@include keyframes(expiration) {
-	from {
-    color: red;
-	}
-	to {
-    color: white;
-	}
 }
 
 .stepCon {
@@ -372,11 +354,60 @@ table td {
 	}
 	
 	&.seats {
-    .seating .ticketing_seat {
-    	&.selected {
-    		background: yellow;
-    		border-width: 2px;
-    	}
+    .note {
+      .number {
+        font-weight: bold;
+      }
+    }
+    
+    .error {
+      margin: 10px;
+      background: red;
+      color: white;
+      border-radius: 10px;
+      display: none;
+    }
+    
+    .message {
+      .singular, .plural {
+        display: none;
+      }
+    
+      &.singular .singular, &.plural .plural {
+        display: inline;
+      }
+    }
+    
+    .ticketing_seat.selected {
+  		background: yellow;
+    }
+    
+    .key {
+      overflow: auto;
+      border: 1px solid #cccccc {
+        radius: 10px;
+      }
+      padding: 0px;
+      font-size: 13px;
+      margin: 10px;
+      display: inline-block;
+      
+      .ticketing_seat {
+        position: relative;
+        margin-right: 5px;
+      }
+      
+      div {
+        float: left;
+      }
+      
+      > div {
+        padding: 7px 12px;
+        
+        &:not(:first-child) {
+          border-left: 1px solid #cccccc;
+        }
+      }
     }
 	}
 	
@@ -406,6 +437,14 @@ table td {
 	&.confirm {
 		.payment {
 			margin-top: 10px;
+      
+      .charge, .transfer {
+        display: none;
+      }
+      
+      &.charge .charge, &.transfer .transfer {
+        display: block;
+      }
 		}
 	
 		.date {
@@ -415,11 +454,11 @@ table td {
 	
 	&.finish {
 		.hl {
-			font-size: 27px;
+			font-size: 28px;
 		}
 		
-		.payment {
-			margin-top: 20px;
+		.tickets {
+			display: none;
 		}
 	}
 }
