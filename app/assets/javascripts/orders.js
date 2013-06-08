@@ -167,6 +167,7 @@ function SeatsStep(delegate) {
   };
   
   this.updateSeatPlan = function () {
+    if (!this.date) return;
     $.each(this.seats[this.date], function (seatId, seatInfo) {
       _this.box.find("#ticketing_seat_" + seatId)
         .toggleClass("selected", seatInfo.selected === true)
@@ -237,6 +238,7 @@ function SeatsStep(delegate) {
       
       _this.seatsToSelect = info.numberOfTickets;
       _this.box.find(".number span").text(_this.seatsToSelect);
+      _this.toggleMessageCssClass(_this.box.find(".note"), _this.seatsToSelect, "note");
       _this.box.find(".error").hide();
     });
 	};
