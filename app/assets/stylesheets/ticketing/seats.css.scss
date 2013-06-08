@@ -9,11 +9,9 @@
 }
 
 #seats {
-  width: 95%;
-  margin: auto;
-  
   .seating {
     @include box;
+    padding: 0px;
   }
   
   .new_seat, .edit_seats {

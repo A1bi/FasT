@@ -5,7 +5,7 @@
    <%= javascript_include_tag "/node/socket.io.js" %>
 <% end %>
 <div class="hl">
-	Karten bestellen
+	Tickets bestellen
 </div>
 <div class="progress">
 	<div class="step bar"></div>
@@ -41,7 +41,7 @@
 			<% end %>
 		</ul>
 		<div class="number">
-			<div>Bitte wählen Sie die gewünschte Anzahl an Karten:</div>
+			<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
 			<table class="inner rTable">
 				<% @ticket_types.each do |type| %>
 					<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
@@ -74,6 +74,7 @@
 			<%= render "application/ticketing/seats", :seats => @seats %>
 		</div>
     <div class="hcen">
+      <em class="small">Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</em>
   		<div class="key">
         <div><b>Legende</b></div>
         <div><div class="ticketing_seat available"></div> Sitzplatz frei</div>
@@ -112,7 +113,7 @@
    		<table class="inner form">
             <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
                <%= f.text_field :email, :class => "field" %>
-               <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Karten geschickt werden!</div>
+               <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
             <% end %>
    		</table>
 		<% end %>
@@ -128,14 +129,14 @@
   				<td class="radio"><input type="radio" name="method" value="charge" /></td>
   				<td>
   					<b>Lastschrift</b>
-  					<div class="small">Schnell und bequem, Sie erhalten Ihre Karten sofort nach der Bestellung!</div>
+  					<div class="small">Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung!</div>
   				</td>
   			</tr>
   			<tr>
   				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
   				<td>
   					<b>Vorkasse per Überweisung</b>
-  					<div class="small">Sie erhalten Ihre Karten nach Zahlungseingang.</div>
+  					<div class="small">Sie erhalten Ihre Tickets nach Zahlungseingang.</div>
   				</td>
   			</tr>
   		</table>
@@ -185,7 +186,7 @@
     	</table>
     </div>
 		<div class="inner">
-			Karten für die Aufführung am <span class="date"></span>:
+			Tickets für die Aufführung am <span class="date"></span>:
 			<table class="rTable">
 				<%= content_tag_for(:tr, @ticket_types) do |type| %>
     			<td><%= type.name %></td>

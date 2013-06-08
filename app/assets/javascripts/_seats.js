@@ -1,9 +1,10 @@
 function Seating(container) {
-  this.maxCells = { x: 100, y: 60 };
+  this.maxCells = { x: 185, y: 80 };
   this.sizeFactors = { x: 3.5, y: 3 };
   this.grid = null;
   this.selecting = false;
   this.container = container;
+  this.scroller = this.container.find(".scroller");
   this.seats = this.container.find(".ticketing_seat");
   this.callbacks = { selected: function () {} }
   var _this = this;
@@ -13,12 +14,12 @@ function Seating(container) {
   };
   
   this.getGridPos = function (pos) {
-    return { position_x: Math.floor(pos.left / this.grid[0]), position_y: Math.floor(pos.top / this.grid[1]) };
+    return { position_x: Math.round(pos.left / this.grid[0]), position_y: Math.round(pos.top / this.grid[1]) };
   };
   
   this.changedPos = function (event, ui) {
     var id = ui.helper.data("id");
-    $.ajax(ui.helper.parent().data("update-url") + id, {
+    $.ajax(_this.container.data("update-url") + id, {
       method: "PUT",
       data: {
         seat: _this.getGridPos(ui.position)
@@ -32,7 +33,7 @@ function Seating(container) {
   };
   
   this.initDraggables = function (seat) {
-    this.container.addClass("draggable");
+    this.scroller.addClass("draggable");
     
     (seat || this.seats).draggable({
       containment: "parent",
@@ -44,7 +45,7 @@ function Seating(container) {
   this.initSelectables = function (callback) {
     this.callbacks.selected = callback;
     
-    this.container.addClass("selectable");
+    this.scroller.addClass("selectable");
     
     $(document).keydown(function (event) {
       _this.toggleSelecting(event, true);
@@ -53,7 +54,7 @@ function Seating(container) {
       _this.toggleSelecting(event, false);
     });
       
-    this.container.click(function (event) {
+    this.scroller.click(function (event) {
       var seat = $(event.target);
       if (!seat.is(".ticketing_seat")) {
         seat = seat.parents(".ticketing_seat");
@@ -79,14 +80,14 @@ function Seating(container) {
   this.toggleSelecting = function (event, toggle) {
     if (event.which == 91) {
       this.selecting = toggle;
-      this.container.toggleClass("selecting", toggle);
+      this.scroller.toggleClass("selecting", toggle);
     }
   };
   
   this.reload = function () {
     $.getJSON(location.href + ".json", function (response) {
       if (response.ok) {
-        _this.container.html(response.html);
+        _this.scroller.html(response.html);
         _this.seats = $(_this.seats.selector);
         _this.initSeats();
       }
@@ -107,7 +108,7 @@ function Seating(container) {
     });
   };
   
-  this.calculateGridCells(this.container);
+  this.calculateGridCells(this.scroller);
   this.initSeats();
 
 };
