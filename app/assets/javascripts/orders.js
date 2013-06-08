@@ -509,6 +509,14 @@ var ticketing = new function () {
 			_this.goNext($(this));
 		});
     
+    this.node.on("orderPlaced", function (response) {
+      if (response.ok) {
+        _this.aborted = true;
+      } else {
+        _this.showModalAlert("Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.");
+      }
+    });
+    
     this.node.on("aboutToExpire", function (data) {
       _this.expirationBox.slideDown();
       _this.updateExpirationCounter(data.secondsLeft);
