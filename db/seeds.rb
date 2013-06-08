@@ -34,5 +34,72 @@ end
 # files
 Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6), path: "dummy.pdf" })
 
+
+## ticket system
+# events
+event = Ticketing::Event.create(name: "Test-Event")
+4.times do |i|
+	# dates
+	event.dates.create(date: Time.zone.now + i.days)
+end
+
+# seat blocks
+colors = %w(red green blue)
+x = 5
+y = 5
+3.times do |i|
+	block = Ticketing::Block.create(name: (i+1).to_s, color: colors[i])
+	
+	# seats
+	x2 = nil
+	6.times do |row|
+		x2 = x
+		y2 = y + row * 5
+		6.times do |number|
+			seat = block.seats.new
+			seat.number = number+1
+			seat.row = row+1
+			seat.position_x = x2
+			seat.position_y = y2
+			seat.save
+			x2 = x2 + 4
+		end
+	end
+	
+	x = x2 + 6
+end
+
+# ticket types
+[
+	{ name: "Kinder", info: "Jugendliche bis 16 Jahre", price: 6.5 },
+	{ name: "Erwachsene", price: 12.5 }
+].each do |type|
+	type = Ticketing::TicketType.create(type, without_protection: true)
+end
+
+# retail stores
+Ticketing::Retail::Store.create(:name => "Meyers Buchhandlung")
+
+# retail orders
+available_seats = Ticketing::Seat.includes(:tickets, :reservations).having("COUNT(ticketing_tickets.id) + COUNT(ticketing_reservations.id) < 1").group("ticketing_seats.id")
+date = Ticketing::EventDate.last
+i = 0
+3.times do
+  order = Ticketing::Retail::Order.new
+  order.store = Ticketing::Retail::Store.first
+  order.build_bunch
+  
+  (1 + random(5)).times do
+    ticket = Ticketing::Ticket.new
+    ticket.date = date
+    ticket.seat = available_seats.offset(i).first
+    ticket.type = Ticketing::TicketType.order("RANDOM()").first
+    order.bunch.tickets << ticket
+    i = i+1
+  end
+  
+  order.save
+end
+
 # clear cache
 Rails.cache.clear

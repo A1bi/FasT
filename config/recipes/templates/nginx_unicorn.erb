@@ -41,6 +41,16 @@ server {
            proxy_pass_request_headers off;
            proxy_redirect off;
    }
+   
+   location /node/ {
+           rewrite ^/node/(.+)$ /socket.io/$1 break;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection "upgrade";
+           proxy_set_header Host $host;
+           proxy_redirect off;
+           proxy_pass http://unix:/tmp/FasT-node.sock;
+   }
 
 	error_page 500 502 503 504 /500.html;
 	client_max_body_size 4G;

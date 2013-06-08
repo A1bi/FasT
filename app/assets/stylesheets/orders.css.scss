@@ -1,0 +1,483 @@
+//= require _seats
+
+@import "_mixins";
+
+.front {
+	font-size: 16px;
+	margin-left: 10px;
+	margin-top: 30px;
+
+	.instructions {
+		overflow: auto;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		
+		ul.steps {
+			float: left;
+			width: 57%;
+			padding-left: 10px;
+			list-style: none;
+			
+			li {
+				padding-bottom: 10px;
+				
+				span {
+					font-size: 25px;
+					padding-right: 10px;
+					text-shadow: 1px 1px 1px #cccccc;
+					vertical-align: middle;
+				}
+			}
+		}
+
+		.box {
+			float: left;
+			width: 38%;
+			font-size: 14px;
+			
+			ul {
+				margin: 5px;
+				padding-left: 5px;
+				
+				li {
+					margin-left: 10px;
+					padding-bottom: 10px;
+					
+					div {
+						font-weight: bold;
+						font-size: 16px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.btns {
+	position: relative;
+	width: 90%;
+	margin: auto;
+	margin-top: 10px;
+	height: 50px;
+  
+  .btn {
+  	padding: 5px 20px;
+  	border-radius: 20px;
+  	@include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
+  	color: #ffffff;
+  	text-decoration: none;
+  	box-shadow: #666666 0px 0px 6px;
+  	margin: 10px;
+  	cursor: pointer;
+
+  	&:hover {
+  		text-decoration: underline;
+  		box-shadow: #666666 0px 0px 8px;
+  	}
+
+  	.spinner {
+  		position: absolute;
+  		top: 5px;
+  		right: 8px;
+  		display: none;
+  	}
+
+  	&.loading {
+  		.spinner {
+  			display: block;
+  			padding-left: 2px;
+  			vertical-align: top;
+  		}
+		
+  		.action {
+  			padding-right: 10px;
+  		}
+  	}
+
+  	&.disabled, &.loading {
+  		cursor: default;
+  		background: #cccccc;
+		
+  		&:hover {
+  			text-decoration: none;
+  			box-shadow: #666666 0px 0px 6px;
+  		}
+  	}
+
+  	&.prev, &.next {
+  		position: absolute;
+  		top: 0px;
+  	}
+	
+  	&.prev {
+  		left: 0px;
+  	}
+	
+  	&.next {
+  		right: 0px;
+  	}
+  }
+}
+
+.rTable {
+	border: 1px solid #cccccc {
+		spacing: 0px;
+		radius: 10px;
+	}
+	
+	td {
+		padding: 7px;
+		border-bottom: 1px solid #cccccc;
+		border-right: 1px solid #cccccc;
+	}
+	
+	tr {
+		td:last-child {
+			border-right: none;
+		}
+		
+		&:last-child td {
+			border-bottom: none;
+		}
+	}
+}
+
+table td {
+	vertical-align: top;
+}
+
+.progress, .stepBox {
+	position: relative;
+	border: 1px solid #cccccc;
+	width: 95%;
+	overflow: hidden;
+	margin: auto;
+	border-radius: 7px;
+}
+
+.progress {
+	.step {
+		position: relative;
+		float: left;
+		width: 20%;
+		text-align: center;
+		padding: 2px 0px;
+		font-size: 12px;
+		color: #cccccc;
+		z-index: 2;
+		@include transition(color, .5s, ease-in-out);
+		
+		&.current {
+			color: #ffffff;
+		}
+		
+		&.bar {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: 100%;
+		 	@include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
+			@include transition(left, .5s, ease-in-out);
+		}
+	}
+}
+
+.expiration {
+  width: 80%;
+  display: none;
+  @include animation(expiration, .8s, infinite, true);
+}
+
+@include keyframes(expiration) {
+	from {
+    color: red;
+	}
+	to {
+    color: white;
+	}
+}
+
+.stepBox {
+	margin-top: 30px;
+	min-height: 250px;
+  
+  .modal_alert {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .85);
+    z-index: 3;
+    display: none;
+    
+    .messages {
+      margin: 80px auto;
+      width: 70%;
+    }
+  }
+}
+
+.stepCon {
+	position: absolute;
+	left: 100%;
+	width: 100%;
+	display: none;
+	
+	> * {
+		padding: 10px;
+	}
+	
+	&.noPadding {
+		padding: 0px;
+	}
+	
+	.inner {
+		width: 80%;
+    
+    tr {
+      td {
+        @include transition((color, background), .5s);
+        
+        &:first-child {
+          padding-top: 8px;
+          padding-left: 10px;
+        }
+        
+        .msg {
+          display: none;
+          font-size: 14px;
+          padding: 2px 6px;
+        }
+      }
+      
+      &.spacer {
+        height: 10px;
+      }
+      
+      &.error {
+        td {
+          color: white;
+          background: red;
+          
+          &:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+          }
+          
+          &:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+          }
+          
+          .msg {
+            font-size: 12px;
+            display: block;
+          }
+          
+          .small {
+            display: none;
+          }
+        }
+      }
+    }
+	}
+	
+	.field {
+		width: 250px;
+	}
+	
+	.accept {
+		margin: 20px 10px;
+	}
+	
+	.blocker {
+		border-color: red;
+		padding: 10px;
+		display: none;
+	}
+  
+	table.form {
+		border-collapse: collapse;
+
+  	td {
+  		padding: 5px;
+	
+  		.small {
+  			margin-top: 5px;
+  			color: #000000;
+  		}
+  	}
+
+  	tr td:first-child {
+  		width: 30%;
+  	}
+  }
+	
+	&.date {
+		ul {
+			list-style-type: none;
+			
+			li {
+				padding-bottom: 5px;
+				font-size: 18px;
+				text-decoration: underline;
+				cursor: pointer;
+					
+				&:hover {
+					text-decoration: none;
+				}
+				
+				&.selected {
+					font-weight: bold;
+					text-decoration: none;
+				}
+				
+				&.disabled {
+					text-decoration: line-through !important;
+					cursor: auto;
+					color: #cccccc;
+				}
+			}
+		}
+		
+		div.number {
+			display: none;
+		}
+	
+		td.number {
+			width: 12%;
+			border-right: none;
+		}
+	
+		.type {
+			border-left: none;
+		}
+	}
+	
+	&.seats {
+    .note {
+      .number {
+        font-weight: bold;
+      }
+    }
+    
+    .error {
+      margin: 10px;
+      background: red;
+      color: white;
+      border-radius: 10px;
+      display: none;
+    }
+    
+    .message {
+      .singular, .plural {
+        display: none;
+      }
+    
+      &.singular .singular, &.plural .plural {
+        display: inline;
+      }
+    }
+    
+    .ticketing_seat.selected {
+  		background: yellow;
+    }
+    
+    em.small {
+      color: black;
+    }
+    
+    .key {
+      overflow: auto;
+      border: 1px solid #cccccc {
+        radius: 10px;
+      }
+      padding: 0px;
+      font-size: 13px;
+      margin: 10px;
+      display: inline-block;
+      
+      .ticketing_seat {
+        position: relative;
+        margin-right: 5px;
+      }
+      
+      div {
+        float: left;
+      }
+      
+      > div {
+        padding: 7px 12px;
+        
+        &:not(:first-child) {
+          border-left: 1px solid #cccccc;
+        }
+      }
+    }
+	}
+	
+	&.address {
+
+	}
+	
+	&.payment {
+		td {
+			padding-top: 10px;
+		
+			.small {
+				color: #000000;
+			}
+		}
+	
+		.radio {
+			width: 10%;
+		}
+	
+		.charge {
+			margin-top: 30px;
+			display: none;
+		}
+	}
+	
+	&.confirm {
+		.payment {
+			margin-top: 10px;
+      
+      .charge, .transfer {
+        display: none;
+      }
+      
+      &.charge .charge, &.transfer .transfer {
+        display: block;
+      }
+		}
+	
+		.date {
+			font-weight: bold;
+		}
+	}
+	
+	&.finish {
+		.hl {
+			font-size: 28px;
+		}
+		
+		.tickets {
+			display: none;
+		}
+	}
+}
+
+.stepCon.date .single, .date td.total {
+	width: 18%;
+	text-align: right;
+}
+
+.stepCon.date, .stepCon.confirm {
+	tr.total {
+		font-weight: bold;
+		
+		td {
+			border-top: 1px solid #cccccc;
+		}
+	}
+}

@@ -1,2 +1,2 @@
-<%= link_to "", [:edit].concat(obj.kind_of?(Array) ? obj : [obj]), { :class => :edit, :title => "bearbeiten" } %>
+<%= link_to "", [:edit].concat(obj.kind_of?(Array) ? obj : [obj]), { :class => :edit, :title => "bearbeiten", remote: (remote_edit ||= false) } %>
 <%= link_to "", obj, { :method => :delete, :data => { :confirm => "Möchten Sie #{(delete_confirm || "dieses Element")} wirklich löschen?" }, :class => :delete, :title => "löschen" } %>

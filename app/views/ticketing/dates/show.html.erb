@@ -1,0 +1,22 @@
+<% title "Aufführungstermin" %>
+<% include_js "ticketing/dates" %>
+<% include_css "ticketing/dates" %>
+<div class="hl">Aufführungstermin</div>
+<div class="hcen"><%= l @date.date, format: "%A, %d. %B, %H.%M" %> Uhr</div>
+<div class="seating">
+  <%= render "application/ticketing/seats", seats: @seats, numbers: true %>
+</div>
+<div class="reservation">
+  <%= form_tag ticketing_reservations_path, method: :put do %>
+    <%= hidden_field_tag :date, @date.id %>
+    <div>Plätze blockieren</div>
+    <div>
+      Gruppe: <%= select_tag :group, options_for_select([["Gruppe wählen", 0]]) << options_from_collection_for_select(@reservation_groups, :id, :name) << grouped_options_for_select([["", [["neue Gruppe", "new"]]]]) %><%= text_field_tag :new_group_name %>
+      <%= submit_tag "blockieren" %>
+    </div>
+  <% end %>
+  <%= form_tag ticketing_reservations_path, method: :delete do %>
+    <%= hidden_field_tag :date, @date.id %>
+    <div><%= submit_tag "Blockierung aufheben", { method: :delete, confirm: "Möchten Sie die Blockierung der markierten Sitzplätze wirklich aufheben?" } %></div>
+  <% end %>
+</div>

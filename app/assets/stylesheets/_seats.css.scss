@@ -1,0 +1,71 @@
+.seating {
+	position: relative;
+	height: 500px;
+	box-shadow: inset 0px 0px 8px #cccccc;
+  overflow-x: scroll;
+  
+  .scroller {
+    position: relative;
+    width: 180%;
+    height: 90%;
+    
+    .ticketing_seat {
+      cursor: pointer;
+    }
+  
+    &.selectable {
+      .ticketing_seat {
+        &.selected {
+          border-color: red;
+        }
+      }
+    }
+  
+    &.draggable:not(.selecting) {
+      .ticketing_seat {
+        cursor: move;
+      }
+    }
+  }
+  
+  .stage {
+    position: absolute;
+    bottom: 3%;
+    left: 95%;
+    margin-left: -70%;
+    width: 140%;
+    height: 3%;
+    background: #43a1ca;
+    border: 1px solid #3d5eaf;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+  }
+}
+
+.ticketing_seat {
+	position: absolute;
+	border: 1px solid #cccccc;
+	font-size: 12px;
+	text-align: center;
+	color: white;
+	text-shadow: 0px 0px 3px black;
+  background: black;
+  width: 15px;
+  height: 15px;
+  
+  &.available {
+		background: green;
+  }
+
+	&.taken {
+    cursor: auto;
+		background: red;
+	}
+  
+  &.reserved {
+    background: orange;
+  }
+}

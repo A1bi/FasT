@@ -69,6 +69,23 @@ FasT::Application.routes.draw do
         end
       end
   	end
+    
+    namespace :ticketing, :path => "vorverkauf" do
+      resources :event_dates, :path => "termine", :only => [:index, :show, :new], :controller => :dates
+			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
+        collection do
+          put :update_multiple
+          delete :update_multiple, :action => :destroy_multiple
+        end
+      end
+      resources :blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show]
+      resources :reservations, :only => [] do
+        collection do
+          put :update
+          delete :destroy
+        end
+      end
+    end
 		
 		namespace :members, :path => "mitglieder" do
 			resource :member, :path => "mitgliedschaft", :controller => :member, :only => [:edit, :update] do
@@ -87,6 +104,22 @@ FasT::Application.routes.draw do
 			root :to => "main#index"
 		end
     
+  end
+	
+	controller :orders, :path => "tickets" do
+		get "bestellen", :action => :new, :as => :new_order
+	end
+	
+  namespace :api do
+    resources :orders, :only => [:create] do
+      member do
+        post "mark_paid"
+      end
+      collection do
+        get "retail/:store_id", :action => :retail
+      end
+    end
+    get "events/current", :as => "current_event"
   end
 
 end

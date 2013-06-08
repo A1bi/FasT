@@ -1,0 +1,11 @@
+<div class="scroller">
+  <% seats.each_with_index do |seat, index| %>
+    <% options = (seat_options(seat) if (respond_to? :seat_options)) || {} %>
+    <%= div_for(seat, options.merge(:data => { :id => seat.id, :number => seat.number, :block => seat.block.id, :"grid-x" => seat.position_x, :"grid-y" => seat.position_y }) ) do %>
+      <% if (numbers ||= false) %>
+        <div class="number"><%= seat.number %></div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+<% if !(no_stage ||= false) %><div class="stage">Bühne</div><% end %>

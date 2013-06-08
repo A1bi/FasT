@@ -29,6 +29,8 @@ de:
       member: "Mein Mitgliedskonto"
       sessions: "Logout"
       members: "Mitgliederverwaltung"
+      seats: "Sitzplan"
+      dates: "Aufführungstermine"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."
@@ -39,12 +41,36 @@ de:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
         summary: "Theater-Probe"
+  tickets:
+    errors:
+      seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
+      seat_taken: "Ihr gewählter Sitzplatz wurde in der Zwischenzeit von jemand anderem reserviert. Bitte wählen Sie einen anderen Platz."
+      date_not_found: "Das gewählte Datum wurde nicht gefunden."
+  tickets_pdf:
+    title: "Tickets"
+    author: "Freilichtbühne am schiefen Turm e.V."
+    creator: "www.theater-kaisersesch.de"
+    event_date_format: "%A, den %d. %B um %H.%M Uhr"
+    ticket: "Ticket"
+    order: "Order"
+    block: "Block"
+    seat: "Sitz"
+    website: "www.theater-kaisersesch.de"
+    header: "Die Freilichtbühne am schiefen Turm präsentiert"
+    location: "Historischer Ortskern, Kaisersesch"
+    opens: "Einlass ab 19.00 Uhr"
+    notes: "Bitte schneiden Sie Ihre Tickets an den gestrichelten Linien auseinander. Mit diesen können Sie am Abend der Aufführung direkt zur Einlasskontrolle gehen. Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch die Ticket-Nummern notieren und diese an der Abendkasse nennen."
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
   member_mailer:
     activation:
       subject: "Willkommen im Mitgliederbereich!"
+  order_mailer:
+    confirmation:
+      subject: "Ihre Bestellung"
+    payment_received:
+      subject: "Ihre Tickets"
   activerecord:
     errors:
       messages:
@@ -102,3 +128,9 @@ de:
       - :day
       - :month
       - :year
+  number:
+    currency:
+      format:
+        format: "%n %u"
+        unit: "€"
+        separator: ","
