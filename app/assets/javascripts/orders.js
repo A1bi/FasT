@@ -237,7 +237,7 @@ function SeatsStep(delegate) {
       
       _this.seatsToSelect = info.numberOfTickets;
       _this.box.find(".number span").text(_this.seatsToSelect);
-      _this.toggleMessageCssClass(_this.box.find(".note"), _this.seatsToSelect, "note");
+      _this.box.find(".error").hide();
     });
 	};
 	
