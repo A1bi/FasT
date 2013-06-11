@@ -541,8 +541,7 @@ var ticketing = new function () {
     try {
       _this.node = io.connect("/web", {
         "resource": "node",
-        "reconnect": false,
-        "sync disconnect on unload": true
+        "reconnect": false
       });
       
       _this.registerEvents();
