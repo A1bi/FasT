@@ -15,6 +15,7 @@ class NodeApi
   end
   
   def self.push(action, recipients, recipientIds = nil, info = nil)
+    recipientIds.map! { |id| id.to_s }
     data = {
       action: action,
       recipients: recipients,
