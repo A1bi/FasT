@@ -1,10 +1,10 @@
 module Ticketing
   class Bunch < ActiveRecord::Base
-  	include Cancellable, RandomUniqueID
+  	include Cancellable, RandomUniqueAttribute
 	
   	has_many :tickets, :after_add => :added_ticket
   	belongs_to :assignable, :polymorphic => true, :touch => true
-    has_random_unique_id :number, 6
+    has_random_unique_number :number, 6
 	
   	validates_length_of :tickets, :minimum => 1
 	

@@ -2,7 +2,7 @@
 <% include_css "orders" %>
 <% include_js "orders" %>
 <% content_for(:head) do %>
-   <%= javascript_include_tag "/node/socket.io.js" %>
+  <%= javascript_include_tag "/node/socket.io.js" %>
 <% end %>
 <div class="hl">
 	Tickets bestellen
@@ -45,7 +45,7 @@
 			<table class="inner rTable">
 				<% @ticket_types.each do |type| %>
 					<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
-						<td class="number">
+					  <td class="number">
 							<%= select_tag(:number, options_for_select(0..15)) %>
 						</td>
 						<td class="type">
@@ -87,34 +87,34 @@
 		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
 		<%= form_for :address do |f| %>
    		<table class="inner form">
-            <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
-               <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
-            <% end %>
-            <tr class="spacer"></tr>
-            <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
-               <%= f.text_field :first_name, :class => "field" %>
-            <% end %>
-            <tr class="spacer"></tr>
-            <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
-               <%= f.text_field :last_name, :class => "field" %>
-            <% end %>
+        <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
+          <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
+          <%= f.text_field :first_name, :class => "field" %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
+          <%= f.text_field :last_name, :class => "field" %>
+        <% end %>
    		</table>
    		<div class="inner newSection"></div>
    		<table class="inner form">
-            <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
-               <%= f.text_field :plz, :class => "field" %>
-            <% end %>
-            <tr class="spacer"></tr>
-            <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
-               <%= f.text_field :phone, :class => "field" %>
-            <% end %>
+        <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
+          <%= f.text_field :plz, :class => "field" %>
+        <% end %>
+        <tr class="spacer"></tr>
+        <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
+          <%= f.text_field :phone, :class => "field" %>
+        <% end %>
    		</table>
    		<div class="inner newSection"></div>
    		<table class="inner form">
-            <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
-               <%= f.text_field :email, :class => "field" %>
-               <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
-            <% end %>
+        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
+          <%= f.text_field :email, :class => "field" %>
+          <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
+        <% end %>
    		</table>
 		<% end %>
 		<div class="small">
@@ -130,7 +130,7 @@
   				<td>
   					<b>Lastschrift</b>
   					<div class="small">Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung!</div>
-  				</td>
+  			  </td>
   			</tr>
   			<tr>
   				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
@@ -189,7 +189,7 @@
 			Tickets für die Aufführung am <span class="date"></span>:
 			<table class="rTable">
 				<%= content_tag_for(:tr, @ticket_types) do |type| %>
-    			<td><%= type.name %></td>
+    		  <td><%= type.name %></td>
     			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
     			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
 				<% end %>
@@ -225,9 +225,16 @@
 				</table>
 			</div>
 		</div>
-		<div class="accept">
-			<input type="checkbox" name="accept" /> Ich akzeptiere die <%= link_to "AGB", agb_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e.V.
-		</div>
+    <table class="rTable checkboxes">
+      <tr>
+        <td><%= check_box_tag :newsletter, :yes, true %></td>
+        <td>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.</td>
+      </tr>
+			<tr>
+        <td><%= check_box_tag :accepted, :yes %></td>
+        <td>Ich akzeptiere die <%= link_to "AGB", agb_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e.V.</td>
+      </tr>
+    </table>
 	</div>
 	<div class="stepCon finish">
 		<div class="hl">

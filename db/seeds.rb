@@ -12,7 +12,8 @@ end
 	Gallery.create(title: Faker::Lorem.sentence(4), disclaimer: "&copy; #{Faker::NameDE.name}")
 end
 
-# members
+
+## members
 10.times do |i|
 	attrs = { password: "123456" }
 	if i == 1
@@ -33,6 +34,12 @@ end
 
 # files
 Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6), path: "dummy.pdf" })
+
+
+## newsletters
+3.times do
+  Newsletter::Subscriber.create(email: Faker::Internet.free_email)
+end
 
 
 ## ticket system

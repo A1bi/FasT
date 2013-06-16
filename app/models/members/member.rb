@@ -75,6 +75,6 @@ class Members::Member < ActiveRecord::Base
 	end
 	
 	def self.random_hash
-		SecureRandom.hex(16)
+		SecureRandom.hex
 	end
 end

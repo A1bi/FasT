@@ -454,6 +454,21 @@ table td {
 		.date {
 			font-weight: bold;
 		}
+    
+    .checkboxes {
+      margin: 15px auto;
+      font-size: 14px;
+      width: 90%;
+      
+      tr td {
+        padding: 6px 4px;
+        border: none;
+        
+        &:first-child {
+          vertical-align: top;
+        }
+      }
+    }
 	}
 	
 	&.finish {

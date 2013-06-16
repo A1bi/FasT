@@ -8,7 +8,8 @@ class Api::OrdersController < ApplicationController
     info = params[:order]
     retailId = params[:retailId]
     
-    order = ((retailId.present?) ? Ticketing::Retail::Order : Ticketing::Web::Order).new
+    isRetail = retailId.present?
+    order = (isRetail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     
     order.build_bunch
 		info[:tickets].each do |type_id, number|
@@ -23,7 +24,7 @@ class Api::OrdersController < ApplicationController
 			end
 		end
   
-    if retailId.blank?
+    if !isRetail
       order.attributes = info[:address]
 
       order.pay_method = (info[:payment] ||= {}).delete(:method)
@@ -36,6 +37,10 @@ class Api::OrdersController < ApplicationController
     end
     
     if order.save
+      if !isRetail && info[:newsletter].present?
+        Newsletter::Subscriber.create(email: order.email)
+      end
+      
       response[:ok] = true
       response[:order] = order.api_hash
     else

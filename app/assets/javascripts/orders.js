@@ -292,8 +292,8 @@ function ConfirmStep(delegate) {
 	var _this = this;
   
   this.registerEvents = function () {
-    this.box.find(".accept :checkbox").click(function () {
-      _this.info.accepted = $(this).is(":checked");
+    this.box.find(".checkboxes :checkbox").click(function () {
+      _this.info[$(this).attr("name")] = $(this).is(":checked");
       _this.delegate.toggleNextBtn(_this.info.accepted);
     });
     
@@ -337,6 +337,8 @@ function ConfirmStep(delegate) {
   };
 	
 	Step.call(this, "confirm", delegate);
+  
+  this.info['newsletter'] = true;
 }
 
 function FinishStep(delegate) {
