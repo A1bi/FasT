@@ -6,7 +6,8 @@ module Ticketing
   
     validates_presence_of :store
     
-    before_create :set_queue_number
+    attr_accessor :omit_queue_number
+    before_create :set_queue_number, :if => Proc.new { |order| !order.omit_queue_number }
     
     def self.by_store(retailId)
       where(:store_id => retailId)

@@ -1,88 +1,6 @@
-<% title "Tickets bestellen" %>
-<% include_css "orders" %>
-<% include_js "orders" %>
-<% content_for(:head) do %>
-   <%= javascript_include_tag "/node/socket.io.js" %>
-<% end %>
-<div class="hl">
-	Tickets bestellen
-</div>
-<div class="progress">
-	<div class="step bar"></div>
-	<div class="step current">Termin</div>
-	<div class="step">Sitzplätze</div>
-	<div class="step">Adresse</div>
-	<div class="step">Bezahlen</div>
-	<div class="step">Bestätigen</div>
-</div>
-<div class="messages warning expiration">
-	<div class="icon"></div>
-  <ul>
-	  <li>Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</li>
-  </ul>
-</div>
-<div class="stepBox">
-  <div class="modal_alert">
-		<div class="messages alert">
-			<div class="icon"></div>
-      <ul>
-			  <li></li>
-        <li><%= link_to "Bestellvorgang neu starten", new_order_path, class: :btn %></li>
-		  </ul>
-	  </div>
-  </div>
-	<div class="stepCon date">
-		<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
-		<ul class="inner">
-			<% @event.dates.each do |date| %>
-				<%= content_tag_for(:li, date, :data => { :id => date.id }) do %>
-					<%= l date.date, format: "%A, den %d. %B um %H.%M" %> Uhr
-				<% end %>
-			<% end %>
-		</ul>
-		<div class="number">
-			<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
-			<table class="inner rTable">
-				<% @ticket_types.each do |type| %>
-					<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
-						<td class="number">
-							<%= select_tag(:number, options_for_select(0..15)) %>
-						</td>
-						<td class="type">
-							<%= type.name %>
-							<div class="small"><%= type.info %></div>
-						</td>
-						<td class="single">je <%= number_to_currency(type.price) %></td>
-						<td class="total"><span>0</span> €</td>
-					<% end %>
-				<% end %>
-				<tr class="total">
-					<td colspan="3">Gesamt</td>
-					<td id="date_all_total" class="total"><span>0</span> €</td>
-				</tr>
-			</table>
-		</div>
-	</div>
-	<div class="stepCon seats">
-		<div class="note message">
-      Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<span class="number plural"> <span></span></span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
-    </div>
-    <div class="error message">
-      Sie müssen noch <b class="number"></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.
-    </div>
-		<div class="seating noPadding">
-			<%= render "application/ticketing/seats", :seats => @seats %>
-		</div>
-    <div class="hcen">
-      <em class="small">Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</em>
-  		<div class="key">
-        <div><b>Legende</b></div>
-        <div><div class="ticketing_seat available"></div> Sitzplatz frei</div>
-        <div><div class="ticketing_seat taken"></div> Sitzplatz bereits reserviert</div>
-        <div><div class="ticketing_seat selected"></div> Ihr Sitzplatz</div>
-      </div>
-    </div>
-	</div>
+<%= content_for :steps do %>
+	<%= render "date" %>
+	<%= render "seats" %>
 	<div class="stepCon address">
 		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
 		<%= form_for :address do |f| %>
@@ -237,11 +155,5 @@
 			In Kürze erhalten Sie eine e-mail mit <span class="tickets">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.
 		</div>
 	</div>
-</div>
-<div class="btns">
-	<div class="btn prev disabled">zurück</div>
-	<div class="btn next disabled">
-		<span class="action">weiter</span>
-		<span class="spinner"><img src="/assets/orders/loading.gif" alt="Bitte warten" /></span>
-	</div>
-</div>
+<% end %>
+<%= render "framework" %>

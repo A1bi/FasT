@@ -332,7 +332,7 @@ function ConfirmStep(delegate) {
   
   this.moveIn = function () {
     Step.prototype.moveIn.call(this);
-    this.delegate.toggleNextBtn(this.info.accepted);
+    this.delegate.toggleNextBtn(this.delegate.retail || this.info.accepted);
     this.delegate.setNextBtnText("bestellen");
   };
 	
@@ -432,7 +432,7 @@ var ticketing = new function () {
 	this.updateProgress = function() {
 		var progressBox = $(".progress");
 		progressBox.find(".current").removeClass("current");
-		var current = progressBox.find(".step").eq(this.currentStepIndex+1).addClass("current");
+		var current = progressBox.find(".step." + this.currentStep.name).addClass("current");
 		progressBox.find(".bar").css("left", current.position().left);
 	};
 	
@@ -538,17 +538,36 @@ var ticketing = new function () {
 		_this.stepBox = $(".stepBox");
     _this.expirationBox = $(".expiration");
     
+    var retailId = $(".retail").data("id");
+    _this.retail = !!retailId;
+    
+    var namespace, steps, query;
+    if (_this.retail) {
+      namespace = "/retail-web";
+      steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
+      query = "retailId=" + retailId;
+    } else {
+      namespace = "/web";
+      steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
+    }
+    
+    $(".progress .step").css({ width: 100 / (steps.length - 1) + "%" });
+    
     try {
-      _this.node = io.connect("/web", {
+      _this.node = io.connect(namespace, {
         "resource": "node",
-        "reconnect": false
+        "reconnect": false,
+        "query": query
       });
       
       _this.registerEvents();
       
-  		$.each([DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep], function (index, stepClass) {
+  		$.each(steps, function (index, stepClass) {
   			stepClass.prototype = Step.prototype;
-  			_this.steps.push(new stepClass(_this));
+        var step = new stepClass(_this);
+  			_this.steps.push(step);
+        
+        $(".progress .step." + step.name).show();
   		});
 		
   		_this.showNext(false);

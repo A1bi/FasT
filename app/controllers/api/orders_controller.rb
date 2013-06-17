@@ -10,6 +10,8 @@ class Api::OrdersController < ApplicationController
     
     order = ((retailId.present?) ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     
+    order.omit_queue_number = true if retailId.present? && params[:web]
+    
     order.build_bunch
 		info[:tickets].each do |type_id, number|
       next if number < 1

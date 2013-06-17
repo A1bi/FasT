@@ -53,6 +53,11 @@
 	}
 }
 
+.hl .retail {
+  color: red;
+  font-size: 26px;
+}
+
 .btns {
 	position: relative;
 	width: 90%;
@@ -159,12 +164,12 @@ table td {
 	.step {
 		position: relative;
 		float: left;
-		width: 20%;
 		text-align: center;
 		padding: 2px 0px;
 		font-size: 12px;
 		color: #cccccc;
 		z-index: 2;
+    display: none;
 		@include transition(color, .5s, ease-in-out);
 		
 		&.current {
@@ -176,6 +181,7 @@ table td {
 			top: 0px;
 			left: 0px;
 			height: 100%;
+      display: block;
 		 	@include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
 			@include transition(left, .5s, ease-in-out);
 		}

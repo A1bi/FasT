@@ -1,0 +1,32 @@
+<div class="stepCon date">
+	<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
+	<ul class="inner">
+		<% @event.dates.each do |date| %>
+			<%= content_tag_for(:li, date, :data => { :id => date.id }) do %>
+				<%= l date.date, format: "%A, den %d. %B um %H.%M" %> Uhr
+			<% end %>
+		<% end %>
+	</ul>
+	<div class="number">
+		<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
+		<table class="inner rTable">
+			<% @ticket_types.each do |type| %>
+				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
+					<td class="number">
+						<%= select_tag(:number, options_for_select(0..15)) %>
+					</td>
+					<td class="type">
+						<%= type.name %>
+						<div class="small"><%= type.info %></div>
+					</td>
+					<td class="single">je <%= number_to_currency(type.price) %></td>
+					<td class="total"><span>0</span> €</td>
+				<% end %>
+			<% end %>
+			<tr class="total">
+				<td colspan="3">Gesamt</td>
+				<td id="date_all_total" class="total"><span>0</span> €</td>
+			</tr>
+		</table>
+	</div>
+</div>
