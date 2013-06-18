@@ -16,7 +16,8 @@ module Ticketing
           created: created_at.to_i,
           tickets: bunch.tickets.map do |ticket|
             { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
-          end
+          end,
+          printable_path: bunch.printable_path
         }
         hash[:queue_number] = queue_number.to_s if self.is_a? Ticketing::Retail::Order
         hash

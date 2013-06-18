@@ -90,7 +90,11 @@ Step.prototype = {
     }
 	},
   
-	registerEvents: function () {}
+	registerEvents: function () {},
+  
+	formatCurrency: function (value) {
+		return value.toFixed(2).toString().replace(".", ",");
+	}
 };
 
 function DateStep(delegate) {
@@ -108,10 +112,6 @@ function DateStep(delegate) {
 	Step.call(this, "date", delegate);
   
   this.info.tickets = {};
-
-	this.formatCurrency = function (value) {
-		return value.toFixed(2).toString().replace(".", ",");
-	};
 	
 	this.getTypeTotal = function ($typeBox) {
 		return $typeBox.data("price") * $typeBox.find("select").val();
@@ -326,10 +326,6 @@ function ConfirmStep(delegate) {
     });
   };
   
-	this.formatCurrency = function (value) {
-		return value.toFixed(2).toString().replace(".", ",");
-	};
-  
   this.moveIn = function () {
     Step.prototype.moveIn.call(this);
     this.delegate.toggleNextBtn(this.delegate.retail || this.info.accepted);
@@ -346,6 +342,15 @@ function FinishStep(delegate) {
     this.delegate.observeOrder("payment", function (info) {
       _this.box.find(".tickets").toggle(info.payment == "charge");
     });
+    
+    if (this.delegate.retail) {
+      this.delegate.node.on("orderPlaced", function (res) {
+        if (!res.ok) return;
+        
+        _this.box.find(".total span").text(_this.formatCurrency(res.order.total));
+        _this.box.find(".printable_link").attr("href", res.order.printable_path);
+      });
+    }
   };
   
   this.moveIn = function () {

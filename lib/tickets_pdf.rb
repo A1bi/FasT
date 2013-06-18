@@ -31,8 +31,8 @@ class TicketsPDF < Prawn::Document
     draw_cut_line
   end
   
-  def add_order(order)
-    order.bunch.tickets.each do |ticket|
+  def add_bunch(bunch)
+    bunch.tickets.each do |ticket|
       draw_ticket ticket
     end
   end

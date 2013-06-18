@@ -22,10 +22,10 @@
 		<div class="hl">
 			Vielen Dank für Ihre Bestellung!
 		</div>
-    <div class="hcen">Gesamtbetrag: <span class="total"></span> €</div>
+    <div class="total">Gesamtbetrag: <span></span> €</div>
 		<div>
 			Ihre Tickets können Sie mit einem Klick auf folgendes Symbol herunterladen:
-      <div class="hcen"><%= link_to "#" do %><%= image_tag "misc/files/pdf.png", :alt => "Tickets herunterladen" %><% end %></div>
+      <p><%= link_to "#", class: "printable_link", target: "_blank" do %><%= image_tag "misc/files/pdf.png", alt: "Tickets herunterladen" %><% end %></p>
 		</div>
 	</div>
 <% end %>

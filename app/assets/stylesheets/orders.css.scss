@@ -463,6 +463,8 @@ table td {
 	}
 	
 	&.finish {
+    text-align: center;
+    
 		.hl {
 			font-size: 28px;
 		}
@@ -470,6 +472,15 @@ table td {
 		.tickets {
 			display: none;
 		}
+    
+    .total {
+      margin: 15px;
+      font-size: 20px;
+      
+      span {
+        font-weight: bold;
+      }
+    }
 	}
 }
 
