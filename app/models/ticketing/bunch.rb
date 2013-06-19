@@ -28,7 +28,7 @@ module Ticketing
     def create_printable
       FileUtils.mkdir_p(tickets_dir_path(true))
       
-      pdf = TicketsPDF.new
+      pdf = TicketsPDF.new(true)
       pdf.add_bunch self
       pdf.render_file(printable_path(true))
     end

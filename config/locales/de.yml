@@ -59,7 +59,6 @@ de:
     header: "Die Freilichtbühne am schiefen Turm präsentiert"
     location: "Historischer Ortskern, Kaisersesch"
     opens: "Einlass ab 19.00 Uhr"
-    notes: "Bitte schneiden Sie Ihre Tickets an den gestrichelten Linien auseinander. Mit diesen können Sie am Abend der Aufführung direkt zur Einlasskontrolle gehen. Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch die Ticket-Nummern notieren und diese an der Abendkasse nennen."
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"

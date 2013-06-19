@@ -25,6 +25,8 @@ class OrderMailer < ActionMailer::Base
   end
   
   def attach_tickets
-    attachments['tickets.pdf'] = File.read(@order.bunch.printable_path(true))
+    pdf = TicketsPDF.new
+    pdf.add_bunch @order.bunch
+    attachments['tickets.pdf'] = pdf.render
   end
 end
