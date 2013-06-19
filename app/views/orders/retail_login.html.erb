@@ -1,0 +1,17 @@
+<% title = "Vorverkaufsstellen-Login" %>
+<div class="hl">Vorverkaufsstellen-Login</div>
+<%= form_tag retail_order_login_path do %>
+  <table class="rounded panel">
+  	<tr>
+  		<td>Vorverkaufsstelle:</td>
+  		<td><%= select_tag :store, options_from_collection_for_select(@stores, :id, :name) %></td>
+  	</tr>
+  	<tr>
+  		<td>Passwort:</td>
+  		<td><%= password_field_tag :password %></td>
+  	</tr>
+  </table>
+  <div class="submit">
+  	<%= submit_tag "login" %>
+  </div>
+<% end %>

@@ -41,6 +41,10 @@ de:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
         summary: "Theater-Probe"
+  orders:
+    retail_login:
+      required: "Bitte loggen Sie sich ein."
+      auth_error: "Das eingegebene Passwort ist nicht korrekt."
   tickets:
     errors:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."

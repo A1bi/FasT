@@ -435,6 +435,8 @@ var ticketing = new function () {
 	};
 	
 	this.updateProgress = function() {
+    if (this.currentStepIndex == this.steps.length - 1) return;
+    
 		var progressBox = $(".progress");
 		progressBox.find(".current").removeClass("current");
 		var current = progressBox.find(".step." + this.currentStep.name).addClass("current");
