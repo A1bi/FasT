@@ -10,7 +10,7 @@ module Ticketing
     
     def self.by_store(retailId)
       where(:store_id => retailId)
-      .includes(:bunch).where("ticketing_bunches.paid != 1 OR ticketing_retail_orders.created_at > ?", Time.zone.now - 1.day)
+      .includes(:bunch).where("ticketing_bunches.paid != 1")
     end
     
     def set_queue_number
