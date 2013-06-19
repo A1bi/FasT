@@ -4,10 +4,14 @@ class TicketsPDF < Prawn::Document
   include ActionView::Helpers::NumberHelper
   
   TICKET_WIDTH = 595
-  TICKET_HEIGHT = 220
+  TICKET_HEIGHT = 280
   
-  def initialize
-    super page_size: "A4", margin: [10, 0, 10, 0], info: {
+  def initialize(retail = false)
+    @retail = retail
+    
+    page_size = @retail ? [TICKET_WIDTH, TICKET_HEIGHT] : "A4"
+
+    super page_size: page_size, page_layout: @retail ? :landscape : :portrait, margin: [0, 0, 0, 0], info: {
       Title:         t(:title),
       Author:        t(:author),
       Creator:       t(:creator),
@@ -18,22 +22,19 @@ class TicketsPDF < Prawn::Document
     fill_color "000000"
     stroke_color "000000"
     fonts = {}
-    [["avenir", "Avenir"], ["snell_roundhand", "SnellRoundhand"]].each do |font|
+    [["avenir", "Avenir"], ["staccato", "Staccato"]].each do |font|
       fonts[font[1]] = { normal: Rails.root.join('app', 'assets', 'fonts', "#{font[0]}.ttf").to_s }
     end
     font_families.update(fonts)
     font "Avenir"
-    @font_sizes = { normal: 16, small: 13, tiny: 11 }
-    
-    indent(20, 20) do
-      text t(:notes)
-    end
-    draw_cut_line
+    @font_sizes = { normal: 17, small: 14, tiny: 11 }
   end
   
-  def add_order(order)
-    order.bunch.tickets.each do |ticket|
+  def add_bunch(bunch)
+    @tickets_drawn = 0
+    bunch.tickets.each do |ticket|
       draw_ticket ticket
+      @tickets_drawn = @tickets_drawn + 1
     end
   end
   
@@ -44,30 +45,40 @@ class TicketsPDF < Prawn::Document
   private
 
   def draw_ticket(ticket)
-    if cursor - TICKET_HEIGHT < 0
+    if (!@retail && cursor - TICKET_HEIGHT < 0) || (@retail && @tickets_drawn > 0)
       start_new_page
     end
     
-    bounding_box([0, cursor], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
-      indent(10, 20) do
-        barcodeWidth = 60
-        bounding_box([0, bounds.height], width: barcodeWidth, height: bounds.height) do
-          draw_barcode_for_ticket ticket
-        end
+    draw_single = Proc.new do
+      bounding_box([0, cursor], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
+        bounding_box([0, cursor - 10], width: bounds.width, height: bounds.height - 20) do
+          indent(10, 30) do
+            barcodeWidth = 70
+            bounding_box([0, bounds.height], width: barcodeWidth, height: bounds.height) do
+              draw_barcode_for_ticket ticket
+            end
 
-        bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth, height: bounds.height) do
-          move_down 4
-          indent(30) do
-            draw_event_info_for_date ticket.date
-            draw_seat_info ticket.seat
-            draw_ticket_type_info ticket.type
-            draw_bottom_info_for_ticket ticket
+            bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth, height: bounds.height) do
+              move_down 4
+              indent(30) do
+                draw_event_info_for_date ticket.date
+                draw_seat_info ticket.seat
+                draw_ticket_type_info ticket.type
+                draw_bottom_info_for_ticket ticket
+              end
+            end
           end
         end
       end
     end
     
-    if cursor > TICKET_HEIGHT / 3
+    if @retail
+      rotate(-90, :origin => [140, 455], &draw_single)
+    else
+      draw_single.call
+    end
+    
+    if cursor > bounds.height / 3 && !@retail
       draw_cut_line
     end
   end
@@ -79,7 +90,7 @@ class TicketsPDF < Prawn::Document
   
     rotate(-90, :origin => [0, bounds.height]) do
       bounding_box([0, bounds.height + height], width: width, height: height) do
-        BarcodePDF.draw_content("T#{ticket.number}M1", self)
+        BarcodePDF.draw_content("T#{ticket.number}M" + (@retail ? "0" : "1"), self)
       end
     end
     
@@ -94,7 +105,7 @@ class TicketsPDF < Prawn::Document
       box_height = height_of header
       bounding_box([0, cursor], width: bounds.width, height: box_height) do
         text_width = 0
-        character_spacing 1 do
+        character_spacing 1.2 do
           text_width = width_of header
           text header, align: :center, valign: :center
         end
@@ -109,8 +120,8 @@ class TicketsPDF < Prawn::Document
       end
     end
     
-    font("SnellRoundhand", size: 40) do
-      pad_bottom(4) { text date.event.name }
+    font("Staccato", size: 40) do
+      pad(5) { text date.event.name }
     end
   
     font_size_name :normal do
@@ -119,7 +130,7 @@ class TicketsPDF < Prawn::Document
   
     font_size_name :small do
       pad_bottom(10) { text t(:opens) }
-      pad_bottom(15) { text t(:location) }
+      pad_bottom(35) { text t(:location) }
     end
   end
 
@@ -167,6 +178,7 @@ class TicketsPDF < Prawn::Document
         table.cells.padding = [0, padding]
         table.cells.valign = :bottom
         table.cells.border_width = 0.3
+        table.column(0).padding_left = 0
         table.columns(0..-2).borders = [:right]
         table.column(-1).borders = []
       end
@@ -187,12 +199,12 @@ class TicketsPDF < Prawn::Document
   end
   
   def draw_cut_line
-    pad(15) do
-      dash(10, space: 5, phase: 0)
-      horizontal_line(0, bounds.width)
-      stroke
-      undash
-    end
+    tmpCursor = cursor
+    dash(10, space: 5, phase: 0)
+    horizontal_line(0, bounds.width)
+    stroke
+    undash
+    move_up(cursor - tmpCursor)
   end
   
   def t(key)
