@@ -11,7 +11,6 @@ module Ticketing
     
     def self.by_store(retailId)
       where(:store_id => retailId)
-      .includes(:bunch).where("ticketing_bunches.paid != 1")
     end
     
     def set_queue_number

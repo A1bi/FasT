@@ -3,7 +3,7 @@ module Ticketing
   	extend ActiveSupport::Concern
 	
   	included do
-      has_one :bunch, :as => :assignable, :validate => true
+      has_one :bunch, :as => :assignable, :validate => true, :dependent => :destroy
     
       validates_presence_of :bunch
       

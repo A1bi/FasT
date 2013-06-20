@@ -79,23 +79,15 @@
   		text-decoration: underline;
   		box-shadow: #666666 0px 0px 8px;
   	}
-
-  	.spinner {
-  		position: absolute;
-  		top: 5px;
-  		right: 8px;
-  		display: none;
-  	}
+    
+		.spinner {
+      display: inline-block;
+      padding-bottom: 5px;
+		}
 
   	&.loading {
-  		.spinner {
-  			display: block;
-  			padding-left: 2px;
-  			vertical-align: top;
-  		}
-		
   		.action {
-  			padding-right: 10px;
+  			padding-right: 12px;
   		}
   	}
 
@@ -225,6 +217,7 @@ table td {
 .stepCon {
 	position: absolute;
 	left: 100%;
+  min-height: 200px;
 	width: 100%;
 	display: none;
 	
@@ -480,20 +473,24 @@ table td {
 	&.finish {
     text-align: center;
     
-		.hl {
-			font-size: 28px;
-		}
-		
-		.tickets {
-			display: none;
-		}
-    
-    .total {
-      margin: 15px;
-      font-size: 20px;
+    .success {
+      display: none;
       
-      span {
-        font-weight: bold;
+  		.hl {
+  			font-size: 28px;
+  		}
+		
+  		.tickets {
+  			display: none;
+  		}
+    
+      .total {
+        margin: 15px;
+        font-size: 20px;
+      
+        span {
+          font-weight: bold;
+        }
       }
     }
 	}

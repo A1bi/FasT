@@ -2,7 +2,7 @@ module Ticketing
   class Bunch < ActiveRecord::Base
   	include Cancellable, RandomUniqueAttribute
 	
-  	has_many :tickets, :after_add => :added_ticket
+  	has_many :tickets, :after_add => :added_ticket, :dependent => :destroy
   	belongs_to :assignable, :polymorphic => true, :touch => true
     has_random_unique_number :number, 6
 	

@@ -1,3 +1,11 @@
+<% content_for :finish do %>
+  <div class="total">Gesamtbetrag: <span></span> €</div>
+  <div>
+  	Ihre Tickets können Sie mit einem Klick auf folgendes Symbol herunterladen:
+    <p><%= link_to "#", class: "printable_link", target: "_blank" do %><%= image_tag "misc/files/pdf.png", alt: "Tickets herunterladen" %><% end %></p>
+    <p><%= link_to "Neue Bestellung", request.path %></p>
+  </div>
+<% end %>
 <%= content_for :steps do %>
   <%= render "date" %>
 	<%= render "seats" %>
@@ -18,16 +26,6 @@
 			</table>
 		</div>
 	</div>
-	<div class="stepCon finish">
-		<div class="hl">
-			Vielen Dank für Ihre Bestellung!
-		</div>
-    <div class="total">Gesamtbetrag: <span></span> €</div>
-		<div>
-			Ihre Tickets können Sie mit einem Klick auf folgendes Symbol herunterladen:
-      <p><%= link_to "#", class: "printable_link", target: "_blank" do %><%= image_tag "misc/files/pdf.png", alt: "Tickets herunterladen" %><% end %></p>
-      <p><%= link_to "Neue Bestellung", request.path %></p>
-		</div>
-	</div>
+  <%= render "finish" %>
 <% end %>
 <%= render "framework" %>

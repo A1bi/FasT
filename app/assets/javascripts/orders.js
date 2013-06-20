@@ -1,4 +1,5 @@
 //= require _seats
+//= require spin
 
 function Step(name, delegate) {
 	this.name = name;
@@ -339,25 +340,39 @@ function ConfirmStep(delegate) {
 
 function FinishStep(delegate) {
   var _this = this;
+  var opts = {
+    lines: 13,
+    length: 20,
+    width: 10,
+    radius: 30,
+    trail: 60,
+    shadow: true
+  };
+  this.spinner = new Spinner(opts);
   
   this.registerEvents = function () {
     this.delegate.observeOrder("payment", function (info) {
       _this.box.find(".tickets").toggle(info.payment == "charge");
     });
     
-    if (this.delegate.retail) {
-      this.delegate.node.on("orderPlaced", function (res) {
-        if (!res.ok) return;
-        
+    this.delegate.node.on("orderPlaced", function (res) {
+      _this.spinner.stop();
+      
+      if (!res.ok) return;
+      
+      _this.box.find(".success").show();
+      if (_this.delegate.retail) {
         _this.box.find(".total span").text(_this.formatCurrency(res.order.total));
         _this.box.find(".printable_link").attr("href", res.order.printable_path);
-      });
-    }
+      }
+    });
   };
   
   this.moveIn = function () {
-    this.delegate.hideOrderControls();
     Step.prototype.moveIn.call(this);
+    this.delegate.toggleNextBtn(false);
+    this.delegate.hideOrderControls();
+    this.spinner.spin(this.box.get(0));
   };
   
 	Step.call(this, "finish", delegate);
@@ -374,6 +389,7 @@ var ticketing = new function () {
   this.expirationBox = null;
   this.expirationTimer = null;
   this.aborted = false;
+  this.btnSpinner = null;
 	var _this = this;
 	
 	this.toggleBtn = function (btn, toggle, style_class) {
@@ -381,12 +397,18 @@ var ticketing = new function () {
 		$(".btn."+btn).toggleClass(style_class, !toggle);
 	};
 	
-	this.toggleNextBtn = function (toggle) {
-		this.toggleBtn("next", toggle);
+	this.toggleNextBtn = function (toggle, style_class) {
+		this.toggleBtn("next", toggle, style_class);
 	};
 	
 	this.toggleLoadingBtn = function (toggle) {
-		this.toggleBtn("next", !toggle, "loading");
+		this.toggleNextBtn(!toggle, "loading");
+    if (toggle) {
+      this.btnSpinner.spin();
+      $(".btn.next").append(this.btnSpinner.el);
+    } else {
+      setTimeout(function () { _this.btnSpinner.stop(); }, 300);
+    }
 		if (this.currentStepIndex > 0) this.toggleBtn("prev", !toggle);
 	};
   
@@ -561,6 +583,15 @@ var ticketing = new function () {
     }
     
     $(".progress .step").css({ width: 100 / (steps.length - 1) + "%" });
+    var opts = {
+      lines: 11,
+      length: 4,
+      width: 2,
+      radius: 5,
+      trail: 70,
+      color: "white"
+    };
+    _this.btnSpinner = new Spinner(opts);
     
     try {
       _this.node = io.connect(namespace, {
