@@ -29,6 +29,8 @@ gem 'icalendar'
 
 gem 'prawn', :github => 'prawnpdf/prawn', :tag => '1.0.0.rc2'
 
+gem 'rubyzip'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

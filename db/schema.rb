@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616122643) do
+ActiveRecord::Schema.define(:version => 20130622173109) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(:version => 20130616122643) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "identifier"
   end
 
   create_table "ticketing_log_events", :force => true do |t|
