@@ -14,7 +14,16 @@ module Passbook
     
     def initialize(identifier, info)
       @identifier = identifier
-      @info = JSON(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }))
+      @info = JSON(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
+      
+      if @info[:webServiceURL]
+        @record = Records::Pass.where(type_id: @info[:passTypeIdentifier], serial_number: @info[:serialNumber]).first_or_initialize
+        if @record.new_record?
+          @record.auth_token = SecureRandom.hex
+        end
+    
+        @info[:authenticationToken] = @record.auth_token
+      end
     end
     
     def create(path)
@@ -24,6 +33,12 @@ module Passbook
       create_manifest
       sign
       zip(path)
+      
+      if @record
+        @record.path = path
+        @record.touch
+        @record.save
+      end
     end
     
     private
@@ -97,4 +112,122 @@ module Passbook
       end
     end
   end
+  
+  
+  module Records
+    
+    def self.table_name_prefix
+      'passbook_'
+    end
+
+    class Pass < ActiveRecord::Base
+      attr_accessible :type_id, :serial_number
+      
+      has_many :registrations, :dependent => :destroy
+      has_many :devices, through: :registrations
+
+      validates_presence_of :type_id, :serial_number, :auth_token
+    end
+
+    class Device < ActiveRecord::Base
+      attr_accessible :device_id, :push_token, :push_token
+      
+      has_many :registrations, :dependent => :destroy
+      has_many :passes, through: :registrations
+
+      validates_presence_of :device_id, :push_token
+    end
+    
+    class Registration < ActiveRecord::Base
+      attr_accessible :device, :pass
+      
+      belongs_to :device
+      belongs_to :pass
+      
+      validates_presence_of :device, :pass
+    end
+
+    class Log < ActiveRecord::Base
+      attr_accessible :message
+      
+      validates_presence_of :message
+    end
+    
+  end
+  
+  
+  module Controllers
+    
+    class PassbookController < ApplicationController
+      before_filter :prepare_pass, only: [:register_device, :unregister_device, :show_pass]
+      before_filter :prepare_device, only: [:unregister_device, :modified_passes]
+      
+      def register_device
+        device = Passbook::Records::Device.where(device_id: params[:device_id], push_token: params[:pushToken]).first_or_create
+        registration = Passbook::Records::Registration.where(pass_id: @pass.id, device_id: device.id).first_or_initialize
+        
+        if registration.new_record?
+          registration.save
+          render nothing: true, status: 201
+        else
+          render nothing: true
+        end
+      end
+      
+      def unregister_device
+        return render nothing: true if @device.nil?
+        
+        @device.passes.delete(@pass)
+        
+        render nothing: true
+      end
+      
+      def modified_passes
+        return render nothing: true, status: 204 if @device.nil?
+        
+        params[:passesUpdatedSince] ||= 0
+        
+        passes = @device.passes.where("passbook_passes.updated_at > ?", Time.at(params[:passesUpdatedSince].to_i))
+        
+        if passes.count < 1
+          render nothing: true, status: 204
+        else
+          render json: {
+            lastUpdated: Time.zone.now.to_i.to_s,
+            serialNumbers: passes.map { |pass| pass.serial_number }
+          }
+        end
+      end
+      
+      def show_pass
+        send_file @pass.path if stale? @pass
+      end
+      
+      def log
+        (params[:logs] ||= []).each do |message|
+          Passbook::Records::Log.create(message: message)
+        end
+        
+        render nothing: true
+      end
+      
+      private
+      
+      def prepare_pass
+        auth_token = request.headers['Authorization'].gsub(/^ApplePass /, "")
+        
+        @pass = Passbook::Records::Pass.where(type_id: params[:pass_type_id], serial_number: params[:serial_number]).first
+        
+        if @pass.nil? || @pass.auth_token != auth_token
+          return render nothing: true, status: 401
+        end
+      end
+      
+      def prepare_device
+        @device = Passbook::Records::Device.where(device_id: params[:device_id]).first
+      end
+    end
+    
+  end
+  
 end

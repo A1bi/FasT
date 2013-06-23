@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130622173109) do
+ActiveRecord::Schema.define(:version => 20130623172717) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -61,6 +61,35 @@ ActiveRecord::Schema.define(:version => 20130622173109) do
   create_table "newsletter_subscribers", :force => true do |t|
     t.string   "email"
     t.string   "token"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "passbook_devices", :force => true do |t|
+    t.string   "device_id"
+    t.string   "push_token"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "passbook_logs", :force => true do |t|
+    t.string   "message"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "passbook_passes", :force => true do |t|
+    t.string   "type_id"
+    t.string   "serial_number"
+    t.string   "auth_token"
+    t.string   "path"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "passbook_registrations", :force => true do |t|
+    t.integer  "pass_id"
+    t.integer  "device_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
