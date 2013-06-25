@@ -12,5 +12,12 @@ module Ticketing
     validates :email, :email_format => true
     validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
   
+    before_create :set_paid_status
+    
+    private
+    
+    def set_paid_status
+      bunch.paid = true if pay_method == "charge"
+    end
   end
 end
