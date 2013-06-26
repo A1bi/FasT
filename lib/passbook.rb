@@ -89,6 +89,7 @@ module Passbook
         end
       end
       
+      FileUtils.chmod("a+r", path)
       FileUtils.rm_r(@working_dir)
     end
     
