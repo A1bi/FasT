@@ -18,6 +18,13 @@ class OrderMailer < ActionMailer::Base
     mail_to_customer
   end
   
+  def overview(order)
+    @order = order
+    
+    attach_tickets
+    mail_to_customer
+  end
+  
   private
   
   def mail_to_customer

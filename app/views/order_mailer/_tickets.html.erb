@@ -13,14 +13,14 @@
     <td colspan="<%= @order.bunch.paid ? 2 : 1 %>" class="amount"><%= number_to_currency(@order.bunch.total) %></td>
   </tr>
 </table>
-<% if @order.bunch.paid %>
+<% if @order.bunch.paid && !(hide_notes ||= false) %>
   <table style="background: #ebebeb;" cellspacing="7" align="center">
     <tr>
       <td>
         <div class="hl">Hinweise zu Ihren Tickets</div>
         <p>Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser e-mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.</p>
         <p>Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch einfach Ihre Bestellnummer <b><%= @order.bunch.number %></b> notieren und an der Abendkasse nennen.</p>
-        <p>Sollten Sie Besitzer eines Smartphones sein, können Sie Ihre Tickets alternativ auch einfach zu Passbook (Apple iOS) oder PassWallet (Google Android) hinzufügen. Einen entsprechenden Button dazu finden Sie in der obigen Tabelle neben jedem Ticket.</p>
+        <p>Sollten Sie Besitzer eines Smartphones sein, können Sie Ihre Tickets alternativ auch einfach zu Passbook (vorinstalliert auf Apple iOS) oder <%= link_to "PassWallet", "https://play.google.com/store/apps/details?id=com.attidomobile.passwallet&hl=de" %> (separate App für Google Android) hinzufügen. Einen entsprechenden Button dazu finden Sie in der obigen Tabelle neben jedem Ticket.</p>
       </td>
     </tr>
   </table>
