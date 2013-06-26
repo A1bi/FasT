@@ -112,16 +112,33 @@ FasT::Application.routes.draw do
     post "vorverkaufsstelle/login", :action => :retail_login_check, :as => :retail_order_login
 	end
 	
-  namespace :api do
-    resources :orders, :only => [:create] do
-      member do
-        post "mark_paid"
+  scope :path => :api do
+    scope :module => :api do
+      resources :orders, :only => [:create] do
+        member do
+          post "mark_paid"
+        end
+        collection do
+          get "retail/:store_id", :action => :retail
+        end
       end
-      collection do
-        get "retail/:store_id", :action => :retail
-      end
+      get "events/current", :as => "current_event"
     end
-    get "events/current", :as => "current_event"
+    
+    scope :module => Passbook::Controllers, :controller => :passbook , :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do
+      scope "passes/:pass_type_id" do
+        get ":serial_number", :action => :show_pass
+      end
+      scope "devices/:device_id/registrations/:pass_type_id" do
+        scope ":serial_number" do
+          post :action => :register_device
+          delete :action => :unregister_device
+        end
+        get "/", :action => :modified_passes
+      end
+      post "log", :action => :log
+    end
+    
   end
 
 end

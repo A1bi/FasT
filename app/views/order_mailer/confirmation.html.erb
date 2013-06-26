@@ -1,0 +1,35 @@
+vielen Dank für Ihre Bestellung!
+<%= render "tickets" %>
+<p>
+  <% if @order.pay_method == "charge" %>
+    Der Betrag wird in den kommenden Tagen von dem von Ihnen angegebenen Konto abgebucht.
+  <% elsif !@order.bunch.paid %>
+    Bitte überweisen Sie den Betrag von <b><%= number_to_currency(@order.bunch.total) %></b> auf folgendes Konto:
+    <table>
+      <tr>
+        <td>Kontoinhaber:</td>
+        <td>Freilichtbühne am schiefen Turm e.V.</td>
+      </tr>
+      <tr>
+        <td>Kontonummer:</td>
+        <td>178167</td>
+      </tr>
+      <tr>
+        <td>BLZ:</td>
+        <td>57069144</td>
+      </tr>
+      <tr>
+        <td>Kreditinstitut:</td>
+        <td>Raiffeisenbank Kaisersesch</td>
+      </tr>
+      <tr>
+        <td>Verwendungszweck:</td>
+        <td>Order <%= @order.bunch.number %></td>
+      </tr>
+    </table>
+    <p>Sie erhalten Ihre Tickets per Mail sofort nach Zahlungsgeingang.</p>
+  <% end %>
+</p>
+<% if @order.bunch.paid %>
+  <p class="signature">Wir wünschen Ihnen viel Spaß bei der Aufführung!</p>
+<% end %>

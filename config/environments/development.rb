@@ -39,4 +39,11 @@ FasT::Application.configure do
   config.assets.debug = true
   
   Paperclip.options[:command_path] = "/opt/ImageMagick/bin/"
+  
+  config.to_prepare do
+    Passbook.options.merge!({
+      wwdr_ca_path: "/usr/local/etc/ssl/AppleWWDRCA.cer",
+      developer_cert_path: "/usr/local/etc/ssl/pass.de.theater-kaisersesch.FasT.p12"
+    })
+  end
 end
