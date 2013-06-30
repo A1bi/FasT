@@ -1,4 +1,4 @@
-@import "_mixins";
+@import "theater";
 
 
 // adjust content space for microsite
@@ -49,62 +49,6 @@
 		font: {
 			size: 26px;
 			weight: bold;
-		}
-	}
-
-	.cast {
-		margin: 20px 0px;
-		font-size: 16px;
-
-		.row {
-			padding: 4px 0px;
-			overflow: auto;
-	
-			> div {
-				width: 46%;
-				float: left;
-				padding: 0px 10px;
-				vertical-align: top;
-			}
-			
-			.small {
-				font-size: 11px;
-			}
-		}
-
-		p {
-			margin: 10px 0px;
-		}
-		.role {
-			text-align: right;
-		}
-		.actor {
-			font-weight: bold;
-			text-align: left;
-		}
-		.newSection div {
-			padding-top: 20px;
-		}
-		.alt {
-			font-size: 13px;
-			background: #2d2d2d;
-			box-shadow: inset 0px 2px 5px black;
-			padding-top: 5px;
-			display: none;
-			width: 100%;
-			margin-bottom: 15px;
-
-			span {
-				width: 50px;
-				display: inline-block;
-				text-align: center;
-			}
-		}
-		
-		.double {
-			.actor, .alt {
-				cursor: pointer;
-			}
 		}
 	}
 }

@@ -2,27 +2,41 @@
 	margin-top: 30px;
 	font-size: 20px;
 }
+
 .teaser {
 	margin: 30px 0px;
   
-  &.montevideo2013 {
+  &.jedermann {
     position: relative;
-    background: url(/assets/theater/montevideo/teaser2013.png);
-    width: 500px;
-    height: 360px;
+    background: url(/assets/theater/jedermann/index.png);
+    width: 610px;
+    height: 545px;
     margin: auto;
     
-    > a {
+    > div {
       position: absolute;
-      bottom: 7px;
-      left: 60px;
-      color: white;
+      width: 100%;
+      text-align: center;
+      bottom: 18px;
+      color: #fff7b2;
       font-family: "Qlassik", "Arial";
       font-size: 27px;
-      text-shadow: 1px 1px 4px black;
+      text-shadow: -2px -1px 0px #d10a11;
+      
+      a {
+        padding: 0px 10px;
+        color: #fff7b2;
+        text-decoration: none;
+        
+        &:hover {
+          color: #d10a11;
+          text-shadow: none;
+        }
+      }
     }
   }
 }
+
 .ad {
 	position: absolute;
 	margin: 0px 10px 10px 10px;

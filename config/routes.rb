@@ -14,6 +14,7 @@ FasT::Application.routes.draw do
     get "hexenjagd"
     get "medicus"
     get "phantasus"
+    get "jedermann"
   end
 
   # info

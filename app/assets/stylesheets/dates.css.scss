@@ -1,44 +1,89 @@
+$highlightColor: black;
+$shadowColor: black;
+
 .jedermann {
-	.banner {
-		margin-top: 20px;
-	}
-	
-	table.rounded {
-		margin: 10px auto;
-		width: 50%;
-	}
-	
-	.hl {
-		margin-top: 0px;
-		font-size: 30px;
-	}
+  $highlightColor: #d10a11;
+  $shadowColor: #fff7b2;
+  
+	.container {
+    overflow: auto;
+    margin: 20px 0px;
+    
+    .title {
+      float: left;
+      width: 52%;
+      text-align: center;
+      padding-top: 50px;
+    }
+    
+    .dates {
+      width: 46%;
+      float: left;
+      
+      td {
+        font-weight: bold;
+        vertical-align: top;
+        color: $highlightColor;
+      }
+      
+      p {
+        font-size: 13px;
+        padding: 0px 15px;
+      }
+    }
+  }
+  
+  .hl {
+    color: $highlightColor;
+  }
 }
 
-.montevideo {
-  h3 {
+.hl {
+  .small {
+    font-size: 25px;
+    color: black;
+  }
+  
+  &.order {
+    font-size: 30px;
+    display: block;
+    margin: 20px auto;
     margin-bottom: 30px;
   }
-  
-  .title {
-    margin: 10px;
-    float: right;
+}
+
+.point {
+  width: 25px;
+  height: 25px;
+  background: url(/assets/point.png) no-repeat;
+  padding: 0px 6px;
+}
+
+.shadow {
+  color: $highlightColor;
+}
+
+.prices {
+  table {
+    width: 50%;
+    
+    td {
+      font-size: 18px;
+      padding: 6px;
+      
+      &.price {
+        color: $highlightColor;
+      }
+    }
+    
+    .price {
+      vertical-align: top;
+      text-align: right;
+      font-weight: bold;
+    }
   }
-  
-  .poster {
-    margin-right: 10px;
-    float: left;
-  }
-  
-  .info {
-    text-align: justify;
-  }
-  
-  .panel {
-    text-align: center;
-  }
-  
-  .hl .small {
-    color: black;
-    font-size: 24px;
-  }
+}
+
+.hotline {
+  margin-top: 30px;
 }
