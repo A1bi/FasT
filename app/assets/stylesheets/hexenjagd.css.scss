@@ -1,6 +1,3 @@
-@import "_mixins";
-
-
 // adjust content space for microsite
 #content {
 	> .top {
@@ -16,8 +13,6 @@
 		background: url(/assets/theater/hexenjagd/content_bottom.png) no-repeat;
 	}
 }
-
-@include font-face(ovo);
 
 .info {
 	color: #b09668;

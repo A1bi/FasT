@@ -65,14 +65,18 @@ $shadowColor: black;
 
 .prices {
   table {
-    width: 50%;
+    width: 70%;
+    margin: auto;
     
     td {
-      font-size: 18px;
-      padding: 6px;
+      font-size: 18px !important;
+      padding: 10px !important;
       
       &.price {
         color: $highlightColor;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding: 10px 20px !important;
       }
     }
     
