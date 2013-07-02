@@ -4,41 +4,43 @@
 <% content_for(:head) do %>
   <%= javascript_include_tag "/node/socket.io.js" %>
 <% end %>
-<div class="hl">
-	Tickets bestellen
-  <%= content_tag :div, class: :retail, data: { id: @store.id } do %>
-    Vorverkaufsstelle: <%= @store.name %>
-  <% end if @store %>
-</div>
-<div class="progress">
-	<div class="step bar"></div>
-	<div class="step current date">Termin</div>
-	<div class="step seats">Sitzplätze</div>
-	<div class="step address">Adresse</div>
-	<div class="step payment">Bezahlen</div>
-	<div class="step confirm">Bestätigen</div>
-</div>
-<div class="messages warning expiration">
-	<div class="icon"></div>
-  <ul>
-	  <li>Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</li>
-  </ul>
-</div>
-<div class="stepBox">
-  <div class="modal_alert">
-		<div class="messages alert">
-			<div class="icon"></div>
-      <ul>
-			  <li></li>
-        <li><%= link_to "Bestellvorgang neu starten", request.path, class: :btn %></li>
-		  </ul>
-	  </div>
+<% cache cache_name.push(@event.id) do %>
+  <div class="hl">
+  	Tickets bestellen
+    <%= content_tag :div, class: :retail, data: { id: @store.id } do %>
+      Vorverkaufsstelle: <%= @store.name %>
+    <% end if @store %>
   </div>
-  <%= yield :steps %>
-</div>
-<div class="btns">
-	<div class="btn prev disabled">zurück</div>
-	<div class="btn next disabled">
-		<span class="action">weiter</span>
-	</div>
-</div>
+  <div class="progress">
+  	<div class="step bar"></div>
+  	<div class="step current date">Termin</div>
+  	<div class="step seats">Sitzplätze</div>
+  	<div class="step address">Adresse</div>
+  	<div class="step payment">Bezahlen</div>
+  	<div class="step confirm">Bestätigen</div>
+  </div>
+  <div class="messages warning expiration">
+  	<div class="icon"></div>
+    <ul>
+  	  <li>Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</li>
+    </ul>
+  </div>
+  <div class="stepBox">
+    <div class="modal_alert">
+  		<div class="messages alert">
+  			<div class="icon"></div>
+        <ul>
+  			  <li></li>
+          <li><%= link_to "Bestellvorgang neu starten", request.path, class: :btn %></li>
+  		  </ul>
+  	  </div>
+    </div>
+    <%= yield :steps %>
+  </div>
+  <div class="btns">
+  	<div class="btn prev disabled">zurück</div>
+  	<div class="btn next disabled">
+  		<span class="action">weiter</span>
+  	</div>
+  </div>
+<% end %>

@@ -10,7 +10,9 @@
     Sie müssen noch <b class="number"></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.
   </div>
 	<div class="seating noPadding">
-		<%= render "application/ticketing/seats", :seats => @seats %>
+    <% cache [:new_order, :seats] do %>
+		  <%= render "application/ticketing/seats", :seats => @seats %>
+    <% end %>
 	</div>
   <div class="hcen">
 		<div class="key">

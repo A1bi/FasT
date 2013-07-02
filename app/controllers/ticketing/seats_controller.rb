@@ -35,7 +35,8 @@ module Ticketing
     end
   
     def update
-      @seat.update_attributes(params[:seat])
+      # TODO: protect seats from being changed after sale has begun
+      # @seat.update_attributes(params[:seat])
     
       render nothing: true
     end

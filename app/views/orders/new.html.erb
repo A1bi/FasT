@@ -4,161 +4,163 @@
   </div>
 <% end %>
 <% content_for :steps do %>
-	<%= render "date" %>
-	<%= render "seats" %>
-	<div class="stepCon address">
-		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
-		<%= form_for :address do |f| %>
-   		<table class="inner form">
-        <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
-          <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
-          <%= f.text_field :first_name, :class => "field" %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
-          <%= f.text_field :last_name, :class => "field" %>
-        <% end %>
-   		</table>
-   		<div class="inner newSection"></div>
-   		<table class="inner form">
-        <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
-          <%= f.text_field :plz, :class => "field" %>
-        <% end %>
-        <tr class="spacer"></tr>
-        <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
-          <%= f.text_field :phone, :class => "field" %>
-        <% end %>
-   		</table>
-   		<div class="inner newSection"></div>
-   		<table class="inner form">
-        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
-          <%= f.text_field :email, :class => "field" %>
-          <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
-        <% end %>
-   		</table>
-		<% end %>
-		<div class="small">
-			Diese Daten sind nur für eventuelle Rückfragen erforderlich und werden nach der Aufführung vollständig aus unserem System gelöscht.
-		</div>
-	</div>
-	<div class="stepCon payment">
-		<div>Bitte wählen Sie eine der folgenden Zahlungsmethoden aus:</div>
-    <%= form_for :payment do |f| %>
-  		<table class="inner">
-  			<tr>
-  				<td class="radio"><input type="radio" name="method" value="charge" /></td>
-  				<td>
-  					<b>Lastschrift</b>
-  					<div class="small">Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung!</div>
-  			  </td>
-  			</tr>
-  			<tr>
-  				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
-  				<td>
-  					<b>Vorkasse per Überweisung</b>
-  					<div class="small">Sie erhalten Ihre Tickets nach Zahlungseingang.</div>
-  				</td>
-  			</tr>
-  		</table>
-  		<div class="charge">
-  			<div>
-  				Bitte geben für das Lastschriftverfahren Ihre Bankdaten an:
-  			</div>
-  			<table class="inner form">
-          <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
-            <%= f.text_field :name %>
+  <% cache [:new_order, :steps, @event.id] do %>
+  	<%= render "date" %>
+  	<%= render "seats" %>
+  	<div class="stepCon address">
+  		<div>Bitte füllen Sie die folgenden Felder entsprechend aus:</div>
+  		<%= form_for :address do |f| %>
+     		<table class="inner form">
+          <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
+            <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
           <% end %>
           <tr class="spacer"></tr>
-          <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
-            <%= f.text_field :number %>
+          <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
+            <%= f.text_field :first_name, :class => "field" %>
           <% end %>
           <tr class="spacer"></tr>
-          <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
-            <%= f.text_field :blz %>
+          <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
+            <%= f.text_field :last_name, :class => "field" %>
+          <% end %>
+     		</table>
+     		<div class="inner newSection"></div>
+     		<table class="inner form">
+          <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
+            <%= f.text_field :plz, :class => "field" %>
           <% end %>
           <tr class="spacer"></tr>
-          <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
-            <%= f.text_field :bank %>
+          <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
+            <%= f.text_field :phone, :class => "field" %>
           <% end %>
+     		</table>
+     		<div class="inner newSection"></div>
+     		<table class="inner form">
+          <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
+            <%= f.text_field :email, :class => "field" %>
+            <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
+          <% end %>
+     		</table>
+  		<% end %>
+  		<div class="small">
+  			Diese Daten sind nur für eventuelle Rückfragen erforderlich und werden nach der Aufführung vollständig aus unserem System gelöscht.
+  		</div>
+  	</div>
+  	<div class="stepCon payment">
+  		<div>Bitte wählen Sie eine der folgenden Zahlungsmethoden aus:</div>
+      <%= form_for :payment do |f| %>
+    		<table class="inner">
+    			<tr>
+    				<td class="radio"><input type="radio" name="method" value="charge" /></td>
+    				<td>
+    					<b>Lastschrift</b>
+    					<div class="small">Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung!</div>
+    			  </td>
+    			</tr>
+    			<tr>
+    				<td class="radio"><input type="radio" name="method" value="transfer" /></td>
+    				<td>
+    					<b>Vorkasse per Überweisung</b>
+    					<div class="small">Sie erhalten Ihre Tickets nach Zahlungseingang.</div>
+    				</td>
+    			</tr>
+    		</table>
+    		<div class="charge">
+    			<div>
+    				Bitte geben für das Lastschriftverfahren Ihre Bankdaten an:
+    			</div>
+    			<table class="inner form">
+            <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
+              <%= f.text_field :name %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
+              <%= f.text_field :number %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
+              <%= f.text_field :blz %>
+            <% end %>
+            <tr class="spacer"></tr>
+            <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
+              <%= f.text_field :bank %>
+            <% end %>
+    			</table>
+    			<div class="small">
+    				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
+    			</div>
+    		</div>
+      <% end %>
+  	</div>
+  	<div class="stepCon confirm">
+  		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf <em>bestellen</em>.</div>
+  		<div class="address inner">
+        <table class="rTable">
+      		<tr>
+      			<td>Name:</td>
+      			<td><span class="first_name"></span> <span class="last_name"></span></td>
+      		</tr>
+      		<tr>
+      			<td>Telefonnummer:</td>
+      			<td class="phone"></td>
+      		</tr>
+      		<tr>
+      			<td>e-mail-Adresse:</td>
+      			<td class="email"></td>
+      		</tr>
+      	</table>
+      </div>
+  		<div class="inner">
+  			Tickets für die Aufführung am <span class="date"></span>:
+  			<table class="rTable">
+  				<%= content_tag_for(:tr, @ticket_types) do |type| %>
+      		  <td><%= type.name %></td>
+      			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
+      			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
+  				<% end %>
+  				<tr class="total">
+  					<td colspan="2">Gesamt</td>
+  					<td class="total"><span></span> €</td>
+  				</tr>
   			</table>
-  			<div class="small">
-  				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
+  		</div>
+  		<div class="payment inner">
+  			<div class="transfer">
+  				Bezahlung per Überweisung. Unsere Kontodaten werden Ihnen nach der Bestellung per e-mail zugesandt.
+  			</div>
+  			<div class="charge">
+  				Bezahlung per Lastschrift von folgendem Konto:
+  				<table class="rTable">
+  					<tr>
+  						<td>Kontoinhaber:</td>
+  						<td class="name"></td>
+  					</tr>
+  					<tr>
+  						<td>Kontonummer:</td>
+  						<td class="number"></td>
+  					</tr>
+  					<tr>
+  						<td>BLZ:</td>
+  						<td class="blz"></td>
+  					</tr>
+  					<tr>
+  						<td>Name der Bank:</td>
+  						<td class="bank"></td>
+  					</tr>
+  				</table>
   			</div>
   		</div>
-    <% end %>
-	</div>
-	<div class="stepCon confirm">
-		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf <em>bestellen</em>.</div>
-		<div class="address inner">
-      <table class="rTable">
-    		<tr>
-    			<td>Name:</td>
-    			<td><span class="first_name"></span> <span class="last_name"></span></td>
-    		</tr>
-    		<tr>
-    			<td>Telefonnummer:</td>
-    			<td class="phone"></td>
-    		</tr>
-    		<tr>
-    			<td>e-mail-Adresse:</td>
-    			<td class="email"></td>
-    		</tr>
-    	</table>
-    </div>
-		<div class="inner">
-			Tickets für die Aufführung am <span class="date"></span>:
-			<table class="rTable">
-				<%= content_tag_for(:tr, @ticket_types) do |type| %>
-    		  <td><%= type.name %></td>
-    			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
-    			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
-				<% end %>
-				<tr class="total">
-					<td colspan="2">Gesamt</td>
-					<td class="total"><span></span> €</td>
-				</tr>
-			</table>
-		</div>
-		<div class="payment inner">
-			<div class="transfer">
-				Bezahlung per Überweisung. Unsere Kontodaten werden Ihnen nach der Bestellung per e-mail zugesandt.
-			</div>
-			<div class="charge">
-				Bezahlung per Lastschrift von folgendem Konto:
-				<table class="rTable">
-					<tr>
-						<td>Kontoinhaber:</td>
-						<td class="name"></td>
-					</tr>
-					<tr>
-						<td>Kontonummer:</td>
-						<td class="number"></td>
-					</tr>
-					<tr>
-						<td>BLZ:</td>
-						<td class="blz"></td>
-					</tr>
-					<tr>
-						<td>Name der Bank:</td>
-						<td class="bank"></td>
-					</tr>
-				</table>
-			</div>
-		</div>
-    <table class="rTable checkboxes">
-      <tr>
-        <td><%= check_box_tag :newsletter, :yes, true %></td>
-        <td>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.</td>
-      </tr>
-			<tr>
-        <td><%= check_box_tag :accepted, :yes %></td>
-        <td>Ich akzeptiere die <%= link_to "AGB", agb_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e.V.</td>
-      </tr>
-    </table>
-	</div>
-	<%= render "finish" %>
+      <table class="rTable checkboxes">
+        <tr>
+          <td><%= check_box_tag :newsletter, :yes, true %></td>
+          <td>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.</td>
+        </tr>
+  			<tr>
+          <td><%= check_box_tag :accepted, :yes %></td>
+          <td>Ich akzeptiere die <%= link_to "AGB", agb_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e.V.</td>
+        </tr>
+      </table>
+  	</div>
+  	<%= render "finish" %>
+  <% end %>
 <% end %>
-<%= render "framework" %>
+<%= render "framework", cache_name: [:new_order] %>
