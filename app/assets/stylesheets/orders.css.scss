@@ -353,9 +353,33 @@ table td {
 	}
 	
 	&.seats {
+    > div:not(.note) {
+      margin: {
+        top: 10px;
+        bottom: 10px;
+      }
+    }
+    
     .note {
       .number {
         font-weight: bold;
+      }
+    }
+    
+    .additional {
+      color: black;
+      border: 1px solid #cccccc;
+      border-radius: 7px;
+      padding: 0px 7px;
+      font-size: 13px;
+      font-style: italic;
+      margin: {
+        left: 20px;
+        right: 20px;
+      }
+      
+      p {
+        margin: 7px 0px;
       }
     }
     
@@ -392,7 +416,6 @@ table td {
       }
       padding: 0px;
       font-size: 13px;
-      margin: 10px;
       display: inline-block;
       
       .ticketing_seat {
