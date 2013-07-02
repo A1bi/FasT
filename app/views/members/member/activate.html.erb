@@ -1,7 +1,13 @@
 <% title "Mitgliedskonto aktivieren" %>
 <div class="hl">Willkommen im Mitgliederbereich!</div>
 <p><b>Hallo <%= @member.nickname %>!</b></p>
-<p>Bevor du dich das erste Mal im Mitgliederbereich umsiehst, musst du dein persönliches Passwort festlegen, mit dem du dich hier in Zukunft einloggen kannst.</p>
+<p>
+  <% if @member.last_login %>
+    Du kannst nun ein neues Passwort für dein Migliedskonto festlegen.
+  <% else %>
+    Bevor du dich das erste Mal im Mitgliederbereich umsiehst, musst du dein persönliches Passwort festlegen, mit dem du dich hier in Zukunft einloggen kannst.
+  <% end %>
+</p>
 <%= render "errors", :errors => @member.errors %>
 <%= form_for @member, :url => finish_activation_members_member_path do |f| %>
 <%= f.hidden_field :id %>

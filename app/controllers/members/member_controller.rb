@@ -1,6 +1,6 @@
 module Members
 	class MemberController < BaseController
-		ignore_restrictions :only => [:activate, :finish_activation]
+		ignore_restrictions :only => [:activate, :finish_activation, :forgot_password]
 	
 		def activate
 			@member = Member.where(:activation_code => params[:code]).first
@@ -15,13 +15,14 @@ module Members
 			@member.password_confirmation = params[:members_member][:password_confirmation]
 			if @member.valid?
 				@member.activate
-				@member.logged_in
-				@member.save
 			
 				session[:user_id] = @member.id
 			
-				flash.notice = t("members.member.activated")
+				flash.notice = (@member.last_login) ? t("members.member.password_changed") : t("members.member.activated")
 				redirect_to members_root_path
+        
+				@member.logged_in
+				@member.save
 			else
 				render :action => :activate
 			end
@@ -35,6 +36,22 @@ module Members
 				render :action => :edit
 			end
 		end
+    
+    def reset_password
+      member = Member.where(email: params[:members_member][:email]).first
+      if !member
+        flash.alert = t("members.member.email_not_found")
+				redirect_to :action => :forgot_password
+      else
+        member.set_activation_code
+        member.save
+        
+        MemberMailer.reset_password(member).deliver
+        
+        flash.notice = t("members.member.password_reset")
+				redirect_to_login
+      end
+    end
 	
 		private
 	

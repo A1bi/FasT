@@ -3,7 +3,13 @@ class MemberMailer < ActionMailer::Base
 	
 	def activation(member)
 		@member = member
-		
-		mail to: (Rails.env.development?) ? "albo@a0s.de" : member.email
+		mail_to_member
 	end
+  alias_method :reset_password, :activation
+  
+  private
+  
+  def mail_to_member
+    mail to: (Rails.env.development?) ? "albo@a0s.de" : @member.email if @member.email.present?
+  end
 end

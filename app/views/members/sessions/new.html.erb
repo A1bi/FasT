@@ -7,7 +7,10 @@
 		<td><%= text_field_tag :email, params[:email] %></td>
 	</tr>
 	<tr>
-		<td>Passwort:</td>
+		<td>
+      Passwort:
+      <br /><%= link_to "vergessen?", forgot_password_members_member_path %>
+    </td>
 		<td><%= password_field_tag :password %></td>
 	</tr>
 </table>

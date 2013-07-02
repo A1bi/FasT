@@ -15,7 +15,7 @@ module Admin
 		def create
 			@member.reset_password
 			if @member.save
-				@member.send_activation_mail if params[:activation][:send] == "1"
+				send_activation_mail if params[:activation][:send] == "1"
 			
 				redirect_to :action => :index
 			else
@@ -40,8 +40,9 @@ module Admin
 		end
     
     def reactivate
+      @member.last_login = nil
       @member.reset_password
-      @member.send_activation_mail if @member.save
+      send_activation_mail if @member.save
       
       redirect_to edit_admin_members_member_path(@member), :notice => t("admin.members.sent_activation_mail")
     end
@@ -67,5 +68,9 @@ module Admin
 			@member.email_can_be_blank = true
 			@member.assign_attributes(params[:members_member], :as => :admin)
 		end
+    
+  	def send_activation_mail
+  		MemberMailer.activation(@member).deliver
+  	end
 	end
 end

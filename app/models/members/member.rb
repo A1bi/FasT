@@ -60,14 +60,6 @@ class Members::Member < ActiveRecord::Base
 		self.set_activation_code
 	end
 	
-	def send_activation_mail
-		if self.email.present?
-			MemberMailer.activation(self).deliver
-			return true
-		end
-		false
-	end
-	
 	private
 	
 	def self.groups

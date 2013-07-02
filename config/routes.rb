@@ -92,6 +92,8 @@ FasT::Application.routes.draw do
 				member do
 					get "activate", :path => "aktivieren"
 					put "finish_activation"
+          get "forgot_password", :path => "passwort_vergessen"
+          post "reset_password"
 				end
 			end
 			resources :dates, :path => "termine", :except => [:show]

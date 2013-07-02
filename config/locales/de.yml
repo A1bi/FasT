@@ -36,6 +36,9 @@ de:
       logout: "Sie wurden erfolgreich ausgeloggt."
     member:
       activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
+      email_not_found: "Ein Konto mit dieser e-mail-Adresse wurde nicht gefunden."
+      password_reset: "Eine e-mail mit weiteren Instruktionen wurde dir zugeschickt."
+      password_changed: "Dein Passwort wurde geändert."
     dates:
       ics:
         calname: "Freilichtbühne am schiefen Turm"
@@ -69,6 +72,8 @@ de:
   member_mailer:
     activation:
       subject: "Willkommen im Mitgliederbereich!"
+    reset_password:
+      subject: "Passwort zurücksetzen"
   order_mailer:
     confirmation:
       subject: "Ihre Bestellung"
