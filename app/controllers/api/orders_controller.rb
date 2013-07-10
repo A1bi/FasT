@@ -13,9 +13,13 @@ class Api::OrdersController < ApplicationController
     isRetail = retailId.present?
     order = (isRetail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     
-    order.omit_queue_number = true if retailId.present? && params[:web]
-    
     order.build_bunch
+    
+    if retailId.present? && params[:web]
+      order.omit_queue_number = true
+      order.bunch.paid = true
+    end
+    
 		info[:tickets].each do |type_id, number|
       next if number < 1
 			type = Ticketing::TicketType.find_by_id(type_id)

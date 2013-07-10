@@ -44,7 +44,7 @@ end
 
 ## ticket system
 # events
-event = Ticketing::Event.create(name: "Test-Event")
+event = Ticketing::Event.create({ name: "Test Jedermann", identifier: "jedermann" }, without_protection: true)
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
@@ -85,7 +85,9 @@ end
 end
 
 # retail stores
-Ticketing::Retail::Store.create(:name => "Meyers Buchhandlung")
+["Meyers Buchhandlung", "Test-Store", "Buchhandlung"].each do |name|
+  Ticketing::Retail::Store.create(:name => name)
+end
 
 # retail orders
 available_seats = Ticketing::Seat.includes(:tickets, :reservations).having("COUNT(ticketing_tickets.id) + COUNT(ticketing_reservations.id) < 1").group("ticketing_seats.id")

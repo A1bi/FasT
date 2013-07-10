@@ -7,7 +7,7 @@ class AddIdentifierToTicketingEvents < ActiveRecord::Migration
     super
 
     if direction == :up
-      Ticketing::Event.first.update_attribute(:identifier, "jedermann")
+      Ticketing::Event.first.update_attribute(:identifier, "jedermann") if Ticketing::Event.first
     end
   end
 end
