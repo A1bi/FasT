@@ -1,4 +1,6 @@
 class Api::OrdersController < ApplicationController
+  cache_sweeper :ticket_sweeper, :only => [:create]
+  
   def create
     response = {
       ok: false,

@@ -2,6 +2,8 @@ module Ticketing
   class ReservationsController < BaseController
     before_filter :split_seats, :only => [:update, :destroy]
     
+    cache_sweeper :seat_sweeper, :only => [:update, :destroy]
+    
     def update
       if params[:new_group_name].present?
         group = ReservationGroup.create(name: params[:new_group_name])

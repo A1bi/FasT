@@ -1,9 +1,11 @@
 module Ticketing
   class SeatsController < BaseController
     before_filter :find_seat, :only => [:update]
+    
+    cache_sweeper :seat_sweeper, :only => [:create, :update, :update_multiple, :destroy_multiple]
   
     def index
-      @seats = Ticketing::Seat.order(:number)
+      @seats = Ticketing::Seat.order(:number).includes(:block)
       
       respond_to do |format|
         
@@ -16,7 +18,7 @@ module Ticketing
           end
         end
         
-        format.json { render json: { ok: true, html: render_to_string("_seats.html", formats: :html, layout: false) } }
+        format.json { render json: { ok: true, html: render_to_string("application/ticketing/_seats", locals: { seats: @seats, numbers: true, no_stage: true }, formats: :html, layout: false) } }
       end
     end
   

@@ -2,6 +2,8 @@ module Ticketing
   class BlocksController < BaseController
     before_filter :find_block, :only => [:edit, :update, :destroy]
     
+    cache_sweeper :seat_sweeper, :only => [:create, :update, :destroy]
+    
     def new
       @block = Ticketing::Block.new
       @block.color = ""

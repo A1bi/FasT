@@ -1,3 +1,5 @@
+//= require _seats
+
 $(function () {
   $(".chooser span").click(function () {
     $(this).addClass("selected").siblings().removeClass("selected");
@@ -6,5 +8,9 @@ $(function () {
     $(".stats .table:visible").not(tableClass).slideUp(600, function () {
       $(this).siblings(tableClass).slideDown();
     });
+  });
+  
+  $(".seating").each(function () {
+    new Seating($(this));
   });
 });

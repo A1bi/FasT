@@ -2,7 +2,7 @@
 <% include_css "ticketing/statistics" %>
 <% include_js "ticketing/statistics" %>
 <% cache [:ticketing, :statistics, :tables] do %>
-<div class="hl">Ticket-Statistik</div>
+  <div class="hl">Ticket-Statistik</div>
   <div class="stats">
     <div class="box chooser">
       <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span></div>
@@ -21,4 +21,16 @@
       <%= render "stats_table", scopes: scopes %>
     </div>
   </div>
+<% end %>
+<% cache [:ticketing, :statistics, :seats] do %>
+  <div class="hl">Sitzauslastung</div>
+  <% @dates.each do |date| %>
+    <% @date = date %>
+    <div class="box">
+      <div class="top"><%= l date.date, format: "%A, %d. %B, %H:%M" %></div>
+      <div class="seating">
+        <%= render "application/ticketing/seats", seats: @seats[date.id], no_stage: true %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
