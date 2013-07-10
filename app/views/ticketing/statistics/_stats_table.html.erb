@@ -1,0 +1,37 @@
+<table class="rounded">
+  <% scopes.each do |scope| %>
+    <thead>
+      <tr>
+        <th colspan="<%= @ticket_types.count + 3 %>"><%= scope[:title] %></th>
+      </tr>
+      <tr>
+        <th>Aufführung</th>
+        <% @ticket_types.each do |type| %>
+          <th><%= type.name %></th>
+        <% end %>
+        <th>Gesamt</th>
+        <th>Umsatz</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @dates.each do |date| %>
+        <tr>
+          <td><%= l date.date, format: "%a, %d. %B, %H:%M" %></td>
+          <% @ticket_types.each do |type| %>
+            <td><%= ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0 %></td>
+          <% end %>
+          <td><%= scope[:scope][date.id][:total] || 0 %></td>
+          <td><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <% @ticket_types.each do |type| %>
+          <td><%= (scope[:scope][:total] ||= {})[type.id] || 0 %></td>
+        <% end %>
+        <td><%= scope[:scope][:total][:total] || 0 %></td>
+        <td><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
+      </tr>
+    </tbody>
+  <% end %>
+</table>

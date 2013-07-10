@@ -1,0 +1,24 @@
+<% title "Statistik" %>
+<% include_css "ticketing/statistics" %>
+<% include_js "ticketing/statistics" %>
+<% cache [:ticketing, :statistics, :tables] do %>
+<div class="hl">Ticket-Statistik</div>
+  <div class="stats">
+    <div class="box chooser">
+      <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span></div>
+    </div>
+    <div class="total table">
+      <%= render "stats_table", scopes: [{ title: "Gesamt", scope: @stats[:total] }] %>
+    </div>
+    <div class="web table">
+      <%= render "stats_table", scopes: [{ title: "Online-Bestellungen", scope: @stats[:web] }] %>
+    </div>
+    <div class="retail table">
+      <% (scopes ||= []) << { title: "Vorverkaufsstellen gesamt", scope: @stats[:retail][:total] } %>
+      <% @stores.each do |store| %>
+        <% scopes << { title: store.name, scope: @stats[:retail][:stores][store.id] } %>
+      <% end %>
+      <%= render "stats_table", scopes: scopes %>
+    </div>
+  </div>
+<% end %>

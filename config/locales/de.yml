@@ -31,6 +31,7 @@ de:
       members: "Mitgliederverwaltung"
       seats: "Sitzplan"
       dates: "Aufführungstermine"
+      statistics: "Statistik"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."
@@ -134,6 +135,14 @@ de:
       - Donnerstag
       - Freitag
       - Samstag
+    abbr_day_names:
+      - So
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
     order:
       - :day
       - :month

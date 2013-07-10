@@ -59,7 +59,7 @@
 					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => "members", :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
 					<% if @_member.admin? %>
 						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => "admin", :css_class => "admins", :controllers => [[:members, :index]] %>
-            <%= render "members_navi", :title => "Vorverkauf", :namespace => "ticketing", :css_class => "ticketing", :controllers => [[:dates, :index], [:seats, :index]] %>
+            <%= render "members_navi", :title => "Vorverkauf", :namespace => "ticketing", :css_class => "ticketing", :controllers => [[:statistics, :index], [:dates, :index], [:seats, :index]] %>
 					<% end %>
 				<% end %>
 				<% flash.each do |type, msg| %>

@@ -10,7 +10,7 @@ server {
 
 	root <%= current_path %>/public;
 
-	ssl_certificate /etc/ssl/own/www.<%= domain_name %>.crt;
+	ssl_certificate /etc/ssl/own/www.<%= domain_name %>.pem;
 	ssl_certificate_key /etc/ssl/private/www.<%= domain_name %>.key;
 	
 	location ^~ /assets/ {

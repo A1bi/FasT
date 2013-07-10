@@ -559,54 +559,50 @@ table.rounded {
 			}
 		}
 	}
-	
-	tr {
+  
+  *:last-child tr:last-child td {
+		border-bottom: $border-outer;
+		
+		&:first-child {
+			border-bottom-left-radius: $border-radius;
+		}
+		
 		&:last-child {
-			td {
-				border-bottom: $border-outer;
-				
-				&:first-child {
-					border-bottom-left-radius: $border-radius;
-				}
-				
-				&:last-child {
-					border-bottom-right-radius: $border-radius;
-				}
-			}
+			border-bottom-right-radius: $border-radius;
+		}
+  }
+	
+	td, th {
+		border-bottom: $border-inner;
+		border-left: $border-inner;
+		padding: 3px 5px;
+		
+		&:first-child {
+			border-left: $border-outer;
 		}
 		
-		td, th {
-			border-bottom: $border-inner;
-			border-left: $border-inner;
-			padding: 3px 5px;
-			
-			&:first-child {
-				border-left: $border-outer;
-			}
-			
-			&:last-child {
-				border-right: $border-outer;
-			}
-			
-			&.id {
-				width: 7%;
-				text-align: center;
-			}
-			
-			&.actions {
-				width: 8%;
-				text-align: center;
-			}
+		&:last-child {
+			border-right: $border-outer;
 		}
 		
-		th {
-			@include box-sky;
-			@include box-white-text;
+		&.id {
+			width: 7%;
+			text-align: center;
 		}
 		
-		td {
-			font-size: 13px;
+		&.actions {
+			width: 8%;
+			text-align: center;
 		}
+	}
+	
+	th {
+		@include box-sky;
+		@include box-white-text;
+	}
+	
+	td {
+		font-size: 13px;
 	}
 }
 
