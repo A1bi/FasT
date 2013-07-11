@@ -1,0 +1,13 @@
+<thead>
+  <tr>
+    <th colspan="2"><%= title %></th>
+  </tr>
+</thead>
+<tbody>
+  <% overview.each do |row| %>
+    <tr>
+      <td class="label"><%= row[0] %>:</td>
+      <td><%= raw row[1] %></td>
+    </tr>
+  <% end %>
+</tbody>

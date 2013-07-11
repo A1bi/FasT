@@ -32,6 +32,7 @@ de:
       seats: "Sitzplan"
       dates: "Aufführungstermine"
       statistics: "Statistik"
+      orders: "Bestellungen"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."

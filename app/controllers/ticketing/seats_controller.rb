@@ -5,7 +5,7 @@ module Ticketing
     cache_sweeper :seat_sweeper, :only => [:create, :update, :update_multiple, :destroy_multiple]
   
     def index
-      @seats = Ticketing::Seat.order(:number).includes(:block)
+      @seats = Ticketing::Seat.order(:number)
       
       respond_to do |format|
         

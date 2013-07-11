@@ -1,0 +1,58 @@
+@import "_mixins";
+@import "_seats";
+
+.index table {
+  tbody tr:hover td:not(.empty) {
+    background: $faint-blue;
+    cursor: pointer;
+    border-color: $light-blue;
+  }
+  
+  td {
+    &.total, &.date {
+      text-align: right;
+    }
+  }
+}
+
+table {
+  margin: 15px 0px;
+  
+  &.entries td {
+    text-align: center;
+  }
+  
+  td {
+    padding: 5px 8px !important;
+    
+    &.number {
+      width: 10%;
+      font-weight: bold;
+    }
+    
+    &.tickets {
+      width: 5%;
+    }
+    
+    &.total {
+      width: 12%;
+    }
+    
+    &.date {
+      width: 20%;
+    }
+    
+    &.label {
+      width: 25%;
+    }
+    
+    &.empty {
+      font-style: italic;
+    }
+  }
+}
+
+.seating {
+  height: 200px;
+  box-shadow: none;
+}

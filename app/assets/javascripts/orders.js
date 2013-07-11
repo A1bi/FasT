@@ -171,7 +171,7 @@ function SeatsStep(delegate) {
     if (!this.date) return;
     $.each(this.seats[this.date], function (seatId, seatInfo) {
       _this.box.find("#ticketing_seat_" + seatId)
-        .toggleClass("selected", seatInfo.selected === true)
+        .toggleClass("chosen", seatInfo.selected === true)
         .toggleClass("taken", seatInfo.reserved);
     });
     
@@ -180,7 +180,7 @@ function SeatsStep(delegate) {
   
   this.updateAvailableSeats = function () {
     this.seating.seats.each(function () {
-      $(this).toggleClass("available", $(this).is(":not(.taken):not(.selected)"));
+      $(this).toggleClass("available", $(this).is(":not(.taken):not(.chosen)"));
     });
   };
   
@@ -188,11 +188,11 @@ function SeatsStep(delegate) {
     if (!$seat.is(".available")) return;
     this.delegate.killExpirationTimer();
     
-    $seat.addClass("selected");
+    $seat.addClass("chosen");
     this.updateAvailableSeats();
     
     this.delegate.node.emit("reserveSeat", { seatId: $seat.data("id") }, function (res) {
-      if (!res.ok) $seat.removeClass("selected").addClass("taken");
+      if (!res.ok) $seat.removeClass("chosen").addClass("taken");
       if (_this.box.find(".error").is(":visible")) _this.updateSeatsToSelectMessage();
     });
   };
@@ -204,7 +204,7 @@ function SeatsStep(delegate) {
   };
   
   this.updateSeatsToSelectMessage = function () {
-    var diff = this.seatsToSelect - this.seating.seats.filter(".selected").length;
+    var diff = this.seatsToSelect - this.seating.seats.filter(".chosen").length;
     var errorBox = this.box.find(".error");
     if (diff > 0) {
       errorBox.find(".number").text(diff);

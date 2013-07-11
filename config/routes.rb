@@ -72,6 +72,7 @@ FasT::Application.routes.draw do
     
     namespace :ticketing, :path => "vorverkauf" do
       get "statistik" => "statistics#index"
+      resources :orders, :only => [:index, :show]
       resources :event_dates, :path => "termine", :only => [:index, :show, :new], :controller => :dates
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do

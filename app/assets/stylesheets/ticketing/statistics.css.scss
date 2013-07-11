@@ -59,14 +59,4 @@ $total-border: 2px $light-blue solid;
 .seating {
   height: 200px;
   box-shadow: none;
-  
-  .scroller {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    
-    .ticketing_seat {
-      cursor: auto;
-    }
-  }
 }

@@ -1,0 +1,84 @@
+<% title "Bestellungsdetails" %>
+<% include_css "ticketing/orders" %>
+<% include_js "ticketing/orders" %>
+<div class="hl">Bestellungsdetails</div>
+<% overview = [
+  ["Nummer", "<b>#{@order.bunch.number}</b>"],
+  ["aufgegeben", l(@order.created_at, format: "%d. %B %y, %H:%M Uhr")],
+  ["Tickets", @order.bunch.tickets.count],
+  ["Gesamtbetrag", number_to_currency(@order.bunch.total)],
+  ["bezahlt", @order.bunch.paid ? "ja" : "nein"]
+] %>
+<table class="rounded">
+  <%= render "show_overview_table", title: "Übersicht", overview: overview %>
+  <%
+    if @order.is_a? Ticketing::Retail::Order
+      title = "Bestellung an Vorverkaufsstelle"
+      overview = [
+        ["Vorverkaufsstelle", @order.store.name]
+      ]
+    else
+      title = "Online-Bestellung"
+      overview = [
+        ["Nachname", @order.last_name],
+        ["Vorname", @order.first_name],
+        ["e-mail", @order.email],
+        ["Telefon", @order.phone]
+      ]
+      payment = [
+        ["Zahlungsart", @order.pay_method == "charge" ? "Bankeinzug" : "Überweisung"]
+      ]
+      if @order.pay_method == "charge"
+        payment.concat [
+          ["Kontoinhaber", @order.bank_charge.name],
+          ["Kontonummer", @order.bank_charge.number],
+          ["BLZ", @order.bank_charge.blz],
+          ["Bank", @order.bank_charge.bank]
+        ]
+      end
+    end
+  %>
+  <%= render "show_overview_table", title: title, overview: overview %>
+  <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
+</table>
+<table class="rounded entries">
+  <thead>
+    <tr>
+      <th colspan="6">In der Bestellung enthaltene Tickets</th>
+    </tr>
+    <tr>
+      <th>Nummer</th>
+      <th>Kategorie</th>
+      <th>Preis</th>
+      <th>Aufführung</th>
+      <th>Block</th>
+      <th>Sitz</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.bunch.tickets.each do |ticket| %>
+      <tr>
+        <td class="number"><%= ticket.number %></td>
+        <td><%= ticket.type.name %></td>
+        <td><%= number_to_currency ticket.type.price %></td>
+        <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
+        <td><%= ticket.seat.block.name %></td>
+        <td><%= ticket.seat.number %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <thead>
+    <tr>
+      <th colspan="6">Sitzplätze</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="6">
+        <div class="seating noSelection noScroller">
+          <%= render "application/ticketing/seats", seats: Ticketing::Seat.scoped, no_stage: true %>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

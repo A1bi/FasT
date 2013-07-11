@@ -10,11 +10,9 @@ module Ticketing
         @dates.each do |date|
           seats[date.id] = Seat
             .select("ticketing_seats.*, COUNT(ticketing_tickets.id) > 0 AS taken, COUNT(ticketing_reservations.id) > 0 AS reserved")
-            .includes(:block)
             .joins("LEFT JOIN ticketing_tickets ON ticketing_tickets.seat_id = ticketing_seats.id AND ticketing_tickets.date_id = #{date.id}")
             .joins("LEFT JOIN ticketing_reservations ON ticketing_reservations.seat_id = ticketing_seats.id AND ticketing_reservations.date_id = #{date.id}")
             .group("ticketing_seats.id")
-            .all
         end
         seats
       end
