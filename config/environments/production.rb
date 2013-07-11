@@ -87,6 +87,8 @@ FasT::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
+  config.cache_store = :mem_cache_store
+  
   Passbook.options.merge!({
     wwdr_ca_path: "/etc/ssl/chain/AppleWWDRCA.cer",
     developer_cert_path: "/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12"

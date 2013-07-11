@@ -76,6 +76,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memcache-client (1.8.5)
     mime-types (1.19)
     mini_portile (0.5.0)
     multi_json (1.5.0)
@@ -174,6 +175,7 @@ DEPENDENCIES
   icalendar
   jquery-rails
   jquery-ui-rails
+  memcache-client
   mysql2
   paperclip (~> 3.0)
   prawn!

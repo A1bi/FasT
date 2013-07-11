@@ -10,6 +10,8 @@ timeout 30
 preload_app true
 
 before_fork do |server, worker|
+  ENV['BUNDLE_GEMFILE'] = "<%= current_path %>/Gemfile"
+
   # Disconnect since the database connection will not carry over
   if defined? ActiveRecord::Base
     ActiveRecord::Base.connection.disconnect!

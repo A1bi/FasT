@@ -153,3 +153,4 @@ de:
         format: "%n %u"
         unit: "€"
         separator: ","
+        delimiter: "."

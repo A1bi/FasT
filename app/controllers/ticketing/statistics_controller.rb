@@ -1,14 +1,14 @@
 module Ticketing
   class StatisticsController < BaseController
     def index
-      @dates = Ticketing::Event.current.dates
-      @ticket_types = Ticketing::TicketType.scoped
-      @stores = Ticketing::Retail::Store.scoped
+      @dates = Event.current.dates
+      @ticket_types = TicketType.scoped
+      @stores = Retail::Store.scoped
       
       @seats = Rails.cache.fetch [:ticketing, :statistics, :seats] do
         seats = {}
         @dates.each do |date|
-          seats[date.id] = Ticketing::Seat
+          seats[date.id] = Seat
             .select("ticketing_seats.*, COUNT(ticketing_tickets.id) > 0 AS taken, COUNT(ticketing_reservations.id) > 0 AS reserved")
             .includes(:block)
             .joins("LEFT JOIN ticketing_tickets ON ticketing_tickets.seat_id = ticketing_seats.id AND ticketing_tickets.date_id = #{date.id}")
@@ -29,13 +29,13 @@ module Ticketing
           total: {}
         }
         
-        Ticketing::Bunch.includes(:assignable, tickets: [:date, :type]).each do |bunch|
+        Bunch.includes(:assignable, tickets: [:date, :type]).each do |bunch|
           next if bunch.cancelled?
           
           scopes = [stats[:total]]
-          if bunch.assignable.is_a? Ticketing::Web::Order
+          if bunch.assignable.is_a? Web::Order
             scopes << stats[:web]
-          elsif bunch.assignable.is_a? Ticketing::Retail::Order
+          elsif bunch.assignable.is_a? Retail::Order
             scopes << ((stats[:retail][:stores] ||= {})[bunch.assignable.store.id] ||= {})
             scopes << stats[:retail][:total]
           end
