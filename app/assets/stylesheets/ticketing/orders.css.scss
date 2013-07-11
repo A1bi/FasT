@@ -9,7 +9,7 @@
   }
   
   td {
-    &.total, &.date {
+    &.date {
       text-align: right;
     }
   }
@@ -25,6 +25,10 @@ table {
   td {
     padding: 5px 8px !important;
     
+    &.name {
+      text-align: left;
+    }
+    
     &.number {
       width: 10%;
       font-weight: bold;
@@ -34,7 +38,8 @@ table {
       width: 5%;
     }
     
-    &.total {
+    &.amount {
+      text-align: right;
       width: 12%;
     }
     

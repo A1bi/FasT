@@ -18,7 +18,7 @@
     <% orders.each do |order| %>
       <tr>
         <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch.id) %></td>
-        <td>
+        <td class="name">
           <% if web %>
             <%= order.last_name %>, <%= order.first_name %>
           <% else %>
@@ -26,7 +26,7 @@
           <% end %>
         </td>
         <td class="tickets"><%= order.bunch.tickets.size %></td>
-        <td class="total"><%= number_to_currency order.bunch.total %></td>
+        <td class="amount"><%= number_to_currency order.bunch.total %></td>
         <td class="date"><%= l order.created_at, format: "%d.%m.%y, %H:%M" %></td>
       </tr>
     <% end %>

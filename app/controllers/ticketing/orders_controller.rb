@@ -1,5 +1,8 @@
 module Ticketing
   class OrdersController < BaseController
+    cache_sweeper :ticket_sweeper, :only => []
+    cache_sweeper :order_sweeper, :only => []
+    
     def index
       types = [
         [:web, Web, [
@@ -9,7 +12,7 @@ module Ticketing
           ["includes", :store]
         ]],
         [:unpaid, Web, [
-          ["where", ticketing_bunches: { paid: false }]
+          ["where", ["ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?", false]]
         ]]
       ]
       @orders = {}
@@ -26,7 +29,7 @@ module Ticketing
     end
     
     def show
-      @order = Ticketing::Bunch.find(params[:id]).assignable
+      @bunch = Ticketing::Bunch.find(params[:id])
     end
   end
 end

@@ -21,4 +21,10 @@ namespace :memcached do
       run "#{sudo} service memcached #{command}"
     end
   end
+  
+  desc 'Clears the Rails cache'
+  task :clear, roles: :app do
+    run("cd #{current_path} && rake cache:clear RAILS_ENV=production")
+  end
+  after "deploy:finalize_update", "memcached:clear"
 end
