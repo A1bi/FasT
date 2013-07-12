@@ -16,7 +16,7 @@ class OrderSweeper < ActionController::Caching::Sweeper
   end
   
   def sweep_order_details(record)
-    bunch = record.is_a? Ticketing::Bunch ? record : record.bunch
+    bunch = record.is_a?(Ticketing::Bunch) ? record : record.bunch
     expire_fragment [:ticketing, :orders, :show, bunch.id]
   end
 end
