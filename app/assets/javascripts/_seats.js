@@ -112,3 +112,109 @@ function Seating(container) {
   this.initSeats();
 
 };
+
+function SeatChooser(container) {
+  Seating.call(this, container);
+  
+  this.date = null;
+  this.allSeats = {};
+  this.numberOfSeats = 0;
+  this.node = null;
+  this.errorBox = this.container.find(".error");
+	var _this = this;
+  
+  this.updateSeats = function (seats) {
+    $.extend(true, this.allSeats, seats);
+    this.updateSeatPlan();
+  };
+  
+  this.updateSeatPlan = function () {
+    if (!this.date) return;
+    _this.seats.each(function () {
+      var $seat = $(this);
+      var seat = _this.allSeats[_this.date][$seat.data("id")];
+      $seat.toggleClass("chosen", !!seat.chosen)
+        .toggleClass("taken", !seat.available && !seat.chosen)
+        .toggleClass("available", seat.available && !seat.chosen);
+    });
+  };
+  
+  this.chooseSeat = function ($seat) {
+    if (!$seat.is(".available")) return;
+    
+    $seat.addClass("chosen");
+    
+    this.node.emit("chooseSeat", { seatId: $seat.data("id") }, function (res) {
+      if (!res.ok) $seat.removeClass("chosen");
+      _this.updateErrorBoxIfVisible();
+    });
+  };
+  
+  this.setDateAndNumberOfSeats = function (date, number) {
+    this.numberOfSeats = number;
+    if (this.date != date) {
+      this.date = date;
+      this.updateSeatPlan();
+      this.errorBox.hide();
+    } else {
+      this.updateErrorBoxIfVisible();
+    }
+    
+    this.node.emit("setDateAndNumberOfSeats", {
+      date: this.date,
+      numberOfSeats: this.numberOfSeats
+    });
+  };
+  
+  this.updateErrorBox = function () {
+    var number = this.getSeatsYetToChoose(), direction;
+    if (number > 0) {
+      togglePluralText(this.errorBox, number, "error");
+      direction = "Down";
+    } else {
+      direction = "Up";
+    }
+    this.errorBox["slide" + direction].call(this.errorBox);
+  };
+  
+  this.updateErrorBoxIfVisible = function () {
+    if (this.errorBox.is(":visible")) this.updateErrorBox();
+  };
+  
+  this.getSeatsYetToChoose = function () {
+    return this.numberOfSeats - this.seats.filter(".chosen").length;
+  };
+  
+  this.validate = function () {
+    this.updateErrorBox();
+    return this.getSeatsYetToChoose() < 1;
+  };
+  
+	this.registerEvents = function () {
+    this.seats.click(function () {
+      _this.chooseSeat($(this));
+		});
+    
+    this.node.on("updateSeats", function (res) {
+      _this.updateSeats(res.seats);
+    });
+	};
+  
+  this.init = function () {
+    try {
+      _this.node = io.connect("/seating", {
+        "resource": "node",
+        "reconnect": false
+      });
+      
+    } catch(err) {
+      alert("seating error");
+    }
+    
+    _this.registerEvents();
+  };
+  
+  $(function () { _this.init(); });
+};
+
+SeatChooser.prototype = Object.create(Seating.prototype);

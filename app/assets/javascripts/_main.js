@@ -50,3 +50,9 @@ var slideshow = new function () {
 function deobfuscate(text) {
 	return text.replace(/z|q|w|u/g, "");
 }
+
+function togglePluralText(box, number, preservedClass) {
+  var cssClass = (number != 1) ? "plural" : "singular";
+  box.removeClass().addClass(preservedClass + " plural_text " + cssClass);
+  box.find(".number span").text(number);
+}

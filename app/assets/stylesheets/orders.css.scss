@@ -225,10 +225,6 @@ table td {
 		padding: 10px;
 	}
 	
-	&.noPadding {
-		padding: 0px;
-	}
-	
 	.inner {
 		width: 80%;
     
@@ -360,10 +356,8 @@ table td {
       }
     }
     
-    .note {
-      .number {
-        font-weight: bold;
-      }
+    .seating {
+      padding: 0px;
     }
     
     .additional {
@@ -380,24 +374,6 @@ table td {
       
       p {
         margin: 7px 0px;
-      }
-    }
-    
-    .error {
-      margin: 10px;
-      background: red;
-      color: white;
-      border-radius: 10px;
-      display: none;
-    }
-    
-    .message {
-      .singular, .plural {
-        display: none;
-      }
-    
-      &.singular .singular, &.plural .plural {
-        display: inline;
       }
     }
     

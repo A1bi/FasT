@@ -623,3 +623,13 @@ table.rounded {
 		}
 	}
 }
+
+.plural_text {
+  .singular, .plural {
+    display: none;
+  }
+
+  &.singular .singular, &.plural .plural {
+    display: inline;
+  }
+}

@@ -1,47 +1,60 @@
 .seating {
-	position: relative;
-	height: 500px;
-	box-shadow: inset 0px 0px 8px #cccccc;
-  overflow-x: scroll;
+  position: relative;
   
-  .scroller {
-    position: relative;
-    width: 180%;
-    height: 90%;
-    
-    .ticketing_seat {
-      cursor: pointer;
+  .error {
+    margin: 10px;
+    background: red;
+    color: white;
+    border-radius: 10px;
+    display: none;
+  
+    div {
+      padding: 10px;
     }
+  }
+
+  .plan {
+  	height: 500px;
+  	box-shadow: inset 0px 0px 8px #cccccc;
+    overflow-x: scroll;
   
-    &.selectable {
+    .scroller {
+      position: relative;
+      width: 180%;
+      height: 95%;
+    
       .ticketing_seat {
-        &.selected {
-          border-color: red;
+        cursor: pointer;
+      }
+  
+      &.selectable {
+        .ticketing_seat {
+          &.selected {
+            border-color: red;
+          }
+        }
+      }
+  
+      &.draggable:not(.selecting) {
+        .ticketing_seat {
+          cursor: move;
         }
       }
     }
   
-    &.draggable:not(.selecting) {
-      .ticketing_seat {
-        cursor: move;
-      }
+    .stage {
+      position: absolute;
+      bottom: -2%;
+      left: 5%;
+      width: 90%;
+      background: #43a1ca;
+      border: 1px solid #3d5eaf;
+      text-align: center;
+      font-size: 15px;
+      color: white;
+      padding: 5px;
+      font-weight: bold;
     }
-  }
-  
-  .stage {
-    position: absolute;
-    bottom: 3%;
-    left: 95%;
-    margin-left: -70%;
-    width: 140%;
-    height: 3%;
-    background: #43a1ca;
-    border: 1px solid #3d5eaf;
-    text-align: center;
-    font-size: 15px;
-    color: white;
-    padding: 5px;
-    font-weight: bold;
   }
   
   &.noScroller {
@@ -51,7 +64,7 @@
       overflow: hidden;
     }
   }
-  
+
   &.noSelection {
     .ticketing_seat {
       cursor: auto;
