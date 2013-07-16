@@ -1,7 +1,5 @@
-class MemberMailer < ActionMailer::Base
-  default from: I18n.t("action_mailer.defaults.from")
-	
-	def activation(member)
+class MemberMailer < BaseMailer
+  def activation(member)
 		@member = member
 		mail_to_member
 	end
@@ -10,6 +8,6 @@ class MemberMailer < ActionMailer::Base
   private
   
   def mail_to_member
-    mail to: (Rails.env.development?) ? "albo@a0s.de" : @member.email if @member.email.present?
+    mail to: @member.email if @member.email.present?
   end
 end

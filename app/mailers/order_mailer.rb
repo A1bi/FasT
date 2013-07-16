@@ -1,7 +1,5 @@
-class OrderMailer < ActionMailer::Base
-  default from: I18n.t("action_mailer.defaults.from")
-	
-	def confirmation(order)
+class OrderMailer < BaseMailer
+  def confirmation(order)
 		@order = order
     
     if order.pay_method == "charge"
@@ -25,10 +23,18 @@ class OrderMailer < ActionMailer::Base
     mail_to_customer
   end
   
+  def pay_reminder(order)
+    if order.is_a?(Ticketing::Web::Order) && order.pay_method == "transfer" && !order.bunch.paid
+      @order = order
+      
+      mail_to_customer
+    end
+  end
+  
   private
   
   def mail_to_customer
-    mail to: (Rails.env.development?) ? "albo@a0s.de" : @order.email
+    mail to: @order.email
   end
   
   def attach_tickets

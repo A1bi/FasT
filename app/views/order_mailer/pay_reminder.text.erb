@@ -1,0 +1,9 @@
+leider konnten wir zu Ihrer Bestellung <%= @order.bunch.number %> bisher keinen Zahlungseingang feststellen.
+
+<%= render "tickets" %>
+
+Wir möchten Sie daher daran erinnern, den Betrag von <%= number_to_currency(@order.bunch.total) %> auf folgendes Konto zu überweisen:
+
+<%= render "bank_details" %>
+
+Sollten Sie den Betrag bereits zwischenzeitlich überwiesen haben, sehen Sie diese Nachricht bitte als gegenstandslos an.
