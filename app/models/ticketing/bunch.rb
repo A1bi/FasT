@@ -1,6 +1,6 @@
 module Ticketing
   class Bunch < ActiveRecord::Base
-  	include Cancellable, RandomUniqueAttribute
+  	include Loggable, Cancellable, RandomUniqueAttribute
 	
   	has_many :tickets, :after_add => :added_ticket, :dependent => :destroy
   	belongs_to :assignable, :polymorphic => true, :touch => true
@@ -8,7 +8,7 @@ module Ticketing
 	
   	validates_length_of :tickets, :minimum => 1
     
-    after_create :create_printable
+    after_create :after_create
 	
     def added_ticket(ticket)
       self[:total] = ticket.type.price.to_f + total.to_f
@@ -19,6 +19,11 @@ module Ticketing
     end
     
     private
+    
+    def after_create
+      log(:created)
+      create_printable
+    end
     
     def tickets_dir_path(full = false)
       path = Rails.public_path if full

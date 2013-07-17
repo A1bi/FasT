@@ -1,8 +1,6 @@
 module Ticketing
   module Cancellable
   	extend ActiveSupport::Concern
-    
-  	include Loggable
 	
   	included do
   		belongs_to :cancellation
@@ -11,7 +9,7 @@ module Ticketing
         return if cancelled?
 				create_cancellation({ reason: reason }, without_protection: true)
 				save
-				log(:cancelled)
+				log(:cancelled) if respond_to? :loggable
 			end
 
 			def cancelled?

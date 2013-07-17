@@ -46,6 +46,12 @@ de:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
         summary: "Theater-Probe"
+  ticketing:
+    orders:
+      log_events:
+        created: "Bestellung aufgegeben"
+        sent_pay_reminder: "Zahlungserinnerung gesendet"
+        marked_as_paid: "Bestellung als bezahlt markiert"
   orders:
     retail_login:
       required: "Bitte loggen Sie sich ein."

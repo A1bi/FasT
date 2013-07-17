@@ -32,6 +32,8 @@ module Ticketing
         save
         
         bunch.log(:marked_as_paid, nil)
+        
+        OrderMailer.payment_received(self).deliver if self.is_a? Ticketing::Web::Order
       end
   	end
     

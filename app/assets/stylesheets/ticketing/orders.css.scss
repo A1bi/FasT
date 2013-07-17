@@ -22,6 +22,10 @@ table {
     text-align: center;
   }
   
+  &.log td {
+    text-align: left;
+  }
+  
   td {
     padding: 5px 8px !important;
     
@@ -53,6 +57,25 @@ table {
     
     &.empty {
       font-style: italic;
+      text-align: center;
+    }
+  }
+}
+
+.top-tables {
+  overflow: auto;
+  
+  table {
+    float: left;
+    width: 58%;
+    
+    &.action {
+      float: right;
+      width: 40%;
+      
+      div {
+        margin: 5px;
+      }
     }
   }
 }

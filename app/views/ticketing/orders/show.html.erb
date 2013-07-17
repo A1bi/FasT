@@ -6,42 +6,93 @@
   <div class="hl">Bestellungsdetails</div>
   <% overview = [
     ["Nummer", "<b>#{@bunch.number}</b>"],
-    ["aufgegeben", l(order.created_at, format: "%d. %B %y, %H:%M Uhr")],
+    ["aufgegeben", l(order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
     ["Tickets", @bunch.tickets.count],
     ["Gesamtbetrag", number_to_currency(@bunch.total)],
     ["bezahlt", @bunch.paid ? "ja" : "nein"]
   ] %>
-  <table class="rounded">
-    <%= render "show_overview_table", title: "Übersicht", overview: overview %>
-    <%
-      if order.is_a? Ticketing::Retail::Order
-        title = "Bestellung an Vorverkaufsstelle"
-        overview = [
-          ["Vorverkaufsstelle", order.store.name]
-        ]
-      else
-        title = "Online-Bestellung"
-        overview = [
-          ["Nachname", order.last_name],
-          ["Vorname", order.first_name],
-          ["e-mail", order.email],
-          ["Telefon", order.phone]
-        ]
-        payment = [
-          ["Zahlungsart", order.pay_method == "charge" ? "Bankeinzug" : "Überweisung"]
-        ]
-        if order.pay_method == "charge"
-          payment.concat [
-            ["Kontoinhaber", order.bank_charge.name],
-            ["Kontonummer", order.bank_charge.number],
-            ["BLZ", order.bank_charge.blz],
-            ["Bank", order.bank_charge.bank]
+  <div class="top-tables">
+    <table class="rounded">
+      <%= render "show_overview_table", title: "Übersicht", overview: overview %>
+      <%
+        if order.is_a? Ticketing::Retail::Order
+          title = "Bestellung an Vorverkaufsstelle"
+          overview = [
+            ["Vorverkaufsstelle", order.store.name]
           ]
+        else
+          title = "Online-Bestellung"
+          overview = [
+            ["Nachname", order.last_name],
+            ["Vorname", order.first_name],
+            ["e-mail", order.email],
+            ["Telefon", order.phone]
+          ]
+          payment = [
+            ["Zahlungsart", order.pay_method == "charge" ? "Bankeinzug" : "Überweisung"]
+          ]
+          if order.pay_method == "charge"
+            payment.concat [
+              ["Kontoinhaber", order.bank_charge.name],
+              ["Kontonummer", order.bank_charge.number],
+              ["BLZ", order.bank_charge.blz],
+              ["Bank", order.bank_charge.bank]
+            ]
+          end
         end
-      end
-    %>
-    <%= render "show_overview_table", title: title, overview: overview %>
-    <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
+      %>
+      <%= render "show_overview_table", title: title, overview: overview %>
+      <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
+    </table>
+    <table class="rounded action">
+      <thead>
+        <tr>
+          <th>Aktionen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
+              <% if !@bunch.paid %>
+                <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
+                <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <% events = @bunch.log_events.order("id DESC") %>
+  <table class="rounded entries log">
+    <thead>
+      <tr>
+        <th colspan="3">Protokoll</th>
+      </tr>
+      <% if !events.size.zero? %>
+        <tr>
+          <th>Aktion</th>
+          <th>Benutzer</th>
+          <th>Datum</th>
+        </tr>
+      <% end %>
+    </thead>
+    <tbody>
+      <% if events.size.zero? %>
+        <tr>
+          <td class="empty" colspan="3">Keine Protokolleinträge vorhanden.</td>
+        </tr>
+      <% else %>
+        <% events.each do |event| %>
+          <tr>
+            <td><%= t event.name, scope: [:ticketing, :orders, :log_events] %></td>
+            <td><%= event.member.name if event.member %></td>
+            <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
   </table>
   <table class="rounded entries">
     <thead>

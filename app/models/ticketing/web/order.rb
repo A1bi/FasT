@@ -13,6 +13,16 @@ module Ticketing
     validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
   
     before_create :set_paid_status
+    after_create :send_confirmation
+    
+    def send_pay_reminder
+      OrderMailer.pay_reminder(self).deliver
+      bunch.log(:sent_pay_reminder)
+    end
+    
+    def send_confirmation
+      OrderMailer.confirmation(self).deliver
+    end
     
     private
     
