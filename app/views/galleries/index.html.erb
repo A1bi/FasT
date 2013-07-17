@@ -32,7 +32,7 @@
 						<% end %>
 					</a>
 				</div>
-				<%= content_tag :div, :class => :actions do %>
+				<%= content_tag :div, :class => [:actions, :actionBtns] do %>
 					<%= render "admin_actions", :obj => gallery, :delete_confirm => "diese Galerie" %>
 				<% end if @_member.admin? %>
 			<% end %>

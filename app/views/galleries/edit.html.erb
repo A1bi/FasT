@@ -35,7 +35,7 @@
 							<%= link_to "Diashow", toggle_slide_gallery_photo_path(@gallery, photo), :method => :put %>
 						<% end %>
 						<div class="circle number"></div>
-						<div class="actions">
+						<div class="actionBtns">
 							<%= render "admin_actions", :obj => [@gallery, photo], :delete_confirm => "dieses Foto" %>
 						</div>
 					<% end %>

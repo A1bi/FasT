@@ -18,7 +18,7 @@
 		<td><%= date.datetime.strftime("%H.%M") %> Uhr</td>
 		<td><%= date.info %></td>
 		<td><%= date.location %></td>
-		<%= content_tag :td, :class => :actions do %>
+		<%= content_tag :td, :class => :actionBtns do %>
 			<%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
 		<% end if @_member.admin? %>
 	<% end %>
@@ -41,7 +41,7 @@
 			</div>
 		</td>
 		<td class="download"><%= link_to "download", file.path, :target => "_blank" %></td>
-		<%= content_tag :td, :class => :actions do %>
+		<%= content_tag :td, :class => :actionBtns do %>
 			<%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
 		<% end if @_member.admin? %>
 	<% end %>

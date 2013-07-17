@@ -492,10 +492,10 @@ input.btn {
 			top: 1px solid #cccccc;
 			radius: 0px 0px 10px 10px;
 		}
-	}
-
-	> .actions a {
-		color: white;
+    
+    a {
+  		color: white;
+  	}
 	}
 }
 
@@ -590,7 +590,7 @@ table.rounded {
 			text-align: center;
 		}
 		
-		&.actions {
+		&.actionBtns {
 			width: 8%;
 			text-align: center;
 		}
@@ -606,7 +606,7 @@ table.rounded {
 	}
 }
 
-.actions {
+.actionBtns {
 	a {
 		width: 15px;
 		height: 15px;

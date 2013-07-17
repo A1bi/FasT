@@ -18,7 +18,7 @@
 						</div>
 						<%= nl2br entry.text %>
 					</div>
-					<%= content_tag :div, :class => :actions do %>
+					<%= content_tag :div, :class => [:actions, :actionBtns] do %>
 						<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
 					<% end if @_member.admin? %>
 				</div>
