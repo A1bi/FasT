@@ -2,9 +2,7 @@
 	<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
 	<ul class="inner">
 		<% @event.dates.each do |date| %>
-			<%= content_tag_for(:li, date, :data => { :id => date.id }) do %>
-				<%= l date.date, format: "%A, den %d. %B um %H.%M" %> Uhr
-			<% end %>
+			<%= content_tag_for(:li, date, :data => { :id => date.id }) { l date.date, format: "%A, den %d. %B um %H.%M Uhr" } %>
 		<% end %>
 	</ul>
 	<div class="number">

@@ -27,6 +27,7 @@ function Step(name, delegate) {
 
 Step.prototype = {
   moveIn: function (animate) {
+    this.delegate.setNextBtnText();
     this.willMoveIn();
     
     animate = animate !== false;
@@ -38,7 +39,6 @@ Step.prototype = {
     } else {
       this.box.css(props);
     }
-    this.delegate.setNextBtnText();
     this.resizeDelegateBox(animate);
     this.toggleFormFields(true);
   },
@@ -72,7 +72,7 @@ Step.prototype = {
     this.box.find("input, select, textarea").attr("disabled", !toggle);
   },
   
-  updateInfo: function () {
+  updateInfoFromFields: function () {
     var _this = this;
     $.each(this.box.find("form").serializeArray(), function () {
       var pattern = new RegExp(_this.name + "\\[([a-z_]+)\\]");
@@ -100,7 +100,11 @@ Step.prototype = {
     proc.call(this);
     
     var errors = this.validator.foundErrors();
-    if (errors) this.resizeDelegateBox(true);
+    if (errors) {
+      this.resizeDelegateBox(true);
+    } else {
+      this.updateInfoFromFields();
+    }
     
     return !errors;
   },
@@ -115,11 +119,7 @@ Step.prototype = {
   
   willMoveIn: function () {},
   
-  registerEvents: function () {},
-  
-  formatCurrency: function (value) {
-    return value.toFixed(2).toString().replace(".", ",");
-  }
+  registerEvents: function () {}
 };
 
 function DateStep(delegate) {
@@ -137,21 +137,28 @@ function DateStep(delegate) {
   Step.call(this, "date", delegate);
   
   this.info.api.tickets = {};
+  this.info.internal.ticketTotals = {};
   
-  this.getTypeTotal = function ($typeBox) {
+  this.formatCurrency = function (value) {
+    return value.toFixed(2).toString().replace(".", ",");
+  };
+  
+  this.getTypeTotal = function ($typeBox, number) {
     return $typeBox.data("price") * $typeBox.find("select").val();
   };
   
   this.updateTotal = function () {
     var total = 0;
-    _this.info.internal.numberOfTickets = 0;
+    this.info.internal.numberOfTickets = 0;
     this.box.find(".number tr").each(function () {
-      if ($(this).is(".ticketing_ticket_type")) {
-        var $this = $(this);
+      var $this = $(this);
+      if ($this.is(".ticketing_ticket_type")) {
         _this.info.internal.numberOfTickets += parseInt($this.find("select").val());
         total += _this.getTypeTotal($this);
       } else {
-        $(this).find(".total span").html(_this.formatCurrency(total));
+        var formattedTotal = _this.formatCurrency(total);
+        _this.info.internal.total = formattedTotal;
+        $this.find(".total span").html(formattedTotal);
       }
     });
     
@@ -168,11 +175,13 @@ function DateStep(delegate) {
   };
   
   this.choseNumber = function ($this) {
-    var typeBox = $this.parents("tr");
-    typeBox.find("td.total span").html(this.formatCurrency(this.getTypeTotal(typeBox)));
-    this.updateTotal();
+    var typeBox = $this.parents("tr"), typeId = typeBox.data("id");
+    var total = this.formatCurrency(this.getTypeTotal(typeBox));
+    typeBox.find("td.total span").html(total);
     
-    this.info.api.tickets[typeBox.data("id")] = parseInt($this.val());
+    this.info.api.tickets[typeId] = parseInt($this.val());
+    this.info.internal.ticketTotals[typeId] = total;
+    this.updateTotal();
   };
 }
 
@@ -263,29 +272,11 @@ function ConfirmStep(delegate) {
       _this.info.api[$(this).attr("name")] = $(this).is(":checked");
       _this.delegate.toggleNextBtn(_this.info.api.accepted);
     });
-    
-    // this.delegate.observeOrder("date", function (info) {
-//       var total = 0;
-//       $.each(info.tickets, function (typeId, number) {
-//         var typeBox = _this.box.find("#ticketing_ticket_type_" + typeId);
-//         typeBox.find(".number").text(number || 0);
-//         var totalBox = typeBox.find(".total");
-//         var subtotal = totalBox.data("price") * number;
-//         totalBox.find("span").text(_this.formatCurrency(subtotal));
-//         total += subtotal;
-//       });
-//       _this.box.find(".total .total span").text(_this.formatCurrency(total));
-//       _this.box.find(".date").text(info.localizedDate);
-//     });
-//     $.each(["address", "payment"], function (i, key) {
-//       _this.delegate.observeOrder(key, function (info) {
-//         if (key == "payment") {
-//           _this.box.find(".payment").removeClass("transfer charge").addClass(info.method);
-//         }
-//         _this.updateSummary(info, key);
-//       });
-//     });
   };
+  
+  Step.call(this, "confirm", delegate);
+  
+  this.info.api.newsletter = true;
   
   this.updateSummary = function (info, part) {
     $.each(info, function (key, value) {
@@ -296,11 +287,38 @@ function ConfirmStep(delegate) {
   this.willMoveIn = function () {
     this.delegate.toggleNextBtn(this.delegate.retail || this.info.accepted);
     this.delegate.setNextBtnText("bestellen");
+    
+    var dateInfo = this.delegate.getStepInfo("date");
+    this.box.find(".date").text(dateInfo.internal.localizedDate);
+    
+    this.box.find(".tickets tr").each(function () {
+      var typeBox = $(this);
+      var number, total;
+      if (typeBox.is(".total")) {
+        number = dateInfo.internal.numberOfTickets;
+        total = dateInfo.internal.total;
+      } else {
+        var typeId = typeBox.find("td").first().data("id");
+        number = dateInfo.api.tickets[typeId];
+        total = dateInfo.internal.ticketTotals[typeId];
+      }
+      typeBox.find(".single .number").text(number || 0);
+      typeBox.find(".total span").text(total || 0);
+      if (typeBox.is(".total")) togglePluralText(typeBox.find(".single"), number, "single");
+    });
+    
+    $.each(["address", "payment"], function () {
+      var info = _this.delegate.getStepInfo(this);
+      if (!info) return;
+      var box = _this.box.find("."+this);
+      if (this == "payment") {
+        box.removeClass("transfer charge").addClass(info.api.method);
+      }
+      $.each(info.api, function (key, value) {
+        box.find("."+key).text(value);
+      });
+    });
   };
-  
-  Step.call(this, "confirm", delegate);
-  
-  this.info.newsletter = true;
 }
 
 function FinishStep(delegate) {
@@ -316,10 +334,6 @@ function FinishStep(delegate) {
   this.spinner = new Spinner(opts);
   
   this.registerEvents = function () {
-    // this.delegate.observeOrder("payment", function (info) {
-    //   _this.box.find(".tickets").toggle(info.payment == "charge");
-    // });
-    
     // this.delegate.node.on("orderPlaced", function (res) {
     //   _this.spinner.stop();
     //   
@@ -334,7 +348,8 @@ function FinishStep(delegate) {
   };
   
   this.willMoveIn = function () {
-    this.delegate.toggleNextBtn(false);
+    var payInfo = this.delegate.getStepInfo("payment");
+    if (payInfo) this.box.find(".tickets").toggle(payInfo.api.method == "charge");
     this.delegate.hideOrderControls();
     this.spinner.spin(this.box.get(0));
   };

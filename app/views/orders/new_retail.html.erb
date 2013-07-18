@@ -14,20 +14,7 @@
   	<%= render "seats" %>
   	<div class="stepCon confirm">
   		<div>Bitte kontrollieren Sie noch einmal Ihre Bestellung und klicken anschließend auf <em>bestellen</em>.</div>
-  		<div class="inner">
-  			Tickets für die Aufführung am <span class="date"></span>:
-  			<table class="rTable">
-  				<%= content_tag_for(:tr, @ticket_types) do |type| %>
-      			<td><%= type.name %></td>
-      			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
-      			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
-  				<% end %>
-  				<tr class="total">
-  					<td colspan="2">Gesamt</td>
-  					<td class="total"><span></span> €</td>
-  				</tr>
-  			</table>
-  		</div>
+      <%= render "confirm_tickets" %>
   	</div>
     <%= render "finish" %>
   <% end %>
