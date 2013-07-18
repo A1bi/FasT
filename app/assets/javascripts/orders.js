@@ -1,4 +1,5 @@
 //= require _seats
+//= require node-validator/validator-min
 //= require spin
 
 function Step(name, delegate) {
@@ -6,6 +7,20 @@ function Step(name, delegate) {
   this.box = $(".stepCon." + this.name);
   this.info = { api: {}, internal: {} };
   this.delegate = delegate;
+  
+  var _this = this;
+  this.validator = new Validator();
+  this.validator.error = function (msg) {
+    _this.showErrorOnField(msg[0], msg[1]);
+    this._errors.push(msg);
+    return this;
+  };
+  this.validator.foundErrors = function () {
+    return this._errors.length > 0;
+  };
+  this.validator.resetErrors = function () {
+    this._errors = [];
+  };
   
   this.registerEvents();
 }
@@ -71,21 +86,31 @@ Step.prototype = {
     return this.delegate.info[stepName].internal;
   },
   
+  getFieldWithKey: function (key) {
+    return this.box.find("#" + this.name + "_" + key);
+  },
+  
   validate: function () {
     return true;
   },
   
-  afterValidate: function (response) {
-    var _this = this;
+  validateFields: function (proc) {
     this.box.find("tr").removeClass("error");
-    if (!response.ok) {
-      this.toggleFormFields(true);
-      
-      $.each(response.errors, function (key, error) {
-        _this.box.find("#" + _this.name + "_" + key).parents("tr").addClass("error").find(".msg").html(error);
-      });
-      this.resizeDelegateBox(true);
-    }
+    this.validator.resetErrors();
+    proc.call(this);
+    
+    var errors = this.validator.foundErrors();
+    if (errors) this.resizeDelegateBox(true);
+    
+    return !errors;
+  },
+  
+  getValidatorCheckForField: function (key, msg) {
+    return this.validator.check(this.getFieldWithKey(key).val(), [key, msg]);
+  },
+  
+  showErrorOnField: function (key, msg) {
+    this.getFieldWithKey(key).parents("tr").addClass("error").find(".msg").html(msg);
   },
   
   willMoveIn: function () {},
@@ -178,8 +203,14 @@ function AddressStep(delegate) {
   var _this = this;
   
   this.validate = function () {
-    this.updateInfo();
-    Step.prototype.validate.call(this);
+    return this.validateFields(function () {
+      $.each(["first_name", "last_name", "phone"], function () {
+        _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
+      });
+    
+      this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").isInt().len(5, 5);
+      this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
+    });
   };
   
   this.willMoveIn = function () {
@@ -195,14 +226,26 @@ function PaymentStep(delegate) {
   this.registerEvents = function () {
     this.box.find("[name=method]").click(function () {
       _this.info.api.method = $(this).val();
-      _this.slideToggle(_this.box.find(".charge"), _this.info.api.method == "charge");
+      _this.slideToggle(_this.box.find(".charge"), _this.methodIsCharge());
       _this.delegate.toggleNextBtn(true);
     });
   };
   
   this.validate = function () {
-    this.updateInfo();
-    Step.prototype.validate.call(this);
+    if (this.methodIsCharge()) {
+      return this.validateFields(function () {
+        this.getValidatorCheckForField("name", "Bitte geben Sie den Kontoinhaber an.").notEmpty();
+        this.getValidatorCheckForField("number", "Bitte geben Sie eine korrekte Kontonummer an.").isInt().len(1, 12);
+        this.getValidatorCheckForField("blz", "Bitte geben Sie eine korrekte Bankleitzahl an.").isInt().len(8, 8);
+        this.getValidatorCheckForField("bank", "Bitte geben Sie den Namen der Bank an.").notEmpty();
+      });
+    }
+    
+    return true;
+  };
+  
+  this.methodIsCharge = function () {
+    return this.info.api.method == "charge";
   };
   
   this.willMoveIn = function () {
