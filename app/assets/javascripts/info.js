@@ -1,8 +1,9 @@
 //= require map
+//= require spin
 
 function Weather() {
 	
-	var weatherData = {};
+	var weatherData = {}, wBox, spinner;
 	
 	var getData = function () {
 		$.getJSON("/info/weather.json", function (data) {
@@ -13,24 +14,30 @@ function Weather() {
 	}
 	
 	var initWeather = function () {
-		var wBox = $(".weather");
-		
-		var image = $("<img />").attr("src", "/assets/info/weather/"+weatherData.code+weatherData.daytime+".png");
-		$(".icon", wBox).append(image);
-		var weatherBox = $(".weather");
-		
-		$.each(weatherData, function (key, value) {
-			$("."+key, weatherBox).html(value);
-		});
-		
-		image.load(function () {
+		var image = $("<img />").attr("src", "/assets/info/weather/"+weatherData.code+weatherData.daytime+".png").load(function () {
 			$(".loader", wBox).fadeOut(function () {
+        spinner.stop();
 				$(".info", wBox).fadeIn();
 			});
+		}).appendTo($(".icon", wBox));
+		
+		$.each(weatherData, function (key, value) {
+			$("."+key, wBox).html(value);
 		});
 	}
 	
 	this.init = function () {
+    wBox = $(".weather");
+    
+    var opts = {
+      lines: 17,
+      length: 15,
+      width: 6,
+      radius: 19,
+      trail: 60
+    };
+    spinner = new Spinner(opts).spin($(".loader", wBox).get(0));
+    
 		getData();
 	}
 	
