@@ -21,13 +21,21 @@ class Api::OrdersController < ApplicationController
       order.bunch.paid = true
     end
     
+    seating = NodeApi.seating_request("getChosenSeats", info[:seatingId]).body
+    if !seating[:ok]
+      response[:errors] << "Seating error"
+      return render :json => response
+    end
+    seats = seating[:seats]
+    
 		info[:tickets].each do |type_id, number|
+      number = number.to_i
       next if number < 1
 			type = Ticketing::TicketType.find_by_id(type_id)
-			number.to_i.times do
+			number.times do
 				ticket = Ticketing::Ticket.new
 				ticket.type = type
-				ticket.seat_id = info[:seats].shift
+				ticket.seat_id = seats.shift
         ticket.date_id = info[:date]
         order.bunch.tickets << ticket
 			end

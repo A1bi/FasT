@@ -113,14 +113,16 @@ function Seating(container) {
 
 };
 
-function SeatChooser(container) {
+function SeatChooser(container, delegate) {
   Seating.call(this, container);
   
   this.date = null;
   this.allSeats = {};
   this.numberOfSeats = 0;
   this.node = null;
+  this.seatingId;
   this.errorBox = this.container.find(".error");
+  this.delegate = delegate;
 	var _this = this;
   
   this.updateSeats = function (seats) {
@@ -194,6 +196,11 @@ function SeatChooser(container) {
     this.seats.click(function () {
       _this.chooseSeat($(this));
 		});
+    
+    this.node.on("gotSeatingId", function (data) {
+      _this.seatingId = data.id;
+      _this.delegate.seatChooserGotSeatingId();
+    });
     
     this.node.on("updateSeats", function (res) {
       _this.updateSeats(res.seats);

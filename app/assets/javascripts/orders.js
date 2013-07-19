@@ -119,7 +119,11 @@ Step.prototype = {
   
   willMoveIn: function () {},
   
-  registerEvents: function () {}
+  registerEvents: function () {},
+  
+  formatCurrency: function (value) {
+    return value.toFixed(2).toString().replace(".", ",");
+  }
 };
 
 function DateStep(delegate) {
@@ -138,10 +142,6 @@ function DateStep(delegate) {
   
   this.info.api.tickets = {};
   this.info.internal.ticketTotals = {};
-  
-  this.formatCurrency = function (value) {
-    return value.toFixed(2).toString().replace(".", ",");
-  };
   
   this.getTypeTotal = function ($typeBox, number) {
     return $typeBox.data("price") * $typeBox.find("select").val();
@@ -201,8 +201,12 @@ function SeatsStep(delegate) {
   
   this.registerEvents = function () {
     this.box.show();
-    this.chooser = new SeatChooser(this.box.find(".seating"));
+    this.chooser = new SeatChooser(this.box.find(".seating"), this);
     this.box.hide();
+  };
+  
+  this.seatChooserGotSeatingId = function (event) {
+    _this.info.api.seatingId = _this.chooser.seatingId;
   };
   
   Step.call(this, "seats", delegate);
@@ -333,18 +337,43 @@ function FinishStep(delegate) {
   };
   this.spinner = new Spinner(opts);
   
-  this.registerEvents = function () {
-    // this.delegate.node.on("orderPlaced", function (res) {
-    //   _this.spinner.stop();
-    //   
-    //   if (!res.ok) return;
-    //   
-    //   _this.box.find(".success").show();
-    //   if (_this.delegate.retail) {
-    //     _this.box.find(".total span").text(_this.formatCurrency(res.order.total));
-    //     _this.box.find(".printable_link").attr("href", res.order.printable_path);
-    //   }
-    // });
+  this.placeOrder = function () {
+    var apiInfo = this.delegate.getApiInfo();
+    var orderInfo = {
+      date: apiInfo.date.date,
+      tickets: apiInfo.date.tickets,
+      seatingId: apiInfo.seats.seatingId,
+      address: apiInfo.address,
+      payment: apiInfo.payment
+    };
+    var info = {
+      order: orderInfo,
+      web: true,
+      retailId: this.delegate.retailId,
+      newsletter: apiInfo.confirm.newsletter
+    };
+    $.post("/api/orders", info)
+      .done(function (res) { _this.orderPlaced(res); })
+      .fail(function () { _this.error(); });
+  };
+  
+  this.orderPlaced = function (res) {
+    this.spinner.stop();
+    
+    if (!res.ok) {
+      this.error();
+      return;
+    }
+    
+    this.box.find(".success").show();
+    if (this.delegate.retail) {
+      this.box.find(".total span").text(this.formatCurrency(res.order.total));
+      this.box.find(".printable_link").attr("href", res.order.printable_path);
+    }
+  };
+  
+  this.error = function () {
+    alert("error");
   };
   
   this.willMoveIn = function () {
@@ -352,6 +381,8 @@ function FinishStep(delegate) {
     if (payInfo) this.box.find(".tickets").toggle(payInfo.api.method == "charge");
     this.delegate.hideOrderControls();
     this.spinner.spin(this.box.get(0));
+    
+    this.placeOrder();
   };
   
   Step.call(this, "finish", delegate);
@@ -461,6 +492,14 @@ var ordering = new function () {
     return info;
   };
   
+  this.getApiInfo = function () {
+    var info = {};
+    $.each(this.steps, function () {
+      info[this.name] = this.info.api;
+    });
+    return info;
+  };
+  
   this.updateExpirationCounter = function (seconds) {
     if (seconds < 0) return;
     this.expirationBox.find("span").text(seconds);
@@ -506,7 +545,8 @@ var ordering = new function () {
     _this.stepBox = $(".stepBox");
     _this.expirationBox = $(".expiration");
     
-    _this.retail = !!$(".retail").length;
+    _this.retailId = $(".retail").data("id");
+    _this.retail = !!_this.retailId;
     var steps = (_this.retail) ? [DateStep, SeatsStep, ConfirmStep, FinishStep] : [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
     
     $(".progress .step").css({ width: 100 / (steps.length - 1) + "%" });

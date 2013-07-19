@@ -7,7 +7,7 @@
 <% cache cache_name.push(@event.id) do %>
   <div class="hl">
   	Tickets bestellen
-    <%= content_tag :div, class: :retail do %>
+    <%= content_tag :div, class: :retail, data: { id: @store.id } do %>
       Vorverkaufsstelle: <%= @store.name %>
     <% end if @store %>
   </div>
