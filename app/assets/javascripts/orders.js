@@ -1,6 +1,6 @@
 //= require _seats
 //= require node-validator/validator-min
-//= require spin
+//= require spin.js/dist/spin.min
 
 function Step(name, delegate) {
   this.name = name;
@@ -406,7 +406,7 @@ var ordering = new function () {
   this.currentStep = null;
   this.steps = [];
   this.expirationBox = null;
-  this.expirationTimer = { type: 0, timer: null, times: [60, 300] };
+  this.expirationTimer = { type: 0, timer: null, times: [300, 60] };
   this.aborted = false;
   var _this = this;
   
@@ -524,7 +524,7 @@ var ordering = new function () {
         this.expire();
         return;
       }
-      this.expirationBox.find("span").text(seconds);
+      togglePluralText(this.expirationBox.find("li"), seconds);
     }
     this.expirationTimer.timer = setTimeout(function () {
       _this.updateExpirationCounter(--seconds);
@@ -540,7 +540,7 @@ var ordering = new function () {
     this.killExpirationTimer();
     if (this.aborted) return;
     this.expirationTimer.type = 0;
-    this.updateExpirationCounter(this.expirationTimer.times[0]);
+    this.updateExpirationCounter(this.expirationTimer.times[0] - this.expirationTimer.times[1]);
   };
   
   this.expire = function () {
@@ -548,7 +548,8 @@ var ordering = new function () {
   };
   
   this.registerEvents = function () {
-    $(".btn").click(function () {
+    var btns = $(".btn");
+    btns.click(function () {
       _this.goNext($(this));
     });
     
@@ -556,6 +557,11 @@ var ordering = new function () {
       _this.resetExpirationTimer();
     }).keydown(function () {
       _this.resetExpirationTimer();
+    });
+    
+    var nextBtn = btns.filter(".next");
+    $(".stepBox input").keyup(function (event) {
+      if (event.which == 13) _this.goNext(nextBtn);
     });
   };
   

@@ -1,9 +1,6 @@
 <% title "Tickets bestellen" %>
 <% include_css "orders" %>
 <% include_js "orders" %>
-<% content_for(:head) do %>
-  <%= javascript_include_tag "/node/socket.io.js" %>
-<% end %>
 <% cache cache_name.push(@event.id) do %>
   <div class="hl">
   	Tickets bestellen
@@ -22,7 +19,7 @@
   <div class="messages warning expiration">
   	<div class="icon"></div>
     <ul>
-  	  <li>Bei keiner weiteren Aktion läuft Ihre Sitzung in <span></span> Sekunden ab.</li>
+  	  <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
     </ul>
   </div>
   <div class="stepBox">

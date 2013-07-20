@@ -1,3 +1,5 @@
+//= require socket.io-client/dist/socket.io.min.js
+
 function Seating(container) {
   this.maxCells = { x: 185, y: 80 };
   this.sizeFactors = { x: 3.5, y: 3 };
@@ -206,25 +208,19 @@ function SeatChooser(container, delegate) {
       _this.updateSeats(res.seats);
     });
     
-    this.node.on("expired", function () {
-      _this.delegate.seatChooserExpired();
-    });
-    
-    this.node.on("disconnect", function () {
-      _this.delegate.seatChooserDisconnected();
+    var eventMappings = [[["expired"], "Expired"], [["connect_failed", "error"], "CouldNotConnect"], [["disconnect"], "Disconnected"]];
+    $.each(eventMappings, function (i, mapping) {
+      $.each(mapping[0], function () {
+        _this.node.on(this, function () { _this.delegate['seatChooser' + mapping[1]](); });
+      });
     });
 	};
   
   this.init = function () {
-    try {
-      this.node = io.connect("/seating", {
-        "resource": "node",
-        "reconnect": false
-      });
-      
-    } catch(err) {
-      this.delegate.seatChooserCouldNotConnect();
-    }
+    this.node = io.connect("/seating", {
+      "resource": "node",
+      "reconnect": false
+    });
     
     this.registerEvents();
   };
