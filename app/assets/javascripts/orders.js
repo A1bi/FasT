@@ -206,7 +206,19 @@ function SeatsStep(delegate) {
   };
   
   this.seatChooserGotSeatingId = function (event) {
-    _this.info.api.seatingId = _this.chooser.seatingId;
+    this.info.api.seatingId = this.chooser.seatingId;
+  };
+  
+  this.seatChooserDisconnected = function () {
+    this.delegate.showModalAlert("Die Verbindung zum Server wurde unterbrochen.<br />Bitte geben Sie Ihre Bestellung erneut auf.<br />Wir entschuldigen uns für diesen Vorfall.");
+  };
+  
+  this.seatChooserCouldNotConnect = function () {
+    this.delegate.showModalAlert("Derzeit ist keine Buchung möglich.<br />Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.");
+  };
+  
+  this.seatChooserExpired = function () {
+    this.delegate.expire();
   };
   
   Step.call(this, "seats", delegate);
@@ -373,7 +385,7 @@ function FinishStep(delegate) {
   };
   
   this.error = function () {
-    alert("error");
+    this.delegate.showModalAlert("Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.");
   };
   
   this.willMoveIn = function () {
@@ -394,7 +406,7 @@ var ordering = new function () {
   this.currentStep = null;
   this.steps = [];
   this.expirationBox = null;
-  this.expirationTimer = null;
+  this.expirationTimer = { type: 0, timer: null, times: [60, 300] };
   this.aborted = false;
   var _this = this;
   
@@ -447,6 +459,7 @@ var ordering = new function () {
   this.showModalAlert = function (msg) {
     if (this.aborted) return;
     this.aborted = true;
+    this.killExpirationTimer();
     this.stepBox.find(".modal_alert").fadeIn().find("li").first().html(msg);
     this.hideOrderControls();
   };
@@ -501,16 +514,37 @@ var ordering = new function () {
   };
   
   this.updateExpirationCounter = function (seconds) {
-    if (seconds < 0) return;
-    this.expirationBox.find("span").text(seconds);
-    this.expirationTimer = setTimeout(function () {
+    if (this.expirationTimer.type == 0 && seconds < 1) {
+      this.expirationTimer.type = 1;
+      seconds = this.expirationTimer.times[1];
+      this.expirationBox.slideDown();
+    }
+    if (this.expirationTimer.type == 1) {
+      if (seconds < 1) {
+        this.expire();
+        return;
+      }
+      this.expirationBox.find("span").text(seconds);
+    }
+    this.expirationTimer.timer = setTimeout(function () {
       _this.updateExpirationCounter(--seconds);
     }, 1000);
   };
   
   this.killExpirationTimer = function () {
+    clearTimeout(this.expirationTimer.timer);
     this.expirationBox.slideUp();
-    clearTimeout(this.expirationTimer);
+  };
+  
+  this.resetExpirationTimer = function () {
+    this.killExpirationTimer();
+    if (this.aborted) return;
+    this.expirationTimer.type = 0;
+    this.updateExpirationCounter(this.expirationTimer.times[0]);
+  };
+  
+  this.expire = function () {
+    this.showModalAlert("Ihre Sitzung ist abgelaufen.<br />Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.");
   };
   
   this.registerEvents = function () {
@@ -518,27 +552,11 @@ var ordering = new function () {
       _this.goNext($(this));
     });
     
-    // this.node.on("orderPlaced", function (response) {
-    //   if (response.ok) {
-    //     _this.aborted = true;
-    //   } else {
-    //     _this.showModalAlert("Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.");
-    //   }
-    // });
-    // 
-    // this.node.on("aboutToExpire", function (data) {
-    //   _this.expirationBox.slideDown();
-    //   _this.updateExpirationCounter(data.secondsLeft);
-    // });
-    // 
-    // this.node.on("expired", function () {
-    //   _this.expirationBox.slideUp();
-    //   _this.showModalAlert("Ihre Sitzung ist abgelaufen.<br />Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.");
-    // });
-    // 
-    // this.node.on("disconnect", function () {
-    //   _this.showModalAlert("Die Verbindung zum Server wurde unterbrochen.<br />Bitte geben Sie Ihre Bestellung erneut auf.<br />Wir entschuldigen uns für diesen Vorfall.");
-    // });
+    $(document).click(function () {
+      _this.resetExpirationTimer();
+    }).keydown(function () {
+      _this.resetExpirationTimer();
+    });
   };
   
   $(function () {
@@ -562,5 +580,6 @@ var ordering = new function () {
     });
   
     _this.showNext(false);
+    _this.resetExpirationTimer();
   });
 }

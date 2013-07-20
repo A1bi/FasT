@@ -205,20 +205,28 @@ function SeatChooser(container, delegate) {
     this.node.on("updateSeats", function (res) {
       _this.updateSeats(res.seats);
     });
+    
+    this.node.on("expired", function () {
+      _this.delegate.seatChooserExpired();
+    });
+    
+    this.node.on("disconnect", function () {
+      _this.delegate.seatChooserDisconnected();
+    });
 	};
   
   this.init = function () {
     try {
-      _this.node = io.connect("/seating", {
+      this.node = io.connect("/seating", {
         "resource": "node",
         "reconnect": false
       });
       
     } catch(err) {
-      alert("seating error");
+      this.delegate.seatChooserCouldNotConnect();
     }
     
-    _this.registerEvents();
+    this.registerEvents();
   };
   
   $(function () { _this.init(); });
