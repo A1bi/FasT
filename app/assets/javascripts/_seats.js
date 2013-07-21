@@ -154,7 +154,7 @@ function SeatChooser(container, delegate) {
     });
   };
   
-  this.setDateAndNumberOfSeats = function (date, number) {
+  this.setDateAndNumberOfSeats = function (date, number, callback) {
     this.numberOfSeats = number;
     if (this.date != date) {
       this.date = date;
@@ -167,7 +167,7 @@ function SeatChooser(container, delegate) {
     this.node.emit("setDateAndNumberOfSeats", {
       date: this.date,
       numberOfSeats: this.numberOfSeats
-    });
+    }, callback);
   };
   
   this.updateErrorBox = function () {
@@ -202,17 +202,22 @@ function SeatChooser(container, delegate) {
     this.node.on("gotSeatingId", function (data) {
       _this.seatingId = data.id;
       _this.delegate.seatChooserGotSeatingId();
+      _this.delegate.seatChooserIsReady();
     });
     
     this.node.on("updateSeats", function (res) {
       _this.updateSeats(res.seats);
     });
     
-    var eventMappings = [[["expired"], "Expired"], [["connect_failed", "error"], "CouldNotConnect"], [["disconnect"], "Disconnected"]];
+    this.node.on("error", function (error) {
+      if (!(error instanceof Object)) {
+        _this.delegate.seatChooserCouldNotConnect();
+      }
+    });
+    
+    var eventMappings = [["expired", "Expired"], ["connect_failed", "CouldNotConnect"], ["disconnect", "Disconnected"]];
     $.each(eventMappings, function (i, mapping) {
-      $.each(mapping[0], function () {
-        _this.node.on(this, function () { _this.delegate['seatChooser' + mapping[1]](); });
-      });
+      _this.node.on(mapping[0], function () { _this.delegate['seatChooser' + mapping[1]](); });
     });
 	};
   

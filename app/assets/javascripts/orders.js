@@ -195,7 +195,10 @@ function SeatsStep(delegate) {
   
   this.willMoveIn = function () {
     var info = this.delegate.getStepInfo("date");
-    this.chooser.setDateAndNumberOfSeats(info.api.date, info.internal.numberOfTickets);
+    _this.delegate.toggleModalSpinner(true);
+    this.chooser.setDateAndNumberOfSeats(info.api.date, info.internal.numberOfTickets, function () {
+      _this.delegate.toggleModalSpinner(false);
+    });
     togglePluralText(this.box.find(".note"), info.internal.numberOfTickets, "note");
   };
   
@@ -203,6 +206,11 @@ function SeatsStep(delegate) {
     this.box.show();
     this.chooser = new SeatChooser(this.box.find(".seating"), this);
     this.box.hide();
+    this.delegate.toggleModalSpinner(true);
+  };
+  
+  this.seatChooserIsReady = function () {
+    this.delegate.toggleModalSpinner(false);
   };
   
   this.seatChooserGotSeatingId = function (event) {
@@ -339,15 +347,6 @@ function ConfirmStep(delegate) {
 
 function FinishStep(delegate) {
   var _this = this;
-  var opts = {
-    lines: 13,
-    length: 20,
-    width: 10,
-    radius: 30,
-    trail: 60,
-    shadow: true
-  };
-  this.spinner = new Spinner(opts);
   
   this.placeOrder = function () {
     var apiInfo = this.delegate.getApiInfo();
@@ -370,7 +369,7 @@ function FinishStep(delegate) {
   };
   
   this.orderPlaced = function (res) {
-    this.spinner.stop();
+    this.delegate.toggleModalSpinner(false);
     
     if (!res.ok) {
       this.error();
@@ -392,7 +391,7 @@ function FinishStep(delegate) {
     var payInfo = this.delegate.getStepInfo("payment");
     if (payInfo) this.box.find(".tickets").toggle(payInfo.api.method == "charge");
     this.delegate.hideOrderControls();
-    this.spinner.spin(this.box.get(0));
+    this.delegate.toggleModalSpinner(true);
     
     this.placeOrder();
   };
@@ -401,13 +400,15 @@ function FinishStep(delegate) {
 }
 
 var ordering = new function () {
-  this.stepBox = null;
+  this.stepBox;
   this.currentStepIndex = -1;
-  this.currentStep = null;
+  this.currentStep;
   this.steps = [];
-  this.expirationBox = null;
+  this.expirationBox;
   this.expirationTimer = { type: 0, timer: null, times: [300, 60] };
-  this.btns = null;
+  this.btns;
+  this.modalBox;
+  this.modalSpinner;
   this.aborted = false;
   var _this = this;
   
@@ -457,11 +458,26 @@ var ordering = new function () {
     this.moveInCurrentStep();
   };
   
+  this.toggleModalBox = function (toggle, callback) {
+    return this.modalBox.stop()["fade" + (toggle ? "In" : "Out")](callback);
+  };
+  
+  this.toggleModalSpinner = function (toggle) {
+    if (toggle) {
+      this.modalSpinner.spin(this.toggleModalBox(true).get(0));
+    } else {
+      this.toggleModalBox(false, function () {
+        _this.modalSpinner.stop();
+      });
+    }
+  };
+  
   this.showModalAlert = function (msg) {
     if (this.aborted) return;
     this.aborted = true;
+    this.modalSpinner.stop();
     this.killExpirationTimer();
-    this.stepBox.find(".modal_alert").fadeIn().find("li").first().html(msg);
+    this.toggleModalBox(true).find(".messages").show().find("li").first().html(msg);
     this.hideOrderControls();
   };
   
@@ -569,12 +585,23 @@ var ordering = new function () {
     _this.stepBox = $(".stepBox");
     _this.expirationBox = $(".expiration");
     _this.btns = $(".btns .btn");
+    _this.modalBox = _this.stepBox.find(".modalAlert");
     
     _this.retailId = $(".retail").data("id");
     _this.retail = !!_this.retailId;
     var steps = (_this.retail) ? [DateStep, SeatsStep, ConfirmStep, FinishStep] : [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
     
     $(".progress .step").css({ width: 100 / (steps.length - 1) + "%" });
+    var opts = {
+      lines: 13,
+      length: 20,
+      width: 10,
+      radius: 30,
+      trail: 60,
+      shadow: true,
+      color: "white"
+    };
+    _this.modalSpinner = new Spinner(opts);
     
     _this.registerEvents();
     
