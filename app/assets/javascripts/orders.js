@@ -407,12 +407,13 @@ var ordering = new function () {
   this.steps = [];
   this.expirationBox = null;
   this.expirationTimer = { type: 0, timer: null, times: [300, 60] };
+  this.btns = null;
   this.aborted = false;
   var _this = this;
   
   this.toggleBtn = function (btn, toggle, style_class) {
     style_class = style_class || "disabled";
-    $(".btn."+btn).toggleClass(style_class, !toggle);
+    this.btns.filter("."+btn).toggleClass(style_class, !toggle);
   };
   
   this.toggleNextBtn = function (toggle, style_class) {
@@ -420,7 +421,7 @@ var ordering = new function () {
   };
   
   this.setNextBtnText = function (text) {
-    $(".btn.next .action").text(text || "weiter");
+    this.btns.filter(".next").find(".action").text(text || "weiter");
   };
   
   this.hideOrderControls = function () {
@@ -548,8 +549,7 @@ var ordering = new function () {
   };
   
   this.registerEvents = function () {
-    var btns = $(".btn");
-    btns.click(function () {
+    this.btns.click(function () {
       _this.goNext($(this));
     });
     
@@ -559,7 +559,7 @@ var ordering = new function () {
       _this.resetExpirationTimer();
     });
     
-    var nextBtn = btns.filter(".next");
+    var nextBtn = this.btns.filter(".next");
     $(".stepBox input").keyup(function (event) {
       if (event.which == 13) _this.goNext(nextBtn);
     });
@@ -568,6 +568,7 @@ var ordering = new function () {
   $(function () {
     _this.stepBox = $(".stepBox");
     _this.expirationBox = $(".expiration");
+    _this.btns = $(".btns .btn");
     
     _this.retailId = $(".retail").data("id");
     _this.retail = !!_this.retailId;

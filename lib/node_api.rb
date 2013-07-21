@@ -34,12 +34,9 @@ class NodeApi
     make_request("push", data)
   end
   
-  def self.seating_request(action, clientId)
-    data = {
-      action: action,
-      clientId: clientId
-    }
-    make_request("seating", data)
+  def self.seating_request(action, info)
+    info[:action] = action
+    make_request("seating", info)
   end
   
   def self.push_to_retail_checkout(action, retailId, info = nil)
