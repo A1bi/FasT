@@ -464,7 +464,7 @@ var ordering = new function () {
   
   this.toggleModalSpinner = function (toggle) {
     if (toggle) {
-      this.modalSpinner.spin(this.toggleModalBox(true).get(0));
+      this.toggleModalBox(true).append(this.modalSpinner.spin().el);
     } else {
       this.toggleModalBox(false, function () {
         _this.modalSpinner.stop();

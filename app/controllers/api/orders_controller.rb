@@ -30,8 +30,8 @@ class Api::OrdersController < ApplicationController
     
 		info[:tickets].each do |type_id, number|
       number = number.to_i
-      next if number < 1
 			type = Ticketing::TicketType.find_by_id(type_id)
+      next if number < 1 || type.exclusive
 			number.times do
 				ticket = Ticketing::Ticket.new
 				ticket.type = type
@@ -54,7 +54,7 @@ class Api::OrdersController < ApplicationController
     end
     
     if order.save
-      if !isRetail && info[:newsletter].present?
+      if !isRetail && params[:newsletter].present?
         Newsletter::Subscriber.create(email: order.email)
       end
       

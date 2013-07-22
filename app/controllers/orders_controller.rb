@@ -30,6 +30,6 @@ class OrdersController < ApplicationController
 	def set_event_info
 		@event = Ticketing::Event.current
 		@seats = Ticketing::Seat.order(:number)
-		@ticket_types = Ticketing::TicketType.order(:price)
+		@ticket_types = Ticketing::TicketType.order(:price).where(exclusive: false)
   end
 end

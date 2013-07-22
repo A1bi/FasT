@@ -128,7 +128,15 @@ function SeatChooser(container, delegate) {
 	var _this = this;
   
   this.updateSeats = function (seats) {
-    $.extend(true, this.allSeats, seats);
+    for (var dateId in seats) {
+      this.allSeats[dateId] = this.allSeats[dateId] || {};
+      for (var seatId in seats[dateId]) {
+        var seat = this.allSeats[dateId][seatId] = this.allSeats[dateId][seatId] || {};
+        var seatInfo = seats[dateId][seatId];
+        seat.taken = seatInfo.t;
+        seat.chosen = seatInfo.c;
+      }
+    }
     this.updateSeatPlan();
   };
   
@@ -138,8 +146,8 @@ function SeatChooser(container, delegate) {
       var $seat = $(this);
       var seat = _this.allSeats[_this.date][$seat.data("id")];
       $seat.toggleClass("chosen", !!seat.chosen)
-        .toggleClass("taken", !seat.available && !seat.chosen)
-        .toggleClass("available", seat.available && !seat.chosen);
+        .toggleClass("taken", !!seat.taken && !seat.chosen)
+        .toggleClass("available", !seat.taken && !seat.chosen);
     });
   };
   

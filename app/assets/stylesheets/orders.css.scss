@@ -207,6 +207,10 @@ table td {
     z-index: 3;
     display: none;
     
+    .spinner {
+      margin: 125px auto;
+    }
+    
     .messages {
       margin: 80px auto;
       width: 70%;
