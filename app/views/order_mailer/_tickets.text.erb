@@ -1,7 +1,7 @@
 Folgende Tickets haben Sie bestellt:
 
 <% @order.bunch.tickets.each do |ticket| %>
-      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M" %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
+      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------

@@ -459,7 +459,7 @@ var ordering = new function () {
   };
   
   this.toggleModalBox = function (toggle, callback) {
-    return this.modalBox.stop()["fade" + (toggle ? "In" : "Out")](callback);
+    return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
   };
   
   this.toggleModalSpinner = function (toggle) {

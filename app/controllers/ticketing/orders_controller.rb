@@ -4,7 +4,8 @@ module Ticketing
     cache_sweeper :order_sweeper, only: []
     
     before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder]
-    after_filter :sweep_cache, only: [:mark_as_paid, :send_pay_reminder]
+    after_filter :sweep_details_cache, only: [:mark_as_paid, :send_pay_reminder]
+    after_filter :sweep_orders_cache, only: [:mark_as_paid]
     
     def index
       types = [
@@ -54,8 +55,12 @@ module Ticketing
       @bunch = Ticketing::Bunch.find(params[:id])
     end
     
-    def sweep_cache
+    def sweep_details_cache
       expire_fragment [:ticketing, :orders, :show, @bunch.id]
+    end
+    
+    def sweep_orders_cache
+      expire_fragment [:ticketing, :orders, :index]
     end
   end
 end

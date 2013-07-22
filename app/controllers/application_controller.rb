@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 			session[:user_id] = nil
 		end
 		@_member ||= Members::Member.new
+    Ticketing::LogEvent.set_logging_member(@_member)
   end
   
   def restrict_access

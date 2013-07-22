@@ -87,7 +87,7 @@
         <% events.each do |event| %>
           <tr>
             <td><%= t event.name, scope: [:ticketing, :orders, :log_events] %></td>
-            <td><%= event.member.name if event.member %></td>
+            <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
             <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           </tr>
         <% end %>
