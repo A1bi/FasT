@@ -377,7 +377,6 @@ input.btn {
 .messages {
 	width: 95%;
 	margin: 15px auto;
-	padding: 8px 10px;
 	color: white;
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, .5);
 	overflow: auto;
@@ -385,17 +384,19 @@ input.btn {
 	border: 1px solid #005806 {
 		radius: 10px;
 	}
+  
+  > * {
+  	margin: 8px 10px;
+  }
 	
 	.icon {
 		background: url(/assets/messages.png) no-repeat;
 		width: 28px;
 		height: 24px;
     float: left;
-		margin-right: 8px;
 	}
 	
 	ul {
-		margin: 0px;
 		padding: 0px;
 		float: none;
     overflow: hidden;
@@ -436,7 +437,7 @@ input.btn {
 		
 		.icon {
 			width: 8px;
-			margin-left: 5px;
+			margin-left: 10px;
 			background-position: -52px 0px;
 		}
 	}
@@ -622,4 +623,14 @@ table.rounded {
 			background-position: -15px 1px;
 		}
 	}
+}
+
+.plural_text {
+  .singular, .plural {
+    display: none;
+  }
+
+  &.singular .singular, &.plural .plural {
+    display: inline;
+  }
 }

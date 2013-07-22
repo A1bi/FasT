@@ -1,17 +1,14 @@
 <div class="stepCon seats">
-	<div class="note message">
-    Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<span class="number plural"> <span></span></span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
+	<div class="note plural_text">
+    Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
   </div>
   <div class="additional">
     <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
     <p>Zur besseren Orientierung können Sie sich auch ein Foto des Zuschauerraumes <%= link_to "ansehen", "/assets/misc/seating.jpg", target: "_blank" %>.</p>
   </div>
-  <div class="error message">
-    Sie müssen noch <b class="number"></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.
-  </div>
-	<div class="seating noPadding">
+	<div class="seating">
     <% cache [:new_order, :seats] do %>
-		  <%= render "application/ticketing/seats", :seats => @seats %>
+		  <%= render "application/ticketing/seats", :seats => @seats, :error_box => true %>
     <% end %>
 	</div>
   <div class="hcen">

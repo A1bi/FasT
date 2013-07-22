@@ -21,13 +21,21 @@ class Api::OrdersController < ApplicationController
       order.bunch.paid = true
     end
     
+    seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
+    if !seating[:ok]
+      response[:errors] << "Seating error"
+      return render :json => response
+    end
+    seats = seating[:seats]
+    
 		info[:tickets].each do |type_id, number|
-      next if number < 1
+      number = number.to_i
 			type = Ticketing::TicketType.find_by_id(type_id)
-			number.to_i.times do
+      next if number < 1 || type.exclusive
+			number.times do
 				ticket = Ticketing::Ticket.new
 				ticket.type = type
-				ticket.seat_id = info[:seats].shift
+				ticket.seat_id = seats.shift
         ticket.date_id = info[:date]
         order.bunch.tickets << ticket
 			end
@@ -46,9 +54,15 @@ class Api::OrdersController < ApplicationController
     end
     
     if order.save
-      if !isRetail && info[:newsletter].present?
+      if !isRetail && params[:newsletter].present?
         Newsletter::Subscriber.create(email: order.email)
       end
+      
+      seats = {}
+      order.bunch.tickets.each do |ticket|
+        (seats[ticket.date_id] ||= {})[ticket.seat.id] = ticket.seat.node_hash(ticket.date_id)
+      end
+      NodeApi.seating_request("updateSeats", { seats: seats })
       
       response[:ok] = true
       response[:order] = order.api_hash

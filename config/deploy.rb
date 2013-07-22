@@ -19,6 +19,7 @@ set :use_sudo, false
 set :scm, "git"
 set :repository, "git@github.com:#{github_user}/#{application}.git"
 set :branch, "master"
+set :git_enable_submodules, 1
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true

@@ -1,0 +1,15 @@
+<div class="tickets inner">
+	Tickets für die Aufführung am <span class="date"></span>:
+	<table class="tickets rTable">
+		<%= content_tag_for(:tr, @ticket_types) do |type| %>
+			<td data-id="<%= type.id %>"><%= type.name %></td>
+			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
+			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
+		<% end %>
+		<tr class="total">
+			<td>Gesamt</td>
+      <td class="single plural_text"><span class="number"></span> Ticket<span class="plural">s</span></td>
+			<td class="total"><span></span> €</td>
+		</tr>
+	</table>
+</div>

@@ -199,7 +199,7 @@ table td {
 	margin-top: 30px;
 	min-height: 250px;
   
-  .modal_alert {
+  .modalAlert {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -207,9 +207,14 @@ table td {
     z-index: 3;
     display: none;
     
+    .spinner {
+      margin: 125px auto;
+    }
+    
     .messages {
       margin: 80px auto;
       width: 70%;
+      display: none;
     }
   }
 }
@@ -223,10 +228,6 @@ table td {
 	
 	> * {
 		padding: 10px;
-	}
-	
-	&.noPadding {
-		padding: 0px;
 	}
 	
 	.inner {
@@ -360,10 +361,8 @@ table td {
       }
     }
     
-    .note {
-      .number {
-        font-weight: bold;
-      }
+    .seating {
+      padding: 0px;
     }
     
     .additional {
@@ -380,24 +379,6 @@ table td {
       
       p {
         margin: 7px 0px;
-      }
-    }
-    
-    .error {
-      margin: 10px;
-      background: red;
-      color: white;
-      border-radius: 10px;
-      display: none;
-    }
-    
-    .message {
-      .singular, .plural {
-        display: none;
-      }
-    
-      &.singular .singular, &.plural .plural {
-        display: inline;
       }
     }
     

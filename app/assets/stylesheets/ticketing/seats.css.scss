@@ -9,7 +9,7 @@
 }
 
 #seats {
-  .seating {
+  .seating .plan {
     @include box;
     padding: 0px;
   }

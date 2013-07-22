@@ -1,0 +1,9 @@
+[submodule "vendor/assets/javascripts/node-validator"]
+	path = vendor/assets/javascripts/node-validator
+	url = git@github.com:chriso/node-validator.git
+[submodule "vendor/assets/javascripts/socket.io-client"]
+	path = vendor/assets/javascripts/socket.io-client
+	url = git@github.com:LearnBoost/socket.io-client.git
+[submodule "vendor/assets/javascripts/spin.js"]
+	path = vendor/assets/javascripts/spin.js
+	url = git@github.com:fgnass/spin.js.git

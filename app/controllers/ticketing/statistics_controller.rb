@@ -6,15 +6,7 @@ module Ticketing
       @stores = Retail::Store.scoped
       
       @seats = Rails.cache.fetch [:ticketing, :statistics, :seats] do
-        seats = {}
-        @dates.each do |date|
-          seats[date.id] = Seat
-            .select("ticketing_seats.*, COUNT(ticketing_tickets.id) > 0 AS taken, COUNT(ticketing_reservations.id) > 0 AS reserved")
-            .joins("LEFT JOIN ticketing_tickets ON ticketing_tickets.seat_id = ticketing_seats.id AND ticketing_tickets.date_id = #{date.id}")
-            .joins("LEFT JOIN ticketing_reservations ON ticketing_reservations.seat_id = ticketing_seats.id AND ticketing_reservations.date_id = #{date.id}")
-            .group("ticketing_seats.id")
-        end
-        seats
+        Hash[@dates.map { |date| [date.id, Seat.with_availability_on_date(date)] }]
       end
       
       @stats = Rails.cache.fetch [:ticketing, :statistics, :tickets] do

@@ -12,6 +12,15 @@ class NodeApi
     request.content_type = 'application/json'
     
     request.exec(socket, "1.1", path)
+    
+    begin
+      response = Net::HTTPResponse.read_new(socket)
+    end while response.kind_of?(Net::HTTPContinue)
+    response.reading_body(socket, request.response_body_permitted?) { }
+    
+    response.body = JSON.parse response.body, symbolize_names: true
+    
+    response
   end
   
   def self.push(action, recipients, recipientIds = nil, info = nil)
@@ -23,6 +32,11 @@ class NodeApi
       info: info
     }
     make_request("push", data)
+  end
+  
+  def self.seating_request(action, info)
+    info[:action] = action
+    make_request("seating", info)
   end
   
   def self.push_to_retail_checkout(action, retailId, info = nil)

@@ -5,9 +5,9 @@ module Ticketing
     end
     
     def css_class_for_seat(seat)
-      if seat.reserved == 1
+      if seat.reserved?
         "reserved"
-      elsif seat.taken == 1
+      elsif seat.taken?
         "taken"
       else
         "available"

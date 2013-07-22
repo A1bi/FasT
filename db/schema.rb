@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625221029) do
+ActiveRecord::Schema.define(:version => 20130722082802) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -207,9 +207,10 @@ ActiveRecord::Schema.define(:version => 20130625221029) do
   create_table "ticketing_ticket_types", :force => true do |t|
     t.string   "name"
     t.float    "price"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.string   "info"
+    t.boolean  "exclusive",  :default => false
   end
 
   create_table "ticketing_tickets", :force => true do |t|
