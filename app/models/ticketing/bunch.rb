@@ -5,6 +5,7 @@ module Ticketing
   	has_many :tickets, :after_add => :added_ticket, :dependent => :destroy
   	belongs_to :assignable, :polymorphic => true, :touch => true
     has_random_unique_number :number, 6
+    belongs_to :coupon
 	
   	validates_length_of :tickets, :minimum => 1
     

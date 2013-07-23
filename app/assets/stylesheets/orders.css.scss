@@ -341,16 +341,42 @@ table td {
 		
 		div.number {
 			display: none;
-		}
+      padding: 0px 10px;
+      
+      .ticketing_ticket_type {
+        &.exclusive {
+          display: none;
+        }
 	
-		td.number {
-			width: 12%;
-			border-right: none;
-		}
+    		td.number {
+    			width: 12%;
+    			border-right: none;
+    		}
 	
-		.type {
-			border-left: none;
-		}
+    		.type {
+    			border-left: none;
+    		}
+      }
+    }
+    
+    .coupon {
+      span, input {
+        margin-left: 10px;
+      }
+      
+      input {
+        width: 60px;
+      }
+      
+      .msg {
+        font-size: 13px;
+        color: green;
+
+        &.error {
+          color: red;
+        }
+      }
+    }
 	}
 	
 	&.seats {

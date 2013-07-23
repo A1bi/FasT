@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722082802) do
+ActiveRecord::Schema.define(:version => 20130722201703) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -134,12 +134,34 @@ ActiveRecord::Schema.define(:version => 20130722082802) do
     t.integer  "assignable_id"
     t.string   "assignable_type"
     t.integer  "number"
+    t.integer  "coupon_id"
   end
 
   create_table "ticketing_cancellations", :force => true do |t|
     t.string   "reason"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_coupon_ticket_type_assignments", :force => true do |t|
+    t.integer  "coupon_id"
+    t.integer  "ticket_type_id"
+    t.integer  "number"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "ticketing_coupons", :force => true do |t|
+    t.string   "code"
+    t.string   "expires"
+    t.string   "recipient"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_coupons_reservation_groups", :id => false, :force => true do |t|
+    t.integer "coupon_id"
+    t.integer "reservation_group_id"
   end
 
   create_table "ticketing_event_dates", :force => true do |t|

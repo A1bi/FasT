@@ -135,6 +135,7 @@ function SeatChooser(container, delegate) {
         var seatInfo = seats[dateId][seatId];
         seat.taken = seatInfo.t;
         seat.chosen = seatInfo.c;
+        seat.exclusive = seatInfo.e;
       }
     }
     this.updateSeatPlan();
@@ -147,7 +148,8 @@ function SeatChooser(container, delegate) {
       var seat = _this.allSeats[_this.date][$seat.data("id")];
       $seat.toggleClass("chosen", !!seat.chosen)
         .toggleClass("taken", !!seat.taken && !seat.chosen)
-        .toggleClass("available", !seat.taken && !seat.chosen);
+        .toggleClass("available", !seat.taken && !seat.chosen)
+        .toggleClass("exclusive", !!seat.exclusive);
     });
   };
   

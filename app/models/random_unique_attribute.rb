@@ -10,9 +10,10 @@ module RandomUniqueAttribute
       end
     end
     
-    def has_random_unique_token(attr)
+    def has_random_unique_token(attr, length = nil)
       set_attr attr do
-        SecureRandom.hex
+        length = length / 2 if length
+        SecureRandom.hex length
       end
     end
     

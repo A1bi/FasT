@@ -85,6 +85,10 @@
   
   &.available {
 		background: green;
+    
+    &.exclusive {
+      border: 1px dashed yellow;
+    }
   }
 
 	&.taken {

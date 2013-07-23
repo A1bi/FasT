@@ -7,8 +7,8 @@ module Ticketing
     end
     
     def show
-      @seats = Ticketing::Seat.order(:id)
-      @reservation_groups = Ticketing::ReservationGroup.order(:id)
+      @seats = Ticketing::Seat.with_availability_on_date(@date)
+      @reservation_groups = Ticketing::ReservationGroup.scoped
     end
   
     private

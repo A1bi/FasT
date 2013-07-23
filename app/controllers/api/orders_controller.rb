@@ -28,11 +28,28 @@ class Api::OrdersController < ApplicationController
     end
     seats = seating[:seats]
     
+    coupon_assignments = []
+    if info[:couponCode].present?
+      coupon = Ticketing::Coupon.where(code: info[:couponCode]).first
+      order.bunch.coupon = coupon if !coupon.expired?
+    end
+    
 		info[:tickets].each do |type_id, number|
       number = number.to_i
 			type = Ticketing::TicketType.find_by_id(type_id)
-      next if number < 1 || type.exclusive
-			number.times do
+      next if !type || number < 1
+      
+      if type.exclusive
+        assignment = coupon.ticket_type_assignments.where(ticket_type_id: type).first
+        next if !assignment
+        if assignment.number >= 0
+          assignment.number = assignment.number - number
+          next if assignment.number < 0
+        end
+        coupon_assignments << assignment
+      end
+      
+      number.times do
 				ticket = Ticketing::Ticket.new
 				ticket.type = type
 				ticket.seat_id = seats.shift
@@ -63,6 +80,8 @@ class Api::OrdersController < ApplicationController
         (seats[ticket.date_id] ||= {})[ticket.seat.id] = ticket.seat.node_hash(ticket.date_id)
       end
       NodeApi.seating_request("updateSeats", { seats: seats })
+      
+      coupon_assignments.each { |a| a.save }
       
       response[:ok] = true
       response[:order] = order.api_hash

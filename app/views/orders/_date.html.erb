@@ -9,7 +9,7 @@
 		<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
 		<table class="inner rTable">
 			<% @ticket_types.each do |type| %>
-				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }) do %>
+				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
 					<td class="number">
 						<%= select_tag(:number, options_for_select(0..15)) %>
 					</td>
@@ -17,7 +17,7 @@
 						<%= type.name %>
 						<div class="small"><%= type.info %></div>
 					</td>
-					<td class="single">je <%= number_to_currency(type.price) %></td>
+					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
 					<td class="total"><span>0</span> €</td>
 				<% end %>
 			<% end %>
@@ -27,4 +27,8 @@
 			</tr>
 		</table>
 	</div>
+  <%= content_tag :div, class: :coupon, data: { "redeem-url" => redeem_coupon_path } do %>
+    Gutscheincode einlösen: <%= text_field_tag :code, "", class: "noKeyCatch" %>
+    <span class="msg"></span>
+  <% end %>
 </div>

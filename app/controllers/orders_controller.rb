@@ -25,11 +25,38 @@ class OrdersController < ApplicationController
     end
   end
   
+  def redeem_coupon
+    response = { ok: false }
+    coupon = Ticketing::Coupon.where(code: params[:code]).first
+    if !coupon
+      response[:error] = "not found"
+    elsif coupon.expired?
+      response[:error] = "expired"
+    else
+      response[:ok] = true
+      
+      seats = {}
+      (coupon.reservation_groups).each do |reservation_group|
+        reservation_group.reservations.each do |reservation|
+          (seats[reservation.date.id] ||= []) << reservation.seat.id
+        end
+      end
+      NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seatingId], seats: seats }) if !seats.empty?
+      response[:seats] = !seats.empty?
+      
+      response[:ticket_types] = Hash[coupon.ticket_type_assignments.map do |assignment|
+        [assignment.ticket_type.id, assignment.number]
+      end]
+    end
+    
+    render json: response
+  end
+  
   private
   
 	def set_event_info
 		@event = Ticketing::Event.current
 		@seats = Ticketing::Seat.order(:number)
-		@ticket_types = Ticketing::TicketType.order(:price).where(exclusive: false)
+		@ticket_types = Ticketing::TicketType.order(:price)
   end
 end
