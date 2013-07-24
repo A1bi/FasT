@@ -1,36 +1,59 @@
 <div class="stepCon date">
-	<div>Bitte wählen Sie Ihre gewünschte Aufführung:</div>
-	<ul class="inner">
-		<% @event.dates.each do |date| %>
-			<%= content_tag_for(:li, date, :data => { :id => date.id }) { l date.date, format: "%A, den %d. %B um %H.%M Uhr" } %>
-		<% end %>
-	</ul>
-	<div class="number">
-		<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
-		<table class="inner rTable">
-      <% [false, true].each do |exclusive| %>
-  			<% @ticket_types.where(exclusive: exclusive).each do |type| %>
-  				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
-  					<td class="number">
-  						<%= select_tag(:number, options_for_select(0..15)) %>
-  					</td>
-  					<td class="type">
-  						<%= type.name %>
-  						<div class="small"><%= type.info %></div>
-  					</td>
-  					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
-  					<td class="total"><span></span> €</td>
-  				<% end %>
-  			<% end %>
-      <% end %>
-			<tr class="total">
-				<td colspan="3">Gesamt</td>
-				<td id="date_all_total" class="total"><span></span> €</td>
-			</tr>
+  <div class="inner">
+  	<table class="rounded date">
+      <thead>
+        <tr>
+          <th>Ihre gewünschte Aufführung</th>
+        </tr>
+      </thead>
+      <tbody>
+    		<% @event.dates.each do |date| %>
+          <tr>
+    			  <%= content_tag_for(:td, date, :data => { :id => date.id }) { l date.date, format: "%A, den %d. %B um %H.%M Uhr" } %>
+          </tr>
+    		<% end %>
+      </tbody>
+    </table>
+  </div>
+	<div class="number inner">
+		<table class="rounded">
+      <thead>
+        <tr>
+          <th colspan="4">Anzahl an Tickets</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% [false, true].each do |exclusive| %>
+    			<% @ticket_types.where(exclusive: exclusive).each do |type| %>
+    				<%= content_tag_for(:tr, type, :date, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
+    					<td class="number">
+    						<%= select_tag(:number, options_for_select(0..15), id: nil) %>
+    					</td>
+    					<td class="type">
+    						<%= type.name %>
+    						<div class="small"><%= type.info %></div>
+    					</td>
+    					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
+    					<td class="total"><span></span> €</td>
+    				<% end %>
+    			<% end %>
+        <% end %>
+  			<tr class="total">
+  				<td colspan="3">Gesamt</td>
+  				<td id="date_all_total" class="total"><span></span> €</td>
+  			</tr>
+      </tbody>
 		</table>
 	</div>
-  <%= content_tag :div, class: :coupon, data: { "redeem-url" => redeem_coupon_path } do %>
-    Gutscheincode einlösen: <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
-    <span class="msg"></span>
+  <%= content_tag :div, class: "inner" do %>
+  	<%= content_tag :table, data: { "redeem-url" => redeem_coupon_path }, class: [:rounded, :coupon] do %>
+      <tr>
+        <td>Gutscheincode einlösen:</td>
+        <td>
+          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
+          <div class="msg"></div>
+        </td>
+      </tr>
+    <% end %>
   <% end if !@store %>
 </div>

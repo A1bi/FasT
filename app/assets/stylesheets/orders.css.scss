@@ -80,18 +80,11 @@
   		box-shadow: #666666 0px 0px 8px;
   	}
     
-		.spinner {
-      display: inline-block;
-      padding-bottom: 5px;
-		}
+    &:active {
+      box-shadow: #666666 0px 0px 4px;
+    }
 
-  	&.loading {
-  		.action {
-  			padding-right: 12px;
-  		}
-  	}
-
-  	&.disabled, &.loading {
+  	&.disabled {
   		cursor: default;
   		background: #cccccc;
 		
@@ -114,33 +107,6 @@
   		right: 0px;
   	}
   }
-}
-
-.rTable {
-	border: 1px solid #cccccc {
-		spacing: 0px;
-		radius: 10px;
-	}
-	
-	td {
-		padding: 7px;
-		border-bottom: 1px solid #cccccc;
-		border-right: 1px solid #cccccc;
-	}
-	
-	tr {
-		td:last-child {
-			border-right: none;
-		}
-		
-		&:last-child td {
-			border-bottom: none;
-		}
-	}
-}
-
-table td {
-	vertical-align: top;
 }
 
 .progress, .stepBox {
@@ -226,47 +192,33 @@ table td {
 	width: 100%;
 	display: none;
 	
-	> * {
-		padding: 10px;
-	}
-	
 	.inner {
-		width: 80%;
+		width: 85%;
+    margin: 25px auto;
     
     tr {
       td {
         @include transition((color, background), .5s);
-        
-        &:first-child {
-          padding-top: 8px;
-          padding-left: 10px;
-        }
-        
-        .msg {
-          display: none;
-          font-size: 14px;
-          padding: 2px 6px;
-        }
+        padding: 8px;
+        vertical-align: top; 
       }
-      
-      &.spacer {
-        height: 10px;
-      }
-      
+    }
+	}
+  
+  .note {
+    margin: 15px;
+  }
+	
+	.field {
+		width: 250px;
+	}
+  
+	table.form {
+    tr {
       &.error {
         td {
           color: white;
           background: red;
-          
-          &:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-          }
-          
-          &:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-          }
           
           .msg {
             font-size: 12px;
@@ -278,93 +230,74 @@ table td {
           }
         }
       }
+      
+  		td {
+        .small {
+  			  margin-top: 5px;
+  			  color: #000000;
+        }
+      
+        .msg {
+          display: none;
+          font-size: 14px;
+          padding: 2px 6px;
+        }
+      
+        &:first-child {
+          padding-top: 12px;
+          width: 28%;
+        }
+    	}
     }
-	}
-	
-	.field {
-		width: 250px;
-	}
-	
-	.accept {
-		margin: 20px 10px;
-	}
-	
-	.blocker {
-		border-color: red;
-		padding: 10px;
-		display: none;
-	}
-  
-	table.form {
-		border-collapse: collapse;
-
-  	td {
-  		padding: 5px;
-	
-  		.small {
-  			margin-top: 5px;
-  			color: #000000;
-  		}
-  	}
-
-  	tr td:first-child {
-  		width: 30%;
-  	}
   }
 	
 	&.date {
-		ul {
-      border: 1px solid #cccccc;
-			list-style-type: none;
-      padding: 0px;
+		table.date td {
+      color: black;
+      text-align: center;
+			padding: 7px;
+			cursor: pointer;
+    
+      &:not(:last-child) {
+        border-bottom: 1px solid #cccccc;
+      }
 			
-			li {
-        color: black;
-        text-align: center;
-				padding: 7px;
-				cursor: pointer;
-        
-        &:not(:last-child) {
-          border-bottom: 1px solid #cccccc;
-        }
-					
-				&:hover {
-					text-decoration: none;
-				}
-				
-				&.selected {
-					font-weight: bold;
-          text-shadow: 0px 0px 3px black;
-				}
-        
-        &:hover, &.selected {
-          background: $dark-blue;
-          color: white;
-        }
-				
-				&.disabled {
-					text-decoration: line-through !important;
-					cursor: auto;
-					color: #cccccc;
-				}
+			&:hover {
+				text-decoration: none;
+			}
+		
+			&.selected {
+				font-weight: bold;
+			}
+    
+      &:hover, &.selected {
+        background: $faint-blue;
+      }
+		
+			&.disabled {
+				text-decoration: line-through !important;
+				cursor: auto;
+				color: #cccccc;
 			}
 		}
 		
 		div.number {
 			display: none;
-      padding: 0px 10px;
       
-      .ticketing_ticket_type {
+      .date_ticketing_ticket_type {
         &.exclusive {
           display: none;
         }
 	
-    		td.number {
-    			width: 12%;
-    			border-right: none;
+    		td {
+          vertical-align: middle;
           
-          select {
-            min-width: 45px;
+          &.number {
+            width: 45px;
+          
+            select {
+              width: 100%;
+            }
           }
     		}
 	
@@ -375,19 +308,20 @@ table td {
     }
     
     .coupon {
-      input:first-child, span {
-        margin-left: 10px;
-      }
-      
-      input {
-        vertical-align: abs-middle;
+      td {
+        vertical-align: middle;
         
-        &[type=text] {
-          width: 60px;
+        &:first-child {
+          width: 38%;
         }
       }
       
+      input[type=text] {
+        width: 80px;
+      }
+      
       .msg {
+        margin-top: 5px;
         font-size: 13px;
         color: green;
 
@@ -478,10 +412,11 @@ table td {
 	
 		.radio {
 			width: 10%;
+      vertical-align: middle;
+      text-align: center;
 		}
 	
 		.charge {
-			margin-top: 30px;
 			display: none;
 		}
 	}
@@ -509,11 +444,10 @@ table td {
       width: 90%;
       
       tr td {
-        padding: 6px 4px;
-        border: none;
+        padding: 7px;
         
-        &:first-child {
-          vertical-align: top;
+        &:last-child {
+          border-left: none;
         }
       }
     }

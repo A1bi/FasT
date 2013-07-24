@@ -135,7 +135,7 @@ function DateStep(delegate) {
   
   this.registerEvents = function () {
     this.couponBox = this.box.find(".coupon");
-    this.box.find("li").click(function () {
+    this.box.find(".date td").click(function () {
       _this.choseDate($(this));
     });
     this.box.find("select").change(function () {
@@ -147,6 +147,7 @@ function DateStep(delegate) {
     this.couponBox.find("input[type=submit]").click(function () {
       _this.redeemCoupon();
     });
+    this.box.find(".total > span").text(this.formatCurrency(0));
   };
   
   Step.call(this, "date", delegate);
@@ -163,7 +164,7 @@ function DateStep(delegate) {
     this.info.internal.numberOfTickets = 0;
     this.box.find(".number tr").each(function () {
       var $this = $(this);
-      if ($this.is(".ticketing_ticket_type")) {
+      if ($this.is(".date_ticketing_ticket_type")) {
         _this.info.internal.numberOfTickets += parseInt($this.find("select").val());
         total += _this.getTypeTotal($this);
       } else {
@@ -178,7 +179,7 @@ function DateStep(delegate) {
   };
   
   this.choseDate = function ($this) {
-    $this.parent().find(".selected").removeClass("selected");
+    $this.parents("table").find(".selected").removeClass("selected");
     $this.addClass("selected");
     this.slideToggle(this.box.find("div.number"), true);
     
@@ -221,7 +222,7 @@ function DateStep(delegate) {
       this.info.internal.exclusiveSeats = res.seats;
       $.each(res.ticket_types, function (typeId, number) {
         if (number != 0) {
-          var typeBox = _this.box.find("#ticketing_ticket_type_" + typeId).show();
+          var typeBox = _this.box.find("#date_ticketing_ticket_type_" + typeId).show();
           if (number > 0) {
             typeBox.find("option").slice(number + 1).remove();
           }
@@ -231,15 +232,11 @@ function DateStep(delegate) {
       msg = "Ihr Code wurde erfolgreich eingelöst.";
       this.couponBox.find("input").attr("disabled", "disabled");
       couponField.blur().val("");
-      this.resizeDelegateBox(true);
     }
     
     this.delegate.toggleModalSpinner(false);
     this.couponBox.find(".msg").text(msg).toggleClass("error", !res.ok);
-  };
-  
-  this.willMoveIn = function () {
-    this.box.find(".total > span").text(this.formatCurrency(0));
+    this.resizeDelegateBox(true);
   };
   
   this.nextBtnEnabled = function () {
@@ -378,7 +375,7 @@ function ConfirmStep(delegate) {
     var dateInfo = this.delegate.getStepInfo("date");
     this.box.find(".date").text(dateInfo.internal.localizedDate);
     
-    this.box.find(".tickets tr").show().each(function () {
+    this.box.find(".tickets tbody tr").show().each(function () {
       var typeBox = $(this);
       var number, total;
       if (typeBox.is(".total")) {
@@ -453,6 +450,8 @@ function FinishStep(delegate) {
       this.box.find(".total span").text(this.formatCurrency(res.order.total));
       this.box.find(".printable_link").attr("href", res.order.printable_path);
     }
+    
+    this.delegate.killExpirationTimer();
   };
   
   this.error = function () {
@@ -479,6 +478,7 @@ var ordering = new function () {
   this.expirationBox;
   this.expirationTimer = { type: 0, timer: null, times: [300, 60] };
   this.btns;
+  this.progressBox;
   this.modalBox;
   this.modalSpinner;
   this.aborted = false;
@@ -539,7 +539,8 @@ var ordering = new function () {
     this.moveInCurrentStep();
   };
   
-  this.toggleModalBox = function (toggle, callback) {
+  this.toggleModalBox = function (toggle, callback, stop) {
+    if (stop) this.modalBox.stop();
     return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
   };
   
@@ -547,12 +548,12 @@ var ordering = new function () {
     if (toggle) {
       this.toggleNextBtn(false);
       this.toggleBtn("prev", false);
-      this.toggleModalBox(true).append(this.modalSpinner.spin().el);
+      this.toggleModalBox(true, null, true).append(this.modalSpinner.spin().el);
     } else {
       this.updateBtns();
       this.toggleModalBox(false, function () {
         _this.modalSpinner.stop();
-      });
+      }, true);
     }
   };
   
@@ -574,11 +575,11 @@ var ordering = new function () {
   
   this.updateProgress = function() {
     if (this.currentStepIndex == this.steps.length - 1) return;
-    
-    var progressBox = $(".progress");
-    progressBox.find(".current").removeClass("current");
-    var current = progressBox.find(".step." + this.currentStep.name).addClass("current");
-    progressBox.find(".bar").css("left", current.position().left);
+
+    this.progressBox.find(".current").removeClass("current");
+    this.progressBox.find(".step." + this.currentStep.name).addClass("current");
+    var bar = this.progressBox.find(".bar");
+    bar.css("left", bar.width() * this.currentStepIndex);
   };
   
   this.moveInCurrentStep = function (animate) {
@@ -671,13 +672,15 @@ var ordering = new function () {
     _this.stepBox = $(".stepBox");
     _this.expirationBox = $(".expiration");
     _this.btns = $(".btns .btn");
+    _this.progressBox = $(".progress");
     _this.modalBox = _this.stepBox.find(".modalAlert");
     
     _this.retailId = $(".retail").data("id");
     _this.retail = !!_this.retailId;
     var steps = (_this.retail) ? [DateStep, SeatsStep, ConfirmStep, FinishStep] : [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
     
-    $(".progress .step").css({ width: 100 / (steps.length - 1) + "%" });
+    var width = _this.progressBox.width() / (steps.length - 1);
+    _this.progressBox.find(".step").css({ width: width }).filter(".bar").css({ width: Math.round(width) });
     var opts = {
       lines: 13,
       length: 20,
