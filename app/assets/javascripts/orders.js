@@ -114,6 +114,14 @@ Step.prototype = {
   
   willMoveIn: function () {},
   
+  shouldBeSkipped: function () {
+    return false;
+  },
+  
+  nextBtnEnabled: function () {
+    return true;
+  },
+  
   registerEvents: function () {},
   
   formatCurrency: function (value) {
@@ -133,8 +141,11 @@ function DateStep(delegate) {
     this.box.find("select").change(function () {
       _this.choseNumber($(this));
     });
-    this.couponBox.find("input[name=code]").keyup(function (event) {
+    this.couponBox.find("input[type=text]").keyup(function (event) {
       if (event.which == 13) _this.redeemCoupon();
+    });
+    this.couponBox.find("input[type=submit]").click(function () {
+      _this.redeemCoupon();
     });
   };
   
@@ -157,12 +168,13 @@ function DateStep(delegate) {
         total += _this.getTypeTotal($this);
       } else {
         var formattedTotal = _this.formatCurrency(total);
-        _this.info.internal.total = formattedTotal;
+        _this.info.internal.formattedTotal = formattedTotal;
+        _this.info.internal.total = total;
         $this.find(".total span").html(formattedTotal);
       }
     });
     
-    this.delegate.toggleNextBtn(this.info.internal.numberOfTickets > 0);
+    this.delegate.updateNextBtn();
   };
   
   this.choseDate = function ($this) {
@@ -206,6 +218,7 @@ function DateStep(delegate) {
       var couponField = this.couponBox.find("input[name=code]");
       this.info.api.couponCode = couponField.val();
       
+      this.info.internal.exclusiveSeats = res.seats;
       $.each(res.ticket_types, function (typeId, number) {
         if (number != 0) {
           var typeBox = _this.box.find("#ticketing_ticket_type_" + typeId).show();
@@ -216,12 +229,21 @@ function DateStep(delegate) {
       });
       
       msg = "Ihr Code wurde erfolgreich eingelöst.";
-      couponField.attr("disabled", "disabled").blur().val("");
+      this.couponBox.find("input").attr("disabled", "disabled");
+      couponField.blur().val("");
       this.resizeDelegateBox(true);
     }
     
     this.delegate.toggleModalSpinner(false);
     this.couponBox.find(".msg").text(msg).toggleClass("error", !res.ok);
+  };
+  
+  this.willMoveIn = function () {
+    this.box.find(".total > span").text(this.formatCurrency(0));
+  };
+  
+  this.nextBtnEnabled = function () {
+    return this.info.internal.numberOfTickets > 0;
   };
 }
 
@@ -240,6 +262,7 @@ function SeatsStep(delegate) {
       _this.delegate.toggleModalSpinner(false);
     });
     togglePluralText(this.box.find(".note"), info.internal.numberOfTickets, "note");
+    this.box.find(".key .exclusiveSeats").toggle(!!info.internal.exclusiveSeats);
   };
   
   this.registerEvents = function () {
@@ -281,13 +304,10 @@ function AddressStep(delegate) {
         _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
       });
     
+      if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
       this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").isInt().len(5, 5);
       this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
     });
-  };
-  
-  this.willMoveIn = function () {
-    this.delegate.toggleNextBtn(true);
   };
   
   Step.call(this, "address", delegate);
@@ -300,7 +320,7 @@ function PaymentStep(delegate) {
     this.box.find("[name=method]").click(function () {
       _this.info.api.method = $(this).val();
       _this.slideToggle(_this.box.find(".charge"), _this.methodIsCharge());
-      _this.delegate.toggleNextBtn(true);
+      _this.delegate.updateNextBtn();
     });
   };
   
@@ -321,8 +341,12 @@ function PaymentStep(delegate) {
     return this.info.api.method == "charge";
   };
   
-  this.willMoveIn = function () {
-    this.delegate.toggleNextBtn(this.info.api.method);
+  this.nextBtnEnabled = function () {
+    return !!this.info.api.method;
+  };
+  
+  this.shouldBeSkipped = function () {
+    return this.delegate.getStepInfo("date").internal.total == 0;
   };
   
   Step.call(this, "payment", delegate);
@@ -334,7 +358,7 @@ function ConfirmStep(delegate) {
   this.registerEvents = function () {
     this.box.find(".checkboxes :checkbox").click(function () {
       _this.info.api[$(this).attr("name")] = $(this).is(":checked");
-      _this.delegate.toggleNextBtn(_this.info.api.accepted);
+      _this.delegate.updateNextBtn();
     });
   };
   
@@ -349,21 +373,24 @@ function ConfirmStep(delegate) {
   };
   
   this.willMoveIn = function () {
-    this.delegate.toggleNextBtn(this.delegate.retail || this.info.accepted);
     this.delegate.setNextBtnText("bestellen");
     
     var dateInfo = this.delegate.getStepInfo("date");
     this.box.find(".date").text(dateInfo.internal.localizedDate);
     
-    this.box.find(".tickets tr").each(function () {
+    this.box.find(".tickets tr").show().each(function () {
       var typeBox = $(this);
       var number, total;
       if (typeBox.is(".total")) {
         number = dateInfo.internal.numberOfTickets;
-        total = dateInfo.internal.total;
+        total = dateInfo.internal.formattedTotal;
       } else {
         var typeId = typeBox.find("td").first().data("id");
         number = dateInfo.api.tickets[typeId];
+        if (!number || number < 1) {
+          typeBox.hide();
+          return;
+        }
         total = dateInfo.internal.ticketTotals[typeId];
       }
       typeBox.find(".single .number").text(number || 0);
@@ -375,13 +402,17 @@ function ConfirmStep(delegate) {
       var info = _this.delegate.getStepInfo(this);
       if (!info) return;
       var box = _this.box.find("."+this);
-      if (this == "payment") {
+      if (this == "payment" && dateInfo.internal.total > 0) {
         box.removeClass("transfer charge").addClass(info.api.method);
       }
       $.each(info.api, function (key, value) {
         box.find("."+key).text(value);
       });
     });
+  };
+  
+  this.nextBtnEnabled = function () {
+    return this.delegate.retail || !!_this.info.api.accepted;
   };
 }
 
@@ -466,6 +497,15 @@ var ordering = new function () {
     this.btns.filter(".next").find(".action").text(text || "weiter");
   };
   
+  this.updateNextBtn = function () {
+    this.toggleNextBtn(this.currentStep.nextBtnEnabled());
+  };
+  
+  this.updateBtns = function () {
+    this.toggleBtn("prev", this.currentStepIndex > 0);
+    this.updateNextBtn();
+  };
+  
   this.hideOrderControls = function () {
     $(".progress, .btns").slideUp();
   };
@@ -505,8 +545,11 @@ var ordering = new function () {
   
   this.toggleModalSpinner = function (toggle) {
     if (toggle) {
+      this.toggleNextBtn(false);
+      this.toggleBtn("prev", false);
       this.toggleModalBox(true).append(this.modalSpinner.spin().el);
     } else {
+      this.updateBtns();
       this.toggleModalBox(false, function () {
         _this.modalSpinner.stop();
       });
@@ -523,8 +566,10 @@ var ordering = new function () {
   };
   
   this.updateCurrentStep = function (inc) {
-    this.currentStepIndex += inc;
-    this.currentStep = this.steps[this.currentStepIndex];
+    do {
+      this.currentStepIndex += inc;
+      this.currentStep = this.steps[this.currentStepIndex];
+    } while (this.currentStep.shouldBeSkipped());
   };
   
   this.updateProgress = function() {
@@ -538,7 +583,7 @@ var ordering = new function () {
   
   this.moveInCurrentStep = function (animate) {
     this.currentStep.moveIn(animate);
-    this.toggleBtn("prev", this.currentStepIndex > 0);
+    this.updateBtns();
     this.updateProgress();
   };
   

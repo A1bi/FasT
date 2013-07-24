@@ -12,15 +12,15 @@
   		<%= form_for :address do |f| %>
      		<table class="inner form">
           <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
-            <%= f.select(:gender, options_for_select([["Frau", 0], ["Herr", 1]])) %>
+            <%= f.select(:gender, options_for_select([["", -1], ["Frau", 0], ["Herr", 1]])) %>
           <% end %>
           <tr class="spacer"></tr>
           <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
-            <%= f.text_field :first_name, :class => "field" %>
+            <%= render "prepopulated_text_field", :f => f, :name => :first_name %>
           <% end %>
           <tr class="spacer"></tr>
           <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
-            <%= f.text_field :last_name, :class => "field" %>
+            <%= render "prepopulated_text_field", :f => f, :name => :last_name %>
           <% end %>
      		</table>
      		<div class="inner newSection"></div>
@@ -36,7 +36,7 @@
      		<div class="inner newSection"></div>
      		<table class="inner form">
           <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
-            <%= f.text_field :email, :class => "field" %>
+            <%= render "prepopulated_text_field", :f => f, :name => :email %>
             <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
           <% end %>
      		</table>

@@ -181,14 +181,18 @@ function SeatChooser(container, delegate) {
   };
   
   this.updateErrorBox = function () {
-    var number = this.getSeatsYetToChoose(), direction;
-    if (number > 0) {
+    var number = this.getSeatsYetToChoose();
+    var toggle = number > 0;
+    
+    if (toggle) {
       togglePluralText(this.errorBox, number, "error");
-      direction = "Down";
-    } else {
-      direction = "Up";
     }
-    this.errorBox["slide" + direction].call(this.errorBox);
+    
+    if (typeof(this.delegate.slideToggle) == 'function') {
+      this.delegate.slideToggle(this.errorBox, toggle);
+    } else {
+      this.errorBox["slide" + ((toggle) ? "Down" : "Up")].call(this.errorBox);
+    }
   };
   
   this.updateErrorBoxIfVisible = function () {

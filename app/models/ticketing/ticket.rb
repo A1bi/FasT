@@ -28,6 +28,10 @@ module Ticketing
       super date
     end
     
+    def price
+      self[:price] || 0
+    end
+    
     def passbook_pass_path(full = false)
       File.join(passbook_path(full), "pass-" + Digest::SHA1.hexdigest(number.to_s) + ".pkpass")
     end

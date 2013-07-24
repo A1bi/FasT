@@ -8,27 +8,29 @@
 	<div class="number">
 		<div>Bitte wählen Sie die gewünschte Anzahl an Tickets:</div>
 		<table class="inner rTable">
-			<% @ticket_types.each do |type| %>
-				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
-					<td class="number">
-						<%= select_tag(:number, options_for_select(0..15)) %>
-					</td>
-					<td class="type">
-						<%= type.name %>
-						<div class="small"><%= type.info %></div>
-					</td>
-					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
-					<td class="total"><span>0</span> €</td>
-				<% end %>
-			<% end %>
+      <% [false, true].each do |exclusive| %>
+  			<% @ticket_types.where(exclusive: exclusive).each do |type| %>
+  				<%= content_tag_for(:tr, type, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
+  					<td class="number">
+  						<%= select_tag(:number, options_for_select(0..15)) %>
+  					</td>
+  					<td class="type">
+  						<%= type.name %>
+  						<div class="small"><%= type.info %></div>
+  					</td>
+  					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
+  					<td class="total"><span></span> €</td>
+  				<% end %>
+  			<% end %>
+      <% end %>
 			<tr class="total">
 				<td colspan="3">Gesamt</td>
-				<td id="date_all_total" class="total"><span>0</span> €</td>
+				<td id="date_all_total" class="total"><span></span> €</td>
 			</tr>
 		</table>
 	</div>
   <%= content_tag :div, class: :coupon, data: { "redeem-url" => redeem_coupon_path } do %>
-    Gutscheincode einlösen: <%= text_field_tag :code, "", class: "noKeyCatch" %>
+    Gutscheincode einlösen: <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
     <span class="msg"></span>
-  <% end %>
+  <% end if !@store %>
 </div>

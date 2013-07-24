@@ -9,6 +9,7 @@ module Ticketing
 	
   	validates_length_of :tickets, :minimum => 1
     
+    before_create :before_create
     after_create :after_create
 	
     def added_ticket(ticket)
@@ -24,6 +25,10 @@ module Ticketing
     def after_create
       log(:created)
       create_printable
+    end
+    
+    def before_create
+      self.paid = true if total.zero?
     end
     
     def tickets_dir_path(full = false)

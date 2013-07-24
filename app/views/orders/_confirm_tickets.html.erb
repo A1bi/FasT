@@ -3,8 +3,8 @@
 	<table class="tickets rTable">
 		<%= content_tag_for(:tr, @ticket_types) do |type| %>
 			<td data-id="<%= type.id %>"><%= type.name %></td>
-			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price) %></td>
-			<td class="total" data-price="<%= type.price %>"><span>0</span> €</td>
+			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price || 0) %></td>
+			<td class="total" data-price="<%= type.price %>"><span></span> €</td>
 		<% end %>
 		<tr class="total">
 			<td>Gesamt</td>

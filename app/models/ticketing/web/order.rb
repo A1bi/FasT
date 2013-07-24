@@ -12,7 +12,7 @@ module Ticketing
     validates :email, :email_format => true
     validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
   
-    before_create :set_paid_status
+    before_validation :before_validation, on: :create
     after_create :send_confirmation
     
     def send_pay_reminder
@@ -26,8 +26,12 @@ module Ticketing
     
     private
     
-    def set_paid_status
-      bunch.paid = true if pay_method == "charge"
+    def before_validation
+      if bunch.total.zero?
+        self.pay_method = "transfer"
+      elsif pay_method == "charge"
+        bunch.paid = true
+      end
     end
   end
 end

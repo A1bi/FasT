@@ -145,7 +145,7 @@ class TicketsPDF < Prawn::Document
     indent(0, 20) do
       font_size_name :normal do
         text type.name, align: :right
-        text number_to_currency(type.price), align: :right
+        text (type.price.zero? ? "" : number_to_currency(type.price)), align: :right
       end
     end
   end

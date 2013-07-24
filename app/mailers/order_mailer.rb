@@ -2,10 +2,7 @@ class OrderMailer < BaseMailer
   def confirmation(order)
 		@order = order
     
-    if order.pay_method == "charge"
-      attach_tickets
-    end
-		
+    attach_tickets if order.bunch.paid
 		mail_to_customer
 	end
   

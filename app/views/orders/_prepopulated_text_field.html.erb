@@ -1,0 +1,1 @@
+<%= f.text_field name, class: "field", value: (@_member && @_member.respond_to?(name) ? @_member.send(name) : "") %>

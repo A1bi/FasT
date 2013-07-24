@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
   
 	def set_event_info
 		@event = Ticketing::Event.current
-		@seats = Ticketing::Seat.order(:number)
+		@seats = Ticketing::Seat.scoped
 		@ticket_types = Ticketing::TicketType.order(:price)
   end
 end
