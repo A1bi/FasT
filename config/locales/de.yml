@@ -53,6 +53,8 @@ de:
         created: "Bestellung aufgegeben"
         sent_pay_reminder: "Zahlungserinnerung gesendet"
         marked_as_paid: "Bestellung als bezahlt markiert"
+    coupons:
+      sent: "Der Gutschein wurde erfolgreich verschickt."
   orders:
     retail_login:
       required: "Bitte loggen Sie sich ein."

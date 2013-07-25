@@ -1,64 +1,100 @@
 <% title "Gutscheindetails" %>
 <% include_css "ticketing/coupons" %>
-<table class="rounded show">
-  <thead>
-    <tr>
-      <th colspan="2">Gutscheindetails</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Code:</td>
-      <td>
-        <span class="code"><%= @coupon.code %></span>
-        <span class="actionBtns"><%= render "admin_actions", :obj => @coupon, :delete_confirm => "diesen Gutschein" %></span>
-      </td>
-    </tr>
-    <tr>
-      <td>Empfänger:</td>
-      <td><%= @coupon.recipient %></td>
-    </tr>
-    <tr>
-      <td>Ticketarten:</td>
-      <td>
-        <% if !@coupon.ticket_type_assignments.empty? %>
-          <ul>
-          <% @coupon.ticket_type_assignments.each do |assignment| %>
-            <li><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</li>
+<%= form_tag mail_ticketing_coupon_path(@coupon) do %>
+  <table class="rounded show">
+    <thead>
+      <tr>
+        <th colspan="2">Gutscheindetails</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Code:</td>
+        <td>
+          <span class="code"><%= @coupon.code %></span>
+          <span class="actionBtns"><%= render "admin_actions", :obj => @coupon, :delete_confirm => "diesen Gutschein" %></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Empfänger:</td>
+        <td><%= @coupon.recipient %></td>
+      </tr>
+      <tr>
+        <td>Ticketarten:</td>
+        <td>
+          <% if !@coupon.ticket_type_assignments.empty? %>
+            <ul>
+            <% @coupon.ticket_type_assignments.each do |assignment| %>
+              <li><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</li>
+            <% end %>
+            </ul>
+          <% else %>
+            <em>keine</em>
           <% end %>
-          </ul>
-        <% else %>
-          <em>keine</em>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>Sitzplatzvorreservierungen:</td>
-      <td>
-        <% if !@coupon.reservation_groups.empty? %>
-          <ul>
-            <% @coupon.reservation_groups.each do |group| %>
-              <li><%= group.name %></li>
-            <% end %>
-          </ul>
-        <% else %>
-          <em>keine</em>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>Genutzt in Bestellungen:</td>
-      <td>
-        <% if !@coupon.bunches.empty? %>
-          <ul>
-            <% @coupon.bunches.each do |bunch| %>
-              <li><%= link_to bunch.number, ticketing_order_path(bunch) %> | <%= l bunch.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(bunch.total) %></li>
-            <% end %>
-          </ul>
-        <% else %>
-          <em>keine</em>
-        <% end %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        </td>
+      </tr>
+      <tr>
+        <td>Sitzplatzvorreservierungen:</td>
+        <td>
+          <% if !@coupon.reservation_groups.empty? %>
+            <ul>
+              <% @coupon.reservation_groups.each do |group| %>
+                <li><%= group.name %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <em>keine</em>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>Genutzt in Bestellungen:</td>
+        <td>
+          <% if !@coupon.bunches.empty? %>
+            <ul>
+              <% @coupon.bunches.each do |bunch| %>
+                <li><%= link_to bunch.number, ticketing_order_path(bunch) %> | <%= l bunch.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(bunch.total) %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <em>keine</em>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th colspan="2">Gutschein verschicken</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Empfänger:</td>
+        <td><%= text_field_tag :recipient %></td>
+      </tr>
+      <tr>
+        <td>e-mail-Adresse:</td>
+        <td><%= text_field_tag :email %></td>
+      </tr>
+      <tr>
+        <td>Mitglied:</td>
+        <td>
+          <%= collection_select(:member, :id, @members, :id, :full_name, prompt: "") %><br />
+          <%= check_box_tag :member_is_recipient, true %>
+          <%= label_tag :member_is_recipient, "Mitglied auch als Empfänger des Codes eintragen" %>
+        </td>
+      </tr>
+      <tr>
+        <td>Betreff:</td>
+        <td><%= text_field_tag :subject, session[:coupon_sending][:subject] %></td>
+      </tr>
+      <tr>
+        <td>Nachricht:</td>
+        <td><%= text_area_tag :text, session[:coupon_sending][:text] %></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="submit">
+    <%= submit_tag "senden" %>
+  </div>
+<% end %>
