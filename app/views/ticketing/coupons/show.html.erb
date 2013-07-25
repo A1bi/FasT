@@ -86,7 +86,7 @@
       </tr>
       <tr>
         <td>Betreff:</td>
-        <td><%= text_field_tag :subject, session[:coupon_sending][:subject] %></td>
+        <td><%= text_field_tag :subject, (session[:coupon_sending] ||= {})[:subject] %></td>
       </tr>
       <tr>
         <td>Nachricht:</td>
