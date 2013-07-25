@@ -6,4 +6,8 @@ class Ticketing::TicketType < ActiveRecord::Base
   def price
     self[:price] || 0
   end
+  
+  def self.exclusive(e = true)
+    where(exclusive: !!e)
+  end
 end

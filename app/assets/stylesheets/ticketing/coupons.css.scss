@@ -1,0 +1,46 @@
+table {
+  &.show {
+    tr td {
+      padding: 5px 8px;
+      
+      &:first-child {
+        width: 35%;
+      }
+    }
+  }
+  
+  td {
+    vertical-align: top;
+    
+    .code {
+      font-size: 18px;
+      font-weight: bold;
+      background: black;
+      color: white;
+      padding: 4px 6px;
+    }
+    
+    .actionBtns {
+      margin-left: 10px;
+    }
+    
+    .ticketType {
+      display: inline-block;
+      width: 130px;
+    }
+    
+    .numberField {
+      width: 30px;
+    }
+    
+    ul {
+      list-style-type: none;
+      padding: 0px;
+      margin: 0px;
+      
+      li {
+        padding: 2px;
+      }
+    }
+  }
+}

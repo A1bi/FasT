@@ -1,0 +1,64 @@
+<% title "Gutscheindetails" %>
+<% include_css "ticketing/coupons" %>
+<table class="rounded show">
+  <thead>
+    <tr>
+      <th colspan="2">Gutscheindetails</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Code:</td>
+      <td>
+        <span class="code"><%= @coupon.code %></span>
+        <span class="actionBtns"><%= render "admin_actions", :obj => @coupon, :delete_confirm => "diesen Gutschein" %></span>
+      </td>
+    </tr>
+    <tr>
+      <td>Empfänger:</td>
+      <td><%= @coupon.recipient %></td>
+    </tr>
+    <tr>
+      <td>Ticketarten:</td>
+      <td>
+        <% if !@coupon.ticket_type_assignments.empty? %>
+          <ul>
+          <% @coupon.ticket_type_assignments.each do |assignment| %>
+            <li><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</li>
+          <% end %>
+          </ul>
+        <% else %>
+          <em>keine</em>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Sitzplatzvorreservierungen:</td>
+      <td>
+        <% if !@coupon.reservation_groups.empty? %>
+          <ul>
+            <% @coupon.reservation_groups.each do |group| %>
+              <li><%= group.name %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <em>keine</em>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>Genutzt in Bestellungen:</td>
+      <td>
+        <% if !@coupon.bunches.empty? %>
+          <ul>
+            <% @coupon.bunches.each do |bunch| %>
+              <li><%= link_to bunch.number, ticketing_order_path(bunch) %> | <%= l bunch.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(bunch.total) %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <em>keine</em>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>

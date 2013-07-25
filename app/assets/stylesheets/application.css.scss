@@ -294,6 +294,12 @@ h3 {
 						border-bottom-color: #64410d;
 					}
 				}
+        
+        &.ticketing {
+          li:not(:first-child) {
+            font-size: 12px;
+          }
+        }
 			}
 		}
 	}
@@ -605,6 +611,12 @@ table.rounded {
 	td {
 		font-size: 13px;
 	}
+  
+  tbody.hover tr:hover td:not(.empty) {
+    background: $faint-blue;
+    cursor: pointer;
+    border-color: $light-blue;
+  }
 }
 
 .actionBtns {

@@ -9,7 +9,8 @@
     ["aufgegeben", l(order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
     ["Tickets", @bunch.tickets.count],
     ["Gesamtbetrag", number_to_currency(@bunch.total)],
-    ["bezahlt", @bunch.paid ? "ja" : "nein"]
+    ["bezahlt", @bunch.paid ? "ja" : "nein"],
+    ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : "<em>keiner</em>"]
   ] %>
   <div class="top-tables">
     <table class="rounded">

@@ -33,6 +33,7 @@ de:
       dates: "Aufführungstermine"
       statistics: "Statistik"
       orders: "Bestellungen"
+      coupons: "Gutscheine"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."

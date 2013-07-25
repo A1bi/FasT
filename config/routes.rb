@@ -92,6 +92,7 @@ FasT::Application.routes.draw do
           delete :destroy
         end
       end
+      resources :coupons, :path => "gutscheine"
     end
 		
 		namespace :members, :path => "mitglieder" do

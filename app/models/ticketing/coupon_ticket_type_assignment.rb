@@ -5,4 +5,8 @@ class Ticketing::CouponTicketTypeAssignment < ActiveRecord::Base
   belongs_to :ticket_type
   
   validates_presence_of :coupon, :ticket_type
+  
+  def unlimited?
+    number < 0
+  end
 end

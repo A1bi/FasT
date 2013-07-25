@@ -2,12 +2,6 @@
 @import "_seats";
 
 .index table {
-  tbody tr:hover td:not(.empty) {
-    background: $faint-blue;
-    cursor: pointer;
-    border-color: $light-blue;
-  }
-  
   td {
     &.date {
       text-align: right;

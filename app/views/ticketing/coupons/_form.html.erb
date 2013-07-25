@@ -1,0 +1,48 @@
+<%= form_for @coupon do |f| %>
+  <table class="rounded show">
+    <thead>
+      <tr>
+        <th colspan="2">Gutschein <%= title %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Empfänger:</td>
+        <td><%= f.text_field :recipient %></td>
+      </tr>
+      <tr>
+        <td>Ticketarten:</td>
+        <td>
+          <ul>
+            <% @ticket_types.each do |type| %>
+              <% assignment = @coupon.ticket_type_assignments.where(ticket_type_id: type.id).first %>
+              <li>
+                <span class="ticketType">
+                  <%= check_box_tag :ticket_types, true, assignment.present?, name: "ticket_types[#{type.id}][enabled]", id: dom_id(type) %>
+                  <%= label_tag dom_id(type), type.name %>
+                </span>
+                Anzahl: <%= text_field_tag "ticket_types[#{type.id}][number]", assignment_number(assignment, true), class: :numberField %>
+              </li>
+              <% end %>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>Sitzplatzvorreservierungen:</td>
+        <td>
+          <ul>
+          <% @reservation_groups.each do |group| %>
+            <li>
+              <%= check_box_tag "ticketing_coupon[reservation_group_ids][]", group.id, @coupon.reservation_groups.include?(group), id: dom_id(group) %>
+              <%= label_tag dom_id(group), group.name %>
+            </li>
+          <% end %>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="hcen submit">
+    <%= f.submit "speichern" %>
+  </div>
+<% end %>

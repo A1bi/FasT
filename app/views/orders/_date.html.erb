@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <% [false, true].each do |exclusive| %>
-    			<% @ticket_types.where(exclusive: exclusive).each do |type| %>
+    			<% @ticket_types.exclusive(exclusive).each do |type| %>
     				<%= content_tag_for(:tr, type, :date, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
     					<td class="number">
     						<%= select_tag(:number, options_for_select(0..15), id: nil) %>

@@ -14,7 +14,7 @@
       </tr>
     <% end %>
   </thead>
-  <tbody>
+  <tbody class="hover">
     <% orders.each do |order| %>
       <tr>
         <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch.id) %></td>
