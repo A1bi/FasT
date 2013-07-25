@@ -4,7 +4,7 @@ module Ticketing
   
     attr_accessible :email, :first_name, :gender, :last_name, :phone, :plz
 	
-    has_one :bank_charge, :as => :chargeable, :validate => true
+    has_one :bank_charge, :as => :chargeable, :validate => true, dependent: :destroy
   
     validates_presence_of :email, :first_name, :last_name, :phone, :plz
     validates_inclusion_of :gender, :in => 0..1
