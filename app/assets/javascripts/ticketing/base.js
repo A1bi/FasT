@@ -1,6 +1,6 @@
 $(function () {
-  $("tbody.hover td").click(function () {
-    window.location = $(this).siblings().first().find("a").attr("href");
+  $("tbody.hover tr").click(function () {
+    window.location = $(this).data("path");
   });
   
   $(".seating").each(function () {

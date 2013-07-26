@@ -16,8 +16,8 @@
   </thead>
   <tbody class="hover">
     <% orders.each do |order| %>
-      <tr>
-        <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch.id) %></td>
+      <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+        <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
         <td class="name">
           <% if web %>
             <%= order.last_name %>, <%= order.first_name %>

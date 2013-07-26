@@ -16,7 +16,7 @@
   </thead>
   <tbody class="hover">
     <% @coupons.each do |coupon| %>
-      <tr>
+      <tr data-path="<%= ticketing_coupon_path(coupon) %>">
         <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
         <td>
           <% coupon.ticket_type_assignments.each do |assignment| %>

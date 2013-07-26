@@ -126,6 +126,12 @@ Step.prototype = {
   
   formatCurrency: function (value) {
     return value.toFixed(2).toString().replace(".", ",");
+  },
+  
+  trackPiwikGoal: function (id, revenue) {
+    try {
+      _paq.push(['trackGoal', id, revenue]);
+    } catch (e) {}
   }
 };
 
@@ -228,6 +234,8 @@ function DateStep(delegate) {
           }
         }
       });
+      
+      this.trackPiwikGoal(2);
       
       msg = "Ihr Code wurde erfolgreich eingelöst.";
       this.couponBox.find("input").attr("disabled", "disabled");
@@ -450,6 +458,8 @@ function FinishStep(delegate) {
       this.box.find(".total span").text(this.formatCurrency(res.order.total));
       this.box.find(".printable_link").attr("href", res.order.printable_path);
     }
+    
+    this.trackPiwikGoal(1, res.order.total);
     
     this.delegate.killExpirationTimer();
   };
