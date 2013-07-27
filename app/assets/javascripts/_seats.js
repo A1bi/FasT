@@ -1,4 +1,4 @@
-//= require socket.io-client/dist/socket.io.min.js
+//= require socket.io-client/dist/socket.io.min
 
 function Seating(container) {
   this.maxCells = { x: 185, y: 80 };
@@ -245,6 +245,13 @@ function SeatChooser(container, delegate) {
   };
   
   $(function () { _this.init(); });
+};
+
+
+Object.create = Object.create || function (p) {
+  function F() {}
+  F.prototype = p;
+  return new F();
 };
 
 SeatChooser.prototype = Object.create(Seating.prototype);
