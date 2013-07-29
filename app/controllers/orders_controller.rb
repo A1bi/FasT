@@ -44,9 +44,9 @@ class OrdersController < ApplicationController
       NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seatingId], seats: seats }) if !seats.empty?
       response[:seats] = !seats.empty?
       
-      response[:ticket_types] = Hash[coupon.ticket_type_assignments.map do |assignment|
-        [assignment.ticket_type.id, assignment.number]
-      end]
+      response[:ticket_types] = coupon.ticket_type_assignments.map do |assignment|
+        { id: assignment.ticket_type.id, number: assignment.number }
+      end
     end
     
     render json: response

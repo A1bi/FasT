@@ -16,6 +16,20 @@
     </table>
   </div>
 	<div class="number inner">
+  	<%= content_tag :table, data: { "redeem-url" => redeem_coupon_path }, class: [:rounded, :coupon] do %>
+      <tr>
+        <td>Gutscheincode einlösen:</td>
+        <td>
+          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
+          <div class="msg">
+            <div class="result"></div>
+            <div class="ticketTypeNote">
+              Bitte achten Sie darauf, Ihre gewünschte Ticketanzahl in den nun freigeschalteten Ticketkategorien (gelb markiert) anzugeben.
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end if !@store %>
 		<table class="rounded">
       <thead>
         <tr>
@@ -39,21 +53,10 @@
     			<% end %>
         <% end %>
   			<tr class="total">
-  				<td colspan="3">Gesamt</td>
-  				<td id="date_all_total" class="total"><span></span> €</td>
+  				<td colspan="3" class="plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt</td>
+  				<td class="total"><span></span> €</td>
   			</tr>
       </tbody>
 		</table>
 	</div>
-  <%= content_tag :div, class: "inner" do %>
-  	<%= content_tag :table, data: { "redeem-url" => redeem_coupon_path }, class: [:rounded, :coupon] do %>
-      <tr>
-        <td>Gutscheincode einlösen:</td>
-        <td>
-          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
-          <div class="msg"></div>
-        </td>
-      </tr>
-    <% end %>
-  <% end if !@store %>
 </div>

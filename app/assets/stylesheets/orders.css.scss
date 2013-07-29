@@ -186,6 +186,15 @@
   }
 }
 
+@include keyframes(exclusiveTicketType) {
+	from {
+    background: white;
+	}
+	to {
+    background: #fff3aa;
+	}
+}
+
 .stepCon {
 	position: absolute;
 	left: 100%;
@@ -287,7 +296,9 @@
       
       .date_ticketing_ticket_type {
         &.exclusive {
+          @include animation(exclusiveTicketType, .6s, 7, true);
           display: none;
+          background: #fff3aa;
         }
 	
     		td {
@@ -309,6 +320,8 @@
     }
     
     .coupon {
+      margin-bottom: 20px;
+      
       td {
         vertical-align: middle;
         
@@ -322,12 +335,23 @@
       }
       
       .msg {
-        margin-top: 5px;
         font-size: 13px;
-        color: green;
+        display: none;
+        
+        div {
+          margin-top: 5px;
+        }
+        
+        .result {
+          color: green;
 
-        &.error {
-          color: red;
+          &.error {
+            color: red;
+          }
+        }
+        
+        .ticketTypeNote {
+          display: none;
         }
       }
     }

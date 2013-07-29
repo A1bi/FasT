@@ -65,6 +65,8 @@ Step.prototype = {
     } else {
       obj.slideUp(props);
     }
+    
+    return obj;
   },
   
   updateInfoFromFields: function () {
@@ -174,6 +176,7 @@ function DateStep(delegate) {
         _this.info.internal.numberOfTickets += parseInt($this.find("select").val());
         total += _this.getTypeTotal($this);
       } else {
+        togglePluralText($this.find("td").first(), _this.info.internal.numberOfTickets, "");
         var formattedTotal = _this.formatCurrency(total);
         _this.info.internal.formattedTotal = formattedTotal;
         _this.info.internal.total = total;
@@ -188,6 +191,7 @@ function DateStep(delegate) {
     $this.parents("table").find(".selected").removeClass("selected");
     $this.addClass("selected");
     this.slideToggle(this.box.find("div.number"), true);
+    this.updateTotal();
     
     this.info.api.date = $this.data("id");
     this.info.internal.localizedDate = $this.text();
@@ -226,25 +230,32 @@ function DateStep(delegate) {
       this.info.api.couponCode = couponField.val();
       
       this.info.internal.exclusiveSeats = res.seats;
-      $.each(res.ticket_types, function (typeId, number) {
-        if (number != 0) {
-          var typeBox = _this.box.find("#date_ticketing_ticket_type_" + typeId).show();
-          if (number > 0) {
-            typeBox.find("option").slice(number + 1).remove();
+      $.each(res.ticket_types, function (i, type) {
+        if (type.number != 0) {
+          var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).show();
+          if (type.number > 0) {
+            typeBox.find("option").slice(type.number + 1).remove();
           }
         }
       });
       
       this.trackPiwikGoal(2);
       
-      msg = "Ihr Code wurde erfolgreich eingelöst.";
+      msg = "Ihr Gutschein wurde erfolgreich eingelöst.";
+      if (res.ticket_types.length > 0) {
+        this.couponBox.find(".ticketTypeNote").show();
+      }
       this.couponBox.find("input").attr("disabled", "disabled");
       couponField.blur().val("");
     }
     
     this.delegate.toggleModalSpinner(false);
-    this.couponBox.find(".msg").text(msg).toggleClass("error", !res.ok);
-    this.resizeDelegateBox(true);
+    var msgBox = this.couponBox.find(".msg .result").text(msg).toggleClass("error", !res.ok).parent();
+    if (msgBox.is(":visible")) {
+      this.resizeDelegateBox(true);
+    } else {
+      this.slideToggle(msgBox, true);
+    }
   };
   
   this.nextBtnEnabled = function () {
@@ -398,9 +409,13 @@ function ConfirmStep(delegate) {
         }
         total = dateInfo.internal.ticketTotals[typeId];
       }
-      typeBox.find(".single .number").text(number || 0);
-      typeBox.find(".total span").text(total || 0);
-      if (typeBox.is(".total")) togglePluralText(typeBox.find(".single"), number, "single");
+      typeBox.find(".total span").text(total);
+      var single = typeBox.find(".single");
+      if (typeBox.is(".total")) {
+        togglePluralText(single, number, "single");
+      } else {
+        single.find(".number").text(number);
+      }
     });
     
     $.each(["address", "payment"], function () {
