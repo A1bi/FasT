@@ -474,7 +474,7 @@ function FinishStep(delegate) {
       this.box.find(".printable_link").attr("href", res.order.printable_path);
     }
     
-    this.trackPiwikGoal(1, res.order.total);
+    if (!this.delegate.retail) this.trackPiwikGoal(1, res.order.total);
     
     this.delegate.killExpirationTimer();
   };

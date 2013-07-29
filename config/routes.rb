@@ -78,7 +78,6 @@ FasT::Application.routes.draw do
           put :mark_as_paid, :path => "bezahlt"
         end
       end
-      resources :event_dates, :path => "termine", :only => [:index, :show, :new], :controller => :dates
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do
           put :update_multiple
@@ -86,12 +85,6 @@ FasT::Application.routes.draw do
         end
       end
       resources :blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show]
-      resources :reservations, :only => [] do
-        collection do
-          put :update
-          delete :destroy
-        end
-      end
       resources :coupons, :path => "gutscheine" do
         member do
           post :mail
