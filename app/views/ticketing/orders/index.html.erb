@@ -1,11 +1,10 @@
 <% title "Bestellungen" %>
 <% include_css "ticketing/orders" %>
-<% include_js "ticketing/orders" %>
+<% include_js "ticketing/base" %>
 <% cache [:ticketing, :orders, :index] do %>
   <div class="index">
     <div class="hl">Bestellungen</div>
-    <%= render "index_orders_table", title: "Online-Bestellungen", orders: @orders[:web], web: true %>
-    <%= render "index_orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true %>
-    <%= render "index_orders_table", title: "Vorverkaufsstellen", orders: @orders[:retail], web: false %>
+    <%= render "application/ticketing/orders_table", title: "Online-Bestellungen", orders: @orders[:web], web: true %>
+    <%= render "application/ticketing/orders_table", title: "Vorverkaufsstellen", orders: @orders[:retail], web: false %>
   </div>
 <% end %>

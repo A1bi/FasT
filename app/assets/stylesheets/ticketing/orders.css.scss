@@ -23,6 +23,10 @@ table {
   td {
     padding: 5px 8px !important;
     
+    &.checkbox {
+      width: 7%;
+    }
+    
     &.name {
       text-align: left;
     }

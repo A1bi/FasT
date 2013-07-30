@@ -4,7 +4,7 @@ module Ticketing
     before_filter :prepare_vars, only: [:edit, :new, :update, :create]
     
     def index
-      @coupons = Coupon.scoped
+      @coupons = Coupon.order(:recipient)
     end
     
     def show

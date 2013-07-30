@@ -1,0 +1,48 @@
+<% title "Zahlungsverwaltung" %>
+<% include_css "ticketing/orders" %>
+<% include_js "ticketing/orders" %>
+<div class="hl">Zahlungsverwaltung</div>
+<%= form_tag ticketing_payments_approve_path, method: :put do %>
+  <table class="rounded entries">
+    <thead>
+      <tr>
+        <th colspan="7">Ungeprüfte Lastschriften</th>
+      </tr>
+      <% if @orders[:unapproved].any? %>
+        <tr>
+          <th class="checkbox"><%= check_box_tag "orders_all" %></th>
+          <th>Bestellung</th>
+          <th>Kontoinhaber</th>
+          <th>Kontonummer</th>
+          <th>BLZ</th>
+          <th>Institut</th>
+          <th>Betrag</th>
+        </tr>
+      <% end %>
+    </thead>
+    <tbody class="hover">
+      <% @orders[:unapproved].each do |order| %>
+        <% charge = order.bank_charge %>
+        <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+          <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
+          <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
+          <td class="name"><%= charge.name %></td>
+          <td><%= charge.number %></td>
+          <td><%= charge.blz %></td>
+          <td class="name"><%= charge.bank %></td>
+          <td class="amount"><%= number_to_currency order.bunch.total %></td>
+        </tr>
+      <% end %>
+      <% if @orders[:unapproved].empty? %>
+        <tr>
+          <td colspan="5" class="empty">Keine Lastschriften vorhanden.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= render "index_submit", orders: @orders[:unapproved] %>
+<% end %>
+<%= form_tag ticketing_payments_mark_as_paid_path, method: :put do %>
+  <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true %>
+  <%= render "index_submit", orders: @orders[:unpaid] %>
+<% end %>

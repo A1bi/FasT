@@ -2,10 +2,11 @@
 <table class="rounded entries">
   <thead>
     <tr>
-      <th colspan="5"><%= title %></th>
+      <th colspan="<%= (checkbox ||= false) ? 6 : 5 %>"><%= title %></th>
     </tr>
-    <% if orders.count > 0 %>
+    <% if orders.any? %>
       <tr>
+        <% if checkbox %><th class="checkbox"><%= check_box_tag "orders_all[]" %></th><% end %>
         <th>Nummer</th>
         <th><% if web %>Name<% else %>Vorverkaufsstelle<% end %></th>
         <th>Tickets</th>
@@ -17,6 +18,7 @@
   <tbody class="hover">
     <% orders.each do |order| %>
       <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+        <% if checkbox %><td class="checkbox"><%= check_box_tag "orders[]", order.id %></td><% end %>
         <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
         <td class="name">
           <% if web %>
@@ -30,7 +32,7 @@
         <td class="date"><%= l order.created_at, format: "%d.%m.%y, %H:%M" %></td>
       </tr>
     <% end %>
-    <% if orders.count.zero? %>
+    <% if orders.empty? %>
       <tr>
         <td colspan="5" class="empty">Keine Bestellungen vorhanden.</td>
       </tr>

@@ -76,7 +76,13 @@ FasT::Application.routes.draw do
         member do
           put :send_pay_reminder, :path => "zahlungserinnerung"
           put :mark_as_paid, :path => "bezahlt"
+          put :approve, :path => Rack::Utils.escape("geprüft")
         end
+      end
+      controller :payments, :path => "zahlungen", :as => :payments do
+        get "/", :action => :index
+        put :mark_as_paid
+        put :approve
       end
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do
@@ -125,7 +131,7 @@ FasT::Application.routes.draw do
     scope :module => :api do
       resources :orders, :only => [:create] do
         member do
-          post "mark_paid"
+          post "mark_paid", :action => :mark_as_paid
         end
         collection do
           get "retail/:store_id", :action => :retail

@@ -501,7 +501,7 @@ var ordering = new function () {
   this.currentStep;
   this.steps = [];
   this.expirationBox;
-  this.expirationTimer = { type: 0, timer: null, times: [300, 60] };
+  this.expirationTimer = { type: 0, timer: null, times: [420, 60] };
   this.btns;
   this.progressBox;
   this.modalBox;

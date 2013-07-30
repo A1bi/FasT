@@ -1,6 +1,6 @@
 module Members
 	class MemberController < BaseController
-		ignore_restrictions :only => [:activate, :finish_activation, :forgot_password]
+		ignore_restrictions :only => [:activate, :finish_activation, :forgot_password, :reset_password]
 	
 		def activate
 			@member = Member.where(:activation_code => params[:code]).first

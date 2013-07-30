@@ -1,22 +1,13 @@
 module Ticketing
   class OrdersController < BaseController
-    cache_sweeper :ticket_sweeper, only: []
-    cache_sweeper :order_sweeper, only: []
-    
-    before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder]
-    after_filter :sweep_details_cache, only: [:mark_as_paid, :send_pay_reminder]
-    after_filter :sweep_orders_cache, only: [:mark_as_paid]
+    before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder, :approve]
+    after_filter :sweep_details_cache, only: [:mark_as_paid, :send_pay_reminder, :approve]
     
     def index
       types = [
-        [:web, Web, [
-          
-        ]],
+        [:web, Web, []],
         [:retail, Retail, [
           ["includes", :store]
-        ]],
-        [:unpaid, Web, [
-          ["where", ["ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?", false]]
         ]]
       ]
       @orders = {}
@@ -40,6 +31,11 @@ module Ticketing
       redirect_to_order_details
     end
     
+    def approve
+      @bunch.assignable.approve
+      redirect_to_order_details
+    end
+    
     def send_pay_reminder
       @bunch.assignable.send_pay_reminder if @bunch.assignable.is_a? Ticketing::Web::Order
       redirect_to_order_details
@@ -57,10 +53,6 @@ module Ticketing
     
     def sweep_details_cache
       expire_fragment [:ticketing, :orders, :show, @bunch.id]
-    end
-    
-    def sweep_orders_cache
-      expire_fragment [:ticketing, :orders, :index]
     end
   end
 end

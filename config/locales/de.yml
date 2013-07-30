@@ -33,6 +33,7 @@ de:
       statistics: "Statistik"
       orders: "Bestellungen"
       coupons: "Gutscheine"
+      payments: "Zahlungen"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."
@@ -52,6 +53,10 @@ de:
         created: "Bestellung aufgegeben"
         sent_pay_reminder: "Zahlungserinnerung gesendet"
         marked_as_paid: "Bestellung als bezahlt markiert"
+        approved: "Bestellung als geprüft markiert"
+    payments:
+      marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
+      approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
   orders:

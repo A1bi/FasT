@@ -1,6 +1,6 @@
 class Api::OrdersController < ApplicationController
   cache_sweeper :ticket_sweeper, :only => [:create]
-  cache_sweeper :order_sweeper, :only => [:create, :mark_paid]
+  cache_sweeper :order_sweeper, :only => [:create, :mark_as_paid]
   
   def create
     response = {
@@ -98,7 +98,7 @@ class Api::OrdersController < ApplicationController
     render :json => orders
   end
   
-  def mark_paid
+  def mark_as_paid
     order = Ticketing::Retail::Order.find(params[:id])
     order.mark_as_paid
     

@@ -1,4 +1,4 @@
-<% title "Bestellungsdetails" %>
+<% title "Bestellungsdetails ##{@bunch.number}" %>
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
 <% cache [:ticketing, :orders, :show, @bunch.id] do %>
@@ -30,14 +30,15 @@
             ["Telefon", order.phone]
           ]
           payment = [
-            ["Zahlungsart", order.pay_method == "charge" ? "Bankeinzug" : "Überweisung"]
+            ["Zahlungsart", order.bank_charge ? "Bankeinzug" : "Überweisung"]
           ]
-          if order.pay_method == "charge"
+          if order.bank_charge
             payment.concat [
               ["Kontoinhaber", order.bank_charge.name],
               ["Kontonummer", order.bank_charge.number],
               ["BLZ", order.bank_charge.blz],
-              ["Bank", order.bank_charge.bank]
+              ["Bank", order.bank_charge.bank],
+              ["greprüft", order.bank_charge.approved ? "ja" : "nein"]
             ]
           end
         end
@@ -58,6 +59,8 @@
               <% if !@bunch.paid %>
                 <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
                 <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+              <% elsif order.bank_charge && !order.bank_charge.approved %>
+                <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
               <% end %>
             <% end %>
           </td>

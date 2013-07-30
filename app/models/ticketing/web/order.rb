@@ -24,6 +24,13 @@ module Ticketing
       OrderMailer.confirmation(self).deliver
     end
     
+    def approve
+      return if !bank_charge
+      bank_charge.approved = true
+      bank_charge.save
+      bunch.log(:approved)
+    end
+    
     private
     
     def before_validation
