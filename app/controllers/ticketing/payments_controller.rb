@@ -45,6 +45,18 @@ module Ticketing
       submission = BankSubmission.new
       submission.charges = @charges
       submission.save
+      
+      scope = [:ticketing, :payments, :submissions]
+      
+      dta = DTAUS::ChargeCollection.new(t(:sender, scope: scope), submission.id)
+      @charges.each do |charge|
+        recipient = { name: charge.name, account: charge.number, blz: charge.blz }
+        reason = t(:reason, scope: scope, number: charge.chargeable.bunch.number)
+        dta.transactions << DTAUS::Transactions::Charge.new(charge.chargeable.bunch.total, recipient, reason)
+      end
+      
+      BankMailer.submission(dta).deliver
+      
       redirect_to_overview(:submitted)
     end
     

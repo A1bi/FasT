@@ -59,6 +59,16 @@ de:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
       submitted: "Alle Lastschriften wurden bei der Bank eingereicht. Bitte drucken Sie sich den Begleitzettel aus."
+      submissions:
+        sender:
+          name: "Freilichtbühne am schiefen Turm"
+          short_name: "Freilichtbühne a. s. Turm"
+          location: "Kaisersesch"
+          account: "178167"
+          blz: "57069144"
+          bank: "Raiffeisenbank Kaisersesch"
+        reason: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
+        bank_email: "buchhaltung@rbkaisersesch.de"
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
   orders:
@@ -101,6 +111,9 @@ de:
       subject: "Ihre Tickets"
     pay_reminder:
       subject: "Zahlungserinnerung"
+  bank_mailer:
+    submission:
+      subject: "DTA-Datei"
   activerecord:
     errors:
       messages:

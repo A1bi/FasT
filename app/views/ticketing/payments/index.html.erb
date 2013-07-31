@@ -71,9 +71,9 @@
       <% end %>
     </tbody>
   </table>
-  <%= render "index_submit", orders: @orders[:unapproved] %>
+  <%= render "index_submit", text: "als geprüft markieren", orders: @orders[:unapproved] %>
 <% end %>
 <%= form_tag ticketing_payments_mark_as_paid_path, method: :put do %>
   <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true %>
-  <%= render "index_submit", orders: @orders[:unpaid] %>
+  <%= render "index_submit", text: "als bezahlt markieren", orders: @orders[:unpaid] %>
 <% end %>
