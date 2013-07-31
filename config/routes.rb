@@ -83,6 +83,7 @@ FasT::Application.routes.draw do
         get "/", :action => :index
         put :mark_as_paid
         put :approve
+        post :submit
       end
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do

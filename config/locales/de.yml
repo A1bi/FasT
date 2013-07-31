@@ -54,9 +54,11 @@ de:
         sent_pay_reminder: "Zahlungserinnerung gesendet"
         marked_as_paid: "Bestellung als bezahlt markiert"
         approved: "Bestellung als geprüft markiert"
+        charge_submitted: "Lastschrift bei der Bank eingereicht"
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
+      submitted: "Alle Lastschriften wurden bei der Bank eingereicht. Bitte drucken Sie sich den Begleitzettel aus."
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
   orders:

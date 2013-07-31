@@ -2,6 +2,37 @@
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
 <div class="hl">Zahlungsverwaltung</div>
+<table class="rounded entries">
+  <thead>
+    <tr>
+      <th colspan="3">Einzureichende Lastschriften</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% if @charges.any? %>
+        <td colspan="2"><%= @charges.count %> Lastschriften einzureichen.</td>
+        <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
+      <% else %>
+        <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
+      <% end %>
+    </tr>
+  </tbody>
+  <thead>
+    <tr>
+      <th colspan="3">Vergangene Einreichungen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.charges.count %> Lastschriften</td>
+        <td>Begleitzettel</td>
+        <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 <%= form_tag ticketing_payments_approve_path, method: :put do %>
   <table class="rounded entries">
     <thead>
