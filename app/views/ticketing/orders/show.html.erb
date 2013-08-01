@@ -27,19 +27,22 @@
             ["Nachname", order.last_name],
             ["Vorname", order.first_name],
             ["e-mail", order.email],
-            ["Telefon", order.phone]
+            ["Telefon", order.phone],
+            ["PLZ", order.plz]
           ]
-          payment = [
-            ["Zahlungsart", order.bank_charge ? "Bankeinzug" : "Überweisung"]
-          ]
-          if order.bank_charge
-            payment.concat [
-              ["Kontoinhaber", order.bank_charge.name],
-              ["Kontonummer", order.bank_charge.number],
-              ["BLZ", order.bank_charge.blz],
-              ["Bank", order.bank_charge.bank],
-              ["geprüft", order.bank_charge.approved ? "ja" : "nein"]
+          if !@bunch.total.zero?
+            payment = [
+              ["Zahlungsart", order.bank_charge ? "Bankeinzug" : "Überweisung"]
             ]
+            if order.bank_charge
+              payment.concat [
+                ["Kontoinhaber", order.bank_charge.name],
+                ["Kontonummer", order.bank_charge.number],
+                ["BLZ", order.bank_charge.blz],
+                ["Bank", order.bank_charge.bank],
+                ["geprüft", order.bank_charge.approved ? "ja" : "nein"]
+              ]
+            end
           end
         end
       %>

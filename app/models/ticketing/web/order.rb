@@ -8,7 +8,7 @@ module Ticketing
   
     validates_presence_of :email, :first_name, :last_name, :phone, :plz
     validates_inclusion_of :gender, :in => 0..1
-    validates_numericality_of :plz, :only_integer => true, :less_than => 100000, :greater_than => 1000
+    validates_format_of :plz, :with => /^\d{5}$/
     validates :email, :email_format => true
     validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
   

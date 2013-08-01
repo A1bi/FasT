@@ -11,9 +11,9 @@ module Ticketing
     
     before_create :before_create
     after_create :after_create
-	
-    def added_ticket(ticket)
-      self[:total] = ticket.type.price.to_f + total.to_f
+    
+    def total
+      self[:total] || 0
     end
     
     def printable_path(full = false)
@@ -21,6 +21,10 @@ module Ticketing
     end
     
     private
+    
+    def added_ticket(ticket)
+      self[:total] = ticket.type.price.to_f + total.to_f
+    end
     
     def after_create
       log(:created)
