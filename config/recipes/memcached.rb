@@ -24,7 +24,6 @@ namespace :memcached do
   
   desc 'Clears the Rails cache'
   task :clear, roles: :app do
-    run("cd #{current_path} && rake cache:clear RAILS_ENV=production")
+    run("echo 'flush_all' | nc localhost 11211")
   end
-  after "deploy:finalize_update", "memcached:clear"
 end
