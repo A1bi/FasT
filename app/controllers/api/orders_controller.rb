@@ -77,7 +77,7 @@ class Api::OrdersController < ApplicationController
       
       seats = {}
       order.bunch.tickets.each do |ticket|
-        (seats[ticket.date_id] ||= {})[ticket.seat.id] = ticket.seat.node_hash(ticket.date_id)
+        seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
       end
       NodeApi.seating_request("updateSeats", { seats: seats })
       

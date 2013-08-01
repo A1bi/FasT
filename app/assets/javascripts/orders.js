@@ -21,6 +21,12 @@ function Step(name, delegate) {
   this.validator.resetErrors = function () {
     this._errors = [];
   };
+  this.validator.onlyDigits = function() {
+    if (!this.str.match(/^\d*$/)) {
+        return this.error(this.msg || 'Invalid digit');
+    }
+    return this;
+  };
   
   this.registerEvents();
 }
@@ -321,7 +327,7 @@ function AddressStep(delegate) {
       });
     
       if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
-      this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").isInt().len(5, 5);
+      this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").onlyDigits().len(5, 5);
       this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
     });
   };
@@ -344,8 +350,8 @@ function PaymentStep(delegate) {
     if (this.methodIsCharge()) {
       return this.validateFields(function () {
         this.getValidatorCheckForField("name", "Bitte geben Sie den Kontoinhaber an.").notEmpty();
-        this.getValidatorCheckForField("number", "Bitte geben Sie eine korrekte Kontonummer an.").isInt().len(1, 12);
-        this.getValidatorCheckForField("blz", "Bitte geben Sie eine korrekte Bankleitzahl an.").isInt().len(8, 8);
+        this.getValidatorCheckForField("number", "Bitte geben Sie eine korrekte Kontonummer an, verwenden Sie dabei keinerlei Leer- oder sonstige Trennzeichen.").onlyDigits().len(1, 12);
+        this.getValidatorCheckForField("blz", "Bitte geben Sie eine korrekte Bankleitzahl an, verwenden Sie dabei keinerlei Leer- oder sonstige Trennzeichen.").onlyDigits().len(8, 8);
         this.getValidatorCheckForField("bank", "Bitte geben Sie den Namen der Bank an.").notEmpty();
       });
     }
