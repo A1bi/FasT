@@ -6,6 +6,8 @@ module Ticketing
     before_filter :find_unsubmitted_charges, only: [:index, :submit]
     after_filter :sweep_orders_cache, only: [:mark_as_paid, :approve]
     
+    @@submissions_scope = [:ticketing, :payments, :submissions]
+    
     def index
       types = [
         [:unpaid, [
@@ -42,22 +44,24 @@ module Ticketing
     end
     
     def submit
+      return redirect_to_overview(:nothing_submitted) if @unsubmitted_charges.empty?
+      
       submission = BankSubmission.new
-      submission.charges = @charges
+      submission.charges = @unsubmitted_charges
       submission.save
       
-      scope = [:ticketing, :payments, :submissions]
-      
-      dta = DTAUS::ChargeCollection.new(t(:sender, scope: scope), submission.id)
-      @charges.each do |charge|
-        recipient = { name: charge.name, account: charge.number, blz: charge.blz }
-        reason = t(:reason, scope: scope, number: charge.chargeable.bunch.number)
-        dta.transactions << DTAUS::Transactions::Charge.new(charge.chargeable.bunch.total, recipient, reason)
-      end
-      
+      dta = init_dta(submission)
       BankMailer.submission(dta).deliver
       
       redirect_to_overview(:submitted)
+    end
+    
+    def sheet
+      pdf = Rails.cache.fetch([:ticketing, :payments, :sheets, params[:id]], expires_in: 15.minutes) do
+        submission = BankSubmission.find(params[:id])
+        init_dta(submission).sheet.render
+      end
+      send_data pdf, disposition: "inline", filename: "#{t(:sheet_file_name, scope: @@submissions_scope)}.pdf", type: "application/pdf"
     end
     
     private
@@ -70,7 +74,17 @@ module Ticketing
     end
     
     def find_unsubmitted_charges
-      @charges = BankCharge.where(submission_id: nil)
+      @unsubmitted_charges = BankCharge.where(submission_id: nil, approved: true)
+    end
+    
+    def init_dta(submission)
+      dta = DTAUS::ChargeCollection.new(t(:sender, scope: @@submissions_scope), submission.id)
+      submission.charges.each do |charge|
+        recipient = { name: charge.name, account: charge.number, blz: charge.blz }
+        reason = t(:reason, scope: @@submissions_scope, number: charge.chargeable.bunch.number)
+        dta.transactions << DTAUS::Transactions::Charge.new(charge.chargeable.bunch.total, recipient, reason)
+      end
+      dta
     end
     
     def redirect_to_overview(notice = nil)

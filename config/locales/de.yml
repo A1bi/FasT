@@ -59,6 +59,7 @@ de:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
       submitted: "Alle Lastschriften wurden bei der Bank eingereicht. Bitte drucken Sie sich den Begleitzettel aus."
+      nothing_submitted: "Es wurde nichts eingereicht, da keine ausstehenden Lastschriften vorliegen."
       submissions:
         sender:
           name: "Freilichtbühne am schiefen Turm"
@@ -69,6 +70,25 @@ de:
           bank: "Raiffeisenbank Kaisersesch"
         reason: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
         bank_email: "buchhaltung@rbkaisersesch.de"
+        sheet_file_name: "begleitzettel"
+        sheet:
+          - "DTA-Begleitzettel"
+          - "Belegloser Datenträgeraustausch"
+          - "Sammeleinzugsauftrag"
+          - "Datei bereits per e-mail übermittelt."
+          - "Referenznummer"
+          - "Erstellungsdatum"
+          - "Ausführungsdatum"
+          - "Anzahl der Datensätze C"
+          - "Summe der Beträge in EUR"
+          - "Kontrollsumme Kontonummern"
+          - "Kontrollsumme Bankleitzahlen"
+          - "Auftraggeber"
+          - "Beauftragtes Bankinstitut"
+          - "Bankleitzahl"
+          - "Kontonummer"
+          - "Kaisersesch, den "
+          - "Ort, Datum, Unterschrift"
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
   orders:

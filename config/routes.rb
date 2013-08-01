@@ -84,6 +84,7 @@ FasT::Application.routes.draw do
         put :mark_as_paid
         put :approve
         post :submit
+        get :sheet, :path => "begleitzettel/:id"
       end
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do

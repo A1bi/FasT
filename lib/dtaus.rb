@@ -1,8 +1,10 @@
 # encoding: UTF-8
 
+require "prawn"
+
 module DTAUS
   class Collection
-    attr_reader :sums
+    attr_reader :sender, :reference_key, :sheet
     attr_accessor :transactions
     
     def initialize(sender, reference_key)
@@ -11,11 +13,23 @@ module DTAUS
       @transactions = []
       @sender = sender
       @reference_key = reference_key
+      @sheet = Sheet.new self
     end
     
     def data
       generate_data
       @data
+    end
+    
+    def sums
+      if @sums.empty?
+        transactions.each do |t|
+          add_to_sum(t.recipient[:account], :account)
+          add_to_sum(t.recipient[:blz], :blz)
+          add_to_sum(t.total, :total)
+        end
+      end
+      @sums
     end
     
     private
@@ -179,14 +193,16 @@ module DTAUS
     end
   
     def prepare_text(text)
+      t = text.clone
+      
       # replace umlaute
       replacements = { "Ä" => "ae", "ä" => "ae", "Ö" => "oe", "ö" => "oe", "Ü" => "ue", "ü" => "ue", "ß" => "ss" }
-      text.gsub! /[#{replacements.keys.join}]/, replacements
+      t.gsub! /[#{replacements.keys.join}]/, replacements
       
-      text.upcase!
+      t.upcase!
     
       # remove other unsupported characters
-      text.gsub /[^\w\.,&-\/ ]/, ""
+      t.gsub /[^\w\.,&-\/ ]/, ""
     end
   
     def add_part_intro(part, length)
@@ -253,6 +269,57 @@ module DTAUS
         super
         @type = :charge
       end
+    end
+  end
+  
+  class Sheet < Prawn::Document
+    include ActionView::Helpers::NumberHelper, ActionView::Helpers::TranslationHelper
+    
+    def initialize(collection)
+      super page_size: "A4"
+      @collection = collection
+    end
+    
+    def render
+      strings = t(:sheet, scope: [:ticketing, :payments, :submissions])
+      
+      font_size 16
+      text strings[0], align: :center
+      text strings[1], align: :center
+      move_down 50
+      
+      font_size 14
+      text strings[2]
+      text strings[3]
+      move_down 40
+      
+      font_size 13
+      date = Time.now.strftime("%d. %B %Y")
+			table [
+        [strings[4], @collection.reference_key],
+			  [strings[5], date],
+    		[strings[6], date],
+    		[strings[7], @collection.transactions.count],
+    		[strings[8], number_to_currency(@collection.sums[:total])],
+    		[strings[9], @collection.sums[:account]],
+    		[strings[10], @collection.sums[:blz].to_s],
+    		[strings[11], @collection.sender[:name]],
+    		[strings[12], @collection.sender[:bank]],
+    		[strings[13], @collection.sender[:blz]],
+    		[strings[14], @collection.sender[:account]]
+        ], width: bounds.width, row_colors: ["FAFAFA", "E6E6E6"], cell_style: { borders: [] }
+      
+      stroke do
+        move_down 150
+        horizontal_line 0, 400
+      end
+      font_size 11
+      move_up 13
+      text strings[15] + Time.now.strftime('%d.%m.%y')
+      move_down 10
+      text strings[16]
+      
+      super
     end
   end
 end

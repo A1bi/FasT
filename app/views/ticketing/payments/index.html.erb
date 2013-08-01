@@ -10,8 +10,8 @@
   </thead>
   <tbody>
     <tr>
-      <% if @charges.any? %>
-        <td colspan="2"><%= @charges.count %> Lastschriften einzureichen.</td>
+      <% if @unsubmitted_charges.any? %>
+        <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
         <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
       <% else %>
         <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
@@ -27,7 +27,7 @@
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.charges.count %> Lastschriften</td>
-        <td>Begleitzettel</td>
+        <td><%= link_to "Begleitzettel", ticketing_payments_sheet_path(submission) %></td>
         <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
       </tr>
     <% end %>
