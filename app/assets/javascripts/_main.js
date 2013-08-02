@@ -56,3 +56,25 @@ function togglePluralText(box, number, preservedClass) {
   box.removeClass().addClass(preservedClass + " plural_text " + cssClass);
   box.find(".number span").text(number);
 }
+
+$(function () {
+  var el = $("<div>").prop("id", "ieDetect");
+  $("body").append(el);
+
+  el.html("<!--[if IE]><em></em><![endif]-->");
+  if (el.find("em").length) {
+  
+    var v;
+    for (v = 10; v >= 6; v--) {
+      el.html("<!--[if gte IE " + v + "]><b></b><![endif]-->");
+      if (el.find("b").length) break;
+    }
+    
+    if (v < 8) {
+      $("html").addClass("unsupportedBrowser");
+      $.getScript("/assets/unsupported_browser.js");
+    }
+  }
+  
+  el.remove();
+});

@@ -63,6 +63,51 @@ h3 {
 @include font-face(qlassik);
 @include font-face(ovo);
 
+html {
+  #unsupportedBrowser {
+    display: none;
+  }
+  
+  &.unsupportedBrowser {
+    body {
+      width: 100%;
+    }
+    
+    #unsupportedBrowser {
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 2000px;
+      background: black;
+      z-index: 99;
+      
+      div {
+        width: 70%;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        margin: 100px auto;
+        
+        p {
+          padding: 20px;
+        }
+        
+        ul {
+          margin-top: 50px;
+          list-style-type: none;
+          
+          li {
+            padding: 10px;
+            font-size: 24px;
+          }
+        }
+      }
+    }
+  }
+}
+
 #sky {
 	width: 993px;
 	height: 283px;
