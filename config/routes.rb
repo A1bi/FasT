@@ -77,6 +77,7 @@ FasT::Application.routes.draw do
           put :send_pay_reminder, :path => "zahlungserinnerung"
           put :mark_as_paid, :path => "bezahlt"
           put :approve, :path => Rack::Utils.escape("geprüft")
+          post :cancel
         end
       end
       controller :payments, :path => "zahlungen", :as => :payments do

@@ -79,7 +79,7 @@ class Api::OrdersController < ApplicationController
       order.bunch.tickets.each do |ticket|
         seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
       end
-      NodeApi.seating_request("updateSeats", { seats: seats })
+      NodeApi.update_seats(seats)
       
       coupon_assignments.each { |a| a.save }
       

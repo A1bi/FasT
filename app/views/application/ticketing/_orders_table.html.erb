@@ -17,7 +17,8 @@
   </thead>
   <tbody class="hover">
     <% orders.each do |order| %>
-      <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+      <% classes = :cancelled if order.bunch.cancelled? %>
+      <%= content_tag :tr, class: classes, data: { path: ticketing_order_path(order.bunch) } do %>
         <% if checkbox %><td class="checkbox"><%= check_box_tag "orders[]", order.id %></td><% end %>
         <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
         <td class="name">
@@ -27,10 +28,10 @@
             <%= order.store.name %>
           <% end %>
         </td>
-        <td class="tickets"><%= order.bunch.tickets.size %></td>
+        <td class="tickets"><%= order.bunch.tickets.cancelled(false).size %></td>
         <td class="amount"><%= number_to_currency order.bunch.total %></td>
         <td class="date"><%= l order.created_at, format: "%d.%m.%y, %H:%M" %></td>
-      </tr>
+      <% end %>
     <% end %>
     <% if orders.empty? %>
       <tr>

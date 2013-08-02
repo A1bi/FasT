@@ -9,12 +9,17 @@ module Ticketing
         return if cancelled?
 				create_cancellation({ reason: reason }, without_protection: true)
 				save
-				log(:cancelled) if respond_to? :loggable
 			end
 
 			def cancelled?
 				cancellation.present?
 			end
   	end
+    
+    module ClassMethods
+      def cancelled(cancelled = true)
+        where(arel_table[:cancellation_id].send((cancelled ? :not_eq : :eq), nil))
+      end
+    end
   end
 end

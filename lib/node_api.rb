@@ -39,6 +39,10 @@ class NodeApi
     make_request("seating", info)
   end
   
+  def self.update_seats(seats)
+    seating_request("updateSeats", { seats: seats })
+  end
+  
   def self.push_to_retail_checkout(action, retailId, info = nil)
     push(action, ["retailCheckout"], [retailId], info)
   end

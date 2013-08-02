@@ -55,6 +55,7 @@ de:
         marked_as_paid: "Bestellung als bezahlt markiert"
         approved: "Bestellung als geprüft markiert"
         charge_submitted: "Lastschrift bei der Bank eingereicht"
+        cancelled: "Gesamte Bestellung storniert"
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."

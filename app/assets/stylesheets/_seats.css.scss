@@ -123,5 +123,9 @@
   &.chosen {
     background: yellow;
     border-color: #cccc00;
+    
+    &.cancelled {
+      background: #cccccc;
+    }
   }
 }

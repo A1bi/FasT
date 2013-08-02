@@ -12,7 +12,7 @@
     ["bezahlt", @bunch.paid ? "ja" : "nein"],
     ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : "<em>keiner</em>"]
   ] %>
-  <div class="top-tables">
+  <div class="topTables">
     <table class="rounded">
       <%= render "show_overview_table", title: "Übersicht", overview: overview %>
       <%
@@ -49,27 +49,48 @@
       <%= render "show_overview_table", title: title, overview: overview %>
       <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
     </table>
-    <table class="rounded actions">
-      <thead>
-        <tr>
-          <th>Aktionen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
-              <% if !@bunch.paid %>
-                <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
-                <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
-              <% elsif order.bank_charge && !order.bank_charge.approved %>
-                <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
+    <div class="rightTables">
+      <table class="rounded actions">
+        <thead>
+          <tr>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <% if !@bunch.cancelled? %>
+                <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
+                  <% if !@bunch.paid %>
+                    <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
+                    <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                  <% elsif order.bank_charge && !order.bank_charge.approved %>
+                    <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
+                  <% end %>
+                <% end %>
+                <div><%= link_to "Bestellung stornieren", cancel_ticketing_order_path(@bunch), method: :post %></div>
               <% end %>
-            <% end %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <% if @bunch.cancelled? %>
+        <table class="rounded cancellation">
+          <thead>
+            <tr>
+              <th>Storniert</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Stornierungsgrund: <%= @bunch.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @bunch.cancellation.reason %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
   </div>
   <% events = @bunch.log_events.order("id DESC") %>
   <table class="rounded entries log">
@@ -117,14 +138,15 @@
     </thead>
     <tbody>
       <% @bunch.tickets.each do |ticket| %>
-        <tr>
+        <% classes = :cancelled if ticket.cancelled? %>
+        <%= content_tag_for :tr, ticket, class: classes do %>
           <td class="number"><%= ticket.number %></td>
           <td class="name"><%= ticket.type.name %></td>
           <td class="amount"><%= number_to_currency ticket.type.price %></td>
           <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
           <td><%= ticket.seat.block.name %></td>
           <td><%= ticket.seat.number %></td>
-        </tr>
+        <% end %>
       <% end %>
     </tbody>
     <thead>

@@ -20,6 +20,11 @@ table {
     text-align: left;
   }
   
+  tr.cancelled td {
+    color: #cccccc;
+    text-decoration: line-through;
+  }
+  
   td {
     padding: 5px 8px !important;
     
@@ -60,20 +65,25 @@ table {
   }
 }
 
-.top-tables {
+.topTables {
   overflow: auto;
   
-  table {
+  > table {
     float: left;
     width: 58%;
+  }
+  
+  .rightTables {
+    float: right;
+    width: 40%;
     
-    &.actions {
-      float: right;
-      width: 40%;
-      
-      div {
-        margin: 5px;
-      }
+    .actions div {
+      margin: 5px;
+    }
+    
+    .cancellation th {
+      color: red;
+      text-shadow: 1px 1px 3px white;
     }
   }
 }
