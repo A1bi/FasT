@@ -68,7 +68,14 @@
                     <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
                   <% end %>
                 <% end %>
-                <div><%= link_to "Bestellung stornieren", cancel_ticketing_order_path(@bunch), method: :post %></div>
+                <div>
+                  <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
+                  <div id="cancelForm">
+                    <%= form_tag cancel_ticketing_order_path(@bunch), method: :post do %>
+                      Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
             </td>
           </tr>
@@ -84,7 +91,7 @@
           <tbody>
             <tr>
               <td>
-                Stornierungsgrund: <%= @bunch.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @bunch.cancellation.reason %>
+                Grund: <%= @bunch.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @bunch.cancellation.reason %>
               </td>
             </tr>
           </tbody>

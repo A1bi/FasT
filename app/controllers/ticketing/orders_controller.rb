@@ -2,7 +2,8 @@ module Ticketing
   class OrdersController < BaseController
     before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder, :approve, :cancel]
     after_filter :sweep_details_cache, only: [:mark_as_paid, :send_pay_reminder, :approve, :cancel]
-    cache_sweeper :ticket_sweeper, :only => [:cancel]
+    cache_sweeper :ticket_sweeper, only: [:cancel]
+    cache_sweeper :order_sweeper, only: [:cancel]
     
     def index
       types = [
@@ -42,7 +43,7 @@ module Ticketing
     end
     
     def cancel
-      @bunch.cancel("")
+      @bunch.cancel(params[:reason])
       @bunch.log(:cancelled)
       
       seats = {}
@@ -52,6 +53,8 @@ module Ticketing
         seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
       end
       NodeApi.update_seats(seats)
+      
+      OrderMailer.cancellation(@bunch.assignable).deliver
       
       redirect_to ticketing_order_path(@bunch)
     end

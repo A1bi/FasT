@@ -79,6 +79,11 @@ table {
     
     .actions div {
       margin: 5px;
+      
+      #cancelForm {
+        display: none;
+        margin-top: 15px;
+      }
     }
     
     .cancellation th {

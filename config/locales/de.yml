@@ -132,6 +132,8 @@ de:
       subject: "Ihre Tickets"
     pay_reminder:
       subject: "Zahlungserinnerung"
+    cancellation:
+      subject: "Stornierung Ihrer Bestellung"
   bank_mailer:
     submission:
       subject: "DTA-Datei"
