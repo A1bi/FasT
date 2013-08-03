@@ -11,12 +11,8 @@ module Ticketing
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
     
+    after_save :update_price
     after_save :create_passbook_pass
-	
-  	def type=(type)
-      super
-  		self.price = self.type.try(:price)
-    end
   
     def seat=(seat)
       @check_reserved = true
@@ -39,9 +35,13 @@ module Ticketing
     private
   
     def check_reserved
-      if @check_reserved && !seat.available_on_date?(date)
+      if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
       end
+    end
+    
+    def update_price
+      self[:price] = type.price
     end
     
     def create_passbook_pass

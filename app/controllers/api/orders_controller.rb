@@ -52,8 +52,8 @@ class Api::OrdersController < ApplicationController
       number.times do
 				ticket = Ticketing::Ticket.new
 				ticket.type = type
-				ticket.seat_id = seats.shift
-        ticket.date_id = info[:date]
+				ticket.seat = Ticketing::Seat.find(seats.shift)
+        ticket.date = Ticketing::EventDate.find(info[:date])
         order.bunch.tickets << ticket
 			end
 		end
