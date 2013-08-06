@@ -78,9 +78,9 @@ Step.prototype = {
   updateInfoFromFields: function () {
     var _this = this;
     $.each(this.box.find("form").serializeArray(), function () {
-      var pattern = new RegExp(_this.name + "\\[([a-z_]+)\\]");
-      if (pattern.test(this.name)) {
-        _this.info.api[this.name.replace(pattern, "$1")] = this.value;
+      var name = this.name.match(/\[([a-z_]+)\]/);
+      if (!!name && !/_confirmation$/.test(name[1])) {
+        _this.info.api[name[1]] = this.value;
       }
     });
   },
@@ -329,6 +329,7 @@ function AddressStep(delegate) {
       if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
       this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").onlyDigits().len(5, 5);
       this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
+      this.getValidatorCheckForField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.").equals(this.getFieldWithKey("email").val());
     });
   };
   

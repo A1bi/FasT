@@ -32,7 +32,10 @@
           <% end %>
           <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
             <%= render "prepopulated_text_field", :f => f, :name => :email %>
-            <div class="small">Bitte achten Sie auf die Richtigkeit Ihrer e-mail-Adresse, da an diese später Ihre Tickets geschickt werden!</div>
+          <% end %>
+          <%= render :layout => "field", :locals => { :name => "e-mail-Adresse Bestätigung" } do %>
+            <%= render "prepopulated_text_field", :f => f, :name => :email_confirmation, :key => :email %>
+            <div class="small">Noch einmal zur Sicherheit, um Tippfehler auszuschließen.</div>
           <% end %>
         </tbody>
    		</table>
