@@ -25,7 +25,7 @@ $(function () {
       left += $(this).outerWidth();
     });
     
-    logosBoxWidth = logosBox.outerWidth();
+    logosBoxWidth = left;
     logosBox.clone().appendTo(sponsorsBox).css({left: boxWidth});
     logosBoxes = sponsorsBox.find(".logos");
     

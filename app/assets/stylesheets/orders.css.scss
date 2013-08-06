@@ -307,7 +307,7 @@
 	}
 	
 	&.seats {
-    > div:not(.note) {
+    > div {
       margin: {
         top: 10px;
         bottom: 10px;
@@ -316,6 +316,12 @@
     
     .seating {
       padding: 0px;
+      
+      .ie8 & .plan {
+        border: 1px solid #cccccc {
+          width: 1px 0px;
+        }
+      }
       
       .viewChooser div {
         border: {
