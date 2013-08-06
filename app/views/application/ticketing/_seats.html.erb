@@ -1,11 +1,19 @@
+<% content_for :head do %>
+  <%= render "application/ticketing/head_seats" %>
+<% end if (block_colors ||= false) %>
 <%= content_tag :div, class: [:error, :plural_text] do %>
   <div>Sie müssen noch <b class="number plural"><span></span></b><span class="singular">einen</span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.</div>
 <% end if (error_box ||= false) %>
+<%= content_tag :div, class: [:viewChooser] do %>
+  <div>Ansicht:<a href="#" data-type="normal">normal</a>|<a href="#" data-type="numbersAndUnderlay">mit Sitznummern und Blöcken</a>|<a href="#" data-type="photo">Foto</a></div>
+<% end if (view_chooser ||= false) %>
 <div class="plan">
-  <div class="scroller">
+  <%= content_tag :div, class: :scroller do %>
+    <%= image_tag "/uploads/seating_underlay.png", class: [:layer, :underlay], alt: nil if (underlay ||= false) %>
     <% seats = seats.includes(:block) if !seats.is_a? Array %>
     <% seats.each_with_index do |seat, index| %>
       <% options = (seat_options(seat) if (respond_to? :seat_options)) || {} %>
+      <% options[:class] = (options[:class] || "") + " ticketing_block_#{seat.block.id}" if block_colors %>
       <%= div_for(seat, options.merge(data: { id: seat.id, number: seat.number, block: seat.block.id, :"grid-x" => seat.position_x, :"grid-y" => seat.position_y }) ) do %>
         <% if (numbers ||= false) %>
           <div class="number"><%= seat.number %></div>
@@ -13,5 +21,6 @@
       <% end %>
     <% end %>
     <% if !(no_stage ||= false) %><div class="stage">Bühne</div><% end %>
-  </div>
+    <%= image_tag "/uploads/seating_photo.png", class: [:layer, :photo], alt: nil if (photo ||= false) %>
+  <% end %>
 </div>

@@ -1,0 +1,11 @@
+<% if !(@block_styles_set ||= false) %>
+  <% @block_styles_set = true %>
+  <style type="text/css">
+    <% Ticketing::Block.all.each do |block| %>
+      .ticketing_seat.ticketing_block_<%= block.id %> {
+        background: <%= block.color %>;
+        border-color: <%= block.color %>;
+      }
+    <% end %>
+  </style>
+<% end %>

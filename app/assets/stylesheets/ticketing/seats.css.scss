@@ -12,6 +12,7 @@
   .seating .plan {
     @include box;
     padding: 0px;
+    margin: 0px;
   }
   
   .new_seat, .edit_seats {
@@ -76,7 +77,7 @@
         position: relative;
       }
       
-      .actions {
+      .actionBtns {
         text-align: right;
       }
     }

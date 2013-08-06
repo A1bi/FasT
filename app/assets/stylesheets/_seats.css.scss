@@ -12,6 +12,39 @@
       padding: 10px;
     }
   }
+  
+  .viewChooser {
+    overflow: auto;
+    
+    > div {
+      float: right;
+      font-size: 12px;
+      padding: 3px 8px;
+      background: #4AB7E5;
+      color: white;
+      border: 1px solid #cccccc {
+        bottom: 0px;
+      }
+      
+      a {
+        text-decoration: none;
+        color: white;
+        padding: 0px 5px;
+        
+        &:hover:not(.selected) {
+          text-decoration: underline;
+        }
+        
+        &:last-child {
+          padding-right: 0px;
+        }
+        
+        &.selected {
+          font-weight: bold;
+        }
+      }
+    }
+  }
 
   .plan {
   	height: 500px;
@@ -22,9 +55,34 @@
       position: relative;
       width: 180%;
       height: 95%;
+      
+      .layer {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      
+      &:not(.underlay) .underlay {
+        display: none;
+      }
+      
+      &:not(.photo) .photo {
+        display: none;
+      }
+      
+      &.photo {
+        height: 100%;
+        overflow: hidden;
+      }
     
       .ticketing_seat {
         cursor: pointer;
+      }
+      
+      &:not(.numbers) .ticketing_seat .number {
+        display: none;
       }
   
       &.selectable {
@@ -48,7 +106,7 @@
       left: 5%;
       width: 90%;
       background: #43a1ca;
-      border: 2px dashed #3d5eaf {
+      border: 1px solid #296580 {
         radius: 10px;
       };
       text-align: center;
@@ -126,6 +184,10 @@
     
     &.cancelled {
       background: #cccccc;
+    }
+    
+    .number {
+      color: black;
     }
   }
 }

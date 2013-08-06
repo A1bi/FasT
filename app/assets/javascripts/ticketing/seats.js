@@ -137,4 +137,6 @@ $(function () {
       }
     }
   });
+  
+  seating.enableViewLayers("numbers");
 });

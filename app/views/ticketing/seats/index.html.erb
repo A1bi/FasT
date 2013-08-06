@@ -4,7 +4,7 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
   <div class="seating" data-update-url="<%= ticketing_seat_path("") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
-    <%= render "application/ticketing/seats", seats: @seats, numbers: true %>
+    <%= render "application/ticketing/seats", seats: @seats, numbers: true, block_colors: true %>
   </div>
   <div class="edit_seats">
     <%= form_for Ticketing::Seat.new, url: "" do |f| %>
@@ -18,7 +18,7 @@
     <div>neuen Sitzplatz hinzufügen</div>
     <div>Nummer: <%= text_field_tag :number, 1 %></div>
     <div class="blocks">
-      <%= render "application/ticketing/seats", seats: @new_seats, colors: true, numbers: true, no_stage: true %>
+      <%= render "application/ticketing/seats", seats: @new_seats, block_colors: true, numbers: true, no_stage: true %>
     </div>
   </div>
   <div class="blocks">
@@ -26,10 +26,10 @@
     <div id="blocks">
       <table>
         <%= content_tag_for :tr, @blocks do |block| %>
-          <td><div class="ticketing_seat" style="background: <%= block.color %>;"></div></td>
+          <td><div class="ticketing_seat ticketing_block_<%= block.id %>"></div></td>
           <td class="name"><%= block.name %></td>
           <td><%= block.seats.count %> Sitzplätze</td>
-          <td class="actions">
+          <td class="actionBtns">
             <%= render "admin_actions", obj: block, delete_confirm: "diesen Block", remote_edit: true %>
           </td>
         <% end %>

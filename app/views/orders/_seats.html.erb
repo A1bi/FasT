@@ -4,11 +4,11 @@
   </div>
   <div class="additional">
     <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
-    <p>Zur besseren Orientierung können Sie sich auch ein Foto des Zuschauerraumes <%= link_to "ansehen", "/assets/misc/seating.jpg", target: "_blank" %>.</p>
+    <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
   </div>
 	<div class="seating">
     <% cache [:new_order, :seats] do %>
-		  <%= render "application/ticketing/seats", :seats => @seats, :error_box => true %>
+		  <%= render "application/ticketing/seats", :seats => @seats, :error_box => true, :numbers => true, :photo => true, :underlay => true, :view_chooser => true %>
     <% end %>
 	</div>
   <div class="hcen">
@@ -21,8 +21,5 @@
       <div><div class="ticketing_seat taken"></div> bereits reserviert</div>
       <div><div class="ticketing_seat chosen"></div> ausgewählt</div>
     </div>
-  </div>
-  <div class="additional">
-    <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
   </div>
 </div>

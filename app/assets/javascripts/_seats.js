@@ -86,6 +86,10 @@ function Seating(container) {
     }
   };
   
+  this.enableViewLayers = function (layer) {
+    this.scroller.addClass(layer);
+  };
+  
   this.reload = function () {
     $.getJSON(location.href + ".json", function (response) {
       if (response.ok) {
@@ -98,21 +102,45 @@ function Seating(container) {
   
   this.initSeats = function () {
     var sizes = { x: this.grid[0] * this.sizeFactors.x, y: this.grid[1] * this.sizeFactors.y };
-    
+
+    this.seats.css({
+      width: sizes.x,
+      height: sizes.y,
+      "font-size": sizes.x / 2,
+    })
+    .find(".number").css({
+      "padding-top": sizes.x / 7
+    });
     this.seats.each(function () {
       var item = $(this);
       item.css({
         left: item.data("grid-x") * _this.grid[0],
-        top: item.data("grid-y") * _this.grid[1],
-        width: sizes.x,
-        height: sizes.y
+        top: item.data("grid-y") * _this.grid[1]
       });
     });
   };
   
   this.calculateGridCells(this.scroller);
   this.initSeats();
-
+  
+  var viewChooser = this.container.find(".viewChooser");
+  viewChooser.find("a")
+  .click(function (event) {
+    var $this = $(this);
+    if ($this.is(".selected")) return;
+    
+    $this.addClass("selected").siblings().removeClass("selected");
+    _this.scroller.removeClass("numbers underlay photo");
+    var viewType = $this.data("type");
+    if (viewType == "numbersAndUnderlay") {
+      _this.enableViewLayers("numbers underlay");
+    } else if (viewType == "photo") {
+      _this.enableViewLayers("photo");
+    }
+    
+    event.preventDefault();
+  })
+  .first().addClass("selected");
 };
 
 function SeatChooser(container, delegate) {
