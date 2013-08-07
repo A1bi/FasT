@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801171926) do
+ActiveRecord::Schema.define(:version => 20130807131502) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -109,14 +109,14 @@ ActiveRecord::Schema.define(:version => 20130801171926) do
 
   create_table "ticketing_bank_charges", :force => true do |t|
     t.string   "name"
-    t.integer  "number"
+    t.integer  "number",          :limit => 8
     t.integer  "blz"
     t.string   "bank"
     t.string   "chargeable_type"
     t.integer  "chargeable_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.boolean  "approved",        :default => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.boolean  "approved",                     :default => false
     t.integer  "submission_id"
   end
 
