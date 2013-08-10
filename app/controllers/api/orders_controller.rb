@@ -10,9 +10,15 @@ class Api::OrdersController < ApplicationController
     
     info = params[:order]
     retailId = params[:retailId]
+    if retailId.present?
+      type = :retail
+    else
+      type = (params[:type] || "").to_sym
+      type = :web if type == :service && !@_member.admin?
+    end
     
-    isRetail = retailId.present?
-    order = (isRetail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
+    order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
+    order.service_validations = true if type == :service
     
     order.build_bunch
     
@@ -36,11 +42,11 @@ class Api::OrdersController < ApplicationController
     
 		info[:tickets].each do |type_id, number|
       number = number.to_i
-			type = Ticketing::TicketType.find_by_id(type_id)
-      next if !type || number < 1
+			ticket_type = Ticketing::TicketType.find_by_id(type_id)
+      next if !ticket_type || number < 1
       
-      if type.exclusive
-        assignment = coupon.ticket_type_assignments.where(ticket_type_id: type).first
+      if ticket_type.exclusive && type != :service
+        assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
         next if !assignment
         if assignment.number >= 0
           assignment.number = assignment.number - number
@@ -51,17 +57,17 @@ class Api::OrdersController < ApplicationController
       
       number.times do
 				ticket = Ticketing::Ticket.new
-				ticket.type = type
+				ticket.type = ticket_type
 				ticket.seat = Ticketing::Seat.find(seats.shift)
         ticket.date = Ticketing::EventDate.find(info[:date])
         order.bunch.tickets << ticket
 			end
 		end
   
-    if !isRetail
+    if type != :retail
       order.attributes = info[:address]
 
-      order.pay_method = (info[:payment] ||= {}).delete(:method)
+      order.pay_method = (info[:payment] ||= {}).delete(:method) || "transfer"
       if order.pay_method == "charge"
         order.build_bank_charge(info[:payment])
       end
@@ -71,7 +77,7 @@ class Api::OrdersController < ApplicationController
     end
     
     if order.save
-      if !isRetail && params[:newsletter].present?
+      if type == :web && params[:newsletter].present?
         Newsletter::Subscriber.create(email: order.email)
       end
       
@@ -86,6 +92,7 @@ class Api::OrdersController < ApplicationController
       response[:ok] = true
       response[:order] = order.api_hash
     else
+      puts order.errors.messages
       response[:errors] << "Unknown error"
     end
     

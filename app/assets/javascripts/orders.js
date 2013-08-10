@@ -155,12 +155,16 @@ function DateStep(delegate) {
     this.box.find("select").change(function () {
       _this.choseNumber($(this));
     });
-    this.couponBox.find("input[type=text]").keyup(function (event) {
-      if (event.which == 13) _this.redeemCoupon();
-    });
-    this.couponBox.find("input[type=submit]").click(function () {
-      _this.redeemCoupon();
-    });
+    if (this.delegate.web) {
+      this.couponBox.find("input[type=text]").keyup(function (event) {
+        if (event.which == 13) _this.redeemCoupon();
+      });
+      this.couponBox.find("input[type=submit]").click(function () {
+        _this.redeemCoupon();
+      });
+    } else {
+      this.couponBox.hide();
+    }
     this.box.find(".total > span").text(this.formatCurrency(0));
   };
   
@@ -284,7 +288,7 @@ function SeatsStep(delegate) {
       _this.delegate.toggleModalSpinner(false);
     });
     togglePluralText(this.box.find(".note"), info.internal.numberOfTickets, "note");
-    this.box.find(".key .exclusiveSeats").toggle(!!info.internal.exclusiveSeats);
+    this.toggleExclusiveSeatsKey(!!info.internal.exclusiveSeats);
   };
   
   this.registerEvents = function () {
@@ -292,6 +296,30 @@ function SeatsStep(delegate) {
     this.chooser = new SeatChooser(this.box.find(".seating"), this);
     this.box.hide();
     this.delegate.toggleModalSpinner(true);
+    
+    this.box.find(".reservationGroups :checkbox").click(function () { _this.enableReservationGroups(); });
+  };
+  
+  this.enableReservationGroups = function () {
+    var groups = [];
+    this.box.find(".reservationGroups :checkbox").each(function () {
+      $this = $(this);
+      if ($this.is(":checked")) groups.push($this.prop("name"));
+    });
+    
+    this.delegate.toggleModalSpinner(true);
+    $.post(this.box.find(".reservationGroups").data("enable-url"), {
+      groups: groups,
+      seatingId: this.delegate.getStepInfo("seats").api.seatingId
+    }).always(function (res) {
+      _this.delegate.toggleModalSpinner(false);
+      _this.toggleExclusiveSeatsKey(!!res.seats);
+      _this.resizeDelegateBox();
+    });
+  };
+  
+  this.toggleExclusiveSeatsKey = function (toggle) {
+    this.box.find(".key .exclusiveSeats").toggle(toggle);
   };
   
   this.seatChooserIsReady = function () {
@@ -322,14 +350,16 @@ function AddressStep(delegate) {
   
   this.validate = function () {
     return this.validateFields(function () {
-      $.each(["first_name", "last_name", "phone"], function () {
-        _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
-      });
+      if (this.delegate.web) {
+        $.each(["first_name", "last_name", "phone"], function () {
+          _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
+        });
     
-      if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
-      this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").onlyDigits().len(5, 5);
-      this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
-      this.getValidatorCheckForField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.").equals(this.getFieldWithKey("email").val());
+        if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
+        this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").onlyDigits().len(5, 5);
+        this.getValidatorCheckForField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.").equals(this.getFieldWithKey("email").val());
+      }
+      if (!!this.getFieldWithKey("email").val()) this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
     });
   };
   
@@ -439,7 +469,7 @@ function ConfirmStep(delegate) {
   };
   
   this.nextBtnEnabled = function () {
-    return this.delegate.retail || !!_this.info.api.accepted;
+    return !this.delegate.web || !!this.info.api.accepted;
   };
 }
 
@@ -459,6 +489,7 @@ function FinishStep(delegate) {
     var info = {
       order: orderInfo,
       web: true,
+      type: this.delegate.type,
       retailId: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
     };
@@ -473,17 +504,21 @@ function FinishStep(delegate) {
     if (!res.ok) {
       this.error();
       return;
+      
+    } else if (this.delegate.service) {
+      window.location = this.delegate.stepBox.data("order-path") + res.order.bunch_id;
+      
+    } else {
+      this.box.find(".success").show();
+      if (this.delegate.retail) {
+        this.box.find(".total span").text(this.formatCurrency(res.order.total));
+        this.box.find(".printable_link").attr("href", res.order.printable_path);
+      }
+    
+      if (this.delegate.web) this.trackPiwikGoal(1, res.order.total);
+    
+      this.delegate.killExpirationTimer();
     }
-    
-    this.box.find(".success").show();
-    if (this.delegate.retail) {
-      this.box.find(".total span").text(this.formatCurrency(res.order.total));
-      this.box.find(".printable_link").attr("href", res.order.printable_path);
-    }
-    
-    if (!this.delegate.retail) this.trackPiwikGoal(1, res.order.total);
-    
-    this.delegate.killExpirationTimer();
   };
   
   this.error = function () {
@@ -708,8 +743,19 @@ var ordering = new function () {
     _this.modalBox = _this.stepBox.find(".modalAlert");
     
     _this.retailId = $(".retail").data("id");
-    _this.retail = !!_this.retailId;
-    var steps = (_this.retail) ? [DateStep, SeatsStep, ConfirmStep, FinishStep] : [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
+    _this.type = _this.stepBox.data("type");
+    _this.retail = _this.type == "retail";
+    _this.service = _this.type == "service";
+    _this.web = !_this.retail && !_this.service;
+    
+    var steps;
+    if (_this.retail) {
+      steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
+    } else if (_this.service) {
+      steps = [DateStep, SeatsStep, AddressStep, ConfirmStep, FinishStep];
+    } else {
+      steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
+    }
     
     var width = _this.progressBox.width() / (steps.length - 1);
     _this.progressBox.find(".step").css({ width: width }).filter(".bar").css({ width: Math.round(width) });

@@ -1,0 +1,53 @@
+<div class="stepCon payment">
+  <%= form_for :payment do |f| %>
+		<table class="inner rounded">
+      <thead>
+        <tr>
+          <th colspan="2">Zahlungsmethode</th>
+        </tr>
+      </thead>
+      <tbody>
+  			<tr>
+  				<td class="radio"><input type="radio" name="method" value="charge" id="methodCharge" /></td>
+  				<td>
+            <%= label_tag :methodCharge do %><b>Lastschrift</b><% end %>
+            <div class="small"><%= label_tag :methodCharge do %>Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung.<% end %></div>
+  			  </td>
+  			</tr>
+  			<tr>
+  				<td class="radio"><input type="radio" name="method" value="transfer" id="methodTransfer" /></td>
+  				<td>
+            <%= label_tag :methodTransfer do %><b>Vorkasse per Überweisung</b><% end %>
+  					  <div class="small"><%= label_tag :methodTransfer do %>Sie erhalten Ihre Tickets nach Zahlungseingang.<% end %></div>
+  				</td>
+  			</tr>
+      </tbody>
+		</table>
+		<div class="charge inner">
+			<table class="form rounded">
+        <thead>
+          <tr>
+            <th colspan="2">Ihre Bankdaten</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
+            <%= f.text_field :name %>
+          <% end %>
+          <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
+            <%= f.text_field :number %>
+          <% end %>
+          <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
+            <%= f.text_field :blz %>
+          <% end %>
+          <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
+            <%= f.text_field :bank %>
+          <% end %>
+        </tbody>
+			</table>
+			<div class="small note">
+				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
+			</div>
+		</div>
+  <% end %>
+</div>

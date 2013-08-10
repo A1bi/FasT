@@ -1,0 +1,38 @@
+<div class="stepCon address">
+	<%= form_for :address do |f| %>
+ 		<table class="inner form rounded">
+      <thead>
+        <tr>
+          <th colspan="2">Ihre Angaben</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
+          <%= f.select(:gender, options_for_select([[" ", -1], ["Frau", 0], ["Herr", 1]])) %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
+          <%= render "prepopulated_text_field", :f => f, :name => :first_name %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
+          <%= render "prepopulated_text_field", :f => f, :name => :last_name %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
+          <%= f.text_field :plz, :class => "field" %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
+          <%= f.text_field :phone, :class => "field" %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
+          <%= render "prepopulated_text_field", :f => f, :name => :email %>
+        <% end %>
+        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse Bestätigung" } do %>
+          <%= render "prepopulated_text_field", :f => f, :name => :email_confirmation, :key => :email %>
+          <div class="small">Noch einmal zur Sicherheit, um Tippfehler auszuschließen.</div>
+        <% end if @type == :web %>
+      </tbody>
+ 		</table>
+	<% end %>
+	<div class="small note">
+		Diese Daten sind nur für eventuelle Rückfragen erforderlich und werden nach der Aufführung vollständig aus unserem System gelöscht.
+	</div>
+</div>

@@ -1,1 +1,1 @@
-<%= f.text_field name, class: "field", value: (@_member && @_member.respond_to?(key ||= name) ? @_member.send(key) : "") %>
+<%= f.text_field name, class: "field", value: (@type == :web && @_member && @_member.respond_to?(key ||= name) ? @_member.send(key) : "") %>

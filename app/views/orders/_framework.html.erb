@@ -1,8 +1,8 @@
-<% title "Tickets bestellen" %>
+<% title (title ||= "Tickets bestellen") %>
 <% include_css "orders" %>
 <% include_js "orders" %>
 <div class="hl">
-	Tickets bestellen
+	<%= title %>
   <%= content_tag :div, class: :retail, data: { id: @store.id } do %>
     Vorverkaufsstelle: <%= @store.name %>
   <% end if @store %>
@@ -21,7 +21,7 @@
 	  <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
   </ul>
 </div>
-<div class="stepBox">
+<%= content_tag :div, class: ["stepBox", @type], data: { type: @type, "order-path" => ticketing_order_path("") } do %>
   <div class="modalAlert">
 		<div class="messages alert">
 			<div class="icon"></div>
@@ -32,7 +32,7 @@
 	  </div>
   </div>
   <%= yield :steps %>
-</div>
+<% end %>
 <div class="btns">
 	<div class="btn prev disabled">zurück</div>
 	<div class="btn next disabled">

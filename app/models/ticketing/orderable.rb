@@ -10,6 +10,7 @@ module Ticketing
       def api_hash
         hash = {
           id: id.to_s,
+          bunch_id: bunch.id.to_s,
           number: bunch.number.to_s,
           total: bunch.total,
           paid: bunch.paid || false,

@@ -1,6 +1,11 @@
 class OrdersController < ApplicationController
   before_filter :disable_slides
-  before_filter :set_event_info, :only => [:new, :new_retail]
+  before_filter :set_event_info, :only => [:new, :new_retail, :new_service]
+  restrict_access_to_group :admin, :only => [:new_service, :enable_reservation_groups]
+  
+  def new
+    @type = :web
+  end
   
   def new_retail
     if !session[:retail_id].present?
@@ -8,6 +13,12 @@ class OrdersController < ApplicationController
     end
     
     @store = Ticketing::Retail::Store.find(session[:retail_id])
+    @type = :retail
+  end
+  
+  def new_service
+    @type = :service
+    @reservation_groups = Ticketing::ReservationGroup.scoped
   end
   
   def retail_login
@@ -35,19 +46,23 @@ class OrdersController < ApplicationController
     else
       response[:ok] = true
       
-      seats = {}
-      (coupon.reservation_groups).each do |reservation_group|
-        reservation_group.reservations.each do |reservation|
-          (seats[reservation.date.id] ||= []) << reservation.seat.id
-        end
-      end
-      NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seatingId], seats: seats }) if !seats.empty?
-      response[:seats] = !seats.empty?
+      response[:seats] = set_exclusive_seats(coupon.reservation_groups).any?
       
       response[:ticket_types] = coupon.ticket_type_assignments.map do |assignment|
         { id: assignment.ticket_type.id, number: assignment.number }
       end
     end
+    
+    render json: response
+  end
+  
+  def enable_reservation_groups
+    groups = []
+    (params[:groups] ||= []).each do |group_id|
+      groups << Ticketing::ReservationGroup.find(group_id)
+    end
+    
+    response = { ok: true, seats: set_exclusive_seats(groups, true).any? }
     
     render json: response
   end
@@ -58,5 +73,16 @@ class OrdersController < ApplicationController
 		@event = Ticketing::Event.current
 		@seats = Ticketing::Seat.scoped
 		@ticket_types = Ticketing::TicketType.order(:price)
+  end
+  
+  def set_exclusive_seats(groups, even_if_empty = false)
+    seats = {}
+    (groups).each do |reservation_group|
+      reservation_group.reservations.each do |reservation|
+        (seats[reservation.date.id] ||= []) << reservation.seat.id
+      end
+    end
+    NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seatingId], seats: seats }) if seats.any? || even_if_empty
+    seats
   end
 end

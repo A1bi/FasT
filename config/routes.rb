@@ -70,6 +70,7 @@ FasT::Application.routes.draw do
       end
   	end
     
+    get "/vorverkauf/bestellungen/neu" => "orders#new_service"
     namespace :ticketing, :path => "vorverkauf" do
       get "statistik" => "statistics#index"
       resources :orders, :path => "bestellungen", :only => [:index, :show] do
@@ -128,6 +129,7 @@ FasT::Application.routes.draw do
     get "vorverkaufsstelle/login", :action => :retail_login, :as => :retail_order_login
     post "vorverkaufsstelle/login", :action => :retail_login_check, :as => :retail_order_login
     post "redeem", :action => :redeem_coupon, :as => :redeem_coupon
+    post "enable-reservation-groups", :action => :enable_reservation_groups, :as => :enable_reservation_groups
 	end
 	
   scope :path => :api do

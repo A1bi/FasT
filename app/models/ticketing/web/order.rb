@@ -3,13 +3,14 @@ module Ticketing
     include Orderable
   
     attr_accessible :email, :first_name, :gender, :last_name, :phone, :plz
+    attr_accessor :service_validations
 	
     has_one :bank_charge, :as => :chargeable, :validate => true, dependent: :destroy
   
-    validates_presence_of :email, :first_name, :last_name, :phone, :plz
-    validates_inclusion_of :gender, :in => 0..1
-    validates_format_of :plz, :with => /^\d{5}$/
-    validates :email, :email_format => true
+    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.service_validations }
+    validates_inclusion_of :gender, :in => 0..1, if: Proc.new { |order| !order.service_validations }
+    validates_format_of :plz, :with => /^\d{5}$/, if: Proc.new { |order| !order.service_validations }
+    validates :email, :allow_blank => true, :email_format => true
     validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
   
     before_validation :before_validation, on: :create

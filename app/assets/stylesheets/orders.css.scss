@@ -244,7 +244,8 @@
 			display: none;
       
       .date_ticketing_ticket_type {
-        &.exclusive {
+        /* should be .stepBox:not(.service) &.exclusive -- workaround for IE8 */
+        .stepBox.web &.exclusive, .stepBox.retail &.exclusive {
           @include animation(exclusiveTicketType, .6s, 7, true);
           display: none;
           background: #fff3aa;

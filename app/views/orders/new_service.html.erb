@@ -1,0 +1,32 @@
+<% content_for :steps do %>
+	<%= render "date" %>
+	<%= render "seats" %>
+	<%= render "address" %>
+	<div class="stepCon confirm">
+    <%= render "confirm_tickets" %>
+		<div class="address inner">
+      <table class="rounded form">
+        <thead>
+          <tr>
+            <th colspan="2">Ihre Angaben</th>
+          </tr>
+        </thead>
+        <tbody>
+      		<tr>
+      			<td>Name:</td>
+      			<td><span class="first_name"></span> <span class="last_name"></span></td>
+      		</tr>
+      		<tr>
+      			<td>Telefonnummer:</td>
+      			<td class="phone"></td>
+      		</tr>
+      		<tr>
+      			<td>e-mail-Adresse:</td>
+      			<td class="email"></td>
+      		</tr>
+        </tbody>
+    	</table>
+    </div>
+	</div>
+<% end %>
+<%= render "framework", title: "Neue Bestellung aufnehmen" %>
