@@ -68,6 +68,7 @@
                     <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
                   <% end %>
                 <% end %>
+                <div><%= link_to "Tickets runterladen", @bunch.printable_path %></div>
                 <div>
                   <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
                   <div id="cancelForm">

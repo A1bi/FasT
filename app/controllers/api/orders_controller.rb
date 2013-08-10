@@ -100,7 +100,7 @@ class Api::OrdersController < ApplicationController
   end
   
   def retail
-    orders = Ticketing::Retail::Order.by_store(params[:store_id]).api_hash
+    orders = Ticketing::Retail::Order.by_store(params[:store_id]).includes(:bunch).where(:ticketing_bunches => { :cancellation_id => nil }).api_hash
     
     render :json => orders
   end

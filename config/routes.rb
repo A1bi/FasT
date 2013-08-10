@@ -70,7 +70,7 @@ FasT::Application.routes.draw do
       end
   	end
     
-    get "/vorverkauf/bestellungen/neu" => "orders#new_service"
+    get "/vorverkauf/bestellungen/neu" => "orders#new_service", :as => :new_ticketing_order
     namespace :ticketing, :path => "vorverkauf" do
       get "statistik" => "statistics#index"
       resources :orders, :path => "bestellungen", :only => [:index, :show] do
