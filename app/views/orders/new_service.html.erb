@@ -2,6 +2,18 @@
 	<%= render "date" %>
 	<%= render "seats" %>
 	<%= render "address" %>
+	<%= render "payment", methods: [
+    {
+      name: :transfer,
+      human_name: "Vorkasse per Überweisung",
+      desc: "Der Kunde überweist das Geld und erhält seine Tickets an der Abendkasse oder anderweitig."
+    },
+    {
+      name: :cash,
+      human_name: "Barzahlung",
+      desc: "Der Kunde bezahlt an der Abendkasse und erhält dort auch seine Tickets."
+    }
+	] %>
 	<div class="stepCon confirm">
     <%= render "confirm_tickets" %>
 		<div class="address inner">

@@ -23,7 +23,7 @@
         <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
         <td class="name">
           <% if web %>
-            <%= order.last_name %>, <%= order.first_name %>
+            <%= order.last_name.presence || content_tag(:em, "nicht angegeben") %>, <%= order.first_name.presence || content_tag(:em, "nicht angegeben") %>
           <% else %>
             <%= order.store.name %>
           <% end %>

@@ -751,8 +751,6 @@ var ordering = new function () {
     var steps;
     if (_this.retail) {
       steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
-    } else if (_this.service) {
-      steps = [DateStep, SeatsStep, AddressStep, ConfirmStep, FinishStep];
     } else {
       steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
     }

@@ -2,6 +2,7 @@
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
 <% cache [:ticketing, :orders, :show, @bunch.id] do %>
+  <% scope = [:ticketing, :orders] %>
   <% order = @bunch.assignable %>
   <div class="hl">Bestellungsdetails</div>
   <% overview = [
@@ -10,7 +11,7 @@
     ["Tickets", @bunch.tickets.count],
     ["Gesamtbetrag", number_to_currency(@bunch.total)],
     ["bezahlt", @bunch.paid ? "ja" : "nein"],
-    ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : "<em>keiner</em>"]
+    ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : content_tag(:em, "keiner", class: :small)]
   ] %>
   <div class="topTables">
     <table class="rounded">
@@ -32,7 +33,7 @@
           ]
           if !@bunch.total.zero?
             payment = [
-              ["Zahlungsart", order.bank_charge ? "Bankeinzug" : "Überweisung"]
+              ["Zahlungsart", t(order.pay_method, scope: (scope + [:pay_methods]))]
             ]
             if order.bank_charge
               payment.concat [
@@ -63,7 +64,9 @@
                 <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
                   <% if !@bunch.paid %>
                     <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
-                    <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                    <% if order.pay_method == "transfer" %>
+                      <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                    <% end %>
                   <% elsif order.bank_charge && !order.bank_charge.approved %>
                     <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
                   <% end %>
@@ -122,7 +125,7 @@
       <% else %>
         <% events.each do |event| %>
           <tr>
-            <td><%= t event.name, scope: [:ticketing, :orders, :log_events] %></td>
+            <td><%= t event.name, scope: (scope + [:log_events]) %></td>
             <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
             <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           </tr>

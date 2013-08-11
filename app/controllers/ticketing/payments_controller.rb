@@ -11,7 +11,7 @@ module Ticketing
     def index
       types = [
         [:unpaid, [
-          ["where", ["ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?", false]]
+          ["where", ["pay_method = 'transfer' AND (ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?)", false]]
         ]],
         [:unapproved, [
           ["includes", "bank_charge"],

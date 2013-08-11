@@ -49,6 +49,10 @@ de:
         summary: "Theater-Probe"
   ticketing:
     orders:
+      pay_methods:
+        charge: "Lastschrift"
+        transfer: "Überweisung"
+        cash: "Barzahlung"
       log_events:
         created: "Bestellung aufgegeben"
         sent_pay_reminder: "Zahlungserinnerung gesendet"

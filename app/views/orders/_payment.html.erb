@@ -7,20 +7,16 @@
         </tr>
       </thead>
       <tbody>
-  			<tr>
-  				<td class="radio"><input type="radio" name="method" value="charge" id="methodCharge" /></td>
-  				<td>
-            <%= label_tag :methodCharge do %><b>Lastschrift</b><% end %>
-            <div class="small"><%= label_tag :methodCharge do %>Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung.<% end %></div>
-  			  </td>
-  			</tr>
-  			<tr>
-  				<td class="radio"><input type="radio" name="method" value="transfer" id="methodTransfer" /></td>
-  				<td>
-            <%= label_tag :methodTransfer do %><b>Vorkasse per Überweisung</b><% end %>
-  					  <div class="small"><%= label_tag :methodTransfer do %>Sie erhalten Ihre Tickets nach Zahlungseingang.<% end %></div>
-  				</td>
-  			</tr>
+        <% methods.each do |method| %>
+          <% method_id = "method#{method[:name].capitalize}".to_sym %>
+    			<tr>
+    				<td class="radio"><input type="radio" name="method" value="<%= method[:name] %>" id="<%= method_id %>" /></td>
+    				<td>
+              <%= label_tag method_id do %><b><%= method[:human_name] %></b><% end %>
+              <div class="small"><%= label_tag method_id, method[:desc] %></div>
+    			  </td>
+    			</tr>
+        <% end %>
       </tbody>
 		</table>
 		<div class="charge inner">

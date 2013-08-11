@@ -11,7 +11,7 @@ module Ticketing
     validates_inclusion_of :gender, :in => 0..1, if: Proc.new { |order| !order.service_validations }
     validates_format_of :plz, :with => /^\d{5}$/, if: Proc.new { |order| !order.service_validations }
     validates :email, :allow_blank => true, :email_format => true
-    validates_inclusion_of :pay_method, :in => ["charge", "transfer"]
+    validates_inclusion_of :pay_method, :in => ["charge", "transfer", "cash"], if: Proc.new { |order| order.bunch.total > 0 }
   
     before_validation :before_validation, on: :create
     after_create :send_confirmation
@@ -35,11 +35,7 @@ module Ticketing
     private
     
     def before_validation
-      if bunch.total.zero?
-        self.pay_method = "transfer"
-      elsif pay_method == "charge"
-        bunch.paid = true
-      end
+      bunch.paid = true if pay_method == "charge"
     end
   end
 end

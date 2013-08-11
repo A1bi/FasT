@@ -7,7 +7,18 @@
 	<%= render "date" %>
 	<%= render "seats" %>
 	<%= render "address" %>
-	<%= render "payment" %>
+	<%= render "payment", methods: [
+    {
+      name: :charge,
+      human_name: "Lastschrift",
+      desc: "Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung."
+    },
+    {
+      name: :transfer,
+      human_name: "Vorkasse per Überweisung",
+      desc: "Sie erhalten Ihre Tickets nach Zahlungseingang."
+    }
+	] %>
 	<div class="stepCon confirm">
 		<div class="note">Bitte kontrollieren Sie Ihre Bestellung noch einmal und klicken anschließend auf <em>bestellen</em>.</div>
     <%= render "confirm_tickets" %>
