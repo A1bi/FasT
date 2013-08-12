@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807131502) do
+ActiveRecord::Schema.define(:version => 20130811212035) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -82,9 +82,11 @@ ActiveRecord::Schema.define(:version => 20130807131502) do
     t.string   "type_id"
     t.string   "serial_number"
     t.string   "auth_token"
-    t.string   "path"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string   "filename"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "assignable_id"
+    t.string   "assignable_type"
   end
 
   create_table "passbook_registrations", :force => true do |t|

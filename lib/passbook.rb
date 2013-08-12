@@ -12,21 +12,24 @@ module Passbook
     
     append_view_path "app/views"
     
-    def initialize(identifier, info)
+    def initialize(identifier, info, assignable = nil)
       @identifier = identifier
       @info = JSON(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
       
-      if @info[:webServiceURL]
-        @record = Records::Pass.where(type_id: @info[:passTypeIdentifier], serial_number: @info[:serialNumber]).first_or_initialize
-        if @record.new_record?
-          @record.auth_token = SecureRandom.hex
-        end
-    
+      if assignable
+        @record = Records::Pass.new(type_id: @info[:passTypeIdentifier], serial_number: @info[:serialNumber])
+        @record.assignable = assignable
+        @record.auth_token = SecureRandom.hex
         @info[:authenticationToken] = @record.auth_token
       end
     end
     
-    def create(path)
+    def create
+      path = Passbook.options[:full_path]
+      FileUtils.mkdir_p(path)
+      filename = "pass-#{Digest::SHA1.hexdigest(@info[:serialNumber].to_s)}#{SecureRandom.hex(4)}.pkpass"
+      path = File.join(path, filename)
+      
       create_working_dir
       create_pass_info(@info)
       copy_images
@@ -35,7 +38,7 @@ module Passbook
       zip(path)
       
       if @record
-        @record.path = path
+        @record.filename = filename
         @record.touch
         @record.save
       end
@@ -124,10 +127,23 @@ module Passbook
     class Pass < ActiveRecord::Base
       attr_accessible :type_id, :serial_number
       
+      belongs_to :assignable, :polymorphic => true
       has_many :registrations, :dependent => :destroy
       has_many :devices, through: :registrations
 
       validates_presence_of :type_id, :serial_number, :auth_token
+      
+      after_destroy :delete_file
+      
+      def path(full = false)
+        File.join(Passbook.options[full ? :full_path : :path], filename)
+      end
+      
+      private
+      
+      def delete_file
+        FileUtils.rm(path(true))
+      end
     end
 
     class Device < ActiveRecord::Base
@@ -201,7 +217,7 @@ module Passbook
       end
       
       def show_pass
-        send_file @pass.path if stale? @pass
+        send_file @pass.path(true) if stale? @pass
       end
       
       def log

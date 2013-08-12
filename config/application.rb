@@ -63,5 +63,10 @@ module FasT
     
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.assets.paths << Rails.root.join("lib", "assets", "javascripts")
+    
+    config.to_prepare do
+      Passbook.options[:path] = File.join("system", "passbook")
+      Passbook.options[:full_path] = File.join(Rails.public_path, Passbook.options[:path])
+    end
   end
 end

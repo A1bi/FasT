@@ -7,6 +7,7 @@ module Ticketing
     belongs_to :seat
   	belongs_to :date, :class_name => EventDate
     has_random_unique_number :number, 6
+    has_one :passbook_pass, :class_name => Passbook::Records::Pass, :as => :assignable, :dependent => :destroy
 	
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
@@ -27,10 +28,6 @@ module Ticketing
     def price
       self[:price] || 0
     end
-    
-    def passbook_pass_path(full = false)
-      File.join(passbook_path(full), "pass-" + Digest::SHA1.hexdigest(number.to_s) + ".pkpass")
-    end
   
     private
   
@@ -45,15 +42,8 @@ module Ticketing
     end
     
     def create_passbook_pass
-      FileUtils.mkdir_p(passbook_path(true))
-      
-      pass = Passbook::Pass.new(date.event.identifier, { ticket: self })
-      pass.create(passbook_pass_path(true))
-    end
-    
-    def passbook_path(full = false)
-      path = Rails.public_path if full
-      File.join(path || "", "/system/passbook")
+      pass = ::Passbook::Pass.new(date.event.identifier, { ticket: self }, self)
+      pass.create
     end
   end
 end

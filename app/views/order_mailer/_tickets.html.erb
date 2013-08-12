@@ -5,7 +5,9 @@
       <td><%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %></td>
       <td><%= ticket.type.name %></td>
       <td><%= number_to_currency(ticket.price) %></td>
-      <% if @order.bunch.paid %><td class="passbook"><%= link_to (image_tag "/assets/mail/passbook.png", alt: "zu Passbook hinzufügen"), root_url + ticket.passbook_pass_path %></td><% end %>
+      <%= content_tag :td, class: :passbook do %>
+        <%= link_to (image_tag "/assets/mail/passbook.png", alt: "zu Passbook hinzufügen"), root_url + ticket.passbook_pass.path %>
+      <% end if @order.bunch.paid %>
     </tr>
   <% end %>
   <tr class="total">
