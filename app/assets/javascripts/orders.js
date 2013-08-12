@@ -7,19 +7,13 @@ function Step(name, delegate) {
   this.box = $(".stepCon." + this.name);
   this.info = { api: {}, internal: {} };
   this.delegate = delegate;
+  this.foundErrors;
   
   var _this = this;
   this.validator = new Validator();
   this.validator.error = function (msg) {
     _this.showErrorOnField(msg[0], msg[1]);
-    this._errors.push(msg);
     return this;
-  };
-  this.validator.foundErrors = function () {
-    return this._errors.length > 0;
-  };
-  this.validator.resetErrors = function () {
-    this._errors = [];
   };
   this.validator.onlyDigits = function() {
     if (!this.str.match(/^\d*$/)) {
@@ -99,17 +93,16 @@ Step.prototype = {
   
   validateFields: function (proc) {
     this.box.find("tr").removeClass("error");
-    this.validator.resetErrors();
+    this.foundErrors = false;
     proc.call(this);
     
-    var errors = this.validator.foundErrors();
-    if (errors) {
+    if (this.foundErrors) {
       this.resizeDelegateBox(true);
     } else {
       this.updateInfoFromFields();
     }
     
-    return !errors;
+    return !this.foundErrors;
   },
   
   getValidatorCheckForField: function (key, msg) {
@@ -118,6 +111,7 @@ Step.prototype = {
   
   showErrorOnField: function (key, msg) {
     this.getFieldWithKey(key).parents("tr").addClass("error").find(".msg").html(msg);
+    this.foundErrors = true;
   },
   
   willMoveIn: function () {},
