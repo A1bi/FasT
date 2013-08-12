@@ -17,18 +17,21 @@ module Passbook
       @info = JSON(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
       
       if assignable
-        @record = Records::Pass.new(type_id: @info[:passTypeIdentifier], serial_number: @info[:serialNumber])
-        @record.assignable = assignable
-        @record.auth_token = SecureRandom.hex
+        @record = assignable.passbook_pass
+        if !@record
+          @record = Records::Pass.new(type_id: @info[:passTypeIdentifier], serial_number: @info[:serialNumber])
+          @record.assignable = assignable
+          @record.auth_token = SecureRandom.hex
+          @record.filename = "pass-#{Digest::SHA1.hexdigest(@info[:serialNumber].to_s)}#{SecureRandom.hex(4)}.pkpass"
+        end
         @info[:authenticationToken] = @record.auth_token
       end
     end
     
-    def create
+    def create(filename = nil)
       path = Passbook.options[:full_path]
       FileUtils.mkdir_p(path)
-      filename = "pass-#{Digest::SHA1.hexdigest(@info[:serialNumber].to_s)}#{SecureRandom.hex(4)}.pkpass"
-      path = File.join(path, filename)
+      path = File.join(path, @record.filename || filename)
       
       create_working_dir
       create_pass_info(@info)
@@ -38,8 +41,7 @@ module Passbook
       zip(path)
       
       if @record
-        @record.filename = filename
-        @record.touch
+        @record.touch if !@record.new_record?
         @record.save
       end
     end

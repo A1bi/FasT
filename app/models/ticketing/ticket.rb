@@ -12,7 +12,7 @@ module Ticketing
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
     
-    after_save :update_price
+    before_save :update_price
     after_save :create_passbook_pass
   
     def seat=(seat)
