@@ -8,8 +8,8 @@ class OrdersController < ApplicationController
   end
   
   def new_retail
-    if !session[:retail_id].present?
-      return redirect_to retail_order_login_path, :flash => { :warning => t("orders.retail_login.required") }
+    if !session[:retail_id].present? || (params[:store_id].present? && params[:store_id] != session[:retail_id])
+      return redirect_to retail_order_login_path(:store_id => params[:store_id]), :flash => { :warning => t("orders.retail_login.required") }
     end
     
     @store = Ticketing::Retail::Store.find(session[:retail_id])
@@ -22,17 +22,17 @@ class OrdersController < ApplicationController
   end
   
   def retail_login
-    @stores = [Ticketing::Retail::Store.find(3)]
+    @stores = [Ticketing::Retail::Store.find(params[:store_id] || 3)]
   end
   
   def retail_login_check
     # TODO: remove this insecure bullshit
-    if params[:store] == "3" && params[:password] == "9z2v*va38.y2Gg3F"
+    if Ticketing::Retail::Store.exists?(params[:store]) && params[:password] == "9z2v*va38.y2Gg#{params[:store]}F"
       session[:retail_id] = params[:store]
       
       redirect_to new_retail_order_path
     else
-      redirect_to retail_order_login_path, :flash => { :alert => t("orders.retail_login.auth_error") }
+      redirect_to retail_order_login_path(:store_id => params[:store]), :flash => { :alert => t("orders.retail_login.auth_error") }
     end
   end
   

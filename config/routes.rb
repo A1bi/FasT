@@ -125,8 +125,8 @@ FasT::Application.routes.draw do
 	
 	controller :orders, :path => "tickets" do
 		get "bestellen", :action => :new, :as => :new_order
-    get "vorverkaufsstelle", :action => :new_retail, :as => :new_retail_order
-    get "vorverkaufsstelle/login", :action => :retail_login, :as => :retail_order_login
+    get "vorverkaufsstelle(/:store_id)/login", :action => :retail_login, :as => :retail_order_login
+    get "vorverkaufsstelle(/:store_id)", :action => :new_retail, :as => :new_retail_order
     post "vorverkaufsstelle/login", :action => :retail_login_check, :as => :retail_order_login
     post "redeem", :action => :redeem_coupon, :as => :redeem_coupon
     post "enable-reservation-groups", :action => :enable_reservation_groups, :as => :enable_reservation_groups
