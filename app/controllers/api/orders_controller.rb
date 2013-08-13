@@ -92,7 +92,6 @@ class Api::OrdersController < ApplicationController
       response[:ok] = true
       response[:order] = order.api_hash
     else
-      puts order.errors.messages
       response[:errors] << "Unknown error"
     end
     

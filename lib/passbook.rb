@@ -43,6 +43,7 @@ module Passbook
       if @record
         @record.touch if !@record.new_record?
         @record.save
+        @record.assignable.passbook_pass = @record
       end
     end
     
