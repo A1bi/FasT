@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130812155455) do
+ActiveRecord::Schema.define(:version => 20130813132756) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -132,6 +132,21 @@ ActiveRecord::Schema.define(:version => 20130812155455) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.string   "color",      :default => "black"
+  end
+
+  create_table "ticketing_box_office_checkins", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "checkpoint_id"
+    t.boolean  "in"
+    t.integer  "medium"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "ticketing_box_office_checkpoints", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "ticketing_bunches", :force => true do |t|

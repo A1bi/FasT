@@ -142,6 +142,9 @@ FasT::Application.routes.draw do
           get "retail/:store_id", :action => :retail
         end
       end
+      scope :controller => :tickets, :path => :tickets do
+        post :check_in
+      end
       get "events/current", :as => "current_event"
       get "seats" => "seats#index"
     end
