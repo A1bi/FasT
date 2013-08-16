@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130812155455) do
+ActiveRecord::Schema.define(:version => 20130816094618) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -132,6 +132,51 @@ ActiveRecord::Schema.define(:version => 20130812155455) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.string   "color",      :default => "black"
+  end
+
+  create_table "ticketing_box_office_box_offices", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_box_office_checkins", :force => true do |t|
+    t.integer  "ticket_id"
+    t.integer  "checkpoint_id"
+    t.boolean  "in"
+    t.integer  "medium"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "ticketing_box_office_checkpoints", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_box_office_products", :force => true do |t|
+    t.string   "name"
+    t.float    "price"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ticketing_box_office_purchase_items", :force => true do |t|
+    t.integer  "purchase_id"
+    t.integer  "purchasable_id"
+    t.string   "purchasable_type"
+    t.float    "total"
+    t.integer  "number"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "ticketing_box_office_purchases", :force => true do |t|
+    t.integer  "box_office_id"
+    t.float    "total"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "ticketing_bunches", :force => true do |t|

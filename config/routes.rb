@@ -140,10 +140,16 @@ FasT::Application.routes.draw do
         end
         collection do
           get "retail/:store_id", :action => :retail
+          get "current_date"
+          get "number/:number", :action => :by_number
         end
+      end
+      scope :controller => :tickets, :path => :tickets do
+        post :check_in
       end
       get "events/current", :as => "current_event"
       get "seats" => "seats#index"
+      resources :purchases, :only => [:create]
     end
     
     scope :module => Passbook::Controllers, :controller => :passbook , :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do

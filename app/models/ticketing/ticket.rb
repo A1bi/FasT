@@ -8,6 +8,7 @@ module Ticketing
   	belongs_to :date, :class_name => EventDate
     has_random_unique_number :number, 6
     has_one :passbook_pass, :class_name => Passbook::Records::Pass, :as => :assignable, :dependent => :destroy
+    has_many :checkins, :class_name => BoxOffice::Checkin
 	
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
@@ -27,6 +28,14 @@ module Ticketing
     
     def price
       self[:price] || 0
+    end
+    
+    def can_check_in?
+      !checked_in? && !cancelled? && bunch.paid && (date.current? || Rails.env.development?)
+    end
+    
+    def checked_in?
+      !!checkins.last.try(:in)
     end
   
     private
