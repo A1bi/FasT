@@ -31,7 +31,7 @@ module Ticketing
     end
     
     def can_check_in?
-      !checked_in? && !cancelled? && bunch.paid && (date.current? || Rails.env.development?)
+      !checked_in?
     end
     
     def checked_in?
