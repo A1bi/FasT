@@ -140,6 +140,8 @@ FasT::Application.routes.draw do
         end
         collection do
           get "retail/:store_id", :action => :retail
+          get "current_date"
+          get "number/:number", :action => :by_number
         end
       end
       scope :controller => :tickets, :path => :tickets do

@@ -7,7 +7,7 @@ module Ticketing
     
       validates_presence_of :bunch
       
-      def api_hash
+      def api_hash(detailed = false)
         hash = {
           id: id.to_s,
           bunch_id: bunch.id.to_s,
@@ -16,9 +16,13 @@ module Ticketing
           paid: bunch.paid || false,
           created: created_at.to_i,
           tickets: bunch.tickets.map do |ticket|
-            { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
+            info = { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
+            info[:can_check_in] = ticket.can_check_in? if detailed
+            info
           end,
-          printable_path: bunch.printable_path
+          printable_path: bunch.printable_path,
+          first_name: first_name,
+          last_name: last_name
         }
         hash[:queue_number] = queue_number.to_s if self.is_a? Ticketing::Retail::Order
         hash
