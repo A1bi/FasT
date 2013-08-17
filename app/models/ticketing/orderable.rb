@@ -20,11 +20,16 @@ module Ticketing
             info[:can_check_in] = ticket.can_check_in? if detailed
             info
           end,
-          printable_path: bunch.printable_path,
-          first_name: first_name,
-          last_name: last_name
+          printable_path: bunch.printable_path
         }
-        hash[:queue_number] = queue_number.to_s if self.is_a? Ticketing::Retail::Order
+        if self.is_a? Ticketing::Retail::Order
+          hash[:queue_number] = queue_number.to_s
+        elsif self.is_a? Ticketing::Web::Order
+          hash.merge!({
+            first_name: first_name,
+            last_name: last_name
+          })
+        end
         hash
       end
       
