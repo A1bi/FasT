@@ -7,7 +7,7 @@
         </tr>
       </thead>
       <tbody>
-    		<% @event.dates.each do |date| %>
+    		<% @dates.each do |date| %>
           <tr>
     			  <%= content_tag_for(:td, date, :data => { :id => date.id }) { l date.date, format: "%A, den %d. %B um %H.%M Uhr" } %>
           </tr>
