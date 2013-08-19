@@ -105,7 +105,7 @@ class Api::OrdersController < ApplicationController
   end
   
   def current_date
-    orders = Ticketing::Web::Order.includes(bunch: [:tickets]).where(:ticketing_bunches => { :cancellation_id => nil }).order(:last_name, :first_name).all.map { |o| { id: o.id, number: o.bunch.number, last_name: o.last_name, first_name: o.first_name, number_of_tickets: o.bunch.tickets.count } }
+    orders = Ticketing::Web::Order.includes(bunch: [:tickets]).where(:ticketing_bunches => { :cancellation_id => nil }).order(:last_name, :first_name).all.map { |o| { id: o.id.to_s, number: o.bunch.number.to_s, last_name: o.last_name, first_name: o.first_name, number_of_tickets: o.bunch.tickets.count } }
     
     render :json => { ok: true, orders: orders }
   end

@@ -149,7 +149,11 @@ FasT::Application.routes.draw do
       end
       get "events/current", :as => "current_event"
       get "seats" => "seats#index"
-      resources :purchases, :only => [:create]
+      resources :purchases, :only => [:create] do
+        collection do
+          post :unlock_seats
+        end
+      end
     end
     
     scope :module => Passbook::Controllers, :controller => :passbook , :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do

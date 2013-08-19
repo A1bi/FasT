@@ -5,11 +5,13 @@ class Api::PurchasesController < ApplicationController
 
     (params[:items] ||= []).each do |itemInfo|
       item = Ticketing::BoxOffice::PurchaseItem.new
-      item.number = itemInfo[:number]
       item.purchasable = (itemInfo[:type] == "order" ? Ticketing::Bunch : Ticketing::BoxOffice::Product).find(itemInfo[:id])
       if itemInfo[:type] == "order"
+        item.number = 1
         item.purchasable.paid = true
         item.purchasable.save
+      else
+        item.number = itemInfo[:number]
       end
       purchase.items << item
     end
@@ -68,5 +70,16 @@ class Api::PurchasesController < ApplicationController
     response = { ok: purchase.save }
     response[:new_order] = new_order if new_order
     render json: response
+  end
+  
+  def unlock_seats
+    seats = {}
+    Ticketing::ReservationGroup.all.each do |reservation_group|
+      reservation_group.reservations.each do |reservation|
+        (seats[reservation.date.id] ||= []) << reservation.seat.id
+      end
+    end
+    NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seating_id], seats: seats }) if seats.any?
+    render nothing: true
   end
 end

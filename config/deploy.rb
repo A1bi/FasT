@@ -5,6 +5,7 @@ load "config/recipes/nginx"
 load "config/recipes/unicorn"
 load "config/recipes/mysql"
 load "config/recipes/memcached"
+load "config/recipes/rails"
 
 server "85.214.76.70", :web, :app, :db, primary: true
 
