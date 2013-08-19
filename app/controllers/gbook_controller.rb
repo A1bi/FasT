@@ -2,8 +2,6 @@ class GbookController < ApplicationController
   restrict_access_to_group :admin, :only => [:edit, :update, :destroy]
   
   before_filter :find_entry, :only => [:edit, :update, :destroy]
-	
-	cache_sweeper :gbook_entry_sweeper, :only => [:create, :update, :destroy]
   
   def index
 		@steps = 5

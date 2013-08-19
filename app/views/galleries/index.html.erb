@@ -14,7 +14,7 @@
 		});
 	</script>
 <% end if @_member.admin? %>
-<% cache [:galleries, :index, :all, @_member.admin?] do %>
+<% cache [:galleries, :index, :all, @galleries.cache_key, @_member.admin?] do %>
 <div class="index">
 	<div class="hl">Fotogalerie</div>
 	<%= render "new_button", :action => "neue Galerie", :admin_required => true %>

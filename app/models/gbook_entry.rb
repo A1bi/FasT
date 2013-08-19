@@ -1,4 +1,4 @@
-class GbookEntry < ActiveRecord::Base
+class GbookEntry < BaseModel
   attr_accessible :author, :text
   
   validates :author, :presence => true

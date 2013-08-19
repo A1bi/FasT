@@ -1,4 +1,4 @@
-class Gallery < ActiveRecord::Base
+class Gallery < BaseModel
   attr_accessible :disclaimer, :position, :title
   
   has_many :photos, :order => :position, :dependent => :destroy

@@ -3,8 +3,6 @@ class GalleriesController < ApplicationController
   
 	before_filter :disable_slides, :except => [:index]
   before_filter :find_gallery, :only => [:show, :edit, :update, :destroy]
-	
-	cache_sweeper :gallery_sweeper, :only => [:create, :update, :destroy, :sort]
   
   def index
     @galleries = Gallery.order(:position)

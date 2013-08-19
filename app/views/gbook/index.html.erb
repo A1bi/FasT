@@ -1,27 +1,27 @@
 <% title "Gästebuch" %>
 <% include_css "gbook" %>
-		<div class="hl">
-			Gästebuch
-		</div>
-		Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
-		<%= render "new_button", :action => "eintragen" %>
-		<%= render "page_navi" %>
-		<% cache [:gbook_page, @page, @_member.admin?] do %>
-			<% @entries.each do |entry| %>
-				<div class="box">
-					<div class="top">
-						<%= entry.author %>
-					</div>
-					<div class="con">
-						<div style="text-align: right; font-size: 12px;">
-							am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
-						</div>
-						<%= nl2br entry.text %>
-					</div>
-					<%= content_tag :div, :class => [:actions, :actionBtns] do %>
-						<%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
-					<% end if @_member.admin? %>
-				</div>
-			<% end %>
-		<% end %>
-		<%= render "page_navi" %>
+<div class="hl">
+  Gästebuch
+</div>
+Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
+<%= render "new_button", :action => "eintragen" %>
+<% cache [:gbook_page, @entries.cache_key, @page, @_member.admin?] do %>
+  <%= render "page_navi" %>
+  <% @entries.each do |entry| %>
+    <div class="box">
+      <div class="top">
+        <%= entry.author %>
+      </div>
+      <div class="con">
+        <div style="text-align: right; font-size: 12px;">
+          am <%= entry.created_at.strftime("%d.%m.%y um %H.%M") %> Uhr
+        </div>
+        <%= nl2br entry.text %>
+      </div>
+      <%= content_tag :div, :class => [:actions, :actionBtns] do %>
+        <%= render "admin_actions", :obj => entry, :delete_confirm => "diesen Eintrag" %>
+      <% end if @_member.admin? %>
+    </div>
+  <% end %>
+  <%= render "page_navi" %>
+<% end %>
