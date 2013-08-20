@@ -8,18 +8,18 @@ module Ticketing
     def index
       types = [
         [:unpaid, [
-          ["where", ["pay_method = 'transfer' AND (ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?)", false]]
+          [:where, ["pay_method = 'transfer' AND (ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?)", false]]
         ]],
         [:unapproved, [
-          ["includes", "bank_charge"],
-          ["where", ["pay_method = 'charge'"]],
-          ["where", ["ticketing_bank_charges.approved = ?", false]]
+          [:joins, :bank_charge],
+          [:where, ["pay_method = 'charge'"]],
+          [:where, ["ticketing_bank_charges.approved = ?", false]]
         ]]
       ]
       @orders = {}
       types.each do |type|
         @orders[type[0]] = Web::Order
-          .includes(bunch: [:tickets])
+          .joins(bunch: [:tickets])
           .where(ticketing_tickets: { cancellation_id: nil })
           .order("ticketing_web_orders.created_at DESC")
         type[1].each do |additional|

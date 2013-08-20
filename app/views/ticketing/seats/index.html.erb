@@ -9,11 +9,13 @@
     <% end %>
   </div>
   <div class="edit_seats">
-    <%= form_for Ticketing::Seat.new, url: "" do |f| %>
-      <div>Sitzplätze bearbeiten</div>
-      <div>Nummer: <%= f.text_field :number %></div>
-      <div>Block: <%= f.select :block_id, options_from_collection_for_select(@blocks, :id, :name) %></div>
-      <div><%= link_to "löschen", "", { :data => { :"confirm-msg" => "Möchten Sie die markierten Sitzplätze wirklich löschen?" } } %></div>
+    <% cache [:ticketing, :seats, :edit_seats, @blocks] do %>
+      <%= form_for Ticketing::Seat.new, url: "" do |f| %>
+        <div>Sitzplätze bearbeiten</div>
+        <div>Nummer: <%= f.text_field :number %></div>
+        <div>Block: <%= f.select :block_id, options_from_collection_for_select(@blocks, :id, :name) %></div>
+        <div><%= link_to "löschen", "", { :data => { :"confirm-msg" => "Möchten Sie die markierten Sitzplätze wirklich löschen?" } } %></div>
+      <% end %>
     <% end %>
   </div>
   <div class="new_seat">
