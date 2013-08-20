@@ -5,7 +5,7 @@
 </div>
 Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
 <%= render "new_button", :action => "eintragen" %>
-<% cache [:gbook_page, @entries.cache_key, @page, @_member.admin?] do %>
+<% cache [:gbook_page, @entries, @page, @_member.admin?] do %>
   <%= render "page_navi" %>
   <% @entries.each do |entry| %>
     <div class="box">

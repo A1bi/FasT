@@ -1,7 +1,7 @@
 <% title "Gutscheine" %>
 <% include_css "ticketing/coupons" %>
 <% include_js "ticketing/base" %>
-<%= cache [:ticketing, :coupons, :index, @coupons.maximum(:updated_at)] do %>
+<% cache [:ticketing, :coupons, @coupons] do %>
   <%= render "new_button", action: "Gutschein erstellen", url: new_ticketing_coupon_path %>
   <table class="rounded">
     <thead>
@@ -17,17 +17,19 @@
     </thead>
     <tbody class="hover">
       <% @coupons.each do |coupon| %>
-        <tr data-path="<%= ticketing_coupon_path(coupon) %>">
-          <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
-          <td>
-            <% coupon.ticket_type_assignments.each do |assignment| %>
-              <div><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</div>
-            <% end %>
-            <%= content_tag :div do %>Zugang zu vorreservierten Plätzen<% end if !coupon.reservation_groups.empty? %>
-          </td>
-          <td><%= !coupon.bunches.empty? ? "ja" : "nein" %></td>
-          <td class="actionBtns"><%= render "admin_actions", :obj => coupon, :delete_confirm => "diesen Gutschein" %></td>
-        </tr>
+        <% cache [:ticketing, :coupons, coupon] do %>
+          <tr data-path="<%= ticketing_coupon_path(coupon) %>">
+            <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
+            <td>
+              <% coupon.ticket_type_assignments.each do |assignment| %>
+                <div><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</div>
+              <% end %>
+              <%= content_tag :div do %>Zugang zu vorreservierten Plätzen<% end if !coupon.reservation_groups.empty? %>
+            </td>
+            <td><%= !coupon.bunches.empty? ? "ja" : "nein" %></td>
+            <td class="actionBtns"><%= render "admin_actions", :obj => coupon, :delete_confirm => "diesen Gutschein" %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

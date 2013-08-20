@@ -4,7 +4,9 @@
 <div class="hl">Sitzplan bearbeiten</div>
 <div id="seats">
   <div class="seating" data-update-url="<%= ticketing_seat_path("") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
-    <%= render "application/ticketing/seats", seats: @seats, numbers: true, block_colors: true %>
+    <% cache [:ticketing, :seats, @seats] do %>
+      <%= render "application/ticketing/seats", seats: @seats, numbers: true, block_colors: true %>
+    <% end %>
   </div>
   <div class="edit_seats">
     <%= form_for Ticketing::Seat.new, url: "" do |f| %>
@@ -25,20 +27,24 @@
     <div class="hcen">Blöcke</div>
     <div id="blocks">
       <table>
-        <%= content_tag_for :tr, @blocks do |block| %>
-          <td><div class="ticketing_seat ticketing_block_<%= block.id %>"></div></td>
-          <td class="name"><%= block.name %></td>
-          <td><%= block.seats.count %> Sitzplätze</td>
-          <td class="actionBtns">
-            <%= render "admin_actions", obj: block, delete_confirm: "diesen Block", remote_edit: true %>
-          </td>
+        <% cache [:ticketing, :seats, @blocks, @seats] do %>
+          <%= content_tag_for :tr, @blocks do |block| %>
+            <td><div class="ticketing_seat ticketing_block_<%= block.id %>"></div></td>
+            <td class="name"><%= block.name %></td>
+            <td><%= block.seats.count %> Sitzplätze</td>
+            <td class="actionBtns">
+              <%= render "admin_actions", obj: block, delete_confirm: "diesen Block", remote_edit: true %>
+            </td>
+          <% end %>
         <% end %>
-        <tr>
-          <td></td>
-          <td></td>
-          <td><%= @seats.count %> Sitzplätze</td>
-          <td></td>
-        </tr>
+        <% cache [:ticketing, :seats, :total, @seats] do %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><%= @seats.count %> Sitzplätze</td>
+            <td></td>
+          </tr>
+        <% end %>
       </table>
     </div>
     <div class="new">

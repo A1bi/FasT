@@ -1,7 +1,4 @@
 class Api::OrdersController < ApplicationController
-  cache_sweeper :ticket_sweeper, :only => [:create]
-  cache_sweeper :order_sweeper, :only => [:create, :mark_as_paid]
-  
   def create
     response = {
       ok: false,

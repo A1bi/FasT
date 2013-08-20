@@ -1,108 +1,108 @@
 <% title "Bestellungsdetails ##{@bunch.number}" %>
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
-<% cache [:ticketing, :orders, :show, @bunch.id] do %>
-  <% scope = [:ticketing, :orders] %>
-  <% order = @bunch.assignable %>
-  <div class="hl">Bestellungsdetails</div>
-  <% overview = [
-    ["Nummer", "<b>#{@bunch.number}</b>"],
-    ["aufgegeben", l(order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
-    ["Tickets", @bunch.tickets.count],
-    ["Gesamtbetrag", number_to_currency(@bunch.total)],
-    ["bezahlt", @bunch.paid ? "ja" : "nein"],
-    ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : content_tag(:em, "keiner", class: :small)]
-  ] %>
-  <div class="topTables">
-    <table class="rounded">
-      <%= render "show_overview_table", title: "Übersicht", overview: overview %>
-      <%
-        if order.is_a? Ticketing::Retail::Order
-          title = "Bestellung an Vorverkaufsstelle"
-          overview = [
-            ["Vorverkaufsstelle", order.store.name]
+<% scope = [:ticketing, :orders] %>
+<% order = @bunch.assignable %>
+<div class="hl">Bestellungsdetails</div>
+<% overview = [
+  ["Nummer", "<b>#{@bunch.number}</b>"],
+  ["aufgegeben", l(order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
+  ["Tickets", @bunch.tickets.count],
+  ["Gesamtbetrag", number_to_currency(@bunch.total)],
+  ["bezahlt", @bunch.paid ? "ja" : "nein"],
+  ["Gutschein", @bunch.coupon ? link_to(@bunch.coupon.recipient, @bunch.coupon) : content_tag(:em, "keiner", class: :small)]
+] %>
+<div class="topTables">
+  <table class="rounded">
+    <%= render "show_overview_table", title: "Übersicht", overview: overview %>
+    <%
+      if order.is_a? Ticketing::Retail::Order
+        title = "Bestellung an Vorverkaufsstelle"
+        overview = [
+          ["Vorverkaufsstelle", order.store.name]
+        ]
+      else
+        title = "Online-Bestellung"
+        overview = [
+          ["Nachname", order.last_name],
+          ["Vorname", order.first_name],
+          ["e-mail", order.email],
+          ["Telefon", order.phone],
+          ["PLZ", order.plz]
+        ]
+        if !@bunch.total.zero?
+          payment = [
+            ["Zahlungsart", t(order.pay_method, scope: (scope + [:pay_methods]))]
           ]
-        else
-          title = "Online-Bestellung"
-          overview = [
-            ["Nachname", order.last_name],
-            ["Vorname", order.first_name],
-            ["e-mail", order.email],
-            ["Telefon", order.phone],
-            ["PLZ", order.plz]
-          ]
-          if !@bunch.total.zero?
-            payment = [
-              ["Zahlungsart", t(order.pay_method, scope: (scope + [:pay_methods]))]
+          if order.bank_charge
+            payment.concat [
+              ["Kontoinhaber", order.bank_charge.name],
+              ["Kontonummer", order.bank_charge.number],
+              ["BLZ", order.bank_charge.blz],
+              ["Bank", order.bank_charge.bank],
+              ["geprüft", order.bank_charge.approved ? "ja" : "nein"]
             ]
-            if order.bank_charge
-              payment.concat [
-                ["Kontoinhaber", order.bank_charge.name],
-                ["Kontonummer", order.bank_charge.number],
-                ["BLZ", order.bank_charge.blz],
-                ["Bank", order.bank_charge.bank],
-                ["geprüft", order.bank_charge.approved ? "ja" : "nein"]
-              ]
-            end
           end
         end
-      %>
-      <%= render "show_overview_table", title: title, overview: overview %>
-      <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
+      end
+    %>
+    <%= render "show_overview_table", title: title, overview: overview %>
+    <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
+  </table>
+  <div class="rightTables">
+    <table class="rounded actions">
+      <thead>
+        <tr>
+          <th>Aktionen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <% if !@bunch.cancelled? %>
+              <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
+                <% if !@bunch.paid %>
+                  <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
+                  <% if order.pay_method == "transfer" %>
+                    <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                  <% end %>
+                <% elsif order.bank_charge && !order.bank_charge.approved %>
+                  <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
+                <% end %>
+              <% end %>
+              <div><%= link_to "Tickets runterladen", @bunch.printable_path %></div>
+              <div>
+                <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
+                <div id="cancelForm">
+                  <%= form_tag cancel_ticketing_order_path(@bunch), method: :post do %>
+                    Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
     </table>
-    <div class="rightTables">
-      <table class="rounded actions">
+    <% if @bunch.cancelled? %>
+      <table class="rounded cancellation">
         <thead>
           <tr>
-            <th>Aktionen</th>
+            <th>Storniert</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
-              <% if !@bunch.cancelled? %>
-                <% if @bunch.assignable.is_a? Ticketing::Web::Order %>
-                  <% if !@bunch.paid %>
-                    <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
-                    <% if order.pay_method == "transfer" %>
-                      <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
-                    <% end %>
-                  <% elsif order.bank_charge && !order.bank_charge.approved %>
-                    <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
-                  <% end %>
-                <% end %>
-                <div><%= link_to "Tickets runterladen", @bunch.printable_path %></div>
-                <div>
-                  <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
-                  <div id="cancelForm">
-                    <%= form_tag cancel_ticketing_order_path(@bunch), method: :post do %>
-                      Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
+              Grund: <%= @bunch.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @bunch.cancellation.reason %>
             </td>
           </tr>
         </tbody>
       </table>
-      <% if @bunch.cancelled? %>
-        <table class="rounded cancellation">
-          <thead>
-            <tr>
-              <th>Storniert</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                Grund: <%= @bunch.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @bunch.cancellation.reason %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      <% end %>
-    </div>
+    <% end %>
   </div>
+</div>
+<% cache [:ticketing, :orders, @bunch, @bunch.log_events] do %>
   <% events = @bunch.log_events.order("id DESC") %>
   <table class="rounded entries log">
     <thead>
@@ -133,6 +133,8 @@
       <% end %>
     </tbody>
   </table>
+<% end %>
+<% cache [:ticketing, :orders, @bunch, @bunch.tickets, @seats] do %>
   <table class="rounded entries">
     <thead>
       <tr>

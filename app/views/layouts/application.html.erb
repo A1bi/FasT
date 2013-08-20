@@ -16,7 +16,7 @@
 	
 	<%= yield(:head) %>
 	
-	<% cache "photos_slides" do %>
+	<% cache [:application, :slides, Photo.slides] do %>
 		<script>
 			var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
 		</script>
@@ -56,11 +56,13 @@
 			</div>
 			<div class="content">
 				<% if !@no_member_controls && @_member.id %>
-					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => :members, :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
-					<% if @_member.admin? %>
-						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => :admin, :css_class => :admins, :controllers => [[:members, :index]] %>
-            <%= render "members_navi", :title => "Vorverkauf", :namespace => :ticketing, :css_class => :ticketing, :controllers => [[:orders, :index], [:payments, :index], [:statistics, :index], [:coupons, :index], [:seats, :index]] %>
-					<% end %>
+          <% cache [:application, :members_navi, @_member.admin?, controller.class] do %>
+  					<%= render "members_navi", :title => "Mitgliederbereich", :namespace => :members, :controllers => [[:main, :index], [:member, :edit], [:sessions, :destroy]] %>
+  					<% if @_member.admin? %>
+  						<%= render "members_navi", :title => "Vorstandsbereich", :namespace => :admin, :css_class => :admins, :controllers => [[:members, :index]] %>
+              <%= render "members_navi", :title => "Vorverkauf", :namespace => :ticketing, :css_class => :ticketing, :controllers => [[:orders, :index], [:payments, :index], [:statistics, :index], [:coupons, :index], [:seats, :index]] %>
+  					<% end %>
+          <% end %>
 				<% end %>
 				<% flash.each do |type, msg| %>
 					<div class="messages <%= type %>">

@@ -1,10 +1,7 @@
 module Ticketing
   class PaymentsController < BaseController
-    cache_sweeper :order_sweeper, only: [:mark_as_paid, :send_pay_reminder, :approve]
-    
     before_filter :find_orders, only: [:mark_as_paid, :approve]
     before_filter :find_unsubmitted_charges, only: [:index, :submit]
-    after_filter :sweep_orders_cache, only: [:mark_as_paid, :approve]
     
     @@submissions_scope = [:ticketing, :payments, :submissions]
     
@@ -90,11 +87,6 @@ module Ticketing
     def redirect_to_overview(notice = nil)
       flash[:notice] = t(notice, scope: [:ticketing, :payments]) if notice
       redirect_to ticketing_payments_path
-    end
-    
-    def sweep_orders_cache
-      expire_fragment [:ticketing, :orders, :index]
-      @orders.each { |order| expire_fragment [:ticketing, :orders, :show, order.bunch.id] }
     end
   end
 end

@@ -2,78 +2,82 @@
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
 <div class="hl">Zahlungsverwaltung</div>
-<table class="rounded entries">
-  <thead>
-    <tr>
-      <th colspan="3">Einzureichende Lastschriften</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <% if @unsubmitted_charges.any? %>
-        <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
-        <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
-      <% else %>
-        <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
-      <% end %>
-    </tr>
-  </tbody>
-  <thead>
-    <tr>
-      <th colspan="3">Vergangene Einreichungen</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @submissions.each do |submission| %>
-      <tr>
-        <td><%= submission.charges.count %> Lastschriften</td>
-        <td><%= link_to "Begleitzettel", ticketing_payments_sheet_path(submission) %></td>
-        <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= form_tag ticketing_payments_approve_path, method: :put do %>
+<% cache [:ticketing, :payments, @unsubmitted_charges, @submissions] do %>
   <table class="rounded entries">
     <thead>
       <tr>
-        <th colspan="7">Ungeprüfte Lastschriften</th>
+        <th colspan="3">Einzureichende Lastschriften</th>
       </tr>
-      <% if @orders[:unapproved].any? %>
-        <tr>
-          <th class="checkbox"><%= check_box_tag "orders_all" %></th>
-          <th>Bestellung</th>
-          <th>Kontoinhaber</th>
-          <th>Kontonummer</th>
-          <th>BLZ</th>
-          <th>Institut</th>
-          <th>Betrag</th>
-        </tr>
-      <% end %>
     </thead>
-    <tbody class="hover">
-      <% @orders[:unapproved].each do |order| %>
-        <% charge = order.bank_charge %>
-        <tr data-path="<%= ticketing_order_path(order.bunch) %>">
-          <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
-          <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
-          <td class="name"><%= charge.name %></td>
-          <td><%= charge.number %></td>
-          <td><%= charge.blz %></td>
-          <td class="name"><%= charge.bank %></td>
-          <td class="amount"><%= number_to_currency order.bunch.total %></td>
-        </tr>
-      <% end %>
-      <% if @orders[:unapproved].empty? %>
+    <tbody>
+      <tr>
+        <% if @unsubmitted_charges.any? %>
+          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
+          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
+        <% else %>
+          <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
+        <% end %>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th colspan="3">Vergangene Einreichungen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @submissions.each do |submission| %>
         <tr>
-          <td colspan="5" class="empty">Keine Lastschriften vorhanden.</td>
+          <td><%= submission.charges.count %> Lastschriften</td>
+          <td><%= link_to "Begleitzettel", ticketing_payments_sheet_path(submission) %></td>
+          <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= render "index_submit", text: "als geprüft markieren", orders: @orders[:unapproved] %>
+<% end %>
+<% cache [:ticketing, :payments, :unapproved, @orders[:unapproved]] do %>
+  <%= form_tag ticketing_payments_approve_path, method: :put do %>
+    <table class="rounded entries">
+      <thead>
+        <tr>
+          <th colspan="7">Ungeprüfte Lastschriften</th>
+        </tr>
+        <% if @orders[:unapproved].any? %>
+          <tr>
+            <th class="checkbox"><%= check_box_tag "orders_all" %></th>
+            <th>Bestellung</th>
+            <th>Kontoinhaber</th>
+            <th>Kontonummer</th>
+            <th>BLZ</th>
+            <th>Institut</th>
+            <th>Betrag</th>
+          </tr>
+        <% end %>
+      </thead>
+      <tbody class="hover">
+        <% @orders[:unapproved].each do |order| %>
+          <% charge = order.bank_charge %>
+          <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+            <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
+            <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
+            <td class="name"><%= charge.name %></td>
+            <td><%= charge.number %></td>
+            <td><%= charge.blz %></td>
+            <td class="name"><%= charge.bank %></td>
+            <td class="amount"><%= number_to_currency order.bunch.total %></td>
+          </tr>
+        <% end %>
+        <% if @orders[:unapproved].empty? %>
+          <tr>
+            <td colspan="5" class="empty">Keine Lastschriften vorhanden.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= render "index_submit", text: "als geprüft markieren", orders: @orders[:unapproved] %>
+  <% end %>
 <% end %>
 <%= form_tag ticketing_payments_mark_as_paid_path, method: :put do %>
-  <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true %>
+  <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true, cache_key: [:payments, :unpaid] %>
   <%= render "index_submit", text: "als bezahlt markieren", orders: @orders[:unpaid] %>
 <% end %>

@@ -16,7 +16,7 @@
     <% end %>
   </div>
 	<div class="seating">
-    <% cache [:new_order, :seats] do %>
+    <% cache [:new_order, @seats] do %>
 		  <%= render "application/ticketing/seats", :seats => @seats, :error_box => true, :numbers => true, :photo => true, :underlay => true, :view_chooser => true %>
     <% end %>
 	</div>

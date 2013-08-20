@@ -5,11 +5,11 @@ module Ticketing
       @ticket_types = TicketType.scoped
       @stores = Retail::Store.scoped
       
-      @seats = Rails.cache.fetch [:ticketing, :statistics, :seats] do
+      @seats = Rails.cache.fetch [:ticketing, :statistics, Seat] do
         Hash[@dates.map { |date| [date.id, Seat.with_availability_on_date(date)] }]
       end
       
-      @stats = Rails.cache.fetch [:ticketing, :statistics, :tickets] do
+      @stats = Rails.cache.fetch [:ticketing, :statistics, Ticket] do
         stats = {
           web: {},
           retail: {

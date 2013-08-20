@@ -1,5 +1,5 @@
 module Ticketing
-  class Retail::Order < ActiveRecord::Base
+  class Retail::Order < BaseModel
     include Orderable
 
     belongs_to :store

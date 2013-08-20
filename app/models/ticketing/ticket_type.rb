@@ -1,4 +1,4 @@
-class Ticketing::TicketType < ActiveRecord::Base
+class Ticketing::TicketType < BaseModel
   attr_accessible :name, :price, :info
 	
 	has_many :tickets, :foreign_key => "type_id"

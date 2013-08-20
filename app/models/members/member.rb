@@ -1,4 +1,4 @@
-class Members::Member < ActiveRecord::Base
+class Members::Member < BaseModel
 	attr_accessible
 	attr_accessible :email, :password, :password_confirmation, :as => :member
 	attr_accessible :email, :first_name, :last_name, :nickname, :group, :birthday, :as => :admin

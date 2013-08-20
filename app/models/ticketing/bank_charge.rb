@@ -1,9 +1,9 @@
 module Ticketing
-  class BankCharge < ActiveRecord::Base
+  class BankCharge < BaseModel
     attr_accessible :bank, :blz, :name, :number
     
     belongs_to :submission, class_name: BankSubmission
-    belongs_to :chargeable, polymorphic: true
+    belongs_to :chargeable, polymorphic: true, :touch => true
     
     validates_presence_of :name, :number, :blz, :bank
     validates_format_of :number, :with => /^\d{1,12}$/

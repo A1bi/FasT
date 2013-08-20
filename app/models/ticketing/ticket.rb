@@ -1,10 +1,10 @@
 module Ticketing
-  class Ticket < ActiveRecord::Base
+  class Ticket < BaseModel
   	include Cancellable, RandomUniqueAttribute
 	
-  	belongs_to :bunch
+  	belongs_to :bunch, :touch => true
   	belongs_to :type, :class_name => TicketType
-    belongs_to :seat
+    belongs_to :seat, :touch => true
   	belongs_to :date, :class_name => EventDate
     has_random_unique_number :number, 6
     has_one :passbook_pass, :class_name => Passbook::Records::Pass, :as => :assignable, :dependent => :destroy

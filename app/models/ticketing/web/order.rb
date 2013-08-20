@@ -1,5 +1,5 @@
 module Ticketing
-  class Web::Order < ActiveRecord::Base
+  class Web::Order < BaseModel
     include Orderable
   
     attr_accessible :email, :first_name, :gender, :last_name, :phone, :plz

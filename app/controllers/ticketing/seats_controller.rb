@@ -1,8 +1,6 @@
 module Ticketing
   class SeatsController < BaseController
     before_filter :find_seat, :only => [:update]
-    
-    cache_sweeper :seat_sweeper, :only => [:create, :update, :update_multiple, :destroy_multiple]
   
     def index
       @seats = Ticketing::Seat.order(:number)

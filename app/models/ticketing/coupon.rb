@@ -1,4 +1,4 @@
-class Ticketing::Coupon < ActiveRecord::Base
+class Ticketing::Coupon < BaseModel
   include RandomUniqueAttribute
   
   attr_accessible :expires, :recipient, :reservation_group_ids

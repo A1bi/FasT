@@ -1,7 +1,7 @@
-class Ticketing::EventDate < ActiveRecord::Base
+class Ticketing::EventDate < BaseModel
   attr_accessible :date
 	
-	belongs_to :event
+	belongs_to :event, :touch => true
 	has_many :reservations, :foreign_key => "date_id"
   
   def current?

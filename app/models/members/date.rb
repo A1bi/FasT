@@ -1,4 +1,4 @@
-class Members::Date < ActiveRecord::Base
+class Members::Date < BaseModel
   attr_accessible :datetime, :info, :location
 	
 	validates_presence_of :datetime

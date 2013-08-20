@@ -3,8 +3,6 @@ class PhotosController < ApplicationController
 	
   before_filter :find_photo, :only => [:edit, :update, :destroy, :toggle_slide]
   before_filter :find_gallery, :only => [:new, :edit, :create]
-	
-	cache_sweeper :gallery_sweeper, :only => [:create, :update, :destroy, :sort]
   
   def new
     @photo = @gallery.photos.new

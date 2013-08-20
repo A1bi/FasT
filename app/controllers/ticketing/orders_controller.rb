@@ -1,9 +1,6 @@
 module Ticketing
   class OrdersController < BaseController
     before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder, :approve, :cancel]
-    after_filter :sweep_details_cache, only: [:mark_as_paid, :send_pay_reminder, :approve, :cancel]
-    cache_sweeper :ticket_sweeper, only: [:cancel]
-    cache_sweeper :order_sweeper, only: [:cancel]
     
     def index
       types = [
@@ -67,10 +64,6 @@ module Ticketing
     
     def find_bunch
       @bunch = Ticketing::Bunch.find(params[:id])
-    end
-    
-    def sweep_details_cache
-      expire_fragment [:ticketing, :orders, :show, @bunch.id]
     end
   end
 end
