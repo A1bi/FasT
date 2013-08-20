@@ -11,7 +11,7 @@ module Ticketing
           [:where, ["pay_method = 'transfer' AND (ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?)", false]]
         ]],
         [:unapproved, [
-          [:joins, :bank_charge],
+          [:includes, :bank_charge],
           [:where, ["pay_method = 'charge'"]],
           [:where, ["ticketing_bank_charges.approved = ?", false]]
         ]]
@@ -19,7 +19,7 @@ module Ticketing
       @orders = {}
       types.each do |type|
         @orders[type[0]] = Web::Order
-          .joins(bunch: [:tickets])
+          .includes(bunch: [:tickets])
           .where(ticketing_tickets: { cancellation_id: nil })
           .order("ticketing_web_orders.created_at DESC")
         type[1].each do |additional|
