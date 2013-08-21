@@ -153,6 +153,7 @@ function SeatChooser(container, delegate) {
   this.seatingId;
   this.errorBox = this.container.find(".error");
   this.delegate = delegate;
+  this.noErrors = false;
 	var _this = this;
   
   this.updateSeats = function (seats) {
@@ -241,6 +242,10 @@ function SeatChooser(container, delegate) {
       _this.chooseSeat($(this));
 		});
     
+    $(window).on("beforeunload", function () {
+      _this.noErrors = true;
+    });
+    
     this.node.on("gotSeatingId", function (data) {
       _this.seatingId = data.id;
       _this.delegate.seatChooserGotSeatingId();
@@ -259,7 +264,9 @@ function SeatChooser(container, delegate) {
     
     var eventMappings = [["expired", "Expired"], ["connect_failed", "CouldNotConnect"], ["disconnect", "Disconnected"]];
     $.each(eventMappings, function (i, mapping) {
-      _this.node.on(mapping[0], function () { _this.delegate['seatChooser' + mapping[1]](); });
+      _this.node.on(mapping[0], function () {
+        if (!_this.noErrors) _this.delegate['seatChooser' + mapping[1]]();
+      });
     });
 	};
   
