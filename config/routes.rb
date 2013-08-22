@@ -90,6 +90,7 @@ FasT::Application.routes.draw do
       end
 			resources :seats, :path => "sitzplan", :only => [:index, :create, :update] do
         collection do
+          get :edit
           put :update_multiple
           delete :update_multiple, :action => :destroy_multiple
         end

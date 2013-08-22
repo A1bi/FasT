@@ -1,0 +1,54 @@
+<% title "Sitzplan bearbeiten" %>
+<% include_js "ticketing/seats" %>
+<% include_css "ticketing/seats" %>
+<div class="hl" data-edit="true">Sitzplan bearbeiten</div>
+<div id="seats">
+  <div class="seating" data-update-url="<%= ticketing_seat_path("") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
+    <%= render "plan" %>
+  </div>
+  <div class="edit_seats">
+    <% cache [:ticketing, :seats, :edit_seats, @blocks] do %>
+      <%= form_for Ticketing::Seat.new, url: "" do |f| %>
+        <div>Sitzplätze bearbeiten</div>
+        <div>Nummer: <%= f.text_field :number %></div>
+        <div>Block: <%= f.select :block_id, options_from_collection_for_select(@blocks, :id, :name) %></div>
+        <div><%= link_to "löschen", "", { :data => { :"confirm-msg" => "Möchten Sie die markierten Sitzplätze wirklich löschen?" } } %></div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="new_seat">
+    <div>neuen Sitzplatz hinzufügen</div>
+    <div>Nummer: <%= text_field_tag :number, 1 %></div>
+    <div class="blocks">
+      <%= render "application/ticketing/seats", seats: @new_seats, block_colors: true, numbers: true, no_stage: true, cache_key: [:ticketing, :seats, :new_seats] %>
+    </div>
+  </div>
+  <div class="blocks">
+    <div class="hcen">Blöcke</div>
+    <div id="blocks">
+      <table>
+        <% cache [:ticketing, :seats, @blocks, @seats] do %>
+          <%= content_tag_for :tr, @blocks do |block| %>
+            <td><div class="ticketing_seat ticketing_block_<%= block.id %>"></div></td>
+            <td class="name"><%= block.name %></td>
+            <td><%= block.seats.count %> Sitzplätze</td>
+            <td class="actionBtns">
+              <%= render "admin_actions", obj: block, delete_confirm: "diesen Block", remote_edit: true %>
+            </td>
+          <% end %>
+        <% end %>
+        <% cache [:ticketing, :seats, :total, @seats] do %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><%= @seats.count %> Sitzplätze</td>
+            <td></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="new">
+      <%= link_to "neuer Block", new_ticketing_block_path, id: "new_link", remote: true %>
+    </div>
+  </div>
+</div>

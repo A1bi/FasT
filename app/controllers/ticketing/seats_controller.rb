@@ -1,22 +1,21 @@
 module Ticketing
   class SeatsController < BaseController
     before_filter :find_seat, :only => [:update]
+    before_filter :find_all_seats, :only => [:index, :edit]
   
     def index
-      @seats = Ticketing::Seat.order(:number)
-      
       respond_to do |format|
-        
-        format.html do
-          @blocks = Ticketing::Block.order(:id)
-          @new_seats = @blocks.map do |block|
-            seat = Ticketing::Seat.new
-            seat.block = block
-            seat
-          end
-        end
-        
+        format.html { }
         format.json { render json: { ok: true, html: render_to_string("application/ticketing/_seats", locals: { seats: @seats, numbers: true, no_stage: true }, formats: :html, layout: false) } }
+      end
+    end
+    
+    def edit
+      @blocks = Ticketing::Block.order(:id)
+      @new_seats = @blocks.map do |block|
+        seat = Ticketing::Seat.new
+        seat.block = block
+        seat
       end
     end
   
@@ -35,8 +34,7 @@ module Ticketing
     end
   
     def update
-      # TODO: protect seats from being changed after sale has begun
-      # @seat.update_attributes(params[:seat])
+      @seat.update_attributes(params[:seat])
     
       render nothing: true
     end
@@ -58,6 +56,10 @@ module Ticketing
   
     def find_seat
       @seat = Ticketing::Seat.find(params[:id])
+    end
+    
+    def find_all_seats
+      @seats = Ticketing::Seat.order(:number)
     end
   end
 end

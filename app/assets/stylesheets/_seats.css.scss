@@ -75,7 +75,9 @@
       }
     
       .ticketing_seat {
-        cursor: pointer;
+        &.available {
+          cursor: pointer;
+        }
         
         .number {
           display: none;
@@ -88,6 +90,8 @@
   
       &.selectable {
         .ticketing_seat {
+          cursor: pointer;
+          
           &.selected {
             border-color: red;
           }
@@ -169,7 +173,6 @@
   }
 
 	&.taken {
-    cursor: auto !important;
 		background: red;
     border-color: #8b0000;
 	}
