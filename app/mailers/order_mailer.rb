@@ -36,6 +36,13 @@ class OrderMailer < BaseMailer
     end
   end
   
+  def resend_tickets(order)
+    @order = order
+    
+    attach_tickets
+    mail_to_customer
+  end
+  
   private
   
   def mail_to_customer

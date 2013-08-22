@@ -21,6 +21,11 @@ module Ticketing
       bunch.log(:sent_pay_reminder)
     end
     
+    def resend_tickets
+      OrderMailer.resend_tickets(self).deliver
+      bunch.log(:resent_tickets)
+    end
+    
     def send_confirmation
       OrderMailer.confirmation(self).deliver
     end

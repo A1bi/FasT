@@ -1,6 +1,6 @@
 module Ticketing
   class OrdersController < BaseController
-    before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder, :approve, :cancel]
+    before_filter :find_bunch, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel]
     
     def index
       types = [
@@ -35,7 +35,12 @@ module Ticketing
     end
     
     def send_pay_reminder
-      @bunch.assignable.send_pay_reminder if @bunch.assignable.is_a? Ticketing::Web::Order || !@bunch.cancelled?
+      @bunch.assignable.send_pay_reminder if @bunch.assignable.is_a?(Ticketing::Web::Order) && !@bunch.cancelled?
+      redirect_to_order_details
+    end
+    
+    def resend_tickets
+      @bunch.assignable.resend_tickets if @bunch.assignable.is_a? Ticketing::Web::Order
       redirect_to_order_details
     end
     

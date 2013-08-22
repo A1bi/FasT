@@ -75,10 +75,11 @@ FasT::Application.routes.draw do
       get "statistik" => "statistics#index"
       resources :orders, :path => "bestellungen", :only => [:index, :show] do
         member do
-          put :send_pay_reminder, :path => "zahlungserinnerung"
-          put :mark_as_paid, :path => "bezahlt"
-          put :approve, :path => Rack::Utils.escape("geprüft")
+          post :send_pay_reminder
+          put :mark_as_paid
+          put :approve
           post :cancel
+          post :resend_tickets
         end
       end
       controller :payments, :path => "zahlungen", :as => :payments do

@@ -60,6 +60,7 @@ de:
         approved: "Bestellung als geprüft markiert"
         charge_submitted: "Lastschrift bei der Bank eingereicht"
         cancelled: "Gesamte Bestellung storniert"
+        resent_tickets: "Tickets erneut zugesendet"
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
@@ -138,6 +139,8 @@ de:
       subject: "Zahlungserinnerung"
     cancellation:
       subject: "Stornierung Ihrer Bestellung"
+    resend_tickets:
+      subject: "Ihre Tickets"
   bank_mailer:
     submission:
       subject: "DTA-Datei"

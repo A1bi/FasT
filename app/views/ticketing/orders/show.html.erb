@@ -64,10 +64,13 @@
                 <% if !@bunch.paid %>
                   <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@bunch), method: :put %></div>
                   <% if order.pay_method == "transfer" %>
-                    <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :put, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                    <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@bunch), method: :post, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
                   <% end %>
-                <% elsif order.bank_charge && !order.bank_charge.approved %>
-                  <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
+                <% else %>
+                  <% if order.bank_charge && !order.bank_charge.approved %>
+                    <div><%= link_to "als geprüft markieren", approve_ticketing_order_path(@bunch), method: :put %></div>
+                  <% end %>
+                  <div><%= link_to "Tickets erneut zusenden", resend_tickets_ticketing_order_path(@bunch), method: :post, confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" %></div>
                 <% end %>
               <% end %>
               <div><%= link_to "Tickets runterladen", @bunch.printable_path %></div>
