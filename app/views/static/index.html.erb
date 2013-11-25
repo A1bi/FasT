@@ -1,7 +1,10 @@
 <% include_css "index" %>
 <% include_js "index" %>
-    <div class="teaser jedermann">
-      <div><%= link_to "Über das Stück", theater_jedermann_path %> | <%= link_to "Termine", dates_path %> | <%= link_to "Tickets bestellen", new_order_path %></div>
+    <div>
+      <div class="hl">Danke für eine tolle Saison!</div>
+      <p>Unser <b>Sommernachtstheater 2013 <%= link_to theater_jedermann_path do %>"Jedermann"<% end %></b> gehört nun der Geschichte an. Wir, die Mitglieder der Freilichtbühne am schiefen Turm, sind glücklich, Ihnen sechs gelungene Aufführungen präsentiert zu haben, und stolz, bereits ein Stammpublikum von Nah und Fern begrüßen zu dürfen.</p>
+      <p>Doch was könnten die besten Schauspieler ohne die vielen fleißigen Hände im Hintergrund ausrichten? Unser Dank gilt all den engagierten Helfern, die unserer Bühne nahestehen und wochenlang selbstlos etliche Stunden ihrer Freizeit opfern, um die Aufführungen sicher und einmalig in der Region werden zu lassen. Wir danken auch den lieben Nachbarn, die wohlwollend Jahr für Jahr manchen etwas lauteren Abend klaglos hinnehmen. Last but not least danken wir Petrus für die milden und ausnahmslos trockenen Abende.</p>
+      <p>Schauen Sie in unsere <%= link_to "Termine", dates_path %> für einen Ausblick auf die Saison 2014.</p>
     </div>
     <div class="ad">
       <span class="disclaimer">Mit freundlicher Unterstützung von:</span>
