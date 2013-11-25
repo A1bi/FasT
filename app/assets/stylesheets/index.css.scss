@@ -60,3 +60,19 @@
 		margin-top: 10px;
 	}
 }
+
+.tsmgo {
+  .container {
+    overflow: auto;
+    
+    div {
+      float: left;
+      
+
+      
+      &:last-child {
+        width: 65%;
+      }
+    }
+  }
+}
