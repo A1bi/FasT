@@ -17,7 +17,6 @@ FasT::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 	config.action_mailer.perform_deliveries = true
 	config.action_mailer.delivery_method = :sendmail
-	config.action_mailer.default_url_options = { host: "fast.albisigns", protocol: "https" }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -38,12 +37,7 @@ FasT::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   
-  Paperclip.options[:command_path] = "/opt/ImageMagick/bin/"
-  
   config.to_prepare do
-    Passbook.options.merge!({
-      wwdr_ca_path: "/usr/local/etc/ssl/AppleWWDRCA.cer",
-      developer_cert_path: "/usr/local/etc/ssl/pass.de.theater-kaisersesch.FasT.p12"
-    })
+    Passbook.options.merge!(CONFIG[:passbook])
   end
 end

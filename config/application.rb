@@ -9,6 +9,10 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+CONFIG = YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
+CONFIG.merge!(CONFIG.fetch(Rails.env, {}))
+CONFIG.symbolize_keys!
+
 module FasT
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -68,5 +72,10 @@ module FasT
       Passbook.options[:path] = File.join("system", "passbook")
       Passbook.options[:full_path] = File.join(Rails.public_path, Passbook.options[:path])
     end
+    
+    config.secret_token = CONFIG[:secret_token]
+    config.action_mailer.default_url_options = { host: CONFIG[:host], protocol: "https" }
+    
+    Paperclip.options[:command_path] = CONFIG[:imagemagick_path]
   end
 end

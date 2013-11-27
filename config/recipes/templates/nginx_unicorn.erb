@@ -1,83 +1,98 @@
 upstream unicorn {
-	server unix:/tmp/unicorn.<%= application %>.sock fail_timeout=0;
+  server unix:/tmp/unicorn.<%= application %>.sock fail_timeout=0;
 }
 
 server {
-	listen 443 ssl;
-	listen [::]:443 ssl ipv6only=on;
-	
-	server_name www.<%= domain_name %>;
+  listen 443 ssl;
+  listen [::]:443 ssl ipv6only=on;
 
-	root <%= current_path %>/public;
+  server_name www.<%= domain_name %>;
 
-	ssl_certificate /etc/ssl/own/www.<%= domain_name %>.pem;
-	ssl_certificate_key /etc/ssl/private/www.<%= domain_name %>.key;
-	
-	location ^~ /assets/ {
-		gzip_static on;
-		expires max;
-		add_header Cache-Control public;
-	}
+  root <%= current_path %>/public;
 
-	try_files $uri/index.html $uri @unicorn;
-	location @unicorn {
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto "https";
-		proxy_set_header Host $http_host;
-		proxy_redirect off;
-		proxy_pass http://unicorn;
-	}
-	
-   location /assets/info/tiles/ {
-           rewrite /assets/info/tiles/(\d+)/(\d+)/(\d+).png /$1/$2/$3.png break;
-           proxy_pass http://a.tile.openstreetmap.org;
-           proxy_pass_request_headers off;
-           proxy_redirect off;
-   }
+  ssl_certificate /etc/ssl/own/www.<%= domain_name %>.pem;
+  ssl_certificate_key /etc/ssl/private/www.<%= domain_name %>.key;
 
-   location /assets/info/weather/ {
-           rewrite /assets/info/weather/(\d+)([a-z]).png /a/i/us/nws/weather/gr/$1$2.png break;
-           proxy_pass http://l.yimg.com;
-           proxy_pass_request_headers off;
-           proxy_redirect off;
-   }
-   
-   location /node/ {
-           proxy_http_version 1.1;
-           proxy_set_header Upgrade $http_upgrade;
-           proxy_set_header Connection "upgrade";
-           proxy_set_header Host $host;
-           proxy_redirect off;
-           proxy_pass http://unix:/tmp/FasT-node.sock;
-   }
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
 
-	error_page 500 502 503 504 /500.html;
-	client_max_body_size 4G;
-	keepalive_timeout 10;
+  try_files $uri/index.html $uri @unicorn;
+  location @unicorn {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto "https";
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://unicorn;
+  }
+
+  location /assets/info/tiles/ {
+    rewrite /assets/info/tiles/(\d+)/(\d+)/(\d+).png /$1/$2/$3.png break;
+    proxy_pass http://a.tile.openstreetmap.org;
+    proxy_pass_request_headers off;
+    proxy_redirect off;
+  }
+
+  location /assets/info/weather/ {
+    rewrite /assets/info/weather/(\d+)([a-z]).png /a/i/us/nws/weather/gr/$1$2.png break;
+    proxy_pass http://l.yimg.com;
+    proxy_pass_request_headers off;
+    proxy_redirect off;
+  }
+
+  location /node/ {
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_redirect off;
+    proxy_pass http://unix:/tmp/FasT-node.sock;
+  }
+ 
+  location /webmail/ {
+    alias /var/www/roundcube/;
+    
+    location ~ \.php$ {
+      #try_files  $uri =404;
+      fastcgi_split_path_info ^(.+\.php)(/.+)$;
+      fastcgi_pass unix:/tmp/php5-fpm.sock;
+      fastcgi_index index.php;
+      include fastcgi_params;
+      fastcgi_param PHP_VALUE "post_max_size = 1G";
+      fastcgi_param SCRIPT_FILENAME $request_filename;
+      client_max_body_size 1G;
+    }
+  }
+
+  error_page 500 502 503 504 /500.html;
+  client_max_body_size 4G;
+  keepalive_timeout 10;
 }
 
 server {
-	listen 80;
-	listen [::]:80;
-	
-	server_name www.<%= domain_name %> <%= domain_name %>;
-	
-	rewrite ^(.*)$ https://www.<%= domain_name %>$1 permanent;
+  listen 80;
+  listen [::]:80;
+  
+  server_name www.<%= domain_name %> <%= domain_name %>;
+  
+  rewrite ^(.*)$ https://www.<%= domain_name %>$1 permanent;
 }
 
 server {
-        listen 80;
-        listen [::]:80;
+  listen 80;
+  listen [::]:80;
 
-        root /var/kunden/webs/Jedermann/jedermann;
-		  
-        server_name jedermann.theater-kaisersesch.de;
+  root /var/kunden/webs/Jedermann/jedermann;
 
-        location ~ \.php$ {
-                try_files $uri =404;
-                fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/tmp/php5-fpm.sock;
-                fastcgi_index index.php;
-                include fastcgi_params;
-        }
+  server_name jedermann.theater-kaisersesch.de;
+
+  location ~ \.php$ {
+    #try_files $uri =404;
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_pass unix:/tmp/php5-fpm.sock;
+    fastcgi_index index.php;
+    include fastcgi_params;
+  }
 }
