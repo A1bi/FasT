@@ -27,7 +27,7 @@ module Members
 							uid							"FASTEVENT-#{date.id}"
 							dtstart					date.datetime.to_datetime
 							dtend						(date.datetime + 90.minutes).to_datetime
-							summary					I18n.t(:summary, :scope => scope)
+							summary					date.title
 							description			date.info
 							location				date.location
 							klass						"PUBLIC"

@@ -19,7 +19,7 @@ namespace :rails do
     end
     config = YAML.load_file(File.expand_path("../../application.defaults.yml", __FILE__))
     config['production']['secret_token'] = token
-    put config.to_yaml, "#{current_path}/config/application.yml"
+    put config.to_yaml, "#{release_path}/config/application.yml"
   end
-  after "deploy:finalize_update", "rails:update_config_file"
+  before "deploy:finalize_update", "rails:update_config_file"
 end

@@ -27,9 +27,10 @@ end
 
 # dates
 locations = ["hier", "da", "dort", "irgendwo", "nirgendwo"]
+titles = ["Dies", "Das", "Irgendwas", "Tolle Sachen", "Treffen XY"]
 5.times do
 	date = Time.now + 3.weeks + random(4).days - random(1000).minutes
-	Members::Date.create({ datetime: date, info: Faker::Lorem.sentence, location: locations.sample })
+	Members::Date.create({ datetime: date, info: Faker::Lorem.sentence, title: titles.sample, location: locations.sample })
 end
 
 # files

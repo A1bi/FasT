@@ -9,8 +9,12 @@
 			<td><%= f.time_select :datetime, :ignore_date => true %> Uhr</td>
 		</tr>
 		<tr>
-			<td>Betroffene Rollen / Szenen</td>
-			<td><%= f.text_field :info %></td>
+			<td>Titel</td>
+			<td><%= f.text_field :title %></td>
+		</tr>
+		<tr>
+			<td>Informationen</td>
+			<td><%= f.text_area :info %></td>
 		</tr>
 		<tr>
 			<td>Ort</td>

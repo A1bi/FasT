@@ -46,7 +46,6 @@ de:
       ics:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
-        summary: "Theater-Probe"
   ticketing:
     orders:
       pay_methods:

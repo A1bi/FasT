@@ -1,5 +1,5 @@
 class Members::Date < BaseModel
-  attr_accessible :datetime, :info, :location
+  attr_accessible :datetime, :info, :location, :title
 	
 	validates_presence_of :datetime
 	

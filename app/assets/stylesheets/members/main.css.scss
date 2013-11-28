@@ -18,3 +18,10 @@
 		width: 1%;
 	}
 }
+.dates tr td {
+  vertical-align: top;
+  
+  &:first-child {
+    width: 28%;
+  }
+}
