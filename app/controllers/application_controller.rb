@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   attr_writer :restricted_to_group
 	
   before_filter :authenticate_user
-  after_filter :reset_goto
+  prepend_before_filter :reset_goto
   
   protected
   
@@ -19,10 +19,8 @@ class ApplicationController < ActionController::Base
   end
   
   def restrict_access
-    @skip_reset_goto = true
     if !@_member.id
       session[:goto_after_login] = request.original_url
-      @skip_reset_goto = false
       return redirect_to members_login_path, :flash => { :warning => t("application.login_required") }
     elsif ![:admin, @restricted_to_group].include? @_member.group_name
       return redirect_to members_root_path, :alert => t("application.access_denied")
@@ -67,6 +65,6 @@ class ApplicationController < ActionController::Base
   end
   
   def reset_goto
-    session.delete(:goto_after_login) if !@skip_reset_goto
+    session.delete(:goto_after_login)
   end
 end
