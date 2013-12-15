@@ -7,16 +7,24 @@
 </div>
 <div style="margin-top: 20px;" class="hcen">
 	<% [
+    ["krippenspiel", "Krippenspiel", false],
+    ["jedermann", "Jedermann", true],
 		["montevideo", "Das Haus in Montevideo", true],
-		["krippenspiel", "Krippenspiel", false],
 		["hexenjagd", "Hexenjagd", true],
 		["medicus", "Der Medicus vom Orient", true],
 		["phantasus", "Der Riese Phantasus", true],
-		["jedermann", "Jedermann", true, "http://jedermann.theater-kaisersesch.de"],
+		["jedermann_2008", "Jedermann", true, "http://jedermann.theater-kaisersesch.de"],
 		["hemd", "Das Hemd des Glücklichen", false],
 		["bannmuenze", "Die Bannmünze", false]
 	].each do |t| %>
-	<% image = image_tag("theater/#{t[0]}.png", :alt => t[1]) %>
-	<p><% if t[3].blank? %><%= link_to_if t[2], image, :action => t[0] %><% else %><%= link_to image, t[3], :target => "_blank" %><% end %></p>
+    <%
+      if t[3].blank?
+        link_target = { action: t[0] }
+      else
+        link_target = t[3]
+        link_opts = { :target => "_blank" }
+      end
+    %>
+  	<p><%= link_to_if t[2], image_tag("theater/#{t[0]}.png", :alt => t[1]), link_target, link_opts %></p>
 	<% end %>
 </div>
