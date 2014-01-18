@@ -47,6 +47,7 @@ gem 'unicorn'
 # Deploy with Capistrano
 group :development do
   gem 'capistrano'
+  gem 'rvm-capistrano'
 	gem 'sqlite3'
 	gem 'ffaker'
 end
