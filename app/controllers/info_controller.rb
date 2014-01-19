@@ -26,14 +26,15 @@ class InfoController < ApplicationController
 
     url = "http://www.worldweatheronline.com/Kaisersesch-weather/Rheinland-Pfalz/DE.aspx"
     
-    pop = open(url).read.scan /<div class="lhs2">P.O.P: <\/div><div class="rhs2">([0-9]+)%<\/div>/is
-    
+    raw = open(url).read.scan /<div class="outlook_left">P.O.P:<\/div><div class="outlook_right">([0-9]+)%<\/div>/is
+    pop = ""
+    #pop = raw[0][0] if raw
 
     weather = {
       low: forecast['low'],
       high: forecast['high'],
       daytime: (Time.current.hour > 6 && Time.current.hour < 21) ? "d" : "n",
-      pop: pop[0][0],
+      pop: pop,
       date: Time.parse(condition['date']).to_s(:time)
     }
     

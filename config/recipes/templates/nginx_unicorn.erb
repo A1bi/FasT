@@ -36,7 +36,7 @@ server {
   }
 
   location /assets/info/weather/ {
-    rewrite /assets/info/weather/(\d+)([a-z]).png /a/i/us/nws/weather/gr/$1$2.png break;
+    rewrite /assets/info/weather/(\d+)([a-z]).png /os/mit/media/m/weather/images/icons/l/$1$2-100567.png break;
     proxy_pass http://l.yimg.com;
     proxy_pass_request_headers off;
     proxy_redirect off;
@@ -53,12 +53,12 @@ server {
  
   location /webmail/ {
     alias /var/www/roundcube/;
+    index index.php;
     
     location ~ \.php$ {
       #try_files  $uri =404;
       fastcgi_split_path_info ^(.+\.php)(/.+)$;
-      fastcgi_pass unix:/tmp/php5-fpm.sock;
-      fastcgi_index index.php;
+      fastcgi_pass unix:/var/run/php5-fpm.sock;
       include fastcgi_params;
       fastcgi_param PHP_VALUE "post_max_size = 1G";
       fastcgi_param SCRIPT_FILENAME $request_filename;
@@ -85,14 +85,23 @@ server {
   listen [::]:80;
 
   root /var/www/sites/jedermann;
+  index index.php;
 
   server_name jedermann.theater-kaisersesch.de;
-
+  
   location ~ \.php$ {
     #try_files $uri =404;
     fastcgi_split_path_info ^(.+\.php)(/.+)$;
     fastcgi_pass unix:/var/run/php5-fpm.sock;
-    fastcgi_index index.php;
     include fastcgi_params;
   }
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+
+  server_name mail.theater-kaisersesch.de www.mail.theater-kaisersesch.de;
+
+  rewrite ^(.*)$ https://www.theater-kaisersesch.de/webmail$1 permanent;
 }
