@@ -1,4 +1,3 @@
-require "rvm/capistrano"
 require "bundler/capistrano"
 
 load "config/recipes/base"
@@ -6,6 +5,7 @@ load "config/recipes/nginx"
 load "config/recipes/unicorn"
 load "config/recipes/mysql"
 load "config/recipes/memcached"
+load "config/recipes/rbenv"
 load "config/recipes/rails"
 
 server "85.214.225.99", :web, :app, :db, primary: true
