@@ -1,5 +1,7 @@
 class Members::File < BaseModel
-  attr_accessible :description, :path, :title
+  attr_accessible :description, :title, :file
+  
+  has_attached_file :file
 	
-	validates_presence_of :path
+	validates_attachment :file, presence: true
 end

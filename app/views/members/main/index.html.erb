@@ -39,14 +39,14 @@
   <%= render "new_button", :action => "Neue Datei", :url => new_members_file_path, :admin_required => true %>
   <table class="rounded files">
   	<%= content_tag_for :tr, @files do |file| %>
-  		<td><%= image_tag "misc/files/#{File.extname(file.path)[1..-1]}.png", :alt => :pdf %></td>
+  		<td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
   		<td>
   			<%= file.title %>
   			<div class="small">
   				<%= file.description %>
   			</div>
   		</td>
-  		<td class="download"><%= link_to "download", file.path, :target => "_blank" %></td>
+  		<td class="download"><%= link_to "download", file.file.url, :target => "_blank" %></td>
   		<%= content_tag :td, :class => :actionBtns do %>
   			<%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
   		<% end if @_member.admin? %>
