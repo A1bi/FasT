@@ -87,7 +87,7 @@ FasT::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
-  config.cache_store = :mem_cache_store
+  config.cache_store = :mem_cache_store, "/tmp/memcached.sock"
   
   Passbook.options.merge!(CONFIG[:passbook])
 end

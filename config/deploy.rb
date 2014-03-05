@@ -1,14 +1,14 @@
 require "bundler/capistrano"
+require "rvm/capistrano"
 
 load "config/recipes/base"
 load "config/recipes/nginx"
 load "config/recipes/unicorn"
 load "config/recipes/mysql"
 load "config/recipes/memcached"
-load "config/recipes/rbenv"
 load "config/recipes/rails"
 
-server "85.214.225.99", :web, :app, :db, primary: true
+server "85.214.74.100", :web, :app, :db, primary: true
 
 set :user, "deployer"
 set :application, "FasT"
