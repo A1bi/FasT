@@ -1,10 +1,15 @@
 <% include_css "index" %>
 <% include_js "index" %>
-    <div>
-      <div class="hl">Danke für eine tolle Saison!</div>
-      <p>Unser <b>Sommernachtstheater 2013 „<%= link_to theater_jedermann_path do %>Jedermann<% end %>“</b> gehört nun der Geschichte an. Wir, die Mitglieder der Freilichtbühne am schiefen Turm, sind glücklich, Ihnen sechs gelungene Aufführungen präsentiert zu haben, und stolz, bereits ein Stammpublikum von Nah und Fern begrüßen zu dürfen.</p>
-      <p>Doch was könnten die besten Schauspieler ohne die vielen fleißigen Hände im Hintergrund ausrichten? Unser Dank gilt all den engagierten Helfern, die unserer Bühne nahestehen und wochenlang selbstlos etliche Stunden ihrer Freizeit opfern, um die Aufführungen sicher und einmalig in der Region werden zu lassen. Wir danken auch den lieben Nachbarn, die wohlwollend Jahr für Jahr manchen etwas lauteren Abend klaglos hinnehmen. Last but not least danken wir Petrus für die milden und ausnahmslos trockenen Abende.</p>
-      <p>Schauen Sie in unsere <%= link_to "Termine", dates_path %> für einen Ausblick auf die Saison 2014.</p>
+    <div class="teaser">
+      <div class="hl">
+        Brescello liegt in der Eifel
+        <div class="small">„Don Camillo und Peppone“ in Kaisersesch</div>
+      </div>
+      <p>Italienisches Flair rund um den schiefen Turm des Eifelstädtchens Kaisersesch und ein streitbarer Gottesmann, der mit seinem kommunistischen Widersacher um das Seelenheil seiner anvertrauten Schäfchen kämpft.</p>
+      <%= image_tag "theater/don_camillo/teaser.jpg", alt: "Don Camillo und Peppone" %>
+      <p>Der Autor Giovanni Guareschi wählt das norditalienische Nachkriegsdorf Brescello aus, um dort seine Geschichte vom katholischen Dorfpfarrer Don Giovanni und dessen Erzfeind, dem kommunistischen Bürgermister Peppone, spielen zu lassen. Immer wieder prallen diese unterschiedlichen Dickschädel mit ihren gegensätzlichen Lebensauffassungen aufeinander. Und doch haben beide eigentlich das Gleiche im Sinn: die ihnen Anvertrauten in bescheidenem Auskommen glücklich zu machen.</p>
+      <p>Freilich geschieht dies auf höchst unterschiedliche Art und Weise. In der Realisierung fliegen schon mal die Fäuste, da wird schon mal geschossen und Wortgefechte ausgetragen, aber wirklich hassen können die Beiden sich nicht, da sie doch das Herz auf dem rechten Fleck tragen. Währenddessen erwächst zwischen den verfeindeten Lagern eine Liebesgeschichte zwischen der Gutsbesitzerstochter und einem mittellosen Landarbeitsohn, die das Dorf weiter spaltet. Das Kräftemessen der Dorfbewohner und ihren sturköpfigen Anführern wogt hin und her und man ist gespannt, ob das wohl ein gutes Ende nehmen wird.</p>
+      <p>Viel Volk, turbulente Szenen, eine Demonstration, die sich in eine Prozession verwandelt, Familienfehden, Streiks, Prügeleien und mach andere chaotische Situation garantieren dem Zuschauer einen lustigen und unterhaltsamen Abend im historischen Ortskern von Kaisersesch. Alle Termine unserer Aufführungen finden Sie <%= link_to "hier", dates_path %>.</p>
     </div>
     <div class="trenner"></div>
     <div class="tsmgo">
