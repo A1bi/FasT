@@ -62,7 +62,9 @@ FasT::Application.routes.draw do
 			end
 		end
     
-    resource :newsletter_subscribers, :controller => Newsletter, :path => :newsletter, only: [:create]
+    resource :newsletter_subscriber, :controller => Newsletter, :path => :newsletter, only: [:create, :update, :destroy] do
+      get :edit
+    end
     
   	namespace :admin, :path => "vorstand" do
   		resources :members_members, :path => "mitglieder", :except => [:show], :controller => :members do

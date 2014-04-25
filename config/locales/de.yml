@@ -20,6 +20,7 @@ de:
   newsletter:
     subscriber:
       created: "Sie haben sich erfolgreich zum Newsletter angemeldet."
+      destroyed: "Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht."
   admin:
     members:
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
@@ -146,6 +147,9 @@ de:
   bank_mailer:
     submission:
       subject: "DTA-Datei"
+  newsletter_mailer:
+    subscribed:
+      subject: "Ihre Anmeldung zum Newsletter"
   activerecord:
     errors:
       messages:

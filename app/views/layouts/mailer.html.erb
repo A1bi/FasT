@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Freilichtbühne am schiefen Turm e.V.</title>
+  <style type="text/css">
+    body {
+      background: #0869ed url(/assets/bg.png) repeat-x;
+      font-family: Arial;
+    }
+    a {
+    	text-decoration: none;
+    	color: #0064ec;
+    }
+    #tab1 {
+      width: 100%;
+    }
+    #tab2 {
+      border-collapse: collapse; 
+      padding: 0px;
+    }
+    #logoCell {
+      background: white;
+    }
+    #content {
+      background: white;
+      padding: 20px;
+    }
+    #content table {
+      margin: 20px auto;
+      width: 90%;
+      background: #dceffb;
+      border-collapse: collapse;
+    }
+    #content table td {
+      border: 1px solid;
+      border-color: #afd5f4;
+      padding: 3px 10px;
+    }
+    #ticketsTable {
+      border: 1px solid #cccccc;
+    }
+    #ticketsTable tr img {
+      vertical-align: middle;
+    }
+    #ticketsTable .passbook {
+      text-align: center;
+    }
+    #ticketsTable .total td {
+      border-top-width: 2px;
+      padding: 5px 10px;
+    }
+    #ticketsTable .total .amount {
+      font-weight: bold;
+      text-align: left;
+    }
+    .hl {
+      text-align: center;
+      margin: 10px;
+      font-weight: bold;
+    }
+    .address {
+      padding-bottom: 15px;
+    }
+    .signature {
+      padding-top: 15px;
+    }
+    .footer {
+      color: gray;
+      font-size: 12px;
+      padding-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <table id="tab1">
+    <tr>
+      <td>
+        <table width="600" align="center" id="tab2">
+          <tr>
+            <td id="logoCell">
+              <%= image_tag "/assets/mail/header.png", alt: "Freilichtbühne am schiefen Turm" %>
+            </td>
+          </tr>
+          <tr>
+            <td id="content">
+              <p class="address"><%= yield :address %></p>
+              <%= yield %>
+              <p class="signature">Die Freilichtbühne am schiefen Turm Kaisersesch</p>
+              <% if content_for? :footer %><p class="footer"><%= yield :footer %></div><% end %>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
