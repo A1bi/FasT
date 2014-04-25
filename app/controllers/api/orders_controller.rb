@@ -75,7 +75,7 @@ class Api::OrdersController < ApplicationController
     
     if order.save
       if type == :web && params[:newsletter].present?
-        Newsletter::Subscriber.create(email: order.email)
+        Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
       end
       
       seats = {}

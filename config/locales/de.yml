@@ -17,6 +17,9 @@ de:
     toggle_slide:
       false: "Das Foto wurde aus der Diashow entfernt."
       true: "Das Foto wurde zur Diashow hinzugefügt."
+  newsletter:
+    subscriber:
+      created: "Sie haben sich erfolgreich zum Newsletter angemeldet."
   admin:
     members:
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
@@ -161,6 +164,10 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
+        newsletter/subscriber:
+          attributes:
+            email:
+              taken: "Diese e-mail-Adresse ist bereits beim Newsletter angemeldet."
         members/member:
           attributes:
             email:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140204130359) do
+ActiveRecord::Schema.define(:version => 20140425131530) do
 
   create_table "galleries", :force => true do |t|
     t.string   "title"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20140204130359) do
     t.string   "token"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "gender"
+    t.string   "last_name"
   end
 
   create_table "passbook_devices", :force => true do |t|

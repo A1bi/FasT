@@ -696,3 +696,22 @@ table.rounded {
     display: inline;
   }
 }
+
+.newsletter {
+  font-size: 12px;
+  
+  input {
+    &[type=text] {
+      width: 150px;
+    }
+  }
+  
+  form {
+    width: 90%;
+    margin: 10px auto;
+    
+    .field_with_errors {
+      display: inline;
+    }
+  }
+}
