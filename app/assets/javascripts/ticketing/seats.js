@@ -11,7 +11,7 @@ $(function () {
   function updateNewSeatNumber() {
     newSeats.each(function () {
       $(".number", this).html(numberInput.val());
-      $(this).attr("data-number", numberInput.val());
+      $(this).data("number", numberInput.val());
     });
   }
   

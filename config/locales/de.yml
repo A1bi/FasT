@@ -168,6 +168,8 @@ de:
           attributes:
             image:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
+            image_content_type:
+              invalid: "Es können nur JPG- und PNG-Dateien hochgeladen werden."
         newsletter/subscriber:
           attributes:
             email:
@@ -179,6 +181,10 @@ de:
             password:
               confirmation: "Die Passwörter stimmen nicht überein."
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
+        members/file:
+          attributes:
+            file_content_type:
+              invalid: "Es können nur JPG-, PNG-, und PDF-Dateien hochgeladen werden."
   attributes:
     title: "Titel"
     email: "e-mail-Adresse"

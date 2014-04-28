@@ -40,7 +40,7 @@ FasT::Application.routes.draw do
     # gbook
     resources :gbook_entries,
       :controller => :gbook,
-      :path => Rack::Utils.escape("gästebuch"),
+      :path => "gästebuch",
       :except => [:show] do
         collection do
 					get "(:page)", :action => :index, :as => "", :constraints => { :page => /\d+/ }
@@ -100,7 +100,7 @@ FasT::Application.routes.draw do
           delete :update_multiple, :action => :destroy_multiple
         end
       end
-      resources :blocks, :path => Rack::Utils.escape("blöcke"), :except => [:index, :show]
+      resources :blocks, :path => "blöcke", :except => [:index, :show]
       resources :coupons, :path => "gutscheine" do
         member do
           post :mail
@@ -162,18 +162,21 @@ FasT::Application.routes.draw do
       end
     end
     
-    scope :module => :passbook_controllers, :controller => :passbook, :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do
-      scope "passes/:pass_type_id" do
-        get ":serial_number", :action => :show_pass
-      end
-      scope "devices/:device_id/registrations/:pass_type_id" do
-        scope ":serial_number" do
-          post :action => :register_device
-          delete :action => :unregister_device
+    scope :module => :passbook_controllers, :controller => :passbook, :path => :passbook, constraints: { pass_type_id: /([\w\d\-\.])+/ } do
+      root :as => :passbook_root, to: redirect("/")
+      scope :path => :v1 do
+        scope "passes/:pass_type_id" do
+          get ":serial_number", :action => :show_pass
         end
-        get "/", :action => :modified_passes
+        scope "devices/:device_id/registrations/:pass_type_id" do
+          scope ":serial_number" do
+            post :action => :register_device
+            delete :action => :unregister_device
+          end
+          get "/", :action => :modified_passes
+        end
+        post "log", :action => :log
       end
-      post "log", :action => :log
     end
     
   end

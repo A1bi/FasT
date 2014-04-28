@@ -60,7 +60,8 @@ module FasT
     end
     
     config.secret_key_base = CONFIG[:secret_token]
-    config.action_mailer.default_url_options = { host: CONFIG[:host], protocol: "https" }
+    config.action_mailer.default_url_options = CONFIG[:url_options]
+    Rails.application.routes.default_url_options = CONFIG[:url_options]
     
     Paperclip.options[:command_path] = CONFIG[:imagemagick_path]
   end

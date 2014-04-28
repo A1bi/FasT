@@ -1,7 +1,6 @@
 <% title "Gästebuch - #{title}" %>
 <% include_css "gbook" %>
 <%= form_for @entry do |f| %>
-	<%= hidden_field :add, :codeNr, :value => @codeNr %>
 	<div class="box">
 		<div class="top">
 			<%= title %>

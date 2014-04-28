@@ -8,8 +8,9 @@ module Passbook
   
   class Pass < AbstractController::Base
     include AbstractController::Rendering
-    include ActionView::Layouts
     include AbstractController::Translation
+    include ActionView::Layouts
+    include Rails.application.routes.url_helpers
     
     append_view_path ApplicationController.view_paths
     

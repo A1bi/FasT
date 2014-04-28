@@ -1,3 +1,4 @@
+<%= render "errors", :errors => (@file.errors.delete(:file); @file.errors) %>
 <%= form_for @file do |f| %>
 	<table class="rounded">
 		<tr>

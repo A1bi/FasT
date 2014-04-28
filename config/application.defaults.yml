@@ -1,13 +1,17 @@
 development:
   secret_token:
-  host: "fast.albisigns"
-  imagemagick_path: "/opt/ImageMagick/bin/"
+  url_options:
+    host: albisigns
+    protocol: https
+  imagemagick_path: /opt/ImageMagick/bin/
   passbook:
-    wwdr_ca_path: "/usr/local/etc/ssl/AppleWWDRCA.cer"
-    developer_cert_path: "/usr/local/etc/ssl/pass.de.theater-kaisersesch.FasT.p12"
+    wwdr_ca_path: /usr/local/etc/ssl/AppleWWDRCA.cer
+    developer_cert_path: /usr/local/etc/ssl/pass.de.theater-kaisersesch.FasT.p12
 production:
   secret_token:
-  host: "www.theater-kaisersesch.de"
+  url_options:
+    host: www.theater-kaisersesch.de
+    protocol: https
   passbook:
-    wwdr_ca_path: "/etc/ssl/chain/AppleWWDRCA.cer"
-    developer_cert_path: "/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12"
+    wwdr_ca_path: /etc/ssl/chain/AppleWWDRCA.cer
+    developer_cert_path: /etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12

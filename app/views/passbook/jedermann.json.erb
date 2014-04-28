@@ -7,7 +7,7 @@
   "passTypeIdentifier": "pass.de.theater-kaisersesch.FasT",
   "serialNumber": "<%= ticket.number.to_s %>",
   "teamIdentifier": "V48L6BF6M3",
-  "webServiceURL": "<% if Rails.env == "production" %>https://www.theater-kaisersesch.de<% else %>http://fast.albisigns<% end %>/api/passbook",
+  "webServiceURL": "<%= passbook_root_url %>",
   "relevantDate": "<%= date %>",
   "locations": [
     {
@@ -65,7 +65,7 @@
       {
         "key": "website",
         "label": "Website",
-        "value": "https://www.theater-kaisersesch.de"
+        "value": "<%= root_url %>"
       },
       {
         "key": "hotline",

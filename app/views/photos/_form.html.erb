@@ -4,7 +4,7 @@
 		Neues Foto erstellen
 	</div>
 	<div class="con">
-		<%= render "errors", :errors => @photo.errors %>
+		<%= render "errors", :errors => (@photo.errors.delete(:image); @photo.errors) %>
 		<%= form_for [@gallery, @photo] do |f| %>
 		<table>
 			<tr class="name">
