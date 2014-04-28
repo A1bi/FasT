@@ -1,4 +1,4 @@
-require "zip/zip"
+require "zip"
 
 module Passbook
   
@@ -8,13 +8,14 @@ module Passbook
   
   class Pass < AbstractController::Base
     include AbstractController::Rendering
+    include ActionView::Layouts
     include AbstractController::Translation
     
-    append_view_path "app/views"
+    append_view_path ApplicationController.view_paths
     
     def initialize(identifier, info, assignable = nil)
       @identifier = identifier
-      @info = JSON(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
+      @info = JSON.parse(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
       
       if assignable
         @record = assignable.passbook_pass
@@ -89,7 +90,7 @@ module Passbook
     
     def zip(path)
       FileUtils.rm(path) if File.exists?(path)
-      Zip::ZipFile.open(path, Zip::ZipFile::CREATE) do |zip_file|
+      Zip::File.open(path, Zip::File::CREATE) do |zip_file|
         iterate_working_dir do |file|
           zip_file.add(File.basename(file), file)
         end
@@ -128,8 +129,6 @@ module Passbook
     end
 
     class Pass < ActiveRecord::Base
-      attr_accessible :type_id, :serial_number
-      
       belongs_to :assignable, :polymorphic => true
       has_many :registrations, :dependent => :destroy
       has_many :devices, through: :registrations
@@ -150,8 +149,6 @@ module Passbook
     end
 
     class Device < ActiveRecord::Base
-      attr_accessible :device_id, :push_token, :push_token
-      
       has_many :registrations, :dependent => :destroy
       has_many :passes, through: :registrations
 
@@ -159,8 +156,6 @@ module Passbook
     end
     
     class Registration < ActiveRecord::Base
-      attr_accessible :device, :pass
-      
       belongs_to :device
       belongs_to :pass
       
@@ -168,8 +163,6 @@ module Passbook
     end
 
     class Log < ActiveRecord::Base
-      attr_accessible :message
-      
       validates_presence_of :message
     end
     

@@ -1,2 +1,2 @@
 <% content_for :address do %>Sehr geehrte<% if @order.gender == 0 %> Frau<% else %>r Herr<% end %> <%= @order.last_name %>,<% end %>
-<%= render "layouts/mailer" %>
+<%= render template: "layouts/mailer" %>

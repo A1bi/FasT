@@ -1,8 +1,6 @@
 module Ticketing
   class Seat < BaseModel
-    attr_accessible :number, :row, :block_id, :position_x, :position_y
-	
-  	belongs_to :block, touch: true
+    belongs_to :block, touch: true
   	has_many :reservations, dependent: :destroy
     has_many :tickets
   

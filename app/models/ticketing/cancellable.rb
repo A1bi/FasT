@@ -7,7 +7,7 @@ module Ticketing
 		
 			def cancel(reason)
         return if cancelled?
-				create_cancellation({ reason: reason }, without_protection: true)
+				create_cancellation({ reason: reason })
 				save
 			end
 

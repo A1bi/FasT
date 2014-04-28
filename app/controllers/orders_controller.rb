@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
 	def set_event_info
 		@event = Ticketing::Event.current
     @dates = @event.dates.where("date > ?", Time.zone.now)
-		@seats = Ticketing::Seat.scoped
+		@seats = Ticketing::Seat.all
 		@ticket_types = Ticketing::TicketType.order(:price)
   end
   

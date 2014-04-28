@@ -3,7 +3,7 @@
 <% include_css "ticketing/seats" %>
 <div class="hl" data-edit="true">Sitzplan bearbeiten</div>
 <div id="seats">
-  <div class="seating" data-update-url="<%= ticketing_seat_path("") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
+  <div class="seating" data-update-url="<%= ticketing_seat_path(":id") %>" data-update-multiple-url="<%= update_multiple_ticketing_seats_path %>" data-create-url="<%= ticketing_seats_path %>">
     <%= render "plan" %>
   </div>
   <div class="edit_seats">

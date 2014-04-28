@@ -14,7 +14,7 @@ class GbookController < ApplicationController
   end
   
   def create
-    @entry = GbookEntry.new(params[:gbook_entry])
+    @entry = GbookEntry.new(entry_params)
     
 		if @entry.save
 			redirect_to gbook_entries_path
@@ -27,7 +27,7 @@ class GbookController < ApplicationController
 	end
 	
 	def update
-		if @entry.update_attributes(params[:gbook_entry])
+		if @entry.update_attributes(entry_params)
 			flash.notice = t("application.saved_changes")
     else
       return render :action => :edit
@@ -45,5 +45,9 @@ class GbookController < ApplicationController
 	
   def find_entry
     @entry = GbookEntry.find(params[:id])
+  end
+  
+  def entry_params
+    params.require(:gbook_entry).permit(:author, :text)
   end
 end

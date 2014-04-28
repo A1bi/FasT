@@ -17,7 +17,7 @@ class GalleriesController < ApplicationController
   end
   
   def create
-    @gallery = Gallery.new(params[:gallery])
+    @gallery = Gallery.new(gallery_params)
     
     if !@gallery.save
       render :action => :new
@@ -30,7 +30,7 @@ class GalleriesController < ApplicationController
   end
   
   def update
-    if @gallery.update_attributes(params[:gallery])
+    if @gallery.update_attributes(gallery_params)
       flash.notice = t("application.saved_changes")
     else
       return render :action => :edit
@@ -55,5 +55,9 @@ class GalleriesController < ApplicationController
 	
   def find_gallery
     @gallery = Gallery.find(params[:id])
+  end
+  
+  def gallery_params
+    params.require(:gallery).permit(:disclaimer, :position, :title)
   end
 end

@@ -174,7 +174,7 @@
       <tr>
         <td colspan="6">
           <div class="seating noSelection noScroller noSeatBorders">
-            <%= render "application/ticketing/seats", seats: Ticketing::Seat.scoped, no_stage: true %>
+            <%= render "application/ticketing/seats", seats: Ticketing::Seat.all, no_stage: true %>
           </div>
         </td>
       </tr>

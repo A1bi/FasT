@@ -28,7 +28,7 @@ module Admin
 	
 		def update
 			if @member.save
-				redirect_to edit_admin_members_member_path(@member), :notice => t("application.saved_changes")
+				redirect_to edit_admin_members_member_path(@member), notice: t("application.saved_changes")
 			else
 				render :action => :edit
 			end
@@ -44,7 +44,7 @@ module Admin
       @member.reset_password
       send_activation_mail if @member.save
       
-      redirect_to edit_admin_members_member_path(@member), :notice => t("admin.members.sent_activation_mail")
+      redirect_to edit_admin_members_member_path(@member), notice: t("admin.members.sent_activation_mail")
     end
     
 		protected
@@ -66,7 +66,7 @@ module Admin
 	
 		def update_member
 			@member.email_can_be_blank = true
-			@member.assign_attributes(params[:members_member], :as => :admin)
+			@member.assign_attributes(params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday))
 		end
     
   	def send_activation_mail

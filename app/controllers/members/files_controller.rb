@@ -5,14 +5,14 @@ module Members
 		restrict_access_to_group :admin
 	
 		def new
-			@file = File.new
+			@file = Members::File.new
 		end
 	
 	  def edit
 	  end
 
 	  def create
-	    @file = File.new(params[:members_file])
+	    @file = Members::File.new(file_params)
 
 			if @file.save
 				redirect_to members_root_path
@@ -22,7 +22,7 @@ module Members
 	  end
 
 	  def update
-	  	if @file.update_attributes(params[:members_file])
+	  	if @file.update_attributes(file_params)
 				redirect_to members_root_path, notice: t("application.saved_changes")
 			else
 				render action: :edit
@@ -38,7 +38,11 @@ module Members
 		private
 	
 		def find_file
-			@file = File.find(params[:id])
+			@file = Members::File.find(params[:id])
 		end
+    
+    def file_params
+      params.require(:members_file).permit(:description, :title, :file)
+    end
 	end
 end

@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
   end
   
   def create
-    @photo = @gallery.photos.new(params[:photo])
+    @photo = @gallery.photos.new(photo_params)
     
     if !@photo.save
       render :action => "new"
@@ -22,7 +22,7 @@ class PhotosController < ApplicationController
   end
   
   def update
-    if @photo.update_attributes(params[:photo])
+    if @photo.update_attributes(photo_params)
       redirect_to edit_gallery_path(params[:gallery_id])
     else
       render :action => "edit"
@@ -60,5 +60,9 @@ class PhotosController < ApplicationController
   
   def find_gallery
     @gallery = Gallery.find(params[:gallery_id])
+  end
+  
+  def photo_params
+    params.require(:photo).permit(:gallery_id, :position, :text, :image)
   end
 end

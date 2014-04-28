@@ -16,14 +16,14 @@ module Ticketing
     end
     
     def create
-      @coupon = Coupon.create(params[:ticketing_coupon])
+      @coupon = Coupon.create(coupon_params)
       update_ticket_types
       redirect_to @coupon
     end
     
     def update
       params[:ticketing_coupon][:reservation_group_ids] ||= []
-      @coupon.update_attributes(params[:ticketing_coupon])
+      @coupon.update_attributes(coupon_params)
       update_ticket_types
       redirect_to @coupon
     end
@@ -62,8 +62,8 @@ module Ticketing
     end
     
     def prepare_vars
-      @ticket_types = Ticketing::TicketType.exclusive.scoped
-      @reservation_groups = Ticketing::ReservationGroup.scoped
+      @ticket_types = Ticketing::TicketType.exclusive
+      @reservation_groups = Ticketing::ReservationGroup.all
     end
     
     def update_ticket_types
@@ -79,6 +79,10 @@ module Ticketing
           assignment.destroy
         end
       end
+    end
+    
+    def coupon_params
+      params.require(:ticketing_coupon).permit(:expires, :recipient, reservation_group_ids: [])
     end
   end
 end

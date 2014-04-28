@@ -12,7 +12,7 @@ FasT::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  config.assets.js_compressor = :uglifier
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
@@ -87,7 +87,9 @@ FasT::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
-  config.cache_store = :mem_cache_store
+  config.eager_load = true
+  
+  config.cache_store = :dalli_store
   
   Passbook.options.merge!(CONFIG[:passbook])
 end

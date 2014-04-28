@@ -2,8 +2,8 @@ module Ticketing
   class StatisticsController < BaseController
     def index
       @dates = Event.current.dates
-      @ticket_types = TicketType.scoped
-      @stores = Retail::Store.scoped
+      @ticket_types = TicketType.all
+      @stores = Retail::Store.all
       
       @seats = Rails.cache.fetch [:ticketing, :statistics, Seat] do
         Hash[@dates.map { |date| [date.id, Seat.with_availability_on_date(date)] }]

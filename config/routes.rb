@@ -62,7 +62,7 @@ FasT::Application.routes.draw do
 			end
 		end
     
-    resource :newsletter_subscriber, :controller => Newsletter, :path => :newsletter, only: [:create, :update, :destroy] do
+    resource :newsletter_subscriber, :controller => :newsletter, :path => :newsletter, only: [:create, :update, :destroy] do
       get :edit
     end
     
@@ -133,7 +133,7 @@ FasT::Application.routes.draw do
 		get "bestellen", :action => :new, :as => :new_order
     get "vorverkaufsstelle(/:store_id)/login", :action => :retail_login, :as => :retail_order_login
     get "vorverkaufsstelle(/:store_id)", :action => :new_retail, :as => :new_retail_order
-    post "vorverkaufsstelle/login", :action => :retail_login_check, :as => :retail_order_login
+    post "vorverkaufsstelle/login", :action => :retail_login_check
     post "redeem", :action => :redeem_coupon, :as => :redeem_coupon
     post "enable-reservation-groups", :action => :enable_reservation_groups, :as => :enable_reservation_groups
 	end
@@ -162,7 +162,7 @@ FasT::Application.routes.draw do
       end
     end
     
-    scope :module => Passbook::Controllers, :controller => :passbook , :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do
+    scope :module => :passbook_controllers, :controller => :passbook, :path => "passbook/v1", constraints: { pass_type_id: /([\w\d\-\.])+/ } do
       scope "passes/:pass_type_id" do
         get ":serial_number", :action => :show_pass
       end

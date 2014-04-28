@@ -5,7 +5,7 @@ class Api::OrdersController < ApplicationController
       errors: []
     }
     
-    info = params[:order]
+    info = params.require(:order)
     retailId = params[:retailId]
     if retailId.present?
       type = :retail
@@ -62,11 +62,11 @@ class Api::OrdersController < ApplicationController
 		end
   
     if type != :retail
-      order.attributes = info[:address]
+      order.attributes = info.require(:address).permit(:email, :first_name, :gender, :last_name, :phone, :plz)
 
       order.pay_method = (info[:payment] ||= {}).delete(:method)
       if order.pay_method == "charge"
-        order.build_bank_charge(info[:payment])
+        order.build_bank_charge(info.require(:payment).permit(:bank, :blz, :name, :number))
       end
     
     else

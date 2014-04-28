@@ -20,7 +20,7 @@ module Ticketing
     end
   
     def create
-      seat = Ticketing::Seat.new(params[:seat])
+      seat = Ticketing::Seat.new(seat_params)
       if seat.save
         render json: {
           ok: true,
@@ -34,14 +34,14 @@ module Ticketing
     end
   
     def update
-      @seat.update_attributes(params[:seat])
+      @seat.update_attributes(seat_params)
     
       render nothing: true
     end
     
     def update_multiple
       params[:seat] = [params[:seat]] * params[:ids].count
-      Ticketing::Seat.update(params[:ids], params[:seat])
+      Ticketing::Seat.update(params[:ids], seat_params)
     
       render nothing: true
     end
@@ -60,6 +60,10 @@ module Ticketing
     
     def find_all_seats
       @seats = Ticketing::Seat.order(:number)
+    end
+    
+    def seat_params
+      params.require(:seat).permit(:number, :row, :block_id, :position_x, :position_y)
     end
   end
 end

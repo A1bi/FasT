@@ -1,9 +1,9 @@
 module Members
 	class DatesController < BaseController
-		before_filter :find_date, :only => [:edit, :update, :destroy]
+		before_filter :find_date, only: [:edit, :update, :destroy]
 	
 		restrict_access_to_group :admin
-		ignore_restrictions :only => [:index]
+		ignore_restrictions only: [:index]
 	
 		caches_page :index
 	
@@ -14,28 +14,28 @@ module Members
 		
 					cal = Icalendar::Calendar.new
 					scope = [:members, :dates, :ics]
-					cal.custom_property "X-WR-CALNAME", t(:calname, :scope => scope)
-					cal.custom_property "X-WR-CALDESC", t(:caldesc, :scope => scope)
-					cal.custom_property "X-PUBLISHED-TTL", "PT1D"
+					cal.x_wr_calname = t(:calname, scope: scope)
+					cal.x_wr_caldesc = t(:caldesc, scope: scope)
+					cal.x_published_ttl = "PT1D"
 					cal.publish
-					cal.timezone do
-			      timezone_id             "Europe/Berlin"
+					cal.timezone do |t|
+			      t.tzid = "Europe/Berlin"
 			    end
 				
-					Date.find_each do |date|
-						cal.event do
-							uid							"FASTEVENT-#{date.id}"
-							dtstart					date.datetime.to_datetime
-							dtend						(date.datetime + 90.minutes).to_datetime
-							summary					date.title
-							description			date.info
-							location				date.location
-							klass						"PUBLIC"
-							last_modified		date.updated_at.to_datetime
+					Members::Date.find_each do |date|
+						cal.event do |e|
+							e.uid             =	"FASTEVENT-#{date.id}"
+							e.dtstart				  = date.datetime.to_datetime
+							e.dtend						= (date.datetime + 90.minutes).to_datetime
+							e.summary					= date.title
+							e.description			= date.info
+							e.location				= date.location
+							e.ip_class				= "PUBLIC"
+							e.last_modified		= date.updated_at.to_datetime
               
-              alarm do
-                action "AUDIO"
-                trigger "-P0DT0H45M0S"
+              e.alarm do |a|
+                a.action        = "AUDIO"
+                a.trigger       = "-P0DT0H45M0S"
               end
 						end
 					end
@@ -53,7 +53,7 @@ module Members
 	  end
 
 	  def create
-	    @date = Date.new(params[:members_date])
+	    @date = Date.new(date_params)
 
 			if @date.save
 				expire_cache
@@ -64,7 +64,7 @@ module Members
 	  end
 
 	  def update
-	  	if @date.update_attributes(params[:members_date])
+	  	if @date.update_attributes(date_params)
 				expire_cache
 				redirect_to members_root_path, notice: t("application.saved_changes")
 			else
@@ -86,7 +86,11 @@ module Members
 		end
 	
 		def expire_cache
-			expire_page :action => :index, :format => :ics
+			expire_page action: :index, format: :ics
 		end
+    
+    def date_params
+      params.require(:members_date).permit(:datetime, :info, :location, :title)
+    end
 	end
 end

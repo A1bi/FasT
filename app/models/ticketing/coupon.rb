@@ -1,8 +1,6 @@
 class Ticketing::Coupon < BaseModel
   include RandomUniqueAttribute
   
-  attr_accessible :expires, :recipient, :reservation_group_ids
-  
   has_random_unique_token :code, 6
   has_many :ticket_type_assignments, class_name: Ticketing::CouponTicketTypeAssignment, dependent: :destroy
   has_many :ticket_types, through: :ticket_type_assignments

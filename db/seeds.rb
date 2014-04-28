@@ -21,7 +21,7 @@ end
 	else
 		attrs.merge!({ first_name: Faker::NameDE.first_name, last_name: Faker::NameDE.last_name, email: Faker::Internet.free_email, group_name: :member })
 	end
-	member = Members::Member.new(attrs, without_protection: true)
+	member = Members::Member.new(attrs)
 	member.save(perform_validations: false)
 end
 
@@ -34,7 +34,7 @@ titles = ["Dies", "Das", "Irgendwas", "Tolle Sachen", "Treffen XY"]
 end
 
 # files
-Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6), path: "dummy.pdf" })
+# Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6), path: "dummy.pdf" })
 
 
 ## newsletters
@@ -45,7 +45,7 @@ end
 
 ## ticket system
 # events
-event = Ticketing::Event.create({ name: "Test Jedermann", identifier: "jedermann" }, without_protection: true)
+event = Ticketing::Event.create({ name: "Test Jedermann", identifier: "jedermann" })
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
@@ -82,7 +82,7 @@ end
 	{ name: "Kinder", info: "Jugendliche bis 16 Jahre", price: 6.5 },
 	{ name: "Erwachsene", price: 12.5 }
 ].each do |type|
-	type = Ticketing::TicketType.create(type, without_protection: true)
+	type = Ticketing::TicketType.create(type)
 end
 
 # retail stores
@@ -91,25 +91,25 @@ end
 end
 
 # retail orders
-available_seats = Ticketing::Seat.includes(:tickets, :reservations).having("COUNT(ticketing_tickets.id) + COUNT(ticketing_reservations.id) < 1").group("ticketing_seats.id")
-date = Ticketing::EventDate.last
-i = 0
-3.times do
-  order = Ticketing::Retail::Order.new
-  order.store = Ticketing::Retail::Store.first
-  order.build_bunch
-  
-  (1 + random(5)).times do
-    ticket = Ticketing::Ticket.new
-    ticket.date = date
-    ticket.seat = available_seats.offset(i).first
-    ticket.type = Ticketing::TicketType.order("RANDOM()").first
-    order.bunch.tickets << ticket
-    i = i+1
-  end
-  
-  order.save
-end
+# available_seats = Ticketing::Seat.includes(:tickets, :reservations).having("COUNT(ticketing_tickets.id) + COUNT(ticketing_reservations.id) < 1").group("ticketing_seats.id")
+# date = Ticketing::EventDate.last
+# i = 0
+# 3.times do
+#   order = Ticketing::Retail::Order.new
+#   order.store = Ticketing::Retail::Store.first
+#   order.build_bunch
+#   
+#   (1 + random(5)).times do
+#     ticket = Ticketing::Ticket.new
+#     ticket.date = date
+#     ticket.seat = available_seats.offset(i).first
+#     ticket.type = Ticketing::TicketType.order("RANDOM()").first
+#     order.bunch.tickets << ticket
+#     i = i+1
+#   end
+#   
+#   order.save
+# end
 
 # clear cache
 Rails.cache.clear

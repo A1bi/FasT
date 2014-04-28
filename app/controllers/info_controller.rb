@@ -27,8 +27,7 @@ class InfoController < ApplicationController
     url = "http://www.worldweatheronline.com/Kaisersesch-weather/Rheinland-Pfalz/DE.aspx"
     
     raw = open(url).read.scan /<div class="outlook_left">P.O.P:<\/div><div class="outlook_right">([0-9]+)%<\/div>/is
-    pop = ""
-    #pop = raw[0][0] if raw
+    pop = raw ? raw[0][0] : ""
 
     weather = {
       low: forecast['low'],

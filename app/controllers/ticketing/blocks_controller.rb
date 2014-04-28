@@ -8,12 +8,12 @@ module Ticketing
     end
   
     def create
-      @block = Ticketing::Block.create(params[:ticketing_block])
+      @block = Ticketing::Block.create(block_params)
       redirect_to_seating
     end
   
     def update
-      @block.update_attributes(params[:ticketing_block])
+      @block.update_attributes(block_params)
       redirect_to_seating
     end
     
@@ -30,6 +30,10 @@ module Ticketing
     
     def redirect_to_seating
       redirect_to ticketing_seats_path
+    end
+    
+    def block_params
+      params.require(:ticketing_block).permit(:name, :color)
     end
   end
 end

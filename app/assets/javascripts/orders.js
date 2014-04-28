@@ -500,7 +500,7 @@ function FinishStep(delegate) {
       return;
       
     } else if (this.delegate.service) {
-      window.location = this.delegate.stepBox.data("order-path") + res.order.bunch_id;
+      window.location = this.delegate.stepBox.data("order-path").replace(":id", res.order.bunch_id);
       
     } else {
       this.box.find(".success").show();

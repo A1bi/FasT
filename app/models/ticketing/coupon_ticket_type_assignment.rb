@@ -1,6 +1,4 @@
 class Ticketing::CouponTicketTypeAssignment < ActiveRecord::Base
-  attr_accessible :number
-  
   belongs_to :coupon, :touch => true
   belongs_to :ticket_type
   
