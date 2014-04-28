@@ -1,5 +1,5 @@
 $(window).load(function () {
-	var ad = $(".ad");
+	var ad = $(".partner-lotto");
 	var text = $(".disclaimer", ad);
 	var prev = ad.prev();
 	
