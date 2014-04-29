@@ -1,16 +1,16 @@
 // adjust content space for microsite
 #content {
 	> .top {
-		background: url(/assets/theater/hexenjagd/content_top.png) no-repeat;
+		background: url(asset_path("theater/hexenjagd/content_top.png")) no-repeat;
 		height: 693px;
 	}
 	> .content {
-		background: url(/assets/theater/hexenjagd/content_bg.png) repeat-y;
+		background: url(asset_path("theater/hexenjagd/content_bg.png")) repeat-y;
 		min-height: 0px;
 		padding: 1px 58px;
 	}
 	> .bottom {
-		background: url(/assets/theater/hexenjagd/content_bottom.png) no-repeat;
+		background: url(asset_path("theater/hexenjagd/content_bottom.png")) no-repeat;
 	}
 }
 

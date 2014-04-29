@@ -4,24 +4,24 @@
 // adjust content space for microsite
 #content {
 	> .top {
-		background: url(/assets/theater/montevideo/content_top.png) no-repeat;
+		background: url(asset_path("theater/montevideo/content_top.png")) no-repeat;
 		height: 606px;
 	}
 
 	> .content {
-		background: url(/assets/theater/montevideo/content_first.png) no-repeat;
+		background: url(asset_path("theater/montevideo/content_first.png")) no-repeat;
 		padding: 1px 230px 1px 50px;
 		min-height: 332px;
 	}
 
 	> .content.next {
-		background: url(/assets/theater/montevideo/content_bg.png) repeat-y;
+		background: url(asset_path("theater/montevideo/content_bg.png")) repeat-y;
 		padding: 1px 50px;
 		min-height: 0px;
 	}
 
 	> .bottom {
-		background: url(/assets/theater/montevideo/content_bottom.png) no-repeat;
+		background: url(asset_path("theater/montevideo/content_bottom.png")) no-repeat;
 	}
 }
 
