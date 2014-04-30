@@ -21,8 +21,6 @@ function Step(name, delegate) {
     }
     return this;
   };
-  
-  this.registerEvents();
 }
 
 Step.prototype = {
@@ -124,8 +122,6 @@ Step.prototype = {
     return true;
   },
   
-  registerEvents: function () {},
-  
   formatCurrency: function (value) {
     return value.toFixed(2).toString().replace(".", ",");
   },
@@ -134,33 +130,18 @@ Step.prototype = {
     try {
       _paq.push(['trackGoal', id, revenue]);
     } catch (e) {}
+  },
+
+  registerEventAndInitiate: function (elements, event, proc) {
+    var callback = function () { proc($(this)); };
+    elements[event](callback);
+    elements.each(callback);
   }
 };
 
 function DateStep(delegate) {
   var _this = this;
   this.couponBox;
-  
-  this.registerEvents = function () {
-    this.couponBox = this.box.find(".coupon");
-    this.box.find(".date td").click(function () {
-      _this.choseDate($(this));
-    });
-    this.box.find("select").change(function () {
-      _this.choseNumber($(this));
-    });
-    if (this.delegate.web) {
-      this.couponBox.find("input[type=text]").keyup(function (event) {
-        if (event.which == 13) _this.redeemCoupon();
-      });
-      this.couponBox.find("input[type=submit]").click(function () {
-        _this.redeemCoupon();
-      });
-    } else {
-      this.couponBox.hide();
-    }
-    this.box.find(".total > span").text(this.formatCurrency(0));
-  };
   
   Step.call(this, "date", delegate);
   
@@ -265,6 +246,25 @@ function DateStep(delegate) {
   this.nextBtnEnabled = function () {
     return this.info.internal.numberOfTickets > 0;
   };
+  
+  
+  this.couponBox = this.box.find(".coupon");
+  this.box.find(".date td").click(function () {
+    _this.choseDate($(this));
+  });
+  this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
+    _this.choseNumber($this);
+  });
+  if (this.delegate.web) {
+    this.couponBox.find("input[type=text]").keyup(function (event) {
+      if (event.which == 13) _this.redeemCoupon();
+    });
+    this.couponBox.find("input[type=submit]").click(function () {
+      _this.redeemCoupon();
+    });
+  } else {
+    this.couponBox.hide();
+  }
 }
 
 function SeatsStep(delegate) {
@@ -283,15 +283,6 @@ function SeatsStep(delegate) {
     });
     togglePluralText(this.box.find(".note"), info.internal.numberOfTickets, "note");
     this.toggleExclusiveSeatsKey(!!info.internal.exclusiveSeats);
-  };
-  
-  this.registerEvents = function () {
-    this.box.show();
-    this.chooser = new SeatChooser(this.box.find(".seating"), this);
-    this.box.hide();
-    this.delegate.toggleModalSpinner(true);
-    
-    this.box.find(".reservationGroups :checkbox").click(function () { _this.enableReservationGroups(); });
   };
   
   this.enableReservationGroups = function () {
@@ -337,6 +328,16 @@ function SeatsStep(delegate) {
   };
   
   Step.call(this, "seats", delegate);
+  
+  
+  this.box.show();
+  this.chooser = new SeatChooser(this.box.find(".seating"), this);
+  this.box.hide();
+  this.delegate.toggleModalSpinner(true);
+  
+  this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
+    _this.enableReservationGroups();
+  });
 }
 
 function AddressStep(delegate) {
@@ -362,14 +363,6 @@ function AddressStep(delegate) {
 
 function PaymentStep(delegate) {
   var _this = this;
-  
-  this.registerEvents = function () {
-    this.box.find("[name=method]").click(function () {
-      _this.info.api.method = $(this).val();
-      _this.slideToggle(_this.box.find(".charge"), _this.methodIsCharge());
-      _this.delegate.updateNextBtn();
-    });
-  };
   
   this.validate = function () {
     if (this.methodIsCharge()) {
@@ -397,17 +390,18 @@ function PaymentStep(delegate) {
   };
   
   Step.call(this, "payment", delegate);
+  
+  
+  this.registerEventAndInitiate(this.box.find("[name=method]"), "click", function ($this) {
+    if (!$this.is(":checked")) return;
+    _this.info.api.method = $this.val();
+    _this.slideToggle(_this.box.find(".charge"), _this.methodIsCharge());
+    _this.delegate.updateNextBtn();
+  });
 }
 
 function ConfirmStep(delegate) {
   var _this = this;
-  
-  this.registerEvents = function () {
-    this.box.find(".checkboxes :checkbox").click(function () {
-      _this.info.api[$(this).attr("name")] = $(this).is(":checked");
-      _this.delegate.updateNextBtn();
-    });
-  };
   
   Step.call(this, "confirm", delegate);
   
@@ -465,6 +459,12 @@ function ConfirmStep(delegate) {
   this.nextBtnEnabled = function () {
     return !this.delegate.web || !!this.info.api.accepted;
   };
+  
+  
+  this.registerEventAndInitiate(this.box.find(".checkboxes :checkbox"), "click", function ($this) {
+    _this.info.api[$this.attr("name")] = $this.is(":checked");
+    _this.delegate.updateNextBtn();
+  });
 }
 
 function FinishStep(delegate) {
@@ -559,6 +559,7 @@ var ordering = new function () {
   };
   
   this.updateNextBtn = function () {
+    if (!this.currentStep) return;
     this.toggleNextBtn(this.currentStep.nextBtnEnabled());
   };
   
