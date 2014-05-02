@@ -1,8 +1,8 @@
-leider konnten wir zu Ihrer Bestellung <%= @order.bunch.number %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
+leider konnten wir zu Ihrer Bestellung <%= @order.number %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
 
 <%= render "tickets" %>
 
-Wir möchten Sie daher daran erinnern, den Betrag von <%= number_to_currency(@order.bunch.total) %> auf folgendes Konto zu überweisen:
+Wir möchten Sie daher daran erinnern, den Betrag von <%= number_to_currency(@order.total) %> auf folgendes Konto zu überweisen:
 
 <%= render "bank_details" %>
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425131530) do
+ActiveRecord::Schema.define(version: 20140430231032) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -185,18 +185,6 @@ ActiveRecord::Schema.define(version: 20140425131530) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_bunches", force: true do |t|
-    t.boolean  "paid"
-    t.float    "total"
-    t.integer  "cancellation_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "assignable_id"
-    t.string   "assignable_type"
-    t.integer  "number"
-    t.integer  "coupon_id"
-  end
-
   create_table "ticketing_cancellations", force: true do |t|
     t.string   "reason"
     t.datetime "created_at"
@@ -248,6 +236,25 @@ ActiveRecord::Schema.define(version: 20140425131530) do
     t.datetime "updated_at"
   end
 
+  create_table "ticketing_orders", force: true do |t|
+    t.integer  "number"
+    t.boolean  "paid"
+    t.float    "total"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "gender"
+    t.string   "phone"
+    t.string   "plz"
+    t.string   "pay_method"
+    t.integer  "cancellation_id"
+    t.integer  "coupon_id"
+    t.integer  "store_id"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ticketing_reservation_groups", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -261,13 +268,6 @@ ActiveRecord::Schema.define(version: 20140425131530) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-  end
-
-  create_table "ticketing_retail_orders", force: true do |t|
-    t.integer  "store_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "queue_number"
   end
 
   create_table "ticketing_retail_stores", force: true do |t|
@@ -298,25 +298,13 @@ ActiveRecord::Schema.define(version: 20140425131530) do
   create_table "ticketing_tickets", force: true do |t|
     t.integer  "number"
     t.float    "price"
-    t.integer  "bunch_id"
+    t.integer  "order_id"
     t.integer  "cancellation_id"
     t.integer  "type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "seat_id"
     t.integer  "date_id"
-  end
-
-  create_table "ticketing_web_orders", force: true do |t|
-    t.string   "email"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "gender"
-    t.string   "phone"
-    t.string   "plz"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "pay_method"
   end
 
 end

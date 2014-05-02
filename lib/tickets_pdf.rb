@@ -30,9 +30,9 @@ class TicketsPDF < Prawn::Document
     @font_sizes = { normal: 17, small: 14, tiny: 11 }
   end
   
-  def add_bunch(bunch)
+  def add_order(order)
     @tickets_drawn = 0
-    bunch.tickets.each do |ticket|
+    order.tickets.each do |ticket|
       draw_ticket ticket
       @tickets_drawn = @tickets_drawn + 1
     end
@@ -159,7 +159,7 @@ class TicketsPDF < Prawn::Document
       move_down 4
     
       indent(5) do
-        texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.bunch.number]
+        texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.order.number]
         texts.push t(:website)
         draw_horizontal_array_of_texts texts, :tiny, 15
       end

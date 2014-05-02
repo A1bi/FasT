@@ -5,7 +5,7 @@ module Ticketing
     end
     
     def css_class_for_seat(seat)
-      @seats_in_order ||= Hash[@bunch.tickets.map { |ticket| [ticket.seat, ticket.cancelled?] }]
+      @seats_in_order ||= Hash[@order.tickets.map { |ticket| [ticket.seat, ticket.cancelled?] }]
       in_tickets = @seats_in_order[seat]
       if !in_tickets.nil?
         classes = [:chosen]

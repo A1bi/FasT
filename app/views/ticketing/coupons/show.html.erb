@@ -50,10 +50,10 @@
       <tr>
         <td>Genutzt in Bestellungen:</td>
         <td>
-          <% if !@coupon.bunches.empty? %>
+          <% if !@coupon.orders.empty? %>
             <ul>
-              <% @coupon.bunches.each do |bunch| %>
-                <li><%= link_to bunch.number, ticketing_order_path(bunch) %> | <%= l bunch.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(bunch.total) %></li>
+              <% @coupon.orders.each do |order| %>
+                <li><%= link_to order.number, ticketing_order_path(order) %> | <%= l order.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(order.total) %></li>
               <% end %>
             </ul>
           <% else %>

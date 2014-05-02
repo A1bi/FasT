@@ -8,7 +8,7 @@ module Ticketing
     def index
       types = [
         [:unpaid, [
-          [:where, ["pay_method = 'transfer' AND (ticketing_bunches.paid IS NULL OR ticketing_bunches.paid = ?)", false]]
+          [:where, ["pay_method = 'transfer' AND (paid IS NULL OR paid = ?)", false]]
         ]],
         [:unapproved, [
           [:includes, :bank_charge],
@@ -19,15 +19,15 @@ module Ticketing
       @orders = {}
       types.each do |type|
         @orders[type[0]] = Web::Order
-          .includes(bunch: [:tickets])
+          .includes(:tickets)
           .where(ticketing_tickets: { cancellation_id: nil })
-          .order("ticketing_web_orders.created_at DESC")
+          .order(created_at: :desc)
         type[1].each do |additional|
           @orders[type[0]] = @orders[type[0]].send(additional[0], additional[1])
         end
       end
       
-      @submissions = BankSubmission.order("created_at DESC")
+      @submissions = BankSubmission.order(created_at: :desc)
     end
     
     def mark_as_paid
@@ -78,8 +78,8 @@ module Ticketing
       dta = DTAUS::ChargeCollection.new(t(:sender, scope: @@submissions_scope), submission.id)
       submission.charges.each do |charge|
         recipient = { name: charge.name, account: charge.number, blz: charge.blz }
-        reason = t(:reason, scope: @@submissions_scope, number: charge.chargeable.bunch.number)
-        dta.transactions << DTAUS::Transactions::Charge.new(charge.chargeable.bunch.total, recipient, reason)
+        reason = t(:reason, scope: @@submissions_scope, number: charge.chargeable.number)
+        dta.transactions << DTAUS::Transactions::Charge.new(charge.chargeable.total, recipient, reason)
       end
       dta
     end

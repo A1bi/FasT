@@ -19,18 +19,18 @@ module Ticketing
           total: {}
         }
         
-        Bunch.includes(:assignable, tickets: [:date, :type]).each do |bunch|
-          next if bunch.cancelled?
+        Order.includes(tickets: [:date, :type]).each do |order|
+          next if order.cancelled?
           
           scopes = [stats[:total]]
-          if bunch.assignable.is_a? Web::Order
+          if order.is_a? Web::Order
             scopes << stats[:web]
-          elsif bunch.assignable.is_a? Retail::Order
-            scopes << ((stats[:retail][:stores] ||= {})[bunch.assignable.store.id] ||= {})
+          elsif order.is_a? Retail::Order
+            scopes << ((stats[:retail][:stores] ||= {})[order.store.id] ||= {})
             scopes << stats[:retail][:total]
           end
           
-          bunch.tickets.each do |ticket|
+          order.tickets.each do |ticket|
             next if ticket.cancelled?
             
             scopes.each do |scope|

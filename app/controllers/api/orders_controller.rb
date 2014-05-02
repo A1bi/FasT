@@ -17,24 +17,22 @@ class Api::OrdersController < ApplicationController
     order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     order.service_validations = true if type == :service
     
-    order.build_bunch
-    
     if retailId.present? && params[:web]
       order.omit_queue_number = true
-      order.bunch.paid = true
+      order.paid = true
     end
     
     seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
     if !seating[:ok]
       response[:errors] << "Seating error"
-      return render :json => response
+      return render json: response
     end
     seats = seating[:seats]
     
     coupon_assignments = []
     if info[:couponCode].present?
       coupon = Ticketing::Coupon.where(code: info[:couponCode]).first
-      order.bunch.coupon = coupon if !coupon.expired?
+      order.coupon = coupon if !coupon.expired?
     end
     
 		info[:tickets].each do |type_id, number|
@@ -57,7 +55,7 @@ class Api::OrdersController < ApplicationController
 				ticket.type = ticket_type
 				ticket.seat = Ticketing::Seat.find(seats.shift)
         ticket.date = Ticketing::EventDate.find(info[:date])
-        order.bunch.tickets << ticket
+        order.tickets << ticket
 			end
 		end
   
@@ -79,7 +77,7 @@ class Api::OrdersController < ApplicationController
       end
       
       seats = {}
-      order.bunch.tickets.each do |ticket|
+      order.tickets.each do |ticket|
         seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
       end
       NodeApi.update_seats(seats)
@@ -92,32 +90,36 @@ class Api::OrdersController < ApplicationController
       response[:errors] << "Unknown error"
     end
     
-    render :json => response
+    render json: response
   end
   
   def retail
-    orders = Ticketing::Retail::Order.by_store(params[:store_id]).includes(:bunch).where(:ticketing_bunches => { :cancellation_id => nil }).api_hash
+    orders = Ticketing::Retail::Order.by_store(params[:store_id]).cancelled(false).api_hash
     
-    render :json => orders
+    render json: orders
   end
   
   def current_date
-    orders = Ticketing::Web::Order.includes(bunch: [:tickets]).where(:ticketing_bunches => { :cancellation_id => nil }).order(:last_name, :first_name).all.map { |o| { id: o.id.to_s, number: o.bunch.number.to_s, last_name: o.last_name, first_name: o.first_name, number_of_tickets: o.bunch.tickets.count } }
+    orders = Ticketing::Web::Order.includes(:tickets).cancelled(false).order(:last_name, :first_name).all.map do |o|
+      {
+        id: o.id.to_s, number: o.number.to_s, last_name: o.last_name, first_name: o.first_name, number_of_tickets: o.tickets.count
+      }
+    end
     
-    render :json => { ok: true, orders: orders }
+    render json: { ok: true, orders: orders }
   end
   
   def by_number
-    order = Ticketing::Bunch.includes(:assignable).where(number: params[:number]).first.assignable
+    order = Ticketing::Order.where(number: params[:number]).first
     
-    render :json => { ok: true, order: order.api_hash(true) }
+    render json: { ok: true, order: order.api_hash(true) }
   end
   
   def mark_as_paid
     order = Ticketing::Retail::Order.find(params[:id])
     order.mark_as_paid
     
-    render :json => {
+    render json: {
       ok: true
     }
   end

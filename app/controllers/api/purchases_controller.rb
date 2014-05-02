@@ -5,7 +5,7 @@ class Api::PurchasesController < ApplicationController
 
     (params[:items] ||= []).each do |itemInfo|
       item = Ticketing::BoxOffice::PurchaseItem.new
-      item.purchasable = (itemInfo[:type] == "order" ? Ticketing::Bunch : Ticketing::BoxOffice::Product).find(itemInfo[:id])
+      item.purchasable = (itemInfo[:type] == "order" ? Ticketing::Order : Ticketing::BoxOffice::Product).find(itemInfo[:id])
       if itemInfo[:type] == "order"
         item.number = 1
         item.purchasable.paid = true
@@ -19,8 +19,8 @@ class Api::PurchasesController < ApplicationController
     new_order = nil
     info = params[:new_order]
     if info
-      bunch = Ticketing::Bunch.new
-      bunch.paid = true
+      order = Ticketing::Order.new
+      order.paid = true
     
       seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seating_id] }).body
       if seating[:ok]
@@ -36,26 +36,26 @@ class Api::PurchasesController < ApplicationController
     				ticket.type = ticket_type
     				ticket.seat = Ticketing::Seat.find(seats.shift)
             ticket.date = Ticketing::EventDate.find(info[:date])
-            bunch.tickets << ticket
+            order.tickets << ticket
     			end
     		end
       
-        if bunch.save
+        if order.save
           item = Ticketing::BoxOffice::PurchaseItem.new
           item.number = 1
-          item.purchasable = bunch
+          item.purchasable = order
           purchase.items << item
           
           seats = {}
-          bunch.tickets.each do |ticket|
+          order.tickets.each do |ticket|
             seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
           end
           NodeApi.update_seats(seats)
         
           new_order = {
-            id: bunch.id.to_s,
-            number: bunch.number.to_s,
-            tickets: bunch.tickets.map do |ticket|
+            id: order.id.to_s,
+            number: order.number.to_s,
+            tickets: order.tickets.map do |ticket|
               { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
             end
           }

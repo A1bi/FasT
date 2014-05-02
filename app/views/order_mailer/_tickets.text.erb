@@ -1,15 +1,15 @@
 Folgende Tickets haben Sie bestellt:
 
-<% @order.bunch.tickets.each do |ticket| %>
+<% @order.tickets.each do |ticket| %>
       <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------
-Gesamtbetrag: <%= number_to_currency(@order.bunch.total) %>
-<% if @order.pay_method == "charge" %>
+Gesamtbetrag: <%= number_to_currency(@order.total) %>
+<% if @order.paid && !(hide_notes ||= false) %>
 
 --- Hinweise zu Ihren Tickets ---
 
 Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser e-mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.
-Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch einfach Ihre Bestellnummer <%= @order.bunch.number %> notieren und an der Abendkasse nennen.
+Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch einfach Ihre Bestellnummer <%= @order.number %> notieren und an der Abendkasse nennen.
 <% end %>

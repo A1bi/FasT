@@ -2,7 +2,7 @@ class OrderMailer < BaseMailer
   def confirmation(order)
 		@order = order
     
-    attach_tickets if order.bunch.paid
+    attach_tickets if order.paid
 		mail_to_customer
 	end
   
@@ -21,7 +21,7 @@ class OrderMailer < BaseMailer
   end
   
   def pay_reminder(order)
-    if order.is_a?(Ticketing::Web::Order) && order.pay_method == "transfer" && !order.bunch.paid
+    if order.is_a?(Ticketing::Web::Order) && order.pay_method == "transfer" && !order.paid
       @order = order
       
       mail_to_customer
@@ -51,7 +51,7 @@ class OrderMailer < BaseMailer
   
   def attach_tickets
     pdf = TicketsPDF.new
-    pdf.add_bunch @order.bunch
+    pdf.add_order @order
     attachments['tickets.pdf'] = pdf.render
   end
 end

@@ -57,14 +57,14 @@
       <tbody class="hover">
         <% @orders[:unapproved].each do |order| %>
           <% charge = order.bank_charge %>
-          <tr data-path="<%= ticketing_order_path(order.bunch) %>">
+          <tr data-path="<%= ticketing_order_path(order) %>">
             <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
-            <td class="number"><%= link_to order.bunch.number, ticketing_order_path(order.bunch) %></td>
+            <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
             <td class="name"><%= charge.name %></td>
             <td><%= charge.number %></td>
             <td><%= charge.blz %></td>
             <td class="name"><%= charge.bank %></td>
-            <td class="amount"><%= number_to_currency order.bunch.total %></td>
+            <td class="amount"><%= number_to_currency order.total %></td>
           </tr>
         <% end %>
         <% if @orders[:unapproved].empty? %>
