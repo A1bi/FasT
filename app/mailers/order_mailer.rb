@@ -21,7 +21,7 @@ class OrderMailer < BaseMailer
   end
   
   def pay_reminder(order)
-    if order.is_a?(Ticketing::Web::Order) && order.pay_method == "transfer" && !order.paid
+    if order.is_a?(Ticketing::Web::Order) && order.transfer? && !order.paid
       @order = order
       
       mail_to_customer

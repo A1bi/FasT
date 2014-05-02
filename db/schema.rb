@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140430231032) do
+ActiveRecord::Schema.define(version: 20140502002733) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -246,7 +246,7 @@ ActiveRecord::Schema.define(version: 20140430231032) do
     t.integer  "gender"
     t.string   "phone"
     t.string   "plz"
-    t.string   "pay_method"
+    t.integer  "pay_method",      limit: 255
     t.integer  "cancellation_id"
     t.integer  "coupon_id"
     t.integer  "store_id"

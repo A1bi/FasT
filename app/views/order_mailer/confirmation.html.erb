@@ -1,14 +1,14 @@
 vielen Dank für Ihre Bestellung!
 <%= render "tickets" %>
 <p>
-  <% if @order.pay_method == "charge" %>
+  <% if @order.charge? %>
     Der Betrag wird in den kommenden Tagen von dem von Ihnen angegebenen Konto abgebucht.
   <% elsif !@order.paid %>
-    <% if @order.pay_method == "transfer" %>
+    <% if @order.transfer? %>
       Bitte überweisen Sie den Betrag von <b><%= number_to_currency(@order.total) %></b> auf folgendes Konto:
       <%= render "bank_details" %>
       <p>Sie erhalten Ihre Tickets per Mail sofort nach Zahlungsgeingang.</p>
-    <% elsif @order.pay_method == "cash" %>
+    <% elsif @order.cash? %>
       <p>Sie erhalten Ihre Tickets nach Barzahlung an der Abendkasse.</p>
     <% end %>
   <% end %>

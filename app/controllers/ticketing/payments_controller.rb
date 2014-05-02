@@ -8,11 +8,11 @@ module Ticketing
     def index
       types = [
         [:unpaid, [
-          [:where, ["pay_method = 'transfer' AND (paid IS NULL OR paid = ?)", false]]
+          [:where, ["pay_method = '#{Ticketing::Web::Order.pay_methods[:transfer]}' AND (paid IS NULL OR paid = ?)", false]]
         ]],
         [:unapproved, [
           [:includes, :bank_charge],
-          [:where, ["pay_method = 'charge'"]],
+          [:where, ["pay_method = '#{Ticketing::Web::Order.pay_methods[:charge]}'"]],
           [:where, ["ticketing_bank_charges.approved = ?", false]]
         ]]
       ]

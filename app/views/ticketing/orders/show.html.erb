@@ -62,7 +62,7 @@
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if !@order.paid %>
                   <div><%= link_to "als bezahlt markieren", mark_as_paid_ticketing_order_path(@order), method: :put %></div>
-                  <% if @order.pay_method == "transfer" %>
+                  <% if @order.transfer? %>
                     <div><%= link_to "Zahlungserinnerung senden", send_pay_reminder_ticketing_order_path(@order), method: :post, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
                   <% end %>
                 <% else %>
