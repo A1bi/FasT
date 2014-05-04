@@ -69,7 +69,7 @@
               %>
             <% end %>
           <% end %>
-          <% if @_retail_store %>
+          <% if @_retail_store && @_retail_store.id %>
             <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing_retail, css_class: :ticketing_retail, actions:
               [:orders, :logout]
             %>

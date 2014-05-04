@@ -1,23 +1,20 @@
 module Ticketing
   class OrdersController < BaseController
     before_filter :disable_slides
-    before_filter :set_event_info, only: [:new, :new_retail, :new_service]
+    before_filter :set_event_info, only: [:new, :new_retail, :new_admin]
     before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel]
-    restrict_access_to_group :admin, only: [:new_service, :enable_reservation_groups]
+    before_filter :prepare_new, only: [:new, :new_admin, :new_retail]
     ignore_restrictions
+    before_filter :restrict_access
   
     def new
-      @type = :web
     end
-  
+    
+    def new_admin
+      @reservation_groups = Ticketing::ReservationGroup.all
+    end
+    
     def new_retail
-      @type = :retail
-      @store = @_retail_store
-    end
-  
-    def new_service
-      @type = :service
-      @reservation_groups = Ticketing::ReservationGroup.scoped
     end
   
     def redeem_coupon
@@ -52,12 +49,10 @@ module Ticketing
     end
   
     def index
-      types = [
-        [:web, Web, []],
-        [:retail, Retail, [
-          [:includes, :store]
-        ]]
-      ]
+      types = []
+      types << [:web, Web, []] if admin?
+      types << [:retail, Retail, [[:includes, :store]]]
+      types.last.last << [:where, { store: @_retail_store }] if retail?
       @orders = {}
       types.each do |type|
         @orders[type[0]] = type[1]::Order
@@ -135,7 +130,33 @@ module Ticketing
     end
   
     def find_order
-      @order = Ticketing::Order.find(params[:id])
+      if retail?
+        orders = Ticketing::Retail::Order.where(store: @_retail_store)
+      else
+        orders = Ticketing::Order.all
+      end
+      @order = orders.find(params[:id])
+    end
+    
+    def prepare_new
+      @order = Order.new
+      @type = admin? ? :admin : retail? ? :retail : :web
+    end
+    
+    def restrict_access
+      actions = [:new, :redeem_coupon]
+      if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
+        actions.push :index, :show, :cancel
+        if @_retail_store.id
+          actions.push :new_retail
+        end
+        if @_member.admin?
+          actions.push :new_admin, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
+        end
+      end
+      if !actions.include? action_name.to_sym
+        return redirect_to root_path, alert: t("application.access_denied")
+      end
     end
   end
 end

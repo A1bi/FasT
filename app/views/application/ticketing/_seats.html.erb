@@ -13,7 +13,7 @@
       <%= image_tag "/uploads/seating_underlay.png", class: [:layer, :underlay], alt: nil if (underlay ||= false) %>
       <% seats = seats.includes(:block) if !seats.is_a? Array %>
       <% seats.each_with_index do |seat, index| %>
-        <% options = (seat_options(seat) if (respond_to? :seat_options)) || {} %>
+        <% options = seat_options(seat) %>
         <% options[:class] = (options[:class] || "") + " ticketing_block_#{seat.block.id}" if block_colors %>
         <%= div_for(seat, options.merge(data: { id: seat.id, number: seat.number, block: seat.block.id, :"grid-x" => seat.position_x, :"grid-y" => seat.position_y }) ) do %>
           <% if (numbers ||= false) %>

@@ -87,7 +87,7 @@ end
 
 # retail stores
 ["Meyers Buchhandlung", "Test-Store", "Buchhandlung"].each do |name|
-  Ticketing::Retail::Store.create(:name => name)
+  Ticketing::Retail::Store.create(name: name, password: SecureRandom.hex)
 end
 
 # retail orders

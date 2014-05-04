@@ -3,11 +3,11 @@
     Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
   </div>
   <div class="additional">
-    <% if @type != :service %>
+    <% if !admin? %>
       <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
       <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
     <% else %>
-      <%= content_tag :p, class: ["reservationGroups"], data: { "enable-url" => enable_reservation_groups_path } do %>
+      <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
         Vorreservierungen freischalten:
         <% @reservation_groups.each do |group| %>
           <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
@@ -16,7 +16,7 @@
     <% end %>
   </div>
 	<div class="seating">
-		 <%= render "application/ticketing/seats", :seats => @seats, :error_box => true, :numbers => true, :photo => true, :underlay => true, :view_chooser => true, cache_key: [:new_order] %>
+		 <%= render "application/ticketing/seats", seats: @seats, error_box: true, numbers: true, photo: true, underlay: true, view_chooser: true, cache_key: [:new_order] %>
 	</div>
   <div class="hcen">
 		<div class="key">

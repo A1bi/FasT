@@ -1,13 +1,13 @@
 module Ticketing
   class Web::Order < Order    
-    attr_accessor :service_validations
+    attr_accessor :admin_validations
 	
     has_one :bank_charge, as: :chargeable, validate: true, dependent: :destroy
     enum pay_method: [:charge, :transfer, :cash]
   
-    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.service_validations }
-    validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.service_validations }
-    validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.service_validations }
+    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }
+    validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }
+    validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
   

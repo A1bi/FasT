@@ -77,10 +77,13 @@ FasT::Application.routes.draw do
     namespace :ticketing, path: "" do
       scope path: "vorverkauf" do
         get "statistik" => "statistics#index", as: :statistics
-        scope path: "bestellungen" do
+        scope path: "bestellungen", type: :admin do
           resource :order, path: "", only: [] do
             member do
-              get "neu", action: :new_service, as: :new_service
+              get "neu", action: :new_admin, as: :new_admin
+            end
+            collection do
+              post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
             end
           end
           resources :orders, path: "", only: [:index, :show] do
@@ -116,7 +119,7 @@ FasT::Application.routes.draw do
       end
       
       scope as: :retail, path: "vorverkaufsstelle" do
-        scope path: "bestellungen" do
+        scope path: "bestellungen", type: :retail do
           resource :order, path: "", only: [] do
             member do
               get "neu", action: :new_retail, as: :new
@@ -135,13 +138,12 @@ FasT::Application.routes.draw do
         end
       end
       
-      resource :order, path: "tickets", only: [] do
+      resource :order, path: "tickets", type: :web, only: [] do
         member do
           get "bestellen", action: :new, as: :new
         end
         collection do
           post "redeem", action: :redeem_coupon, as: :redeem_coupon
-          post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
         end
       end
     end

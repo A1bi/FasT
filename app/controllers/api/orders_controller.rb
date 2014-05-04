@@ -11,14 +11,13 @@ class Api::OrdersController < ApplicationController
       type = :retail
     else
       type = (params[:type] || "").to_sym
-      type = :web if type == :service && !@_member.admin?
+      type = :web if type == :admin && !@_member.admin?
     end
     
     order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
-    order.service_validations = true if type == :service
+    order.admin_validations = true if type == :admin
     
     if retailId.present? && params[:web]
-      order.omit_queue_number = true
       order.paid = true
     end
     
@@ -40,7 +39,7 @@ class Api::OrdersController < ApplicationController
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
       
-      if ticket_type.exclusive && type != :service
+      if ticket_type.exclusive && type != :admin
         assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
         next if !assignment
         if assignment.number >= 0

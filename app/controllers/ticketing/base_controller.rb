@@ -11,6 +11,7 @@ class Ticketing::BaseController < ApplicationController
 		rescue
 			session[:retail_store_id] = nil
 		end
+    @_retail_store ||= Ticketing::Retail::Store.new
   end
   
   protected
@@ -32,4 +33,18 @@ class Ticketing::BaseController < ApplicationController
   def retail_store_id_cookie_name
     "_#{Rails.application.class.parent_name}_retail_store_id"
   end
+  
+  def admin?
+    params[:type] == :admin
+  end
+  def retail?
+    params[:type] == :retail
+  end
+  helper_method :admin?, :retail?
+  
+  def orders_path(action, params = nil)
+    action = action.to_s.sub("ticketing", "ticketing_retail") if retail?
+    send(action.to_s + "_path", params)
+  end
+  helper_method :orders_path
 end
