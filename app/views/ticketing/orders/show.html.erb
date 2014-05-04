@@ -12,7 +12,7 @@
   ["Gutschein", @order.coupon ? link_to(@order.coupon.recipient, @order.coupon) : content_tag(:em, "keiner", class: :small)]
 ] %>
 <div class="topTables">
-  <table class="rounded">
+  <table class="rounded details">
     <%= render "show_overview_table", title: "Übersicht", overview: overview %>
     <%
       if @order.is_a? Ticketing::Retail::Order
@@ -49,7 +49,7 @@
     <%= render "show_overview_table", title: "Zahlung", overview: payment if payment %>
   </table>
   <div class="rightTables">
-    <table class="rounded actions">
+    <table class="rounded actions details">
       <thead>
         <tr>
           <th>Aktionen</th>
@@ -87,7 +87,7 @@
       </tbody>
     </table>
     <% if @order.cancelled? %>
-      <table class="rounded cancellation">
+      <table class="rounded cancellation details">
         <thead>
           <tr>
             <th>Storniert</th>
@@ -106,7 +106,7 @@
 </div>
 <% cache [:ticketing, :orders, @order, @order.log_events] do %>
   <% events = @order.log_events.order("id DESC") %>
-  <table class="rounded entries log">
+  <table class="rounded entries log details">
     <thead>
       <tr>
         <th colspan="3">Protokoll</th>
@@ -137,7 +137,7 @@
   </table>
 <% end %>
 <% cache [:ticketing, :orders, @order, @order.tickets, @seats] do %>
-  <table class="rounded entries">
+  <table class="rounded entries details">
     <thead>
       <tr>
         <th colspan="6">In der Bestellung enthaltene Tickets</th>
@@ -172,7 +172,7 @@
     <tbody>
       <tr>
         <td colspan="6">
-          <div class="seating noSelection noScroller noSeatBorders">
+          <div class="seating noSelection noScroller noSeatBorders details">
             <%= render "application/ticketing/seats", seats: Ticketing::Seat.all, no_stage: true %>
           </div>
         </td>

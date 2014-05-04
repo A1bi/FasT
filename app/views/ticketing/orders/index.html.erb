@@ -5,9 +5,9 @@
   <div class="hl">Bestellungen</div>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
   <% if admin? %>
-    <%= render "application/ticketing/orders_table", title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web] %>
-    <%= render "application/ticketing/orders_table", title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
+    <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web] %>
+    <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
   <% else %>
-    <%= render "application/ticketing/orders_table", title: "Vorverkaufsstelle „#{@_retail_store.name}“", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
+    <%= render "application/ticketing/orders_table", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
   <% end %>
 </div>

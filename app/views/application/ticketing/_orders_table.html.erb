@@ -1,10 +1,12 @@
 <% cache [:ticketing, cache_key, orders] do %>
   <% orders = orders.all %>
-  <table class="rounded entries">
+  <table class="rounded entries details">
     <thead>
-      <tr>
-        <th colspan="<%= (checkbox ||= false) ? 6 : 5 %>"><%= title %></th>
-      </tr>
+      <% if defined? table_title %>
+        <tr>
+          <th colspan="<%= (checkbox ||= false) ? 6 : 5 %>"><%= table_title %></th>
+        </tr>
+      <% end %>
       <% if orders.any? %>
         <tr>
           <% if checkbox %><th class="checkbox"><%= check_box_tag "orders_all[]" %></th><% end %>

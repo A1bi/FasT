@@ -102,7 +102,7 @@ module Ticketing
     
       OrderMailer.cancellation(@order).deliver
     
-      redirect_to ticketing_order_path(@order)
+      redirect_to_order_details
     end
   
     private
@@ -126,7 +126,7 @@ module Ticketing
     end
   
     def redirect_to_order_details
-      redirect_to ticketing_order_path(@order)
+      redirect_to orders_path(:ticketing_order, @order)
     end
   
     def find_order

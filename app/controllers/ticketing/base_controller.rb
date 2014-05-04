@@ -6,10 +6,9 @@ class Ticketing::BaseController < ApplicationController
   
   def authenticate_retail_store
 		begin
-      session[:retail_store_id] ||= retail_store_id_cookie if retail_store_id_cookie.present?
-			@_retail_store ||= Ticketing::Retail::Store.find(session[:retail_store_id]) if session[:retail_store_id].present?
+			@_retail_store ||= Ticketing::Retail::Store.find(retail_store_id_cookie) if retail_store_id_cookie.present?
 		rescue
-			session[:retail_store_id] = nil
+			delete_retail_store_id_cookie
 		end
     @_retail_store ||= Ticketing::Retail::Store.new
   end

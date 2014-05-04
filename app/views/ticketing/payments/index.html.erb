@@ -3,7 +3,7 @@
 <% include_js "ticketing/orders" %>
 <div class="hl">Zahlungsverwaltung</div>
 <% cache [:ticketing, :payments, @unsubmitted_charges, @submissions] do %>
-  <table class="rounded entries">
+  <table class="rounded entries details">
     <thead>
       <tr>
         <th colspan="3">Einzureichende Lastschriften</th>
@@ -37,7 +37,7 @@
 <% end %>
 <% cache [:ticketing, :payments, :unapproved, @orders[:unapproved]] do %>
   <%= form_tag ticketing_payments_approve_path, method: :put do %>
-    <table class="rounded entries">
+    <table class="rounded entries details">
       <thead>
         <tr>
           <th colspan="7">Ungeprüfte Lastschriften</th>
