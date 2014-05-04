@@ -76,7 +76,7 @@ FasT::Application.routes.draw do
     
     namespace :ticketing, path: "" do
       scope path: "vorverkauf" do
-        get "statistik" => "statistics#index"
+        get "statistik" => "statistics#index", as: :statistics
         scope path: "bestellungen" do
           resource :order, path: "", only: [] do
             member do
@@ -116,10 +116,16 @@ FasT::Application.routes.draw do
       end
       
       scope as: :retail, path: "vorverkaufsstelle" do
-        resource :order, path: "bestellungen", only: [:index, :show] do
-          member do
-            get "neu", action: :new_retail, as: :new
-            post :cancel
+        scope path: "bestellungen" do
+          resource :order, path: "", only: [] do
+            member do
+              get "neu", action: :new_retail, as: :new
+            end
+          end
+          resources :orders, path: "", only: [:index, :show] do
+            member do
+              post :cancel
+            end
           end
         end
         scope module: :retail do

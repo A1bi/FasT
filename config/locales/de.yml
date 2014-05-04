@@ -24,20 +24,26 @@ de:
   admin:
     members:
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
-  members:
-    groups:
-      admin: "Vorstand"
-      member: "Mitglied"
-    navi:
-      main: "Hauptseite"
+  navi:
+    members:
+      root: "Hauptseite"
       member: "Mein Mitgliedskonto"
-      sessions: "Logout"
-      members: "Mitgliederverwaltung"
+      logout: "Logout"
+    admin:
+      members_members: "Mitgliederverwaltung"
+    ticketing:
       seats: "Sitzplan"
       statistics: "Statistik"
       orders: "Bestellungen"
       coupons: "Gutscheine"
       payments: "Zahlungen"
+    ticketing_retail:
+      orders: "Bestellungen"
+      logout: "Logout"
+  members:
+    groups:
+      admin: "Vorstand"
+      member: "Mitglied"
     sessions:
       auth_error: "E-mail-Adresse oder Passwort falsch."
       logout: "Sie wurden erfolgreich ausgeloggt."
@@ -100,6 +106,10 @@ de:
           - "Ort, Datum, Unterschrift"
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
+    retail:
+      sessions:
+        auth_error: "Das eingegebene Passwort ist nicht korrekt."
+        logout: "Sie wurden erfolgreich ausgeloggt."
   orders:
     retail_login:
       required: "Bitte loggen Sie sich ein."

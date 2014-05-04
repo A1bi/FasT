@@ -326,25 +326,33 @@ html {
 					line-height: 30px;
 				}
 			}
-			
-			&.admins, &.ticketing {
+      
+      @mixin navi-gradient($first, $second, $third) {
 				li {
-					@include background-gradient(top, (#ffdf38 0%, #e2c939 70%), #e2c939);
+					@include background-gradient(top, ($first 0%, $second 70%), $first);
 					
 					&:hover:not(:first-child) {
-						@include background-gradient(top, (#ffdf38 0%, #e0d702 70%), #e0d702);
+						@include background-gradient(top, ($first 0%, $third 70%), $third);
 					}
 					
 					&.selected {
 						border-bottom-color: #64410d;
 					}
 				}
+      }
+			
+			&.admin, &.ticketing {
+        @include navi-gradient(#ffdf38, #e2c939, #e0d702);
         
         &.ticketing {
           li:not(:first-child) {
             font-size: 12px;
           }
         }
+			}
+      
+			&.ticketing_retail {
+        @include navi-gradient(#539DF7, #3971CA, #2F9BF0);
 			}
 		}
 	}

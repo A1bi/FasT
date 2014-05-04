@@ -14,15 +14,14 @@ module Ticketing::Retail
         self.retail_store_id_cookie = store.id
         redirect_to new_ticketing_retail_order_path
       else
-        flash.alert = t("members.sessions.auth_error")
-        redirect_to ticketing_retail_login_path
+        redirect_to ticketing_retail_login_path, alert: t("ticketing.retail.sessions.auth_error")
       end
     end
 
     def destroy
       session[:retail_store_id] = nil
       delete_retail_store_id_cookie
-      redirect_to root_path
+      redirect_to root_path, notice: t("ticketing.retail.sessions.logout")
     end
   end
 end

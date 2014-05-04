@@ -1,10 +1,11 @@
-<%= content_tag :ul, class: ["navi", (css_class ||= nil)] do %>
+<%= content_tag :ul, class: [:navi, namespace] do %>
 	<li><%= title %></li>
-	<% controllers.each do |c| %>
-    <% con = "#{namespace.capitalize}::#{c[0].capitalize}Controller".constantize %>
-		<% options = { class: :selected } if controller.class == con %>
+	<% actions.each do |action| %>
+    <% action = Array(action) %>
+    <% path = send((action[1].present? ? "#{action[1]}_" : "") + "#{namespace}_#{action[0]}_path") %>
+		<% options = { class: :selected } if request.path.starts_with?(path) %>
 		<%= content_tag :li, options do %>
-			<%= link_to t("members.navi." + c[0].to_s), controller: con.controller_path, action: c[1] %>
+			<%= link_to t(action[0], scope: [:navi, namespace]), path %>
 		<% end %>
 	<% end %>
 <% end %>
