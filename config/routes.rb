@@ -74,36 +74,68 @@ FasT::Application.routes.draw do
       end
     end
     
-    get "/vorverkauf/bestellungen/neu" => "orders#new_service", as: :new_ticketing_order
-    namespace :ticketing, path: "vorverkauf" do
-      get "statistik" => "statistics#index"
-      resources :orders, path: "bestellungen", only: [:index, :show] do
-        member do
-          post :send_pay_reminder
+    namespace :ticketing, path: "" do
+      scope path: "vorverkauf" do
+        get "statistik" => "statistics#index"
+        scope path: "bestellungen" do
+          resource :order, path: "", only: [] do
+            member do
+              get "neu", action: :new_service, as: :new_service
+            end
+          end
+          resources :orders, path: "", only: [:index, :show] do
+            member do
+              post :send_pay_reminder
+              put :mark_as_paid
+              put :approve
+              post :cancel
+              post :resend_tickets
+            end
+          end
+        end
+        controller :payments, path: "zahlungen", as: :payments do
+          get "/", action: :index
           put :mark_as_paid
           put :approve
-          post :cancel
-          post :resend_tickets
+          post :submit
+          get :sheet, path: "begleitzettel/:id"
+        end
+        resources :seats, path: "sitzplan", only: [:index, :create, :update] do
+          collection do
+            get :edit
+            put :update_multiple
+            delete :update_multiple, action: :destroy_multiple
+          end
+        end
+        resources :blocks, path: "blöcke", except: [:index, :show]
+        resources :coupons, path: "gutscheine" do
+          member do
+            post :mail
+          end
         end
       end
-      controller :payments, path: "zahlungen", as: :payments do
-        get "/", action: :index
-        put :mark_as_paid
-        put :approve
-        post :submit
-        get :sheet, path: "begleitzettel/:id"
-      end
-      resources :seats, path: "sitzplan", only: [:index, :create, :update] do
-        collection do
-          get :edit
-          put :update_multiple
-          delete :update_multiple, action: :destroy_multiple
+      
+      scope as: :retail, path: "vorverkaufsstelle" do
+        resource :order, path: "bestellungen", only: [:index, :show] do
+          member do
+            get "neu", action: :new_retail, as: :new
+            post :cancel
+          end
+        end
+        scope module: :retail do
+          get "login" => "sessions#new", as: :login
+          post "login" => "sessions#create"
+          get "logout" => "sessions#destroy", as: :logout
         end
       end
-      resources :blocks, path: "blöcke", except: [:index, :show]
-      resources :coupons, path: "gutscheine" do
+      
+      resource :order, path: "tickets", only: [] do
         member do
-          post :mail
+          get "bestellen", action: :new, as: :new
+        end
+        collection do
+          post "redeem", action: :redeem_coupon, as: :redeem_coupon
+          post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
         end
       end
     end
@@ -127,15 +159,6 @@ FasT::Application.routes.draw do
       root to: "main#index"
     end
     
-  end
-  
-  controller :orders, path: "tickets" do
-    get "bestellen", action: :new, as: :new_order
-    get "vorverkaufsstelle(/:store_id)/login", action: :retail_login, as: :retail_order_login
-    get "vorverkaufsstelle(/:store_id)", action: :new_retail, as: :new_retail_order
-    post "vorverkaufsstelle/login", action: :retail_login_check
-    post "redeem", action: :redeem_coupon, as: :redeem_coupon
-    post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
   end
   
   scope path: :api do

@@ -3,9 +3,6 @@
 <% include_js "orders" %>
 <div class="hl">
 	<%= title %>
-  <%= content_tag :div, class: :retail, data: { id: @store.id } do %>
-    Vorverkaufsstelle: <%= @store.name %>
-  <% end if @store %>
 </div>
 <div class="progress">
 	<div class="step bar"></div>

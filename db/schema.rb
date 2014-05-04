@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140502002733) do
+ActiveRecord::Schema.define(version: 20140503224535) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 20140502002733) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password_digest"
   end
 
   create_table "ticketing_seats", force: true do |t|
