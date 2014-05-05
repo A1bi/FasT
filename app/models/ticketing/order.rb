@@ -51,7 +51,7 @@ module Ticketing
     private
     
     def added_ticket(ticket)
-      self[:total] = ticket.type.price.to_f + total.to_f
+      self.total = ticket.type.price.to_f + total.to_f
     end
     
     def after_create

@@ -27,23 +27,29 @@
           </tr>
         </thead>
         <tbody>
-          <%= render :layout => "field", :locals => { :name => "Kontoinhaber" } do %>
+          <%= render layout: "field", locals: { name: "Kontoinhaber" } do %>
             <%= f.text_field :name %>
           <% end %>
-          <%= render :layout => "field", :locals => { :name => "Kontonummer" } do %>
-            <%= f.text_field :number %>
+          <%= render layout: "field", locals: { name: "IBAN" } do %>
+            <%= f.text_field :iban %>
           <% end %>
-          <%= render :layout => "field", :locals => { :name => "BLZ" } do %>
-            <%= f.text_field :blz %>
+          <%= render layout: "field", locals: { name: "BIC" } do %>
+            <%= f.text_field :bic %>
           <% end %>
-          <%= render :layout => "field", :locals => { :name => "Name der Bank" } do %>
-            <%= f.text_field :bank %>
+          <%= render layout: "field", locals: { name: "Zahlungsempfänger" } do %>
+            Freilichtbühne am schiefen Turm e. V.
+            <br />Gläubiger-ID: DE123456789
           <% end %>
+          <tr>
+            <td colspan="2">
+              <div class="small note">
+                Ich ermächtige den Zahlungsempfänger, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Zahlungsempfänger auf mein Konto gezogenen Lastschriften einzulösen.
+                <p>Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.</p>
+              </div>
+            </td>
+          </tr>
         </tbody>
 			</table>
-			<div class="small note">
-				Ihre Bankdaten werden nach erfolgter Zahlung aus unserem System vollständig gelöscht.
-			</div>
 		</div>
   <% end %>
 </div>

@@ -10,8 +10,8 @@
 	<%= render "payment", methods: [
     {
       name: :charge,
-      human_name: "Lastschrift",
-      desc: "Schnell und bequem, Sie erhalten Ihre Tickets sofort nach der Bestellung."
+      human_name: "SEPA-Lastschrift",
+      desc: "Schnell und bequem. Sie erhalten Ihre Tickets sofort nach der Bestellung."
     },
     {
       name: :transfer,
@@ -53,7 +53,7 @@
 				<table class="rounded form">
           <thead>
             <tr>
-              <th colspan="2">Bezahlung per Lastschrift</th>
+              <th colspan="2">Bezahlung per SEPA-Lastschrift</th>
             </tr>
           </thead>
           <tbody>
@@ -62,17 +62,20 @@
   						<td class="name"></td>
   					</tr>
   					<tr>
-  						<td>Kontonummer:</td>
-  						<td class="number"></td>
+  						<td>IBAN:</td>
+  						<td class="iban"></td>
   					</tr>
   					<tr>
-  						<td>BLZ:</td>
-  						<td class="blz"></td>
+  						<td>BIC:</td>
+  						<td class="bic"></td>
   					</tr>
-  					<tr>
-  						<td>Name der Bank:</td>
-  						<td class="bank"></td>
-  					</tr>
+            <tr>
+              <td colspan="2">
+                <div class="small note">
+                  Weitere Informationen zur Abbuchung inbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
+                </div>
+              </td>
+            </tr>
           </tbody>
 				</table>
 			</div>

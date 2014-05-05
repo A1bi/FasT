@@ -59,7 +59,7 @@ de:
   ticketing:
     orders:
       pay_methods:
-        charge: "Lastschrift"
+        charge: "SEPA-Lastschrift"
         transfer: "Überweisung"
         cash: "Barzahlung"
       log_events:

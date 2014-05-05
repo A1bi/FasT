@@ -31,6 +31,8 @@ gem 'rubyzip', '~> 1.1.0'
 
 gem 'roadie'
 
+gem 'sepa_king'
+
 gem 'dalli'
 
 gem 'actionpack-page_caching'

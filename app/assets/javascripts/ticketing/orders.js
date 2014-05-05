@@ -22,6 +22,39 @@ function Step(name, delegate) {
     }
     return this;
   };
+  this.validator.isIBAN = function () {
+    var iban = this.str.toUpperCase().replace(" ", "", "g");
+    var parts = iban.match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
+    var ok = true;
+    if (parts) {
+      if (parts[1] == "DE") {
+        $.each(parts, function (i, part) {
+          parts[i] = part.replace(/\D/g, function (char) {
+            return char.charCodeAt(0) - 64 + 9;
+          });
+        });
+        var bban = parts[3] + parts[1] + parts[2];
+        var remainder = 0;
+        for (var i = 0; i < bban.length; i++) {
+          remainder = (remainder + bban.charAt(i)) % 97;
+        }
+        if (remainder != 1) {
+          ok = false;
+        }
+      }
+    } else {
+      ok = false;
+    }
+    if (!ok) return this.error(this.msg || 'Invalid IBAN');
+    return this;
+  };
+  this.validator.isBIC = function () {
+    var bic = this.str.toUpperCase().replace(" ", "", "g");
+    if (!bic.match(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2,5}$/)) {
+      return this.error(this.msg || 'Invalid BIC');
+    }
+    return this;
+  };
 }
 
 Step.prototype = {
@@ -371,9 +404,8 @@ function PaymentStep(delegate) {
     if (this.methodIsCharge()) {
       return this.validateFields(function () {
         this.getValidatorCheckForField("name", "Bitte geben Sie den Kontoinhaber an.").notEmpty();
-        this.getValidatorCheckForField("number", "Bitte geben Sie eine korrekte Kontonummer an, verwenden Sie dabei keinerlei Leer- oder sonstige Trennzeichen.").onlyDigits().len(1, 12);
-        this.getValidatorCheckForField("blz", "Bitte geben Sie eine korrekte Bankleitzahl an, verwenden Sie dabei keinerlei Leer- oder sonstige Trennzeichen.").onlyDigits().len(8, 8);
-        this.getValidatorCheckForField("bank", "Bitte geben Sie den Namen der Bank an.").notEmpty();
+        this.getValidatorCheckForField("iban", "Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isIBAN();
+        this.getValidatorCheckForField("bic", "Die angegebene BIC ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isBIC();
       });
     }
     

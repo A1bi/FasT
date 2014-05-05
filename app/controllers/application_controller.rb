@@ -58,10 +58,6 @@ class ApplicationController < ActionController::Base
     cookies.delete user_id_cookie_name
   end
   
-  def default_url_options
-    CONFIG[:url_options]
-  end
-  
   private
   
   def user_id_cookie_name

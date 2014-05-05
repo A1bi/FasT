@@ -2,7 +2,29 @@ vielen Dank für Ihre Bestellung!
 <%= render "tickets" %>
 <p>
   <% if @order.charge? %>
-    Der Betrag wird in den kommenden Tagen von dem von Ihnen angegebenen Konto abgebucht.
+    Der Betrag wird in den kommenden Tagen per SEPA-Lastschrift von folgendem Konto abgebucht:
+    <table>
+      <tr>
+        <td>Kontoinhaber:</td>
+        <td><%= @order.bank_charge.name %></td>
+      </tr>
+      <tr>
+        <td>IBAN:</td>
+        <td><%= @order.bank_charge.iban %></td>
+      </tr>
+      <tr>
+        <td>BIC:</td>
+        <td><%= @order.bank_charge.bic %></td>
+      </tr>
+      <tr>
+        <td>Ihre Mandatsreferenznummer:</td>
+        <td><%= @order.bank_charge.mandate_id %></td>
+      </tr>
+      <tr>
+        <td>Unsere Gläubiger-ID:</td>
+        <td>DE12345678</td>
+      </tr>
+    </table>
   <% elsif !@order.paid %>
     <% if @order.transfer? %>
       Bitte überweisen Sie den Betrag von <b><%= number_to_currency(@order.total) %></b> auf folgendes Konto:

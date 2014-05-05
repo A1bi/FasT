@@ -2,7 +2,7 @@ module Ticketing
   class Web::Order < Order    
     attr_accessor :admin_validations
 	
-    has_one :bank_charge, as: :chargeable, validate: true, dependent: :destroy
+    has_one :bank_charge, class: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy
     enum pay_method: [:charge, :transfer, :cash]
   
     validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }
@@ -47,10 +47,18 @@ module Ticketing
       })
     end
     
+    def total=(t)
+      super
+      bank_charge.amount = t if bank_charge.present?
+    end
+    
     private
     
     def before_validation
-      self[:paid] = true if charge?
+      if charge?
+        self.paid = true
+        bank_charge.amount = total
+      end
     end
   end
 end

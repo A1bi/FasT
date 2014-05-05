@@ -47,9 +47,8 @@
             <th class="checkbox"><%= check_box_tag "orders_all" %></th>
             <th>Bestellung</th>
             <th>Kontoinhaber</th>
-            <th>Kontonummer</th>
-            <th>BLZ</th>
-            <th>Institut</th>
+            <th>IBAN</th>
+            <th>BIC</th>
             <th>Betrag</th>
           </tr>
         <% end %>
@@ -61,9 +60,8 @@
             <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
             <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
             <td class="name"><%= charge.name %></td>
-            <td><%= charge.number %></td>
-            <td><%= charge.blz %></td>
-            <td class="name"><%= charge.bank %></td>
+            <td><%= charge.iban %></td>
+            <td><%= charge.bic %></td>
             <td class="amount"><%= number_to_currency order.total %></td>
           </tr>
         <% end %>

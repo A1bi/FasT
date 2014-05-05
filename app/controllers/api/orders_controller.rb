@@ -63,7 +63,7 @@ class Api::OrdersController < ApplicationController
 
       order.pay_method = (info[:payment] ||= {}).delete(:method)
       if order.charge?
-        order.build_bank_charge(info.require(:payment).permit(:bank, :blz, :name, :number))
+        order.build_bank_charge(info.require(:payment).permit(:name, :iban, :bic))
       end
     
     else

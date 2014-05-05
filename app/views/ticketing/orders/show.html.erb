@@ -36,9 +36,8 @@
           if @order.bank_charge
             payment.concat [
               ["Kontoinhaber", @order.bank_charge.name],
-              ["Kontonummer", @order.bank_charge.number],
-              ["BLZ", @order.bank_charge.blz],
-              ["Bank", @order.bank_charge.bank],
+              ["IBAN", @order.bank_charge.iban],
+              ["BIC", @order.bank_charge.bic],
               ["geprüft", @order.bank_charge.approved ? "ja" : "nein"]
             ]
           end

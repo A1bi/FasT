@@ -1,10 +1,33 @@
 module Ticketing
   class BankCharge < BaseModel
     belongs_to :submission, class_name: BankSubmission
-    belongs_to :chargeable, polymorphic: true, :touch => true
+    belongs_to :chargeable, polymorphic: true, touch: true
     
-    validates_presence_of :name, :number, :blz, :bank
-    validates_format_of :number, :with => /\A\d{1,12}\z/
-    validates_format_of :blz, :with => /\A\d{8}\z/
+    validates_presence_of :name
+    validates :amount, numericality: { greater_than: 0 }
+    validates_with SEPA::IBANValidator, SEPA::BICValidator
+    
+    def mandate_id
+      id
+    end
+    
+    def iban=(val)
+      super(strip_number(val))
+    end
+    
+    def bic=(val)
+      super(strip_number(val))
+    end
+    
+    def amount=(val)
+      return super if submission.nil?
+      nil
+    end
+    
+    private
+    
+    def strip_number(number)
+      number.gsub(/ /, "").upcase
+    end
   end
 end
