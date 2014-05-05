@@ -8,6 +8,6 @@
     <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web] %>
     <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
   <% else %>
-    <%= render "application/ticketing/orders_table", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
+    <%= render "application/ticketing/orders_table", table_title: "Bisherige Bestellungen in Ihrer Vorverkaufsstelle", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
   <% end %>
 </div>

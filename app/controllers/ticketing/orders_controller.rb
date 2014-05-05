@@ -155,7 +155,11 @@ module Ticketing
         end
       end
       if !actions.include? action_name.to_sym
-        return redirect_to root_path, alert: t("application.access_denied")
+        if retail?
+          return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
+        else
+          return redirect_to root_path, alert: t("application.access_denied")
+        end
       end
     end
   end

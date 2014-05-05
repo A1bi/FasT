@@ -25,7 +25,7 @@ $total-border: 2px $light-blue solid;
   div.table {
     margin: 10px 0px;
     
-    &:not(.total) {
+    &:not(.total):not(.active) {
       display: none;
     }
   }

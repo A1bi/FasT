@@ -39,6 +39,7 @@ de:
       payments: "Zahlungen"
     ticketing_retail:
       orders: "Bestellungen"
+      statistics: "Statistik"
       logout: "Logout"
   members:
     groups:

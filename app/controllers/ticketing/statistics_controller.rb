@@ -1,14 +1,23 @@
 module Ticketing
   class StatisticsController < BaseController
+    before_filter :fetch_stats
+    before_filter :prepare_vars
+    ignore_restrictions only: [:index_retail]
+    
     def index
-      @dates = Event.current.dates
-      @ticket_types = TicketType.all
       @stores = Retail::Store.all
       
       @seats = Rails.cache.fetch [:ticketing, :statistics, Seat] do
         Hash[@dates.map { |date| [date.id, Seat.with_availability_on_date(date)] }]
       end
-      
+    end
+    
+    def index_retail
+    end
+    
+    private
+    
+    def fetch_stats
       @stats = Rails.cache.fetch [:ticketing, :statistics, Ticket] do
         stats = {
           web: {},
@@ -46,6 +55,11 @@ module Ticketing
         end
         
         stats
+      end
+      
+      def prepare_vars
+        @dates = Event.current.dates
+        @ticket_types = TicketType.all
       end
     end
   end
