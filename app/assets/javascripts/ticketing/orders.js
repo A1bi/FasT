@@ -786,8 +786,6 @@ var ordering = new function () {
       steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
     }
     
-    var width = _this.progressBox.width() / (steps.length - 1);
-    _this.progressBox.find(".step").css({ width: width }).filter(".bar").css({ width: Math.round(width) });
     var opts = {
       lines: 13,
       length: 20,
@@ -799,18 +797,23 @@ var ordering = new function () {
     };
     _this.modalSpinner = new Spinner(opts);
     
-    _this.registerEvents();
-    
-    $.each(steps, function (index, stepClass) {
-      stepClass.prototype = Step.prototype;
-      var step = new stepClass(_this);
-      _this.steps.push(step);
+    $(window).load(function () {
+      var progressSteps = _this.progressBox.find(".step");
+      var width = _this.progressBox.width() / (steps.length - 1);
+      progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
       
-      $(".progress .step." + step.name).show();
+      $.each(steps, function (index, stepClass) {
+        stepClass.prototype = Step.prototype;
+        var step = new stepClass(_this);
+        _this.steps.push(step);
+      
+        progressSteps.filter("." + step.name).show();
+      });
+      
+      _this.registerEvents();
+      _this.showNext(false);
+      _this.resetExpirationTimer();
     });
-  
-    _this.showNext(false);
-    _this.resetExpirationTimer();
   });
 }
 
