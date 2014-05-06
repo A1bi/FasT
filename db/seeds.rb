@@ -52,11 +52,12 @@ event = Ticketing::Event.create({ name: "Test Jedermann", identifier: "jedermann
 end
 
 # seat blocks
+block_names = %w(rot grün blau)
 colors = %w(red green blue)
 x = 5
 y = 5
 3.times do |i|
-	block = Ticketing::Block.create(name: (i+1).to_s, color: colors[i])
+	block = Ticketing::Block.create(name: block_names[i], color: colors[i])
 	
 	# seats
 	x2 = nil

@@ -9,9 +9,12 @@ class TicketsPDF < Prawn::Document
   def initialize(retail = false)
     @retail = retail
     
+    margin = @retail ? [0] : [14, 0]
+    @ticket_height = TICKET_HEIGHT - 1 - margin.first * 2 / 3
+    puts @ticket_height
     page_size = @retail ? [TICKET_WIDTH, TICKET_HEIGHT] : "A4"
 
-    super page_size: page_size, page_layout: @retail ? :landscape : :portrait, margin: [0, 0, 0, 0], info: {
+    super page_size: page_size, page_layout: @retail ? :landscape : :portrait, margin: margin, info: {
       Title:         t(:title),
       Author:        t(:author),
       Creator:       t(:creator),
@@ -45,35 +48,50 @@ class TicketsPDF < Prawn::Document
   private
 
   def draw_ticket(ticket)
-    if (!@retail && cursor - TICKET_HEIGHT < 0) || (@retail && @tickets_drawn > 0)
+    if (!@retail && cursor - @ticket_height < 0) || (@retail && @tickets_drawn > 0)
       start_new_page
     end
     
     draw_single = Proc.new do
-      bounding_box([0, cursor], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
-        bounding_box([0, cursor - 10], width: bounds.width, height: bounds.height - 20) do
-          indent(10, 30) do
-            barcodeWidth = 70
-            bounding_box([0, bounds.height], width: barcodeWidth, height: bounds.height) do
-              draw_barcode_for_ticket ticket
-            end
-
-            bounding_box([barcodeWidth, bounds.height], width: bounds.width - barcodeWidth, height: bounds.height) do
-              move_down 4
-              indent(30) do
-                draw_event_info_for_date ticket.date
-                draw_seat_info ticket.seat
-                draw_ticket_type_info ticket.type
-                draw_bottom_info_for_ticket ticket
+      ticket_margin = 12
+      bounding_box([0, cursor - ticket_margin], width: TICKET_WIDTH, height: @ticket_height - ticket_margin * 2) do
+        indent(10, 10) do
+          text_indent = [35, 95]
+          line_width = 0.5
+          
+          header_line_cursor = draw_header line_width
+          bottom_info_height = 0
+          float do
+            bottom_info_height = draw_bottom_info_for_ticket ticket, text_indent.first, line_width
+          end
+          
+          float do
+            barcode_margin = 10
+            move_up header_line_cursor
+            bounding_box([bounds.width - text_indent.last, cursor - barcode_margin], width: text_indent.last, height: cursor - bottom_info_height - barcode_margin * 2) do
+              indent(30, 20) do
+                draw_barcode_for_ticket ticket
               end
+            end
+          end
+          
+          move_down 5
+          indent(text_indent.first, text_indent.last) do
+            bounding_box([0, cursor], width: bounds.width, height: bounds.height) do
+              draw_event_info_for_date ticket.date
+              draw_seat_info ticket.seat
+              move_up 40
+              draw_ticket_type_info ticket.type
             end
           end
         end
       end
+      
+      move_down ticket_margin
     end
     
     if @retail
-      rotate(-90, :origin => [140, 455], &draw_single)
+      rotate(-90, origin: [140, 455], &draw_single)
     else
       draw_single.call
     end
@@ -84,22 +102,15 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_barcode_for_ticket(ticket)
-    margin = 10
-    height = bounds.width - margin
-    width = bounds.height
-  
-    rotate(-90, :origin => [0, bounds.height]) do
-      bounding_box([0, bounds.height + height], width: width, height: height) do
+    rotate(-90, origin: [0, bounds.height]) do
+      bounding_box([0, bounds.height + bounds.width], width: bounds.height, height: bounds.width) do
         BarcodePDF.draw_content("T#{ticket.number}M" + (@retail ? "0" : "1"), self)
       end
     end
-    
-    draw_line(0.5) do
-      vertical_line 0, bounds.height, at: height + margin - 0.5
-    end
   end
-
-  def draw_event_info_for_date(date)
+  
+  def draw_header(line_width)
+    line_cursor = 0
     font_size_name :small do
       header = t(:header)
       box_height = height_of header
@@ -111,15 +122,19 @@ class TicketsPDF < Prawn::Document
         end
     
         move_cursor_to box_height / 2
-        draw_line(0.5) do
+        draw_line(line_width) do
           padding = 10
           text_start = bounds.width / 2 - text_width / 2
           horizontal_line 0, text_start - padding
           horizontal_line text_start + text_width + padding, bounds.width
         end
+        line_cursor = cursor
       end
     end
-    
+    line_cursor
+  end
+
+  def draw_event_info_for_date(date)    
     font("Staccato", size: 40) do
       pad(5) { text date.event.name }
     end
@@ -130,40 +145,43 @@ class TicketsPDF < Prawn::Document
   
     font_size_name :small do
       pad_bottom(10) { text t(:opens) }
-      pad_bottom(35) { text t(:location) }
+      pad_bottom(30) { text t(:location) }
     end
   end
 
   def draw_seat_info(seat)
     texts = array_of_texts_with_translations %w(block seat), [seat.block.name, seat.number]
-    draw_horizontal_array_of_texts texts, :small, 8
+    draw_horizontal_array_of_texts texts, :normal, 8
   end
 
-  def draw_ticket_type_info(type)
-    move_up 45
-    
-    indent(0, 20) do
-      font_size_name :normal do
-        text type.name, align: :right
-        text (type.price.zero? ? "" : number_to_currency(type.price)), align: :right
-      end
+  def draw_ticket_type_info(type)    
+    font_size_name :normal do
+      text type.name, align: :right
+      text (type.price.zero? ? "" : number_to_currency(type.price)), align: :right
     end
   end
 
-  def draw_bottom_info_for_ticket(ticket)
-    bounding_box([0, 20], width: bounds.width, height: 20) do
-      draw_line(0.5) do
+  def draw_bottom_info_for_ticket(ticket, text_indent, line_width)
+    padding = 15
+    text_size = :tiny
+    move_text_down = 4
+    height = height_of(t(:website), size: @font_sizes[text_size]) + line_width + move_text_down
+    
+    bounding_box([0, height], width: bounds.width, height: height) do
+      draw_line(line_width) do
         horizontal_line 0, bounds.right
       end
     
-      move_down 4
+      move_down move_text_down
     
-      indent(5) do
+      indent(text_indent) do
         texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.order.number]
         texts.push t(:website)
-        draw_horizontal_array_of_texts texts, :tiny, 15
+        draw_horizontal_array_of_texts texts, text_size, padding
       end
     end
+    
+    height
   end
   
   def array_of_texts_with_translations(keys, values)
@@ -208,6 +226,6 @@ class TicketsPDF < Prawn::Document
   end
   
   def t(key)
-    I18n.t(key, :scope => :tickets_pdf)
+    I18n.t(key, scope: :tickets_pdf)
   end
 end
