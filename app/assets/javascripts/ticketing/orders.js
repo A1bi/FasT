@@ -534,19 +534,27 @@ function FinishStep(delegate) {
       this.error();
       return;
       
-    } else if (this.delegate.admin) {
-      window.location = this.delegate.stepBox.data("order-path").replace(":id", res.order.id);
-      
     } else {
-      this.box.find(".success").show();
-      if (this.delegate.retail) {
-        this.box.find(".total span").text(this.formatCurrency(res.order.total));
-        this.box.find(".printable_link").attr("href", res.order.printable_path);
+      var orderInfo = res.order;
+      var detailsPath = this.delegate.stepBox.data("order-path").replace(":id", orderInfo.id);
+      
+      if (this.delegate.admin) {
+        window.location = detailsPath;
+      
+      } else {
+        this.box.find(".success").show();
+        if (this.delegate.retail) {
+          var infoBox = this.box.find(".info");
+          infoBox.find(".total span").text(this.formatCurrency(orderInfo.total));
+          infoBox.find(".number").text(orderInfo.tickets.length);
+          infoBox.find("a.details").prop("href", detailsPath);
+          
+        } else if (this.delegate.web) {
+          this.trackPiwikGoal(1, orderInfo.total);
+        }
+    
+        this.delegate.killExpirationTimer();
       }
-    
-      if (this.delegate.web) this.trackPiwikGoal(1, res.order.total);
-    
-      this.delegate.killExpirationTimer();
     }
   };
   

@@ -1,16 +1,33 @@
 <% content_for :finish do %>
-  <div class="total">Gesamtbetrag: <span></span> €</div>
-  <div>
-  	Ihre Tickets können Sie mit einem Klick auf folgendes Symbol herunterladen:
-    <p><%= link_to "#", class: "printable_link", target: "_blank" do %><%= image_tag "misc/files/pdf.png", alt: "Tickets herunterladen" %><% end %></p>
-    <p><%= link_to "Neue Bestellung", request.path %></p>
+  <div class="hl note">
+    Die Bestellung wurde erfolgreich aufgenommen.
   </div>
+  <table class="rounded info">
+    <thead>
+      <tr>
+        <th colspan="2">Zusammenfassung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gesamtbetrag:</td>
+        <td class="total"><span></span> €</td>
+      </tr>
+      <tr>
+        <td>Tickets:</td>
+        <td class="number"></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="links"><%= link_to "zu weiteren Bestelldetails", "", class: :details %> | <%= link_to "neue Bestellung aufnehmen", orders_path(:new_ticketing_order) %></td>
+      </tr>
+    </tbody>
+  </table>
 <% end %>
 <%= content_for :steps do %>
   <%= render "date" %>
 	<%= render "seats" %>
 	<div class="stepCon confirm">
-		<div class="note">Bitte kontrollieren Sie Ihre Bestellung noch einmal und klicken anschließend auf <em>bestellen</em>.</div>
+		<div class="note">Bitte kontrollieren Sie die Bestellung noch einmal und klicken anschließend auf <em>bestellen</em>.</div>
     <%= render "confirm_tickets" %>
 	</div>
   <%= render "finish" %>

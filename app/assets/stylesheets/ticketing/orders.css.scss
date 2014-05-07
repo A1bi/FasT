@@ -543,12 +543,21 @@ table.details {
   			display: none;
   		}
     
-      .total {
-        margin: 15px;
-        font-size: 20px;
-      
-        span {
-          font-weight: bold;
+      .info {
+        width: 60%;
+        margin: 30px auto;
+        
+        td {
+          padding: 6px;
+          
+          &:not(.links) {
+            text-align: left !important;
+          }
+        
+          &.total {
+            font-size: 30px;
+            font-weight: bold;
+          }
         }
       }
     }
