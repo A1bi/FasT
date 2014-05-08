@@ -15,18 +15,4 @@
       <% end %>
     <% end %>
   </div>
-	<div class="seating">
-		 <%= render "application/ticketing/seats", seats: @seats, error_box: true, numbers: true, photo: true, underlay: true, view_chooser: true, cache_key: [:new_order] %>
-	</div>
-  <div class="hcen">
-		<div class="key">
-      <div><b>Legende Sitzplätze</b></div>
-      <div>
-        <div><div class="ticketing_seat available"></div> frei</div>
-        <div class="exclusiveSeats"><div class="ticketing_seat available exclusive"></div> exklusiv für Sie frei</div>
-      </div>
-      <div><div class="ticketing_seat taken"></div> bereits reserviert</div>
-      <div><div class="ticketing_seat chosen"></div> ausgewählt</div>
-    </div>
-  </div>
 </div>

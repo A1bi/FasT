@@ -5,8 +5,7 @@ module Ticketing
   
     def index
       respond_to do |format|
-        format.html { }
-        format.json { render json: { ok: true, html: render_to_string("application/ticketing/_seats", locals: { seats: @seats, numbers: true, no_stage: true }, formats: :html, layout: false) } }
+        format.html
       end
     end
     

@@ -2,8 +2,3 @@
 <% include_js "ticketing/seats" %>
 <% include_css "ticketing/seats" %>
 <div class="hl">Sitzplan <span class="actionBtns"><%= link_to "", { :action => :edit }, { :class => :edit, :title => "bearbeiten" } %></span></div>
-<div id="seats">
-  <div class="seating">
-    <%= render "plan" %>
-  </div>
-</div>
