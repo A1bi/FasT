@@ -1,5 +1,6 @@
+//= require ./_seating
+
 @import "_mixins";
-@import "../_seats";
 
 $total-border: 2px $light-blue solid;
 
@@ -54,9 +55,4 @@ $total-border: 2px $light-blue solid;
       }
     }
   }
-}
-
-.seating .plan {
-  height: 200px;
-  box-shadow: none;
 }

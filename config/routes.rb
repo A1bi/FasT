@@ -171,7 +171,7 @@ FasT::Application.routes.draw do
     
   end
   
-  scope path: :api do
+  scope path: :api, as: :api do
     scope module: :api do
       resources :orders, only: [:create] do
         member do

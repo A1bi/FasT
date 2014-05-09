@@ -1,4 +1,4 @@
-//= require _seats
+//= require ./_seating
 
 $(function () {
   $(".chooser span").click(function () {

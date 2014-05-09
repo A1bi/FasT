@@ -1,12 +1,50 @@
 //= require socket.io-client/dist/socket.io.min
+//= require KineticJS/kinetic.min
+
+function Seat(id, block, pos) {
+  this.id = id;
+  this.block = block;
+  
+  this.item = new Kinetic.Rect({
+    width: 20,
+    height: 20,
+    fill: this.block.color,
+    stroke: '#a9a9a9',
+    strokeWidth: 1,
+    cornerRadius: 3,
+    shadowColor: 'silver',
+    shadowOffset: [1, 1],
+    shadowBlur: 2
+  });
+  
+  this.item.position({ x: pos[0], y: pos[1] });
+};
+
+function SeatBlock(id, color) {
+  this.id = id;
+  this.color = color;
+  this.seats = [];
+  this.group = new Kinetic.Group({
+    x: 0,
+    y: 0
+  });
+  
+  this.addSeat = function (id, pos) {
+    var seat = new Seat(id, this, pos);
+    this.seats.push(seat);
+    this.group.add(seat.item);
+    return seat;
+  };
+};
 
 function Seating(container) {
   this.maxCells = { x: 185, y: 80 };
   this.sizeFactors = { x: 3.5, y: 3 };
   this.grid = null;
   this.selecting = false;
-  this.seats = this.container.find(".ticketing_seat");
-  this.callbacks = { selected: function () {} }
+  this.stage = null;
+  this.layers = {};
+  this.seats = {};
   var _this = this;
   
   this.calculateGridCells = function (parent) {
@@ -38,41 +76,41 @@ function Seating(container) {
     this.scroller.addClass(layer);
   };
   
-  this.reload = function () {
-    $.getJSON(location.href + ".json", function (response) {
-      if (response.ok) {
-        _this.scroller.html(response.html);
-        _this.seats = $(_this.seats.selector);
-        _this.initSeats();
+  /*
+  this.container.viewChooser.find("a")
+    .click(function (event) {
+      var $this = $(this);
+      if ($this.is(".selected")) return;
+  
+      $this.addClass("selected").siblings().removeClass("selected");
+      _this.scroller.removeClass("numbers underlay photo");
+      var viewType = $this.data("type");
+      if (viewType == "numbersAndUnderlay") {
+        _this.enableViewLayers("numbers underlay");
+      } else if (viewType == "photo") {
+        _this.enableViewLayers("photo");
       }
-    });
-  };
   
-  this.initSeats = function () {
-    var sizes = { x: this.grid[0] * this.sizeFactors.x, y: this.grid[1] * this.sizeFactors.y };
-  };
+      event.preventDefault();
+    })
+    .first().addClass("selected");
+  */
   
-  this.calculateGridCells(this.scroller);
-  this.initSeats();
+  this.stage = new Kinetic.Stage({
+    container: container.get(0),
+    width: container.width(),
+    height: container.height()
+  });
   
-  var viewChooser = this.container.find(".viewChooser");
-  viewChooser.find("a")
-  .click(function (event) {
-    var $this = $(this);
-    if ($this.is(".selected")) return;
-    
-    $this.addClass("selected").siblings().removeClass("selected");
-    _this.scroller.removeClass("numbers underlay photo");
-    var viewType = $this.data("type");
-    if (viewType == "numbersAndUnderlay") {
-      _this.enableViewLayers("numbers underlay");
-    } else if (viewType == "photo") {
-      _this.enableViewLayers("photo");
-    }
-    
-    event.preventDefault();
-  })
-  .first().addClass("selected");
+  this.layers['seats'] = new Kinetic.Layer();
+  this.stage.add(this.layers['seats']);
+  
+  var block = new SeatBlock(1, "red");
+  this.layers['seats'].add(block.group);
+  
+  var seat = block.addSeat(1, [100, 60]);
+  
+  this.layers['seats'].draw();
 };
 
 function SeatChooser(container, delegate) {
