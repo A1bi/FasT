@@ -135,7 +135,7 @@
     </tbody>
   </table>
 <% end %>
-<% cache [:ticketing, :orders, @order, @order.tickets, @seats] do %>
+<% cache [:ticketing, :orders, @order, @order.tickets] do %>
   <table class="rounded entries details">
     <thead>
       <tr>
@@ -171,9 +171,6 @@
     <tbody>
       <tr>
         <td colspan="6">
-          <div class="seating noSelection noScroller noSeatBorders details">
-            <%= render "application/ticketing/seats", seats: Ticketing::Seat.all, no_stage: true %>
-          </div>
         </td>
       </tr>
     </tbody>

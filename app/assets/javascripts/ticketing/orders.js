@@ -1,5 +1,5 @@
-//= require _seats
-//= require ticketing/base
+//= require ./_seating
+//= require ./base
 //= require node-validator/validator-min
 //= require spin.js/dist/spin.min
 

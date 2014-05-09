@@ -1,1 +1,1 @@
-//= require _seats
+//= require ./_seating
