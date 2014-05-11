@@ -187,7 +187,10 @@ FasT::Application.routes.draw do
         post :check_in
       end
       get "events/current", as: "current_event"
-      get "seats" => "seats#index"
+      controller :seats, path: :seats, as: :seats do
+        get "availability", action: :availability
+        get "/", action: :index
+      end
       resources :purchases, only: [:create] do
         collection do
           post :unlock_seats

@@ -1,4 +1,6 @@
 <%= content_tag :div, class: [:error, :plural_text] do %>
   <div>Sie müssen noch <b class="number plural"><span></span></b><span class="singular">einen</span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.</div>
 <% end if (error_box ||= false) %>
-<div class="seating"></div>
+<div class="seating">
+  <div class="plan"></div>
+</div>

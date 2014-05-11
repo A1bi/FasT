@@ -1,23 +1,35 @@
 //= require socket.io-client/dist/socket.io.min
 //= require KineticJS/kinetic.min
 
-function Seat(id, block, pos) {
+function Seat(id, block, number, pos) {
   this.id = id;
   this.block = block;
   
+  var size = [20, 20];
+  var cacheOffset = [5, 5];
+  var draggable = false;
   this.item = new Kinetic.Rect({
-    width: 20,
-    height: 20,
+    width: size[0],
+    height: size[1],
     fill: this.block.color,
     stroke: '#a9a9a9',
     strokeWidth: 1,
     cornerRadius: 3,
     shadowColor: 'silver',
     shadowOffset: [1, 1],
-    shadowBlur: 2
-  });
+    shadowBlur: 2,
+    draggable: draggable
+  })
+  .position({ x: pos[0], y: pos[1] });
   
-  this.item.position({ x: pos[0], y: pos[1] });
+  if (draggable) {
+    this.item.cache({
+      x: -cacheOffset[0],
+      y: -cacheOffset[1],
+      width: size[0] + cacheOffset[0] * 2,
+      height: size[1] + cacheOffset[1] * 2
+    });
+  }
 };
 
 function SeatBlock(id, color) {
@@ -29,8 +41,8 @@ function SeatBlock(id, color) {
     y: 0
   });
   
-  this.addSeat = function (id, pos) {
-    var seat = new Seat(id, this, pos);
+  this.addSeat = function (id, number, pos) {
+    var seat = new Seat(id, this, number, pos);
     this.seats.push(seat);
     this.group.add(seat.item);
     return seat;
@@ -38,18 +50,13 @@ function SeatBlock(id, color) {
 };
 
 function Seating(container) {
-  this.maxCells = { x: 185, y: 80 };
-  this.sizeFactors = { x: 3.5, y: 3 };
-  this.grid = null;
+  this.maxCells = { x: 110, y: 80 };
+  this.grid = [container.width() / this.maxCells.x, container.height() / this.maxCells.y];
   this.selecting = false;
   this.stage = null;
   this.layers = {};
   this.seats = {};
   var _this = this;
-  
-  this.calculateGridCells = function (parent) {
-    this.grid = [parent.width() / this.maxCells.x, parent.height() / this.maxCells.y];
-  };
   
   this.getGridPos = function (pos) {
     return { position_x: Math.round(pos.left / this.grid[0]), position_y: Math.round(pos.top / this.grid[1]) };
@@ -76,6 +83,24 @@ function Seating(container) {
     this.scroller.addClass(layer);
   };
   
+  this.initSeats = function () {
+    $.getJSON("/api/seats", function (data) {
+      
+      $.each(data.blocks, function (i, blockInfo) {
+        var block = new SeatBlock(blockInfo.id, blockInfo.color);
+        _this.layers['seats'].add(block.group);
+        
+        $.each(blockInfo.seats, function (j, seat) {
+          var pos = [seat.position[0] * _this.grid[0], seat.position[1] * _this.grid[1]];
+          _this.seats[seat.id] = block.addSeat(seat.id, seat.number, pos);
+        });
+        
+      });
+      _this.layers['seats'].draw();
+      
+    });
+  };
+  
   /*
   this.container.viewChooser.find("a")
     .click(function (event) {
@@ -96,21 +121,17 @@ function Seating(container) {
     .first().addClass("selected");
   */
   
+  var planBox = container.find(".plan");
   this.stage = new Kinetic.Stage({
-    container: container.get(0),
-    width: container.width(),
-    height: container.height()
+    container: planBox.get(0),
+    width: planBox.width(),
+    height: planBox.height()
   });
   
   this.layers['seats'] = new Kinetic.Layer();
   this.stage.add(this.layers['seats']);
   
-  var block = new SeatBlock(1, "red");
-  this.layers['seats'].add(block.group);
-  
-  var seat = block.addSeat(1, [100, 60]);
-  
-  this.layers['seats'].draw();
+  this.initSeats();
 };
 
 function SeatChooser(container, delegate) {
