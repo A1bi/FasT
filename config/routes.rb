@@ -103,11 +103,13 @@ FasT::Application.routes.draw do
           post :submit
           get :sheet, path: "begleitzettel/:id"
         end
-        resources :seats, path: "sitzplan", only: [:index, :create, :update] do
+        resources :seats, path: "sitzplan", only: [:index, :create] do
           collection do
             get :edit
-            put :update_multiple
-            delete :update_multiple, action: :destroy_multiple
+            scope constraints: { format: :json } do
+              put :update
+              delete :destroy
+            end
           end
         end
         resources :blocks, path: "blöcke", except: [:index, :show]
@@ -171,7 +173,7 @@ FasT::Application.routes.draw do
     
   end
   
-  scope path: :api, as: :api do
+  scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
       resources :orders, only: [:create] do
         member do

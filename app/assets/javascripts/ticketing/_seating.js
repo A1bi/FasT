@@ -1,40 +1,66 @@
 //= require socket.io-client/dist/socket.io.min
 //= require KineticJS/kinetic.min
 
-function Seat(id, block, number, pos) {
+function Seat(id, block, number, pos, delegate) {
   this.id = id;
   this.block = block;
-  
+  this.delegate = delegate;
+  this.selected = false;
+  this.draggable = false;
+  var _this = this;
   var size = [20, 20];
   var cacheOffset = [5, 5];
-  var draggable = false;
-  this.item = new Kinetic.Rect({
-    width: size[0],
-    height: size[1],
-    fill: this.block.color,
-    stroke: '#a9a9a9',
-    strokeWidth: 1,
-    cornerRadius: 3,
-    shadowColor: 'silver',
-    shadowOffset: [1, 1],
-    shadowBlur: 2,
-    draggable: draggable
-  })
-  .position({ x: pos[0], y: pos[1] });
   
-  if (draggable) {
+  this.cache = function () {
     this.item.cache({
       x: -cacheOffset[0],
       y: -cacheOffset[1],
       width: size[0] + cacheOffset[0] * 2,
       height: size[1] + cacheOffset[1] * 2
     });
-  }
+  };
+  
+  this.updateBorder = function () {
+    this.item.setAttrs({
+      stroke: this.selected ? "black" : "white",
+      strokeWidth: this.selected ? 1 : 2,
+      dash: this.selected ? [5, 5] : [0]
+    });
+    this.cache();
+  };
+  
+  this.setSelected = function (sel) {
+    this.selected = sel;
+    this.updateBorder();
+  };
+  
+  this.item = new Kinetic.Rect({
+    width: size[0],
+    height: size[1],
+    fill: this.block.color,
+    cornerRadius: 3,
+    shadowColor: 'silver',
+    shadowOffset: [1, 1],
+    shadowBlur: 6,
+    name: "seat",
+    seat: this
+  })
+  .position({ x: pos[0], y: pos[1] })
+  this.updateBorder();
+  
+  this.item.on("mousedown", function () {
+    _this.delegate.clickedSeat(_this);
+  }).on("mouseover", function () {
+    _this.delegate.setCursor(_this.draggable && _this.selected ? "move" : "pointer");
+  }).on("mouseout", function () {
+    _this.delegate.setCursor();
+  });
 };
 
-function SeatBlock(id, color) {
+function SeatBlock(id, color, delegate) {
   this.id = id;
   this.color = color;
+  this.delegate = delegate;
   this.seats = [];
   this.group = new Kinetic.Group({
     x: 0,
@@ -42,7 +68,7 @@ function SeatBlock(id, color) {
   });
   
   this.addSeat = function (id, number, pos) {
-    var seat = new Seat(id, this, number, pos);
+    var seat = new Seat(id, this, number, pos, this.delegate);
     this.seats.push(seat);
     this.group.add(seat.item);
     return seat;
@@ -50,21 +76,23 @@ function SeatBlock(id, color) {
 };
 
 function Seating(container) {
+  this.container = container;
   this.maxCells = { x: 110, y: 80 };
-  this.grid = [container.width() / this.maxCells.x, container.height() / this.maxCells.y];
-  this.selecting = false;
+  this.grid = [this.container.width() / this.maxCells.x, this.container.height() / this.maxCells.y];
   this.stage = null;
   this.layers = {};
   this.seats = {};
+  this.selecting = false;
+  this.selectedSeats = [];
+  this.selectedSeatsGroup = [];
   var _this = this;
   
   this.getGridPos = function (pos) {
     return { position_x: Math.round(pos.left / this.grid[0]), position_y: Math.round(pos.top / this.grid[1]) };
   };
   
-  this.changedPos = function (event, ui) {
-    var id = ui.helper.data("id");
-    $.ajax(_this.container.data("update-url").replace(":id", id), {
+  this.saveSeatsInfo = function () {
+    $.ajax(_this.container.data("update-path"), {
       method: "PUT",
       data: {
         seat: _this.getGridPos(ui.position)
@@ -73,10 +101,7 @@ function Seating(container) {
   };
   
   this.toggleSelecting = function (event, toggle) {
-    if (event.which == 91) {
-      this.selecting = toggle;
-      this.scroller.toggleClass("selecting", toggle);
-    }
+    _this.selecting = event.metaKey;
   };
   
   this.enableViewLayers = function (layer) {
@@ -87,18 +112,54 @@ function Seating(container) {
     $.getJSON("/api/seats", function (data) {
       
       $.each(data.blocks, function (i, blockInfo) {
-        var block = new SeatBlock(blockInfo.id, blockInfo.color);
+        var block = new SeatBlock(blockInfo.id, blockInfo.color, _this);
         _this.layers['seats'].add(block.group);
         
         $.each(blockInfo.seats, function (j, seat) {
           var pos = [seat.position[0] * _this.grid[0], seat.position[1] * _this.grid[1]];
           _this.seats[seat.id] = block.addSeat(seat.id, seat.number, pos);
+          _this.seats[seat.id].draggable = true;
         });
         
       });
       _this.layers['seats'].draw();
       
     });
+  };
+  
+  this.updateSelectedSeats = function () {
+    this.selectedSeatsGroup.moveToTop();
+    var delta = this.selectedSeatsGroup.position();
+    this.selectedSeatsGroup.setPosition({ x: 0, y: 0 }).find(".seat").each(function(seat) {
+      var pos = seat.position();
+      seat.position({ x: pos.x + delta.x, y: pos.y + delta.y });
+      if (_this.selectedSeats.indexOf(seat.attrs.seat) == -1) {
+        seat.moveTo(seat.attrs.seat.block.group);
+      }
+    });
+    
+    $.each(this.selectedSeats, function (i, seat) {
+      seat.item.moveTo(_this.selectedSeatsGroup);
+    });
+    
+    _this.layers['seats'].draw();
+  };
+  
+  this.clickedSeat = function (seat) {
+    if (this.selectedSeats.indexOf(seat) != -1) return;
+    seat.setSelected(true);
+    if (!this.selecting) {
+      $.each(this.selectedSeats, function (i, s) {
+        s.setSelected(false);
+      });
+      this.selectedSeats.length = 0;
+    }
+    this.selectedSeats.push(seat);
+    this.updateSelectedSeats();
+  };
+  
+  this.setCursor = function (type) {
+    this.container.css({ cursor: type || "auto" });
   };
   
   /*
@@ -131,7 +192,15 @@ function Seating(container) {
   this.layers['seats'] = new Kinetic.Layer();
   this.stage.add(this.layers['seats']);
   
+  this.selectedSeatsGroup = new Kinetic.Group({ draggable: true })
+  .on("dragend", function () {
+    
+  });
+  this.layers['seats'].add(this.selectedSeatsGroup);
+  
   this.initSeats();
+  
+  $(document).on("keydown keyup", this.toggleSelecting);
 };
 
 function SeatChooser(container, delegate) {

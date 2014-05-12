@@ -1,7 +1,6 @@
 module Ticketing
   class SeatsController < BaseController
-    before_filter :find_seat, :only => [:update]
-    before_filter :find_all_seats, :only => [:index, :edit]
+    before_filter :find_all_seats, only: [:index, :edit]
   
     def index
       respond_to do |format|
@@ -31,31 +30,21 @@ module Ticketing
         }
       end
     end
-  
+    
     def update
-      @seat.update_attributes(seat_params)
+      seat_params = params.require(:seats).permit([:number, :position_y, :position_y])
+      Ticketing::Seat.update(seat_params.keys, seat_params.values)
     
       render nothing: true
     end
     
-    def update_multiple
-      params[:seat] = [params[:seat]] * params[:ids].count
-      Ticketing::Seat.update(params[:ids], seat_params)
-    
-      render nothing: true
-    end
-    
-    def destroy_multiple
+    def destroy
       Ticketing::Seat.destroy(params[:ids])
       
       render nothing: true
     end
   
     private
-  
-    def find_seat
-      @seat = Ticketing::Seat.find(params[:id])
-    end
     
     def find_all_seats
       @seats = Ticketing::Seat.order(:number)
