@@ -88,15 +88,18 @@ function Seating(container) {
   var _this = this;
   
   this.getGridPos = function (pos) {
-    return { position_x: Math.round(pos.left / this.grid[0]), position_y: Math.round(pos.top / this.grid[1]) };
+    return { position_x: Math.round(pos.x / this.grid[0]), position_y: Math.round(pos.y / this.grid[1]) };
   };
   
   this.saveSeatsInfo = function () {
+    var seats = {};
+    $.each(this.selectedSeats, function (i, seat) {
+      var pos = _this.getGridPos(seat.item.position());
+      seats[seat.id] = pos;
+    });
     $.ajax(_this.container.data("update-path"), {
       method: "PUT",
-      data: {
-        seat: _this.getGridPos(ui.position)
-      }
+      data: { seats: seats }
     });
   };
   
@@ -127,12 +130,18 @@ function Seating(container) {
     });
   };
   
-  this.updateSelectedSeats = function () {
-    this.selectedSeatsGroup.moveToTop();
+  this.relocateSelectedSeats = function () {
     var delta = this.selectedSeatsGroup.position();
     this.selectedSeatsGroup.setPosition({ x: 0, y: 0 }).find(".seat").each(function(seat) {
       var pos = seat.position();
       seat.position({ x: pos.x + delta.x, y: pos.y + delta.y });
+    });
+  };
+  
+  this.updateSelectedSeats = function () {
+    this.relocateSelectedSeats();
+    this.selectedSeatsGroup.moveToTop();
+    this.selectedSeatsGroup.find(".seat").each(function(seat) {
       if (_this.selectedSeats.indexOf(seat.attrs.seat) == -1) {
         seat.moveTo(seat.attrs.seat.block.group);
       }
@@ -147,14 +156,16 @@ function Seating(container) {
   
   this.clickedSeat = function (seat) {
     if (this.selectedSeats.indexOf(seat) != -1) return;
-    seat.setSelected(true);
     if (!this.selecting) {
       $.each(this.selectedSeats, function (i, s) {
         s.setSelected(false);
       });
       this.selectedSeats.length = 0;
     }
-    this.selectedSeats.push(seat);
+    if (seat) {
+      seat.setSelected(true);
+      this.selectedSeats.push(seat);
+    }
     this.updateSelectedSeats();
   };
   
@@ -192,9 +203,23 @@ function Seating(container) {
   this.layers['seats'] = new Kinetic.Layer();
   this.stage.add(this.layers['seats']);
   
-  this.selectedSeatsGroup = new Kinetic.Group({ draggable: true })
+  var backgroundRect = new Kinetic.Rect({ width: this.stage.width(), height: this.stage.height() }).on("click", function () {
+    _this.clickedSeat();
+  });
+  this.layers['seats'].add(backgroundRect);
+  
+  this.selectedSeatsGroup = new Kinetic.Group({
+    draggable: true,
+    dragBoundFunc: function (pos) {
+      return {
+        x: Math.floor(pos.x / _this.grid[0]) * _this.grid[0],
+        y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
+      }
+    }
+  })
   .on("dragend", function () {
-    
+    _this.relocateSelectedSeats();
+    _this.saveSeatsInfo();
   });
   this.layers['seats'].add(this.selectedSeatsGroup);
   

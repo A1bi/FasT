@@ -32,7 +32,7 @@ module Ticketing
     end
     
     def update
-      seat_params = params.require(:seats).permit([:number, :position_y, :position_y])
+      seat_params = params.permit(seats: [:number, :position_x, :position_y]).fetch(:seats, {})
       Ticketing::Seat.update(seat_params.keys, seat_params.values)
     
       render nothing: true
