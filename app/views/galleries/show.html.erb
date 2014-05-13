@@ -8,7 +8,7 @@
 				var g = new Gallery("<%= @gallery.id %>");
 				g.addPics([
 			<% @photos.each do |photo| %>
-					{path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>"},
+					{ path: "<%= photo.image.url(:big) %>", text: "<%= photo.text %>" },
 			<% end %>
 				]);
 				g.init();

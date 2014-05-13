@@ -22,7 +22,7 @@ function Seating(container) {
   this.changedPos = function (event, ui) {
     var id = ui.helper.data("id");
     $.ajax(_this.container.data("update-url").replace(":id", id), {
-      method: "PUT",
+      method: "PATCH",
       data: {
         seat: _this.getGridPos(ui.position)
       }

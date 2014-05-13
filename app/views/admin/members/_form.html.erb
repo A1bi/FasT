@@ -6,15 +6,15 @@
 			<%= title %>
 		</div>
 		<div class="con">
-			<%= render "errors", :errors => @member.errors %>
+			<%= render "errors", errors: @member.errors %>
 			<table>
 				<tr>
 					<td>Vorname:</td>
-					<td><%= f.text_field :first_name, :required => true %></td>
+					<td><%= f.text_field :first_name, required: true %></td>
 				</tr>
 				<tr>
 					<td>Nachname:</td>
-					<td><%= f.text_field :last_name, :required => true %></td>
+					<td><%= f.text_field :last_name, required: true %></td>
 				</tr>
 				<tr>
 					<td>Spitzname:</td>
@@ -26,7 +26,7 @@
 				</tr>
 				<tr>
 					<td>Geburtstag:</td>
-					<td><%= f.date_select :birthday, :include_blank => true, :start_year => 1910, :end_year => Date.today.year %></td>
+					<td><%= f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year %></td>
 				</tr>
 				<tr>
 					<td>Gruppe:</td>
@@ -37,7 +37,7 @@
 						Aktivierungsmail zusenden:
 					</td>
 					<td>
-						<%= check_box :activation, :send, :checked => true %>
+						<%= check_box :activation, :send, checked: true %>
 						<div class="small">Wird nur versendet, wenn e-mail-Adresse angegeben.</div>
 					</td>
 				<% end if @member.new_record? %>
@@ -45,8 +45,8 @@
 			<div class="submit">
 				<%= cond_submit f %>
 			</div>
-      <%= content_tag :div, :class => [:small, :hcen] do %>
-        <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, :method => :post, :data => { :confirm => "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
+      <%= content_tag :div, class: [:small, :hcen] do %>
+        <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, method: :patch, data: { confirm: "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
       <% end if !@member.new_record? && @member.email.present? %>
 		</div>
 	</div>

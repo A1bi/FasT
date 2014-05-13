@@ -57,7 +57,7 @@ FasT::Application.routes.draw do
           post "sort"
         end
         member do
-          put "toggle_slide"
+          patch "toggle_slide"
         end
       end
     end
@@ -69,7 +69,7 @@ FasT::Application.routes.draw do
     namespace :admin, path: "vorstand" do
       resources :members_members, path: "mitglieder", except: [:show], controller: :members do
         member do
-          post "reactivate", path: "reaktivieren"
+          patch :reactivate, path: "reaktivieren"
         end
       end
     end
@@ -89,8 +89,8 @@ FasT::Application.routes.draw do
           resources :orders, path: "", only: [:index, :show] do
             member do
               post :send_pay_reminder
-              put :mark_as_paid
-              put :approve
+              patch :mark_as_paid
+              patch :approve
               post :cancel
               post :resend_tickets
             end
@@ -98,15 +98,15 @@ FasT::Application.routes.draw do
         end
         controller :payments, path: "zahlungen", as: :payments do
           get "/", action: :index
-          put :mark_as_paid
-          put :approve
+          patch :mark_as_paid
+          patch :approve
           post :submit
           get :sheet, path: "begleitzettel/:id"
         end
         resources :seats, path: "sitzplan", only: [:index, :create, :update] do
           collection do
             get :edit
-            put :update_multiple
+            patch :update_multiple
             delete :update_multiple, action: :destroy_multiple
           end
         end
@@ -154,7 +154,7 @@ FasT::Application.routes.draw do
       resource :member, path: "mitgliedschaft", controller: :member, only: [:edit, :update] do
         member do
           get "activate", path: "aktivieren"
-          put "finish_activation"
+          patch "finish_activation"
           get "forgot_password", path: "passwort_vergessen"
           post "reset_password"
         end

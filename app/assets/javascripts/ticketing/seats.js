@@ -126,7 +126,7 @@ $(function () {
       var attrs = {};
       attrs[attr] = $this.val();
 
-      updateSelectedSeats("PUT", attrs);
+      updateSelectedSeats("PATCH", attrs);
     });
   
     editSeats.find("a").click(function (event) {

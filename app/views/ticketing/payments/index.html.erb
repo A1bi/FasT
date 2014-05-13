@@ -36,7 +36,7 @@
   </table>
 <% end %>
 <% cache [:ticketing, :payments, :unapproved, @orders[:unapproved]] do %>
-  <%= form_tag ticketing_payments_approve_path, method: :put do %>
+  <%= form_tag ticketing_payments_approve_path, method: :patch do %>
     <table class="rounded entries details">
       <thead>
         <tr>
@@ -76,7 +76,7 @@
   <% end %>
 <% end %>
 <% cache [:ticketing, :payments, :unpaid, :table, @orders[:unpaid]] do %>
-  <%= form_tag ticketing_payments_mark_as_paid_path, method: :put do %>
+  <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch do %>
     <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true, cache_key: [:payments, :unpaid] %>
     <%= render "index_submit", text: "als bezahlt markieren", orders: @orders[:unpaid] %>
   <% end %>
