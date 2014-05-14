@@ -3,7 +3,7 @@
     Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
   </div>
   <div class="additional">
-    <% if !admin? %>
+    <% if !admin? || @reservation_groups.empty? %>
       <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
       <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
     <% else %>
@@ -14,6 +14,6 @@
         <% end %>
       <% end %>
     <% end %>
-    <%= render "application/ticketing/seating", options: { class: [:stage] } %>
   </div>
+  <%= render "application/ticketing/seating", options: { class: [:stage] } %>
 </div>

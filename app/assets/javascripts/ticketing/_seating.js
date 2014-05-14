@@ -24,10 +24,13 @@ function Seat(id, block, number, pos, delegate) {
   this.setStyle = function (options) {
     var defaultOptions = {
       fill: this.block.color,
+      stroke: "white",
       cornerRadius: 3,
-      shadowColor: 'silver',
+      shadowEnabled: true,
+      shadowColor: "silver",
       shadowOffset: [1, 1],
-      shadowBlur: 6
+      shadowBlur: 6,
+      opacity: 1
     };
     this.item.setAttrs($.extend(defaultOptions, options));
   };
@@ -82,6 +85,7 @@ function Seat(id, block, number, pos, delegate) {
   };
   
   this.setStatus = function (status) {
+    if (this.status == status) return;
     this.status = status;
     this.updateStatus();
   };
@@ -391,23 +395,30 @@ function SeatChooser(container, delegate) {
   
   this.updateSeatPlan = function () {
     if (!this.date) return;
-    _this.seats.each(function () {
-      var $seat = $(this);
-      var seat = _this.allSeats[_this.date][$seat.data("id")];
-      $seat.toggleClass("chosen", !!seat.chosen)
-        .toggleClass("taken", !!seat.taken && !seat.chosen)
-        .toggleClass("available", !seat.taken && !seat.chosen)
-        .toggleClass("exclusive", !!seat.exclusive);
+    $.each(this.seats, function (i, seat) {
+      var seatInfo = _this.allSeats[_this.date][seat.id];
+      var status;
+      if (!!seatInfo.chosen) {
+        status = Seat.Status.Chosen;
+      } else if (!!seatInfo.taken && !seatInfo.chosen) {
+        status = Seat.Status.Taken;
+      } else if (!seatInfo.taken && !seatInfo.chosen) {
+        status = Seat.Status.Available;
+      } else if (!!seatInfo.exclusive) {
+        status = Seat.Status.Exclusive;
+      }
+      seat.setStatus(status);
     });
+    this.drawLayer("seats");
   };
   
-  this.chooseSeat = function ($seat) {
-    if (!$seat.is(".available")) return;
+  this.chooseSeat = function (seat) {
+    if (seat.status != Seat.Status.Available) return;
     
-    $seat.addClass("chosen");
+    seat.setStatus(Seat.Status.Chosen);
     
-    this.node.emit("chooseSeat", { seatId: $seat.data("id") }, function (res) {
-      if (!res.ok) $seat.removeClass("chosen");
+    this.node.emit("chooseSeat", { seatId: seat.id }, function (res) {
+      if (!res.ok) seat.setStatus(Seat.Status.Available);
       _this.updateErrorBoxIfVisible();
     });
   };
@@ -448,6 +459,7 @@ function SeatChooser(container, delegate) {
   };
   
   this.getSeatsYetToChoose = function () {
+    return 0;
     return this.numberOfSeats - this.seats.filter(".chosen").length;
   };
   
@@ -456,11 +468,12 @@ function SeatChooser(container, delegate) {
     return this.getSeatsYetToChoose() < 1;
   };
   
+  this.clickedSeat = function (seat) {
+    //Seating.prototype.clickedSeat.call(this, seat);
+    if (seat) this.chooseSeat(seat);
+  };
+  
 	this.registerEvents = function () {
-    this.seats.click(function () {
-      _this.chooseSeat($(this));
-		});
-    
     $(window).on("beforeunload", function () {
       _this.noErrors = true;
     });
@@ -489,16 +502,13 @@ function SeatChooser(container, delegate) {
     });
 	};
   
-  this.init = function () {
-    this.node = io.connect("/seating", {
-      "resource": "node",
-      "reconnect": false
-    });
-    
-    this.registerEvents();
-  };
   
-  $(function () { _this.init(); });
+  this.node = io.connect("/seating", {
+    "resource": "node",
+    "reconnect": false
+  });
+  
+  this.registerEvents();
 };
 
 
