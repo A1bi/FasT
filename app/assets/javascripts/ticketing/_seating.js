@@ -7,6 +7,7 @@ function Seat(id, block, number, pos, delegate) {
   this.delegate = delegate;
   this.selected = false;
   this.draggable = false;
+  this.status;
   var _this = this;
   var size = [20, 20];
   var cacheOffset = [5, 5];
@@ -20,23 +21,98 @@ function Seat(id, block, number, pos, delegate) {
     });
   };
   
+  this.setStyle = function (options) {
+    var defaultOptions = {
+      fill: this.block.color,
+      cornerRadius: 3,
+      shadowColor: 'silver',
+      shadowOffset: [1, 1],
+      shadowBlur: 6
+    };
+    this.item.setAttrs($.extend(defaultOptions, options));
+  };
+  
   this.updateBorder = function () {
-    this.item.setAttrs({
+    this.setStyle({
       stroke: this.selected ? "black" : "white",
       strokeWidth: this.selected ? 1 : 2,
       dash: this.selected ? [5, 5] : [0]
     });
-    this.cache();
   };
   
   this.setSelected = function (sel) {
     this.selected = sel;
     this.updateBorder();
+    this.updateStatus();
+    this.cache();
   };
   
-  this.init = function () {
-    this.updateBorder();
+  this.updateStatus = function () {
+    var options, textColor = "white";
+    switch (this.status) {
+    case Seat.Status.Available:
+      options = {
+        fill: "green"
+      };
+      break;
+    case Seat.Status.Chosen:
+      options = {
+        fill: "yellow",
+        stroke: "red"
+      };
+      textColor = "red";
+      break;
+    case Seat.Status.Taken:
+      options = {
+        fill: "gray",
+        shadowEnabled: false,
+        opacity: 0.3
+      };
+      break;
+    case Seat.Status.Exclusive:
+      options = {
+        fill: "orange",
+        stroke: "silver"
+      };
+      break;
+    }
+    this.setStyle(options);
+    this.text.fill(textColor);
+    this.cache();
   };
+  
+  this.setStatus = function (status) {
+    this.status = status;
+    this.updateStatus();
+  };
+  
+  this.setDraggable = function (draggable) {
+    this.draggable = draggable;
+    this.cache();
+  };
+  
+  this.toggleNumber = function (toggle) {
+    if (!toggle && this.text) {
+      this.text.hide();
+    } else if (toggle) {
+      if (!this.text) {
+        var fontSize = size[1] * 0.6;
+        this.text = new Kinetic.Text({
+          y: (size[1] - fontSize) / 2,
+          width: size[0],
+          fontSize: fontSize,
+          fontFamily: "Arial",
+          fill: "white",
+          align: "center",
+          text: number
+        });
+        this.group.add(this.text);
+      } else {
+        this.text.show();
+      }
+    }
+  };
+  
   
   this.group = new Kinetic.Group({
     x: pos[0],
@@ -47,28 +123,14 @@ function Seat(id, block, number, pos, delegate) {
     seat: this
   });
   
-  this.item = new Kinetic.Rect({
+  this.item = new Kinetic.Rect();
+  this.setStyle({
     width: size[0],
-    height: size[1],
-    fill: this.block.color,
-    cornerRadius: 3,
-    shadowColor: 'silver',
-    shadowOffset: [1, 1],
-    shadowBlur: 6,
+    height: size[1]
   });
   this.group.add(this.item);
   
-  var fontSize = size[1] * 0.6;
-  this.text = new Kinetic.Text({
-    y: (size[1] - fontSize) / 2,
-    width: size[0],
-    fontSize: fontSize,
-    fontFamily: "Arial",
-    fill: "white",
-    align: "center",
-    text: number
-  });
-  this.group.add(this.text);
+  this.updateBorder();
   
   this.group.on("mousedown", function () {
     _this.delegate.clickedSeat(_this);
@@ -77,6 +139,12 @@ function Seat(id, block, number, pos, delegate) {
   }).on("mouseout", function () {
     _this.delegate.setCursor();
   });
+};
+Seat.Status = {
+  Available: 0,
+  Chosen: 1,
+  Taken: 2,
+  Exclusive: 3
 };
 
 function SeatBlock(id, color, delegate) {
@@ -90,7 +158,6 @@ function SeatBlock(id, color, delegate) {
     var seat = new Seat(id, this, number, pos, this.delegate);
     this.seats.push(seat);
     this.group.add(seat.group);
-    seat.init();
     return seat;
   };
 };
@@ -138,10 +205,12 @@ function Seating(container) {
         var block = new SeatBlock(blockInfo.id, blockInfo.color, _this);
         _this.layers['seats'].add(block.group);
         
-        $.each(blockInfo.seats, function (j, seat) {
-          var pos = [seat.position[0] * _this.grid[0], seat.position[1] * _this.grid[1]];
-          _this.seats[seat.id] = block.addSeat(seat.id, seat.number, pos);
-          _this.seats[seat.id].draggable = true;
+        $.each(blockInfo.seats, function (j, seatInfo) {
+          var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
+          var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
+          seat.toggleNumber(true);
+          seat.setDraggable(true);
+          _this.seats[seatInfo.id] = seat;
         });
         
       });
