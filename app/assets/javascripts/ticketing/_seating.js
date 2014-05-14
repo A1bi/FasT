@@ -172,6 +172,8 @@ function Seating(container) {
   this.selecting = false;
   this.selectedSeats = [];
   this.selectedSeatsGroup = [];
+  this.draggable = this.container.is(".draggable");
+  this.selectable = this.draggable || this.container.is(".selectable");
   var _this = this;
   
   this.getGridPos = function (pos) {
@@ -209,7 +211,7 @@ function Seating(container) {
           var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
           seat.toggleNumber(true);
-          seat.setDraggable(true);
+          seat.setDraggable(_this.draggable);
           _this.seats[seatInfo.id] = seat;
         });
         
@@ -244,7 +246,7 @@ function Seating(container) {
   };
   
   this.clickedSeat = function (seat) {
-    if (this.selectedSeats.indexOf(seat) != -1) return;
+    if (!this.selectable || this.selectedSeats.indexOf(seat) != -1) return;
     if (!this.selecting) {
       $.each(this.selectedSeats, function (i, s) {
         s.setSelected(false);
@@ -316,7 +318,7 @@ function Seating(container) {
   });
   
   this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
-    draggable: true,
+    draggable: this.draggable,
     dragBoundFunc: function (pos) {
       return {
         x: Math.floor(pos.x / _this.grid[0]) * _this.grid[0],
@@ -331,29 +333,31 @@ function Seating(container) {
   
   this.initSeats();
   
-  var stageRectWidth = this.stage.width() * 0.8, stageRectHeight = 40;
-  this.addLayer("stage", {
-    width: stageRectWidth,
-    height: stageRectHeight,
-    x: (this.stage.width() - stageRectWidth) / 2,
-    y: this.stage.height() - stageRectHeight - 20,
-  });
-  this.addToLayer("stage", new Kinetic.Rect({
-    width: stageRectWidth,
-    height: stageRectHeight,
-    fill: "#43a1ca",
-    cornerRadius: 7
-  }));
-  var fontSize = stageRectHeight * 0.6;
-  this.addToLayer("stage", new Kinetic.Text({
-    x: stageRectWidth / 2,
-    y: (stageRectHeight - fontSize) / 2,
-    text: "Bühne",
-    fontSize: fontSize,
-    fontFamily: "Qlassik",
-    fill: "white"
-  }));
-  this.drawLayer("stage");
+  if (this.container.is(".stage")) {
+    var stageRectWidth = this.stage.width() * 0.8, stageRectHeight = 40;
+    this.addLayer("stage", {
+      width: stageRectWidth,
+      height: stageRectHeight,
+      x: (this.stage.width() - stageRectWidth) / 2,
+      y: this.stage.height() - stageRectHeight - 20,
+    });
+    this.addToLayer("stage", new Kinetic.Rect({
+      width: stageRectWidth,
+      height: stageRectHeight,
+      fill: "#43a1ca",
+      cornerRadius: 7
+    }));
+    var fontSize = stageRectHeight * 0.6;
+    this.addToLayer("stage", new Kinetic.Text({
+      x: stageRectWidth / 2,
+      y: (stageRectHeight - fontSize) / 2,
+      text: "Bühne",
+      fontSize: fontSize,
+      fontFamily: "Qlassik",
+      fill: "white"
+    }));
+    this.drawLayer("stage");
+  }
   
   $(document).on("keydown keyup", this.toggleSelecting);
 };
