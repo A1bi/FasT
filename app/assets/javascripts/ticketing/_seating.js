@@ -12,7 +12,7 @@ function Seat(id, block, number, pos, delegate) {
   var cacheOffset = [5, 5];
   
   this.cache = function () {
-    this.item.cache({
+    this.group.cache({
       x: -cacheOffset[0],
       y: -cacheOffset[1],
       width: size[0] + cacheOffset[0] * 2,
@@ -34,6 +34,19 @@ function Seat(id, block, number, pos, delegate) {
     this.updateBorder();
   };
   
+  this.init = function () {
+    this.updateBorder();
+  };
+  
+  this.group = new Kinetic.Group({
+    x: pos[0],
+    y: pos[1],
+    width: size[0],
+    height: size[1],
+    name: "seat",
+    seat: this
+  });
+  
   this.item = new Kinetic.Rect({
     width: size[0],
     height: size[1],
@@ -42,13 +55,22 @@ function Seat(id, block, number, pos, delegate) {
     shadowColor: 'silver',
     shadowOffset: [1, 1],
     shadowBlur: 6,
-    name: "seat",
-    seat: this
-  })
-  .position({ x: pos[0], y: pos[1] })
-  this.updateBorder();
+  });
+  this.group.add(this.item);
   
-  this.item.on("mousedown", function () {
+  var fontSize = size[1] * 0.6;
+  this.text = new Kinetic.Text({
+    y: (size[1] - fontSize) / 2,
+    width: size[0],
+    fontSize: fontSize,
+    fontFamily: "Arial",
+    fill: "white",
+    align: "center",
+    text: number
+  });
+  this.group.add(this.text);
+  
+  this.group.on("mousedown", function () {
     _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
     _this.delegate.setCursor(_this.draggable && _this.selected ? "move" : "pointer");
@@ -62,15 +84,13 @@ function SeatBlock(id, color, delegate) {
   this.color = color;
   this.delegate = delegate;
   this.seats = [];
-  this.group = new Kinetic.Group({
-    x: 0,
-    y: 0
-  });
+  this.group = new Kinetic.Group();
   
   this.addSeat = function (id, number, pos) {
     var seat = new Seat(id, this, number, pos, this.delegate);
     this.seats.push(seat);
-    this.group.add(seat.item);
+    this.group.add(seat.group);
+    seat.init();
     return seat;
   };
 };
@@ -94,7 +114,7 @@ function Seating(container) {
   this.saveSeatsInfo = function () {
     var seats = {};
     $.each(this.selectedSeats, function (i, seat) {
-      var pos = _this.getGridPos(seat.item.position());
+      var pos = _this.getGridPos(seat.group.position());
       seats[seat.id] = pos;
     });
     $.ajax(_this.container.data("update-path"), {
@@ -125,7 +145,7 @@ function Seating(container) {
         });
         
       });
-      _this.layers['seats'].draw();
+      _this.drawLayer("seats");
       
     });
   };
@@ -148,10 +168,10 @@ function Seating(container) {
     });
     
     $.each(this.selectedSeats, function (i, seat) {
-      seat.item.moveTo(_this.selectedSeatsGroup);
+      seat.group.moveTo(_this.selectedSeatsGroup);
     });
     
-    _this.layers['seats'].draw();
+    _this.drawLayer("seats");
   };
   
   this.clickedSeat = function (seat) {
@@ -171,6 +191,22 @@ function Seating(container) {
   
   this.setCursor = function (type) {
     this.container.css({ cursor: type || "auto" });
+  };
+  
+  this.addLayer = function (name, options) {
+    var layer = new Kinetic.Layer(options);
+    this.layers[name] = layer;
+    this.stage.add(layer);
+    return layer;
+  };
+  
+  this.addToLayer = function (layerName, item) {
+    this.layers[layerName].add(item);
+    return item;
+  };
+  
+  this.drawLayer = function (name) {
+    this.layers[name].draw();
   };
   
   /*
@@ -200,15 +236,17 @@ function Seating(container) {
     height: planBox.height()
   });
   
-  this.layers['seats'] = new Kinetic.Layer();
-  this.stage.add(this.layers['seats']);
+  this.addLayer("seats");
   
-  var backgroundRect = new Kinetic.Rect({ width: this.stage.width(), height: this.stage.height() }).on("click", function () {
+  this.addToLayer("seats", new Kinetic.Rect({
+    width: this.stage.width(),
+    height: this.stage.height()
+  }))
+  .on("click", function () {
     _this.clickedSeat();
   });
-  this.layers['seats'].add(backgroundRect);
   
-  this.selectedSeatsGroup = new Kinetic.Group({
+  this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
     draggable: true,
     dragBoundFunc: function (pos) {
       return {
@@ -216,14 +254,37 @@ function Seating(container) {
         y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
       }
     }
-  })
+  }))
   .on("dragend", function () {
     _this.relocateSelectedSeats();
     _this.saveSeatsInfo();
   });
-  this.layers['seats'].add(this.selectedSeatsGroup);
   
   this.initSeats();
+  
+  var stageRectWidth = this.stage.width() * 0.8, stageRectHeight = 40;
+  this.addLayer("stage", {
+    width: stageRectWidth,
+    height: stageRectHeight,
+    x: (this.stage.width() - stageRectWidth) / 2,
+    y: this.stage.height() - stageRectHeight - 20,
+  });
+  this.addToLayer("stage", new Kinetic.Rect({
+    width: stageRectWidth,
+    height: stageRectHeight,
+    fill: "#43a1ca",
+    cornerRadius: 7
+  }));
+  var fontSize = stageRectHeight * 0.6;
+  this.addToLayer("stage", new Kinetic.Text({
+    x: stageRectWidth / 2,
+    y: (stageRectHeight - fontSize) / 2,
+    text: "Bühne",
+    fontSize: fontSize,
+    fontFamily: "Qlassik",
+    fill: "white"
+  }));
+  this.drawLayer("stage");
   
   $(document).on("keydown keyup", this.toggleSelecting);
 };
