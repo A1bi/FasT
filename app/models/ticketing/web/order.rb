@@ -49,7 +49,7 @@ module Ticketing
     
     def total=(t)
       super
-      bank_charge.amount = t if bank_charge.present?
+      update_charge_amount
     end
     
     private
@@ -57,8 +57,12 @@ module Ticketing
     def before_validation
       if charge?
         self.paid = true
-        bank_charge.amount = total
+        update_charge_amount
       end
+    end
+    
+    def update_charge_amount
+      bank_charge.amount = total if bank_charge.present?
     end
   end
 end
