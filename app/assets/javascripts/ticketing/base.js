@@ -16,8 +16,4 @@ $(function () {
       $this.parents("table").find("tbody :checkbox").prop("checked", $this.prop("checked"));
     }
   });
-  
-  $(".seating").each(function () {
-    new Seating($(this));
-  });
 });

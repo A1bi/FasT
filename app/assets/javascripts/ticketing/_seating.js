@@ -24,12 +24,8 @@ function Seat(id, block, number, pos, delegate) {
   this.setStyle = function (options) {
     var defaultOptions = {
       fill: this.block.color,
-      stroke: "white",
-      cornerRadius: 3,
-      shadowEnabled: true,
-      shadowColor: "silver",
-      shadowOffset: [1, 1],
-      shadowBlur: 6,
+      strokeEnabled: false,
+      cornerRadius: 2,
       opacity: 1
     };
     this.item.setAttrs($.extend(defaultOptions, options));
@@ -37,6 +33,7 @@ function Seat(id, block, number, pos, delegate) {
   
   this.updateBorder = function () {
     this.setStyle({
+      strokeEnabled: this.selected,
       stroke: this.selected ? "black" : "white",
       strokeWidth: this.selected ? 1 : 2,
       dash: this.selected ? [5, 5] : [0]
@@ -46,7 +43,6 @@ function Seat(id, block, number, pos, delegate) {
   this.setSelected = function (sel) {
     this.selected = sel;
     this.updateBorder();
-    this.updateStatus();
     this.cache();
   };
   
@@ -58,9 +54,11 @@ function Seat(id, block, number, pos, delegate) {
         fill: "green"
       };
       break;
+    case Seat.Status.PreChosen:
     case Seat.Status.Chosen:
       options = {
         fill: "yellow",
+        strokeEnabled: true,
         stroke: "red"
       };
       textColor = "red";
@@ -68,7 +66,6 @@ function Seat(id, block, number, pos, delegate) {
     case Seat.Status.Taken:
       options = {
         fill: "gray",
-        shadowEnabled: false,
         opacity: 0.3
       };
       break;
@@ -80,7 +77,7 @@ function Seat(id, block, number, pos, delegate) {
       break;
     }
     this.setStyle(options);
-    this.text.fill(textColor);
+    if (this.text) this.text.fill(textColor);
     this.cache();
   };
   
@@ -147,8 +144,9 @@ function Seat(id, block, number, pos, delegate) {
 Seat.Status = {
   Available: 0,
   Chosen: 1,
-  Taken: 2,
-  Exclusive: 3
+  PreChosen: 2,
+  Taken: 3,
+  Exclusive: 4
 };
 
 function SeatBlock(id, color, delegate) {
@@ -214,7 +212,6 @@ function Seating(container) {
         $.each(blockInfo.seats, function (j, seatInfo) {
           var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
-          seat.toggleNumber(true);
           seat.setDraggable(_this.draggable);
           _this.seats[seatInfo.id] = seat;
         });
@@ -234,6 +231,7 @@ function Seating(container) {
   };
   
   this.updateSelectedSeats = function () {
+    if (!this.selectable) return;
     this.relocateSelectedSeats();
     this.selectedSeatsGroup.moveToTop();
     this.selectedSeatsGroup.find(".seat").each(function(seat) {
@@ -281,6 +279,7 @@ function Seating(container) {
   };
   
   this.drawLayer = function (name) {
+    console.log("Drawing " + name + " layer");
     this.layers[name].draw();
   };
   
@@ -370,8 +369,9 @@ function SeatChooser(container, delegate) {
   Seating.call(this, container);
   
   this.date = null;
-  this.allSeats = {};
+  this.seatsInfo = {};
   this.numberOfSeats = 0;
+  this.numberOfChosenSeats = 0;
   this.node = null;
   this.seatingId;
   this.errorBox = this.container.find(".error");
@@ -380,42 +380,50 @@ function SeatChooser(container, delegate) {
 	var _this = this;
   
   this.updateSeats = function (seats) {
+    var updatedSeats = {};
     for (var dateId in seats) {
-      this.allSeats[dateId] = this.allSeats[dateId] || {};
+      this.seatsInfo[dateId] = this.seatsInfo[dateId] || {};
+      updatedSeats[dateId] = updatedSeats[dateId] || {};
       for (var seatId in seats[dateId]) {
-        var seat = this.allSeats[dateId][seatId] = this.allSeats[dateId][seatId] || {};
+        var seat = updatedSeats[dateId][seatId] = this.seatsInfo[dateId][seatId] = this.seatsInfo[dateId][seatId] || {};
         var seatInfo = seats[dateId][seatId];
-        seat.taken = seatInfo.t;
-        seat.chosen = seatInfo.c;
-        seat.exclusive = seatInfo.e;
+        seat.taken = !!seatInfo.t;
+        seat.chosen = !!seatInfo.c;
+        seat.exclusive = !!seatInfo.e;
       }
     }
-    this.updateSeatPlan();
+    this.updateSeatPlan(updatedSeats);
   };
   
-  this.updateSeatPlan = function () {
-    if (!this.date) return;
-    $.each(this.seats, function (i, seat) {
-      var seatInfo = _this.allSeats[_this.date][seat.id];
+  this.updateSeatPlan = function (updatedSeats) {
+    console.log("Updating seating plan");
+    updatedSeats = (updatedSeats || _this.seatsInfo)[_this.date || Object.keys(_this.seatsInfo)[0]];
+    for (var seatId in updatedSeats) {
+      var seat = _this.seats[seatId];
+      var seatInfo = updatedSeats[seatId];
       var status;
-      if (!!seatInfo.chosen) {
+      if (seatInfo.chosen) {
         status = Seat.Status.Chosen;
-      } else if (!!seatInfo.taken && !seatInfo.chosen) {
-        status = Seat.Status.Taken;
-      } else if (!seatInfo.taken && !seatInfo.chosen) {
-        status = Seat.Status.Available;
-      } else if (!!seatInfo.exclusive) {
-        status = Seat.Status.Exclusive;
+        if (seat.status != status) _this.numberOfChosenSeats++;
+      } else {
+        if (seat.status == Seat.Status.Chosen) _this.numberOfChosenSeats--;
+        if (seatInfo.taken && !seatInfo.chosen) {
+          status = Seat.Status.Taken;
+        } else if (!seatInfo.taken && !seatInfo.chosen) {
+          status = Seat.Status.Available;
+        } else if (seatInfo.exclusive) {
+          status = Seat.Status.Exclusive;
+        }
       }
       seat.setStatus(status);
-    });
+    }
     this.drawLayer("seats");
   };
   
   this.chooseSeat = function (seat) {
     if (seat.status != Seat.Status.Available) return;
     
-    seat.setStatus(Seat.Status.Chosen);
+    seat.setStatus(Seat.Status.PreChosen);
     
     this.node.emit("chooseSeat", { seatId: seat.id }, function (res) {
       if (!res.ok) seat.setStatus(Seat.Status.Available);
@@ -459,8 +467,7 @@ function SeatChooser(container, delegate) {
   };
   
   this.getSeatsYetToChoose = function () {
-    return 0;
-    return this.numberOfSeats - this.seats.filter(".chosen").length;
+    return this.numberOfSeats - this.numberOfChosenSeats;
   };
   
   this.validate = function () {
@@ -485,6 +492,7 @@ function SeatChooser(container, delegate) {
     });
     
     this.node.on("updateSeats", function (res) {
+      console.log("Seat updates received");
       _this.updateSeats(res.seats);
     });
     

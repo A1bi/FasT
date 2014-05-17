@@ -364,7 +364,7 @@ function SeatsStep(delegate) {
   Step.call(this, "seats", delegate);
   
   
-  this.delegate.toggleModalSpinner(true);
+  this.delegate.toggleModalSpinner(true, true);
   this.box.show();
   this.chooser = new SeatChooser(this.box.find(".seating"), this);
   this.box.hide();
@@ -644,16 +644,21 @@ function Ordering() {
     this.moveInCurrentStep();
   };
   
-  this.toggleModalBox = function (toggle, callback, stop) {
+  this.toggleModalBox = function (toggle, callback, stop, instant) {
     if (stop) this.modalBox.stop();
+    if (instant) {
+      this.modalBox.show();
+      if (callback) callback();
+      return this.modalBox;
+    }
     return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
   };
   
-  this.toggleModalSpinner = function (toggle) {
+  this.toggleModalSpinner = function (toggle, instant) {
     if (toggle) {
       this.toggleNextBtn(false);
       this.toggleBtn("prev", false);
-      this.toggleModalBox(true, null, true).append(this.modalSpinner.spin().el);
+      this.toggleModalBox(true, null, true, instant).append(this.modalSpinner.spin().el);
     } else {
       this.updateBtns();
       this.toggleModalBox(false, function () {
