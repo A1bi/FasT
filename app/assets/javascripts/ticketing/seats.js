@@ -1,8 +1,14 @@
 //= require ./_seating
 
 $(window).load(function () {
-  var seating = new Seating($(".seating"), function () {
-    seating.toggleNumbers(true);
-    seating.drawLayer("seats");
-  });
+  var container = $(".seating");
+  var klass = container.is(".editor") ? SeatingEditor : Seating;
+  var seating = new klass(container);
+  if (klass == Seating) {
+    seating.initSeats(function (seat) {
+      seat.toggleNumber(true);
+    }, function () {
+      seating.drawLayer("seats");
+    });
+  }
 });

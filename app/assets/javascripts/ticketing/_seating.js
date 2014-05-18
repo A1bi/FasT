@@ -6,7 +6,6 @@ function Seat(id, block, number, pos, delegate) {
   this.block = block;
   this.delegate = delegate;
   this.selected = false;
-  this.draggable = false;
   this.status;
   var _this = this;
   var size = [20, 20];
@@ -19,6 +18,9 @@ function Seat(id, block, number, pos, delegate) {
       y: -cacheOffset[1],
       width: cacheSize[0],
       height: cacheSize[1]
+    }).position({
+      x: -cacheOffset[0],
+      y: -cacheOffset[1]
     });
   };
   
@@ -26,29 +28,21 @@ function Seat(id, block, number, pos, delegate) {
     var defaultOptions = {
       fill: this.block.color,
       strokeEnabled: false,
+      stroke: "white",
+      dash: [0],
       cornerRadius: 2,
       opacity: 1
     };
     this.item.setAttrs($.extend(defaultOptions, options));
   };
   
-  this.updateBorder = function () {
-    this.setStyle({
-      strokeEnabled: this.selected,
-      stroke: this.selected ? "black" : "white",
-      strokeWidth: this.selected ? 1 : 2,
-      dash: this.selected ? [5, 5] : [0]
-    });
-  };
-  
   this.setSelected = function (sel) {
     this.selected = sel;
-    this.updateBorder();
-    this.cache();
+    this.setStatus(sel ? Seat.Status.Selected : null);
   };
   
   this.updateStatus = function () {
-    var options, textColor = "white";
+    var options = {}, textColor = "white";
     switch (this.status) {
     case Seat.Status.Available:
       options = {
@@ -66,14 +60,21 @@ function Seat(id, block, number, pos, delegate) {
       break;
     case Seat.Status.Taken:
       options = {
-        fill: "gray",
-        opacity: 0.3
+        fill: "#cacaca"
       };
       break;
     case Seat.Status.Exclusive:
       options = {
         fill: "orange",
         stroke: "silver"
+      };
+      break;
+    case Seat.Status.Selected:
+      options = {
+        strokeEnabled: true,
+        stroke: "black",
+        strokeWidth: 1,
+        dash: [5, 5]
       };
       break;
     }
@@ -88,11 +89,6 @@ function Seat(id, block, number, pos, delegate) {
     this.updateStatus();
   };
   
-  this.setDraggable = function (draggable) {
-    this.draggable = draggable;
-    this.cache();
-  };
-  
   this.toggleNumber = function (toggle) {
     if (!toggle && this.text) {
       this.text.hide();
@@ -100,8 +96,8 @@ function Seat(id, block, number, pos, delegate) {
       if (!this.text) {
         var fontSize = size[1] * 0.6;
         this.text = new Kinetic.Text({
-          y: (cacheSize[1] - fontSize) / 2,
-          width: cacheSize[0],
+          y: (size[1] - fontSize) / 2,
+          width: size[0],
           fontSize: fontSize,
           fontFamily: "Arial",
           fill: "white",
@@ -132,12 +128,10 @@ function Seat(id, block, number, pos, delegate) {
   });
   this.group.add(this.item);
   
-  this.updateBorder();
-  
   this.group.on("mousedown", function () {
     _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
-    _this.delegate.setCursor(_this.draggable && _this.selected ? "move" : "pointer");
+    _this.delegate.mouseOverSeat(_this);
   }).on("mouseout", function () {
     _this.delegate.setCursor();
   });
@@ -147,7 +141,8 @@ Seat.Status = {
   Chosen: 1,
   PreChosen: 2,
   Taken: 3,
-  Exclusive: 4
+  Exclusive: 4,
+  Selected: 5
 };
 
 function SeatBlock(id, color, delegate) {
@@ -165,45 +160,20 @@ function SeatBlock(id, color, delegate) {
   };
 };
 
-function Seating(container, callback) {
+function Seating(container) {
   this.container = container;
   this.maxCells = { x: 110, y: 80 };
   this.grid = [this.container.width() / this.maxCells.x, this.container.height() / this.maxCells.y];
   this.stage = null;
   this.layers = {};
   this.seats = {};
-  this.selecting = false;
-  this.selectedSeats = [];
-  this.selectedSeatsGroup = [];
-  this.draggable = this.container.is(".draggable");
-  this.selectable = this.draggable || this.container.is(".selectable");
   var _this = this;
   
   this.getGridPos = function (pos) {
     return { position_x: Math.round(pos.x / this.grid[0]), position_y: Math.round(pos.y / this.grid[1]) };
   };
   
-  this.saveSeatsInfo = function () {
-    var seats = {};
-    $.each(this.selectedSeats, function (i, seat) {
-      var pos = _this.getGridPos(seat.group.position());
-      seats[seat.id] = pos;
-    });
-    $.ajax(_this.container.data("update-path"), {
-      method: "PUT",
-      data: { seats: seats }
-    });
-  };
-  
-  this.toggleSelecting = function (event, toggle) {
-    _this.selecting = event.metaKey;
-  };
-  
-  this.enableViewLayers = function (layer) {
-    this.scroller.addClass(layer);
-  };
-  
-  this.initSeats = function () {
+  this.initSeats = function (seatCallback, afterCallback) {
     $.getJSON("/api/seats", function (data) {
       
       $.each(data.blocks, function (i, blockInfo) {
@@ -213,12 +183,12 @@ function Seating(container, callback) {
         $.each(blockInfo.seats, function (j, seatInfo) {
           var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
-          seat.setDraggable(_this.draggable);
           _this.seats[seatInfo.id] = seat;
+          if (seatCallback) seatCallback(seat);
         });
         
       });
-      if (callback) callback();
+      if (afterCallback) afterCallback();
       
     });
   };
@@ -227,46 +197,6 @@ function Seating(container, callback) {
     for (var seatId in this.seats) {
       this.seats[seatId].toggleNumber(toggle);
     }
-  };
-  
-  this.relocateSelectedSeats = function () {
-    var delta = this.selectedSeatsGroup.position();
-    this.selectedSeatsGroup.setPosition({ x: 0, y: 0 }).find(".seat").each(function(seat) {
-      var pos = seat.position();
-      seat.position({ x: pos.x + delta.x, y: pos.y + delta.y });
-    });
-  };
-  
-  this.updateSelectedSeats = function () {
-    if (!this.selectable) return;
-    this.relocateSelectedSeats();
-    this.selectedSeatsGroup.moveToTop();
-    this.selectedSeatsGroup.find(".seat").each(function(seat) {
-      if (_this.selectedSeats.indexOf(seat.attrs.seat) == -1) {
-        seat.moveTo(seat.attrs.seat.block.group);
-      }
-    });
-    
-    $.each(this.selectedSeats, function (i, seat) {
-      seat.group.moveTo(_this.selectedSeatsGroup);
-    });
-    
-    _this.drawLayer("seats");
-  };
-  
-  this.clickedSeat = function (seat) {
-    if (!this.selectable || this.selectedSeats.indexOf(seat) != -1) return;
-    if (!this.selecting) {
-      $.each(this.selectedSeats, function (i, s) {
-        s.setSelected(false);
-      });
-      this.selectedSeats.length = 0;
-    }
-    if (seat) {
-      seat.setSelected(true);
-      this.selectedSeats.push(seat);
-    }
-    this.updateSelectedSeats();
   };
   
   this.setCursor = function (type) {
@@ -314,30 +244,6 @@ function Seating(container, callback) {
   
   this.addLayer("seats");
   
-  this.addToLayer("seats", new Kinetic.Rect({
-    width: this.stage.width(),
-    height: this.stage.height()
-  }))
-  .on("click", function () {
-    _this.clickedSeat();
-  });
-  
-  this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
-    draggable: this.draggable,
-    dragBoundFunc: function (pos) {
-      return {
-        x: Math.floor(pos.x / _this.grid[0]) * _this.grid[0],
-        y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
-      }
-    }
-  }))
-  .on("dragend", function () {
-    _this.relocateSelectedSeats();
-    _this.saveSeatsInfo();
-  });
-  
-  this.initSeats();
-  
   if (this.container.is(".stage")) {
     var stageRectWidth = this.stage.width() * 0.8, stageRectHeight = 40;
     this.addLayer("stage", {
@@ -363,6 +269,104 @@ function Seating(container, callback) {
     }));
     this.drawLayer("stage");
   }
+};
+
+function SeatingEditor(container) {
+  Seating.call(this, container);
+  
+  this.selecting = false;
+  this.selectedSeats = [];
+  this.selectedSeatsGroup = [];
+  var _this = this;
+  
+  this.saveSeatsInfo = function () {
+    var seats = {};
+    $.each(this.selectedSeats, function (i, seat) {
+      var pos = _this.getGridPos(seat.group.position());
+      seats[seat.id] = pos;
+    });
+    $.ajax(_this.container.data("update-path"), {
+      method: "PUT",
+      data: { seats: seats }
+    });
+  };
+  
+  this.toggleSelecting = function (event, toggle) {
+    _this.selecting = event.metaKey;
+  };
+  
+  this.relocateSelectedSeats = function () {
+    var delta = this.selectedSeatsGroup.position();
+    this.selectedSeatsGroup.setPosition({ x: 0, y: 0 }).find(".seat").each(function(seat) {
+      var pos = seat.position();
+      seat.position({ x: pos.x + delta.x, y: pos.y + delta.y });
+    });
+  };
+  
+  this.updateSelectedSeats = function () {
+    this.relocateSelectedSeats();
+    this.selectedSeatsGroup.moveToTop();
+    this.selectedSeatsGroup.find(".seat").each(function(seat) {
+      if (_this.selectedSeats.indexOf(seat.attrs.seat) == -1) {
+        seat.moveTo(seat.attrs.seat.block.group);
+      }
+    });
+    
+    $.each(this.selectedSeats, function (i, seat) {
+      seat.group.moveTo(_this.selectedSeatsGroup);
+    });
+    
+    _this.drawLayer("seats");
+  };
+  
+  this.mouseOverSeat = function (seat) {
+    this.setCursor(seat.selected ? "move" : "pointer");
+  };
+  
+  this.clickedSeat = function (seat) {
+    if (this.selectedSeats.indexOf(seat) != -1) return;
+    if (!this.selecting) {
+      $.each(this.selectedSeats, function (i, s) {
+        s.setSelected(false);
+      });
+      this.selectedSeats.length = 0;
+    }
+    if (seat) {
+      seat.setSelected(true);
+      this.selectedSeats.push(seat);
+      this.setCursor("move");
+    }
+    this.updateSelectedSeats();
+  };
+  
+  
+  this.initSeats(function (seat) {
+    seat.toggleNumber(true);
+  }, function () {
+    _this.drawLayer("seats");
+  });
+  
+  this.addToLayer("seats", new Kinetic.Rect({
+    width: this.stage.width(),
+    height: this.stage.height()
+  }))
+  .on("click", function () {
+    _this.clickedSeat();
+  });
+  
+  this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
+    draggable: true,
+    dragBoundFunc: function (pos) {
+      return {
+        x: Math.floor(pos.x / _this.grid[0]) * _this.grid[0],
+        y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
+      }
+    }
+  }))
+  .on("dragend", function () {
+    _this.relocateSelectedSeats();
+    _this.saveSeatsInfo();
+  });
   
   $(document).on("keydown keyup", this.toggleSelecting);
 };
@@ -400,8 +404,11 @@ function SeatChooser(container, delegate) {
   this.updateSeatPlan = function (updatedSeats) {
     console.log("Updating seating plan");
     updatedSeats = (updatedSeats || _this.seatsInfo)[_this.date || Object.keys(_this.seatsInfo)[0]];
+    var redraw = false;
     for (var seatId in updatedSeats) {
       var seat = _this.seats[seatId];
+      if (!seat) continue;
+      redraw = true;
       var seatInfo = updatedSeats[seatId];
       var status;
       if (seatInfo.chosen) {
@@ -419,7 +426,7 @@ function SeatChooser(container, delegate) {
       }
       seat.setStatus(status);
     }
-    this.drawLayer("seats");
+    if (redraw) this.drawLayer("seats");
   };
   
   this.chooseSeat = function (seat) {
@@ -477,6 +484,10 @@ function SeatChooser(container, delegate) {
     return this.getSeatsYetToChoose() < 1;
   };
   
+  this.mouseOverSeat = function (seat) {
+    this.setCursor("pointer");
+  };
+  
   this.clickedSeat = function (seat) {
     if (seat) this.chooseSeat(seat);
   };
@@ -511,6 +522,8 @@ function SeatChooser(container, delegate) {
     });
 	};
   
+  
+  this.initSeats();
   
   this.node = io.connect("/seating", {
     "resource": "node",
