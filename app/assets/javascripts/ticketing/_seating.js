@@ -10,14 +10,15 @@ function Seat(id, block, number, pos, delegate) {
   this.status;
   var _this = this;
   var size = [20, 20];
-  var cacheOffset = [5, 5];
+  var cacheOffset = [1, 1];
+  var cacheSize = [size[0] + cacheOffset[0] * 2, size[1] + cacheOffset[1] * 2];
   
   this.cache = function () {
-    this.group.cache({
+    this.item.cache({
       x: -cacheOffset[0],
       y: -cacheOffset[1],
-      width: size[0] + cacheOffset[0] * 2,
-      height: size[1] + cacheOffset[1] * 2
+      width: cacheSize[0],
+      height: cacheSize[1]
     });
   };
   
@@ -99,8 +100,8 @@ function Seat(id, block, number, pos, delegate) {
       if (!this.text) {
         var fontSize = size[1] * 0.6;
         this.text = new Kinetic.Text({
-          y: (size[1] - fontSize) / 2,
-          width: size[0],
+          y: (cacheSize[1] - fontSize) / 2,
+          width: cacheSize[0],
           fontSize: fontSize,
           fontFamily: "Arial",
           fill: "white",
@@ -164,7 +165,7 @@ function SeatBlock(id, color, delegate) {
   };
 };
 
-function Seating(container) {
+function Seating(container, callback) {
   this.container = container;
   this.maxCells = { x: 110, y: 80 };
   this.grid = [this.container.width() / this.maxCells.x, this.container.height() / this.maxCells.y];
@@ -217,9 +218,15 @@ function Seating(container) {
         });
         
       });
-      _this.drawLayer("seats");
+      if (callback) callback();
       
     });
+  };
+  
+  this.toggleNumbers = function (toggle) {
+    for (var seatId in this.seats) {
+      this.seats[seatId].toggleNumber(toggle);
+    }
   };
   
   this.relocateSelectedSeats = function () {
@@ -283,25 +290,20 @@ function Seating(container) {
     this.layers[name].draw();
   };
   
-  /*
-  this.container.viewChooser.find("a")
-    .click(function (event) {
-      var $this = $(this);
-      if ($this.is(".selected")) return;
   
-      $this.addClass("selected").siblings().removeClass("selected");
-      _this.scroller.removeClass("numbers underlay photo");
-      var viewType = $this.data("type");
-      if (viewType == "numbersAndUnderlay") {
-        _this.enableViewLayers("numbers underlay");
-      } else if (viewType == "photo") {
-        _this.enableViewLayers("photo");
-      }
-  
-      event.preventDefault();
-    })
-    .first().addClass("selected");
-  */
+  this.container.find(".viewChooser a")
+  .click(function (event) {
+    var $this = $(this);
+    if ($this.is(".selected")) return;
+
+    $this.addClass("selected").siblings().removeClass("selected");
+    var viewType = $this.data("type"), numbersAndUnderlay = viewType == "numbersAndUnderlay";
+    _this.toggleNumbers(numbersAndUnderlay);
+    _this.drawLayer("seats");
+
+    event.preventDefault();
+  })
+  .first().addClass("selected");
   
   var planBox = container.find(".plan");
   this.stage = new Kinetic.Stage({
@@ -476,7 +478,6 @@ function SeatChooser(container, delegate) {
   };
   
   this.clickedSeat = function (seat) {
-    //Seating.prototype.clickedSeat.call(this, seat);
     if (seat) this.chooseSeat(seat);
   };
   

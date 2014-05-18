@@ -1,5 +1,8 @@
 //= require ./_seating
 
 $(window).load(function () {
-  new Seating($(".seating"));
+  var seating = new Seating($(".seating"), function () {
+    seating.toggleNumbers(true);
+    seating.drawLayer("seats");
+  });
 });

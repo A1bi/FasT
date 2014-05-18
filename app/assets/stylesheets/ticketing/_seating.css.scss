@@ -16,6 +16,28 @@
     }
   }
   
+  .viewChooser {
+    background: #4AB7E5;
+    font-size: 13px;
+    color: white;
+    padding: 3px 8px;
+    text-align: center;
+    
+    a {
+      text-decoration: none;
+      color: white;
+      padding: 0px 5px;
+    
+      &:hover:not(.selected) {
+        text-decoration: underline;
+      }
+    
+      &.selected {
+        font-weight: bold;
+      }
+    }
+  }
+  
   .plan {
     width: 180%;
     height: 99%;
