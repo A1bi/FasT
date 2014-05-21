@@ -101,8 +101,7 @@ function Seat(id, block, number, pos, delegate) {
           shapeScope.statusShapes[status] = new Kinetic.Image({
             image: image
           });
-          var numberOfSeats = shapeScope.statusShapeQueues[status].length;
-          for (var i = 0; i < numberOfSeats; i++) {
+          for (var i = 0, numberOfSeats = shapeScope.statusShapeQueues[status].length; i < numberOfSeats; i++) {
             shapeScope.statusShapeQueues[status][i]['updateStatus']();
           }
           delete shapeScope.statusShapeQueues[status];
@@ -177,7 +176,7 @@ function Seat(id, block, number, pos, delegate) {
     height: Seat.size[1],
     name: "seat",
     seat: this
-  }).on("mousedown", function () {
+  }).on("mousedown touchend", function () {
     _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
     _this.delegate.mouseOverSeat(_this);
@@ -238,18 +237,20 @@ function Seating(container) {
   this.initSeats = function (seatCallback, afterCallback) {
     $.getJSON("/api/seats", function (data) {
       
-      $.each(data.blocks, function (i, blockInfo) {
+      for (var i = 0, bLength = data.blocks.length; i < bLength; i++) {
+        var blockInfo = data.blocks[i];
         var block = new SeatBlock(blockInfo.id, blockInfo.color, _this);
         _this.layers['seats'].add(block.group);
         
-        $.each(blockInfo.seats, function (j, seatInfo) {
+        for (var j = 0, sLength = blockInfo.seats.length; j < sLength; j++) {
+          var seatInfo = blockInfo.seats[j];
           var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
           _this.seats[seatInfo.id] = seat;
           if (seatCallback) seatCallback(seat);
-        });
+        }
         
-      });
+      }
       if (afterCallback) afterCallback();
       
     });
@@ -347,10 +348,11 @@ function SeatingEditor(container) {
   
   this.saveSeatsInfo = function () {
     var seats = {};
-    $.each(this.selectedSeats, function (i, seat) {
+    for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
+      var seat = this.selectedSeats[i];
       var pos = _this.getGridPos(seat.group.position());
       seats[seat.id] = pos;
-    });
+    }
     $.ajax(_this.container.data("update-path"), {
       method: "PUT",
       data: { seats: seats }
@@ -378,9 +380,9 @@ function SeatingEditor(container) {
       }
     });
     
-    $.each(this.selectedSeats, function (i, seat) {
-      seat.group.moveTo(_this.selectedSeatsGroup);
-    });
+    for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
+      this.selectedSeats[i].group.moveTo(_this.selectedSeatsGroup);
+    }
     
     _this.drawLayer("seats");
   };
@@ -392,9 +394,9 @@ function SeatingEditor(container) {
   this.clickedSeat = function (seat) {
     if (this.selectedSeats.indexOf(seat) != -1) return;
     if (!this.selecting) {
-      $.each(this.selectedSeats, function (i, s) {
-        s.setSelected(false);
-      });
+      for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
+        this.selectedSeats[i].setSelected(false);
+      }
       this.selectedSeats.length = 0;
     }
     if (seat) {
@@ -581,11 +583,12 @@ function SeatChooser(container, delegate) {
     });
     
     var eventMappings = [["expired", "Expired"], ["connect_failed", "CouldNotConnect"], ["disconnect", "Disconnected"]];
-    $.each(eventMappings, function (i, mapping) {
+    for (var i = 0, eLength = eventMappings.length; i < eLength; i++) {
+      var mapping = eventMappings[i];
       _this.node.on(mapping[0], function () {
         if (!_this.noErrors) _this.delegate['seatChooser' + mapping[1]]();
       });
-    });
+    }
 	};
   
   
