@@ -6,44 +6,57 @@ function Seat(id, block, number, pos, delegate) {
   this.block = block;
   this.delegate = delegate;
   this.selected = false;
-  this.status;
+  this.status = Seat.Status.Default;
+  this.shape;
+  this.group;
+  this.text;
   var _this = this;
-  var size = [20, 20];
-  var cacheOffset = [1, 1];
-  var cacheSize = [size[0] + cacheOffset[0] * 2, size[1] + cacheOffset[1] * 2];
   
-  this.cache = function () {
-    this.item.cache({
-      x: -cacheOffset[0],
-      y: -cacheOffset[1],
-      width: cacheSize[0],
-      height: cacheSize[1]
-    }).position({
-      x: -cacheOffset[0],
-      y: -cacheOffset[1]
-    });
+  this.setSelected = function (sel) {
+    this.selected = sel;
+    this.setStatus(Seat.Status[sel ? "Selected" : "Default"]);
   };
   
-  this.setStyle = function (options) {
+  this.getShapeScope = function () {
+    switch (this.status) {
+    case Seat.Status.Selected:
+    case Seat.Status.Default:
+      return this.block;
+    default:
+      return Seat;
+    }
+  };
+  
+  this.renderStatusShape = function () {
+    var shapeScope = this.getShapeScope();
+    if (shapeScope.statusShapeQueues[this.status]) {
+      shapeScope.statusShapeQueues[this.status].push(this);
+      return;
+    } else {
+      shapeScope.statusShapeQueues[this.status] = [this];
+    }
+    Seat.statusShapesToRender++;
+    
     var defaultOptions = {
+      width: Seat.size[0],
+      height: Seat.size[1],
       fill: this.block.color,
       strokeEnabled: false,
       stroke: "white",
       dash: [0],
       cornerRadius: 2,
-      opacity: 1
+      opacity: 1,
+      shadowEnabled: true,
+      shadowColor: "silver",
+      shadowOffset: [1, 1],
+      shadowBlur: 3
     };
-    this.item.setAttrs($.extend(defaultOptions, options));
-  };
-  
-  this.setSelected = function (sel) {
-    this.selected = sel;
-    this.setStatus(sel ? Seat.Status.Selected : null);
-  };
-  
-  this.updateStatus = function () {
-    var options = {}, textColor = "white";
+    
+    var options;
     switch (this.status) {
+    case Seat.Status.Default:
+      options = {};
+      break;
     case Seat.Status.Available:
       options = {
         fill: "green"
@@ -56,7 +69,6 @@ function Seat(id, block, number, pos, delegate) {
         strokeEnabled: true,
         stroke: "red"
       };
-      textColor = "red";
       break;
     case Seat.Status.Taken:
       options = {
@@ -78,9 +90,55 @@ function Seat(id, block, number, pos, delegate) {
       };
       break;
     }
-    this.setStyle(options);
-    if (this.text) this.text.fill(textColor);
-    this.cache();
+  
+    new Kinetic.Rect(defaultOptions).setAttrs(options).toImage({
+      x: -Seat.cacheOffset[0],
+      y: -Seat.cacheOffset[1],
+      width: Seat.cacheSize[0],
+      height: Seat.cacheSize[1],
+      callback: (function (status) {
+        return function (image) {
+          shapeScope.statusShapes[status] = new Kinetic.Image({
+            image: image
+          });
+          var numberOfSeats = shapeScope.statusShapeQueues[status].length;
+          for (var i = 0; i < numberOfSeats; i++) {
+            shapeScope.statusShapeQueues[status][i]['updateStatus']();
+          }
+          delete shapeScope.statusShapeQueues[status];
+          if (--Seat.statusShapesToRender < 1 && Seat.statusShapeRenderingCallback) {
+            Seat.statusShapeRenderingCallback();
+          }
+          console.log("Rendered seat status shape '" + status + "'");
+        };
+      })(this.status)
+    });
+  };
+  
+  this.getStatusShape = function () {
+    return this.getShapeScope().statusShapes[this.status];
+  };
+  
+  this.updateStatus = function () {
+    if (!this.getStatusShape()) {
+      this.renderStatusShape();
+      return;
+    }
+    
+    if (this.shape) this.shape.destroy();
+    this.shape = this.getStatusShape().clone();
+    this.group.add(this.shape);
+    this.shape.moveToBottom();
+    
+    if (this.text) {
+      var textColor;
+      if (this.status == Seat.Status.Chosen) {
+        textColor = "red";
+      } else {
+        textColor = "white";
+      }
+      this.text.fill(textColor);
+    }
   };
   
   this.setStatus = function (status) {
@@ -94,10 +152,10 @@ function Seat(id, block, number, pos, delegate) {
       this.text.hide();
     } else if (toggle) {
       if (!this.text) {
-        var fontSize = size[1] * 0.6;
+        var fontSize = Seat.size[1] * 0.6;
         this.text = new Kinetic.Text({
-          y: (size[1] - fontSize) / 2,
-          width: size[0],
+          y: (Seat.cacheSize[1] - fontSize) / 2,
+          width: Seat.cacheSize[0],
           fontSize: fontSize,
           fontFamily: "Arial",
           fill: "white",
@@ -115,20 +173,11 @@ function Seat(id, block, number, pos, delegate) {
   this.group = new Kinetic.Group({
     x: pos[0],
     y: pos[1],
-    width: size[0],
-    height: size[1],
+    width: Seat.size[0],
+    height: Seat.size[1],
     name: "seat",
     seat: this
-  });
-  
-  this.item = new Kinetic.Rect();
-  this.setStyle({
-    width: size[0],
-    height: size[1]
-  });
-  this.group.add(this.item);
-  
-  this.group.on("mousedown", function () {
+  }).on("mousedown", function () {
     _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
     _this.delegate.mouseOverSeat(_this);
@@ -136,14 +185,25 @@ function Seat(id, block, number, pos, delegate) {
     _this.delegate.setCursor();
   });
 };
+
 Seat.Status = {
-  Available: 0,
-  Chosen: 1,
-  PreChosen: 2,
-  Taken: 3,
-  Exclusive: 4,
-  Selected: 5
+  Default: 0,
+  Available: 1,
+  Chosen: 2,
+  PreChosen: 3,
+  Taken: 4,
+  Exclusive: 5,
+  Selected: 6
 };
+
+Seat.size = [19, 19];
+Seat.cacheOffset = [5, 5];
+Seat.cacheSize = [Seat.size[0] + Seat.cacheOffset[0] * 2, Seat.size[1] + Seat.cacheOffset[1] * 2];
+
+Seat.statusShapes = {};
+Seat.statusShapeQueues = {};
+Seat.statusShapesToRender = 0;
+Seat.statusShapeRenderingCallback;
 
 function SeatBlock(id, color, delegate) {
   this.id = id;
@@ -151,6 +211,8 @@ function SeatBlock(id, color, delegate) {
   this.delegate = delegate;
   this.seats = [];
   this.group = new Kinetic.Group();
+  this.statusShapes = {};
+  this.statusShapeQueues = {};
   
   this.addSeat = function (id, number, pos) {
     var seat = new Seat(id, this, number, pos, this.delegate);
@@ -269,6 +331,10 @@ function Seating(container) {
     }));
     this.drawLayer("stage");
   }
+  
+  Seat.statusShapeRenderingCallback = function () {
+    _this.drawLayer("seats");
+  };
 };
 
 function SeatingEditor(container) {
@@ -342,8 +408,7 @@ function SeatingEditor(container) {
   
   this.initSeats(function (seat) {
     seat.toggleNumber(true);
-  }, function () {
-    _this.drawLayer("seats");
+    seat.updateStatus();
   });
   
   this.addToLayer("seats", new Kinetic.Rect({
@@ -402,8 +467,9 @@ function SeatChooser(container, delegate) {
   };
   
   this.updateSeatPlan = function (updatedSeats) {
+    if (!this.date) return;
     console.log("Updating seating plan");
-    updatedSeats = (updatedSeats || _this.seatsInfo)[_this.date || Object.keys(_this.seatsInfo)[0]];
+    updatedSeats = (updatedSeats || _this.seatsInfo)[_this.date];
     var redraw = false;
     for (var seatId in updatedSeats) {
       var seat = _this.seats[seatId];
