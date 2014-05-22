@@ -9,8 +9,4 @@ $(function () {
       $(this).siblings(tableClass).slideDown();
     });
   });
-  
-  $(".seating").each(function () {
-    new Seating($(this));
-  });
 });

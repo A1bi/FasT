@@ -105,8 +105,10 @@ function Seat(id, block, number, pos, delegate) {
             shapeScope.statusShapeQueues[status][i]['updateStatus']();
           }
           delete shapeScope.statusShapeQueues[status];
-          if (--Seat.statusShapesToRender < 1 && Seat.statusShapeRenderingCallback) {
-            Seat.statusShapeRenderingCallback();
+          if (--Seat.statusShapesToRender < 1) {
+            for (var i = 0, cLength = Seat.statusShapeRenderingCallbacks.length; i < cLength; i++) {
+              Seat.statusShapeRenderingCallbacks[i]();
+            }
           }
           console.log("Rendered seat status shape '" + status + "'");
         };
@@ -177,9 +179,9 @@ function Seat(id, block, number, pos, delegate) {
     name: "seat",
     seat: this
   }).on("mousedown touchend", function () {
-    _this.delegate.clickedSeat(_this);
+    if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
-    _this.delegate.mouseOverSeat(_this);
+    if (_this.delegate.mouseOverSeat) _this.delegate.mouseOverSeat(_this);
   }).on("mouseout", function () {
     _this.delegate.setCursor();
   });
@@ -202,7 +204,7 @@ Seat.cacheSize = [Seat.size[0] + Seat.cacheOffset[0] * 2, Seat.size[1] + Seat.ca
 Seat.statusShapes = {};
 Seat.statusShapeQueues = {};
 Seat.statusShapesToRender = 0;
-Seat.statusShapeRenderingCallback;
+Seat.statusShapeRenderingCallbacks = [];
 
 function SeatBlock(id, color, delegate) {
   this.id = id;
@@ -286,6 +288,7 @@ function Seating(container) {
   
   this.container.find(".viewChooser a")
   .click(function (event) {
+    event.preventDefault();
     var $this = $(this);
     if ($this.is(".selected")) return;
 
@@ -293,8 +296,6 @@ function Seating(container) {
     var viewType = $this.data("type"), numbersAndUnderlay = viewType == "numbersAndUnderlay";
     _this.toggleNumbers(numbersAndUnderlay);
     _this.drawLayer("seats");
-
-    event.preventDefault();
   })
   .first().addClass("selected");
   
@@ -333,9 +334,18 @@ function Seating(container) {
     this.drawLayer("stage");
   }
   
-  Seat.statusShapeRenderingCallback = function () {
+  Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawLayer("seats");
-  };
+  });
+};
+
+function SeatingStandalone(container) {
+  Seating.call(this, container);
+  
+  this.initSeats(function (seat) {
+    seat.toggleNumber(true);
+    seat.updateStatus();
+  });
 };
 
 function SeatingEditor(container) {
@@ -609,4 +619,12 @@ Object.create = Object.create || function (p) {
   return new F();
 };
 
+SeatingStandalone.prototype = Object.create(Seating.prototype);
+SeatingEditor.prototype = Object.create(Seating.prototype);
 SeatChooser.prototype = Object.create(Seating.prototype);
+
+$(window).load(function () {
+  $(".seating.standalone").each(function () {
+    new SeatingStandalone($(this));
+  });
+});
