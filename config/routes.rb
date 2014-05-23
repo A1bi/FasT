@@ -76,7 +76,10 @@ FasT::Application.routes.draw do
     
     namespace :ticketing, path: "" do
       scope path: "vorverkauf" do
-        get "statistik" => "statistics#index", as: :statistics
+        controller :statistics, path: "statistik", as: :statistics do
+          get "/", action: :index
+          get "seats", action: :seats, as: :seats
+        end
         scope path: "bestellungen", type: :admin do
           resource :order, path: "", only: [] do
             member do
@@ -93,6 +96,7 @@ FasT::Application.routes.draw do
               put :approve
               post :cancel
               post :resend_tickets
+              get :seats
             end
           end
         end

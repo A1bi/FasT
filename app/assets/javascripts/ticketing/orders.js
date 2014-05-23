@@ -837,5 +837,15 @@ $(function () {
       $(this).hide().siblings("#cancelForm").show();
       event.preventDefault();
     });
+    
+    var seatingBox = $(".seating");
+    $.getJSON(seatingBox.data("additional-path"), function (data) {
+      var seating = new Seating(seatingBox);
+      seating.initSeats(function (seat) {
+        var status = data.seats.indexOf(seat.id) != -1 ? Seat.Status.Chosen : Seat.Status.Taken;
+        seat.toggleNumber(true);
+        seat.setStatus(status);
+      });
+    });
   }
 });

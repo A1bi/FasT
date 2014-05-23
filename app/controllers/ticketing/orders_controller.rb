@@ -2,7 +2,7 @@ module Ticketing
   class OrdersController < BaseController
     before_filter :disable_slides
     before_filter :set_event_info, only: [:new, :new_retail, :new_admin]
-    before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel]
+    before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :seats]
     before_filter :prepare_new, only: [:new, :new_admin, :new_retail]
     ignore_restrictions
     before_filter :restrict_access
@@ -104,6 +104,14 @@ module Ticketing
     
       redirect_to_order_details
     end
+    
+    def seats
+      seats = []
+      @order.tickets.each do |ticket|
+        seats << ticket.seat.id
+      end
+      render json: { seats: seats }
+    end
   
     private
   
@@ -146,7 +154,7 @@ module Ticketing
     def restrict_access
       actions = [:new, :redeem_coupon]
       if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
-        actions.push :index, :show, :cancel
+        actions.push :index, :show, :cancel, :seats
         if @_retail_store.id
           actions.push :new_retail
         end
