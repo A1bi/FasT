@@ -830,7 +830,7 @@ function Ordering() {
 }
 
 $(function () {
-  if ($(".stepBox")) {
+  if ($(".stepBox").length) {
     new Ordering();
   } else {  
     $("#cancelAction").click(function (event) {
