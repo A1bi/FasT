@@ -622,10 +622,9 @@ function Ordering() {
       this.showPrev();
       
     } else {
+      $("body").animate({ scrollTop: this.stepBox.position().top });
       if (this.currentStep.validate()) {
         this.showNext(true);
-      } else {
-        $("body").animate({ scrollTop: this.stepBox.position().top });
       }
     }
   };

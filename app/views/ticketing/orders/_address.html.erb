@@ -7,26 +7,26 @@
         </tr>
       </thead>
       <tbody>
-        <%= render :layout => "field", :locals => { :name => "Anrede" } do %>
+        <%= render layout: "field", locals: { name: "Anrede" } do %>
           <%= f.select(:gender, options_for_select([[" ", -1], ["Frau", 0], ["Herr", 1]])) %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "Vorname" } do %>
-          <%= render "prepopulated_text_field", :f => f, :name => :first_name %>
+        <%= render layout: "field", locals: { name: "Vorname" } do %>
+          <%= prepopulated_text_field(f, :first_name) %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "Nachname" } do %>
-          <%= render "prepopulated_text_field", :f => f, :name => :last_name %>
+        <%= render layout: "field", locals: { name: "Nachname" } do %>
+          <%= prepopulated_text_field(f, :last_name) %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "PLZ" } do %>
-          <%= f.text_field :plz, :class => "field" %>
+        <%= render layout: "field", locals: { name: "PLZ" } do %>
+          <%= f.text_field :plz, class: "field" %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "Telefon" } do %>
-          <%= f.text_field :phone, :class => "field" %>
+        <%= render layout: "field", locals: { name: "Telefon" } do %>
+          <%= f.text_field :phone, class: "field" %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse" } do %>
-          <%= render "prepopulated_text_field", :f => f, :name => :email %>
+        <%= render layout: "field", locals: { name: "e-mail-Adresse" } do %>
+          <%= prepopulated_text_field(f, :email, :email, true) %>
         <% end %>
-        <%= render :layout => "field", :locals => { :name => "e-mail-Adresse Bestätigung" } do %>
-          <%= render "prepopulated_text_field", :f => f, :name => :email_confirmation, :key => :email %>
+        <%= render layout: "field", locals: { name: "e-mail-Adresse Bestätigung" } do %>
+          <%= prepopulated_text_field(f, :email_confirmation, :email, true) %>
           <div class="small">Noch einmal zur Sicherheit, um Tippfehler auszuschließen.</div>
         <% end if @type == :web %>
       </tbody>

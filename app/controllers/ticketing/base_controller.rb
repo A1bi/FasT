@@ -39,7 +39,10 @@ class Ticketing::BaseController < ApplicationController
   def retail?
     params[:type] == :retail
   end
-  helper_method :admin?, :retail?
+  def web?
+    !admin? && !retail?
+  end
+  helper_method :admin?, :retail?, :web?
   
   def orders_path(action, params = nil)
     action = action.to_s.sub("ticketing", "ticketing_retail") if retail?

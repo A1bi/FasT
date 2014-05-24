@@ -28,13 +28,13 @@
         </thead>
         <tbody>
           <%= render layout: "field", locals: { name: "Kontoinhaber" } do %>
-            <%= f.text_field :name %>
+            <%= f.text_field :name, class: :field %>
           <% end %>
           <%= render layout: "field", locals: { name: "IBAN" } do %>
-            <%= f.text_field :iban %>
+            <%= f.text_field :iban, class: :field %>
           <% end %>
           <%= render layout: "field", locals: { name: "BIC" } do %>
-            <%= f.text_field :bic %>
+            <%= f.text_field :bic, class: :field %>
           <% end %>
           <%= render layout: "field", locals: { name: "Zahlungsempfänger" } do %>
             Freilichtbühne am schiefen Turm e. V.
