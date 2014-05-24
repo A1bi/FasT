@@ -3,8 +3,8 @@
     Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
   </div>
   <div class="additional">
-    <% if !admin? %>
-      <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
+    <% if !admin? || @reservation_groups.empty? %>
+      <p>Bitte verschieben Sie den Sitzplan durch Klicken und Ziehen nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
       <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
     <% else %>
       <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
@@ -15,18 +15,5 @@
       <% end %>
     <% end %>
   </div>
-	<div class="seating">
-		 <%= render "application/ticketing/seats", seats: @seats, error_box: true, numbers: true, photo: true, underlay: true, view_chooser: true, cache_key: [:new_order] %>
-	</div>
-  <div class="hcen">
-		<div class="key">
-      <div><b>Legende Sitzplätze</b></div>
-      <div>
-        <div><div class="ticketing_seat available"></div> frei</div>
-        <div class="exclusiveSeats"><div class="ticketing_seat available exclusive"></div> exklusiv für Sie frei</div>
-      </div>
-      <div><div class="ticketing_seat taken"></div> bereits reserviert</div>
-      <div><div class="ticketing_seat chosen"></div> ausgewählt</div>
-    </div>
-  </div>
+  <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background] }, error_box: true, view_chooser: true %>
 </div>

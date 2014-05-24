@@ -1,4 +1,4 @@
-//= require _seats
+//= require ./_seating
 
 @import "_mixins";
 
@@ -88,11 +88,6 @@ table.details {
       text-shadow: 1px 1px 3px white;
     }
   }
-}
-
-.seating.details .plan {
-  height: 200px;
-  box-shadow: none;
 }
 
 .btns {
@@ -403,23 +398,6 @@ table.details {
       }
     }
     
-    .seating {
-      padding: 0px;
-      
-      .ie8 & .plan {
-        border: 1px solid #cccccc {
-          width: 1px 0px;
-        }
-      }
-      
-      .viewChooser div {
-        border: {
-          radius: 10px 0px 0px 0px;
-          right: none;
-        }
-      }
-    }
-    
     .additional {
       color: black;
       border: 1px solid #cccccc;
@@ -439,37 +417,6 @@ table.details {
     
     em.small {
       color: black;
-    }
-    
-    .key {
-      overflow: auto;
-      border: 1px solid #cccccc {
-        radius: 10px;
-      }
-      padding: 0px;
-      font-size: 13px;
-      display: inline-block;
-      text-align: left;
-      
-      > div {
-        padding: 7px 12px;
-        display: table-cell;
-        
-        &:not(:first-child) {
-          border-left: 1px solid #cccccc;
-        }
-        
-        .exclusiveSeats {
-          display: none;
-          margin-top: 8px;
-        }
-        
-        .ticketing_seat {
-          float: left;
-          position: relative;
-          margin-right: 5px;
-        }
-      }
     }
 	}
 	

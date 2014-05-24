@@ -1,4 +1,4 @@
-//= require _seats
+//= require ./_seating
 
 $(function () {
   $(".chooser span").click(function () {
@@ -10,7 +10,16 @@ $(function () {
     });
   });
   
-  $(".seating").each(function () {
-    new Seating($(this));
+  var seatingBoxes = $(".seating");
+  $.getJSON(seatingBoxes.first().data("additional-path"), function (data) {
+    seatingBoxes.each(function () {
+      var $this = $(this);
+      var dateSeats = data.seats[$this.data("date")];
+      var seating = new Seating($this);
+      seating.initSeats(function (seat) {
+        var status = dateSeats[seat.id] ? Seat.Status.Available : Seat.Status.Taken;
+        seat.setStatus(status);
+      });
+    });
   });
 });

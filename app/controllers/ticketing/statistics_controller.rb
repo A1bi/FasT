@@ -15,6 +15,16 @@ module Ticketing
     def index_retail
     end
     
+    def seats
+      render json: {
+        seats: Hash[Ticketing::Event.current.dates.map do |date|
+          [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map do |seat|
+            [seat.id, !seat.taken? ? 1 : 0]
+          end]]
+        end]
+      }
+    end
+    
     private
     
     def fetch_stats

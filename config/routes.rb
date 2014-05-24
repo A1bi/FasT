@@ -76,7 +76,10 @@ FasT::Application.routes.draw do
     
     namespace :ticketing, path: "" do
       scope path: "vorverkauf" do
-        get "statistik" => "statistics#index", as: :statistics
+        controller :statistics, path: "statistik", as: :statistics do
+          get "/", action: :index
+          get "seats", action: :seats, as: :seats
+        end
         scope path: "bestellungen", type: :admin do
           resource :order, path: "", only: [] do
             member do
@@ -93,6 +96,7 @@ FasT::Application.routes.draw do
               patch :approve
               post :cancel
               post :resend_tickets
+              get :seats
             end
           end
         end
@@ -103,11 +107,13 @@ FasT::Application.routes.draw do
           post :submit
           get :sheet, path: "begleitzettel/:id"
         end
-        resources :seats, path: "sitzplan", only: [:index, :create, :update] do
+        resources :seats, path: "sitzplan", only: [:index, :create] do
           collection do
             get :edit
-            patch :update_multiple
-            delete :update_multiple, action: :destroy_multiple
+            scope constraints: { format: :json } do
+              put :update
+              delete :destroy
+            end
           end
         end
         resources :blocks, path: "blöcke", except: [:index, :show]
@@ -171,7 +177,7 @@ FasT::Application.routes.draw do
     
   end
   
-  scope path: :api do
+  scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
       resources :orders, only: [:create] do
         member do
@@ -187,7 +193,10 @@ FasT::Application.routes.draw do
         post :check_in
       end
       get "events/current", as: "current_event"
-      get "seats" => "seats#index"
+      controller :seats, path: :seats, as: :seats do
+        get "availability", action: :availability
+        get "/", action: :index
+      end
       resources :purchases, only: [:create] do
         collection do
           post :unlock_seats

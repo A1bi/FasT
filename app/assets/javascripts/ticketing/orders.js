@@ -1,5 +1,5 @@
-//= require _seats
-//= require ticketing/base
+//= require ./_seating
+//= require ./base
 //= require node-validator/validator-min
 //= require spin.js/dist/spin.min
 
@@ -364,10 +364,10 @@ function SeatsStep(delegate) {
   Step.call(this, "seats", delegate);
   
   
+  this.delegate.toggleModalSpinner(true, true);
   this.box.show();
   this.chooser = new SeatChooser(this.box.find(".seating"), this);
   this.box.hide();
-  this.delegate.toggleModalSpinner(true);
   
   this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
     _this.enableReservationGroups();
@@ -574,7 +574,7 @@ function FinishStep(delegate) {
   Step.call(this, "finish", delegate);
 }
 
-var ordering = new function () {
+function Ordering() {
   this.stepBox;
   this.currentStepIndex = -1;
   this.currentStep;
@@ -644,16 +644,21 @@ var ordering = new function () {
     this.moveInCurrentStep();
   };
   
-  this.toggleModalBox = function (toggle, callback, stop) {
+  this.toggleModalBox = function (toggle, callback, stop, instant) {
     if (stop) this.modalBox.stop();
+    if (instant) {
+      this.modalBox.show();
+      if (callback) callback();
+      return this.modalBox;
+    }
     return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
   };
   
-  this.toggleModalSpinner = function (toggle) {
+  this.toggleModalSpinner = function (toggle, instant) {
     if (toggle) {
       this.toggleNextBtn(false);
       this.toggleBtn("prev", false);
-      this.toggleModalBox(true, null, true).append(this.modalSpinner.spin().el);
+      this.toggleModalBox(true, null, true, instant).append(this.modalSpinner.spin().el);
     } else {
       this.updateBtns();
       this.toggleModalBox(false, function () {
@@ -773,61 +778,74 @@ var ordering = new function () {
     });
   };
   
-  $(function () {
-    _this.stepBox = $(".stepBox");
-    if (!_this.stepBox) return;
-    _this.expirationBox = $(".expiration");
-    _this.btns = $(".btns .btn");
-    _this.progressBox = $(".progress");
-    _this.modalBox = _this.stepBox.find(".modalAlert");
+  
+  var steps;
+  if (_this.retail) {
+    steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
+  } else {
+    steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
+  }
+  
+  _this.stepBox = $(".stepBox");
+  if (!_this.stepBox) return;
+  _this.expirationBox = $(".expiration");
+  _this.btns = $(".btns .btn");
+  _this.progressBox = $(".progress");
+  _this.modalBox = _this.stepBox.find(".modalAlert");
+  
+  _this.retailId = _this.stepBox.data("retail-id");
+  _this.type = _this.stepBox.data("type");
+  _this.retail = _this.type == "retail";
+  _this.admin = _this.type == "admin";
+  _this.web = !_this.retail && !_this.admin;
+  
+  var opts = {
+    lines: 13,
+    length: 20,
+    width: 10,
+    radius: 30,
+    trail: 60,
+    shadow: true,
+    color: "white"
+  };
+  _this.modalSpinner = new Spinner(opts);
+  
+  $(window).load(function () {
+    var progressSteps = _this.progressBox.find(".step");
+    var width = _this.progressBox.width() / (steps.length - 1);
+    progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
     
-    _this.retailId = _this.stepBox.data("retail-id");
-    _this.type = _this.stepBox.data("type");
-    _this.retail = _this.type == "retail";
-    _this.admin = _this.type == "admin";
-    _this.web = !_this.retail && !_this.admin;
+    $.each(steps, function (index, stepClass) {
+      stepClass.prototype = Step.prototype;
+      var step = new stepClass(_this);
+      _this.steps.push(step);
     
-    var steps;
-    if (_this.retail) {
-      steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
-    } else {
-      steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
-    }
-    
-    var opts = {
-      lines: 13,
-      length: 20,
-      width: 10,
-      radius: 30,
-      trail: 60,
-      shadow: true,
-      color: "white"
-    };
-    _this.modalSpinner = new Spinner(opts);
-    
-    $(window).load(function () {
-      var progressSteps = _this.progressBox.find(".step");
-      var width = _this.progressBox.width() / (steps.length - 1);
-      progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
-      
-      $.each(steps, function (index, stepClass) {
-        stepClass.prototype = Step.prototype;
-        var step = new stepClass(_this);
-        _this.steps.push(step);
-      
-        progressSteps.filter("." + step.name).show();
-      });
-      
-      _this.registerEvents();
-      _this.showNext(false);
-      _this.resetExpirationTimer();
+      progressSteps.filter("." + step.name).show();
     });
+    
+    _this.registerEvents();
+    _this.showNext(false);
+    _this.resetExpirationTimer();
   });
 }
 
 $(function () {
-  $("#cancelAction").click(function (event) {
-    $(this).hide().siblings("#cancelForm").show();
-    event.preventDefault();
-  });
+  if ($(".stepBox").length) {
+    new Ordering();
+  } else {  
+    $("#cancelAction").click(function (event) {
+      $(this).hide().siblings("#cancelForm").show();
+      event.preventDefault();
+    });
+    
+    var seatingBox = $(".seating");
+    $.getJSON(seatingBox.data("additional-path"), function (data) {
+      var seating = new Seating(seatingBox);
+      seating.initSeats(function (seat) {
+        var status = data.seats.indexOf(seat.id) != -1 ? Seat.Status.Chosen : Seat.Status.Taken;
+        seat.toggleNumber(true);
+        seat.setStatus(status);
+      });
+    });
+  }
 });

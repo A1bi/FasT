@@ -28,12 +28,14 @@ class CreateOrders < ActiveRecord::Migration
     
     bunch_attrs = %i(paid total number cancellation_id coupon_id created_at updated_at)
     web_attrs = %i(email first_name last_name gender phone plz pay_method)
-    classes = { "Ticketing::Web::Order" => :ticketing_web_orders }
+    classes = { "Ticketing::Web::Order" => :ticketing_web_orders, "Ticketing::Retail::Order" => :ticketing_retail_orders }
     
     tickets = exec_query("SELECT * FROM ticketing_tickets")
     
     exec_query("SELECT * FROM ticketing_bunches").each do |bunch|
       bunch.symbolize_keys!
+      next if bunch[:assignable_type].empty?
+      
       order = bunch[:assignable_type].constantize.new
       copy_attrs bunch_attrs, order, bunch
       
@@ -42,7 +44,7 @@ class CreateOrders < ActiveRecord::Migration
         if bunch[:assignable_type] == "Ticketing::Web::Order"
           copy_attrs web_attrs, order, old_order
         else
-          order.store_id = old_order.store_id
+          order.store_id = old_order[:store_id]
         end
       end
       
