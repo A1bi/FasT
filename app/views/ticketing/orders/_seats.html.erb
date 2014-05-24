@@ -4,7 +4,7 @@
   </div>
   <div class="additional">
     <% if !admin? || @reservation_groups.empty? %>
-      <p>Bitte scrollen (verschieben) Sie den Sitzplan nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
+      <p>Bitte verschieben Sie den Sitzplan durch Klicken und Ziehen nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
       <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
     <% else %>
       <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>

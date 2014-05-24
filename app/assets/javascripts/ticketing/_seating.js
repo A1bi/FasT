@@ -226,7 +226,7 @@ function SeatBlock(id, color, delegate) {
 function Seating(container) {
   this.container = container;
   this.maxCells = { x: 110, y: 80 };
-  this.grid = [this.container.width() / this.maxCells.x, this.container.height() / this.maxCells.y];
+  this.grid;
   this.stage = null;
   this.layers = {};
   this.seats = {};
@@ -303,18 +303,36 @@ function Seating(container) {
   this.stage = new Kinetic.Stage({
     container: planBox.get(0),
     width: planBox.width(),
-    height: planBox.height()
+    height: planBox.height(),
+    draggable: true,
+    dragBoundFunc: function (pos) {
+      return {
+        x: Math.min(0, Math.max(planBox.width() * -0.8, pos.x)),
+        y: 0
+      }
+    }
+  })
+  .on("dragstart", function () {
+    _this.setCursor("move");
+  })
+  .on("dragend", function () {
+    _this.setCursor();
   });
   
-  this.addLayer("seats");
+  this.grid = [this.stage.width() / this.maxCells.x, this.stage.height() / this.maxCells.y];
+  
+  this.addLayer("seats", {
+    width: this.stage.width() * 1.8,
+    height: this.stage.height()
+  });
   
   if (this.container.is(".stage")) {
-    var stageRectWidth = this.stage.width() * 0.8, stageRectHeight = 40;
+    var stageRectWidth = this.layers['seats'].width() * 0.8, stageRectHeight = 40;
     this.addLayer("stage", {
       width: stageRectWidth,
       height: stageRectHeight,
-      x: (this.stage.width() - stageRectWidth) / 2,
-      y: this.stage.height() - stageRectHeight - 20,
+      x: (this.layers['seats'].width() - stageRectWidth) / 2,
+      y: this.layers['seats'].height() - stageRectHeight - 20,
     });
     this.addToLayer("stage", new Kinetic.Rect({
       width: stageRectWidth,
@@ -333,6 +351,14 @@ function Seating(container) {
     }));
     this.drawLayer("stage");
   }
+  
+  this.background = this.addToLayer("seats", new Kinetic.Rect({
+    width: this.layers['seats'].width(),
+    height: this.layers['seats'].height(),
+    fillLinearGradientStartPoint: { x: 0, y: this.layers['seats'].height() * 0.4 },
+    fillLinearGradientEndPoint: { x: 50, y: this.layers['seats'].height() },
+    fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
+  }));
   
   Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawLayer("seats");
@@ -423,21 +449,18 @@ function SeatingEditor(container) {
     seat.updateStatus();
   });
   
-  this.addToLayer("seats", new Kinetic.Rect({
-    width: this.stage.width(),
-    height: this.stage.height()
-  }))
-  .on("click", function () {
+  this.background.on("click", function () {
     _this.clickedSeat();
   });
   
   this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
     draggable: true,
     dragBoundFunc: function (pos) {
+      var stagePos = _this.stage.position();
       return {
-        x: Math.floor(pos.x / _this.grid[0]) * _this.grid[0],
+        x: Math.floor((pos.x - stagePos.x) / _this.grid[0]) * _this.grid[0] + stagePos.x,
         y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
-      }
+      };
     }
   }))
   .on("dragend", function () {
