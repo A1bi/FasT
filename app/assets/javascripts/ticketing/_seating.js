@@ -197,9 +197,11 @@ Seat.Status = {
   Selected: 6
 };
 
-Seat.size = [19, 19];
-Seat.cacheOffset = [5, 5];
-Seat.cacheSize = [Seat.size[0] + Seat.cacheOffset[0] * 2, Seat.size[1] + Seat.cacheOffset[1] * 2];
+Seat.setSize = function (size) {
+  Seat.size = size;
+  Seat.cacheOffset = [5, 5];
+  Seat.cacheSize = [Seat.size[0] + Seat.cacheOffset[0] * 2, Seat.size[1] + Seat.cacheOffset[1] * 2];
+};
 
 Seat.statusShapes = {};
 Seat.statusShapeQueues = {};
@@ -225,7 +227,8 @@ function SeatBlock(id, color, delegate) {
 
 function Seating(container) {
   this.container = container;
-  this.maxCells = { x: 110, y: 80 };
+  this.maxCells = { x: 160, y: 80 };
+  this.sizeFactors = { x: 3.0, y: 3.5 };
   this.grid;
   this.stage = null;
   this.layers = {};
@@ -299,12 +302,13 @@ function Seating(container) {
   })
   .first().addClass("selected");
   
-  var planBox = container.find(".plan");
+  var isBig = this.container.is(".big");
+  var planBox = this.container.find(".plan");
   this.stage = new Kinetic.Stage({
     container: planBox.get(0),
     width: planBox.width(),
     height: planBox.height(),
-    draggable: true,
+    draggable: isBig,
     dragBoundFunc: function (pos) {
       return {
         x: Math.min(0, Math.max(planBox.width() * -0.8, pos.x)),
@@ -319,10 +323,8 @@ function Seating(container) {
     _this.setCursor();
   });
   
-  this.grid = [this.stage.width() / this.maxCells.x, this.stage.height() / this.maxCells.y];
-  
   this.addLayer("seats", {
-    width: this.stage.width() * 1.8,
+    width: this.stage.width() * ((isBig) ? 1.8 : 1),
     height: this.stage.height()
   });
   
@@ -352,13 +354,18 @@ function Seating(container) {
     this.drawLayer("stage");
   }
   
-  this.background = this.addToLayer("seats", new Kinetic.Rect({
-    width: this.layers['seats'].width(),
-    height: this.layers['seats'].height(),
-    fillLinearGradientStartPoint: { x: 0, y: this.layers['seats'].height() * 0.4 },
-    fillLinearGradientEndPoint: { x: 50, y: this.layers['seats'].height() },
-    fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
-  }));
+  if (this.container.is(".background")) {
+    this.background = this.addToLayer("seats", new Kinetic.Rect({
+      width: this.layers['seats'].width(),
+      height: this.layers['seats'].height(),
+      fillLinearGradientStartPoint: { x: 0, y: this.layers['seats'].height() * 0.4 },
+      fillLinearGradientEndPoint: { x: 50, y: this.layers['seats'].height() },
+      fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
+    }));
+  }
+  
+  this.grid = [this.layers['seats'].width() / this.maxCells.x, this.layers['seats'].height() / this.maxCells.y];
+  Seat.setSize([this.grid[0] * this.sizeFactors.x, this.grid[1] * this.sizeFactors.y]);
   
   Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawLayer("seats");

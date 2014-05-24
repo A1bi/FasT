@@ -108,7 +108,7 @@ module Ticketing
     def seats
       seats = []
       @order.tickets.each do |ticket|
-        seats << ticket.seat.id
+        seats << ticket.seat.id if !ticket.cancelled?
       end
       render json: { seats: seats }
     end
