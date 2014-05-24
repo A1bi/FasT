@@ -102,7 +102,7 @@ function Seat(id, block, number, pos, delegate) {
             image: image
           });
           for (var i = 0, numberOfSeats = shapeScope.statusShapeQueues[status].length; i < numberOfSeats; i++) {
-            shapeScope.statusShapeQueues[status][i]['updateStatus']();
+            shapeScope.statusShapeQueues[status][i]['updateStatusShape']();
           }
           delete shapeScope.statusShapeQueues[status];
           if (--Seat.statusShapesToRender < 1) {
@@ -120,7 +120,7 @@ function Seat(id, block, number, pos, delegate) {
     return this.getShapeScope().statusShapes[this.status];
   };
   
-  this.updateStatus = function () {
+  this.updateStatusShape = function () {
     if (!this.getStatusShape()) {
       this.renderStatusShape();
       return;
@@ -130,44 +130,30 @@ function Seat(id, block, number, pos, delegate) {
     this.shape = this.getStatusShape().clone();
     this.group.add(this.shape);
     this.shape.moveToBottom();
-    
-    if (this.text) {
-      var textColor;
-      if (this.status == Seat.Status.Chosen) {
-        textColor = "red";
-      } else {
-        textColor = "white";
-      }
-      this.text.fill(textColor);
+  };
+  
+  this.updateNumber = function () {
+    var textColor;
+    switch (this.status) {
+    case Seat.Status.PreChosen:
+    case Seat.Status.Chosen:
+      textColor = "red";
+      break;
+    default:
+      textColor = "white";
     }
+    this.text.fill(textColor);
   };
   
   this.setStatus = function (status) {
     if (this.status == status) return;
     this.status = status;
-    this.updateStatus();
+    this.updateStatusShape();
+    this.updateNumber();
   };
   
   this.toggleNumber = function (toggle) {
-    if (!toggle && this.text) {
-      this.text.hide();
-    } else if (toggle) {
-      if (!this.text) {
-        var fontSize = Seat.size[1] * 0.6;
-        this.text = new Kinetic.Text({
-          y: (Seat.cacheSize[1] - fontSize) / 2,
-          width: Seat.cacheSize[0],
-          fontSize: fontSize,
-          fontFamily: "Arial",
-          fill: "white",
-          align: "center",
-          text: number
-        });
-        this.group.add(this.text);
-      } else {
-        this.text.show();
-      }
-    }
+    this.text.visible(toggle);
   };
   
   
@@ -178,13 +164,26 @@ function Seat(id, block, number, pos, delegate) {
     height: Seat.size[1],
     name: "seat",
     seat: this
-  }).on("mousedown touchend", function () {
+  }).on("mouseup touchend", function () {
     if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
     if (_this.delegate.mouseOverSeat) _this.delegate.mouseOverSeat(_this);
   }).on("mouseout", function () {
     _this.delegate.setCursor();
   });
+  
+  var fontSize = Seat.size[1] * 0.6;
+  this.text = new Kinetic.Text({
+    y: (Seat.cacheSize[1] - fontSize) / 2,
+    width: Seat.cacheSize[0],
+    fontSize: fontSize,
+    fontFamily: "Arial",
+    fill: "white",
+    align: "center",
+    text: number,
+    visible: false
+  });
+  this.group.add(this.text);
 };
 
 Seat.Status = {
@@ -227,16 +226,16 @@ function SeatBlock(id, color, delegate) {
 
 function Seating(container) {
   this.container = container;
-  this.maxCells = { x: 160, y: 80 };
-  this.sizeFactors = { x: 3.0, y: 3.5 };
-  this.grid;
+  this.maxHorizontalGridCells = 150;
+  this.seatSizeFactor = 2.8;
+  this.gridCellSize;
   this.stage = null;
   this.layers = {};
   this.seats = {};
   var _this = this;
   
   this.getGridPos = function (pos) {
-    return { position_x: Math.round(pos.x / this.grid[0]), position_y: Math.round(pos.y / this.grid[1]) };
+    return { position_x: Math.round(pos.x / this.gridCellSize), position_y: Math.round(pos.y / this.gridCellSize) };
   };
   
   this.initSeats = function (seatCallback, afterCallback) {
@@ -249,7 +248,7 @@ function Seating(container) {
         
         for (var j = 0, sLength = blockInfo.seats.length; j < sLength; j++) {
           var seatInfo = blockInfo.seats[j];
-          var pos = [seatInfo.position[0] * _this.grid[0], seatInfo.position[1] * _this.grid[1]];
+          var pos = [seatInfo.position[0] * _this.gridCellSize, seatInfo.position[1] * _this.gridCellSize];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
           _this.seats[seatInfo.id] = seat;
           if (seatCallback) seatCallback(seat);
@@ -343,14 +342,14 @@ function Seating(container) {
       cornerRadius: 7
     }));
     var fontSize = stageRectHeight * 0.6;
-    this.addToLayer("stage", new Kinetic.Text({
-      x: stageRectWidth / 2,
+    var stageText = this.addToLayer("stage", new Kinetic.Text({
       y: (stageRectHeight - fontSize) / 2,
       text: "Bühne",
       fontSize: fontSize,
       fontFamily: "Qlassik",
       fill: "white"
     }));
+    stageText.position({ x: (stageRectWidth - stageText.width()) / 2 });
     this.drawLayer("stage");
   }
   
@@ -364,8 +363,8 @@ function Seating(container) {
     }));
   }
   
-  this.grid = [this.layers['seats'].width() / this.maxCells.x, this.layers['seats'].height() / this.maxCells.y];
-  Seat.setSize([this.grid[0] * this.sizeFactors.x, this.grid[1] * this.sizeFactors.y]);
+  this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
+  Seat.setSize([this.gridCellSize * this.seatSizeFactor, this.gridCellSize * this.seatSizeFactor]);
   
   Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawLayer("seats");
@@ -377,7 +376,7 @@ function SeatingStandalone(container) {
   
   this.initSeats(function (seat) {
     seat.toggleNumber(true);
-    seat.updateStatus();
+    seat.updateStatusShape();
   });
 };
 
@@ -453,10 +452,10 @@ function SeatingEditor(container) {
   
   this.initSeats(function (seat) {
     seat.toggleNumber(true);
-    seat.updateStatus();
+    seat.updateStatusShape();
   });
   
-  this.background.on("click", function () {
+  this.background.on("mouseup touchend", function () {
     _this.clickedSeat();
   });
   
@@ -465,8 +464,8 @@ function SeatingEditor(container) {
     dragBoundFunc: function (pos) {
       var stagePos = _this.stage.position();
       return {
-        x: Math.floor((pos.x - stagePos.x) / _this.grid[0]) * _this.grid[0] + stagePos.x,
-        y: Math.floor(pos.y / _this.grid[1]) * _this.grid[1]
+        x: Math.floor((pos.x - stagePos.x) / _this.gridCellSize) * _this.gridCellSize + stagePos.x,
+        y: Math.floor(pos.y / _this.gridCellSize) * _this.gridCellSize
       };
     }
   }))
