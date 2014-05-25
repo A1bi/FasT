@@ -2,6 +2,7 @@
 //= require ./base
 //= require node-validator/validator-min
 //= require spin.js/dist/spin.min
+//= require ./_printer
 
 function Step(name, delegate) {
   this.name = name;
@@ -549,6 +550,11 @@ function FinishStep(delegate) {
           infoBox.find(".number").text(orderInfo.tickets.length);
           infoBox.find("a.details").prop("href", detailsPath);
           
+          var printer = new TicketPrinter();
+          setTimeout(function () {
+            printer.printTicketsWithNotification(orderInfo.printable_path, true);
+          }, 2000);
+          
         } else if (this.delegate.web) {
           this.trackPiwikGoal(1, orderInfo.total);
         }
@@ -778,13 +784,6 @@ function Ordering() {
   };
   
   
-  var steps;
-  if (_this.retail) {
-    steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
-  } else {
-    steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
-  }
-  
   _this.stepBox = $(".stepBox");
   if (!_this.stepBox) return;
   _this.expirationBox = $(".expiration");
@@ -808,6 +807,13 @@ function Ordering() {
     color: "white"
   };
   _this.modalSpinner = new Spinner(opts);
+  
+  var steps;
+  if (_this.retail) {
+    steps = [DateStep, SeatsStep, ConfirmStep, FinishStep];
+  } else {
+    steps = [DateStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
+  }
   
   $(window).load(function () {
     var progressSteps = _this.progressBox.find(".step");
@@ -835,6 +841,12 @@ $(function () {
     $("#cancelAction").click(function (event) {
       $(this).hide().siblings("#cancelForm").show();
       event.preventDefault();
+    });
+    
+    var printer = new TicketPrinter();
+    $("a.print-tickets").click(function (event) {
+      event.preventDefault();
+      printer.printTicketsWithNotification($(this).data("printable-path"));
     });
     
     var seatingBox = $(".seating");

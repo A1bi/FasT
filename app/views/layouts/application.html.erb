@@ -92,6 +92,7 @@
 			</div>
 		</div>
 	</div>
+  <%= yield(:footer) %>
 	<% if Rails.env.production? %>
 		<% as_site = 6 %>
 		<% base_url = "http" + ((request.ssl?) ? "s" : "") + "://system.albisigns.de" + ((request.ssl?) ? ":442" : "") + "/" %>

@@ -1,0 +1,33 @@
+.print-notification {
+  position: absolute;
+  width: 600px;
+  left: 50%;
+  top: 650px;
+  margin-left: -300px;
+  padding: 17px;
+  display: none;
+  z-index: 99;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, .9);
+  color: white;
+  box-shadow: 1px 1px 5px black;
+  
+  .info {
+    padding-left: 60px;
+    
+    p {
+      font-size: 13px;
+      margin: 15px 0px 0px 0px;
+    }
+  
+    a {
+      color: white;
+    }
+  }
+  
+  .spinner {
+    position: absolute;
+    top: 46px;
+    left: 42px;
+  }  
+}

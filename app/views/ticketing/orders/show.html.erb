@@ -71,7 +71,11 @@
                   <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" %></div>
                 <% end %>
               <% end %>
-              <div><%= link_to "Tickets runterladen", @order.printable_path %></div>
+              <% if retail? %>
+                <div><%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { printable_path: @order.printable_path } %></div>
+              <% else %>
+                <div><%= link_to "Tickets runterladen", @order.printable_path %></div>
+              <% end %>
               <div>
                 <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
                 <div id="cancelForm">
@@ -177,3 +181,4 @@
     </tbody>
   </table>
 <% end %>
+<%= render "application/ticketing/print_notification" %>
