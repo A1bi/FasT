@@ -89,14 +89,13 @@ module Ticketing
     end
   
     def cancel
+      @order.admin_validations = true if @order.is_a?(Ticketing::Web::Order)
       @order.cancel(params[:reason])
       @order.log(:cancelled)
     
       seats = {}
       @order.tickets.each do |ticket|
-        ticket.cancellation = @order.cancellation
-        ticket.save
-        seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
+        seats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
       end
       NodeApi.update_seats(seats)
     

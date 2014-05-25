@@ -4,7 +4,7 @@ module Ticketing
 	
   	belongs_to :order, touch: true
   	belongs_to :type, class_name: TicketType
-    belongs_to :seat, touch: true
+    belongs_to :seat
   	belongs_to :date, class_name: EventDate
     has_random_unique_number :number, 6
     has_one :passbook_pass, class_name: Passbook::Records::Pass, as: :assignable, dependent: :destroy
@@ -13,7 +13,6 @@ module Ticketing
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
     
-    before_save :update_price
     after_save :create_passbook_pass
   
     def seat=(seat)
@@ -24,6 +23,11 @@ module Ticketing
     def date=(date)
       @check_reserved = true
       super date
+    end
+    
+    def type=(type)
+      super
+      self[:price] = type.price
     end
     
     def price
@@ -44,10 +48,6 @@ module Ticketing
       if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
       end
-    end
-    
-    def update_price
-      self[:price] = type.price
     end
     
     def create_passbook_pass

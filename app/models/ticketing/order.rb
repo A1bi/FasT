@@ -48,10 +48,20 @@ module Ticketing
       log(:marked_as_paid, nil)
     end
     
+    def cancel(reason)
+      super
+      tickets.each do |ticket|
+        ticket.cancellation = cancellation
+        ticket.save
+        self.total = total.to_f - ticket.price.to_f
+      end
+      save
+    end
+    
     private
     
     def added_ticket(ticket)
-      self.total = ticket.type.price.to_f + total.to_f
+      self.total = ticket.price.to_f + total.to_f
     end
     
     def after_create
