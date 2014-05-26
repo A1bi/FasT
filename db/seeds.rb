@@ -45,7 +45,7 @@ end
 
 ## ticket system
 # events
-event = Ticketing::Event.create({ name: "Test Jedermann", identifier: "jedermann" })
+event = Ticketing::Event.create({ name: "Test Don Camillo", identifier: "don_camillo" })
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)

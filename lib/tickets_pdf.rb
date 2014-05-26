@@ -14,7 +14,7 @@ class TicketsPDF < Prawn::Document
     puts @ticket_height
     page_size = @retail ? [TICKET_WIDTH, TICKET_HEIGHT] : "A4"
 
-    super page_size: page_size, page_layout: @retail ? :landscape : :portrait, margin: margin, info: {
+    super page_size: page_size, page_layout: :portrait, margin: margin, info: {
       Title:         t(:title),
       Author:        t(:author),
       Creator:       t(:creator),
@@ -25,7 +25,7 @@ class TicketsPDF < Prawn::Document
     fill_color "000000"
     stroke_color "000000"
     fonts = {}
-    [["avenir", "Avenir"], ["staccato", "Staccato"]].each do |font|
+    [["avenir", "Avenir"]].each do |font|
       fonts[font[1]] = { normal: Rails.root.join('app', 'assets', 'fonts', "#{font[0]}.ttf").to_s }
     end
     font_families.update(fonts)
@@ -52,48 +52,40 @@ class TicketsPDF < Prawn::Document
       start_new_page
     end
     
-    draw_single = Proc.new do
-      ticket_margin = 12
-      bounding_box([0, cursor - ticket_margin], width: TICKET_WIDTH, height: @ticket_height - ticket_margin * 2) do
-        indent(10, 10) do
-          text_indent = [35, 95]
-          line_width = 0.5
-          
-          header_line_cursor = draw_header line_width
-          bottom_info_height = 0
-          float do
-            bottom_info_height = draw_bottom_info_for_ticket ticket, text_indent.first, line_width
-          end
-          
-          float do
-            barcode_margin = 10
-            move_up header_line_cursor
-            bounding_box([bounds.width - text_indent.last, cursor - barcode_margin], width: text_indent.last, height: cursor - bottom_info_height - barcode_margin * 2) do
-              indent(30, 20) do
-                draw_barcode_for_ticket ticket
-              end
+    ticket_margin = 12
+    bounding_box([0, cursor - ticket_margin], width: TICKET_WIDTH, height: @ticket_height - ticket_margin * 2) do
+      indent(10, 10) do
+        text_indent = [35, 95]
+        line_width = 0.5
+        
+        header_line_cursor = draw_header line_width
+        bottom_info_height = 0
+        float do
+          bottom_info_height = draw_bottom_info_for_ticket ticket, text_indent.first, line_width
+        end
+        
+        float do
+          barcode_margin = 10
+          move_up header_line_cursor
+          bounding_box([bounds.width - text_indent.last, cursor - barcode_margin], width: text_indent.last, height: cursor - bottom_info_height - barcode_margin * 2) do
+            indent(30, 20) do
+              draw_barcode_for_ticket ticket
             end
           end
-          
-          move_down 5
-          indent(text_indent.first, text_indent.last) do
-            bounding_box([0, cursor], width: bounds.width, height: bounds.height) do
-              draw_event_info_for_date ticket.date
-              draw_seat_info ticket.seat
-              move_up 40
-              draw_ticket_type_info ticket.type
-            end
+        end
+        
+        move_down 15
+        indent(text_indent.first, text_indent.last) do
+          bounding_box([0, cursor], width: bounds.width, height: bounds.height) do
+            draw_event_info_for_date ticket.date
+            draw_seat_info ticket.seat
+            move_up 40
+            draw_ticket_type_info ticket.type
           end
         end
       end
       
       move_down ticket_margin
-    end
-    
-    if @retail
-      rotate(-90, origin: [140, 455], &draw_single)
-    else
-      draw_single.call
     end
     
     if cursor > bounds.height / 3 && !@retail
@@ -134,11 +126,10 @@ class TicketsPDF < Prawn::Document
     line_cursor
   end
 
-  def draw_event_info_for_date(date)    
-    font("Staccato", size: 40) do
-      pad(5) { text date.event.name }
-    end
-  
+  def draw_event_info_for_date(date)
+    svg File.read(Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")), at: [0, cursor], width: 370
+    
+    move_down 5
     font_size_name :normal do
       text (I18n.l date.date, format: t(:event_date_format))
     end
