@@ -13,7 +13,7 @@
       <tr>
         <% if @unsubmitted_charges.any? %>
           <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
-          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
+          <td><em>Einreichen derzeit noch nicht möglich.</em></td>
         <% else %>
           <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
         <% end %>
@@ -77,7 +77,7 @@
 <% end %>
 <% cache [:ticketing, :payments, :unpaid, :table, @orders[:unpaid]] do %>
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch do %>
-    <%= render "application/ticketing/orders_table", title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true, cache_key: [:payments, :unpaid] %>
+    <%= render "application/ticketing/orders_table", table_title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true, cache_key: [:payments, :unpaid] %>
     <%= render "index_submit", text: "als bezahlt markieren", orders: @orders[:unpaid] %>
   <% end %>
 <% end %>

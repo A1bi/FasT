@@ -67,4 +67,10 @@ class ApplicationController < ActionController::Base
   def reset_goto
     session.delete(:goto_after_login)
   end
+  
+  def render_cached_json(key, &block)
+    render json: (Rails.cache.fetch(key) do
+      yield.to_json
+    end)
+  end
 end

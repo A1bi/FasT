@@ -1,20 +1,22 @@
 class Api::SeatsController < ApplicationController
   def index
-    render json: {
-      blocks: Ticketing::Block.all.map do |block|
-        {
-          color: block.color,
-          name: block.name,
-          seats: block.seats.map do |seat|
-            {
-              id: seat.id,
-              number: seat.number,
-              position: [seat.position_x, seat.position_y]
-            }
-          end
-        }
-      end
-    }
+    render_cached_json [:api, :seats, :index, Ticketing::Seat.all] do
+      {
+        blocks: Ticketing::Block.all.map do |block|
+          {
+            color: block.color,
+            name: block.name,
+            seats: block.seats.map do |seat|
+              {
+                id: seat.id,
+                number: seat.number,
+                position: [seat.position_x, seat.position_y]
+              }
+            end
+          }
+        end
+      }
+    end
   end
   
   def availability

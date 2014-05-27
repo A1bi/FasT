@@ -136,6 +136,7 @@ FasT::Application.routes.draw do
           resources :orders, path: "", only: [:index, :show] do
             member do
               post :cancel
+              get :seats
             end
           end
         end

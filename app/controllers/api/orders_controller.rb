@@ -6,12 +6,10 @@ class Api::OrdersController < ApplicationController
     }
     
     info = params.require(:order)
-    retailId = params[:retailId]
-    if retailId.present?
-      type = :retail
-    else
-      type = (params[:type] || "").to_sym
-      type = :web if type == :admin && !@_member.admin?
+    retailId = params[:retailId].to_i
+    type = (params[:type] || "").to_sym
+    if type != :web && !((type == :admin && @_member.admin?) || (type == :retail && cookies.signed["_#{Rails.application.class.parent_name}_retail_store_id"] == retailId))
+      type = :web
     end
     
     order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new

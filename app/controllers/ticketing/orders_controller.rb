@@ -105,11 +105,11 @@ module Ticketing
     end
     
     def seats
-      seats = []
-      @order.tickets.each do |ticket|
-        seats << ticket.seat.id if !ticket.cancelled?
+      render_cached_json [:ticketing, :orders, :show, @order, @order.tickets] do
+        {
+          seats: @order.tickets.map { |t| t.seat.id if !t.cancelled? }.compact
+        }
       end
-      render json: { seats: seats }
     end
   
     private

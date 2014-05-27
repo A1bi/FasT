@@ -1,6 +1,6 @@
 module Ticketing
   class StatisticsController < BaseController
-    before_filter :fetch_stats
+    before_filter :fetch_stats, except: [:seats]
     before_filter :prepare_vars
     ignore_restrictions only: [:index_retail]
     
@@ -16,13 +16,15 @@ module Ticketing
     end
     
     def seats
-      render json: {
-        seats: Hash[Ticketing::Event.current.dates.map do |date|
-          [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map do |seat|
-            [seat.id, !seat.taken? ? 1 : 0]
-          end]]
-        end]
-      }
+      render_cached_json [:ticketing, :statistics, :seats, @dates, Ticketing::Seat.all, Ticketing::Ticket.all] do
+        {
+          seats: Hash[@dates.map do |date|
+            [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map do |seat|
+              [seat.id, !seat.taken? ? 1 : 0]
+            end]]
+          end]
+        }
+      end
     end
     
     private

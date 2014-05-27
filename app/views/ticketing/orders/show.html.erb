@@ -175,7 +175,7 @@
     <tbody>
       <tr>
         <td colspan="6">
-          <%= render "application/ticketing/seating", options: { data: { additional_path: seats_ticketing_order_path(@order.id) } } %>
+          <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } } %>
         </td>
       </tr>
     </tbody>
