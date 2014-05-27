@@ -15,10 +15,6 @@ class Api::OrdersController < ApplicationController
     order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     order.admin_validations = true if type == :admin
     
-    if retailId.present? && params[:web]
-      order.paid = true
-    end
-    
     seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
     if !seating[:ok]
       response[:errors] << "Seating error"

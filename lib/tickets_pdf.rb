@@ -31,6 +31,8 @@ class TicketsPDF < Prawn::Document
     font_families.update(fonts)
     font "Avenir"
     @font_sizes = { normal: 17, small: 14, tiny: 11 }
+    
+    fill_background
   end
   
   def add_order(order)
@@ -50,6 +52,7 @@ class TicketsPDF < Prawn::Document
   def draw_ticket(ticket)
     if (!@retail && cursor - @ticket_height < 0) || (@retail && @tickets_drawn > 0)
       start_new_page
+      fill_background
     end
     
     ticket_margin = 12
@@ -89,6 +92,7 @@ class TicketsPDF < Prawn::Document
     end
     
     if cursor > bounds.height / 3 && !@retail
+      move_down ticket_margin
       draw_cut_line
     end
   end
@@ -214,6 +218,13 @@ class TicketsPDF < Prawn::Document
     stroke
     undash
     move_up(cursor - tmpCursor)
+  end
+  
+  def fill_background
+    save_graphics_state do
+      fill_color "ffffff"
+      fill_rectangle [0, bounds.height], bounds.width, bounds.height
+    end
   end
   
   def t(key)

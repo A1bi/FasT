@@ -1,0 +1,86 @@
+<% ticket = info[:ticket] %>
+<% date = ticket.date.date.to_formatted_s(:w3c) %>
+{
+  "formatVersion": 1,
+  "description": "Ticket für das Theaterstück „Don Camillo und Peppone“",
+  "organizationName": "Freilichtbühne am schiefen Turm",
+  "passTypeIdentifier": "pass.de.theater-kaisersesch.FasT",
+  "serialNumber": "<%= ticket.number.to_s %>",
+  "groupingIdentifier" : "<%= ticket.order.number.to_s %>",
+  "teamIdentifier": "V48L6BF6M3",
+  "webServiceURL": "<%= api_passbook_root_url %>",
+  "relevantDate": "<%= date %>",
+  "locations": [
+    {
+      "latitude": 50.23089,
+      "longitude": 7.141626
+    }
+  ],
+  "eventTicket": {
+    "primaryFields": [
+      {
+        "key": "date",
+        "label": "Datum",
+        "value": "<%= date %>",
+        "dateStyle": "PKDateStyleFull"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "block",
+        "label": "Block",
+        "value": "<%= ticket.seat.block.name %>"
+      },
+      {
+        "key": "seat",
+        "label": "Sitzplatz",
+        "value": "<%= ticket.seat.number %>",
+        "textAlignment": "PKTextAlignmentLeft"
+      },
+      {
+        "key": "opens",
+        "label": "Einlass",
+        "value": "<%= (ticket.date.date - 1.hour).to_formatted_s(:w3c) %>",
+        "timeStyle": "PKDateStyleShort"
+      },
+      {
+        "key": "time",
+        "label": "Beginn",
+        "value": "<%= date %>",
+        "timeStyle": "PKDateStyleShort"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "location",
+        "label": "Ort",
+        "value": "Historischer Ortskern, Kaisersesch"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "locationAdress",
+        "label": "Adresse der Spielstätte",
+        "value": "Burgstraße 1, 56759 Kaisersesch\n\nEine Karte mit Parkmöglichkeiten finden Sie auf unserer Website unter \"Informationen\"."
+      },
+      {
+        "key": "website",
+        "label": "Website",
+        "value": "<%= root_url %>"
+      },
+      {
+        "key": "hotline",
+        "label": "Hotline",
+        "value": "(02653) 28 27 09"
+      },
+      {
+        "key": "order",
+        "label": "Ihre Bestellnummer",
+        "value": "<%= ticket.order.number %>"
+      }
+    ]
+  },
+  "backgroundColor": "rgb(0, 0, 0)",
+  "foregroundColor": "rgb(255, 247, 178)",
+  "labelColor": "rgb(209, 10 ,17)"
+}
