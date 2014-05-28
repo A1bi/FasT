@@ -75,6 +75,15 @@ FasT::Application.routes.draw do
     end
     
     namespace :ticketing, path: "" do
+      
+      concern :ticketable do
+        resource :tickets, only: [] do
+          collection do
+            patch "bearbeiten", action: :edit_multiple, as: :edit
+          end
+        end
+      end
+      
       scope path: "vorverkauf" do
         controller :statistics, path: "statistik", as: :statistics do
           get "/", action: :index
@@ -89,7 +98,7 @@ FasT::Application.routes.draw do
               post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
             end
           end
-          resources :orders, path: "", only: [:index, :show] do
+          resources :orders, path: "", only: [:index, :show], concerns: :ticketable do
             member do
               post :send_pay_reminder
               patch :mark_as_paid
@@ -133,7 +142,7 @@ FasT::Application.routes.draw do
               get "neu", action: :new_retail, as: :new
             end
           end
-          resources :orders, path: "", only: [:index, :show] do
+          resources :orders, path: "", only: [:index, :show], concerns: :ticketable do
             member do
               post :cancel
               get :seats

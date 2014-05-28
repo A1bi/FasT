@@ -843,6 +843,11 @@ $(function () {
       event.preventDefault();
     });
     
+    $("td.actions select[name=edit_action]").click(function () {
+      $this = $(this);
+      $this.parents("td").find(".reason").toggle($this.val() == "cancel");
+    });
+    
     var printer = new TicketPrinter();
     $("a.print-tickets").click(function (event) {
       event.preventDefault();

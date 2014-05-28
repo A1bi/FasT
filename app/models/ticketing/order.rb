@@ -2,12 +2,13 @@ module Ticketing
   class Order < BaseModel
   	include Loggable, Cancellable, RandomUniqueAttribute
 	
-  	has_many :tickets, after_add: :added_ticket, dependent: :destroy
+  	has_many :tickets, dependent: :destroy
     has_random_unique_number :number, 6
     belongs_to :coupon, touch: true
 	
   	validates_length_of :tickets, minimum: 1
     
+    before_save :before_save
     before_create :before_create
     after_create :after_create
     
@@ -45,28 +46,39 @@ module Ticketing
       self.paid = true
       save
       
-      log(:marked_as_paid, nil)
+      log(:marked_as_paid)
     end
     
     def cancel(reason)
       super
       tickets.each do |ticket|
-        ticket.cancellation = cancellation
-        ticket.save
-        self.total = total.to_f - ticket.price.to_f
+        ticket.cancel(cancellation)
       end
+      update_total
+      save
+    end
+    
+    def cancel_tickets(tickets, reason)
+      cancellation = nil
+      tickets.each do |ticket|
+        ticket.cancel(cancellation || reason)
+        cancellation = ticket.cancellation if cancellation.nil?
+      end
+      self.cancellation = cancellation if cancellation && self.tickets.cancelled(false).count.zero?
+      log(:tickets_cancelled, { count: tickets.count, reason: reason })
+      update_total
       save
     end
     
     private
     
-    def added_ticket(ticket)
-      self.total = ticket.price.to_f + total.to_f
-    end
-    
     def after_create
       log(:created)
       create_printable
+    end
+    
+    def before_save
+      update_total
     end
     
     def before_create
@@ -84,6 +96,13 @@ module Ticketing
       pdf = TicketsPDF.new(true)
       pdf.add_order self
       pdf.render_file(printable_path(true))
+    end
+    
+    def update_total
+      self[:total] = 0
+      tickets.each do |ticket|
+        self[:total] = total.to_f + ticket.price.to_f if !ticket.cancelled?
+      end
     end
   end
 end

@@ -11,6 +11,11 @@ class Ticketing::LogEvent < ActiveRecord::Base
     @@member = member
   end
   
+  def info
+    return {} if self[:info].is_a?(Array) || self[:info].nil?
+    super
+  end
+  
   private
   
   def update_member

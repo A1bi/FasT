@@ -6,7 +6,7 @@ module Ticketing
       has_many :log_events, as: :loggable, dependent: :destroy
     end
     
-    def log(event, info = [])
+    def log(event, info = nil)
       log_events.create({ name: event, info: info })
     end
   end

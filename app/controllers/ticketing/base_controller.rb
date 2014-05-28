@@ -49,4 +49,12 @@ class Ticketing::BaseController < ApplicationController
     send(action.to_s + "_path", params)
   end
   helper_method :orders_path
+  
+  def update_node_seats_from_tickets(tickets)
+    seats = {}
+    tickets.each do |ticket|
+      seats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
+    end
+    NodeApi.update_seats(seats)
+  end
 end

@@ -8,7 +8,11 @@ module Ticketing
 		
     def cancel(reason)
       return if cancelled?
-      create_cancellation({ reason: reason })
+      if reason.is_a? Ticketing::Cancellation
+        self.cancellation = reason
+      else
+        create_cancellation({ reason: reason })
+      end
       save
     end
 

@@ -130,7 +130,7 @@
       <% else %>
         <% events.each do |event| %>
           <tr>
-            <td><%= t event.name, scope: (scope + [:log_events]) %></td>
+            <td><%= t event.name, { scope: (scope + [:log_events]) }.merge(event.info) %></td>
             <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
             <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           </tr>
@@ -140,45 +140,58 @@
   </table>
 <% end %>
 <% cache [:ticketing, :orders, @order, @order.tickets] do %>
-  <table class="rounded entries details">
-    <thead>
-      <tr>
-        <th colspan="6">In der Bestellung enthaltene Tickets</th>
-      </tr>
-      <tr>
-        <th>Nummer</th>
-        <th>Kategorie</th>
-        <th>Preis</th>
-        <th>Aufführung</th>
-        <th>Block</th>
-        <th>Sitz</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @order.tickets.each do |ticket| %>
-        <% classes = :cancelled if ticket.cancelled? %>
-        <%= content_tag_for :tr, ticket, class: classes do %>
-          <td class="number"><%= ticket.number %></td>
-          <td class="name"><%= ticket.type.name %></td>
-          <td class="amount"><%= number_to_currency ticket.type.price %></td>
-          <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
-          <td><%= ticket.seat.block.name %></td>
-          <td><%= ticket.seat.number %></td>
+  <%= form_tag orders_path(:edit_ticketing_order_tickets, @order), method: :patch do %>
+    <table class="rounded entries details">
+      <thead>
+        <tr>
+          <th colspan="7">In der Bestellung enthaltene Tickets</th>
+        </tr>
+        <tr>
+          <th class="checkbox"><%= check_box_tag "tickets_all[]" %></th>
+          <th>Nummer</th>
+          <th>Kategorie</th>
+          <th>Preis</th>
+          <th>Aufführung</th>
+          <th>Block</th>
+          <th>Sitz</th>
+        </tr>
+      </thead>
+      <tbody class="hover">
+        <% @order.tickets.each do |ticket| %>
+          <% classes = :cancelled if ticket.cancelled? %>
+          <%= content_tag_for :tr, ticket, class: classes do %>
+            <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
+            <td class="number"><%= ticket.number %></td>
+            <td class="name"><%= ticket.type.name %></td>
+            <td class="amount"><%= number_to_currency ticket.type.price %></td>
+            <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
+            <td><%= ticket.seat.block.name %></td>
+            <td><%= ticket.seat.number %></td>
+          <% end %>
         <% end %>
-      <% end %>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="6">Sitzplätze</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="6">
-          <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } } %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      </tbody>
+      <tbody>
+        <tr>
+          <td colspan="7" class="actions">
+            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel, "umbuchen" => :transfer }), disabled: true %>
+            <span class="reason">Grund: <%= text_field_tag :reason %></span>
+            <%= submit_tag :ok, disabled: true %>
+          </td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <th colspan="7">Sitzplätze</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } } %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
 <% end %>
 <%= render "application/ticketing/print_notification" %>

@@ -70,6 +70,9 @@ de:
         approved: "Bestellung als geprüft markiert"
         charge_submitted: "Lastschrift bei der Bank eingereicht"
         cancelled: "Gesamte Bestellung storniert"
+        tickets_cancelled:
+          one: "Ein Ticket storniert (Grund: %{reason})"
+          other: "%{count} Tickets storniert (Grund: %{reason})"
         resent_tickets: "Tickets erneut zugesendet"
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."

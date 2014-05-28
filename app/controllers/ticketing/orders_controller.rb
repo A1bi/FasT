@@ -93,11 +93,7 @@ module Ticketing
       @order.cancel(params[:reason])
       @order.log(:cancelled)
     
-      seats = {}
-      @order.tickets.each do |ticket|
-        seats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
-      end
-      NodeApi.update_seats(seats)
+      update_node_seats_from_tickets(@order.tickets)
     
       OrderMailer.cancellation(@order).deliver
     
