@@ -16,6 +16,10 @@ module Ticketing
       self[:total] || 0
     end
     
+    def number
+      "1#{self[:number]}"
+    end
+    
     def printable_path(full = false)
       File.join(tickets_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
     end

@@ -34,6 +34,10 @@ module Ticketing
       self[:price] || 0
     end
     
+    def number
+      "7#{self[:number]}"
+    end
+    
     def can_check_in?
       !checked_in?
     end

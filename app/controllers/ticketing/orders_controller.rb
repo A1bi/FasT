@@ -93,7 +93,7 @@ module Ticketing
       @order.cancel(params[:reason])
       @order.log(:cancelled)
     
-      update_node_seats_from_tickets(@order.tickets)
+      NodeApi.update_seats_from_tickets(@order.tickets)
     
       OrderMailer.cancellation(@order).deliver
     
@@ -124,7 +124,7 @@ module Ticketing
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seatingId], seats: seats }) if seats.any? || even_if_empty
+      NodeApi.seating_request("setExclusiveSeats", { seats: seats }, params[:seatingId]) if seats.any? || even_if_empty
       seats
     end
   

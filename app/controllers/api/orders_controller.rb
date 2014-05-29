@@ -64,23 +64,25 @@ class Api::OrdersController < ApplicationController
       order.store = Ticketing::Retail::Store.find_by_id(retailId)
     end
     
-    if order.save
-      if type == :web && params[:newsletter].present?
-        Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
+    Ticketing::Order.transaction do
+      begin
+        if order.save
+          if type == :web && params[:newsletter].present?
+            Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
+          end
+    
+          NodeApi.update_seats_from_tickets(order.tickets)
+    
+          coupon_assignments.each { |a| a.save }
+    
+          response[:ok] = true
+          response[:order] = order.api_hash
+        else
+          response[:errors] << "Invalid order"
+        end
+      rescue
+        response[:errors] << "Internal error"
       end
-      
-      seats = {}
-      order.tickets.each do |ticket|
-        seats.deep_merge! ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]]
-      end
-      NodeApi.update_seats(seats)
-      
-      coupon_assignments.each { |a| a.save }
-      
-      response[:ok] = true
-      response[:order] = order.api_hash
-    else
-      response[:errors] << "Unknown error"
     end
     
     render json: response

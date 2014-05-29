@@ -70,14 +70,10 @@ $(function () {
       if (el.find("b").length) break;
     }
     
-    var classToAdd = "";
-    if (v < 8) {
-      classToAdd = "unsupportedBrowser";
+    if (v < 9) {
+      $("html").addClass("unsupportedBrowser");
       $.getScript("/assets/unsupported_browser.js");
-    } else if (v == 8) {
-      classToAdd = "ie8";
     }
-    $("html").addClass(classToAdd);
   }
   
   el.remove();

@@ -11,7 +11,7 @@ module Ticketing
         @order.cancel_tickets(@tickets, params[:reason])
       end
       
-      update_node_seats_from_tickets(@tickets)
+      NodeApi.update_seats_from_tickets(@tickets)
       
       redirect_to_order_details :cancelled
     end

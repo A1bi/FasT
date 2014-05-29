@@ -34,8 +34,9 @@ class NodeApi
     make_request("push", data)
   end
   
-  def self.seating_request(action, info)
+  def self.seating_request(action, info, client_id = nil)
     info[:action] = action
+    info[:clientId] = client_id if client_id
     make_request("seating", info)
   end
   
@@ -43,7 +44,11 @@ class NodeApi
     seating_request("updateSeats", { seats: seats })
   end
   
-  def self.push_to_retail_checkout(action, retailId, info = nil)
-    push(action, ["retailCheckout"], [retailId], info)
+  def self.update_seats_from_tickets(tickets)
+    seats = {}
+    tickets.each do |ticket|
+      seats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
+    end
+    NodeApi.update_seats(seats)
   end
 end
