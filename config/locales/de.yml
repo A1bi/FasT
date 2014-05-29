@@ -59,6 +59,11 @@ de:
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
   ticketing:
     orders:
+      marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
+      approved: "Die Bestellung wurde als geprüft markiert."
+      cancelled: "Die Bestellung wurde erfolgreich storniert."
+      resent_tickets: "Die Tickets wurden dem Käufer erneut zugesandt."
+      sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesandt."
       pay_methods:
         charge: "SEPA-Lastschrift"
         transfer: "Überweisung"
@@ -74,6 +79,10 @@ de:
           one: "Ein Ticket storniert (Grund: %{reason})"
           other: "%{count} Tickets storniert (Grund: %{reason})"
         resent_tickets: "Tickets erneut zugesendet"
+    tickets:
+      cancelled:
+        one: "Ein Ticket wurde erfolgreich storniert."
+        other: "%{count} Tickets wurden erfolgreich storniert."
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."

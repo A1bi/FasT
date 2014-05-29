@@ -13,13 +13,13 @@ module Ticketing
       
       update_node_seats_from_tickets(@tickets)
       
-      redirect_to_order_details
+      redirect_to_order_details :cancelled
     end
   
     private
   
-    def redirect_to_order_details
-      redirect_to orders_path(:ticketing_order, params[:order_id])
+    def redirect_to_order_details(notice)
+      redirect_to orders_path(:ticketing_order, params[:order_id]), notice: t("ticketing.tickets.#{notice}", count: @tickets.count)
     end
   
     def find_tickets

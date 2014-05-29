@@ -6,7 +6,7 @@
 <% overview = [
   ["Nummer", "<b>#{@order.number}</b>"],
   ["aufgegeben", l(@order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
-  ["Tickets", @order.tickets.count],
+  ["Tickets", @order.tickets.cancelled(false).count],
   ["Gesamtbetrag", number_to_currency(@order.total)],
   ["bezahlt", @order.paid ? "ja" : "nein"],
   ["Gutschein", @order.coupon ? link_to(@order.coupon.recipient, @order.coupon) : content_tag(:em, "keiner", class: :small)]

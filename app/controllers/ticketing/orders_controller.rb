@@ -70,22 +70,22 @@ module Ticketing
   
     def mark_as_paid
       @order.mark_as_paid if !@order.cancelled?
-      redirect_to_order_details
+      redirect_to_order_details :marked_as_paid
     end
   
     def approve
       @order.approve if !@order.cancelled?
-      redirect_to_order_details
+      redirect_to_order_details :approved
     end
   
     def send_pay_reminder
       @order.send_pay_reminder if @order.is_a?(Ticketing::Web::Order) && !@order.cancelled?
-      redirect_to_order_details
+      redirect_to_order_details :sent_pay_reminder
     end
   
     def resend_tickets
       @order.resend_tickets if @order.is_a? Ticketing::Web::Order
-      redirect_to_order_details
+      redirect_to_order_details :resent_tickets
     end
   
     def cancel
@@ -97,7 +97,7 @@ module Ticketing
     
       OrderMailer.cancellation(@order).deliver
     
-      redirect_to_order_details
+      redirect_to_order_details :cancelled
     end
     
     def seats
@@ -128,7 +128,8 @@ module Ticketing
       seats
     end
   
-    def redirect_to_order_details
+    def redirect_to_order_details(notice = nil)
+      flash[:notice] = t(notice, scope: [:ticketing, :orders]) if notice
       redirect_to orders_path(:ticketing_order, @order)
     end
   

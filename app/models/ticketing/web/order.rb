@@ -11,7 +11,6 @@ module Ticketing
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
   
-    before_validation :before_validation, on: :create
     after_create :send_confirmation
     
     def send_pay_reminder
@@ -55,10 +54,8 @@ module Ticketing
     private
     
     def before_validation
-      if charge?
-        self.paid = true
-        update_charge_amount
-      end
+      super
+      self.paid = true if charge?
     end
     
     def update_charge_amount

@@ -8,7 +8,7 @@ module Ticketing
 	
   	validates_length_of :tickets, minimum: 1
     
-    before_save :before_save
+    before_validation :before_validation
     before_create :before_create
     after_create :after_create
     
@@ -77,7 +77,7 @@ module Ticketing
       create_printable
     end
     
-    def before_save
+    def before_validation
       update_total
     end
     
@@ -99,9 +99,9 @@ module Ticketing
     end
     
     def update_total
-      self[:total] = 0
+      self.total = 0
       tickets.each do |ticket|
-        self[:total] = total.to_f + ticket.price.to_f if !ticket.cancelled?
+        self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
       end
     end
   end

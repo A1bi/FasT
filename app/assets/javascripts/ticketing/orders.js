@@ -23,9 +23,11 @@ function Step(name, delegate) {
     }
     return this;
   };
+  this.validator.upperStrip = function () {
+    return this.str.toUpperCase().replace(/ /g, "");
+  };
   this.validator.isIBAN = function () {
-    var iban = this.str.toUpperCase().replace(" ", "", "g");
-    var parts = iban.match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
+    var parts = this.upperStrip().match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
     var ok = true;
     if (parts) {
       if (parts[1] == "DE") {
@@ -50,8 +52,7 @@ function Step(name, delegate) {
     return this;
   };
   this.validator.isBIC = function () {
-    var bic = this.str.toUpperCase().replace(" ", "", "g");
-    if (!bic.match(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2,5}$/)) {
+    if (!this.upperStrip().match(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2,5}$/)) {
       return this.error(this.msg || 'Invalid BIC');
     }
     return this;
