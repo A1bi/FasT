@@ -80,6 +80,8 @@ FasT::Application.routes.draw do
         resource :tickets, only: [] do
           collection do
             patch "bearbeiten", action: :edit_multiple, as: :edit
+            post :init_transfer
+            patch :transfer
           end
         end
       end

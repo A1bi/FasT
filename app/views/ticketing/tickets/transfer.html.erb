@@ -1,0 +1,16 @@
+<% title "Tickets umbuchen" %>
+<% include_js "ticketing/tickets" %>
+<% include_css "ticketing/tickets" %>
+<div class="hl">Tickets umbuchen</div>
+<%= content_tag :div, class: :transfer, data: { tickets: @tickets.map { |t| t.id }, init_path: orders_path(:init_transfer_ticketing_order_tickets, @order), update_path: orders_path(:transfer_ticketing_order_tickets, @order), order_path: orders_path(:ticketing_order, @order) } do %>
+  <div class="date">
+    Aufführung: <%= select_tag :date, options_for_select(@tickets.first.date.event.dates.map do |date|
+    [l(date.date, format: "%A, den %d. %B um %H.%M Uhr"), date.id]
+  end, @tickets.first.date.id) %>
+  </div>
+  <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background] }, view_chooser: true, error_box: true %>
+  <div class="submit">
+    <%= button_tag "abbrechen" %> 
+    <%= button_tag "umbuchen", data: { confirm: "Möchten Sie die Tickets wirklich umbuchen?" } %>
+  </div>
+<% end %>

@@ -9,11 +9,43 @@ module Ticketing
       case params[:edit_action].to_sym
       when :cancel
         @order.cancel_tickets(@tickets, params[:reason])
+        NodeApi.update_seats_from_tickets(@tickets)
+        redirect_to_order_details :cancelled
+      when :transfer
+        render :transfer
+      end      
+    end
+    
+    def init_transfer
+      seats = {}
+      @tickets.each do |ticket|
+        (seats[ticket.date.id] ||= []) << ticket.seat.id
       end
-      
-      NodeApi.update_seats_from_tickets(@tickets)
-      
-      redirect_to_order_details :cancelled
+      res = NodeApi.seating_request("setOriginalSeats", { seats: seats }, params[:seatingId])
+      render json: { ok: res[:ok] }
+    end
+    
+    def transfer
+      ok = true
+      seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seatingId] }).body
+      chosenSeats = seating[:seats]
+      if seating[:ok] && @tickets.count == chosenSeats.count
+        date = Ticketing::EventDate.find(params[:date_id])
+        updatedSeats = {}
+        @tickets.each do |ticket|
+          seat = Ticketing::Seat.find(chosenSeats.shift)
+          updatedSeats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
+          updatedSeats.deep_merge!({ date.id => Hash[[seat.node_hash(date.id)]] })
+          ticket.seat = seat
+          ticket.date = date
+          ticket.save
+        end
+        NodeApi.update_seats(updatedSeats)
+        flash[:notice] = t("ticketing.tickets.transferred", count: @tickets.count)
+      else
+        ok = false
+      end
+      render json: { ok: ok }
     end
   
     private

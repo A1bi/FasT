@@ -83,6 +83,9 @@ de:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
         other: "%{count} Tickets wurden erfolgreich storniert."
+      transferred:
+        one: "Das Ticket wurde erfolgreich umgebucht."
+        other: "Die Tickets wurden erfolgreich umgebucht."
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
