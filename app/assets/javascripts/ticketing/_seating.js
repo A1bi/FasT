@@ -164,7 +164,7 @@ function Seat(id, block, number, pos, delegate) {
     height: Seat.size[1],
     name: "seat",
     seat: this
-  }).on("mouseup touchend", function () {
+  }).on("click touchend", function () {
     if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
   }).on("mouseover", function () {
     if (_this.delegate.mouseOverSeat) _this.delegate.mouseOverSeat(_this);
@@ -322,18 +322,19 @@ function Seating(container) {
     _this.setCursor();
   });
   
+  var drawStage = this.container.is(".stage");
   this.addLayer("seats", {
     width: this.stage.width() * ((isBig) ? 1.8 : 1),
-    height: this.stage.height()
+    height: this.stage.height() - ((drawStage) ? 120 : 0)
   });
   
-  if (this.container.is(".stage")) {
-    var stageRectWidth = this.layers['seats'].width() * 0.8, stageRectHeight = 40;
+  if (drawStage) {
+    var stageRectWidth = this.layers['seats'].width() * 0.9, stageRectHeight = 40;
     this.addLayer("stage", {
       width: stageRectWidth,
       height: stageRectHeight,
       x: (this.layers['seats'].width() - stageRectWidth) / 2,
-      y: this.layers['seats'].height() - stageRectHeight - 20,
+      y: this.stage.height() - stageRectHeight - 20,
     });
     this.addToLayer("stage", new Kinetic.Rect({
       width: stageRectWidth,
@@ -356,7 +357,7 @@ function Seating(container) {
   if (this.container.is(".background")) {
     this.background = this.addToLayer("seats", new Kinetic.Rect({
       width: this.layers['seats'].width(),
-      height: this.layers['seats'].height(),
+      height: this.stage.height(),
       fillLinearGradientStartPoint: { x: 0, y: this.layers['seats'].height() * 0.4 },
       fillLinearGradientEndPoint: { x: 50, y: this.layers['seats'].height() },
       fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
@@ -434,17 +435,26 @@ function SeatingEditor(container) {
   };
   
   this.clickedSeat = function (seat) {
-    if (this.selectedSeats.indexOf(seat) != -1) return;
-    if (!this.selecting) {
-      for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
-        this.selectedSeats[i].setSelected(false);
+    var index = this.selectedSeats.indexOf(seat);
+    var selected = false, cursor;
+    if (index != -1 && this.selecting) {
+      this.selectedSeats.splice(index, 1);
+    } else {
+      if (!this.selecting) {
+        for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
+          this.selectedSeats[i].setSelected(false);
+        }
+        this.selectedSeats.length = 0;
       }
-      this.selectedSeats.length = 0;
+      if (seat) {
+        this.selectedSeats.push(seat);
+        selected = true;
+        cursor = "move";
+      }
     }
     if (seat) {
-      seat.setSelected(true);
-      this.selectedSeats.push(seat);
-      this.setCursor("move");
+      seat.setSelected(selected);
+      this.setCursor(cursor);
     }
     this.updateSelectedSeats();
   };
