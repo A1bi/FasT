@@ -173,7 +173,7 @@
       <tbody>
         <tr>
           <td colspan="7" class="actions">
-            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel, "umbuchen" => :transfer }), disabled: true %>
+            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel }), disabled: true %>
             <span class="reason">Grund: <%= text_field_tag :reason %></span>
             <%= submit_tag :ok, disabled: true %>
           </td>

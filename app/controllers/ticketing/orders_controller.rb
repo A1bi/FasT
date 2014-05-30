@@ -58,8 +58,10 @@ module Ticketing
       types.last.last << [:where, { store: @_retail_store }] if retail?
       @orders = {}
       types.each do |type|
+        table = type[1]::Order.arel_table
         @orders[type[0]] = type[1]::Order
           .includes(:tickets)
+          .where(table[:created_at].gt(Time.now - 1.month))
           .order(created_at: :desc)
           .limit(20)
         type[2].each do |additional|
