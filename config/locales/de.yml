@@ -64,6 +64,7 @@ de:
       cancelled: "Die Bestellung wurde erfolgreich storniert."
       resent_tickets: "Die Tickets wurden dem Käufer erneut zugesandt."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesandt."
+      not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       pay_methods:
         charge: "SEPA-Lastschrift"
         transfer: "Überweisung"
@@ -216,6 +217,9 @@ de:
     email: "e-mail-Adresse"
     first_name: "Vorname"
     last_name: "Nachname"
+  time:
+    formats:
+      long: "%d. %B um %H.%M Uhr"
   date:
     month_names:
       - 
