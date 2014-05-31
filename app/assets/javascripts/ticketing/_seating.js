@@ -40,7 +40,6 @@ function Seat(id, block, number, pos, delegate) {
     var defaultOptions = {
       width: Seat.size[0],
       height: Seat.size[1],
-      fill: this.block.color,
       strokeEnabled: false,
       stroke: "white",
       dash: [0],
@@ -51,6 +50,7 @@ function Seat(id, block, number, pos, delegate) {
       shadowOffset: [1, 1],
       shadowBlur: 3
     };
+    if (this.block) defaultOptions['fill'] = this.block.color;
     
     var options;
     switch (this.status) {
@@ -164,13 +164,16 @@ function Seat(id, block, number, pos, delegate) {
     height: Seat.size[1],
     name: "seat",
     seat: this
-  }).on("click touchend", function () {
-    if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
-  }).on("mouseover", function () {
-    if (_this.delegate.mouseOverSeat) _this.delegate.mouseOverSeat(_this);
-  }).on("mouseout", function () {
-    _this.delegate.setCursor();
   });
+  if (this.delegate) {
+    this.group.on("click touchend", function () {
+      if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
+    }).on("mouseover", function () {
+      if (_this.delegate.mouseOverSeat) _this.delegate.mouseOverSeat(_this);
+    }).on("mouseout", function () {
+      _this.delegate.setCursor();
+    });
+  }
   
   var fontSize = Seat.size[1] * 0.6;
   this.text = new Kinetic.Text({
@@ -309,10 +312,12 @@ function Seating(container) {
     height: planBox.height(),
     draggable: isBig,
     dragBoundFunc: function (pos) {
-      return {
+      var newPos = {
         x: Math.min(0, Math.max(planBox.width() * -0.8, pos.x)),
         y: 0
-      }
+      };
+      if (_this.layers['key']) _this.layers['key'].position({ x: -newPos.x + _this.layers['key'].getAttr("originalX") });
+      return newPos;
     }
   })
   .on("dragstart", function () {
@@ -323,18 +328,33 @@ function Seating(container) {
   });
   
   var drawStage = this.container.is(".stage");
+  var drawKey = this.container.is(".key");
+  var seatsLayerHeight = this.stage.height();
+  var stageRectHeight = 0;
+  var keyRectHeight = 0;
+  if (drawStage) {
+    stageRectHeight = 40;
+    seatsLayerHeight -= 120;
+  }
+  if (drawKey) {
+    keyRectHeight = 55;
+    seatsLayerHeight -= keyRectHeight;
+  }
   this.addLayer("seats", {
     width: this.stage.width() * ((isBig) ? 1.8 : 1),
-    height: this.stage.height() - ((drawStage) ? 120 : 0)
+    height: seatsLayerHeight
   });
   
+  this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
+  Seat.setSize([this.gridCellSize * this.seatSizeFactor, this.gridCellSize * this.seatSizeFactor]);
+  
   if (drawStage) {
-    var stageRectWidth = this.layers['seats'].width() * 0.9, stageRectHeight = 40;
+    var stageRectWidth = this.layers['seats'].width() * 0.95;
     this.addLayer("stage", {
       width: stageRectWidth,
       height: stageRectHeight,
       x: (this.layers['seats'].width() - stageRectWidth) / 2,
-      y: this.stage.height() - stageRectHeight - 20,
+      y: this.stage.height() - stageRectHeight - keyRectHeight - 20,
     });
     this.addToLayer("stage", new Kinetic.Rect({
       width: stageRectWidth,
@@ -354,6 +374,88 @@ function Seating(container) {
     this.drawLayer("stage");
   }
   
+  if (drawKey) {
+    var keyRectWidth = this.stage.width() * 0.8;
+    keyRectHeight -= 20;
+    this.addLayer("key", {
+      width: keyRectWidth,
+      height: keyRectHeight,
+      x: (this.stage.width() - keyRectWidth) / 2,
+      y: this.stage.height() - stageRectHeight - 10
+    });
+    this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
+    
+    var keyGroup = this.addToLayer("key", new Kinetic.Group({
+      width: keyRectWidth,
+      height: keyRectHeight
+    }));
+    
+    var keyRect = new Kinetic.Rect({
+      width: keyRectWidth,
+      height: keyRectHeight,
+      fill: "white",
+      strokeEnabled: true,
+      stroke: "gray",
+      strokeWidth: 1.2,
+      cornerRadius: 15
+    });
+    keyGroup.add(keyRect);
+    
+    Seat.statusShapeRenderingCallbacks.push(function () {
+      _this.drawLayer("key");
+    });
+    
+    var drawText = function (text, bold) {
+      var fontSize = keyRectHeight * 0.3;
+      var keyText = new Kinetic.Text({
+        x: xPos,
+        y: (keyRectHeight - fontSize) / 2,
+        text: text,
+        fontSize: fontSize,
+        fill: "black"
+      });
+      if (bold) keyText.fontStyle("bold");
+      keyGroup.add(keyText);
+      xPos += keyText.width() + 7;
+    };
+    
+    var padding = 7, xPos = 10;
+    drawText("Legende", true);
+    
+    var statuses = [Seat.Status.Available, Seat.Status.Taken, Seat.Status.Chosen];
+    for (var i = 0; i < statuses.length; i++) {
+      keyGroup.add(new Kinetic.Line({
+        points: [xPos, keyRectHeight, xPos, 0],
+        stroke: "gray",
+        strokeWidth: 1
+      }));
+      xPos += 1 + padding;
+    
+      var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1]) / 2]);
+      keyGroup.add(seat.group);
+      seat.setStatus(statuses[i]);
+      xPos += Seat.cacheSize[0] + 5;
+      
+      var text;
+      switch (statuses[i]) {
+      case Seat.Status.Available:
+        text = "Sitzplatz noch frei";
+        break;
+      case Seat.Status.Taken:
+        text = "Sitzplatz besetzt";
+        break;
+      case Seat.Status.Chosen:
+        text = "Ihr Sitzplatz";
+      }
+      drawText(text);
+    }
+    
+    xPos += 3;
+    keyGroup.width(xPos);
+    keyRect.width(xPos);
+    keyGroup.position({ x: (keyRectWidth - xPos) / 2 });
+  }
+  
   if (this.container.is(".background")) {
     this.background = this.addToLayer("seats", new Kinetic.Rect({
       width: this.layers['seats'].width(),
@@ -363,9 +465,6 @@ function Seating(container) {
       fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
     }));
   }
-  
-  this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
-  Seat.setSize([this.gridCellSize * this.seatSizeFactor, this.gridCellSize * this.seatSizeFactor]);
   
   Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawLayer("seats");

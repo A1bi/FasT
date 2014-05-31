@@ -41,8 +41,10 @@
     height: 280px;
   }
   
-  &.big .plan {
-    height: 500px;
+  &.big {
+    .plan {
+      height: 500px;
+    }
   }
   
   &.stage {
@@ -50,8 +52,14 @@
       height: 250px;
     }
     
-    &.big .plan {
-      height: 590px;
+    &.big {
+      .plan {
+        height: 590px;
+      }
+      
+      &.key .plan {
+        height: 645px;
+      }
     }
   }
 }
