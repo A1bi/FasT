@@ -1,52 +1,58 @@
 <% title "Termine - Sommernachtstheater 2014 - Don Camillo und Peppone" %>
 <% include_css "dates" %>
-<div class="hl">Termine</div>
-<div class="teaser">
-  Unser <b>Sommernachtstheater 2014 „Don Camillo und Peppone“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
-  <div class="box dates">
-    <div class="top">
-      Termine
+<% cache [:dates, @event, @ticket_types] do %>
+  <div class="don_camillo">
+    Unser <b>Sommernachtstheater 2014 „Don Camillo und Peppone“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+    <div class="container">
+      <div class="title">
+        <%= link_to image_tag("theater/don_camillo/title.png", alt: "Jedermann"), theater_jedermann_path %>
+      </div>
+      <div class="box dates">
+        <div class="top">
+          Termine
+        </div>
+        <div class="con">
+          <table>
+            <% @event.dates.each do |date| %>
+              <tr>
+                <td class="point"></td>
+                <td class="day"><%= l date.date, format: "%A" %></td>
+                <td class="date"><%= l date.date, format: "%d. %B" %></td>
+              </tr>
+            <% end %>
+          </table>
+          <p><b>Einlass</b> ab <b>19 Uhr</b>,<br /><b>Beginn</b> der Aufführung um <b>20 Uhr</b>.</p>
+        </div>
+      </div>
     </div>
-    <div class="con">
-      <table>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Freitag</td>
-          <td class="date">18. Juli 2014</td>
-        </tr>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Samstag</td>
-          <td class="date">19. Juli 2014</td>
-        </tr>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Freitag</td>
-          <td class="date">25. Juli 2014</td>
-        </tr>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Samstag</td>
-          <td class="date">26. Juli 2014</td>
-        </tr>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Freitag</td>
-          <td class="date">8. August 2014</td>
-        </tr>
-        <tr>
-          <td class="point"></td>
-          <td class="day">Samstag</td>
-          <td class="date">9. August 2014</td>
-        </tr>
+    <div class="trenner"></div>
+    <div class="hl">
+      Ticketvorverkauf
+      <div class="small">ab 1. Juni 2014</div>
+    </div>
+    <div class="prices">
+      <table class="rounded">
+        <% @ticket_types.each do |type| %>
+          <tr>
+            <td class="price"><%= number_to_currency(type.price) %></td>
+            <td><%= type.name %><div class="small"><%= type.info %></div></td>
+          </tr>
+        <% end %>
       </table>
     </div>
+    <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
+    <div class="stores">
+      <b>Oder auch an folgenden Vorverkaufsstellen:</b>
+      <ul>
+        <li>Sportstudio Otto Krechel, Kaisersesch</li>
+        <li>Buchhandlung Walgenbach, Kaisersesch</li>
+        <li>Buchhandlung Layaa-Laulhé, Cochem</li>
+        <li>Büro und Schreibwaren Welsch, Mayen</li>
+      </ul>
+    </div>
+    <div class="hcen hotline">
+      <a name="hotline"></a>
+      Info-Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>
+    </div>
   </div>
-  <div class="trenner"></div>
-  <div class="hl">
-    Ticketvorverkauf
-    <div class="small">ab 1. Juni 2014</div>
-  </div>
-  <div class="hcen">Weitere Informationen folgen in Kürze.</div>
-  <%= render "newsletter/form", text: "Melden Sie sich jetzt kostenlos zu unserem Newsletter an und wir halten Sie zu „Don Camillo und Peppone“ auf dem Laufenden." %>
-</div>
+<% end %>

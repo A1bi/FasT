@@ -5,36 +5,44 @@ $shadowColor: black;
   $highlightColor: #d10a11;
   $shadowColor: #fff7b2;
   
-	.container {
-    overflow: auto;
-    margin: 20px 0px;
-    
-    .title {
-      float: left;
-      width: 52%;
-      text-align: center;
-      padding-top: 50px;
-    }
-    
-    .dates {
-      width: 46%;
-      float: left;
-      
-      td {
-        font-weight: bold;
-        vertical-align: top;
-        color: $highlightColor;
-      }
-      
-      p {
-        font-size: 13px;
-        padding: 0px 15px;
-      }
-    }
+  .hl, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+}
+
+.don_camillo {
+  $highlightColor: #f23233;
+  $shadowColor: #00900E;
+  
+  .hl, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+}
+
+.container {
+  overflow: auto;
+  margin: 20px 0px;
+  
+  .title {
+    float: left;
+    width: 52%;
+    text-align: center;
+    padding-top: 50px;
   }
   
-  .hl {
-    color: $highlightColor;
+  .dates {
+    width: 46%;
+    float: left;
+    
+    td {
+      font-weight: bold;
+      vertical-align: top;
+    }
+    
+    p {
+      font-size: 13px;
+      padding: 0px 15px;
+    }
   }
 }
 
@@ -54,10 +62,6 @@ $shadowColor: black;
   padding: 0px 6px;
 }
 
-.shadow {
-  color: $highlightColor;
-}
-
 .prices {
   table {
     width: 70%;
@@ -68,7 +72,6 @@ $shadowColor: black;
       padding: 10px !important;
       
       &.price {
-        color: $highlightColor;
         vertical-align: middle;
         white-space: nowrap;
         padding: 10px 20px !important;
