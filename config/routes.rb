@@ -216,7 +216,7 @@ FasT::Application.routes.draw do
       end
     end
     
-    scope module: :passbook_controllers, controller: :passbook, path: :passbook, constraints: { pass_type_id: /([\w\d\-\.])+/ } do
+    scope module: "passbook/controllers", controller: :passbook, path: :passbook, constraints: { pass_type_id: /([\w\d\-\.])+/ } do
       root as: :passbook_root, to: redirect("/")
       scope path: :v1 do
         scope "passes/:pass_type_id" do
