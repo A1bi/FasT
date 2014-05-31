@@ -247,7 +247,7 @@ function Seating(container) {
       for (var i = 0, bLength = data.blocks.length; i < bLength; i++) {
         var blockInfo = data.blocks[i];
         var block = new SeatBlock(blockInfo.id, blockInfo.color, _this);
-        _this.layers['seats'].add(block.group);
+        _this.addToLayer("seats", block.group);
         
         for (var j = 0, sLength = blockInfo.seats.length; j < sLength; j++) {
           var seatInfo = blockInfo.seats[j];
@@ -290,19 +290,11 @@ function Seating(container) {
     this.layers[name].draw();
   };
   
+  this.drawSeatsLayer = function (cache) {
+    this.layers['seats'].cache();
+    this.drawLayer("seats");
+  };
   
-  this.container.find(".viewChooser a")
-  .click(function (event) {
-    event.preventDefault();
-    var $this = $(this);
-    if ($this.is(".selected")) return;
-
-    $this.addClass("selected").siblings().removeClass("selected");
-    var viewType = $this.data("type"), numbersAndUnderlay = viewType == "numbersAndUnderlay";
-    _this.toggleNumbers(numbersAndUnderlay);
-    _this.drawLayer("seats");
-  })
-  .first().addClass("selected");
   
   var isBig = this.container.is(".big");
   var planBox = this.container.find(".plan");
@@ -330,15 +322,15 @@ function Seating(container) {
   var drawStage = this.container.is(".stage");
   var drawKey = this.container.is(".key");
   var seatsLayerHeight = this.stage.height();
-  var stageRectHeight = 0;
-  var keyRectHeight = 0;
+  var stageLayerHeight = 0;
+  var keyLayerHeight = 0;
   if (drawStage) {
-    stageRectHeight = 40;
-    seatsLayerHeight -= 120;
+    stageLayerHeight = 80;
+    seatsLayerHeight -= stageLayerHeight;
   }
   if (drawKey) {
-    keyRectHeight = 55;
-    seatsLayerHeight -= keyRectHeight;
+    keyLayerHeight = 55;
+    seatsLayerHeight -= keyLayerHeight;
   }
   this.addLayer("seats", {
     width: this.stage.width() * ((isBig) ? 1.8 : 1),
@@ -347,14 +339,17 @@ function Seating(container) {
   
   this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
   Seat.setSize([this.gridCellSize * this.seatSizeFactor, this.gridCellSize * this.seatSizeFactor]);
+  Seat.statusShapeRenderingCallbacks.push(function () {
+    _this.drawSeatsLayer();
+  });
   
   if (drawStage) {
-    var stageRectWidth = this.layers['seats'].width() * 0.95;
+    var stageRectWidth = this.layers['seats'].width() * 0.95, stageRectHeight = 40;
     this.addLayer("stage", {
       width: stageRectWidth,
-      height: stageRectHeight,
+      height: stageLayerHeight,
       x: (this.layers['seats'].width() - stageRectWidth) / 2,
-      y: this.stage.height() - stageRectHeight - keyRectHeight - 20,
+      y: seatsLayerHeight + (stageLayerHeight - stageRectHeight) / 2
     });
     this.addToLayer("stage", new Kinetic.Rect({
       width: stageRectWidth,
@@ -375,13 +370,12 @@ function Seating(container) {
   }
   
   if (drawKey) {
-    var keyRectWidth = this.stage.width() * 0.8;
-    keyRectHeight -= 20;
+    var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - 20;
     this.addLayer("key", {
       width: keyRectWidth,
-      height: keyRectHeight,
+      height: keyLayerHeight,
       x: (this.stage.width() - keyRectWidth) / 2,
-      y: this.stage.height() - stageRectHeight - 10
+      y: seatsLayerHeight + stageLayerHeight
     });
     this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
     
@@ -456,19 +450,62 @@ function Seating(container) {
     keyGroup.position({ x: (keyRectWidth - xPos) / 2 });
   }
   
+  this.addLayer("background", {
+    width: this.layers['seats'].width(),
+    height: this.stage.height()
+  }).moveToBottom();
+  
   if (this.container.is(".background")) {
-    this.background = this.addToLayer("seats", new Kinetic.Rect({
-      width: this.layers['seats'].width(),
-      height: this.stage.height(),
+    this.background = this.addToLayer("background", new Kinetic.Rect({
+      width: this.layers['background'].width(),
+      height: this.layers['background'].height(),
       fillLinearGradientStartPoint: { x: 0, y: this.layers['seats'].height() * 0.4 },
       fillLinearGradientEndPoint: { x: 50, y: this.layers['seats'].height() },
       fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
     }));
   }
   
-  Seat.statusShapeRenderingCallbacks.push(function () {
-    _this.drawLayer("seats");
-  });
+  var viewChooser = this.container.find(".viewChooser");
+  if (viewChooser.length) {
+    var underlay = new Image();
+    underlay.src = "/uploads/seating_underlay.png";
+    underlay.onload = function () {
+      _this.underlayImage = _this.addToLayer("background", new Kinetic.Image({
+        image: underlay,
+        width: _this.layers['seats'].width(),
+        height: _this.layers['seats'].width() / underlay.width * underlay.height,
+        visible: false
+      }));
+    };
+    
+    var photo = new Image();
+    photo.src = "/uploads/seating_photo.jpg";
+    photo.onload = function () {
+      _this.photoUnderlayImage = _this.addToLayer("background", new Kinetic.Image({
+        image: photo,
+        width: _this.layers['seats'].width(),
+        height: _this.layers['seats'].width() / photo.width * photo.height,
+        visible: false
+      }));
+    };
+    
+    viewChooser.find("a").click(function (event) {
+      event.preventDefault();
+      var $this = $(this);
+      if ($this.is(".selected")) return;
+
+      $this.addClass("selected").siblings().removeClass("selected");
+      var viewType = $this.data("type"), numbersAndUnderlay = viewType == "numbersAndUnderlay", photo = viewType == "photo";
+      _this.toggleNumbers(numbersAndUnderlay);
+      _this.layers['seats'].visible(!photo);
+      _this.drawSeatsLayer();
+      _this.underlayImage.visible(numbersAndUnderlay);
+      _this.photoUnderlayImage.visible(photo);
+      _this.drawLayer("background");
+    })
+    .first().addClass("selected");
+  }
+  this.drawLayer("background");
 };
 
 function SeatingStandalone(container) {
@@ -526,7 +563,7 @@ function SeatingEditor(container) {
       this.selectedSeats[i].group.moveTo(_this.selectedSeatsGroup);
     }
     
-    _this.drawLayer("seats");
+    _this.drawSeatsLayer();
   };
   
   this.mouseOverSeat = function (seat) {
@@ -564,7 +601,7 @@ function SeatingEditor(container) {
     seat.updateStatusShape();
   });
   
-  this.background.on("mouseup touchend", function () {
+  this.layers['background'].on("mouseup touchend", function () {
     _this.clickedSeat();
   });
   
@@ -642,7 +679,7 @@ function SeatChooser(container, delegate) {
       }
       seat.setStatus(status);
     }
-    if (redraw) this.drawLayer("seats");
+    if (redraw) this.drawSeatsLayer();
   };
   
   this.chooseSeat = function (seat) {

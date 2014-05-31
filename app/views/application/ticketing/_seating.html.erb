@@ -4,7 +4,7 @@
     <div>Sie müssen noch <b class="number plural"><span></span></b><span class="singular">einen</span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.</div>
   <% end if (error_box ||= false) %>
   <%= content_tag :div, class: [:viewChooser] do %>
-    Ansicht:<a href="#" data-type="normal">normal</a>|<a href="#" data-type="numbersAndUnderlay">mit Sitznummern und Blockfarben</a>
+    Ansicht:<a href="#" data-type="normal">normal</a>|<a href="#" data-type="numbersAndUnderlay">mit Sitznummern und Blockfarben</a>|<a href="#" data-type="photo">Foto</a>
   <% end if (view_chooser ||= false) %>
   <div class="plan"></div>
 <% end %>
