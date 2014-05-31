@@ -3,7 +3,7 @@
   
   &.don_camillo {
     position: relative;
-    background: url(/assets/theater/don_camillo/index.png);
+    background: url(asset_path("theater/don_camillo/index.png")) no-repeat;
     width: 610px;
     height: 545px;
     margin: auto;
