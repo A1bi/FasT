@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530084810) do
+ActiveRecord::Schema.define(version: 20140601121240) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20140530084810) do
   end
 
   create_table "passbook_logs", force: true do |t|
-    t.string   "message"
+    t.text     "message",    limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
   end

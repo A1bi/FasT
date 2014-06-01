@@ -671,10 +671,10 @@ function SeatChooser(container, delegate) {
         if (seat.status == Seat.Status.Chosen) _this.numberOfChosenSeats--;
         if (seatInfo.taken && !seatInfo.chosen) {
           status = Seat.Status.Taken;
-        } else if (!seatInfo.taken && !seatInfo.chosen) {
-          status = Seat.Status.Available;
         } else if (seatInfo.exclusive) {
           status = Seat.Status.Exclusive;
+        } else if (!seatInfo.taken && !seatInfo.chosen) {
+          status = Seat.Status.Available;
         }
       }
       seat.setStatus(status);
@@ -683,7 +683,7 @@ function SeatChooser(container, delegate) {
   };
   
   this.chooseSeat = function (seat) {
-    if (seat.status != Seat.Status.Available) return;
+    if (seat.status != Seat.Status.Available && seat.status != Seat.Status.Exclusive) return;
     
     seat.setStatus(Seat.Status.PreChosen);
     

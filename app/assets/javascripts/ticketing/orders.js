@@ -125,16 +125,17 @@ Step.prototype = {
     return true;
   },
   
-  validateFields: function (proc) {
+  validateFields: function (beforeProc, afterProc) {
     this.box.find("tr").removeClass("error");
     this.foundErrors = false;
-    proc.call(this);
+    beforeProc.call(this);
     
     if (this.foundErrors) {
       this.resizeDelegateBox(true);
     } else {
       this.updateInfoFromFields();
     }
+    if (afterProc) afterProc.call(this);
     
     return !this.foundErrors;
   },
@@ -144,7 +145,8 @@ Step.prototype = {
   },
   
   showErrorOnField: function (key, msg) {
-    this.getFieldWithKey(key).parents("tr").addClass("error").find(".msg").html(msg);
+    var field = this.getFieldWithKey(key).parents("tr").addClass("error");
+    if (msg) field.find(".msg").html(msg);
     this.foundErrors = true;
   },
   
@@ -442,8 +444,6 @@ function ConfirmStep(delegate) {
   
   Step.call(this, "confirm", delegate);
   
-  this.info.api.newsletter = true;
-  
   this.updateSummary = function (info, part) {
     $.each(info, function (key, value) {
       _this.box.find("."+part+" ."+key).text(value);
@@ -493,15 +493,15 @@ function ConfirmStep(delegate) {
     });
   };
   
-  this.nextBtnEnabled = function () {
-    return !this.delegate.web || !!this.info.api.accepted;
+  this.validate = function () {
+    return this.validateFields(function () {
+      if (this.delegate.web && !this.getFieldWithKey("accepted").is(":checked")) {
+        this.showErrorOnField("accepted");
+      }
+    }, function () {
+      this.info.api.newsletter = this.info.api.newsletter == "1";
+    });
   };
-  
-  
-  this.registerEventAndInitiate(this.box.find(".checkboxes :checkbox"), "click", function ($this) {
-    _this.info.api[$this.attr("name")] = $this.is(":checked");
-    _this.delegate.updateNextBtn();
-  });
 }
 
 function FinishStep(delegate) {
@@ -629,10 +629,16 @@ function Ordering() {
       this.showPrev();
       
     } else {
-      $("body").animate({ scrollTop: this.stepBox.position().top });
+      var scrollPos = this.stepBox;
       if (this.currentStep.validate()) {
         this.showNext(true);
+      } else {
+        var error = this.stepBox.find(".error:first-child");
+        if (error.length) {
+          scrollPos = error;
+        }
       }
+      $("body").animate({ scrollTop: scrollPos.position().top });
     }
   };
   

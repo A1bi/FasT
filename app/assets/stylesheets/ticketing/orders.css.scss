@@ -469,6 +469,10 @@ table.details {
       tr td {
         padding: 7px;
         
+        &:first-child {
+          width: 7%;
+        }
+        
         &:last-child {
           border-left: none;
         }
