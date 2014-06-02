@@ -1,6 +1,5 @@
 module Ticketing
   class OrdersController < BaseController
-    before_filter :disable_slides
     before_filter :set_event_info, only: [:new, :new_retail, :new_admin]
     before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :seats]
     before_filter :prepare_new, only: [:new, :new_admin, :new_retail]

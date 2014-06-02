@@ -3,6 +3,7 @@ class Ticketing::BaseController < ApplicationController
 	
 	before_filter :disable_slides
   before_filter :authenticate_retail_store
+  before_filter :disable_member_controls_for_retail
   
   def authenticate_retail_store
 		begin
@@ -49,4 +50,8 @@ class Ticketing::BaseController < ApplicationController
     send(action.to_s + "_path", params)
   end
   helper_method :orders_path
+  
+  def disable_member_controls_for_retail
+    disable_member_controls if retail? && !@_member.id
+  end
 end

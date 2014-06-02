@@ -9,6 +9,7 @@ module Ticketing
     end
     
     def index_retail
+      redirect_to root_path if !@_retail_store.id
     end
     
     def seats

@@ -104,13 +104,13 @@ function Seat(id, block, number, pos, delegate) {
           for (var i = 0, numberOfSeats = shapeScope.statusShapeQueues[status].length; i < numberOfSeats; i++) {
             shapeScope.statusShapeQueues[status][i]['updateStatusShape']();
           }
+          console.log("Rendered seat status shape '" + status + "'");
           delete shapeScope.statusShapeQueues[status];
           if (--Seat.statusShapesToRender < 1) {
             for (var i = 0, cLength = Seat.statusShapeRenderingCallbacks.length; i < cLength; i++) {
               Seat.statusShapeRenderingCallbacks[i]();
             }
           }
-          console.log("Rendered seat status shape '" + status + "'");
         };
       })(this.status)
     });
@@ -129,7 +129,7 @@ function Seat(id, block, number, pos, delegate) {
     if (this.shape) this.shape.destroy();
     this.shape = this.getStatusShape().clone();
     this.group.add(this.shape);
-    this.shape.moveToBottom();
+    this.shape.draw().moveToBottom();
   };
   
   this.updateNumber = function () {

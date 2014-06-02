@@ -135,10 +135,10 @@ FasT::Application.routes.draw do
         end
       end
       
-      scope as: :retail, path: "vorverkaufsstelle" do
-        root to: redirect("/vorverkaufsstelle/bestellungen/neu")
+      scope as: :retail, path: "vorverkaufsstelle", type: :retail do
+        root to: redirect("/vorverkaufsstelle/bestellungen/neu"), type: ""
         get "statistik" => "statistics#index_retail", as: :statistics
-        scope path: "bestellungen", type: :retail do
+        scope path: "bestellungen" do
           resource :order, path: "", only: [] do
             member do
               get "neu", action: :new_retail, as: :new

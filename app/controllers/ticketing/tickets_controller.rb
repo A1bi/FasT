@@ -1,6 +1,5 @@
 module Ticketing
   class TicketsController < BaseController
-    before_filter :disable_slides
     before_filter :find_tickets
     ignore_restrictions
     before_filter :restrict_access
