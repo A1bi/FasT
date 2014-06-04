@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140601121240) do
+ActiveRecord::Schema.define(version: 20140604112905) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 20140601121240) do
 
   create_table "ticketing_coupons", force: true do |t|
     t.string   "code"
-    t.string   "expires"
+    t.datetime "expires",    limit: 255
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"

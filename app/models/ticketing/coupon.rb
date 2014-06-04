@@ -12,4 +12,13 @@ class Ticketing::Coupon < BaseModel
     return false if expires.nil?
     expires < Time.now
   end
+  
+  def self.expired(e = true)
+    if e
+      where.not(expires: nil).where("expires < ?", Time.now)
+    else
+      table = self.arel_table
+      where(table[:expires].eq(nil).or(table[:expires].gteq(Time.now)))
+    end
+  end
 end

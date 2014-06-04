@@ -4,7 +4,8 @@ module Ticketing
     before_filter :prepare_vars, only: [:edit, :new, :update, :create]
     
     def index
-      @coupons = Coupon.order(:recipient)
+      @coupons = Coupon.expired(false).order(:recipient)
+      @coupons_expired = Coupon.expired(true).order(:recipient)
     end
     
     def show

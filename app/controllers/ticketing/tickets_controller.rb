@@ -40,6 +40,7 @@ module Ticketing
           ticket.save
         end
         NodeApi.update_seats(updatedSeats)
+        @order.log(:tickets_transferred, { count: @tickets.count })
         flash[:notice] = t("ticketing.tickets.transferred", count: @tickets.count)
       else
         ok = false

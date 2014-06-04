@@ -79,6 +79,9 @@ de:
         tickets_cancelled:
           one: "Ein Ticket storniert (Grund: %{reason})"
           other: "%{count} Tickets storniert (Grund: %{reason})"
+        tickets_transferred:
+          one: "Ein Ticket umgebucht"
+          other: "%{count} Tickets umgebucht"
         resent_tickets: "Tickets erneut zugesendet"
     tickets:
       cancelled:

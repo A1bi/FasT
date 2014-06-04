@@ -66,6 +66,7 @@ module Ticketing
       @event = Event.current
       @dates = @event.dates
       @ticket_types = TicketType.all
+      @ticket_types = @ticket_types.exclusive(false) if retail?
     end
   end
 end

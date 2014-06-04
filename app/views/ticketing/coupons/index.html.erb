@@ -1,36 +1,10 @@
 <% title "Gutscheine" %>
 <% include_css "ticketing/coupons" %>
 <% include_js "ticketing/base" %>
+<%= render "new_button", action: "Gutschein erstellen", url: new_ticketing_coupon_path %>
 <% cache [:ticketing, :coupons, @coupons] do %>
-  <%= render "new_button", action: "Gutschein erstellen", url: new_ticketing_coupon_path %>
-  <table class="rounded">
-    <thead>
-      <tr>
-        <th colspan="4">Gutscheine</th>
-      </tr>
-      <tr>
-        <th>Empfänger</th>
-        <th>Wert</th>
-        <th>bereits genutzt</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody class="hover">
-      <% @coupons.each do |coupon| %>
-        <% cache [:ticketing, :coupons, coupon] do %>
-          <tr data-path="<%= ticketing_coupon_path(coupon) %>">
-            <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
-            <td>
-              <% coupon.ticket_type_assignments.each do |assignment| %>
-                <div><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</div>
-              <% end %>
-              <%= content_tag :div do %>Zugang zu vorreservierten Plätzen<% end if !coupon.reservation_groups.empty? %>
-            </td>
-            <td><%= !coupon.orders.empty? ? "ja" : "nein" %></td>
-            <td class="actionBtns"><%= render "admin_actions", :obj => coupon, :delete_confirm => "diesen Gutschein" %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render "index_table", coupons: @coupons, title: "Gutscheine" %>
+<% end %>
+<% cache [:ticketing, :coupons, :expired, @coupons_expired] do %>
+  <%= render "index_table", coupons: @coupons_expired, title: "Abgelaufene Gutscheine" %>
 <% end %>

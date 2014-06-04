@@ -77,7 +77,7 @@
                 <div><%= link_to "Tickets runterladen", @order.printable_path %></div>
               <% end %>
               <div>
-                <%= link_to "Bestellung stornieren", nil, id: "cancelAction" %>
+                <%= link_to "Gesamte Bestellung stornieren", nil, id: "cancelAction" %>
                 <div id="cancelForm">
                   <%= form_tag orders_path(:cancel_ticketing_order, @order), method: :post do %>
                     Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
@@ -173,7 +173,7 @@
       <tbody>
         <tr>
           <td colspan="7" class="actions">
-            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel }), disabled: true %>
+            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel, "umbuchen" => :transfer }), disabled: true %>
             <span class="reason">Grund: <%= text_field_tag :reason %></span>
             <%= submit_tag :ok, disabled: true %>
           </td>

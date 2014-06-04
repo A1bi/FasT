@@ -1,4 +1,8 @@
 table {
+  &.entries {
+    margin: 15px 0px;
+  }
+  
   &.show {
     tr td {
       padding: 5px 8px;

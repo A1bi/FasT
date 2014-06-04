@@ -519,7 +519,6 @@ function FinishStep(delegate) {
     };
     var info = {
       order: orderInfo,
-      web: true,
       type: this.delegate.type,
       retailId: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
