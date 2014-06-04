@@ -42,7 +42,7 @@ function Seat(id, block, number, pos, delegate) {
       height: Seat.size[1],
       strokeEnabled: false,
       stroke: "white",
-      dash: [0],
+      dashEnabled: false,
       cornerRadius: 2,
       opacity: 1,
       shadowEnabled: true,
@@ -86,7 +86,8 @@ function Seat(id, block, number, pos, delegate) {
         strokeEnabled: true,
         stroke: "black",
         strokeWidth: 1,
-        dash: [5, 5]
+        dash: [5, 5],
+        dashEnabled: true
       };
       break;
     }
@@ -290,7 +291,7 @@ function Seating(container) {
     this.layers[name].draw();
   };
   
-  this.drawSeatsLayer = function (cache) {
+  this.drawSeatsLayer = function () {
     this.layers['seats'].cache();
     this.drawLayer("seats");
   };
@@ -560,7 +561,7 @@ function SeatingEditor(container) {
     });
     
     for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
-      this.selectedSeats[i].group.moveTo(_this.selectedSeatsGroup);
+      this.selectedSeats[i].group.moveTo(this.selectedSeatsGroup);
     }
     
     _this.drawSeatsLayer();
@@ -615,9 +616,13 @@ function SeatingEditor(container) {
       };
     }
   }))
+  .on("dragstart", function () {
+    _this.layers['seats'].clearCache();
+  })
   .on("dragend", function () {
     _this.relocateSelectedSeats();
     _this.saveSeatsInfo();
+    _this.drawSeatsLayer();
   });
   
   $(document).on("keydown keyup", this.toggleSelecting);
