@@ -16,8 +16,8 @@ module Ticketing
       !reservations.where(date_id: date).empty?
     end
   
-    def node_hash(date = nil)
-      [id, { available: !taken?(date), reserved: reserved?(date) }]
+    def node_hash(date = nil, avail = nil, res = nil)
+      [id, { available: avail.nil? ? !taken?(date) : avail, reserved: res.nil? ? reserved?(date) : res }]
     end
   
     def self.with_availability_on_date(date)

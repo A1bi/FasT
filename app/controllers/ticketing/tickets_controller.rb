@@ -27,19 +27,25 @@ module Ticketing
     def transfer
       ok = true
       seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seatingId] }).body
-      chosenSeats = seating[:seats]
-      if seating[:ok] && @tickets.count == chosenSeats.count
+      chosen_seats = seating[:seats]
+      if seating[:ok] && @tickets.count == chosen_seats.count
         date = Ticketing::EventDate.find(params[:date_id])
-        updatedSeats = {}
+        updated_seats = {}
+        
+        @tickets.reject! do |ticket|
+          ticket.date == date && chosen_seats.delete(ticket.seat.id.to_s).present?
+        end
+        
         @tickets.each do |ticket|
-          seat = Ticketing::Seat.find(chosenSeats.shift)
-          updatedSeats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
-          updatedSeats.deep_merge!({ date.id => Hash[[seat.node_hash(date.id)]] })
+          seat = Ticketing::Seat.find(chosen_seats.shift)          
+          tmp = { ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id, true)]] }
+          tmp.deep_merge!({ date.id => Hash[[seat.node_hash(date.id, false)]] })
           ticket.seat = seat
           ticket.date = date
-          ticket.save
+          updated_seats.deep_merge!(tmp) if ticket.save
         end
-        NodeApi.update_seats(updatedSeats)
+        
+        NodeApi.update_seats(updated_seats)
         @order.log(:tickets_transferred, { count: @tickets.count })
         flash[:notice] = t("ticketing.tickets.transferred", count: @tickets.count)
       else
