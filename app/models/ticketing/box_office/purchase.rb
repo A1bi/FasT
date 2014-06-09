@@ -1,5 +1,5 @@
 module Ticketing::BoxOffice
-  class Purchase < ActiveRecord::Base
+  class Purchase < BaseModel
     belongs_to :box_office
     has_many :items, class_name: PurchaseItem, after_add: :added_item, dependent: :destroy
     

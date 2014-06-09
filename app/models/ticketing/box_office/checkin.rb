@@ -1,5 +1,5 @@
 module Ticketing::BoxOffice
-  class Checkin < ActiveRecord::Base
+  class Checkin < BaseModel
     belongs_to :ticket, class_name: Ticketing::Ticket
     belongs_to :checkpoint
     

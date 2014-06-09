@@ -1,4 +1,4 @@
 module Ticketing::BoxOffice
-  class Product < ActiveRecord::Base
+  class Product < BaseModel
   end
 end

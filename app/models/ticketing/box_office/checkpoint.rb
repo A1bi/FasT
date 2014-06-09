@@ -1,5 +1,5 @@
 module Ticketing::BoxOffice
-  class Checkpoint < ActiveRecord::Base
+  class Checkpoint < BaseModel
     has_many :checkins
   end
 end

@@ -1,4 +1,4 @@
-class Ticketing::LogEvent < ActiveRecord::Base
+class Ticketing::LogEvent < BaseModel
   serialize :info
 	
 	belongs_to :member, class_name: Members::Member

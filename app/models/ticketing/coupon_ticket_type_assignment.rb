@@ -1,4 +1,4 @@
-class Ticketing::CouponTicketTypeAssignment < ActiveRecord::Base
+class Ticketing::CouponTicketTypeAssignment < BaseModel
   belongs_to :coupon, :touch => true
   belongs_to :ticket_type
   

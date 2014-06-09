@@ -1,5 +1,5 @@
 module Newsletter
-  class Subscriber < ActiveRecord::Base
+  class Subscriber < BaseModel
     include RandomUniqueAttribute
   
     has_random_unique_token :token

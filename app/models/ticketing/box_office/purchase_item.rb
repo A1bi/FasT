@@ -1,5 +1,5 @@
 module Ticketing::BoxOffice
-  class PurchaseItem < ActiveRecord::Base
+  class PurchaseItem < BaseModel
     belongs_to :purchase
     belongs_to :purchasable, polymorphic: true
   
