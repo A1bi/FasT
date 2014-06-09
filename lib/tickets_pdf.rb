@@ -8,10 +8,10 @@ class TicketsPDF < Prawn::Document
   
   def initialize(retail = false)
     @retail = retail
+    @tickets_drawn = 0
     
     margin = @retail ? [0] : [14, 0]
     @ticket_height = TICKET_HEIGHT - 1 - margin.first * 2 / 3
-    puts @ticket_height
     page_size = @retail ? [TICKET_WIDTH, TICKET_HEIGHT] : "A4"
 
     super page_size: page_size, page_layout: :portrait, margin: margin, info: {
@@ -36,10 +36,8 @@ class TicketsPDF < Prawn::Document
   end
   
   def add_order(order)
-    @tickets_drawn = 0
-    order.tickets.each do |ticket|
+    order.tickets.cancelled(false).each do |ticket|
       draw_ticket ticket
-      @tickets_drawn = @tickets_drawn + 1
     end
   end
   
@@ -95,6 +93,8 @@ class TicketsPDF < Prawn::Document
       move_down ticket_margin
       draw_cut_line
     end
+    
+    @tickets_drawn = @tickets_drawn.next
   end
 
   def draw_barcode_for_ticket(ticket)

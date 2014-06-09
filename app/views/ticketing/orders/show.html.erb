@@ -60,15 +60,15 @@
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if !@order.paid %>
-                  <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch %></div>
+                  <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
                   <% if @order.transfer? %>
-                    <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" %></div>
+                    <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
                   <% end %>
                 <% else %>
                   <% if @order.bank_charge && !@order.bank_charge.approved %>
                     <div><%= link_to "als geprüft markieren", orders_path(:approve_ticketing_order, @order), method: :patch %></div>
                   <% end %>
-                  <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" %></div>
+                  <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } %></div>
                 <% end %>
               <% end %>
               <% if retail? %>

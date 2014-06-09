@@ -1,7 +1,7 @@
 Folgende Tickets haben Sie bestellt:
 
-<% @order.tickets.each do |ticket| %>
-      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
+<% @tickets.each do |ticket| %>
+      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | Block <%= ticket.seat.block.name %> | Sitz <%= ticket.seat.number %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------

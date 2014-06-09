@@ -6,6 +6,7 @@ class OrderMailer < BaseMailer
   def confirmation(order)
 		@order = order
     
+    find_tickets
     attach_tickets if order.paid
 		mail_to_customer
 	end
@@ -28,6 +29,7 @@ class OrderMailer < BaseMailer
     if order.is_a?(Ticketing::Web::Order) && order.transfer? && !order.paid
       @order = order
       
+      find_tickets
       mail_to_customer
     end
   end
@@ -53,12 +55,17 @@ class OrderMailer < BaseMailer
     mail to: @order.email if @order.email.present?
   end
   
+  def find_tickets
+    @tickets ||= @order.tickets.cancelled(false)
+  end
+  
   def attach_tickets
     pdf = TicketsPDF.new
     pdf.add_order @order
     attachments['tickets.pdf'] = pdf.render
     
-    @order.tickets.each do |ticket|
+    find_tickets
+    @tickets.each do |ticket|
       attachments["passbook-#{ticket.number}.pkpass"] = {
         mime_type: @@passbook_mime_type,
         content: File.read(ticket.passbook_pass.path(true))

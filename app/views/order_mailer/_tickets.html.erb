@@ -1,14 +1,23 @@
 <p>Folgende Tickets haben Sie bestellt:</p>
 <table id="ticketsTable">
-  <% @order.tickets.each do |ticket| %>
+  <tr class="top">
+    <td>Aufführung</td>
+    <td>Kategorie</td>
+    <td>Block</td>
+    <td>Sitz</td>
+    <td>Preis</td>
+  </tr>
+  <% @tickets.each do |ticket| %>
     <tr>
       <td><%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %></td>
       <td><%= ticket.type.name %></td>
+      <td><%= ticket.seat.block.name %></td>
+      <td><%= ticket.seat.number %></td>
       <td><%= number_to_currency(ticket.price) %></td>
     </tr>
   <% end %>
   <tr class="total">
-    <td colspan="2">Gesamt</td>
+    <td colspan="4">Gesamt</td>
     <td colspan="1" class="amount"><%= number_to_currency(@order.total) %></td>
   </tr>
 </table>

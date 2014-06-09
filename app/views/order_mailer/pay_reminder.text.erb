@@ -1,4 +1,4 @@
-leider konnten wir zu Ihrer Bestellung <%= @order.number %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
+leider konnten wir zu Ihrer Bestellung <%= render "order_number" %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
 
 <%= render "tickets" %>
 
