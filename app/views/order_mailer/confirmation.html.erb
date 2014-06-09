@@ -10,7 +10,7 @@ vielen Dank für Ihre Bestellung <%= render "order_number" %>!
       </tr>
       <tr>
         <td>IBAN:</td>
-        <td><%= @order.bank_charge.iban %></td>
+        <td><%= obfuscated_iban(@order.bank_charge.iban) %></td>
       </tr>
       <tr>
         <td>BIC:</td>

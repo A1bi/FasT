@@ -5,6 +5,8 @@ class Ticketing::BaseController < ApplicationController
   before_filter :authenticate_retail_store
   before_filter :disable_member_controls_for_retail
   
+  helper TicketingHelper
+  
   def authenticate_retail_store
 		begin
 			@_retail_store ||= Ticketing::Retail::Store.find(retail_store_id_cookie) if retail_store_id_cookie.present?

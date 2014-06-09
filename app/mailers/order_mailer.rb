@@ -3,6 +3,8 @@ class OrderMailer < BaseMailer
   
   default parts_order: ["multipart/alternative", "application/pdf", @@passbook_mime_type]
   
+  helper Ticketing::TicketingHelper
+  
   def confirmation(order)
 		@order = order
     
