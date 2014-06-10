@@ -105,6 +105,17 @@ de:
       sessions:
         auth_error: "Das eingegebene Passwort ist nicht korrekt."
         logout: "Sie wurden erfolgreich ausgeloggt."
+    push_notifications:
+      tickets_sold:
+        web:
+          one: "Es wurde ein Ticket online bestellt."
+          other: "Es wurden %{count} Tickets online bestellt."
+        retail:
+          one: "Es wurde ein Ticket in der Vorverkaufsstelle „%{store}“ verkauft."
+          other: "Es wurden %{count} Tickets in der Vorverkaufsstelle „%{store}“ verkauft."
+        admin:
+          one: "Es wurde ein Ticket telefonisch oder über andere Wege gebucht."
+          other: "Es wurden %{count} Tickets telefonisch oder über andere Wege gebucht."
   orders:
     retail_login:
       required: "Bitte loggen Sie sich ein."

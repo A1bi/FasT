@@ -34,6 +34,14 @@ class NodeApi
     make_request("push", data)
   end
   
+  def self.pushToApp(notification, tokens)
+    data = {
+      notification: notification,
+      tokens: tokens
+    }
+    make_request("pushToApp", data)
+  end
+  
   def self.seating_request(action, info, client_id = nil)
     info[:action] = action
     info[:clientId] = client_id if client_id
