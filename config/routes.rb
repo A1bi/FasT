@@ -116,7 +116,7 @@ FasT::Application.routes.draw do
           patch :mark_as_paid
           patch :approve
           post :submit
-          get :sheet, path: "begleitzettel/:id"
+          get :submission_file, path: "sepa_auftrag/:id"
         end
         resources :seats, path: "sitzplan", only: [:index, :create] do
           collection do

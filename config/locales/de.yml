@@ -93,37 +93,12 @@ de:
     payments:
       marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
       approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
-      submitted: "Alle Lastschriften wurden bei der Bank eingereicht. Bitte drucken Sie sich den Begleitzettel aus."
-      nothing_submitted: "Es wurde nichts eingereicht, da keine ausstehenden Lastschriften vorliegen."
+      submitted: "Die Lastschriften wurden zur Einreichung vorgemerkt. Bitte laden Sie den Sammelauftrag herunter und reichen ihn bei der Bank ein."
       submissions:
-        sender:
-          name: "Freilichtbühne am schiefen Turm"
-          short_name: "Freilichtbühne a. s. Turm"
-          location: "Kaisersesch"
-          account: "178167"
-          blz: "57069144"
-          bank: "Raiffeisenbank Kaisersesch"
-        reason: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
-        bank_email: "buchhaltung@rbkaisersesch.de"
-        sheet_file_name: "begleitzettel"
-        sheet:
-          - "DTA-Begleitzettel"
-          - "Belegloser Datenträgeraustausch"
-          - "Sammeleinzugsauftrag"
-          - "Datei bereits per e-mail übermittelt."
-          - "Referenznummer"
-          - "Erstellungsdatum"
-          - "Ausführungsdatum"
-          - "Anzahl der Datensätze C"
-          - "Summe der Beträge in EUR"
-          - "Kontrollsumme Kontonummern"
-          - "Kontrollsumme Bankleitzahlen"
-          - "Auftraggeber"
-          - "Beauftragtes Bankinstitut"
-          - "Bankleitzahl"
-          - "Kontonummer"
-          - "Kaisersesch, den "
-          - "Ort, Datum, Unterschrift"
+        name: "Freilichtbühne am schiefen Turm"
+        iban: "DE65570691440000178167"
+        creditor_identifier: "DE21ZZZ00001271843"
+        remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
     retail:
@@ -174,9 +149,6 @@ de:
       subject: "Stornierung Ihrer Bestellung"
     resend_tickets:
       subject: "Ihre Tickets"
-  bank_mailer:
-    submission:
-      subject: "DTA-Datei"
   newsletter_mailer:
     subscribed:
       subject: "Ihre Anmeldung zum Newsletter"

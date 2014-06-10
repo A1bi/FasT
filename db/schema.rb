@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604112905) do
+ActiveRecord::Schema.define(version: 20140610080742) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 20140604112905) do
 
   create_table "ticketing_orders", force: true do |t|
     t.integer  "number"
-    t.boolean  "paid"
+    t.boolean  "paid",                        default: false, null: false
     t.float    "total"
     t.string   "email"
     t.string   "first_name"
