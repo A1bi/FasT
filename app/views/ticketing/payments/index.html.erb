@@ -6,22 +6,22 @@
   <table class="rounded entries details">
     <thead>
       <tr>
-        <th colspan="3">Einzureichende Lastschriften</th>
+        <th colspan="4">Einzureichende Lastschriften</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <% if @unsubmitted_charges.any? %>
-          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
+          <td colspan="3"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
           <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
         <% else %>
-          <td colspan="3" class="empty">Keine Lastschriften einzureichen.</td>
+          <td colspan="4" class="empty">Keine Lastschriften einzureichen.</td>
         <% end %>
       </tr>
     </tbody>
     <thead>
       <tr>
-        <th colspan="3">Vergangene Einreichungen</th>
+        <th colspan="4">Vergangene Einreichungen</th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +30,7 @@
           <td><%= submission.charges.count %> Lastschriften</td>
           <td><%= number_to_currency submission.charges.sum(:amount) %></td>
           <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          <td><%= link_to "Sammelauftragsdatei", ticketing_payments_submission_file_path(submission.id) %></td>
         </tr>
       <% end %>
     </tbody>

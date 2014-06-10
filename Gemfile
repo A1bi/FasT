@@ -32,7 +32,7 @@ gem 'rubyzip', '~> 1.1.0'
 
 gem 'roadie'
 
-gem 'sepa_king'
+gem 'sepa_king', '~> 0.4.0'
 
 gem 'dalli'
 
