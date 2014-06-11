@@ -1,4 +1,4 @@
-<% cache [:ticketing, cache_key, orders] do %>
+<% cache [:ticketing, cache_key, orders, params[:type]] do %>
   <% orders = orders.all %>
   <table class="rounded entries details">
     <thead>

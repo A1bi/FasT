@@ -552,7 +552,7 @@ function FinishStep(delegate) {
           
           var printer = new TicketPrinter();
           setTimeout(function () {
-            printer.printTicketsWithNotification(orderInfo.printable_path, true);
+            printer.printTicketsWithNotification(orderInfo.printable_path);
           }, 2000);
           
         } else if (this.delegate.web) {

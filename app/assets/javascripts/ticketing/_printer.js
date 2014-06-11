@@ -17,9 +17,13 @@ function TicketPrinter() {
     this.notifyHelper("settings");
   };
   
-  this.showPrintNotification = function (path, permanent) {
+  this.showPrintNotification = function (path) {
     if (!this.notification) {
       this.notification = $(".print-notification");
+      this.notification.find("a.dismiss").click(function (e) {
+        _this.notification.fadeOut();
+        e.preventDefault();
+      });
       this.spinnerBox = this.notification.find(".spinner");
       var opts = {
         lines: 13,
@@ -31,28 +35,33 @@ function TicketPrinter() {
       this.spinner = new Spinner(opts);
     }
     
+    this.notification.find("a.restart").off().click(function (e) {
+      _this.printTickets(path);
+      _this.showSpinner(true);
+      e.preventDefault();
+    });
+    
     if (this.notification.is(":visible")) return;
     
-    this.notification.find("a").prop("href", path);
-    this.spinner.spin(this.spinnerBox.get(0));
+    this.notification.find("a.printable").prop("href", path);
+    this.showSpinner();
     this.notification.fadeIn();
+  };
+  
+  this.showSpinner = function (fadeIn) {
+    this.spinner.spin(this.spinnerBox.get(0));
+    this.spinnerBox.fadeIn();
     
     setTimeout(function () {
       _this.spinnerBox.fadeOut(function () {
         _this.spinner.stop();
       });
     }, 5000);
-    
-    if (!permanent) {
-      setTimeout(function () {
-        _this.notification.fadeOut();
-      }, 10000);
-    }
   };
   
-  this.printTicketsWithNotification = function (path, permanent) {
+  this.printTicketsWithNotification = function (path) {
     this.printTickets(path);
-    this.showPrintNotification(path, permanent);
+    this.showPrintNotification(path);
   };
 };
 

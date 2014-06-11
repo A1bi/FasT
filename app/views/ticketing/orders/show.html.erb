@@ -139,7 +139,7 @@
     </tbody>
   </table>
 <% end %>
-<% cache [:ticketing, :orders, @order, @order.tickets] do %>
+<% cache [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
   <%= form_tag orders_path(:edit_ticketing_order_tickets, @order), method: :patch do %>
     <table class="rounded entries details">
       <thead>
