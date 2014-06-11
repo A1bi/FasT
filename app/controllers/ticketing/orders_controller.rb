@@ -51,21 +51,18 @@ module Ticketing
     end
   
     def index
-      types = []
-      types << [:web, Web, []] if admin?
-      types << [:retail, Retail, [[:includes, :store]]]
-      types.last.last << [:where, { store: @_retail_store }] if retail?
       @orders = {}
-      types.each do |type|
-        table = type[1]::Order.arel_table
-        @orders[type[0]] = type[1]::Order
-          .includes(:tickets)
-          .where(table[:created_at].gt(Time.now - 1.month))
-          .order(created_at: :desc)
-          .limit(20)
-        type[2].each do |additional|
-          @orders[type[0]] = @orders[type[0]].send(additional[0], additional[1])
-        end
+      @orders[:web] = Ticketing::Web::Order.all if admin?
+      @orders[:retail] = Ticketing::Retail::Order.includes(:store)
+      @orders[:retail].where!(store: @_retail_store) if retail?
+      
+      @orders.each do |type, orders|
+        table = orders.arel_table
+        orders
+          .includes!(:tickets)
+          .where!(table[:created_at].gt(Time.now - 1.month))
+          .order!(created_at: :desc)
+          .limit!(20)
       end
     end
   

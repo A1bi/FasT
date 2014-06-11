@@ -6,7 +6,7 @@ module Ticketing
     def index
       @orders = {}
       %i(unpaid unapproved).each do |type|
-        @orders[type] = Web::Order.order(:number)
+        @orders[type] = Web::Order.where(cancellation: nil).order(:number)
       end
       
       @orders[:unpaid]
@@ -45,7 +45,7 @@ module Ticketing
       submission = BankSubmission.find(params[:id])
       
       submissions_scope = [:ticketing, :payments, :submissions]
-      creditor = Hash[[:name, :iban, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
+      creditor = Hash[[:name, :iban, :bic, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
       debit = SEPA::DirectDebit.new(creditor)
       debit.message_identification = "FasT/#{submission.id}"
 
@@ -64,7 +64,7 @@ module Ticketing
         )
       end
       
-      send_data debit.to_xml, filename: "sepa-#{submission.id}.xml", type: "application/xml"
+      send_data debit.to_xml("pain.008.002.02"), filename: "sepa-#{submission.id}.xml", type: "application/xml"
     end
     
     private

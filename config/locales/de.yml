@@ -97,6 +97,7 @@ de:
       submissions:
         name: "Freilichtbühne am schiefen Turm"
         iban: "DE65570691440000178167"
+        bic: "GENODED1KAI"
         creditor_identifier: "DE21ZZZ00001271843"
         remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
     coupons:
