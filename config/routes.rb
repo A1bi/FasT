@@ -214,6 +214,7 @@ FasT::Application.routes.draw do
           post :unlock_seats
         end
       end
+      post "push_notifications" => "push_notifications#register"
     end
     
     scope module: "passbook/controllers", controller: :passbook, path: :passbook, constraints: { pass_type_id: /([\w\d\-\.])+/ } do

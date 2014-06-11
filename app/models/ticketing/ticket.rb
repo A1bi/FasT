@@ -57,6 +57,7 @@ module Ticketing
     def create_passbook_pass
       pass = ::Passbook::Pass.new(date.event.identifier, { ticket: self }, self)
       pass.create
+      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token }) if passbook_pass.devices.any?
     end
   end
 end
