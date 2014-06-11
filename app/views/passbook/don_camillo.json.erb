@@ -23,20 +23,23 @@
         "key": "date",
         "label": "Datum",
         "value": "<%= date %>",
-        "dateStyle": "PKDateStyleFull"
+        "dateStyle": "PKDateStyleFull",
+        "changeMessage": "Ihr Ticket wurde auf folgendes Datum umgebucht: %@"
       }
     ],
     "secondaryFields": [
       {
         "key": "block",
         "label": "Block",
-        "value": "<%= ticket.seat.block.name %>"
+        "value": "<%= ticket.seat.block.name %>",
+        "changeMessage": "Ihr Sitzplatz befindet sich nun in Block %@."
       },
       {
         "key": "seat",
         "label": "Sitzplatz",
         "value": "<%= ticket.seat.number %>",
-        "textAlignment": "PKTextAlignmentLeft"
+        "textAlignment": "PKTextAlignmentLeft",
+        "changeMessage": "Ihre neue Sitznummer lautet %@."
       },
       {
         "key": "opens",
@@ -48,7 +51,8 @@
         "key": "time",
         "label": "Beginn",
         "value": "<%= date %>",
-        "timeStyle": "PKDateStyleShort"
+        "timeStyle": "PKDateStyleShort",
+        "changeMessage": "Der Beginn der Aufführung wurde geändert auf %@."
       }
     ],
     "auxiliaryFields": [
