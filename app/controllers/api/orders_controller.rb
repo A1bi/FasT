@@ -72,12 +72,16 @@ class Api::OrdersController < ApplicationController
           end
     
           NodeApi.update_seats_from_tickets(order.tickets)
+          
           options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }
           options[:store] = order.store.name if type == :retail
-          NodeApi.pushToApp(
-            { aps: { alert: t(type, options), sound: "default" } },
-            Ticketing::PushNotifications::Device.where(app: "stats").map { |device| device.token }
-          )
+          Ticketing::PushNotifications::Device.push(:stats, {
+            aps: {
+              alert: t(type, options),
+              badge: Ticketing::Ticket.where("created_at >= ?", Time.zone.now.beginning_of_day).count,
+              sound: "default"
+            }
+          })
     
           coupon_assignments.each { |a| a.save }
     

@@ -34,8 +34,9 @@ class NodeApi
     make_request("push", data)
   end
   
-  def self.pushToApp(notification, tokens)
+  def self.push_to_app(app, notification, tokens)
     data = {
+      app: app,
       notification: notification,
       tokens: tokens
     }
