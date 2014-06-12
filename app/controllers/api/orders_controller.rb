@@ -33,7 +33,7 @@ class Api::OrdersController < ApplicationController
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
       
-      if ticket_type.exclusive && type != :admin
+      if ticket_type.exclusive && (type != :admin || coupon)
         assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
         next if !assignment
         if assignment.number >= 0
@@ -64,12 +64,14 @@ class Api::OrdersController < ApplicationController
       order.store = Ticketing::Retail::Store.find_by_id(retailId)
     end
     
-    Ticketing::Order.transaction do
+    ActiveRecord::Base.transaction do
       begin
         if order.save
           if type == :web && params[:newsletter].present?
             Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
           end
+          
+          coupon_assignments.each { |a| a.save }
     
           NodeApi.update_seats_from_tickets(order.tickets)
           
@@ -79,11 +81,9 @@ class Api::OrdersController < ApplicationController
             aps: {
               alert: t(type, options),
               badge: Ticketing::Ticket.where("created_at >= ?", Time.zone.now.beginning_of_day).count,
-              sound: "default"
+              sound: "cash.aif"
             }
           })
-    
-          coupon_assignments.each { |a| a.save }
     
           response[:ok] = true
           response[:order] = order.api_hash
@@ -92,6 +92,7 @@ class Api::OrdersController < ApplicationController
         end
       rescue
         response[:errors] << "Internal error"
+        raise ActiveRecord::Rollback
       end
     end
     
