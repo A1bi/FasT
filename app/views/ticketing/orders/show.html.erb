@@ -139,7 +139,8 @@
     </tbody>
   </table>
 <% end %>
-<% cache [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
+<% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
+  <a id="tickets"></a>
   <%= form_tag orders_path(:edit_ticketing_order_tickets, @order), method: :patch do %>
     <table class="rounded entries details">
       <thead>
@@ -158,7 +159,8 @@
       </thead>
       <tbody class="hover">
         <% @order.tickets.each do |ticket| %>
-          <% classes = :cancelled if ticket.cancelled? %>
+          <% classes = [:cancelled] if ticket.cancelled? %>
+          <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.id %>
           <%= content_tag_for :tr, ticket, class: classes do %>
             <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
             <td class="number"><%= ticket.number %></td>

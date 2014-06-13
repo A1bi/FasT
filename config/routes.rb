@@ -109,6 +109,9 @@ FasT::Application.routes.draw do
               post :resend_tickets
               get :seats
             end
+            collection do
+              get :search, path: "suche"
+            end
           end
         end
         controller :payments, path: "zahlungen", as: :payments do
@@ -148,6 +151,9 @@ FasT::Application.routes.draw do
             member do
               post :cancel
               get :seats
+            end
+            collection do
+              get :search, path: "suche"
             end
           end
         end

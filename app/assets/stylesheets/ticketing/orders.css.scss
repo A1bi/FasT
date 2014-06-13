@@ -14,6 +14,17 @@ table.details {
     text-align: left;
   }
   
+  &.search {
+    th:last-child {
+      width: 70%;
+      text-align: left;
+      
+      input[type=text] {
+        width: 70%;
+      }
+    }
+  }
+  
   tr.cancelled td {
     color: #cccccc;
     text-decoration: line-through;

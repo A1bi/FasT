@@ -108,6 +108,36 @@ module Ticketing
         }
       end
     end
+    
+    def search
+      if params[:q] =~ /\A(1|7)(\d{6})\z/
+        if $1 == "1"
+          order = Ticketing::Order.where(number: $2).first
+        else
+          ticket = Ticketing::Ticket.where(number: $2).first
+          order = ticket.order if ticket
+        end
+        if order
+          if retail? && (!order.is_a?(Ticketing::Retail::Order) || order.store != @_retail_store)
+            flash[:alert] = t("ticketing.orders.retail_access_denied")
+            return redirect_to orders_path(:ticketing_orders)
+          end
+          prms = { id: order.id }
+          prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
+          return redirect_to orders_path(:ticketing_order, prms)
+        end
+      end
+      
+      table = Ticketing::Order.arel_table
+      if admin?
+        @orders = Ticketing::Order
+          .where(table[:first_name].matches("%#{params[:q]}%")
+          .or(table[:last_name].matches("%#{params[:q]}%")))
+      else
+        @orders = Ticketing::Retail::Order.where(store: @_retail_store).none
+      end
+      @orders.order!(:last_name, :first_name)
+    end
   
     private
   
@@ -151,7 +181,7 @@ module Ticketing
     def restrict_access
       actions = [:new, :redeem_coupon]
       if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
-        actions.push :index, :show, :cancel, :seats
+        actions.push :index, :show, :cancel, :seats, :search
         if @_retail_store.id
           actions.push :new_retail
         end

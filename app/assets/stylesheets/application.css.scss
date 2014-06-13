@@ -625,16 +625,18 @@ table.rounded {
 		}
 	}
   
-  *:last-child tr:last-child td {
-		border-bottom: $border-outer;
+  *:last-child tr:last-child {
+    td, th {
+  		border-bottom: $border-outer;
 		
-		&:first-child {
-			border-bottom-left-radius: $border-radius;
-		}
+  		&:first-child {
+  			border-bottom-left-radius: $border-radius;
+  		}
 		
-		&:last-child {
-			border-bottom-right-radius: $border-radius;
-		}
+  		&:last-child {
+  			border-bottom-right-radius: $border-radius;
+  		}
+    }
   }
 	
 	td, th {
@@ -669,6 +671,10 @@ table.rounded {
 	td {
 		font-size: 13px;
 	}
+  
+  tr.highlighted td {
+    background: #FFFC8F;
+  }
   
   tbody.hover tr:hover td:not(.empty) {
     background: $faint-blue;

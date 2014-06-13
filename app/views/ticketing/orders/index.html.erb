@@ -4,6 +4,14 @@
 <div class="index">
   <div class="hl">Bestellungen</div>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
+  <form action="<%= orders_path(:search_ticketing_orders) %>" method="GET">
+    <table class="rounded entries details search">
+      <tr>
+        <th>Bestellung suchen</th>
+        <th><%= text_field_tag :q, nil, placeholder: retail? ? "Bestell- oder Ticketnummer" : "Bestell-, Ticketnummer oder Name des Bestellers" %> <%= submit_tag "suchen", name: nil %></th>
+      </tr>
+    </table>
+  </form>
   <% if admin? %>
     <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web] %>
     <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
