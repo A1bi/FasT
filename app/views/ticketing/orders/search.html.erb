@@ -3,6 +3,7 @@
 <% include_js "ticketing/base" %>
 <div class="index">
   <div class="hl">Suche</div>
+  <%= render "search_form" %>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
   <%= render "application/ticketing/orders_table", table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders, web: true %>
 </div>

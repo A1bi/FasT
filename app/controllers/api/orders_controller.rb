@@ -84,6 +84,8 @@ class Api::OrdersController < ApplicationController
               sound: "cash.aif"
             }
           })
+          
+          order.send_confirmation if type == :web
     
           response[:ok] = true
           response[:order] = order.api_hash

@@ -10,8 +10,6 @@ module Ticketing
     validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
-  
-    after_create :send_confirmation
     
     def send_pay_reminder
       OrderMailer.pay_reminder(self).deliver
