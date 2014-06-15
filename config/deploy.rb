@@ -8,7 +8,7 @@ load "config/recipes/mysql"
 load "config/recipes/memcached"
 load "config/recipes/rails"
 
-server "85.214.74.100", :web, :app, :db, primary: true
+server "213.239.219.83", :web, :app, :db, primary: true
 
 set :user, "deployer"
 set :application, "FasT"

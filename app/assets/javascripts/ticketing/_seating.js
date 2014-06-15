@@ -468,6 +468,23 @@ function Seating(container) {
   
   var viewChooser = this.container.find(".viewChooser");
   if (viewChooser.length) {
+    var viewChooserCallback = function ($this) {
+      $this.addClass("selected").siblings().removeClass("selected");
+      var viewType = $this.data("type");
+      var numbers = false, underlay = false, photo = false;
+      if (viewType == "numbers_and_underlay") {
+        numbers = underlay = true;
+      } else if (viewType == "photo") {
+        photo = true;
+      }
+      _this.toggleNumbers(numbers);
+      _this.layers['seats'].visible(!photo);
+      _this.drawSeatsLayer();
+      _this.underlayImage.visible(underlay);
+      _this.photoUnderlayImage.visible(photo);
+      _this.drawLayer("background");
+    };
+    
     var underlay = new Image();
     underlay.src = "/uploads/seating_underlay.png";
     underlay.onload = function () {
@@ -477,34 +494,26 @@ function Seating(container) {
         height: _this.layers['seats'].width() / underlay.width * underlay.height,
         visible: false
       }));
+      
+      var photo = new Image();
+      photo.src = "/uploads/seating_photo.jpg";
+      photo.onload = function () {
+        _this.photoUnderlayImage = _this.addToLayer("background", new Kinetic.Image({
+          image: photo,
+          width: _this.layers['seats'].width(),
+          height: _this.layers['seats'].width() / photo.width * photo.height,
+          visible: false
+        }));
+        
+        viewChooser.find("a").click(function (event) {
+          event.preventDefault();
+          var $this = $(this);
+          if ($this.is(".selected")) return;
+          viewChooserCallback($this);
+        });
+        viewChooserCallback(viewChooser.find(".selected"));
+      };
     };
-    
-    var photo = new Image();
-    photo.src = "/uploads/seating_photo.jpg";
-    photo.onload = function () {
-      _this.photoUnderlayImage = _this.addToLayer("background", new Kinetic.Image({
-        image: photo,
-        width: _this.layers['seats'].width(),
-        height: _this.layers['seats'].width() / photo.width * photo.height,
-        visible: false
-      }));
-    };
-    
-    viewChooser.find("a").click(function (event) {
-      event.preventDefault();
-      var $this = $(this);
-      if ($this.is(".selected")) return;
-
-      $this.addClass("selected").siblings().removeClass("selected");
-      var viewType = $this.data("type"), numbersAndUnderlay = viewType == "numbersAndUnderlay", photo = viewType == "photo";
-      _this.toggleNumbers(numbersAndUnderlay);
-      _this.layers['seats'].visible(!photo);
-      _this.drawSeatsLayer();
-      _this.underlayImage.visible(numbersAndUnderlay);
-      _this.photoUnderlayImage.visible(photo);
-      _this.drawLayer("background");
-    })
-    .first().addClass("selected");
   }
   this.drawLayer("background");
 };
@@ -743,7 +752,7 @@ function SeatChooser(container, delegate) {
   };
   
   this.mouseOverSeat = function (seat) {
-    this.setCursor("pointer");
+    this.setCursor((seat.status == Seat.Status.Chosen || seat.status == Seat.Status.Taken) ? null : "pointer");
   };
   
   this.clickedSeat = function (seat) {
