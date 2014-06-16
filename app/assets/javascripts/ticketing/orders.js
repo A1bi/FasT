@@ -293,16 +293,12 @@ function DateStep(delegate) {
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
     _this.choseNumber($this);
   });
-  if (!this.delegate.retail) {
-    this.couponBox.find("input[type=text]").keyup(function (event) {
-      if (event.which == 13) _this.redeemCoupon();
-    });
-    this.couponBox.find("input[type=submit]").click(function () {
-      _this.redeemCoupon();
-    });
-  } else {
-    this.couponBox.hide();
-  }
+  this.couponBox.find("input[type=text]").keyup(function (event) {
+    if (event.which == 13) _this.redeemCoupon();
+  });
+  this.couponBox.find("input[type=submit]").click(function () {
+    _this.redeemCoupon();
+  });
 }
 
 function SeatsStep(delegate) {

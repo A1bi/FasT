@@ -49,7 +49,7 @@ $(function () {
 		var map = new Map("map", ["/assets/info/tiles/${z}/${x}/${y}.png"]);
 		
 		$.each(data.icons, function (key, value) {
-			data.icons[key].file = '/assets/info/' + value.file;
+			data.icons[key].file = value.file;
 		});
 		map.registerIcons(data.icons);
 		

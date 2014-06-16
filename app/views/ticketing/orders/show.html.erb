@@ -9,7 +9,7 @@
   ["Tickets", @order.tickets.cancelled(false).count],
   ["Gesamtbetrag", number_to_currency(@order.total)],
   ["bezahlt", @order.paid ? "ja" : "nein"],
-  ["Gutschein", @order.coupon ? link_to(@order.coupon.recipient, @order.coupon) : content_tag(:em, "keiner", class: :small)]
+  ["Gutschein", @order.coupon ? link_to_if(admin?, @order.coupon.recipient, @order.coupon) : content_tag(:em, "keiner", class: :small)]
 ] %>
 <div class="topTables">
   <table class="rounded details">
