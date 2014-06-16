@@ -49,6 +49,13 @@ module Ticketing
       update_charge_amount
     end
     
+    def updated_tickets(t = nil)
+      super
+      (t || tickets).each do |ticket|
+        ticket.update_passbook_pass
+      end
+    end
+    
     private
     
     def before_validation

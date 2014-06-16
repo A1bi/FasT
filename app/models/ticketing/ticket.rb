@@ -12,8 +12,6 @@ module Ticketing
 	
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
-    
-    after_save :create_passbook_pass
   
     def seat=(seat)
       @check_reserved = true
@@ -45,6 +43,12 @@ module Ticketing
     def checked_in?
       !!checkins.last.try(:in)
     end
+    
+    def update_passbook_pass
+      pass = ::Passbook::Pass.new(date.event.identifier, { ticket: self }, self)
+      pass.create
+      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+    end
   
     private
   
@@ -52,12 +56,6 @@ module Ticketing
       if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
       end
-    end
-    
-    def create_passbook_pass
-      pass = ::Passbook::Pass.new(date.event.identifier, { ticket: self }, self)
-      pass.create
-      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token }) if passbook_pass.devices.any?
     end
   end
 end

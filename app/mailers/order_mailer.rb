@@ -68,6 +68,7 @@ class OrderMailer < BaseMailer
     
     find_tickets
     @tickets.each do |ticket|
+      next if ticket.cancelled?
       attachments["passbook-#{ticket.number}.pkpass"] = {
         mime_type: @@passbook_mime_type,
         content: File.read(ticket.passbook_pass.path(true))

@@ -35,6 +35,7 @@ class NodeApi
   end
   
   def self.push_to_app(app, notification, tokens)
+    return if tokens.empty?
     data = {
       app: app,
       notification: notification,

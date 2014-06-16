@@ -59,6 +59,7 @@ module Ticketing
         ticket.cancel(cancellation)
       end
       update_total
+      updated_tickets
       save
     end
     
@@ -71,14 +72,19 @@ module Ticketing
       self.cancellation = cancellation if cancellation && self.tickets.cancelled(false).count.zero?
       log(:tickets_cancelled, { count: tickets.count, reason: reason })
       update_total
+      updated_tickets(tickets)
       save
+    end
+    
+    def updated_tickets(t = nil)
+      create_printable
     end
     
     private
     
     def after_create
       log(:created)
-      create_printable
+      updated_tickets
     end
     
     def before_validation
