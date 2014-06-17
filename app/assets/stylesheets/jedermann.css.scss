@@ -24,6 +24,7 @@ $highlightColor: #d10a11;
 
 .info {
 	color: $regularColor;
+  line-height: 1.5em;
 	font: {
 		size: 18px;
 		family: 'Ovo', cursive;
@@ -52,6 +53,8 @@ $highlightColor: #d10a11;
 }
 
 .cast {
+  line-height: 1.2em;
+  
   .actor {
     color: $highlightColor;
   }

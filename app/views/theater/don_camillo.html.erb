@@ -1,0 +1,142 @@
+<% title "Don Camillo und Peppone" %>
+<% include_css "don_camillo" %>
+<% include_js "theater" %>
+<%
+@date_groups = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [0, 1, 3],
+  [2, 4, 5],
+  [0, 1, 2, 3],
+  [4, 5]
+]
+@cast = [
+  {
+    name: "Don Camillo",
+    actors: ["Stephan Hilken"]
+  },
+  {
+    name: "Peppone",
+    actors: ["Jürgen Knaup"]
+  },
+  {
+    name: "Signora Cristina",
+    doubles: [
+      {
+        name: "Catrin Drogi",
+        date_group: 1
+      },
+      {
+        name: "Maria Oster",
+        date_group: 0
+      }
+    ]
+  },
+  {
+    name: "Ariana",
+    doubles: [
+      {
+        name: "Kirsten Roscher",
+        date_group: 1
+      },
+      {
+        name: "Susanne Schubert",
+        date_group: 0
+      }
+    ]
+  },
+  {
+    name: "Pasotti",
+    doubles: [
+      {
+        name: "Thomas Ellerich",
+        date_group: 3
+      },
+      {
+        name: "Otto Krechel",
+        date_group: 2
+      }
+    ]
+  },
+  {
+    name: "Gina",
+    doubles: [
+      {
+        name: "Lena Schmitz",
+        date_group: 3
+      },
+      {
+        name: "Sarah-Céline Schubert",
+        date_group: 2
+      }
+    ]
+  },
+  {
+    name: "Mariolino",
+    doubles: [
+      {
+        name: "Ron Linden",
+        date_group: 3
+      },
+      {
+        name: "Alexander Dorka",
+        date_group: 2
+      }
+    ]
+  },
+  {
+    name: "Bruciata",
+    actors: ["Dieter Stein"]
+  },
+  {
+    name: "Fulmine",
+    actors: ["Werner Lutz"]
+  },
+  {
+    name: "Smilzo",
+    actors: ["Gerd Röser"]
+  },
+  {
+    name: "Jesus",
+    actors: ["Eugen Weiten"]
+  },
+  {
+    name: "Messdiener",
+    doubles: [
+      {
+        name: "Morten Roscher",
+        date_group: 4
+      },
+      {
+        name: "Noel Schönberg",
+        date_group: 5
+      }
+    ]
+  },
+  {
+    name: "Schiedsrichterin",
+    actors: ["Christiane Lares"]
+  },
+  {
+    name: "Musiker",
+    actors: ["Iwo Iwanov (Gitarre)", "Annemarie Taßler (Flöte)", "Dorothea Kirsch (Flöte)", "Harriet Schmidt (Flöte)", "Sabine Ziegler (Flöte)", "Marie-Luise Bretz (Flöte)"]
+  }
+]
+%>
+<div class="info">
+  <p>
+    Die Freilichtbühne am schiefen Turm präsentiert:
+    <p class="hcen">
+      <span class="highlight">„Don Camillo und Peppone“</span> - Eine Komödie von Gerold Theobald
+      <br />nach dem Roman „Mondo piccolo Don Camillo“ von Giovanni Guareschi
+    </p>
+  </p>
+  <h2>Über das Stück</h2>
+  <p>
+    Der Autor Giovanni Guareschi wählt das norditalienische Nachkriegsdorf Brescello aus, um dort seine Geschichte vom katholischen Dorfpfarrer Don Camillo und dessen Erzfeind, dem kommunistischen Bürgermeister Peppone, spielen zu lassen. Immer wieder prallen diese unterschiedlichen Dickschädel mit ihren gegensätzlichen Lebensauffassungen aufeinander. Und doch haben beide eigentlich das Gleiche im Sinn: die ihnen Anvertrauten in bescheidenem Auskommen glücklich zu machen. Freilich geschieht dies auf höchst unterschiedliche Art und Weise. In der Realisierung fliegen schon mal die Fäuste, da wird schon mal geschossen und Wortgefechte ausgetragen, aber wirklich hassen können die Beiden sich nicht, da sie doch das Herz auf dem rechten Fleck tragen. Währenddessen erwächst zwischen den verfeindeten Lagern eine Liebesgeschichte zwischen der Gutsbesitzerstochter und einem mittellosen Landarbeitersohn, die das Dorf weiter spaltet. Das Kräftemessen der Dorfbewohner und ihren sturköpfigen Anführern wogt hin und her und man ist gespannt, ob das wohl ein gutes Ende nehmen wird.
+  </p>
+  <h2>Brescello liegt in der Eifel</h2>
+  <p>
+    Italienisches Flair rund um den schiefen Turm des Eifelstädtchens Kaisersesch und ein streitbarer Gottesmann, der mit seinem kommunistischen Widersacher um das Seelenheil seiner anvertrauten Schäfchen kämpft. Viel Volk, turbulente Szenen, eine Demonstration, die sich in eine Prozession verwandelt, Familienfehden, Streiks, Prügeleien und mach andere chaotische Situation garantieren dem Zuschauer einen lustigen und unterhaltsamen Abend im historischen Ortskern von Kaisersesch.
+  </p>
+</div>

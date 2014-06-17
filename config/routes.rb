@@ -15,6 +15,7 @@ FasT::Application.routes.draw do
     get "medicus"
     get "phantasus"
     get "jedermann"
+    get "don-camillo-und-peppone", action: :don_camillo, as: :don_camillo
   end
 
   # info

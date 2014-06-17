@@ -25,9 +25,7 @@ $dark-blue: #216bed;
 @mixin font-face($name) {
 	@font-face {
 		font-family: "#{$name}";
-		src: url(asset_path("#{$name}.eot"));
-		src: url(asset_path("#{$name}.eot?#iefix")) format('embedded-opentype'),
-			 url(asset_path("#{$name}.woff")) format('woff');
+		src: url(asset_path("#{$name}.woff")) format('woff');
 	}
 }
 
