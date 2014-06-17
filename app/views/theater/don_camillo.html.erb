@@ -120,6 +120,87 @@
   {
     name: "Musiker",
     actors: ["Iwo Iwanov (Gitarre)", "Annemarie Taßler (Flöte)", "Dorothea Kirsch (Flöte)", "Harriet Schmidt (Flöte)", "Sabine Ziegler (Flöte)", "Marie-Luise Bretz (Flöte)"]
+  },
+  {
+    name: "Katholiken",
+    doubles: [
+      {
+        name: "Wilfried Bernauer"
+      },
+      {
+        name: "Gerda Schnitzler",
+        dates: [1, 2, 5]
+      },
+      {
+        name: "Heidrun Bretz",
+        dates: [0, 1, 2, 3]
+      },
+      {
+        name: "Renate Reifenrath"
+      },
+      {
+        name: "Margit Fischer",
+        dates: [2, 3, 4, 5]
+      },
+      {
+        name: "Renate Sommer"
+      },
+      {
+        name: "Gabi Bernauer"
+      },
+      {
+        name: "Rolf Heidorn",
+        dates: [3, 4, 5]
+      },
+      {
+        name: "Martina Scheler",
+        dates: [0, 1, 2, 3]
+      }
+    ]
+  },
+  {
+    name: "Kommunisten",
+    doubles: [
+      {
+        name: "Uli Hesse",
+        dates: [0, 2, 3, 4, 5]
+      },
+      {
+        name: "Christiane Lares"
+      },
+      {
+        name: "Margret Zeimetz",
+        dates: []
+      },
+      {
+        name: "Barbara Röser",
+        dates: []
+      },
+      {
+        name: "Josef Kreutz",
+        dates: [0, 1, 4, 5]
+      },
+      {
+        name: "Kathi Kreutz",
+        dates: [0, 4, 5]
+      },
+      {
+        name: "Dr. Elke Koller",
+        dates: [3, 4, 5]
+      },
+      {
+        name: "Karl-Heinz Werr",
+        dates: [0, 1, 2, 3, 5]
+      },
+      {
+        name: "Beate Offenberg",
+        dates: [1, 2, 3, 4]
+      }
+    ]
+  },
+  {
+    name: "Vorspann",
+    actors: ["Johanna Ellerich", "Jakob Ellerich", "Saskia Darscheid", "Annalena Keller", "Carla Wink", "Jule Thelen", "Katharina May", "Cécile Lares", "Luca Ptachin", "Anna Ptachin", "Michéle Kemler", "Johanna May"]
   }
 ]
 %>
@@ -139,4 +220,6 @@
   <p>
     Italienisches Flair rund um den schiefen Turm des Eifelstädtchens Kaisersesch und ein streitbarer Gottesmann, der mit seinem kommunistischen Widersacher um das Seelenheil seiner anvertrauten Schäfchen kämpft. Viel Volk, turbulente Szenen, eine Demonstration, die sich in eine Prozession verwandelt, Familienfehden, Streiks, Prügeleien und mach andere chaotische Situation garantieren dem Zuschauer einen lustigen und unterhaltsamen Abend im historischen Ortskern von Kaisersesch.
   </p>
+  <h2>Besetzung</h2>
+  <%= render "cast" %>
 </div>

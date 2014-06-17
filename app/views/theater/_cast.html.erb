@@ -1,31 +1,39 @@
 <div class="cast">
   <% @cast.each do |role| %>
     <% if role[:doubles] %><div class="double"><% end %>
-		<div class="row">
-			<div class="role"><%= role[:name] %></div>
-			<div class="actor">
+    <div class="row">
+      <div class="role"><%= role[:name] %></div>
+      <div class="actor">
         <% if role[:doubles] %>
           <% role[:doubles].each do |double| %>
             <%= double[:name] %><% if double != role[:doubles].last %> / <% end %>
           <% end %>
-          <div class="small">Doppelbesetzung anzeigen</div>
+          <div class="small">Aufführungen anzeigen</div>
         <% else %>
           <% role[:actors].each do |actor| %>
             <%= actor %><% if actor != role[:actors].last %><br /><% end %>
           <% end %>
         <% end %>
       </div>
-		</div>
+    </div>
     <% if role[:doubles] %>
-  			<div class="alt">
+        <div class="alt">
           <% role[:doubles].each do |double| %>
-            <% dates = (double[:dates]) ? double[:dates] : @date_groups[double[:date_group]] %>
-    				<div class="row">
-    					<div class="role"><%= double[:name] %></div>
-    					<div class="actor"><% dates.each do |date| %><span><%= l (@dates[date] || @dates.first).date, format: "%d.%m." %></span><% if date != dates.last %> | <% end %><% end %></div>
-    				</div>
+            <% dates = (double[:dates]) ? double[:dates] : (double[:date_group] ? @date_groups[double[:date_group]] : nil) %>
+            <div class="row">
+              <div class="role"><%= double[:name] %></div>
+              <div class="actor">
+                <% if !dates.nil? %>
+                  <% dates.each do |date| %>
+                    <span><%= l (@dates[date] || @dates.first).date, format: "%d.%m." %></span><% if date != dates.last %> | <% end %>
+                  <% end %>
+                <% else %>
+                  <span>alle</span>
+                <% end %>
+              </div>
+            </div>
           <% end %>
-  			</div>
+        </div>
       </div>
     <% end %>
   <% end %>
