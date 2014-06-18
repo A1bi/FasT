@@ -10,10 +10,37 @@ module Ticketing
       where(:store_id => retail_id)
     end
     
+    def printable_path(full = false)
+      File.join(printable_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
+    end
+    
+    def updated_tickets(t = nil)
+      update_printable
+    end
+    
+    def api_hash(detailed = false)
+      super.merge({
+        printable_path: printable_path
+      })
+    end
+    
     private
     
     def before_create
       self.paid = true
+    end
+    
+    def printable_dir_path(full = false)
+      path = Rails.public_path if full
+      File.join(path || "", "/system/tickets")
+    end
+    
+    def update_printable
+      FileUtils.mkdir_p(printable_dir_path(true))
+      
+      pdf = TicketsPDF.new(true)
+      pdf.add_order self
+      pdf.render_file(printable_path(true))
     end
   end
 end

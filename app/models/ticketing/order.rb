@@ -20,10 +20,6 @@ module Ticketing
       "1#{self[:number]}"
     end
     
-    def printable_path(full = false)
-      File.join(tickets_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
-    end
-    
     def self.api_hash
       includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash }
     end
@@ -39,8 +35,7 @@ module Ticketing
           info = { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
           info[:can_check_in] = ticket.can_check_in? if detailed
           info
-        end,
-        printable_path: printable_path
+        end
       }
     end
     
@@ -77,7 +72,6 @@ module Ticketing
     end
     
     def updated_tickets(t = nil)
-      create_printable
     end
     
     private
@@ -93,19 +87,6 @@ module Ticketing
     
     def before_create
       self.paid = true if total.zero?
-    end
-    
-    def tickets_dir_path(full = false)
-      path = Rails.public_path if full
-      File.join(path || "", "/system/tickets")
-    end
-    
-    def create_printable
-      FileUtils.mkdir_p(tickets_dir_path(true))
-      
-      pdf = TicketsPDF.new(true)
-      pdf.add_order self
-      pdf.render_file(printable_path(true))
     end
     
     def update_total

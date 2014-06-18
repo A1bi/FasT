@@ -131,7 +131,13 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_event_info_for_date(date)
-    svg File.read(Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")), at: [0, cursor], width: 370
+    event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
+    width = 370
+    if @retail
+      image event_image_path.sub_ext(".png"), width: width
+    else
+      svg File.read(event_image_path), at: [0, cursor], width: width
+    end
     
     move_down 5
     font_size_name :normal do

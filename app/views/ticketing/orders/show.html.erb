@@ -73,8 +73,6 @@
               <% end %>
               <% if retail? %>
                 <div><%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { printable_path: @order.printable_path } %></div>
-              <% else %>
-                <div><%= link_to "Tickets runterladen", @order.printable_path %></div>
               <% end %>
               <div>
                 <%= link_to "Gesamte Bestellung stornieren", nil, id: "cancelAction" %>

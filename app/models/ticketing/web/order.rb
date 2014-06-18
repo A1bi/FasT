@@ -38,7 +38,7 @@ module Ticketing
     end
     
     def api_hash(detailed = false)
-      super(detailed).merge({
+      super.merge({
         first_name: first_name,
         last_name: last_name
       })
