@@ -12,17 +12,17 @@ module Ticketing
     validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
     
     def send_pay_reminder
-      OrderMailer.pay_reminder(self).deliver
+      enqueue_mailing(:pay_reminder)
       log(:sent_pay_reminder)
     end
     
     def resend_tickets
-      OrderMailer.resend_tickets(self).deliver
+      enqueue_mailing(:resend_tickets)
       log(:resent_tickets)
     end
     
     def send_confirmation
-      OrderMailer.confirmation(self).deliver
+      enqueue_mailing(:confirmation)
     end
     
     def approve
@@ -34,7 +34,7 @@ module Ticketing
     
     def mark_as_paid
       super
-      OrderMailer.payment_received(self).deliver
+      enqueue_mailing(:payment_received)
     end
     
     def api_hash(detailed = false)
@@ -65,6 +65,10 @@ module Ticketing
     
     def update_charge_amount
       bank_charge.amount = total if bank_charge.present?
+    end
+    
+    def enqueue_mailing(action)
+      Resque.enqueue(Mailer, id, action)
     end
   end
 end

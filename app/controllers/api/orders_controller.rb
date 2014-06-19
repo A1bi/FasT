@@ -72,8 +72,6 @@ class Api::OrdersController < ApplicationController
           end
           
           coupon_assignments.each { |a| a.save }
-    
-          NodeApi.update_seats_from_tickets(order.tickets)
           
           options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }
           options[:store] = order.store.name if type == :retail
@@ -86,6 +84,8 @@ class Api::OrdersController < ApplicationController
           })
           
           order.send_confirmation if type == :web
+          
+          NodeApi.update_seats_from_tickets(order.tickets)
     
           response[:ok] = true
           response[:order] = order.api_hash
