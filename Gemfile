@@ -54,6 +54,7 @@ gem 'unicorn'
 group :development do
   gem 'capistrano', '~> 2.15.5'
   gem 'rvm-capistrano'
+  gem 'capistrano-resque', github: "sshingler/capistrano-resque", require: false
 	gem 'sqlite3'
 	gem 'ffaker'
 end
