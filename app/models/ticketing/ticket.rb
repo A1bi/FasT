@@ -7,7 +7,7 @@ module Ticketing
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
     has_random_unique_number :number, 6
-    has_one :passbook_pass, class_name: Passbook::Records::Pass, as: :assignable, dependent: :destroy
+    has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
   	validates_presence_of :type, :seat, :date
@@ -45,8 +45,7 @@ module Ticketing
     end
     
     def update_passbook_pass
-      pass = ::Passbook::Pass.new(date.event.identifier, { ticket: self }, self)
-      pass.create
+      super(date.event.identifier, { ticket: self })
       NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
     end
   
