@@ -51,12 +51,6 @@ function Step(name, delegate) {
     if (!ok) return this.error(this.msg || 'Invalid IBAN');
     return this;
   };
-  this.validator.isBIC = function () {
-    if (!this.upperStrip().match(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2,5}$/)) {
-      return this.error(this.msg || 'Invalid BIC');
-    }
-    return this;
-  };
 }
 
 Step.prototype = {
@@ -403,7 +397,6 @@ function PaymentStep(delegate) {
       return this.validateFields(function () {
         this.getValidatorCheckForField("name", "Bitte geben Sie den Kontoinhaber an.").notEmpty();
         this.getValidatorCheckForField("iban", "Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isIBAN();
-        this.getValidatorCheckForField("bic", "Die angegebene BIC ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isBIC();
       });
     }
     

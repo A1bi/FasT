@@ -37,7 +37,6 @@
             payment.concat [
               ["Kontoinhaber", @order.bank_charge.name],
               ["IBAN", obfuscated_iban(@order.bank_charge.iban)],
-              ["BIC", @order.bank_charge.bic],
               ["geprüft", @order.bank_charge.approved ? "ja" : "nein"]
             ]
           end

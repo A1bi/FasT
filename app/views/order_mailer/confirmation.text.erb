@@ -8,7 +8,6 @@ vielen Dank für Ihre Bestellung <%= render "order_number" %>!
 Der Betrag wird in den kommenden Tagen per SEPA-Lastschrift von folgendem Konto abgebucht:
 Kontoinhaber: <%= @order.bank_charge.name %>
 IBAN: <%= obfuscated_iban(@order.bank_charge.iban) %>
-BIC: <%= @order.bank_charge.bic %>
 Ihre Mandatsreferenznummer: <%= @order.bank_charge.mandate_id %>
 Unsere Gläubiger-ID: DE21ZZZ00001271843
 <% elsif !@order.paid %>

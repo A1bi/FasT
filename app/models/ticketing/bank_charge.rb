@@ -5,17 +5,13 @@ module Ticketing
     
     validates_presence_of :name
     validates :amount, numericality: { greater_than: 0 }
-    validates_with SEPA::IBANValidator, SEPA::BICValidator
+    validates_with SEPA::IBANValidator
     
     def mandate_id
       id
     end
     
     def iban=(val)
-      super(strip_number(val))
-    end
-    
-    def bic=(val)
       super(strip_number(val))
     end
     

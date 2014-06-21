@@ -45,26 +45,25 @@ module Ticketing
       submission = BankSubmission.find(params[:id])
       
       submissions_scope = [:ticketing, :payments, :submissions]
-      creditor = Hash[[:name, :iban, :bic, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
+      creditor = Hash[[:name, :iban, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
       debit = SEPA::DirectDebit.new(creditor)
       debit.message_identification = "FasT/#{submission.id}"
 
       submission.charges.each do |charge|
         debit.add_transaction(
           name: charge.name[0..69],
-          bic: charge.bic,
           iban: charge.iban,
           amount: charge.amount,
           instruction: charge.id,
           remittance_information: t(:remittance_information, scope: submissions_scope, number: charge.chargeable.number),
           mandate_id: charge.mandate_id,
           mandate_date_of_signature: charge.created_at.to_date,
-          local_instrument: "CORE",
+          local_instrument: "COR1",
           sequence_type: "OOFF"
         )
       end
       
-      send_data debit.to_xml("pain.008.002.02"), filename: "sepa-#{submission.id}.xml", type: "application/xml"
+      send_data debit.to_xml("pain.008.003.02"), filename: "sepa-#{submission.id}.xml", type: "application/xml"
     end
     
     private

@@ -13,10 +13,6 @@ vielen Dank für Ihre Bestellung <%= render "order_number" %>!
         <td><%= obfuscated_iban(@order.bank_charge.iban) %></td>
       </tr>
       <tr>
-        <td>BIC:</td>
-        <td><%= @order.bank_charge.bic %></td>
-      </tr>
-      <tr>
         <td>Ihre Mandatsreferenznummer:</td>
         <td><%= @order.bank_charge.mandate_id %></td>
       </tr>
