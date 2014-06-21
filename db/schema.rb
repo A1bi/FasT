@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140610172922) do
+ActiveRecord::Schema.define(version: 20140621112735) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20140610172922) do
 
   create_table "members_dates", force: true do |t|
     t.datetime "datetime"
-    t.string   "info"
+    t.text     "info"
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -118,13 +118,13 @@ ActiveRecord::Schema.define(version: 20140610172922) do
   create_table "ticketing_bank_charges", force: true do |t|
     t.string   "name"
     t.string   "iban"
-    t.string   "bic"
     t.string   "chargeable_type"
     t.integer  "chargeable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "approved",        default: false
     t.integer  "submission_id"
+    t.string   "bic"
     t.float    "amount"
   end
 
@@ -314,6 +314,7 @@ ActiveRecord::Schema.define(version: 20140610172922) do
     t.datetime "updated_at"
     t.integer  "seat_id"
     t.integer  "date_id"
+    t.boolean  "paid",            default: false
   end
 
 end

@@ -45,6 +45,11 @@ module Ticketing
       self.paid = true
       save
       
+      tickets.each do |ticket|
+        ticket.paid = true
+        ticket.save
+      end
+      
       log(:marked_as_paid)
     end
     
@@ -56,6 +61,7 @@ module Ticketing
       update_total
       updated_tickets
       save
+      log(:cancelled)
     end
     
     def cancel_tickets(tickets, reason)

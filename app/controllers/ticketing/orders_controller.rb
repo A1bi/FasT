@@ -90,13 +90,9 @@ module Ticketing
     end
   
     def cancel
-      @order.admin_validations = true if @order.is_a?(Ticketing::Web::Order)
       @order.cancel(params[:reason])
-      @order.log(:cancelled)
     
       NodeApi.update_seats_from_tickets(@order.tickets)
-    
-      OrderMailer.cancellation(@order).deliver
     
       redirect_to_order_details :cancelled
     end

@@ -5,9 +5,9 @@ module Ticketing
     has_one :bank_charge, class: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy
     enum pay_method: [:charge, :transfer, :cash]
   
-    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }
-    validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }
-    validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }
+    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
+    validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create
+    validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
     
@@ -54,6 +54,11 @@ module Ticketing
       (t || tickets).each do |ticket|
         ticket.update_passbook_pass
       end
+    end
+    
+    def cancel(reason)
+      super
+      enqueue_mailing(:cancellation)
     end
     
     private
