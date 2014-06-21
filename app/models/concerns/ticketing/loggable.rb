@@ -7,7 +7,7 @@ module Ticketing
     end
     
     def log(event, info = nil)
-      log_events.create({ name: event, info: info })
+      log_events.create({ name: event, info: info }) if persisted?
     end
   end
 end

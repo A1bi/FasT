@@ -27,7 +27,7 @@ module Ticketing
     private
     
     def before_create
-      self.paid = true
+      mark_as_paid(false)
     end
     
     def printable_dir_path(full = false)

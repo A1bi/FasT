@@ -39,16 +39,13 @@ module Ticketing
       }
     end
     
-    def mark_as_paid
+    def mark_as_paid(save = true)
       return if paid
     
       self.paid = true
-      save
+      save if save
       
-      tickets.each do |ticket|
-        ticket.paid = true
-        ticket.save
-      end
+      mark_tickets_as_paid(tickets, save)
       
       log(:marked_as_paid)
     end
@@ -77,6 +74,13 @@ module Ticketing
       save
     end
     
+    def mark_tickets_as_paid(t = nil, save = true)
+      (t || tickets).each do |ticket|
+        ticket.paid = true
+        ticket.save if save
+      end
+    end
+    
     def updated_tickets(t = nil)
     end
     
@@ -92,7 +96,7 @@ module Ticketing
     end
     
     def before_create
-      self.paid = true if total.zero?
+      mark_as_paid(false) if total.zero?
     end
     
     def update_total

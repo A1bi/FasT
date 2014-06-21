@@ -32,9 +32,9 @@ module Ticketing
       log(:approved)
     end
     
-    def mark_as_paid
+    def mark_as_paid(save = true)
       super
-      enqueue_mailing(:payment_received)
+      enqueue_mailing(:payment_received) if transfer?
     end
     
     def api_hash(detailed = false)
@@ -65,7 +65,7 @@ module Ticketing
     
     def before_validation
       super
-      self.paid = true if charge?
+      mark_as_paid(false) if charge?
     end
     
     def update_charge_amount
