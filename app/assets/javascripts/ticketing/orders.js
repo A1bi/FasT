@@ -254,11 +254,9 @@ function DateStep(delegate) {
       
       this.info.internal.exclusiveSeats = res.seats;
       $.each(res.ticket_types, function (i, type) {
-        if (type.number != 0) {
-          var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).show();
-          if (type.number > 0) {
-            typeBox.find("option").slice(type.number + 1).remove();
-          }
+        var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).toggle(type.number != 0);
+        if (type.number > 0) {
+          typeBox.find("option").slice(type.number + 1).remove();
         }
       });
       
@@ -338,7 +336,7 @@ function SeatsStep(delegate) {
   };
   
   this.toggleExclusiveSeatsKey = function (toggle) {
-    this.box.find(".key .exclusiveSeats").toggle(toggle);
+    this.chooser.drawKey(toggle);
   };
   
   this.seatChooserIsReady = function () {

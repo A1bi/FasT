@@ -57,6 +57,7 @@ function Seat(id, block, number, pos, delegate) {
     case Seat.Status.Default:
       options = {};
       break;
+    case Seat.Status.PreAvailable:
     case Seat.Status.Available:
       options = {
         fill: "green"
@@ -197,7 +198,8 @@ Seat.Status = {
   PreChosen: 3,
   Taken: 4,
   Exclusive: 5,
-  Selected: 6
+  Selected: 6,
+  PreAvailable: 7
 };
 
 Seat.setSize = function (size) {
@@ -296,6 +298,97 @@ function Seating(container) {
     this.drawLayer("seats");
   };
   
+  this.drawKey = function (exclusive) {
+    var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - 20;
+    var padding = 7, xPos = 10;
+    var drawText = function (text, bold) {
+      var fontSize = keyRectHeight * 0.3;
+      var keyText = new Kinetic.Text({
+        x: xPos,
+        y: (keyRectHeight - fontSize) / 2,
+        text: text,
+        fontSize: fontSize,
+        fill: "black"
+      });
+      if (bold) keyText.fontStyle("bold");
+      keyGroup.add(keyText);
+      xPos += keyText.width() + 7;
+    };
+    
+    if (!this.layers['key']) {
+      this.addLayer("key", {
+        width: keyRectWidth,
+        height: keyLayerHeight,
+        x: (this.stage.width() - keyRectWidth) / 2,
+        y: seatsLayerHeight + stageLayerHeight
+      });
+      this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
+      
+      Seat.statusShapeRenderingCallbacks.push(function () {
+        _this.drawLayer("key");
+      });
+    } else {
+      this.layers['key'].removeChildren();
+    }
+    
+    var keyGroup = this.addToLayer("key", new Kinetic.Group({
+      width: keyRectWidth,
+      height: keyRectHeight
+    }));
+  
+    var keyRect = new Kinetic.Rect({
+      width: keyRectWidth,
+      height: keyRectHeight,
+      fill: "white",
+      strokeEnabled: true,
+      stroke: "gray",
+      strokeWidth: 1.2,
+      cornerRadius: 15
+    });
+    keyGroup.add(keyRect);
+    
+    drawText("Sitzplatz-Legende", true);
+    
+    var statuses = [Seat.Status.Available, Seat.Status.Taken, Seat.Status.Chosen];
+    if (exclusive) statuses.push(Seat.Status.Exclusive);
+    for (var i = 0; i < statuses.length; i++) {
+      keyGroup.add(new Kinetic.Line({
+        points: [xPos, keyRectHeight, xPos, 0],
+        stroke: "gray",
+        strokeWidth: 1
+      }));
+      xPos += 1 + padding;
+    
+      var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1]) / 2]);
+      keyGroup.add(seat.group);
+      seat.setStatus(statuses[i]);
+      xPos += Seat.cacheSize[0] + 5;
+      
+      var text;
+      switch (statuses[i]) {
+      case Seat.Status.Available:
+        text = "noch frei";
+        break;
+      case Seat.Status.Taken:
+        text = "besetzt";
+        break;
+      case Seat.Status.Chosen:
+        text = "Ihre Auswahl";
+        break;
+      case Seat.Status.Exclusive:
+        text = "exklusiv für Sie verfügbar";
+      }
+      drawText(text);
+    }
+    
+    xPos += 3;
+    keyGroup.width(xPos);
+    keyRect.width(xPos);
+    keyGroup.position({ x: (keyRectWidth - xPos) / 2 });
+    
+    this.drawLayer("key");
+  };
+  
   
   var isBig = this.container.is(".big");
   var planBox = this.container.find(".plan");
@@ -371,84 +464,7 @@ function Seating(container) {
   }
   
   if (drawKey) {
-    var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - 20;
-    this.addLayer("key", {
-      width: keyRectWidth,
-      height: keyLayerHeight,
-      x: (this.stage.width() - keyRectWidth) / 2,
-      y: seatsLayerHeight + stageLayerHeight
-    });
-    this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
-    
-    var keyGroup = this.addToLayer("key", new Kinetic.Group({
-      width: keyRectWidth,
-      height: keyRectHeight
-    }));
-    
-    var keyRect = new Kinetic.Rect({
-      width: keyRectWidth,
-      height: keyRectHeight,
-      fill: "white",
-      strokeEnabled: true,
-      stroke: "gray",
-      strokeWidth: 1.2,
-      cornerRadius: 15
-    });
-    keyGroup.add(keyRect);
-    
-    Seat.statusShapeRenderingCallbacks.push(function () {
-      _this.drawLayer("key");
-    });
-    
-    var drawText = function (text, bold) {
-      var fontSize = keyRectHeight * 0.3;
-      var keyText = new Kinetic.Text({
-        x: xPos,
-        y: (keyRectHeight - fontSize) / 2,
-        text: text,
-        fontSize: fontSize,
-        fill: "black"
-      });
-      if (bold) keyText.fontStyle("bold");
-      keyGroup.add(keyText);
-      xPos += keyText.width() + 7;
-    };
-    
-    var padding = 7, xPos = 10;
-    drawText("Legende", true);
-    
-    var statuses = [Seat.Status.Available, Seat.Status.Taken, Seat.Status.Chosen];
-    for (var i = 0; i < statuses.length; i++) {
-      keyGroup.add(new Kinetic.Line({
-        points: [xPos, keyRectHeight, xPos, 0],
-        stroke: "gray",
-        strokeWidth: 1
-      }));
-      xPos += 1 + padding;
-    
-      var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1]) / 2]);
-      keyGroup.add(seat.group);
-      seat.setStatus(statuses[i]);
-      xPos += Seat.cacheSize[0] + 5;
-      
-      var text;
-      switch (statuses[i]) {
-      case Seat.Status.Available:
-        text = "Sitzplatz noch frei";
-        break;
-      case Seat.Status.Taken:
-        text = "Sitzplatz besetzt";
-        break;
-      case Seat.Status.Chosen:
-        text = "Ihr Sitzplatz";
-      }
-      drawText(text);
-    }
-    
-    xPos += 3;
-    keyGroup.width(xPos);
-    keyRect.width(xPos);
-    keyGroup.position({ x: (keyRectWidth - xPos) / 2 });
+    this.drawKey(false);
   }
   
   this.addLayer("background", {
@@ -680,9 +696,9 @@ function SeatChooser(container, delegate) {
       var status;
       if (seatInfo.chosen) {
         status = Seat.Status.Chosen;
-        if (seat.status != status) _this.numberOfChosenSeats++;
+        if (seat.status != status && seat.status != Seat.Status.PreAvailable) _this.numberOfChosenSeats++;
       } else {
-        if (seat.status == Seat.Status.Chosen) _this.numberOfChosenSeats--;
+        if (seat.status == Seat.Status.Chosen || seat.status == Seat.Status.PreAvailable) _this.numberOfChosenSeats--;
         if (seatInfo.taken && !seatInfo.chosen) {
           status = Seat.Status.Taken;
         } else if (seatInfo.exclusive) {
@@ -697,12 +713,15 @@ function SeatChooser(container, delegate) {
   };
   
   this.chooseSeat = function (seat) {
-    if (seat.status != Seat.Status.Available && seat.status != Seat.Status.Exclusive) return;
+    var originalStatus = seat.status;
+    var allowedStatuses = [Seat.Status.Available, Seat.Status.Exclusive, Seat.Status.Chosen];
+    if (allowedStatuses.indexOf(originalStatus) == -1) return;
     
-    seat.setStatus(Seat.Status.PreChosen);
+    var newStatus = (originalStatus == Seat.Status.Chosen) ? Seat.Status.PreAvailable : Seat.Status.PreChosen;
+    seat.setStatus(newStatus);
     
     this.node.emit("chooseSeat", { seatId: seat.id }, function (res) {
-      if (!res.ok) seat.setStatus(Seat.Status.Available);
+      if (!res.ok) seat.setStatus(originalStatus);
       _this.updateErrorBoxIfVisible();
     });
   };
@@ -752,7 +771,7 @@ function SeatChooser(container, delegate) {
   };
   
   this.mouseOverSeat = function (seat) {
-    this.setCursor((seat.status == Seat.Status.Chosen || seat.status == Seat.Status.Taken) ? null : "pointer");
+    this.setCursor((seat.status == Seat.Status.Taken) ? null : "pointer");
   };
   
   this.clickedSeat = function (seat) {
