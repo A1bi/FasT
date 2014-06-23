@@ -10,3 +10,6 @@
 [submodule "vendor/assets/javascripts/KineticJS"]
 	path = vendor/assets/javascripts/KineticJS
 	url = git@github.com:ericdrowell/KineticJS.git
+[submodule "vendor/assets/javascripts/Chart.js"]
+	path = vendor/assets/javascripts/Chart.js
+	url = git@github.com:nnnick/Chart.js.git

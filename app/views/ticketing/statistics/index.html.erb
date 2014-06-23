@@ -20,6 +20,21 @@
       <% end %>
       <%= render "stats_table", scopes: scopes %>
     </div>
+    <table class="rounded daily_stats">
+      <thead>
+        <tr>
+          <th>Tägliche Verkaufszahlen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <canvas id="daily_stats" height="250" data-chart-data-path="<%= ticketing_statistics_chart_data_path %>"></canvas>
+            <div class="hcen key">Legende: <span class="online">online</span> | <span class="retail">Vorverkaufsstellen</span></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 <% end %>
 <% cache [:ticketing, :statistics, Ticketing::Seat] do %>

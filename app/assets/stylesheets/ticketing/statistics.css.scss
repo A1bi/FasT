@@ -5,6 +5,8 @@
 $total-border: 2px $light-blue solid;
 
 .stats {
+  margin: 10px 0px;
+  
   .chooser {
     text-align: center;
     width: 100%;
@@ -53,6 +55,15 @@ $total-border: 2px $light-blue solid;
       &:last-child td {
         padding: 5px;
       }
+    }
+  }
+  
+  .daily_stats .key {
+    :nth-child(1) {
+      color: $dark-blue;
+    }
+    :nth-child(2) {
+      color: $light-blue;
     }
   }
 }

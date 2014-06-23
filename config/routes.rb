@@ -91,6 +91,7 @@ FasT::Application.routes.draw do
         controller :statistics, path: "statistik", as: :statistics do
           get "/", action: :index
           get "seats", action: :seats, as: :seats
+          get "chart_data", action: :chart_data, as: :chart_data
         end
         scope path: "bestellungen", type: :admin do
           resource :order, path: "", only: [] do

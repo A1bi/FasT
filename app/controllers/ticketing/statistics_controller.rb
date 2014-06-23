@@ -24,6 +24,41 @@ module Ticketing
       end
     end
     
+    def chart_data
+      response = {
+        labels: [],
+        datasets: []
+      }
+      labels = response[:labels]
+      datasets = response[:datasets]
+      start = Date.today - 2.weeks
+      
+      tickets = Ticketing::Ticket.where("ticketing_tickets.created_at > ?", start)
+      stats = Rails.cache.fetch [:ticketing, :statistics, :daily, tickets] do
+        tickets.includes(:order).group("DATE(ticketing_tickets.created_at)").group("ticketing_orders.type").count(:id)
+      end
+      
+      order_types = [Ticketing::Web::Order, Ticketing::Retail::Order]
+      
+      (start..Date.today).each_with_index do |date, i|
+        format = (i % 7 == 0) ? "%a %e. %B" : "%a %e."
+        labels << l(date, format: format)
+        order_types.each_with_index do |_, i|
+          ((datasets[i] ||= {})[:data] ||= {})[date.to_s] = 0
+        end
+      end
+      
+      stats.each do |key, value|
+        (datasets[order_types.index(key.last.constantize)] ||= { data: [] })[:data][key.first.to_s] = value
+      end
+      
+      datasets.each do |set|
+        set[:data] = set[:data].values
+      end
+      
+      render json: response
+    end
+    
     private
     
     def fetch_stats

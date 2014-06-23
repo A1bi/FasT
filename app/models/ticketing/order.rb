@@ -43,7 +43,7 @@ module Ticketing
       return if paid
     
       self.paid = true
-      save if save
+      self.save if save
       
       mark_tickets_as_paid(tickets, save)
       
