@@ -63,7 +63,7 @@ module Ticketing
     end
     
     def prepare_vars
-      @ticket_types = Ticketing::TicketType.exclusive
+      @ticket_types = Ticketing::TicketType.all
       @reservation_groups = Ticketing::ReservationGroup.all
     end
     

@@ -250,7 +250,15 @@ function DateStep(delegate) {
       $.each(res.ticket_types, function (i, type) {
         var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).toggle(type.number != 0);
         if (type.number > 0) {
-          typeBox.find("option").slice(type.number + 1).remove();
+          var options = typeBox.find("option");
+          if (options.length - 1 > type.number) {
+            options.slice(type.number + 1).remove();
+          } else {
+            var sampleOption = options.last(), select = sampleOption.parent();
+            for (var i = options.length; i <= type.number; i++) {
+              sampleOption.clone().text(i).val(i).appendTo(select);
+            }
+          }
         }
       });
       
