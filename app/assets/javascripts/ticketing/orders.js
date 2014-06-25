@@ -178,7 +178,10 @@ function DateStep(delegate) {
   Step.call(this, "date", delegate);
   
   this.info.api.tickets = {};
-  this.info.internal.ticketTotals = {};
+  this.info.internal = {
+    ticketTotals: {},
+    exclusiveTicketTypes: []
+  };
   
   this.getTypeTotal = function ($typeBox, number) {
     return $typeBox.data("price") * $typeBox.find("select").val();
@@ -247,9 +250,11 @@ function DateStep(delegate) {
       this.info.api.couponCode = couponField.val();
       
       this.info.internal.exclusiveSeats = res.seats;
+      this.info.internal.exclusiveTicketTypes = [];
       $.each(res.ticket_types, function (i, type) {
         var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).toggle(type.number != 0);
         if (type.number > 0) {
+          _this.info.internal.exclusiveTicketTypes.push(type.id);
           var options = typeBox.find("option");
           if (options.length - 1 > type.number) {
             options.slice(type.number + 1).remove();
@@ -265,7 +270,7 @@ function DateStep(delegate) {
       this.trackPiwikGoal(2);
       
       msg = "Ihr Gutschein wurde erfolgreich eingelöst.";
-      if (res.ticket_types.length > 0) {
+      if (!this.delegate.admin && this.info.internal.exclusiveTicketTypes.length > 0) {
         this.couponBox.find(".ticketTypeNote").show();
       }
       this.couponBox.find("input").attr("disabled", "disabled");
@@ -290,10 +295,19 @@ function DateStep(delegate) {
   this.box.find(".date td").click(function () {
     _this.choseDate($(this));
   });
+  var couponField = this.couponBox.find("input[type=text]");
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
+    if (couponField.val() != "") {
+      if (confirm("Sie haben einen Gutscheincode eingegeben, jedoch nicht auf „einlösen“ geklickt. Möchten Sie diesen Gutscheincode wirklich nicht einlösen?")) {
+        couponField.val("");
+      } else {
+        $this.val(0);
+        couponField.focus();
+      }
+    }
     _this.choseNumber($this);
   });
-  this.couponBox.find("input[type=text]").keyup(function (event) {
+  couponField.keyup(function (event) {
     if (event.which == 13) _this.redeemCoupon();
   });
   this.couponBox.find("input[type=submit]").click(function () {
@@ -457,10 +471,13 @@ function ConfirmStep(delegate) {
       if (typeBox.is(".total")) {
         number = dateInfo.internal.numberOfTickets;
         total = dateInfo.internal.formattedTotal;
+      } else if (typeBox.is(".coupon")) {
+        var redeemed = !!dateInfo.api.couponCode;
+        typeBox.find(".redeemed").addClass(redeemed ? "true" : "false");
       } else {
         var typeId = typeBox.find("td").first().data("id");
         number = dateInfo.api.tickets[typeId];
-        if (!number || number < 1) {
+        if ((!number || number < 1) && dateInfo.internal.exclusiveTicketTypes.indexOf(typeId) == -1) {
           typeBox.hide();
           return;
         }
@@ -471,6 +488,7 @@ function ConfirmStep(delegate) {
       if (typeBox.is(".total")) {
         togglePluralText(single, number, "single");
       } else {
+        if (number == 0) number = "keine";
         single.find(".number").text(number);
       }
     });

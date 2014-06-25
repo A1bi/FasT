@@ -12,10 +12,13 @@
   			<td class="total" data-price="<%= type.price %>"><span></span> €</td>
   		<% end %>
   		<tr class="total">
-  			<td>Gesamt</td>
+  			<td>Gesamt inkl. Abzüge durch Gutscheine</td>
         <td class="single plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span></td>
   			<td class="total"><span></span> €</td>
   		</tr>
+      <tr class="coupon">
+        <td colspan="3">Es wurde <span class="redeemed"><span class="false">k</span>ein</span> Gutschein eingelöst.</td>
+      </tr>
     </tbody>
 	</table>
 </div>

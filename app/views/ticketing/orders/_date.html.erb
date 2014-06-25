@@ -20,7 +20,7 @@
       <tr>
         <td>Gutscheincode einlösen:</td>
         <td>
-          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "ok" %>
+          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "einlösen" %>
           <div class="msg">
             <div class="result"></div>
             <div class="ticketTypeNote">
@@ -37,21 +37,19 @@
         </tr>
       </thead>
       <tbody>
-        <% [false, true].each do |exclusive| %>
-    			<% @ticket_types.exclusive(exclusive).each do |type| %>
-    				<%= content_tag_for(:tr, type, :date, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
-    					<td class="number">
-    						<%= select_tag(:number, options_for_select(0..15), id: nil) %>
-    					</td>
-    					<td class="type">
-    						<%= type.name %>
-    						<div class="small"><%= type.info %></div>
-    					</td>
-    					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
-    					<td class="total"><span></span> €</td>
-    				<% end %>
-    			<% end %>
-        <% end %>
+  			<% @ticket_types.each do |type| %>
+  				<%= content_tag_for(:tr, type, :date, :data => { :id => type.id, :price => type.price }, :class => (type.exclusive ? "exclusive" : nil)) do %>
+  					<td class="number">
+  						<%= select_tag(:number, options_for_select(0..15), id: nil) %>
+  					</td>
+  					<td class="type">
+  						<%= type.name %>
+  						<div class="small"><%= type.info %></div>
+  					</td>
+  					<td class="single">je <%= number_to_currency(type.price || 0) %></td>
+  					<td class="total"><span></span> €</td>
+  				<% end %>
+  			<% end %>
   			<tr class="total">
   				<td colspan="3" class="plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt</td>
   				<td class="total"><span></span> €</td>

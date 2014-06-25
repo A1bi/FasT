@@ -489,6 +489,18 @@ table.details {
         }
       }
     }
+    
+    .coupon {
+      .redeemed {
+        &.true .false {
+          display: none;
+        }
+        
+        &.false {
+          font-weight: bold;
+        }
+      }
+    }
 	}
 	
 	&.finish {
