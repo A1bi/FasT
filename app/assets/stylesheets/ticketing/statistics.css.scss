@@ -59,10 +59,15 @@ $total-border: 2px $light-blue solid;
   }
   
   .daily_stats .key {
-    :nth-child(1) {
+    .total {
+      color: red;
+    }
+    
+    .online {
       color: $dark-blue;
     }
-    :nth-child(2) {
+    
+    .retail {
       color: $light-blue;
     }
   }

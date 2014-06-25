@@ -77,6 +77,6 @@
 <% cache [:ticketing, :payments, :unpaid, :table, @orders[:unpaid]] do %>
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch do %>
     <%= render "application/ticketing/orders_table", table_title: "Unbezahlte Bestellungen", orders: @orders[:unpaid], web: true, checkbox: true, cache_key: [:payments, :unpaid] %>
-    <%= render "index_submit", text: "als bezahlt markieren", orders: @orders[:unpaid] %>
+    <%= render "index_submit", text: "als bezahlt markieren", confirm: "Möchten Sie diese Bestellungen wirklich als bezahlt markieren?", orders: @orders[:unpaid] %>
   <% end %>
 <% end %>

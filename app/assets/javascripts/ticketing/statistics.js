@@ -32,18 +32,22 @@ $(function () {
     
     $.getJSON(dailyStatsCanvas.data("chart-data-path"), function (data) {
       $.each(data.datasets, function (i, dataset) {
-        var color = dailyStatsCanvas.siblings(".key").find("span").eq(i).css("color");
-        var rgb = /^rgb\(([\d]{1,3}), ?([\d]{1,3}), ?([\d]{1,3})\)$/i.exec(color);
+        var color = dailyStatsCanvas.siblings(".key").find("span").eq(i).css("color"),
+            rgb = /^rgb\(([\d]{1,3}), ?([\d]{1,3}), ?([\d]{1,3})\)$/i.exec(color),
+            rgba = "rgba(" + rgb[1] + "," + rgb[2] + "," + rgb[3] + ", .7)",
+            fillColor = (i == 0) ? "rgba(0, 0, 0, 0)" : rgba,
+            strokeColor = (i == 0) ? color : "#d7f1fb";
         $.extend(dataset, {
-          fillColor: "rgba(" + rgb[1] + "," + rgb[2] + "," + rgb[3] + ", .7)",
-          strokeColor: "#d7f1fb",
-          pointColor: "#216bed",
+          fillColor: fillColor,
+          strokeColor: strokeColor,
+          pointColor: color,
           pointStrokeColor: "white"
         });
       });
       
       var options = {
-        bezierCurve: false
+        bezierCurve: false,
+        datasetStrokeWidth: 1
       };
       new Chart(dailyStatsCanvas.get(0).getContext("2d")).Line(data, options);
     });
