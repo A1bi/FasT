@@ -2,7 +2,7 @@ module Ticketing
   class Order < BaseModel
   	include Loggable, Cancellable, RandomUniqueAttribute
 	
-  	has_many :tickets, dependent: :destroy
+  	has_many :tickets, dependent: :destroy, autosave: true
     has_random_unique_number :number, 6
     belongs_to :coupon, touch: true
 	
@@ -43,9 +43,8 @@ module Ticketing
       return if paid
     
       self.paid = true
+      mark_tickets_as_paid(tickets)
       self.save if save
-      
-      mark_tickets_as_paid(tickets, save)
       
       log(:marked_as_paid)
     end
@@ -55,6 +54,7 @@ module Ticketing
       tickets.each do |ticket|
         ticket.cancel(cancellation)
       end
+      cancel_payment
       update_total
       updated_tickets
       save
@@ -62,22 +62,28 @@ module Ticketing
     end
     
     def cancel_tickets(tickets, reason)
-      cancellation = nil
-      tickets.each do |ticket|
-        ticket.cancel(cancellation || reason)
-        cancellation = ticket.cancellation if cancellation.nil?
+      if tickets.count == self.tickets.count
+        cancel(reason)
+      else
+        cancellation = nil
+        tickets.each do |ticket|
+          ticket.cancel(cancellation || reason)
+          cancellation = ticket.cancellation if cancellation.nil?
+        end
+        if cancellation && self.tickets.cancelled(false).count.zero?
+          self.cancellation = cancellation
+          cancel_payment
+        end
+        update_total
+        updated_tickets(tickets)
+        save
+        log(:tickets_cancelled, { count: tickets.count, reason: reason })
       end
-      self.cancellation = cancellation if cancellation && self.tickets.cancelled(false).count.zero?
-      log(:tickets_cancelled, { count: tickets.count, reason: reason })
-      update_total
-      updated_tickets(tickets)
-      save
     end
     
-    def mark_tickets_as_paid(t = nil, save = true)
+    def mark_tickets_as_paid(t = nil)
       (t || tickets).each do |ticket|
         ticket.paid = true
-        ticket.save if save
       end
     end
     
@@ -104,6 +110,10 @@ module Ticketing
       tickets.each do |ticket|
         self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
       end
+    end
+    
+    def cancel_payment
+      self.pay_method = nil
     end
   end
 end

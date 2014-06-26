@@ -16,8 +16,8 @@ module Ticketing
     end
     
     def amount=(val)
-      return super if submission.nil?
-      nil
+      return if submission.present?
+      super
     end
     
     private

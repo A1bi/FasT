@@ -2,7 +2,7 @@ module Ticketing
   class Web::Order < Order    
     attr_accessor :admin_validations
 	
-    has_one :bank_charge, class: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy
+    has_one :bank_charge, class: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy, autosave: true
     enum pay_method: [:charge, :transfer, :cash]
   
     validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
@@ -28,7 +28,7 @@ module Ticketing
     def approve
       return if !bank_charge
       bank_charge.approved = true
-      bank_charge.save
+      save
       log(:approved)
     end
     
@@ -74,6 +74,14 @@ module Ticketing
     
     def enqueue_mailing(action)
       Resque.enqueue(Mailer, id, action)
+    end
+    
+    def cancel_payment
+      super
+      if bank_charge.present?
+        bank_charge.destroy
+        self.bank_charge = nil
+      end
     end
   end
 end
