@@ -67,7 +67,7 @@
                   <% if @order.bank_charge && !@order.bank_charge.approved %>
                     <div><%= link_to "als geprüft markieren", orders_path(:approve_ticketing_order, @order), method: :patch %></div>
                   <% end %>
-                  <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } %></div>
+                  <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } if @order.email.present? %></div>
                 <% end %>
               <% end %>
               <% if retail? %>
@@ -76,7 +76,7 @@
               <div>
                 <%= link_to "Gesamte Bestellung stornieren", nil, id: "cancelAction" %>
                 <div id="cancelForm">
-                  <%= form_tag orders_path(:cancel_ticketing_order, @order), method: :post do %>
+                  <%= form_tag orders_path(:cancel_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich die gesamte Bestellung stornieren?" } do %>
                     Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
                   <% end %>
                 </div>

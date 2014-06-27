@@ -92,8 +92,12 @@ de:
         one: "Das Ticket wurde erfolgreich umgebucht."
         other: "Die Tickets wurden erfolgreich umgebucht."
     payments:
-      marked_as_paid: "Die Bestellungen wurden erfolgreich als bezahlt markiert."
-      approved: "Die Bestellungen wurden erfolgreich als geprüft markiert."
+      marked_as_paid:
+        one: "Eine Bestellung wurde erfolgreich als bezahlt markiert."
+        other: "%{count} Bestellungen wurden erfolgreich als bezahlt markiert."
+      approved:
+        one: "Eine Bestellung wurde erfolgreich als geprüft markiert."
+        other: "%{count} Bestellungen wurden erfolgreich als geprüft markiert."
       submitted: "Die Lastschriften wurden zur Einreichung vorgemerkt. Bitte laden Sie den Sammelauftrag herunter und reichen ihn bei der Bank ein."
       submissions:
         name: "Freilichtbühne am schiefen Turm"

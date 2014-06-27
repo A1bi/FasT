@@ -80,7 +80,9 @@ module Ticketing
     end
     
     def redirect_to_overview(notice = nil)
-      flash[:notice] = t(notice, scope: [:ticketing, :payments]) if notice
+      options = { scope: [:ticketing, :payments] }
+      options[:count] = @orders.count if @orders
+      flash[:notice] = t(notice, options) if notice
       redirect_to ticketing_payments_path
     end
   end

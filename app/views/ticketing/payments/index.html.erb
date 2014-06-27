@@ -12,7 +12,7 @@
     <tbody>
       <tr>
         <% if @unsubmitted_charges.any? %>
-          <td colspan="3"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td>
+          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td><td><%= number_to_currency @unsubmitted_charges.sum(:amount) %></td>
           <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
         <% else %>
           <td colspan="4" class="empty">Keine Lastschriften einzureichen.</td>
