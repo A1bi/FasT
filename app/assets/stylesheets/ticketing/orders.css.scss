@@ -156,7 +156,7 @@ table.details {
 .progress, .stepBox {
 	position: relative;
 	border: 1px solid #cccccc;
-	width: 95%;
+	width: 600px;
 	overflow: hidden;
 	margin: auto;
 	border-radius: 7px;
@@ -260,7 +260,19 @@ table.details {
 	}
   
   .note {
+    font-size: 13px;
     margin: 15px;
+    
+    &.additional {
+      border: 2px solid #cccccc;
+      border-radius: 7px;
+      padding: 0px 7px;
+      font-style: italic;
+      
+      p {
+        margin: 7px 0px;
+      }
+    }
   }
 	
 	.field {
@@ -305,40 +317,9 @@ table.details {
     }
   }
 	
-	&.date {
-		table.date td {
-      color: black;
-      text-align: center;
-			padding: 7px;
-			cursor: pointer;
-    
-      &:not(:last-child) {
-        border-bottom: 1px solid #cccccc;
-      }
-			
-			&:hover {
-				text-decoration: none;
-			}
-		
-			&.selected {
-				font-weight: bold;
-			}
-    
-      &:hover, &.selected {
-        background: $faint-blue;
-      }
-		
-			&.disabled {
-				text-decoration: line-through !important;
-				cursor: auto;
-				color: #cccccc;
-			}
-		}
-		
+	&.tickets {		
 		div.number {
-			display: none;
-      
-      .date_ticketing_ticket_type {
+			.date_ticketing_ticket_type {
         .stepBox:not(.admin) &.exclusive {
           @include animation(exclusiveTicketType, .6s, 7, true);
           display: none;
@@ -364,7 +345,7 @@ table.details {
     }
     
     .coupon {
-      margin-bottom: 20px;
+      margin-top: 20px;
       
       td {
         vertical-align: middle;
@@ -401,33 +382,46 @@ table.details {
     }
 	}
 	
-	&.seats {
-    > div {
-      margin: {
-        top: 10px;
-        bottom: 10px;
-      }
-    }
-    
-    .additional {
+	&.seats {    
+		table.date td {
       color: black;
-      border: 2px solid #cccccc;
-      border-radius: 7px;
-      padding: 0px 7px;
-      font-size: 14px;
-      font-style: italic;
-      margin: {
-        left: 20px;
-        right: 20px;
+      text-align: center;
+			padding: 7px;
+			cursor: pointer;
+    
+      &:not(:last-child) {
+        border-bottom: 1px solid #cccccc;
       }
-      
-      p {
-        margin: 7px 0px;
+			
+			&:hover {
+				text-decoration: none;
+			}
+		
+			&.selected {
+				font-weight: bold;
+			}
+    
+      &:hover, &.selected {
+        background: $faint-blue;
       }
-    }
+		
+			&.disabled {
+				text-decoration: line-through !important;
+				cursor: auto;
+				color: #cccccc;
+			}
+		}
     
     em.small {
       color: black;
+    }
+    
+    .seat_chooser {
+      margin-top: 10px;
+      
+      > :first-child {
+        margin-top: 0px;
+      }
     }
 	}
 	
@@ -538,12 +532,14 @@ table.details {
 	}
 }
 
-.stepCon.date .single, .date td.total {
-	width: 18%;
-	text-align: right;
+.stepCon.tickets {
+  .single, td.total {
+  	width: 18%;
+  	text-align: right;
+  }
 }
 
-.stepCon.date, .stepCon.confirm {
+.stepCon.tickets, .stepCon.confirm {
 	tr.total {
 		font-weight: bold;
 		

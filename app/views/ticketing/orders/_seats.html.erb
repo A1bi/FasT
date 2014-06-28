@@ -1,19 +1,38 @@
 <div class="stepCon seats">
-	<div class="note plural_text">
-    Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
+  <div class="inner">
+  	<table class="rounded date">
+      <thead>
+        <tr>
+          <th>Ihre gewünschte Aufführung</th>
+        </tr>
+      </thead>
+      <tbody>
+    		<% @dates.each do |date| %>
+          <tr>
+    			  <%= content_tag_for(:td, date, :data => { :id => date.id }) { l date.date, format: "%A, den %d. %B um %H.%M Uhr" } %>
+          </tr>
+    		<% end %>
+      </tbody>
+    </table>
   </div>
-  <div class="additional">
-    <% if !admin? || @reservation_groups.empty? %>
-      <p>Bitte verschieben Sie den Sitzplan durch Klicken und Ziehen nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
-      <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
-    <% else %>
-      <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
-        Vorreservierungen freischalten:
-        <% @reservation_groups.each do |group| %>
-          <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
+  <div class="seat_chooser">
+  	<div class="note plural_text number_of_tickets">
+      Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
+    </div>
+    <div class="note additional">
+      <% if !admin? || @reservation_groups.empty? %>
+        <p>Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen. Ihre bisherige Sitzplatzauswahl wird dabei jeweils aufgehoben.</p>
+        <p>Bitte verschieben Sie den Sitzplan durch Klicken und Ziehen nach rechts oder links, um alle Teile des Zuschauerraumes sehen zu können.</p>
+        <p>Für gehbehindertengerechte Sitzplätze wenden Sie sich bitte an unsere <%= link_to "Hotline", dates_path(anchor: "hotline"), target: "_blank" %>.</p>
+      <% else %>
+        <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
+          Vorreservierungen freischalten:
+          <% @reservation_groups.each do |group| %>
+            <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
+    </div>
+    <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, view_chooser: true, view: :numbers_and_underlay %>
   </div>
-  <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, view_chooser: true, view: :numbers_and_underlay %>
 </div>
