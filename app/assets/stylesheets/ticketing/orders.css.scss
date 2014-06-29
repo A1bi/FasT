@@ -245,23 +245,30 @@ table.details {
   min-height: 200px;
 	width: 100%;
 	display: none;
+  
+  .inner, .note, .seating .error {
+    width: 90%;
+    box-sizing: border-box;
+    margin: {
+      left: auto;
+      right: auto;
+    }
+  }
 	
 	.inner {
-		width: 85%;
     margin: 25px auto;
     
     tr {
       td {
         @include transition((color, background), .5s);
         padding: 8px;
-        vertical-align: top; 
       }
     }
 	}
   
   .note {
     font-size: 13px;
-    margin: 15px;
+    margin: 15px auto;
     
     &.additional {
       border: 2px solid #cccccc;
@@ -317,7 +324,11 @@ table.details {
     }
   }
 	
-	&.tickets {		
+	&.tickets {
+    .hl {
+      font-size: 26px;
+    }
+    
 		div.number {
 			.date_ticketing_ticket_type {
         .stepBox:not(.admin) &.exclusive {
@@ -327,8 +338,6 @@ table.details {
         }
 	
     		td {
-          vertical-align: middle;
-          
           &.number {
             width: 45px;
           
@@ -348,8 +357,6 @@ table.details {
       margin-top: 20px;
       
       td {
-        vertical-align: middle;
-        
         &:first-child {
           width: 38%;
         }
@@ -440,7 +447,6 @@ table.details {
 	
 		.radio {
 			width: 10%;
-      vertical-align: middle;
       text-align: center;
 		}
 	
@@ -469,7 +475,6 @@ table.details {
     .checkboxes {
       margin: 15px auto;
       font-size: 14px;
-      width: 90%;
       
       tr td {
         padding: 7px;

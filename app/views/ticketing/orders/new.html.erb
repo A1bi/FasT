@@ -50,7 +50,18 @@
     </div>
 		<div class="payment inner">
 			<div class="transfer">
-				Bezahlung per Überweisung. Unsere Kontodaten werden Ihnen nach der Bestellung per e-mail zugesandt.
+        <table class="rounded form">
+          <thead>
+            <tr>
+              <th colspan="2">Bezahlung per Überweisung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unsere Kontodaten werden Ihnen nach der Bestellung per e-mail zugesandt.</td>
+            </tr>
+          </tbody>
+        </table>
 			</div>
 			<div class="charge">
 				<table class="rounded form">
@@ -70,9 +81,7 @@
   					</tr>
             <tr>
               <td colspan="2">
-                <div class="small note">
-                  Weitere Informationen zur Abbuchung inbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
-                </div>
+                Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
               </td>
             </tr>
           </tbody>
@@ -80,7 +89,7 @@
 			</div>
 		</div>
     <%= form_for :confirm do |f| %>
-      <table class="rounded checkboxes form">
+      <table class="rounded checkboxes form inner">
         <tr>
           <td class="checkbox"><%= f.check_box :newsletter, checked: true %></td>
           <td><%= f.label :newsletter do %>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.<% end %></td>
