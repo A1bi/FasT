@@ -25,7 +25,7 @@ class Api::OrdersController < ApplicationController
     coupon_assignments = []
     if info[:couponCode].present?
       coupon = Ticketing::Coupon.where(code: info[:couponCode]).first
-      order.coupon = coupon if !coupon.expired?
+      coupon.orders << order if !coupon.expired?
     end
     
 		info[:tickets].each do |type_id, number|

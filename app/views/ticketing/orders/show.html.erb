@@ -105,36 +105,7 @@
   </div>
 </div>
 <% cache [:ticketing, :orders, @order, @order.log_events] do %>
-  <% events = @order.log_events.order("id DESC") %>
-  <table class="rounded entries log details">
-    <thead>
-      <tr>
-        <th colspan="3">Protokoll</th>
-      </tr>
-      <% if !events.size.zero? %>
-        <tr>
-          <th>Aktion</th>
-          <th>Benutzer</th>
-          <th>Datum</th>
-        </tr>
-      <% end %>
-    </thead>
-    <tbody>
-      <% if events.size.zero? %>
-        <tr>
-          <td class="empty" colspan="3">Keine Protokolleinträge vorhanden.</td>
-        </tr>
-      <% else %>
-        <% events.each do |event| %>
-          <tr>
-            <td><%= t event.name, { scope: (scope + [:log_events]) }.merge(event.info) %></td>
-            <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
-            <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>
 <% end %>
 <% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
   <a id="tickets"></a>

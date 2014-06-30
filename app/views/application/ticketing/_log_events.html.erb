@@ -1,0 +1,29 @@
+<table class="rounded entries log details">
+  <thead>
+    <tr>
+      <th colspan="3">Protokoll</th>
+    </tr>
+    <% if !events.size.zero? %>
+      <tr>
+        <th>Aktion</th>
+        <th>Benutzer</th>
+        <th>Datum</th>
+      </tr>
+    <% end %>
+  </thead>
+  <tbody>
+    <% if events.size.zero? %>
+      <tr>
+        <td class="empty" colspan="3">Keine Protokolleinträge vorhanden.</td>
+      </tr>
+    <% else %>
+      <% events.order(id: :desc).each do |event| %>
+        <tr>
+          <td><%= t event.name, { scope: scope }.merge(event.info) %></td>
+          <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
+          <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

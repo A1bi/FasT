@@ -12,7 +12,7 @@
         <td>Code:</td>
         <td>
           <span class="code"><%= @coupon.code %></span>
-          <span class="actionBtns"><%= render "admin_actions", :obj => @coupon, :delete_confirm => "diesen Gutschein" %></span>
+          <span class="actionBtns"><%= render "admin_actions", obj: @coupon, delete_confirm: "diesen Gutschein" %></span>
         </td>
       </tr>
       <tr>
@@ -97,4 +97,7 @@
   <div class="submit">
     <%= submit_tag "senden" %>
   </div>
+<% end %>
+<% cache [:ticketing, :coupons, @coupon, @coupon.log_events] do %>
+  <%= render "application/ticketing/log_events", events: @coupon.log_events, scope: %i(ticketing coupons log_events) %>
 <% end %>
