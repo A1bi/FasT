@@ -5,6 +5,7 @@ module Ticketing
     validates_presence_of :store
     
     before_create :before_create
+    after_destroy :delete_printable
     
     def self.by_store(retail_id)
       where(:store_id => retail_id)
@@ -41,6 +42,10 @@ module Ticketing
       pdf = TicketsPDF.new(true)
       pdf.add_order self
       pdf.render_file(printable_path(true))
+    end
+    
+    def delete_printable
+      FileUtils.rm(printable_path(true))
     end
   end
 end

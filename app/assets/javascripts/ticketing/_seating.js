@@ -299,10 +299,11 @@ function Seating(container) {
   };
   
   this.drawKey = function (exclusive) {
-    var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - 20;
+    var rectPadding = 10;
+    var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - rectPadding * 2;
     var padding = 7, xPos = 10;
     var drawText = function (text, bold) {
-      var fontSize = keyRectHeight * 0.3;
+      var fontSize = keyRectHeight * 0.4;
       var keyText = new Kinetic.Text({
         x: xPos,
         y: (keyRectHeight - fontSize) / 2,
@@ -320,7 +321,7 @@ function Seating(container) {
         width: keyRectWidth,
         height: keyLayerHeight,
         x: (this.stage.width() - keyRectWidth) / 2,
-        y: seatsLayerHeight + stageLayerHeight
+        y: rectPadding
       });
       this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
       
@@ -343,7 +344,7 @@ function Seating(container) {
       strokeEnabled: true,
       stroke: "gray",
       strokeWidth: 1.2,
-      cornerRadius: 15
+      cornerRadius: 8
     });
     keyGroup.add(keyRect);
     
@@ -359,10 +360,12 @@ function Seating(container) {
       }));
       xPos += 1 + padding;
     
-      var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1]) / 2]);
+      var seatScale = .8;
+      var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1] * seatScale) / 2]);
       keyGroup.add(seat.group);
       seat.setStatus(statuses[i]);
-      xPos += Seat.cacheSize[0] + 5;
+      seat.group.setScale({ x: seatScale, y: seatScale });
+      xPos += Seat.cacheSize[0] * seatScale + 3;
       
       var text;
       switch (statuses[i]) {
@@ -423,12 +426,13 @@ function Seating(container) {
     seatsLayerHeight -= stageLayerHeight;
   }
   if (drawKey) {
-    keyLayerHeight = 55;
+    keyLayerHeight = 50;
     seatsLayerHeight -= keyLayerHeight;
   }
   this.addLayer("seats", {
     width: this.stage.width() * ((isBig) ? 1.8 : 1),
-    height: seatsLayerHeight
+    height: seatsLayerHeight,
+    y: keyLayerHeight
   });
   
   this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
@@ -443,7 +447,7 @@ function Seating(container) {
       width: stageRectWidth,
       height: stageLayerHeight,
       x: (this.layers['seats'].width() - stageRectWidth) / 2,
-      y: seatsLayerHeight + (stageLayerHeight - stageRectHeight) / 2
+      y: seatsLayerHeight + keyLayerHeight + (stageLayerHeight - stageRectHeight) / 2
     });
     this.addToLayer("stage", new Kinetic.Rect({
       width: stageRectWidth,
@@ -469,7 +473,8 @@ function Seating(container) {
   
   this.addLayer("background", {
     width: this.layers['seats'].width(),
-    height: this.stage.height()
+    height: this.stage.height(),
+    y: keyLayerHeight
   }).moveToBottom();
   
   if (this.container.is(".background")) {
