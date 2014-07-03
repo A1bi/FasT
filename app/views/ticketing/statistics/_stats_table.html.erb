@@ -2,14 +2,14 @@
   <% scopes.each do |scope| %>
     <thead>
       <tr>
-        <th colspan="<%= @ticket_types.count + 3 %>"><%= scope[:title] %></th>
+        <th colspan="<%= @ticket_types.count + 4 %>"><%= scope[:title] %></th>
       </tr>
       <tr>
         <th>Aufführung</th>
         <% @ticket_types.each do |type| %>
           <th><%= type.name %></th>
         <% end %>
-        <th>Gesamt</th>
+        <th colspan="2" class="total first">Gesamt</th>
         <th>Umsatz</th>
       </tr>
     </thead>
@@ -20,17 +20,19 @@
           <% @ticket_types.each do |type| %>
             <td><%= ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0 %></td>
           <% end %>
-          <td><%= scope[:scope][date.id][:total] || 0 %></td>
-          <td><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
+          <td class="total first"><%= scope[:scope][date.id][:total] || 0 %></td>
+          <td class="total" title="Anteil am Ticketkontingent für diese Aufführung"><%= scope[:scope][date.id][:percentage] || 0 %> %</td>
+          <td class="total"><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
         </tr>
       <% end %>
-      <tr>
+      <tr class="total">
         <td></td>
         <% @ticket_types.each do |type| %>
           <td><%= (scope[:scope][:total] ||= {})[type.id] || 0 %></td>
         <% end %>
-        <td><%= scope[:scope][:total][:total] || 0 %></td>
-        <td><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
+        <td class="total first"><%= scope[:scope][:total][:total] || 0 %></td>
+        <td class="total" title="Anteil am gesamten Ticketkontingent"><%= scope[:scope][:total][:percentage] || 0 %> %</td>
+        <td class="total"><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
       </tr>
     </tbody>
   <% end %>

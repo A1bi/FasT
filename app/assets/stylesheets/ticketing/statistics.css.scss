@@ -40,16 +40,16 @@ $total-border: 2px $light-blue solid;
           text-align: center;
         }
       
-        &:last-child, &:nth-last-child(2) {
-          &:nth-last-child(2) {
+        &.total {
+          &.first {
             border-left: $total-border;
           }
           font-weight: bold;
         }
       }
     
-      &:nth-last-child(2) td {
-        border-bottom: $total-border;
+      &.total td {
+        border-top: $total-border;
       }
     
       &:last-child td {
