@@ -13,3 +13,6 @@
 [submodule "vendor/assets/javascripts/Chart.js"]
 	path = vendor/assets/javascripts/Chart.js
 	url = git@github.com:nnnick/Chart.js.git
+[submodule "vendor/assets/javascripts/jReject"]
+	path = vendor/assets/javascripts/jReject
+	url = git@github.com:TurnWheel/jReject.git

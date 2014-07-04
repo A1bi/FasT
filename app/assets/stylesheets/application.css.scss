@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require ../../../vendor/assets/javascripts/jReject/css/jquery.reject.css
  */
 
 @import "_mixins";
@@ -17,11 +18,7 @@
 body {
 	background: #0869ed url(asset_path("bg.png")) repeat-x;
 	color: #043448;
-	position: relative;
-	width: 918px;
-	margin: auto {
-		bottom: 15px;
-	}
+  margin: 0px;
 	font: {
 		family: "Arial", "DejaVu Sans";
 		size: 15px;
@@ -64,48 +61,26 @@ h3 {
 @include font-face(ovo);
 
 html {
-  #unsupportedBrowser {
-    display: none;
-  }
-  
-  &.unsupportedBrowser {
-    body {
-      width: 100%;
+  #jr_inner {
+    font-size: 0.9em;
+    max-width: 600px !important;
+    
+    ul {
+      text-align: center;
+      display: inline-block;
+      margin: 20px auto;
     }
     
-    #unsupportedBrowser {
-      display: block;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 2000px;
-      background: black;
-      z-index: 99;
-      
-      div {
-        width: 70%;
-        color: white;
-        font-size: 20px;
-        text-align: center;
-        margin: 100px auto;
-        
-        p {
-          padding: 20px;
-        }
-        
-        ul {
-          margin-top: 50px;
-          list-style-type: none;
-          
-          li {
-            padding: 10px;
-            font-size: 24px;
-          }
-        }
-      }
+    #jr_close {
+      font-size: 0.8em;
     }
   }
+}
+
+#wrapper {
+	position: relative;
+	width: 918px;
+	margin: auto;
 }
 
 #sky {

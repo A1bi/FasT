@@ -18,4 +18,5 @@
 //= require jquery.ui.sortable
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
+//= require jReject/js/jquery.reject
 //= require _main

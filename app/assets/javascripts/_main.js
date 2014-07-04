@@ -58,23 +58,30 @@ function togglePluralText(box, number, preservedClass) {
 }
 
 $(function () {
-  var el = $("<div>").prop("id", "ieDetect");
-  $("body").append(el);
-
-  el.html("<!--[if IE]><em></em><![endif]-->");
-  if (el.find("em").length) {
-  
-    var v;
-    for (v = 10; v >= 6; v--) {
-      el.html("<!--[if gte IE " + v + "]><b></b><![endif]-->");
-      if (el.find("b").length) break;
+  $.reject({
+    reject: {
+      msie: 8,
+      firefox: 5,
+      chrome: 13
+    },
+    display: ["chrome", "firefox", "safari"],
+    imagePath: "/assets/images/jReject/",
+    header: "Bitte aktualisieren Sie Ihren Internetbrowser",
+    paragraph1: "Leider verwenden Sie einen <b>veralteten Internetbrowser</b>, der unsere Seiten nicht korrekt darstellen und Sie zudem <b>großen Sicherheitsrisiken</b> aussetzen kann.",
+    paragraph2: "Installieren Sie sich einfach einen dieser <b>kostenlosen</b> Browser und in wenigen Minuten ist das Problem behoben.",
+    closeLink: "Diese Warnung ignorieren und akzeptieren, dass manche Dinge nicht funktionieren werden",
+    closeMessage: "",
+    closeCookie: true,
+    fadeInTime: 0,
+    fadeOutTime: 0,
+    beforeReject: function () {
+      if ($.browser.name == "msie") {
+        this.close = false;
+      }
+    },
+    afterReject: function () {
+      var inner = $("#jr_inner"), list = inner.find("ul");
+      list.css("margin-left", (inner.width() - list.width()) / 2);
     }
-    
-    if (v < 9) {
-      $("html").addClass("unsupportedBrowser");
-      $.getScript("/assets/unsupported_browser.js");
-    }
-  }
-  
-  el.remove();
+  });
 });

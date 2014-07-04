@@ -23,75 +23,77 @@
 	<% end if !@no_slides %>
 </head>
 <body<% if @no_slides %> class="noSlides"<% end %>>
-	<div id="sky"></div>
-	<div id="slides">
-		<div class="slide finished"></div>
-		<div class="slide finished"></div>
-		<div class="fg"></div>
-	</div>
-	<div id="left">
-		<a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
-		<div id="navi">
-			<ul>
-				<li><%= link_to "Home", root_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Termine", dates_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Informationen", info_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Geschichte", history_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Theater", theater_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Fotogalerie", galleries_path %></li>
-				<li class="spacer"></li>
-				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
-			</ul>
-		</div>
-	</div>
-	<div id="right">
-		<div id="content">
-			<div class="top">
-				<%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !@_member.id %>
-			</div>
-			<div class="content">
-        <% if !@no_member_controls %>
-          <% if @_member.id %>
-            <%= render "members_navi", title: "Mitgliederbereich", namespace: :members, actions:
-              [:root, %i(member edit), :logout]
-            %>
-            <% if @_member.admin? %>
-              <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions: 
-                [:members_members]
+  <div id="wrapper">
+  	<div id="sky"></div>
+  	<div id="slides">
+  		<div class="slide finished"></div>
+  		<div class="slide finished"></div>
+  		<div class="fg"></div>
+  	</div>
+  	<div id="left">
+  		<a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
+  		<div id="navi">
+  			<ul>
+  				<li><%= link_to "Home", root_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Termine", dates_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Informationen", info_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Geschichte", history_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Theater", theater_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Fotogalerie", galleries_path %></li>
+  				<li class="spacer"></li>
+  				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
+  			</ul>
+  		</div>
+  	</div>
+  	<div id="right">
+  		<div id="content">
+  			<div class="top">
+  				<%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !@_member.id %>
+  			</div>
+  			<div class="content">
+          <% if !@no_member_controls %>
+            <% if @_member.id %>
+              <%= render "members_navi", title: "Mitgliederbereich", namespace: :members, actions:
+                [:root, %i(member edit), :logout]
               %>
-              <%= render "members_navi", title: "Vorverkauf", namespace: :ticketing, actions:
-                [:orders, :payments, :statistics, :coupons, :seats]
-              %>
+              <% if @_member.admin? %>
+                <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions: 
+                  [:members_members]
+                %>
+                <%= render "members_navi", title: "Vorverkauf", namespace: :ticketing, actions:
+                  [:orders, :payments, :statistics, :coupons, :seats]
+                %>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
-        <% if @_retail_store && @_retail_store.id %>
-          <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing_retail, css_class: :ticketing_retail, actions:
-            [:orders, :statistics, [:logout, nil, { data: { confirm: "Möchten Sie sich wirklich ausloggen?\nEine Buchung ist danach erst wieder durch einen erneuten Login möglich." } }]]
-          %>
-        <% end %>
-				<% flash.each do |type, msg| %>
-					<div class="messages <%= type %>">
-						<div class="icon"></div>
-				      <ul>
-							<li><%= msg %></li>
-						</ul>
-					</div>
-				<% end %>
-				<%= yield %>
-			</div>
-			<div class="bottom">
-				<div>
-					&copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e.V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "AGB", agb_path %>
-				</div>
-			</div>
-		</div>
-	</div>
+          <% if @_retail_store && @_retail_store.id %>
+            <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing_retail, css_class: :ticketing_retail, actions:
+              [:orders, :statistics, [:logout, nil, { data: { confirm: "Möchten Sie sich wirklich ausloggen?\nEine Buchung ist danach erst wieder durch einen erneuten Login möglich." } }]]
+            %>
+          <% end %>
+  				<% flash.each do |type, msg| %>
+  					<div class="messages <%= type %>">
+  						<div class="icon"></div>
+  				      <ul>
+  							<li><%= msg %></li>
+  						</ul>
+  					</div>
+  				<% end %>
+  				<%= yield %>
+  			</div>
+  			<div class="bottom">
+  				<div>
+  					&copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e.V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "AGB", agb_path %>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
   <%= yield(:footer) %>
 	<% if Rails.env.production? %>
 		<% as_site = 6 %>
