@@ -3,6 +3,11 @@ development:
   url_options:
     host: albisigns
     protocol: https
+  smtp:
+    address: ""
+    user_name: ""
+    password: ""
+    authentication: ""
   imagemagick_path: /opt/ImageMagick/bin/
   passbook:
     wwdr_ca_path: /usr/local/etc/ssl/AppleWWDRCA.cer

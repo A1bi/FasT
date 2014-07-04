@@ -57,6 +57,8 @@ function togglePluralText(box, number, preservedClass) {
   box.find(".number span").text(number);
 }
 
+if (!window.console) window.console = { log: function () {} };
+
 $(function () {
   $.reject({
     reject: {

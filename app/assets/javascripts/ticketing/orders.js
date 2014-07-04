@@ -312,6 +312,10 @@ function SeatsStep(delegate) {
     return this.chooser.validate();
   };
   
+  this.nextBtnEnabled = function () {
+    return !!this.info.api.date;
+  };
+  
   this.willMoveIn = function () {
     var info = this.delegate.getStepInfo("tickets");
     if (this.numberOfSeats != info.internal.numberOfTickets) {

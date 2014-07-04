@@ -238,6 +238,11 @@ function Seating(container) {
   this.stage = null;
   this.layers = {};
   this.seats = {};
+  this.viewOptions = {
+    numbers: false,
+    underlay: false,
+    photo: false
+  };
   var _this = this;
   
   this.getGridPos = function (pos) {
@@ -256,6 +261,7 @@ function Seating(container) {
           var seatInfo = blockInfo.seats[j];
           var pos = [seatInfo.position[0] * _this.gridCellSize, seatInfo.position[1] * _this.gridCellSize];
           var seat = block.addSeat(seatInfo.id, seatInfo.number, pos);
+          seat.toggleNumber(_this.viewOptions['numbers']);
           _this.seats[seatInfo.id] = seat;
           if (seatCallback) seatCallback(seat);
         }
@@ -492,17 +498,13 @@ function Seating(container) {
     var viewChooserCallback = function ($this) {
       $this.addClass("selected").siblings().removeClass("selected");
       var viewType = $this.data("type");
-      var numbers = false, underlay = false, photo = false;
-      if (viewType == "numbers_and_underlay") {
-        numbers = underlay = true;
-      } else if (viewType == "photo") {
-        photo = true;
-      }
-      _this.toggleNumbers(numbers);
-      _this.layers['seats'].visible(!photo);
+      _this.viewOptions['numbers'] = _this.viewOptions['underlay'] = viewType == "numbers_and_underlay";
+      _this.viewOptions['photo'] = viewType == "photo";
+      _this.toggleNumbers(_this.viewOptions['numbers']);
+      _this.layers['seats'].visible(!_this.viewOptions['photo']);
       _this.drawSeatsLayer();
-      _this.underlayImage.visible(underlay);
-      _this.photoUnderlayImage.visible(photo);
+      _this.underlayImage.visible(_this.viewOptions['underlay']);
+      _this.photoUnderlayImage.visible(_this.viewOptions['photo']);
       _this.drawLayer("background");
     };
     
