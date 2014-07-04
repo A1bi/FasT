@@ -67,7 +67,7 @@ $(function () {
       chrome: 13
     },
     display: ["chrome", "firefox", "safari"],
-    imagePath: "/assets/images/jReject/",
+    imagePath: "/images/jReject/",
     header: "Bitte aktualisieren Sie Ihren Internetbrowser",
     paragraph1: "Leider verwenden Sie einen <b>veralteten Internetbrowser</b>, der unsere Seiten nicht korrekt darstellen und Sie zudem <b>großen Sicherheitsrisiken</b> aussetzen kann.",
     paragraph2: "Installieren Sie sich einfach einen dieser <b>kostenlosen</b> Browser und in wenigen Minuten ist das Problem behoben.",
