@@ -17,7 +17,7 @@ module Ticketing
         {
           seats: Hash[@dates.map do |date|
             [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map do |seat|
-              [seat.id, !seat.taken? ? 1 : 0]
+              [seat.id, !seat.taken? ? (seat.reserved? ? 2 : 1) : 0]
             end]]
           end]
         }

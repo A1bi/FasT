@@ -282,21 +282,30 @@ function TicketsStep(delegate) {
     return this.info.internal.numberOfTickets > 0;
   };
   
+  this.validate = function () {
+    return !this.askToRedeemCoupon();
+  };
+  
+  this.askToRedeemCoupon = function () {
+    if (this.couponField.val()) {
+      if (!confirm(this.couponBox.data("confirm-dismiss"))) {
+        this.couponField.focus();
+        return true;
+      }
+      this.couponField.val("");
+    }
+    return false;
+  };
   
   this.couponBox = this.box.find(".coupon");
-  var couponField = this.couponBox.find("input[type=text]");
+  this.couponField = this.couponBox.find("input[type=text]");
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
-    if (couponField.val() != "") {
-      if (confirm("Sie haben einen Gutscheincode eingegeben, jedoch nicht auf „einlösen“ geklickt. Möchten Sie diesen Gutscheincode wirklich nicht einlösen?")) {
-        couponField.val("");
-      } else {
-        $this.val(0);
-        couponField.focus();
-      }
+    if (_this.askToRedeemCoupon()) {
+      $this.val(0);
     }
     _this.choseNumber($this);
   });
-  couponField.keyup(function (event) {
+  this.couponField.keyup(function (event) {
     if (event.which == 13) _this.redeemCoupon();
   });
   this.couponBox.find("input[type=submit]").click(function () {

@@ -19,7 +19,17 @@ $(function () {
         var dateSeats = data.seats[$this.data("date")];
         var seating = new Seating($this);
         seating.initSeats(function (seat) {
-          var status = dateSeats[seat.id] ? Seat.Status.Available : Seat.Status.Taken;
+          var status;
+          switch (dateSeats[seat.id]) {
+          case 2:
+            status = Seat.Status.Exclusive
+            break;
+          case 1:
+            status = Seat.Status.Available
+            break;
+          default:
+            status = Seat.Status.Taken
+          }
           seat.setStatus(status);
         });
       });
