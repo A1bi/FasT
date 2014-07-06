@@ -66,23 +66,25 @@ $(function () {
       firefox: 5,
       chrome: 13
     },
-    display: ["chrome", "firefox", "safari"],
+    display: ["chrome", "firefox"],
+    browserInfo: {
+      safari: {
+        text: "Apple Safari"
+      }
+    },
     imagePath: "/images/jReject/",
-    header: "Bitte aktualisieren Sie Ihren Internetbrowser",
+    header: "Auch Ihr Internetbrowser macht Theater",
     paragraph1: "Leider verwenden Sie einen <b>veralteten Internetbrowser</b>, der unsere Seiten nicht korrekt darstellen und Sie zudem <b>großen Sicherheitsrisiken</b> aussetzen kann.",
-    paragraph2: "Installieren Sie sich einfach einen dieser <b>kostenlosen</b> Browser und in wenigen Minuten ist das Problem behoben.",
-    closeLink: "Diese Warnung ignorieren und akzeptieren, dass manche Dinge nicht funktionieren werden",
-    closeMessage: "",
-    closeCookie: true,
+    paragraph2: "Installieren Sie sich einfach <b>schnell und kostenlos</b> die neueste Version von einem der folgenden Browser und schon ist das Problem behoben.",
+    close: false,
     fadeInTime: 0,
     fadeOutTime: 0,
     beforeReject: function () {
-      if ($.browser.name == "msie") {
-        this.close = false;
-      }
+      if ($.os.name == "mac") this.display.push("safari");
     },
     afterReject: function () {
       var inner = $("#jr_inner"), list = inner.find("ul");
+      inner.css("max-width", "").css("min-width", "");
       list.css("margin-left", (inner.width() - list.width()) / 2);
     }
   });

@@ -4,7 +4,7 @@ $(function () {
     table.find("td.actions *").prop("disabled", table.find(":checkbox:checked").length < 1);
   }
   
-  $("tbody.hover tr").click(function () {
+  var tableRows = $("tbody.hover tr").click(function (e) {
     $this = $(this);
     var checkbox = $this.find(":checkbox");
     if (checkbox.length) {
@@ -12,12 +12,16 @@ $(function () {
         checkbox.prop("checked", !checkbox.prop("checked"));
         toggle_actions($this);
       }
-    } else {
+    } else if ($this.data("path")) {
       window.location = $this.data("path");
     }
   });
   
-  $("tr :checkbox").click(function (event) {
+  tableRows.find("a").click(function (event) {
+    event.stopPropagation();
+  });
+  
+  tableRows.find(":checkbox").click(function (event) {
     event.stopPropagation();
     $this = $(this);
     if ($this.parent().is("th")) {

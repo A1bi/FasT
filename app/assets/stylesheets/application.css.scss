@@ -63,7 +63,8 @@ h3 {
 html {
   #jr_inner {
     font-size: 0.9em;
-    max-width: 600px !important;
+    min-width: 600px;
+    max-width: 600px;
     
     ul {
       text-align: center;
