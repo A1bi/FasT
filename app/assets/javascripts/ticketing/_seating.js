@@ -810,9 +810,11 @@ function SeatChooser(container, delegate) {
     var eventMappings = [["expired", "Expired"], ["connect_failed", "CouldNotConnect"], ["disconnect", "Disconnected"]];
     for (var i = 0, eLength = eventMappings.length; i < eLength; i++) {
       var mapping = eventMappings[i];
-      _this.node.on(mapping[0], function () {
-        if (!_this.noErrors) _this.delegate['seatChooser' + mapping[1]]();
-      });
+      _this.node.on(mapping[0], (function (event) {
+        return function () {
+          if (!_this.noErrors) _this.delegate['seatChooser' + event]();
+        };
+      })(mapping[1]));
     }
 	};
   

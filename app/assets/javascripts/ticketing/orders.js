@@ -599,6 +599,7 @@ function FinishStep(delegate) {
           this.trackPiwikGoal(1, orderInfo.total);
         }
     
+        this.delegate.noFurtherErrors = true;
         this.delegate.killExpirationTimer();
       }
     }
@@ -631,7 +632,7 @@ function Ordering() {
   this.progressBox;
   this.modalBox;
   this.modalSpinner;
-  this.aborted = false;
+  this.noFurtherErrors = false;
   var _this = this;
   
   this.toggleBtn = function (btn, toggle, style_class) {
@@ -719,8 +720,8 @@ function Ordering() {
   };
   
   this.showModalAlert = function (msg) {
-    if (this.aborted) return;
-    this.aborted = true;
+    if (this.noFurtherErrors) return;
+    this.noFurtherErrors = true;
     this.modalSpinner.stop();
     this.killExpirationTimer();
     this.toggleModalBox(true).find(".messages").show().find("li").first().html(msg);
@@ -803,7 +804,7 @@ function Ordering() {
   
   this.resetExpirationTimer = function () {
     this.killExpirationTimer();
-    if (this.aborted) return;
+    if (this.noFurtherErrors) return;
     this.expirationTimer.type = 0;
     this.updateExpirationCounter(this.expirationTimer.times[0] - this.expirationTimer.times[1]);
   };
