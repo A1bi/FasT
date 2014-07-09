@@ -356,7 +356,7 @@ function SeatsStep(delegate) {
   this.enableReservationGroups = function () {
     var groups = [];
     this.box.find(".reservationGroups :checkbox").each(function () {
-      $this = $(this);
+      var $this = $(this);
       if ($this.is(":checked")) groups.push($this.prop("name"));
     });
     
@@ -889,10 +889,18 @@ $(function () {
       $(this).hide().siblings("#cancelForm").show();
       event.preventDefault();
     });
-    
-    $("td.actions select[name=edit_action]").click(function () {
-      $this = $(this);
-      $this.parents("td").find(".reason").toggle($this.val() == "cancel");
+
+    var edit_tickets_form = $("form.edit_tickets");
+    var select = edit_tickets_form.submit(function () {
+      var $this = $(this);
+      var current = $this.find(":selected");
+      var method = current.data("method");
+      $this.data("confirm", current.data("confirm")).prop("action", current.data("path")).find("input[name=_method]").val(method);
+      $this.prop("method", (method == "get") ? method : "post");
+    })
+    .find("select").change(function () {
+      var $this = $(this);
+      $this.siblings(".reason").toggle($this.val() == "cancel");
     });
     
     var printer = new TicketPrinter();

@@ -80,9 +80,10 @@ FasT::Application.routes.draw do
       concern :ticketable do
         resource :tickets, only: [] do
           collection do
-            patch "bearbeiten", action: :edit_multiple, as: :edit
+            patch :cancel, path: "stornieren"
+            get :transfer, path: "umbuchen"
             post :init_transfer
-            patch :transfer
+            patch :finish_transfer
           end
         end
       end

@@ -4,15 +4,13 @@ module Ticketing
     ignore_restrictions
     before_filter :restrict_access
     
-    def edit_multiple
-      case params[:edit_action].to_sym
-      when :cancel
-        @order.cancel_tickets(@tickets, params[:reason])
-        NodeApi.update_seats_from_tickets(@tickets)
-        redirect_to_order_details :cancelled
-      when :transfer
-        render :transfer
-      end      
+    def cancel
+      @order.cancel_tickets(@tickets, params[:reason])
+      NodeApi.update_seats_from_tickets(@tickets)
+      redirect_to_order_details :cancelled  
+    end
+    
+    def transfer
     end
     
     def init_transfer
@@ -24,7 +22,7 @@ module Ticketing
       render json: { ok: res[:ok] }
     end
     
-    def transfer
+    def finish_transfer
       ok = true
       seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seatingId] }).body
       chosen_seats = seating[:seats]

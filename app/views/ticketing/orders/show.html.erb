@@ -77,7 +77,7 @@
                 <%= link_to "Gesamte Bestellung stornieren", nil, id: "cancelAction" %>
                 <div id="cancelForm">
                   <%= form_tag orders_path(:cancel_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich die gesamte Bestellung stornieren?" } do %>
-                    Grund: <%= text_field_tag :reason %><%= submit_tag "stornieren" %>
+                    Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><%= submit_tag "stornieren" %>
                   <% end %>
                 </div>
               </div>
@@ -109,7 +109,7 @@
 <% end %>
 <% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
   <a id="tickets"></a>
-  <%= form_tag orders_path(:edit_ticketing_order_tickets, @order), method: :patch do %>
+  <%= form_tag nil, method: :patch, class: :edit_tickets do %>
     <table class="rounded entries details">
       <thead>
         <tr>
@@ -143,9 +143,12 @@
       <tbody>
         <tr>
           <td colspan="7" class="actions">
-            <%= select_tag :edit_action, options_for_select({ "stornieren" => :cancel, "umbuchen" => :transfer }), disabled: true %>
-            <span class="reason">Grund: <%= text_field_tag :reason %></span>
-            <%= submit_tag :ok, disabled: true %>
+            <%= select_tag :edit_action, options_for_select([
+              ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
+              ["umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }]
+            ]), disabled: true, name: nil %>
+            <span class="reason">Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %></span>
+            <%= submit_tag :ok, name: nil, disabled: true %>
           </td>
         </tr>
       </tbody>
