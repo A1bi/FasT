@@ -738,10 +738,8 @@ function SeatChooser(container, delegate) {
     if (this.date != date) {
       this.date = date;
       this.updateSeatPlan();
-      this.errorBox.hide();
-    } else {
-      this.updateErrorBoxIfVisible();
     }
+    this.updateErrorBoxIfVisible();
     
     this.node.emit("setDateAndNumberOfSeats", {
       date: this.date,
@@ -754,18 +752,26 @@ function SeatChooser(container, delegate) {
     var toggle = number > 0;
     
     if (toggle) {
-      togglePluralText(this.errorBox, number, "error");
+      togglePluralText(this.errorBox, number);
     }
     
+    this.toggleErrorBox(toggle);
+  };
+  
+  this.updateErrorBoxIfVisible = function () {
+    if (this.errorBox.is(":visible")) this.updateErrorBox();
+  };
+  
+  this.toggleErrorBox = function (toggle) {
+    if (!toggle && !this.errorBox.is(":visible")) {
+      this.errorBox.hide();
+      return;
+    }
     if (typeof(this.delegate.slideToggle) == 'function') {
       this.delegate.slideToggle(this.errorBox, toggle);
     } else {
       this.errorBox["slide" + ((toggle) ? "Down" : "Up")].call(this.errorBox);
     }
-  };
-  
-  this.updateErrorBoxIfVisible = function () {
-    if (this.errorBox.is(":visible")) this.updateErrorBox();
   };
   
   this.getSeatsYetToChoose = function () {

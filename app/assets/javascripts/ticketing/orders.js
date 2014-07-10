@@ -196,7 +196,7 @@ function TicketsStep(delegate) {
         _this.info.internal.numberOfTickets += parseInt($this.find("select").val());
         total += _this.getTypeTotal($this);
       } else {
-        togglePluralText($this.find("td").first(), _this.info.internal.numberOfTickets, "");
+        togglePluralText($this.find("td").first(), _this.info.internal.numberOfTickets);
         var formattedTotal = _this.formatCurrency(total);
         _this.info.internal.formattedTotal = formattedTotal;
         _this.info.internal.total = total;
@@ -329,7 +329,8 @@ function SeatsStep(delegate) {
     var info = this.delegate.getStepInfo("tickets");
     if (this.numberOfSeats != info.internal.numberOfTickets) {
       this.numberOfSeats = info.internal.numberOfTickets;
-      togglePluralText(this.box.find(".note.number_of_tickets"), this.numberOfSeats, "note");
+      togglePluralText(this.box.find(".note.number_of_tickets"), this.numberOfSeats);
+      this.chooser.toggleErrorBox(false);
       this.updateSeatingPlan();
     }
     this.toggleExclusiveSeatsKey(!!info.internal.exclusiveSeats);
@@ -513,7 +514,7 @@ function ConfirmStep(delegate) {
       typeBox.find(".total span").text(total);
       var single = typeBox.find(".single");
       if (typeBox.is(".total")) {
-        togglePluralText(single, number, "single");
+        togglePluralText(single, number);
       } else {
         if (number == 0) number = "keine";
         single.find(".number").text(number);

@@ -51,9 +51,9 @@ function deobfuscate(text) {
 	return text.replace(/z|q|w|u/g, "");
 }
 
-function togglePluralText(box, number, preservedClass) {
-  var cssClass = (number != 1) ? "plural" : "singular";
-  box.removeClass().addClass(preservedClass + " plural_text " + cssClass);
+function togglePluralText(box, number) {
+  var plural = number != 1;
+  box.toggleClass("plural", plural).toggleClass("singular", !plural);
   box.find(".number span").text(number);
 }
 
