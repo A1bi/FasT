@@ -48,6 +48,17 @@ module Ticketing
       super(date.event.identifier, { ticket: self })
       NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
     end
+    
+    def api_hash
+      {
+        id: id.to_s,
+        number: number.to_s,
+        date_id: date.id.to_s,
+        type_id: type_id.to_s,
+        price: price,
+        seat_id: seat.id.to_s
+      }.merge(super)
+    end
   
     private
   

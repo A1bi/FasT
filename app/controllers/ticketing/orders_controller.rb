@@ -118,21 +118,39 @@ module Ticketing
             flash[:alert] = t("ticketing.orders.retail_access_denied")
             return redirect_to orders_path(:ticketing_orders)
           end
-          prms = { id: order.id }
-          prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
-          return redirect_to orders_path(:ticketing_order, prms)
+          return respond_to do |format|
+            format.html do
+              prms = { id: order.id }
+              prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
+              redirect_to orders_path(:ticketing_order, prms)
+            end
+            format.json { render json: { order: order.api_hash(true), ticket: (ticket) ? ticket.id : nil } }
+          end
         end
       end
       
-      table = Ticketing::Order.arel_table
-      if admin?
-        @orders = Ticketing::Order
-          .where(table[:first_name].matches("%#{params[:q]}%")
-          .or(table[:last_name].matches("%#{params[:q]}%")))
+      if params[:q].present?
+        table = Ticketing::Order.arel_table
+        if admin?
+          @orders = Ticketing::Order
+            .where(table[:first_name].matches("%#{params[:q]}%")
+            .or(table[:last_name].matches("%#{params[:q]}%")))
+        else
+          @orders = Ticketing::Retail::Order.where(store: @_retail_store).none
+        end
+        @orders.order!(:last_name, :first_name)
       else
-        @orders = Ticketing::Retail::Order.where(store: @_retail_store).none
+        @orders = Ticketing::Order.none
       end
-      @orders.order!(:last_name, :first_name)
+      
+      respond_to do |format|
+        format.html
+        format.json do
+          render json: {
+            orders: @orders.map { |o| o.api_hash(true) }
+          }
+        end
+      end
     end
   
     private
@@ -175,21 +193,30 @@ module Ticketing
     end
     
     def restrict_access
-      actions = [:new, :redeem_coupon]
-      if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
-        actions.push :index, :show, :cancel, :seats, :search
-        if @_retail_store.id
-          actions.push :new_retail
+      respond_to do |format|
+        format.html do
+          actions = [:new, :redeem_coupon]
+          if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
+            actions.push :index, :show, :cancel, :seats, :search
+            if @_retail_store.id
+              actions.push :new_retail
+            end
+            if @_member.admin?
+              actions.push :new_admin, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
+            end
+          end
+          if !actions.include? action_name.to_sym
+            if retail?
+              return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
+            else
+              return redirect_to root_path, alert: t("application.access_denied")
+            end
+          end
         end
-        if @_member.admin?
-          actions.push :new_admin, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
-        end
-      end
-      if !actions.include? action_name.to_sym
-        if retail?
-          return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
-        else
-          return redirect_to root_path, alert: t("application.access_denied")
+        format.json do
+          if ![:search].include? action_name.to_sym
+            return render json: { error: "access denied" }
+          end
         end
       end
     end

@@ -7,15 +7,6 @@ class Ticketing::BaseController < ApplicationController
   
   helper TicketingHelper
   
-  def authenticate_retail_store
-		begin
-			@_retail_store ||= Ticketing::Retail::Store.find(retail_store_id_cookie) if retail_store_id_cookie.present?
-		rescue
-			delete_retail_store_id_cookie
-		end
-    @_retail_store ||= Ticketing::Retail::Store.new
-  end
-  
   protected
   
   def retail_store_id_cookie
@@ -31,6 +22,15 @@ class Ticketing::BaseController < ApplicationController
   end
   
   private
+  
+  def authenticate_retail_store
+		begin
+			@_retail_store ||= Ticketing::Retail::Store.find(retail_store_id_cookie) if retail_store_id_cookie.present?
+		rescue
+			delete_retail_store_id_cookie
+		end
+    @_retail_store ||= Ticketing::Retail::Store.new
+  end
   
   def retail_store_id_cookie_name
     "_#{Rails.application.class.parent_name}_retail_store_id"
