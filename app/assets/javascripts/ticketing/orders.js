@@ -337,6 +337,7 @@ function SeatsStep(delegate) {
   };
   
   this.choseDate = function ($this) {
+    if ($this.is(".selected") || $this.is(".disabled")) return;
     $this.parents("table").find(".selected").removeClass("selected");
     $this.addClass("selected");
     

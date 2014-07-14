@@ -394,7 +394,10 @@ table.details {
       color: black;
       text-align: center;
 			padding: 7px;
-			cursor: pointer;
+      
+      &:not(.selected):not(.disabled) {
+			  cursor: pointer;
+      }
     
       &:not(:last-child) {
         border-bottom: 1px solid #cccccc;
@@ -407,16 +410,25 @@ table.details {
 			&.selected {
 				font-weight: bold;
 			}
-    
-      &:hover, &.selected {
-        background: $faint-blue;
+      
+      &:not(.disabled) {
+        &:hover, &.selected {
+          background: $faint-blue;
+        }
       }
 		
 			&.disabled {
-				text-decoration: line-through !important;
-				cursor: auto;
 				color: #cccccc;
+        
+        .line_through {
+          text-decoration: line-through !important;
+        }
 			}
+      
+      .sold_out {
+        color: red;
+        font-style: italic;
+      }
 		}
     
     em.small {

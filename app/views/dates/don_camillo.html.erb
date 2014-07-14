@@ -14,11 +14,14 @@
         <div class="con">
           <table>
             <% @event.dates.each do |date| %>
-              <tr>
+              <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
                 <td class="point"></td>
-                <td class="day"><%= l date.date, format: "%A" %></td>
-                <td class="date"><%= l date.date, format: "%d. %B" %></td>
-              </tr>
+                <td class="day">
+                  <span class="line_through"><%= l date.date, format: "%A" %></span>
+                  <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
+                </td>
+                <td class="date"><span class="line_through"><%= l date.date, format: "%d. %B" %></span></td>
+              <% end %>
             <% end %>
           </table>
           <p><b>Einlass</b> ab <b>19 Uhr</b>,<br /><b>Beginn</b> der Aufführung um <b>20 Uhr</b>.</p>

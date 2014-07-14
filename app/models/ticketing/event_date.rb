@@ -1,18 +1,26 @@
-class Ticketing::EventDate < BaseModel
-  belongs_to :event, :touch => true
-	has_many :reservations, :foreign_key => "date_id"
+module Ticketing
+  class EventDate < BaseModel
+    include Statistics
   
-  def current?
-    date === self.class.current_range
-  end
+    belongs_to :event, touch: true
+  	has_many :reservations, foreign_key: :date_id
   
-  def self.upcoming
-    where(date: self.class.current_range).first || first
-  end
+    def current?
+      date === self.class.current_range
+    end
   
-  private
+    def self.upcoming
+      where(date: self.class.current_range).first || first
+    end
   
-  def self.current_range
-    Time.zone.now.beginning_of_day..Time.zone.now.tomorrow.beginning_of_day
+    def sold_out?
+      ((ticket_stats_for_dates(event.dates)[:total][id] || {})[:percentage] || 0) >= 100 
+    end
+  
+    private
+  
+    def self.current_range
+      Time.zone.now.beginning_of_day..Time.zone.now.tomorrow.beginning_of_day
+    end
   end
 end

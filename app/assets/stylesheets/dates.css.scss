@@ -34,9 +34,28 @@ $shadowColor: black;
     width: 46%;
     float: left;
     
-    td {
-      font-weight: bold;
-      vertical-align: top;
+    tr {
+      &.disabled td {
+        color: #cccccc;
+        
+        .line_through {
+          text-decoration: line-through !important;
+        }
+        
+        .sold_out {
+          color: red;
+          font: {
+            style: italic;
+            size: 12px;
+            weight: normal;
+          }
+        }  
+      }
+      
+      td {
+        font-weight: bold;
+        vertical-align: top;
+      }
     }
     
     p {
