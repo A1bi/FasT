@@ -1,6 +1,6 @@
 <% title "Termine - Sommernachtstheater 2014 - Don Camillo und Peppone" %>
 <% include_css "dates" %>
-<% cache [:dates, @event, @ticket_types] do %>
+<% cache [:dates, @event, @ticket_types, @event.dates.map { |e| e.sold_out? }] do %>
   <div class="don_camillo">
     Unser <b>Sommernachtstheater 2014 „<%= link_to "Don Camillo und Peppone", theater_don_camillo_path, class: :shadow %>“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
     <div class="container">
