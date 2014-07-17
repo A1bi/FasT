@@ -124,7 +124,9 @@ module Ticketing
               prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
               redirect_to orders_path(:ticketing_order, prms)
             end
-            format.json { render json: { order: order.api_hash(true), ticket: (ticket) ? ticket.id : nil } }
+            format.json do
+              render json: { order: order_hash_with_events(order), ticket: (ticket) ? ticket.id.to_s : nil }
+            end
           end
         end
       end
@@ -147,7 +149,7 @@ module Ticketing
         format.html
         format.json do
           render json: {
-            orders: @orders.map { |o| o.api_hash(true) }
+            orders: @orders.map { |o| order_hash_with_events(o) }
           }
         end
       end
@@ -190,6 +192,14 @@ module Ticketing
     def prepare_new
       @order = Order.new
       @type = admin? ? :admin : retail? ? :retail : :web
+    end
+    
+    def order_hash_with_events(order)
+      order_info = order.api_hash(true)
+      order_info[:log_events] = order.log_events.order(id: :desc).map do |event|
+        [event.created_at.to_i, t(event.name, { scope: [:ticketing, :orders, :log_events] }.merge(event.info))]
+      end
+      order_info
     end
     
     def restrict_access

@@ -16,7 +16,7 @@ module Passbook
       private
   
       def delete_file
-        FileUtils.rm(path(true))
+        FileUtils.rm(path(true), force: true)
       end
     end
   end
