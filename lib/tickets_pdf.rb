@@ -36,7 +36,11 @@ class TicketsPDF < Prawn::Document
   end
   
   def add_order(order)
-    order.tickets.cancelled(false).each do |ticket|
+    add_tickets(order.tickets.cancelled(false))
+  end
+  
+  def add_tickets(tickets)
+    tickets.each do |ticket|
       draw_ticket ticket
     end
   end
