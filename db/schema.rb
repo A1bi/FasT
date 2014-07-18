@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140621112735) do
+ActiveRecord::Schema.define(version: 20140718123334) do
 
   create_table "galleries", force: true do |t|
     t.string   "title"
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(version: 20140621112735) do
     t.datetime "updated_at"
     t.boolean  "approved",        default: false
     t.integer  "submission_id"
-    t.string   "bic"
     t.float    "amount"
   end
 
@@ -315,6 +314,7 @@ ActiveRecord::Schema.define(version: 20140621112735) do
     t.integer  "seat_id"
     t.integer  "date_id"
     t.boolean  "paid",            default: false
+    t.boolean  "picked_up",       default: false
   end
 
 end

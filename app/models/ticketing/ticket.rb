@@ -57,7 +57,8 @@ module Ticketing
         type_id: type_id.to_s,
         price: price,
         paid: paid,
-        seat_id: seat.id.to_s
+        seat_id: seat.id.to_s,
+        picked_up: picked_up
       }.merge(super)
     end
   

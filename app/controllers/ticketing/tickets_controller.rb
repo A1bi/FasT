@@ -1,9 +1,9 @@
 module Ticketing
   class TicketsController < BaseController
-    before_filter :find_tickets_with_order, except: [:printable]
-    before_filter :find_tickets, only: [:printable]
+    before_filter :find_tickets_with_order, except: [:printable, :mark]
+    before_filter :find_tickets, only: [:printable, :mark]
     ignore_restrictions
-    before_filter :restrict_access, except: [:printable]
+    before_filter :restrict_access, except: [:printable, :mark]
     
     def cancel
       @order.cancel_tickets(@tickets, params[:reason])
@@ -21,6 +21,15 @@ module Ticketing
       end
       res = NodeApi.seating_request("setOriginalSeats", { seats: seats }, params[:seatingId])
       render json: { ok: res[:ok] }
+    end
+    
+    def mark
+      @tickets.each do |ticket|
+        ticket.paid = true if params[:paid]
+        ticket.picked_up = true if params[:picked_up]
+        ticket.save
+      end
+      render json: { ok: true }
     end
     
     def finish_transfer

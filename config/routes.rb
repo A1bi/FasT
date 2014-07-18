@@ -85,6 +85,7 @@ FasT::Application.routes.draw do
             post :init_transfer
             patch :finish_transfer
             post :printable
+            patch :mark
           end
         end
       end
