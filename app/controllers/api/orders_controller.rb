@@ -100,35 +100,4 @@ class Api::OrdersController < ApplicationController
     
     render json: response
   end
-  
-  def retail
-    orders = Ticketing::Retail::Order.by_store(params[:store_id]).cancelled(false).api_hash
-    
-    render json: orders
-  end
-  
-  def current_date
-    orders = Ticketing::Web::Order.includes(:tickets).cancelled(false).order(:last_name, :first_name).all.map do |o|
-      {
-        id: o.id.to_s, number: o.number.to_s, last_name: o.last_name, first_name: o.first_name, number_of_tickets: o.tickets.count
-      }
-    end
-    
-    render json: { ok: true, orders: orders }
-  end
-  
-  def by_number
-    order = Ticketing::Order.where(number: params[:number]).first
-    
-    render json: { ok: true, order: order.api_hash(true) }
-  end
-  
-  def mark_as_paid
-    order = Ticketing::Retail::Order.find(params[:id])
-    order.mark_as_paid
-    
-    render json: {
-      ok: true
-    }
-  end
 end

@@ -20,6 +20,13 @@ module Ticketing
       cancellation.present?
     end
     
+    def api_hash
+      {
+        cancelled: cancelled?,
+        cancel_reason: cancelled? ? cancellation.reason : nil
+      }
+    end
+    
     module ClassMethods
       def cancelled(cancelled = true)
         where(arel_table[:cancellation_id].send((cancelled ? :not_eq : :eq), nil))

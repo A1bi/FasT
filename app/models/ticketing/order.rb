@@ -31,12 +31,8 @@ module Ticketing
         total: total,
         paid: paid || false,
         created: created_at.to_i,
-        tickets: tickets.map do |ticket|
-          info = { id: ticket.id.to_s, number: ticket.number.to_s, dateId: ticket.date.id.to_s, typeId: ticket.type_id.to_s, price: ticket.price, seatId: ticket.seat.id.to_s }
-          info[:can_check_in] = ticket.can_check_in? if detailed
-          info
-        end
-      }
+        tickets: tickets.map { |ticket| ticket.api_hash }
+      }.merge(super())
     end
     
     def mark_as_paid(save = true)

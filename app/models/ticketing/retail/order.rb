@@ -45,7 +45,7 @@ module Ticketing
     end
     
     def delete_printable
-      FileUtils.rm(printable_path(true))
+      FileUtils.rm(printable_path(true), force: true)
     end
   end
 end

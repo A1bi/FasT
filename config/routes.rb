@@ -84,6 +84,8 @@ FasT::Application.routes.draw do
             get :transfer, path: "umbuchen"
             post :init_transfer
             patch :finish_transfer
+            post :printable
+            patch :mark
           end
         end
       end
@@ -200,19 +202,7 @@ FasT::Application.routes.draw do
   
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
-      resources :orders, only: [:create] do
-        member do
-          post "mark_paid", action: :mark_as_paid
-        end
-        collection do
-          get "retail/:store_id", action: :retail
-          get "current_date"
-          get "number/:number", action: :by_number
-        end
-      end
-      scope controller: :tickets, path: :tickets do
-        post :check_in
-      end
+      resources :orders, only: [:create]
       get "events/current", as: "current_event"
       controller :seats, path: :seats, as: :seats do
         get "availability", action: :availability
