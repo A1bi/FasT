@@ -88,7 +88,7 @@ class Api::OrdersController < ApplicationController
           NodeApi.update_seats_from_tickets(order.tickets)
     
           response[:ok] = true
-          response[:order] = order.api_hash
+          response[:order] = order.api_hash([:tickets, :printable])
         else
           response[:errors] << "Invalid order"
         end

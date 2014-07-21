@@ -19,10 +19,12 @@ module Ticketing
       update_printable
     end
     
-    def api_hash(detailed = false)
-      super.merge({
+    def api_hash(details = [], ticket_details = [])
+      hash = super
+      hash.merge!({
         printable_path: printable_path
-      })
+      }) if details.include? :printable
+      hash
     end
     
     private

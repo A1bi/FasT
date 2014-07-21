@@ -1,5 +1,7 @@
 module Ticketing
   class Event < BaseModel
+    include Statistics
+    
     has_many :dates, class_name: EventDate
   
     def self.by_identifier(id)
@@ -11,10 +13,7 @@ module Ticketing
     end
   
     def sold_out?
-      dates.each do |date|
-        return false if !date.sold_out?
-      end
-      true
+      ((ticket_stats_for_dates(dates)[:total][:total] || {})[:percentage] || 0) >= 100 
     end
   end
 end

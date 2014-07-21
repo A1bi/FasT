@@ -37,11 +37,13 @@ module Ticketing
       enqueue_mailing(:payment_received) if transfer?
     end
     
-    def api_hash(detailed = false)
-      super.merge({
+    def api_hash(details = [], ticket_details = [])
+      hash = super
+      hash.merge!({
         first_name: first_name,
         last_name: last_name
-      })
+      }) if details.include? :personal
+      hash
     end
     
     def total=(t)

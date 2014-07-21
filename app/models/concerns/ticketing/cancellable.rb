@@ -20,11 +20,13 @@ module Ticketing
       cancellation.present?
     end
     
-    def api_hash
-      {
+    def api_hash(details = [])
+      hash = defined?(super) ? super : {}
+      hash.merge!({
         cancelled: cancelled?,
         cancel_reason: cancelled? ? cancellation.reason : nil
-      }
+      }) if details.include? :status
+      hash
     end
     
     module ClassMethods

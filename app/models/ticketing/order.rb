@@ -20,19 +20,20 @@ module Ticketing
       "1#{self[:number]}"
     end
     
-    def self.api_hash
-      includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash }
+    def self.api_hash(details = [], ticket_details = [])
+      includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash(details, tickets_details) }
     end
     
-    def api_hash(detailed = false)
-      {
+    def api_hash(details = [], ticket_details = [])
+      hash = {
         id: id.to_s,
         number: number.to_s,
         total: total,
         paid: paid || false,
         created: created_at.to_i,
-        tickets: tickets.map { |ticket| ticket.api_hash }
-      }.merge(super())
+      }
+      hash[:tickets] = tickets.map { |ticket| ticket.api_hash(ticket_details) } if details.include? :tickets
+      hash.merge(super(details))
     end
     
     def mark_as_paid(save = true)
