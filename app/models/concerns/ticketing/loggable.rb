@@ -17,7 +17,7 @@ module Ticketing
         log_events: log_events.order(id: :desc).map do |event|
           {
             date: event.created_at.to_i,
-            description: t(event.name, { scope: [:ticketing, :orders, :log_events] }.merge(event.info))
+            message: t(event.name, { scope: [:ticketing, :orders, :log_events] }.merge(event.info))
           }
         end
       }) if details.include? :log_events
