@@ -34,25 +34,44 @@
     }
   }
   
-  .sold_out {
+  .highlight {
     top: 150px;
     right: 30px;
     font-size: 45px;
     color: red;
     text-shadow: -1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white, 1px 1px 0 white, 1px 1px 4px black;
     z-index: 99;
-    @include animation(sold_out, 1s, 1);
+    @include animation(highlight, 1s, 1);
     @include vendor-specific(transform, rotate(350deg));
+    
+    &.addition {
+      top: 70px;
+      right: 20px;
+      @include vendor-specific(animation-name, (highlight, addition));
+      @include vendor-specific(animation-duration, (1s, 1s));
+      @include vendor-specific(animation-iteration-count, (1, infinite));
+      @include vendor-specific(animation-direction, alternate);
+    }
   }
 }
 
-@include keyframes(sold_out) {
+@include keyframes(highlight) {
   from {
     @include vendor-specific(transform, rotate(0deg) scale(0));
   }
   
   to {
     @include vendor-specific(transform, rotate(710deg) scale(1));
+  }
+}
+
+@include keyframes(addition) {
+  from {
+    @include vendor-specific(transform, scale(1) rotate(350deg));
+  }
+  
+  to {
+    @include vendor-specific(transform, scale(.9) rotate(350deg));
   }
 }
 

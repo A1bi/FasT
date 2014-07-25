@@ -20,11 +20,14 @@
                   <span class="line_through"><%= l date.date, format: "%A" %></span>
                   <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
                 </td>
-                <td class="date"><span class="line_through"><%= l date.date, format: "%d. %B" %></span></td>
+                <td class="date">
+                  <span class="line_through"><%= l date.date, format: "%d. %B" %></span>
+                  <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
+                </td>
               <% end %>
             <% end %>
           </table>
-          <p><b>Einlass</b> ab <b>19 Uhr</b>,<br /><b>Beginn</b> der Aufführung um <b>20 Uhr</b>.</p>
+          <p>Einlass jeweils eine Stunde vor Beginn.</p>
         </div>
       </div>
     </div>
@@ -48,9 +51,9 @@
       <b>Oder auch an folgenden Vorverkaufsstellen:</b>
       <ul>
         <li>Sportstudio Otto Krechel, Kaisersesch</li>
-        <li>Buchhandlung Walgenbach, Kaisersesch</li>
+        <!-- <li>Buchhandlung Walgenbach, Kaisersesch</li> -->
         <li>Buchhandlung Layaa-Laulhé, Cochem</li>
-        <li>Büro und Schreibwaren Welsch, Mayen</li>
+        <!-- <li>Büro und Schreibwaren Welsch, Mayen</li> -->
       </ul>
     </div>
     <div class="hcen hotline">

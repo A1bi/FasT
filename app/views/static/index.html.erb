@@ -4,7 +4,9 @@
 <% cache [:static, :index, event, event.sold_out?] do %>
   <div class="teaser don_camillo">
     <% if event.sold_out? %>
-      <div class="sold_out">ausverkauft</div>
+      <div class="highlight sold_out">ausverkauft</div>
+    <% else %>
+      <div class="highlight addition">Zusatzaufführung!</div>
     <% end %>
     <div class="links"><%= link_to "Über das Stück", theater_don_camillo_path %> | <%= link_to "Termine", dates_path %><% if !event.sold_out? %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %></div>
   </div>
