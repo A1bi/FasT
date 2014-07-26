@@ -137,9 +137,12 @@ module Ticketing
         else
           table = Ticketing::Order.arel_table
           if admin?
-            @orders = Ticketing::Order
-              .where(table[:first_name].matches("%#{params[:q]}%")
-              .or(table[:last_name].matches("%#{params[:q]}%")))
+            matches = nil
+            (params[:q] + " " + ActiveSupport::Inflector.transliterate(params[:q])).split(" ").uniq.each do |term|
+              match = table[:first_name].matches("%#{term}%").or(table[:last_name].matches("%#{term}%"))
+              matches = matches ? matches.or(match) : match
+            end
+            @orders = Ticketing::Order.where(matches)
           else
             @orders = Ticketing::Retail::Order.where(store: @_retail_store).none
           end

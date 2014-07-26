@@ -149,7 +149,7 @@ class TicketsPDF < Prawn::Document
     end
   
     font_size_name :small do
-      pad_bottom(10) { text t(:opens) }
+      pad_bottom(10) { text t(:opens, time: I18n.l(date.date - 1.hour, format: t(:opens_date_format))) }
       pad_bottom(30) { text t(:location) }
     end
   end
@@ -237,7 +237,7 @@ class TicketsPDF < Prawn::Document
     end
   end
   
-  def t(key)
-    I18n.t(key, scope: :tickets_pdf)
+  def t(key, options = {})
+    I18n.t(key, options.merge({ scope: :tickets_pdf }))
   end
 end

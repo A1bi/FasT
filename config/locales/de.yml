@@ -147,7 +147,8 @@ de:
     website: "www.theater-kaisersesch.de"
     header: "Die Freilichtbühne am schiefen Turm präsentiert"
     location: "Historischer Ortskern, Kaisersesch"
-    opens: "Einlass ab 19.00 Uhr"
+    opens: "Einlass ab %{time}"
+    opens_date_format: "%H.%M Uhr"
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
@@ -258,3 +259,13 @@ de:
         unit: "€"
         separator: ","
         delimiter: "."
+  i18n:
+    transliterate:
+      rule:
+        ä: "ae"
+        ü: "ue"
+        ö: "oe"
+        Ä: "Ae"
+        Ü: "Ue"
+        Ö: "Oe"
+        ß: "ss"
