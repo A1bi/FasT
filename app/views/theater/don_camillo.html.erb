@@ -4,11 +4,9 @@
 <%
 @date_groups = [
   [0, 1, 2],
-  [3, 4, 5],
+  [3, 4, 5, 6],
   [0, 1, 3],
-  [2, 4, 5],
-  [0, 1, 2, 3],
-  [4, 5]
+  [2, 4, 5, 6]
 ]
 @cast = [
   {
@@ -50,11 +48,11 @@
     doubles: [
       {
         name: "Thomas Ellerich",
-        date_group: 3
+        dates: [2, 4, 5]
       },
       {
         name: "Otto Krechel",
-        date_group: 2
+        dates: [0, 1, 3, 6]
       }
     ]
   },
@@ -102,15 +100,7 @@
   },
   {
     name: "Messdiener",
-    doubles: [
-      {
-        name: "Morten Roscher",
-        date_group: 4
-      },
-      {
-        name: "Noel Schönberg"
-      }
-    ]
+    actors: ["Morten Roscher", "Noel Schönberg"]
   },
   {
     name: "Schiedsrichterin",
@@ -185,10 +175,6 @@
       {
         name: "Dr. Elke Koller",
         dates: [3, 4, 5]
-      },
-      {
-        name: "Beate Offenberg",
-        dates: [1, 2, 3, 4]
       },
       {
         name: "Martina Scheler",
