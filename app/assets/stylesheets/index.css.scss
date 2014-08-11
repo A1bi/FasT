@@ -10,7 +10,16 @@
     height: 545px;
     margin: auto;
     
-    > div {
+    .closing {
+      position: absolute;
+      bottom: 0px;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      text-shadow: 0px 0px 4px black;
+    }
+    
+    .links, .highlight {
       position: absolute;
       font-family: "Qlassik", "Arial";
       

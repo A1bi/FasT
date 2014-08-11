@@ -1,14 +1,12 @@
 <% include_css "index" %>
 <% include_js "index" %>
-<% event = Ticketing::Event.current %>
-<% cache [:static, :index, event, event.sold_out?] do %>
+<% cache [:static, :index] do %>
   <div class="teaser don_camillo">
-    <% if event.sold_out? %>
-      <div class="highlight sold_out">ausverkauft</div>
-    <% else %>
-      <div class="highlight addition">Zusatzaufführung!</div>
-    <% end %>
-    <div class="links"><%= link_to "Über das Stück", theater_don_camillo_path %> | <%= link_to "Termine", dates_path %><% if !event.sold_out? %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %></div>
+    <div class="closing">
+      Eine grandiose Theatersaison ist zu Ende. Die Akteure sind glücklich und stolz, sieben ausverkaufte Vorstellungen präsentiert zu haben.
+      <br />Wir danken unserem verehrten Publikum für das überwältigende Interesse an unseren Aufführungen, den Applaus und die vielen begeisterten Rückmeldungen.
+      <p>Wir sehen uns wieder zum Sommernachtstheater 2015!</p>
+    </div>
   </div>
   <div class="trenner"></div>
   <%= render "newsletter/form" %>
