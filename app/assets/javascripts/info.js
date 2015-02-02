@@ -46,7 +46,7 @@ function Weather() {
 $(function () {
 	// init map data
 	$.getJSON("/info/map.json", function (data) {
-		var map = new Map("map", ["/assets/info/tiles/${z}/${x}/${y}.png"]);
+		var map = new Map("map", ["https://a.tile.openstreetmap.org/${z}/${x}/${y}.png"]);
 		
 		$.each(data.icons, function (key, value) {
 			data.icons[key].file = value.file;
