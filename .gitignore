@@ -19,3 +19,6 @@
 
 /config/database.yml
 /config/application.yml
+
+/vendor/assets/bower_components
+/lib/assets/bower_components

@@ -1,4 +1,4 @@
-//= require spin.js/dist/spin.min
+//= require spin.js/spin
 
 function TicketPrinter() {
   var _this = this;

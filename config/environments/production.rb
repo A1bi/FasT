@@ -9,7 +9,7 @@ FasT::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_files = false
 
   # Compress JavaScripts and CSS
   config.assets.js_compressor = :uglifier
@@ -31,7 +31,7 @@ FasT::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -52,7 +52,7 @@ FasT::Application.configure do
 			if path[0] == "_"
 				false
 			else
-				full_path = Rails.application.assets.resolve(path).to_path
+        full_path = Rails.application.assets.resolve(path).to_path
 				app_assets_path = Rails.root.join('app', 'assets').to_path
 				if full_path.starts_with? app_assets_path
 					# including asset
@@ -86,10 +86,10 @@ FasT::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
-  
+
   config.eager_load = true
-  
+
   config.cache_store = :dalli_store
-  
+
   Passbook.options.merge!(CONFIG[:passbook])
 end

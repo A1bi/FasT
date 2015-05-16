@@ -32,16 +32,9 @@ server {
     proxy_pass http://unicorn;
   }
 
-  location /assets/info/tiles/ {
-    rewrite /assets/info/tiles/(\d+)/(\d+)/(\d+).png /$1/$2/$3.png break;
-    proxy_pass http://a.tile.openstreetmap.org;
-    proxy_pass_request_headers off;
-    proxy_redirect off;
-  }
-
   location /assets/info/weather/ {
-    rewrite /assets/info/weather/(\d+)([a-z]).png /os/mit/media/m/weather/images/icons/l/$1$2-100567.png break;
-    proxy_pass http://l.yimg.com;
+    rewrite /assets/info/weather/([a-z]+).gif /i/c/k/$1.gif break;
+    proxy_pass http://icons-ak.wxug.com;
     proxy_pass_request_headers off;
     proxy_redirect off;
   }

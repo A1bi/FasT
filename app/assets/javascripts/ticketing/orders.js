@@ -1,7 +1,7 @@
 //= require ./_seating
 //= require ./base
-//= require node-validator/validator-min
-//= require spin.js/dist/spin.min
+//= require validator-js/validator
+//= require spin.js/spin
 //= require ./_printer
 
 function Step(name, delegate) {
