@@ -1,51 +1,39 @@
 class InfoController < ApplicationController
-  
+
   require 'open-uri'
-  
+
   caches_action :weather, :expires_in => 30.minutes
-  
+
   def index
   end
-  
+
   def map
   end
-  
+
   def weather
-    # Yahoo Weather
-     
-    locId = 664471
-    url = "http://weather.yahooapis.com/forecastrss?u=c&w=" + locId.to_s
-    
-    data = Hash.from_xml open(url).read
-    
-    item = data['rss']['channel']['item']
-    forecast = item['forecast'][0]
-    condition = item['condition']
-    
-    # probability of precipitation (rain) from different source
+    api_key = "63fa222741909726"
+    api_url = "http://api.wunderground.com/api/" + api_key + "/conditions/forecast/q/Germany/Kaisersesch.json"
 
-    url = "http://www.worldweatheronline.com/Kaisersesch-weather/Rheinland-Pfalz/DE.aspx"
-    
-    raw = open(url).read.scan /<div class="outlook_left">P.O.P:<\/div><div class="outlook_right">([0-9]+)%<\/div>/is
-    pop = raw ? raw[0][0] : ""
+    data = JSON.parse(open(api_url).read, symbolize_names: true)
 
-    weather = {
-      low: forecast['low'],
-      high: forecast['high'],
-      daytime: (Time.current.hour > 6 && Time.current.hour < 21) ? "d" : "n",
-      pop: pop,
-      date: Time.parse(condition['date']).to_s(:time)
-    }
-    
-    ["temp", "text", "code"].each do |field|
-      weather[field] = condition[field]
+    if data[:error].nil?
+      simple_forecast = data[:forecast][:simpleforecast][:forecastday][0]
+
+      weather = {
+        temp: data[:current_observation][:temp_c].floor,
+        low: simple_forecast[:low][:celsius],
+        high: simple_forecast[:high][:celsius],
+        pop: data[:forecast][:txt_forecast][:forecastday][0][:pop],
+        icon: simple_forecast[:icon],
+        date: Time.parse(data[:current_observation][:observation_time_rfc822]).to_s(:time)
+      }
     end
-    
+
     response = {
       error: "",
       data: weather
     }
-    
+
     render :json => response
   end
 end

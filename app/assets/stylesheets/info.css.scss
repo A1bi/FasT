@@ -39,45 +39,65 @@
 }
 
 .weather {
-	height: 150px;
+	padding: 20px;
+	position: relative;
 
 	.loader {
-		height: 80%;
 		width: 100%;
-	}
+		opacity: 1;
+		transition: opacity .3s;
 
-	.info {
-		position: relative;
-		top: 0px;
-		width: 70%;
-		height: 100%;
-		margin: auto;
-		display: none;
-	}
-
-	.icon {
-		position: absolute;
-	}
-
-	.data {
-		position: absolute;
-		left: 200px;
-
-		h2 {
-			font-size: 30px;
-			text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-			margin-bottom: 10px;
+		&.out {
+			opacity: 0;
 		}
 	}
 
-	.yahoo {
-		position: absolute;
-		right: -60px;
-		bottom: 0px;
-		font-size: 12px;
+	.fadeIn {
+		opacity: 0;
+		transition: opacity 1s;
 
-		img {
-			vertical-align: bottom;
+		&.in {
+			opacity: 1;
+		}
+	}
+
+	.header, .info {
+		clear: both;
+	}
+
+	.header {
+		.hl {
+			float: left;
+			text-align: center;
+			font-size: 26px;
+		}
+
+		.source {
+			font-size: 12px;
+			float: right;
+
+			img {
+				height: 25px;
+				vertical-align: bottom;
+			}
+		}
+	}
+
+	.info {
+		width: 65%;
+		margin: auto;
+
+		.icon {
+			float: left;
+			font-size: 30px;
+
+			img {
+				vertical-align: middle;
+			}
+		}
+
+		.data {
+			float: right;
 		}
 	}
 }
