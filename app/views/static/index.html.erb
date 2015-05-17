@@ -1,18 +1,12 @@
 <% include_css "index" %>
 <% include_js "index" %>
-<% cache [:static, :index] do %>
-  <div class="hcen teaser">
-    <div class="hl">Sommernachtstheater 2015</div>
-    <h1>„Ladykillers“</h1>
-    <ul>
-      <li>Freitag, 17. Juli</li>
-      <li>Samstag, 18. Juli</li>
-      <li>Freitag, 24. Juli</li>
-      <li>Samstag, 25. Juli</li>
-      <li>Freitag, 7. August</li>
-      <li>Samstag, 8. August</li>
-    </ul>
-    Der Vorverkauf beginnt Anfang Juni.
+<% sale_started = Ticketing::Event.current.sale_started? %>
+<% cache [:static, :index, sale_started] do %>
+  <div class="teaser ladykillers">
+    <h1>Ladykillers</h1>
+    <div class="links">
+      <%= link_to "Über das Stück", theater_ladykillers_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+    </div>
   </div>
   <div class="trenner"></div>
   <%= render "newsletter/form" %>

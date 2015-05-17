@@ -46,7 +46,7 @@
         <% end %>
       </table>
     </div>
-    <% if Time.now > (@event.sale_start || Time.at(0)) %>
+    <% if @event.sale_started? %>
       <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
       <div class="stores">
         <b>Oder auch an folgenden Vorverkaufsstellen:</b>

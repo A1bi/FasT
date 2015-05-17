@@ -1,0 +1,54 @@
+@import "theater";
+
+$regularColor: black;
+$highlightColor: #CC003A;
+
+// adjust content space for microsite
+#content {
+  > .top {
+    background: url(asset_path("theater/ladykillers/content_top.png")) no-repeat;
+    height: 961px;
+  }
+
+  > .content {
+    background: url(asset_path("theater/ladykillers/content_bg.png")) repeat-y;
+    padding: 1px 50px;
+    min-height: 0px;
+    color: white;
+  }
+
+  > .bottom {
+    background: url(asset_path("theater/ladykillers/content_bottom.png")) no-repeat;
+    height: 30px;
+  }
+}
+
+.info {
+  margin-top: -80px;
+  color: $regularColor;
+  line-height: 1.5em;
+  font: {
+    size: 18px;
+    family: 'Ovo', cursive;
+  }
+  text: {
+    align: justify;
+  }
+
+  h2, a, .highlight {
+    color: $highlightColor;
+  }
+
+  a {
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: 0px 0px 15px -15px;
+    font: {
+      size: 26px;
+      weight: bold;
+    }
+  }
+}

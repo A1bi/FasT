@@ -7,7 +7,7 @@ module Ticketing
     before_filter :restrict_access
 
     def new
-      if !@_member.admin? && @event.sale_start && @event.sale_start > Time.zone.now
+      if !@_member.admin? && !@event.sale_started?
         redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
       end
     end
