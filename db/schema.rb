@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140718123334) do
+ActiveRecord::Schema.define(version: 20150517175321) do
 
-  create_table "galleries", force: true do |t|
+  create_table "galleries", force: :cascade do |t|
     t.string   "title"
     t.string   "disclaimer"
     t.integer  "position"
@@ -21,14 +21,14 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "gbook_entries", force: true do |t|
+  create_table "gbook_entries", force: :cascade do |t|
     t.string   "author"
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "members_dates", force: true do |t|
+  create_table "members_dates", force: :cascade do |t|
     t.datetime "datetime"
     t.text     "info"
     t.string   "location"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.string   "title"
   end
 
-  create_table "members_files", force: true do |t|
+  create_table "members_files", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
     t.datetime "created_at"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "file_updated_at"
   end
 
-  create_table "members_members", force: true do |t|
+  create_table "members_members", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
     t.string   "first_name"
@@ -62,7 +62,16 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.string   "nickname"
   end
 
-  create_table "newsletter_subscribers", force: true do |t|
+  create_table "newsletter_newsletters", force: :cascade do |t|
+    t.string   "subject"
+    t.text     "body_html"
+    t.text     "body_text"
+    t.datetime "sent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "newsletter_subscribers", force: :cascade do |t|
     t.string   "email"
     t.string   "token"
     t.datetime "created_at"
@@ -71,20 +80,20 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.string   "last_name"
   end
 
-  create_table "passbook_devices", force: true do |t|
+  create_table "passbook_devices", force: :cascade do |t|
     t.string   "device_id"
     t.string   "push_token"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "passbook_logs", force: true do |t|
+  create_table "passbook_logs", force: :cascade do |t|
     t.text     "message",    limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "passbook_passes", force: true do |t|
+  create_table "passbook_passes", force: :cascade do |t|
     t.string   "type_id"
     t.string   "serial_number"
     t.string   "auth_token"
@@ -95,14 +104,14 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.string   "assignable_type"
   end
 
-  create_table "passbook_registrations", force: true do |t|
+  create_table "passbook_registrations", force: :cascade do |t|
     t.integer  "pass_id"
     t.integer  "device_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "photos", force: true do |t|
+  create_table "photos", force: :cascade do |t|
     t.string   "text"
     t.integer  "position"
     t.integer  "gallery_id"
@@ -115,7 +124,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.boolean  "is_slide",           default: false
   end
 
-  create_table "ticketing_bank_charges", force: true do |t|
+  create_table "ticketing_bank_charges", force: :cascade do |t|
     t.string   "name"
     t.string   "iban"
     t.string   "chargeable_type"
@@ -127,25 +136,25 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.float    "amount"
   end
 
-  create_table "ticketing_bank_submissions", force: true do |t|
+  create_table "ticketing_bank_submissions", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_blocks", force: true do |t|
+  create_table "ticketing_blocks", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "color",      default: "black"
   end
 
-  create_table "ticketing_box_office_box_offices", force: true do |t|
+  create_table "ticketing_box_office_box_offices", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_checkins", force: true do |t|
+  create_table "ticketing_box_office_checkins", force: :cascade do |t|
     t.integer  "ticket_id"
     t.integer  "checkpoint_id"
     t.boolean  "in"
@@ -154,20 +163,20 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_checkpoints", force: true do |t|
+  create_table "ticketing_box_office_checkpoints", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_products", force: true do |t|
+  create_table "ticketing_box_office_products", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_purchase_items", force: true do |t|
+  create_table "ticketing_box_office_purchase_items", force: :cascade do |t|
     t.integer  "purchase_id"
     t.integer  "purchasable_id"
     t.string   "purchasable_type"
@@ -177,20 +186,20 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_purchases", force: true do |t|
+  create_table "ticketing_box_office_purchases", force: :cascade do |t|
     t.integer  "box_office_id"
     t.float    "total"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_cancellations", force: true do |t|
+  create_table "ticketing_cancellations", force: :cascade do |t|
     t.string   "reason"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_coupon_ticket_type_assignments", force: true do |t|
+  create_table "ticketing_coupon_ticket_type_assignments", force: :cascade do |t|
     t.integer  "coupon_id"
     t.integer  "ticket_type_id"
     t.integer  "number"
@@ -198,7 +207,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_coupons", force: true do |t|
+  create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
     t.datetime "expires",    limit: 255
     t.string   "recipient"
@@ -206,19 +215,19 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_coupons_reservation_groups", id: false, force: true do |t|
+  create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|
     t.integer "coupon_id"
     t.integer "reservation_group_id"
   end
 
-  create_table "ticketing_event_dates", force: true do |t|
+  create_table "ticketing_event_dates", force: :cascade do |t|
     t.datetime "date"
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_events", force: true do |t|
+  create_table "ticketing_events", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -226,7 +235,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "sale_start"
   end
 
-  create_table "ticketing_log_events", force: true do |t|
+  create_table "ticketing_log_events", force: :cascade do |t|
     t.string   "name"
     t.string   "info"
     t.integer  "member_id"
@@ -236,7 +245,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_orders", force: true do |t|
+  create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
     t.boolean  "paid",                        default: false, null: false
     t.float    "total"
@@ -255,20 +264,20 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_push_notifications_devices", force: true do |t|
+  create_table "ticketing_push_notifications_devices", force: :cascade do |t|
     t.string   "token"
     t.string   "app"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_reservation_groups", force: true do |t|
+  create_table "ticketing_reservation_groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_reservations", force: true do |t|
+  create_table "ticketing_reservations", force: :cascade do |t|
     t.datetime "expires"
     t.integer  "date_id"
     t.integer  "seat_id"
@@ -277,14 +286,14 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.integer  "group_id"
   end
 
-  create_table "ticketing_retail_stores", force: true do |t|
+  create_table "ticketing_retail_stores", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
   end
 
-  create_table "ticketing_seats", force: true do |t|
+  create_table "ticketing_seats", force: :cascade do |t|
     t.integer  "number"
     t.integer  "row"
     t.integer  "block_id"
@@ -294,7 +303,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.integer  "position_y", default: 0
   end
 
-  create_table "ticketing_ticket_types", force: true do |t|
+  create_table "ticketing_ticket_types", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
     t.datetime "created_at"
@@ -303,7 +312,7 @@ ActiveRecord::Schema.define(version: 20140718123334) do
     t.boolean  "exclusive",  default: false
   end
 
-  create_table "ticketing_tickets", force: true do |t|
+  create_table "ticketing_tickets", force: :cascade do |t|
     t.integer  "number"
     t.float    "price"
     t.integer  "order_id"

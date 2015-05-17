@@ -31,6 +31,7 @@ de:
       logout: "Logout"
     admin:
       members_members: "Mitgliederverwaltung"
+      newsletters: "Newsletter"
     ticketing:
       seats: "Sitzplan"
       statistics: "Statistik"
@@ -219,7 +220,7 @@ de:
       long: "%d. %B um %H.%M Uhr"
   date:
     month_names:
-      - 
+      -
       - Januar
       - Februar
       - März

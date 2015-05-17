@@ -69,6 +69,11 @@ FasT::Application.routes.draw do
     end
 
     namespace :admin, path: "vorstand" do
+      resources :newsletters, except: [:show] do
+        member do
+          post :deliver
+        end
+      end
       resources :members_members, path: "mitglieder", except: [:show], controller: :members do
         member do
           patch :reactivate, path: "reaktivieren"

@@ -1,0 +1,21 @@
+table {
+  border-collapse: collapse;
+
+  td {
+    border-bottom: 1px solid #cccccc;
+    padding: 10px;
+
+    &:first-child {
+      width: 25%;
+    }
+
+    input {
+      width: 90%;
+    }
+
+    textarea {
+      width: 90%;
+      height: 200px;
+    }
+  }
+}

@@ -63,7 +63,7 @@
               %>
               <% if @_member.admin? %>
                 <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions:
-                  [:members_members]
+                  [:members_members, :newsletters]
                 %>
                 <%= render "members_navi", title: "Vorverkauf", namespace: :ticketing, actions:
                   [:orders, :payments, :statistics, :coupons, :seats]

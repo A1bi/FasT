@@ -6,7 +6,7 @@
     <%= render "errors", :errors => (@subscriber ||= Newsletter::Subscriber.new).errors %>
     <%= text ||= "Melden Sie sich jetzt kostenlos zu unserem Newsletter an und erfahren Sie künftig alles Neue um unseren Verein sofort." %>
     <%= form_for @subscriber, url: newsletter_subscriber_path(token: @subscriber.token) do |f| %>
-      <%= f.select :gender, options_for_select({ "Frau" => 0, "Herr" => 1 }) %> <%= f.text_field :last_name, placeholder: "Nachname (freiwillig)" %> <%= f.email_field :email, placeholder: "e-mail-Adresse" %> <%= f.submit @subscriber.new_record? ? :anmelden : :speichern %>
+      <%= f.select :gender, options_for_select({ "Frau" => 0, "Herr" => 1 }, @subscriber.gender) %> <%= f.text_field :last_name, placeholder: "Nachname (freiwillig)" %> <%= f.email_field :email, placeholder: "e-mail-Adresse" %> <%= f.submit @subscriber.new_record? ? :anmelden : :speichern %>
     <% end %>
   </div>
 </div>
