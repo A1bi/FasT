@@ -4,7 +4,7 @@ FasT::Application.routes.draw do
 
   # dates
   controller :dates, path: "termine", as: :dates do
-    root action: :teaser, as: ""
+    root action: :ladykillers, as: ""
   end
 
   # theater
@@ -24,20 +24,20 @@ FasT::Application.routes.draw do
     get "map"
     get "weather"
   end
-  
+
   # static pages
   controller :static do
     get "geschichte", action: :history, as: :history
     get "impressum"
     get "satzung"
     get "agb"
-    
+
     root action: :index
   end
 
   # resources
   scope path_names: { new: "neu", edit: "bearbeiten" } do
-    
+
     # gbook
     resources :gbook_entries,
       controller: :gbook,
@@ -47,7 +47,7 @@ FasT::Application.routes.draw do
           get "(:page)", action: :index, as: "", constraints: { page: /\d+/ }
         end
       end
-      
+
     # galleries
     resources :galleries, path: "galerie" do
       collection do
@@ -62,11 +62,11 @@ FasT::Application.routes.draw do
         end
       end
     end
-    
+
     resource :newsletter_subscriber, controller: :newsletter, path: :newsletter, only: [:create, :update, :destroy] do
       get :edit
     end
-    
+
     namespace :admin, path: "vorstand" do
       resources :members_members, path: "mitglieder", except: [:show], controller: :members do
         member do
@@ -74,9 +74,9 @@ FasT::Application.routes.draw do
         end
       end
     end
-    
+
     namespace :ticketing, path: "" do
-      
+
       concern :ticketable do
         resource :tickets, only: [] do
           collection do
@@ -89,7 +89,7 @@ FasT::Application.routes.draw do
           end
         end
       end
-      
+
       scope path: "vorverkauf" do
         controller :statistics, path: "statistik", as: :statistics do
           get "/", action: :index
@@ -142,7 +142,7 @@ FasT::Application.routes.draw do
           end
         end
       end
-      
+
       scope as: :retail, path: "vorverkaufsstelle", type: :retail do
         root to: redirect("/vorverkaufsstelle/bestellungen/neu"), type: ""
         get "statistik" => "statistics#index_retail", as: :statistics
@@ -168,7 +168,7 @@ FasT::Application.routes.draw do
           get "logout" => "sessions#destroy", as: :logout
         end
       end
-      
+
       resource :order, path: "tickets", type: :web, only: [] do
         member do
           get "bestellen", action: :new, as: :new
@@ -178,7 +178,7 @@ FasT::Application.routes.draw do
         end
       end
     end
-    
+
     namespace :members, path: "mitglieder" do
       resource :member, path: "mitgliedschaft", controller: :member, only: [:edit, :update] do
         member do
@@ -190,16 +190,16 @@ FasT::Application.routes.draw do
       end
       resources :dates, path: "termine", except: [:show]
       resources :files, path: "dateien", except: [:index, :show]
-      
+
       get "login" => "sessions#new", as: :login
       post "login" => "sessions#create"
       get "logout" => "sessions#destroy", as: :logout
-      
+
       root to: "main#index"
     end
-    
+
   end
-  
+
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
       resources :orders, only: [:create]
@@ -215,9 +215,9 @@ FasT::Application.routes.draw do
       end
       post "push_notifications" => "push_notifications#register"
     end
-    
+
     passbook_routes
-    
+
   end
 
 end

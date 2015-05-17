@@ -1,11 +1,11 @@
-<% title "Termine - Sommernachtstheater 2014 - Don Camillo und Peppone" %>
+<% title "Termine - Sommernachtstheater 2015 - Ladykillers" %>
 <% include_css "dates" %>
 <% cache [:dates, @event, @ticket_types, @event.dates.map { |e| e.sold_out? }] do %>
-  <div class="don_camillo">
-    Unser <b>Sommernachtstheater 2014 „<%= link_to "Don Camillo und Peppone", theater_don_camillo_path, class: :shadow %>“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+  <div class="ladykillers">
+    Unser <b>Sommernachtstheater 2015 „<%= link_to "Ladykillers", theater_ladykillers_path, class: :shadow %>“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
     <div class="container">
       <div class="title">
-        <%= link_to image_tag("theater/don_camillo/title.png", alt: "Don Camillo und Peppone"), theater_don_camillo_path %>
+        <%= link_to image_tag("theater/ladykillers/title.png", alt: "Ladykillers"), theater_ladykillers_path %>
       </div>
       <div class="box dates">
         <div class="top">
@@ -34,7 +34,7 @@
     <div class="trenner"></div>
     <div class="hl">
       Ticketvorverkauf
-      <div class="small">ab 1. Juni 2014</div>
+      <div class="small">ab 7. Juni 2015</div>
     </div>
     <div class="prices">
       <table class="rounded">
@@ -46,16 +46,18 @@
         <% end %>
       </table>
     </div>
-    <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
-    <div class="stores">
-      <b>Oder auch an folgenden Vorverkaufsstellen:</b>
-      <ul>
-        <li>Sportstudio Otto Krechel, Kaisersesch</li>
-        <!-- <li>Buchhandlung Walgenbach, Kaisersesch</li> -->
-        <li>Buchhandlung Layaa-Laulhé, Cochem</li>
-        <!-- <li>Büro und Schreibwaren Welsch, Mayen</li> -->
-      </ul>
-    </div>
+    <% if Time.now > (@event.sale_start || Time.at(0)) %>
+      <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
+      <div class="stores">
+        <b>Oder auch an folgenden Vorverkaufsstellen:</b>
+        <ul>
+          <li>Sportstudio Otto Krechel, Kaisersesch</li>
+          <li>Buchhandlung Walgenbach, Kaisersesch</li>
+          <li>Buchhandlung Layaa-Laulhé, Cochem</li>
+          <li>Büro und Schreibwaren Welsch, Mayen</li>
+        </ul>
+      </div>
+    <% end %>
     <div class="hcen hotline">
       <a name="hotline"></a>
       Info-Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>

@@ -5,17 +5,17 @@
 	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
 	<title>Freilichtbühne am schiefen Turm e. V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
 	<link rel="shortcut icon" href="<%= asset_path("favicon.ico") %>" />
-	
+
 	<%= csrf_meta_tag %>
-	
+
 	<%= stylesheet_link_tag "application", media: "all" %>
 	<%= javascript_include_tag "application" %>
-	
+
 	<%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
 	<%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
-	
+
 	<%= yield(:head) %>
-	
+
 	<% cache [:application, :slides, Photo.slides] do %>
 		<script>
 			var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
@@ -35,6 +35,8 @@
   		<div id="navi">
   			<ul>
   				<li><%= link_to "Home", root_path %></li>
+  				<li class="spacer"></li>
+					<li><%= link_to "Termine", dates_path %></li>
   				<li class="spacer"></li>
   				<li><%= link_to "Informationen", info_path %></li>
   				<li class="spacer"></li>
@@ -60,7 +62,7 @@
                 [:root, %i(member edit), :logout]
               %>
               <% if @_member.admin? %>
-                <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions: 
+                <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions:
                   [:members_members]
                 %>
                 <%= render "members_navi", title: "Vorverkauf", namespace: :ticketing, actions:

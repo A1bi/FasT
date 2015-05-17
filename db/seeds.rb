@@ -45,7 +45,7 @@ end
 
 ## ticket system
 # events
-event = Ticketing::Event.create({ name: "Test Don Camillo", identifier: "don_camillo" })
+event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers" })
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
@@ -58,7 +58,7 @@ x = 5
 y = 5
 3.times do |i|
 	block = Ticketing::Block.create(name: block_names[i], color: colors[i])
-	
+
 	# seats
 	x2 = nil
 	6.times do |row|
@@ -74,13 +74,13 @@ y = 5
 			x2 = x2 + 4
 		end
 	end
-	
+
 	x = x2 + 6
 end
 
 # ticket types
 [
-	{ name: "Kinder", info: "Jugendliche bis 16 Jahre", price: 6.5 },
+	{ name: "Ermäßigt", info: "Kinder, Schüler, Studenten (Vorlage des gültigen Schüler- oder Studentenausweises)", price: 8.5 },
 	{ name: "Erwachsene", price: 12.5 }
 ].each do |type|
 	type = Ticketing::TicketType.create(type)
@@ -99,7 +99,7 @@ end
 #   order = Ticketing::Retail::Order.new
 #   order.store = Ticketing::Retail::Store.first
 #   order.build_bunch
-#   
+#
 #   (1 + random(5)).times do
 #     ticket = Ticketing::Ticket.new
 #     ticket.date = date
@@ -108,7 +108,7 @@ end
 #     order.bunch.tickets << ticket
 #     i = i+1
 #   end
-#   
+#
 #   order.save
 # end
 

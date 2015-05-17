@@ -4,7 +4,7 @@ $shadowColor: black;
 .jedermann {
   $highlightColor: #d10a11;
   $shadowColor: #fff7b2;
-  
+
   .hl, .shadow, .prices table td.price, .dates td {
     color: $highlightColor;
   }
@@ -13,35 +13,48 @@ $shadowColor: black;
 .don_camillo {
   $highlightColor: #f23233;
   $shadowColor: #00900E;
-  
+
   .hl, .shadow, .prices table td.price, .dates td {
     color: $highlightColor;
+  }
+}
+
+.ladykillers {
+  $highlightColor: #CC003A;
+  $shadowColor: #00900E;
+
+  .hl, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+
+  .title {
+    padding-top: 10px !important;
   }
 }
 
 .container {
   overflow: auto;
   margin: 20px 0px;
-  
+
   .title {
     float: left;
     width: 52%;
     text-align: center;
     padding-top: 50px;
   }
-  
+
   .dates {
     width: 46%;
     float: left;
-    
+
     tr {
       &.disabled td {
         color: #cccccc;
-        
+
         .line_through {
           text-decoration: line-through !important;
         }
-        
+
         .sold_out {
           color: red;
           font: {
@@ -49,19 +62,19 @@ $shadowColor: black;
             size: 12px;
             weight: normal;
           }
-        }  
+        }
       }
-      
+
       td {
         font-weight: bold;
         vertical-align: top;
-        
+
         .time {
           font-size: 12px;
         }
       }
     }
-    
+
     p {
       font-size: 13px;
       padding: 0px 15px;
@@ -69,7 +82,7 @@ $shadowColor: black;
   }
 }
 
-.hl {  
+.hl {
   &.order {
     font-size: 30px;
     display: block;
@@ -89,18 +102,18 @@ $shadowColor: black;
   table {
     width: 70%;
     margin: auto;
-    
+
     td {
       font-size: 18px !important;
       padding: 10px !important;
-      
+
       &.price {
         vertical-align: middle;
         white-space: nowrap;
         padding: 10px 20px !important;
       }
     }
-    
+
     .price {
       vertical-align: top;
       text-align: right;
@@ -119,14 +132,14 @@ $shadowColor: black;
 	overflow: hidden;
 	margin-bottom: 10px;
 	width: 100%;
-  
+
   .logos {
   	position: absolute;
   	top: 20px;
   	left: 0px;
   	white-space: nowrap;
   	display: block;
-  
+
     div {
   	  padding: 0px 30px;
   	  border-right: 1px solid #cccccc;
@@ -134,7 +147,7 @@ $shadowColor: black;
     	top: 0px;
     }
   }
-  
+
   .fg {
   	position: absolute;
   	top: 0px;
@@ -152,7 +165,7 @@ $shadowColor: black;
     margin: 30px auto;
     font-weight: bold;
   }
-  
+
   ul {
     padding: 0;
     list-style-type: none;
