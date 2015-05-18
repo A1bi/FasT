@@ -24,6 +24,9 @@ de:
   admin:
     members:
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
+    newsletters:
+      preview_sent: "Eine Vorschau wurde verschickt."
+      sent: "Der Newsletter wird nun an alle Empfänger verschickt. Dies kann eine Weile dauern."
   navi:
     members:
       root: "Hauptseite"

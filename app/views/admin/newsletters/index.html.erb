@@ -13,16 +13,16 @@
   	<tbody>
   		<% @newsletters.each do |letter| %>
   			<tr>
-  				<td><%= letter.subject %></td>
+  				<td><%= link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter) %></td>
   				<td>
             <% if letter.sent.present? %>
               <%= l letter.sent, format: "%d. %B %Y um %H.%M Uhr" %>
             <% else %>
-              <%= link_to "senden", deliver_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden? Dies kann eine Weile dauern." } %>
+              <%= link_to "senden", deliver_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
             <% end %>
           </td>
   				<td class="actionBtns">
-            <% if letter.sent.nil? %>
+            <% if !letter.sent? %>
               <%= link_to "", edit_admin_newsletter_path(letter), :class => :edit, :title => "bearbeiten" %>
               <%= link_to "", admin_newsletter_path(letter), { :method => :delete, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich löschen?" }, :class => :delete, :title => "löschen" } %>
             <% end %>

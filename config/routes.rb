@@ -69,7 +69,7 @@ FasT::Application.routes.draw do
     end
 
     namespace :admin, path: "vorstand" do
-      resources :newsletters, except: [:show] do
+      resources :newsletters do
         member do
           post :deliver
         end

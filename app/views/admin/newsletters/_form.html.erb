@@ -1,6 +1,6 @@
 <% title "Newsletter - #{title}" %>
 <% include_css "admin/newsletters" %>
-<div class="hl">Newsletter bearbeiten</div>
+<div class="hl">Newsletter</div>
 <%= form_for @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter) do |f| %>
 	<div class="box">
 		<div class="top">
@@ -11,13 +11,13 @@
 			<table>
 				<tr>
 					<td>Betreff:</td>
-					<td><%= f.text_field :subject, required: true %></td>
+					<td><%= f.text_field :subject, required: true, readonly: @newsletter.sent? %></td>
 				</tr>
 				<tr>
 					<td>Text (HTML):</td>
 					<td>
 						Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
-						<p><%= f.text_area :body_html, required: true %></p>
+						<p><%= f.text_area :body_html, required: true, readonly: @newsletter.sent? %></p>
 						Die Freilichtbühne am schiefen Turm Kaisersesch
 					</td>
 				</tr>
@@ -25,14 +25,26 @@
 					<td>Text (Text):</td>
 					<td>
 						Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
-						<p><%= f.text_area :body_text, required: true %></p>
+						<p><%= f.text_area :body_text, required: true, readonly: @newsletter.sent? %></p>
 						Die Freilichtbühne am schiefen Turm Kaisersesch
 					</td>
 				</tr>
+				<% if !@newsletter.sent? %>
+					<tr>
+						<td>Vorschau verschicken an:</td>
+						<td>
+							<%= email_field_tag :preview_email, nil, placeholder: "e-mail-Adresse" %>
+						</td>
+					</tr>
+				<% end %>
 			</table>
-			<div class="submit">
-				<%= cond_submit f %>
-			</div>
+			<% if !@newsletter.sent? %>
+				<div class="submit">
+					<%= cond_submit f %>
+				</div>
+			<% else %>
+				<div class="hcen">Dieser Newsletter wurde bereits verschickt.</div>
+			<% end %>
 		</div>
 	</div>
 <% end %>
