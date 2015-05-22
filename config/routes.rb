@@ -32,6 +32,7 @@ FasT::Application.routes.draw do
     get "impressum"
     get "satzung"
     get "agb"
+    get "datenschutz", action: :privacy, as: :privacy
 
     root action: :index
   end

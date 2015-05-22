@@ -1,10 +1,7 @@
 .impressum {
-	overflow: auto;
-
 	.contact {
-		float: left;
-		width: 60%;
-		
+		width: 100%;
+
 		hr {
 			width: 90%;
 			height: 0px;
@@ -14,23 +11,23 @@
 				bottom-color: #cccccc;
 			}
 		}
-	
+
 		.board {
 			overflow: auto;
-		
+
 			div {
 				float: left;
-			
+
 				&:first-child {
 					padding-right: 50px;
 				}
 			}
 		}
-		
+
 		.links {
 			margin-bottom: 5px;
 			color: #cccccc;
-			
+
 			a {
 				color: #cccccc;
 			}
@@ -42,13 +39,17 @@
 		width: 37%;
 	}
 
-	h1 {
-		font-size: 16px;
+	h3 {
 		margin-top: 0px;
 	}
-	h2 {
-		font-size: 15px;
+	h4 {
 		margin-top: 10px;
 		margin-bottom: 0px;
+	}
+
+	hr {
+		width: 85%;
+		margin: 20px auto;
+		border-bottom: 0;
 	}
 }
