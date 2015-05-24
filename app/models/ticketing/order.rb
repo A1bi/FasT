@@ -1,29 +1,29 @@
 module Ticketing
   class Order < BaseModel
-  	include Loggable, Cancellable, RandomUniqueAttribute
-	
+  	include Loggable, Cancellable, RandomUniqueAttribute, Billable
+
   	has_many :tickets, dependent: :destroy, autosave: true
     has_random_unique_number :number, 6
     belongs_to :coupon, touch: true
-	
+
   	validates_length_of :tickets, minimum: 1
-    
+
     before_validation :before_validation
     before_create :before_create
     after_create :after_create
-    
+
     def total
       self[:total] || 0
     end
-    
+
     def number
       "1#{self[:number]}"
     end
-    
+
     def self.api_hash(details = [], ticket_details = [])
       includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash(details, tickets_details) }
     end
-    
+
     def api_hash(details = [], ticket_details = [])
       hash = {
         id: id.to_s,
@@ -35,17 +35,17 @@ module Ticketing
       hash[:tickets] = tickets.map { |ticket| ticket.api_hash(ticket_details) } if details.include? :tickets
       hash.merge(super(details))
     end
-    
+
     def mark_as_paid(save = true)
       return if paid
-    
+
       self.paid = true
       mark_tickets_as_paid(tickets)
       self.save if save
-      
+
       log(:marked_as_paid)
     end
-    
+
     def cancel(reason)
       super
       tickets.each do |ticket|
@@ -57,7 +57,7 @@ module Ticketing
       save
       log(:cancelled)
     end
-    
+
     def cancel_tickets(tickets, reason)
       if tickets.count == self.tickets.count
         cancel(reason)
@@ -77,38 +77,39 @@ module Ticketing
         log(:tickets_cancelled, { count: tickets.count, reason: reason })
       end
     end
-    
+
     def mark_tickets_as_paid(t = nil)
       (t || tickets).each do |ticket|
         ticket.paid = true
       end
     end
-    
+
     def updated_tickets(t = nil)
     end
-    
+
     private
-    
+
     def after_create
       log(:created)
       updated_tickets
     end
-    
+
     def before_validation
       update_total
     end
-    
+
     def before_create
       mark_as_paid(false) if total.zero?
+      create_billing_account(total)
     end
-    
+
     def update_total
       self.total = 0
       tickets.each do |ticket|
         self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
       end
     end
-    
+
     def cancel_payment
       self.pay_method = nil
     end

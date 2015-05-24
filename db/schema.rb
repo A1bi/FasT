@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150517175321) do
+ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -140,6 +140,28 @@ ActiveRecord::Schema.define(version: 20150517175321) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ticketing_billing_accounts", force: :cascade do |t|
+    t.integer  "balance",       default: 0, null: false
+    t.integer  "billable_id"
+    t.string   "billable_type"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "ticketing_billing_accounts", ["billable_id", "billable_type"], name: "index_billing_acounts_on_id_and_type"
+
+  create_table "ticketing_billing_transfers", force: :cascade do |t|
+    t.integer  "amount",              default: 0, null: false
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.integer  "reverse_transfer_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "ticketing_billing_transfers", ["recipient_id"], name: "index_ticketing_billing_transfers_on_recipient_id"
+  add_index "ticketing_billing_transfers", ["sender_id"], name: "index_ticketing_billing_transfers_on_sender_id"
 
   create_table "ticketing_blocks", force: :cascade do |t|
     t.string   "name"
