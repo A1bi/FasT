@@ -10,7 +10,7 @@ Wir würden uns sehr über einen Eintrag in unserem Gästebuch freuen.
   <% @entries.each do |entry| %>
     <div class="box">
       <div class="top">
-        <%= entry.author %>
+        <%= entry.author.presence || "<em>anonym</em>".html_safe %>
       </div>
       <div class="con">
         <div style="text-align: right; font-size: 12px;">

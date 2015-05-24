@@ -1,4 +1,3 @@
 class GbookEntry < BaseModel
-  validates :author, :presence => true
-  validates :text, :presence => true
+  validates_presence_of :text
 end
