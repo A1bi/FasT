@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
     t.datetime "updated_at"
     t.boolean  "approved",        default: false
     t.integer  "submission_id"
-    t.float    "amount"
+    t.decimal  "amount",          default: 0.0,   null: false
   end
 
   create_table "ticketing_bank_submissions", force: :cascade do |t|
@@ -142,26 +142,26 @@ ActiveRecord::Schema.define(version: 20150524120013) do
   end
 
   create_table "ticketing_billing_accounts", force: :cascade do |t|
-    t.integer  "balance",       default: 0, null: false
-    t.integer  "billable_id"
-    t.string   "billable_type"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.decimal  "balance",       default: 0.0, null: false
+    t.integer  "billable_id",                 null: false
+    t.string   "billable_type",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "ticketing_billing_accounts", ["billable_id", "billable_type"], name: "index_billing_acounts_on_id_and_type"
 
   create_table "ticketing_billing_transfers", force: :cascade do |t|
-    t.integer  "amount",              default: 0, null: false
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
+    t.decimal  "amount",              default: 0.0, null: false
+    t.integer  "account_id",                        null: false
+    t.integer  "participant_id"
     t.integer  "reverse_transfer_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
-  add_index "ticketing_billing_transfers", ["recipient_id"], name: "index_ticketing_billing_transfers_on_recipient_id"
-  add_index "ticketing_billing_transfers", ["sender_id"], name: "index_ticketing_billing_transfers_on_sender_id"
+  add_index "ticketing_billing_transfers", ["account_id"], name: "index_ticketing_billing_transfers_on_account_id"
+  add_index "ticketing_billing_transfers", ["participant_id"], name: "index_ticketing_billing_transfers_on_participant_id"
 
   create_table "ticketing_blocks", force: :cascade do |t|
     t.string   "name"
@@ -231,7 +231,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
-    t.datetime "expires",    limit: 255
+    t.datetime "expires"
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -269,15 +269,15 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
-    t.boolean  "paid",                        default: false, null: false
-    t.float    "total"
+    t.boolean  "paid",            default: false, null: false
+    t.decimal  "total",           default: 0.0,   null: false
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
     t.string   "plz"
-    t.integer  "pay_method",      limit: 255
+    t.integer  "pay_method"
     t.integer  "cancellation_id"
     t.integer  "coupon_id"
     t.integer  "store_id"
@@ -327,7 +327,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_ticket_types", force: :cascade do |t|
     t.string   "name"
-    t.float    "price"
+    t.decimal  "price",      default: 0.0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "info"
@@ -336,7 +336,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_tickets", force: :cascade do |t|
     t.integer  "number"
-    t.float    "price"
+    t.decimal  "price",           default: 0.0,   null: false
     t.integer  "order_id"
     t.integer  "cancellation_id"
     t.integer  "type_id"

@@ -9,7 +9,7 @@ class ChangePassbookPasses < ActiveRecord::Migration
     super
     if direction == :up
       ActiveRecord::Base.record_timestamps = false
-      Passbook::Records::Pass.all.each do |pass|
+      Passbook::Models::Pass.all.each do |pass|
         pass.filename = File.basename(pass.filename)
         pass.assignable = Ticketing::Ticket.where(number: pass.serial_number).first
         pass.save
