@@ -13,7 +13,30 @@ table.details {
   &.log td {
     text-align: left;
   }
-  
+
+  &.paymentLog {
+    tr:last-child td {
+      border-top: 2px solid #ccc;
+      font-weight: bold;
+    }
+
+    td {
+      text-align: left;
+
+      &:last-child {
+        text-align: right;
+      }
+
+      &.positive {
+        color: green;
+      }
+
+      &.negative {
+        color: red;
+      }
+    }
+  }
+
   &.search {
     th:last-child {
       width: 70%;
@@ -75,8 +98,8 @@ table.details {
 }
 
 .topTables {
-  overflow: auto;
-  
+  overflow: visible;
+
   > table {
     float: left;
     width: 58%;

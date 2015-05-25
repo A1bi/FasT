@@ -5,9 +5,9 @@
     </tr>
     <% if !events.size.zero? %>
       <tr>
+        <th>Datum</th>
         <th>Aktion</th>
         <th>Benutzer</th>
-        <th>Datum</th>
       </tr>
     <% end %>
   </thead>
@@ -17,11 +17,11 @@
         <td class="empty" colspan="3">Keine Protokolleinträge vorhanden.</td>
       </tr>
     <% else %>
-      <% events.order(id: :desc).each do |event| %>
+      <% events.each do |event| %>
         <tr>
+          <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           <td><%= t event.name, { scope: scope }.merge(event.info) %></td>
           <td><%= "#{event.member.first_name} #{event.member.last_name}" if event.member %></td>
-          <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
         </tr>
       <% end %>
     <% end %>

@@ -104,9 +104,6 @@
     <% end %>
   </div>
 </div>
-<% cache [:ticketing, :orders, @order, @order.log_events] do %>
-  <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>
-<% end %>
 <% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
   <a id="tickets"></a>
   <%= form_tag nil, method: :patch, class: :edit_tickets do %>
@@ -166,5 +163,38 @@
       </tbody>
     </table>
   <% end %>
+<% end %>
+<% cache [:ticketing, :orders, @order, @order.log_events] do %>
+  <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>
+<% end %>
+<% cache [:ticketing, :orders, @order, @order.billing_account] do %>
+  <table class="rounded entries paymentLog details">
+    <thead>
+      <tr>
+        <th colspan="3">Zahlungsprotokoll</th>
+      </tr>
+      <tr>
+        <th>Datum</th>
+        <th>Anmerkung</th>
+        <th>Betrag</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.billing_account.transfers.each do |transfer| %>
+        <tr>
+          <td class="date"><%= l transfer.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          <td><%= t transfer.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
+          <td><%= number_to_currency(transfer.amount) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td>Saldo</td>
+        <td class="<%= @order.billing_account.balance >= 0 ? "positive" : "negative" %>">
+          <%= number_to_currency(@order.billing_account.balance) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 <% end %>
 <%= render "application/ticketing/print_notification" %>

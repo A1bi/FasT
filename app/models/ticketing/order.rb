@@ -40,6 +40,8 @@ module Ticketing
 
       self.paid = true
       mark_tickets_as_paid(tickets)
+
+      billing_account.withdraw(billing_account.balance, :payment_received)
       self.save if save
 
       log(:marked_as_paid)

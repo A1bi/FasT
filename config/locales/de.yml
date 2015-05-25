@@ -88,6 +88,12 @@ de:
           one: "Ein Ticket umgebucht"
           other: "%{count} Tickets umgebucht"
         resent_tickets: "Tickets erneut zugesendet"
+      balancing:
+        order_created: "Bestellung aufgegeben"
+        cash_in_store: "Barzahlung in Vorverkaufsstelle"
+        cancellation: "Stornierung"
+        cash_refund_in_store: "Barrückzahlung in Vorverkaufsstelle"
+        payment_received: "Zahlung erhalten"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
