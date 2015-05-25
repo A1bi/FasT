@@ -7,8 +7,14 @@ module Ticketing
     
     def cancel
       @order.cancel_tickets(@tickets, params[:reason])
+      if retail? && params[:refund]
+        @order.refund
+      end
+      @order.save
+
       NodeApi.update_seats_from_tickets(@tickets)
-      redirect_to_order_details :cancelled  
+
+      redirect_to_order_details :cancelled
     end
     
     def transfer

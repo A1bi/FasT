@@ -10,6 +10,7 @@ class CreateBillingAccountsAndTransfers < ActiveRecord::Migration
 
     create_table :ticketing_billing_transfers do |t|
       t.decimal :amount, default: 0, null: false
+      t.string :note_key
       t.belongs_to :account, index: true, null: false
       t.belongs_to :participant, index: true
       t.belongs_to :reverse_transfer

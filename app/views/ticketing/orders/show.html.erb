@@ -147,7 +147,7 @@
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
               ["umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }]
             ]), disabled: true, name: nil %>
-            <span class="reason">Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %></span>
+            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %></span>
             <%= submit_tag :ok, name: nil, disabled: true %>
           </td>
         </tr>

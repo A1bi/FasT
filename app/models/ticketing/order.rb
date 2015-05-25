@@ -8,7 +8,6 @@ module Ticketing
 
   	validates_length_of :tickets, minimum: 1
 
-    before_validation :before_validation
     before_create :before_create
     after_create :after_create
 
@@ -28,7 +27,7 @@ module Ticketing
       hash = {
         id: id.to_s,
         number: number.to_s,
-        total: total,
+        total: total.to_f,
         paid: paid || false,
         created: created_at.to_i,
       }
@@ -52,7 +51,7 @@ module Ticketing
         ticket.cancel(cancellation)
       end
       cancel_payment
-      update_total
+      update_total_and_billing(:cancellation)
       updated_tickets
       save
       log(:cancelled)
@@ -71,7 +70,7 @@ module Ticketing
           self.cancellation = cancellation
           cancel_payment
         end
-        update_total
+        update_total_and_billing(:cancellation)
         updated_tickets(tickets)
         save
         log(:tickets_cancelled, { count: tickets.count, reason: reason })
@@ -94,20 +93,21 @@ module Ticketing
       updated_tickets
     end
 
-    def before_validation
-      update_total
-    end
-
     def before_create
+      update_total_and_billing(:order_created)
       mark_as_paid(false) if total.zero?
-      create_billing_account(total)
     end
 
-    def update_total
+    def update_total_and_billing(billing_note)
+      old_total = self.total
+
       self.total = 0
       tickets.each do |ticket|
         self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
       end
+
+      diff = old_total - self.total
+      billing_account.deposit(diff, billing_note) if !diff.zero?
     end
 
     def cancel_payment

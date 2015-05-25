@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_billing_transfers", force: :cascade do |t|
     t.decimal  "amount",              default: 0.0, null: false
+    t.string   "note_key"
     t.integer  "account_id",                        null: false
     t.integer  "participant_id"
     t.integer  "reverse_transfer_id"

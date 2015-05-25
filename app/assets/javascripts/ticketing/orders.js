@@ -902,7 +902,7 @@ $(function () {
     })
     .find("select").change(function () {
       var $this = $(this);
-      $this.siblings(".reason").toggle($this.val() == "cancel");
+      $this.siblings(".cancellation").toggle($this.val() == "cancel");
     });
     
     var printer = new TicketPrinter();

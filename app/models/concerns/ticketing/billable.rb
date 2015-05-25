@@ -5,7 +5,7 @@ module Ticketing
     included do
       has_one :billing_account,
               as: :billable, inverse_of: :billable, autosave: true,
-              class_name: Ticketing::Billing::Account
+              class_name: Ticketing::Billing::Account, dependent: :destroy
     end
 
     def billing_account
@@ -14,8 +14,8 @@ module Ticketing
 
     private
 
-    def transfer_to_account(recipient, amount)
-      billing_account.transfer(recipient.billing_account, amount)
+    def transfer_to_account(recipient, amount, note_key)
+      billing_account.transfer(recipient.billing_account, amount, note_key)
     end
   end
 end

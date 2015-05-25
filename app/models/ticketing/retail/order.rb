@@ -3,8 +3,7 @@ module Ticketing
     belongs_to :store
   
     validates_presence_of :store
-    
-    before_create :before_create
+
     after_destroy :delete_printable
     
     def self.by_store(retail_id)
@@ -26,11 +25,22 @@ module Ticketing
       }) if details.include? :printable
       hash
     end
-    
+
+    def refund
+      transfer_balance_to_store(:cash_refund_in_store)
+    end
+
     private
     
     def before_create
+      super
       mark_as_paid(false)
+
+      transfer_balance_to_store(:cash_in_store)
+    end
+
+    def transfer_balance_to_store(note_key)
+      transfer_to_account(store, billing_account.balance, note_key)
     end
     
     def printable_dir_path(full = false)
