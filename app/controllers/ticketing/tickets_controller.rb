@@ -10,9 +10,10 @@ module Ticketing
       if retail? && params[:refund]
         @order.refund
       end
-      @order.save
-
-      NodeApi.update_seats_from_tickets(@tickets)
+      
+      if @order.save
+        NodeApi.update_seats_from_tickets(@tickets)
+      end
 
       redirect_to_order_details :cancelled
     end
@@ -31,7 +32,6 @@ module Ticketing
     
     def mark
       @tickets.each do |ticket|
-        ticket.paid = true if params[:paid]
         ticket.picked_up = true if params[:picked_up]
         ticket.save
       end
@@ -56,12 +56,14 @@ module Ticketing
           tmp.deep_merge!({ date.id => Hash[[seat.node_hash(date.id, false)]] })
           ticket.seat = seat
           ticket.date = date
-          updated_seats.deep_merge!(tmp) if ticket.save
+          updated_seats.deep_merge!(tmp)
         end
         
-        NodeApi.update_seats(updated_seats)
-        @order.updated_tickets(@tickets)
         @order.log(:tickets_transferred, { count: @tickets.count })
+        if @order.save
+          NodeApi.update_seats(updated_seats)
+        end
+        
         flash[:notice] = t("ticketing.tickets.transferred", count: @tickets.count)
       else
         ok = false

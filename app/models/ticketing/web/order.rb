@@ -45,13 +45,6 @@ module Ticketing
       hash
     end
 
-    def updated_tickets(t = nil)
-      super
-      (t || tickets).each do |ticket|
-        ticket.update_passbook_pass
-      end
-    end
-
     def bank_charge_submitted
       bank_charge.amount = -billing_account.balance
       withdraw_from_account(billing_account.balance, :bank_charge_submitted)

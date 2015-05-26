@@ -12,6 +12,8 @@ module Ticketing
 	
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
+    
+    before_save :update_passbook_pass
   
     def seat=(seat)
       @check_reserved = true
@@ -44,11 +46,6 @@ module Ticketing
       !!checkins.last.try(:in)
     end
     
-    def update_passbook_pass
-      super(date.event.identifier, { ticket: self })
-      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
-    end
-    
     def api_hash(details = [])
       hash = {
         id: id.to_s,
@@ -71,6 +68,12 @@ module Ticketing
       if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
       end
+    end
+    
+    def update_passbook_pass
+      super(date.event.identifier, { ticket: self })
+      
+      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
     end
   end
 end

@@ -63,7 +63,7 @@ class OrderMailer < BaseMailer
   
   def attach_tickets
     pdf = TicketsPDF.new
-    pdf.add_order @order
+    pdf.add_tickets @order.tickets
     attachments['tickets.pdf'] = pdf.render
     
     find_tickets

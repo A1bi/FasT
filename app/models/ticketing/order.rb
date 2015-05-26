@@ -43,15 +43,11 @@ module Ticketing
         cancellation = ticket.cancel(cancellation || reason)
       end
       update_total_and_billing(:cancellation)
-      updated_tickets(tickets)
       log(:tickets_cancelled, { count: tickets.count, reason: reason })
     end
 
     def cancelled?
       tickets.cancelled(false).count.zero?
-    end
-
-    def updated_tickets(t = nil)
     end
 
     private
@@ -63,7 +59,6 @@ module Ticketing
 
     def before_create
       log(:created)
-      updated_tickets
       true
     end
 

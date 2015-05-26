@@ -4,6 +4,7 @@ module Ticketing
   
     validates_presence_of :store
 
+    before_save :check_tickets
     after_destroy :delete_printable
     
     def self.by_store(retail_id)
@@ -12,10 +13,6 @@ module Ticketing
     
     def printable_path(full = false)
       File.join(printable_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
-    end
-    
-    def updated_tickets(t = nil)
-      update_printable
     end
     
     def api_hash(details = [], ticket_details = [])
@@ -41,6 +38,15 @@ module Ticketing
       transfer_to_account(store, billing_account.balance, note_key)
     end
     
+    def check_tickets
+      tickets.each do |ticket|
+        if ticket.changed?
+          update_printable
+          break
+        end
+      end
+    end
+    
     def printable_dir_path(full = false)
       path = Rails.public_path if full
       File.join(path || "", "/system/tickets")
@@ -50,7 +56,7 @@ module Ticketing
       FileUtils.mkdir_p(printable_dir_path(true))
       
       pdf = TicketsPDF.new(true)
-      pdf.add_order self
+      pdf.add_tickets tickets
       pdf.render_file(printable_path(true))
     end
     

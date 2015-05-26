@@ -35,13 +35,9 @@ class TicketsPDF < Prawn::Document
     fill_background
   end
   
-  def add_order(order)
-    add_tickets(order.tickets.cancelled(false))
-  end
-  
   def add_tickets(tickets)
     tickets.each do |ticket|
-      draw_ticket ticket
+      draw_ticket ticket if !ticket.cancelled?
     end
   end
   

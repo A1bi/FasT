@@ -13,6 +13,7 @@ module Ticketing
       else
         build_cancellation(reason: reason)
       end
+      cancellation_id_will_change!
       cancellation
     end
 
