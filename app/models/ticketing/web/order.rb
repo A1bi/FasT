@@ -28,11 +28,10 @@ module Ticketing
     def approve
       return if !bank_charge
       bank_charge.approved = true
-      save
       log(:approved)
     end
-    
-    def mark_as_paid(save = true)
+
+    def mark_as_paid
       super
       enqueue_mailing(:payment_received) if transfer?
     end
@@ -57,33 +56,15 @@ module Ticketing
         ticket.update_passbook_pass
       end
     end
-    
-    def cancel(reason)
-      super
-      enqueue_mailing(:cancellation)
-    end
-    
+
     private
-    
-    def before_validation
-      super
-      mark_as_paid(false) if charge?
-    end
-    
+
     def update_charge_amount
       bank_charge.amount = total if bank_charge.present?
     end
     
     def enqueue_mailing(action)
       Resque.enqueue(Mailer, id, action)
-    end
-    
-    def cancel_payment
-      super
-      if bank_charge.present?
-        bank_charge.destroy
-        self.bank_charge = nil
-      end
     end
   end
 end

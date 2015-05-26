@@ -270,8 +270,8 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
-    t.boolean  "paid",            default: false, null: false
-    t.decimal  "total",           default: 0.0,   null: false
+    t.boolean  "paid",       default: false, null: false
+    t.decimal  "total",      default: 0.0,   null: false
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
@@ -279,7 +279,6 @@ ActiveRecord::Schema.define(version: 20150524120013) do
     t.string   "phone"
     t.string   "plz"
     t.integer  "pay_method"
-    t.integer  "cancellation_id"
     t.integer  "coupon_id"
     t.integer  "store_id"
     t.string   "type"

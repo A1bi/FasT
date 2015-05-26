@@ -22,7 +22,10 @@ module Ticketing
     end
     
     def mark_as_paid
-      @orders.each { |order| order.mark_as_paid }
+      @orders.each do |order|
+        order.mark_as_paid
+        order.save
+      end
       redirect_to_overview(:marked_as_paid)
     end
     

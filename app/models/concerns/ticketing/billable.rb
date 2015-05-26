@@ -14,8 +14,22 @@ module Ticketing
 
     private
 
+    def after_account_transfer
+    end
+
+    def withdraw_from_account(amount, note_key)
+      billing_account.withdraw(amount, note_key)
+      after_account_transfer
+    end
+
+    def deposit_into_account(amount, note_key)
+      billing_account.deposit(amount, note_key)
+      after_account_transfer
+    end
+
     def transfer_to_account(recipient, amount, note_key)
       billing_account.transfer(recipient.billing_account, amount, note_key)
+      after_account_transfer
     end
   end
 end

@@ -34,8 +34,6 @@ module Ticketing
     
     def before_create
       super
-      mark_as_paid(false)
-
       transfer_balance_to_store(:cash_in_store)
     end
 

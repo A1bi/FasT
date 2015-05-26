@@ -39,6 +39,10 @@ module Ticketing::Billing
       return t
     end
 
+    def outstanding?
+      balance < 0
+    end
+
     private
 
     def update_balance(amount)

@@ -70,17 +70,21 @@ module Ticketing
     end
 
     def mark_as_paid
-      @order.mark_as_paid if !@order.cancelled?
+      if !@order.cancelled? && @order.billing_account.outstanding?
+        @order.mark_as_paid
+        @order.save
+      end
       redirect_to_order_details :marked_as_paid
     end
 
     def approve
-      @order.approve if !@order.cancelled?
+      @order.approve
+      @order.save
       redirect_to_order_details :approved
     end
 
     def send_pay_reminder
-      @order.send_pay_reminder if @order.is_a?(Ticketing::Web::Order) && !@order.cancelled?
+      @order.send_pay_reminder if @order.is_a?(Ticketing::Web::Order) && !@order.billing_account.outstanding?
       redirect_to_order_details :sent_pay_reminder
     end
 
@@ -90,7 +94,8 @@ module Ticketing
     end
 
     def cancel
-      @order.cancel(params[:reason])
+      @order.cancel_tickets(@order.tickets, params[:reason])
+      @order.save
 
       NodeApi.update_seats_from_tickets(@order.tickets)
 

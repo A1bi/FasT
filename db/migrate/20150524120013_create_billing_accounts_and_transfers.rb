@@ -17,6 +17,8 @@ class CreateBillingAccountsAndTransfers < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    remove_reference :ticketing_orders, :cancellation
   end
 
   def migrate(direction)

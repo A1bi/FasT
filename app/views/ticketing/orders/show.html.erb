@@ -86,22 +86,6 @@
         </tr>
       </tbody>
     </table>
-    <% if @order.cancelled? %>
-      <table class="rounded cancellation details">
-        <thead>
-          <tr>
-            <th>Storniert</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              Grund: <%= @order.cancellation.reason.empty? ? "<em>nicht angegeben</em>".html_safe : @order.cancellation.reason %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    <% end %>
   </div>
 </div>
 <% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
@@ -144,7 +128,7 @@
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
               ["umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }]
             ]), disabled: true, name: nil %>
-            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %></span>
+            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
             <%= submit_tag :ok, name: nil, disabled: true %>
           </td>
         </tr>
@@ -190,7 +174,7 @@
       <tr>
         <td></td>
         <td>Saldo</td>
-        <td class="<%= @order.billing_account.balance >= 0 ? "positive" : "negative" %>">
+        <td class="<%= @order.billing_account.outstanding? ? "negative" : "positive" %>">
           <%= number_to_currency(@order.billing_account.balance) %>
         </td>
       </tr>

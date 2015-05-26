@@ -89,9 +89,11 @@ module Ticketing
       @order = Ticketing::Order.find(params[:order_id])
       deny_access if retail? && !@order.is_a?(Ticketing::Retail::Order)
       @order.admin_validations = true if admin? && @order.is_a?(Ticketing::Web::Order)
-      find_tickets
-      @tickets.select do |ticket|
-        ticket.order == @order && !ticket.cancelled?
+
+      # @tickets = @order.tickets.cancelled(false).find(params[:ticket_ids])
+      # workaround: autosave is not triggered when fetching the tickets like shown above
+      @tickets = @order.tickets.select do |ticket|
+        params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
       end
     end
     
