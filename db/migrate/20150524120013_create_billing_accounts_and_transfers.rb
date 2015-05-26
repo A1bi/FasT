@@ -19,6 +19,8 @@ class CreateBillingAccountsAndTransfers < ActiveRecord::Migration
     end
 
     remove_reference :ticketing_orders, :cancellation
+
+    remove_column :ticketing_tickets, :paid, :boolean
   end
 
   def migrate(direction)

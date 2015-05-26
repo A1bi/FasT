@@ -84,12 +84,18 @@ module Ticketing
     end
 
     def send_pay_reminder
-      @order.send_pay_reminder if @order.is_a?(Ticketing::Web::Order) && !@order.billing_account.outstanding?
+      if @order.is_a?(Ticketing::Web::Order) && @order.billing_account.outstanding?
+        @order.send_pay_reminder
+        @order.save
+      end
       redirect_to_order_details :sent_pay_reminder
     end
 
     def resend_tickets
-      @order.resend_tickets if @order.is_a? Ticketing::Web::Order
+      if @order.is_a? Ticketing::Web::Order
+        @order.resend_tickets
+        @order.save
+      end
       redirect_to_order_details :resent_tickets
     end
 

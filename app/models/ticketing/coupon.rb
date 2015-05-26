@@ -6,9 +6,9 @@ class Ticketing::Coupon < BaseModel
   has_many :ticket_types, through: :ticket_type_assignments
   has_and_belongs_to_many :reservation_groups, join_table: :ticketing_coupons_reservation_groups
   has_many :orders, after_add: :redeemed
-  
-  after_create :after_create
-  
+
+  before_create :before_create
+
   def expired?
     return true if ticket_type_assignments.sum(:number) == 0 && reservation_groups.count.zero?
     return false if expires.nil?
@@ -31,8 +31,8 @@ class Ticketing::Coupon < BaseModel
   end
   
   private
-  
-  def after_create
+
+  def before_create
     log(:created)
   end
 end

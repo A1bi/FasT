@@ -7,8 +7,10 @@ module Passbook
     
     module ClassMethods
       def has_passbook_pass(options = {})
-        has_one (options[:attribute] || :passbook_pass), class_name: Passbook::Models::Pass, as: :assignable, dependent: :destroy
-        
+        has_one (options[:attribute] || :passbook_pass),
+                class_name: Passbook::Models::Pass,
+                as: :assignable, dependent: :destroy, autosave: true
+
         include Passbook::HasPassbookPass::LocalInstanceMethods
       end
     end
@@ -27,11 +29,9 @@ module Passbook
         end
         
         pass.info[:authenticationToken] = passbook_pass.auth_token
-        puts passbook_pass.filename
         pass.save passbook_pass.filename
         
         passbook_pass.touch if passbook_pass.persisted?
-        passbook_pass.save
       end
     end
   end

@@ -4,11 +4,11 @@ module Ticketing
     include ActionView::Helpers::TranslationHelper
   
     included do
-      has_many :log_events, as: :loggable, dependent: :destroy
+      has_many :log_events, as: :loggable, dependent: :destroy, autosave: true
     end
     
     def log(event, info = nil)
-      log_events.create({ name: event, info: info }) if persisted?
+      log_events.new({ name: event, info: info })
     end
     
     def api_hash(details = [])

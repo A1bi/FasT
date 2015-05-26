@@ -9,8 +9,8 @@ module Ticketing
     validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates :email, allow_blank: true, email_format: true
-    validates_presence_of :pay_method, if: Proc.new { |order| order.total > 0 }
-    
+    validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
+
     def send_pay_reminder
       enqueue_mailing(:pay_reminder)
       log(:sent_pay_reminder)
@@ -44,12 +44,7 @@ module Ticketing
       }) if details.include? :personal
       hash
     end
-    
-    def total=(t)
-      super
-      update_charge_amount
-    end
-    
+
     def updated_tickets(t = nil)
       super
       (t || tickets).each do |ticket|
@@ -57,12 +52,14 @@ module Ticketing
       end
     end
 
+    def bank_charge_submitted
+      bank_charge.amount = -billing_account.balance
+      withdraw_from_account(billing_account.balance, :bank_charge_submitted)
+      log(:charge_submitted)
+    end
+
     private
 
-    def update_charge_amount
-      bank_charge.amount = total if bank_charge.present?
-    end
-    
     def enqueue_mailing(action)
       Resque.enqueue(Mailer, id, action)
     end

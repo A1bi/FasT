@@ -1,23 +1,15 @@
 module Ticketing
   class PaymentsController < BaseController
     before_filter :find_orders, only: [:mark_as_paid, :approve]
-    before_filter :find_unsubmitted_charges, only: [:index, :submit]
-    
+    before_filter :find_charges_to_submit, only: [:index, :submit]
+
     def index
-      @orders = {}
-      %i(unpaid unapproved).each do |type|
-        @orders[type] = Web::Order.where(cancellation: nil).order(:number)
-      end
-      
-      @orders[:unpaid]
-        .where!(pay_method: Ticketing::Web::Order.pay_methods[:transfer])
-        .where!(paid: false)
-      
-      @orders[:unapproved]
-        .includes!(:bank_charge)
-        .where!(pay_method: Ticketing::Web::Order.pay_methods[:charge])
-        .where!(ticketing_bank_charges: { approved: false })
-      
+      @orders = {
+        unpaid:     find_unpaid_orders
+                      .where(pay_method: Ticketing::Web::Order.pay_methods[:transfer]),
+        unapproved: find_unsubmitted_charges(false)
+      }
+
       @submissions = BankSubmission.order(created_at: :desc)
     end
     
@@ -30,7 +22,10 @@ module Ticketing
     end
     
     def approve
-      @orders.each { |order| order.approve }
+      @orders.each do |order|
+        order.approve
+        order.save
+      end
       redirect_to_overview(:approved)
     end
     
@@ -38,7 +33,7 @@ module Ticketing
       return redirect_to_overview if @unsubmitted_charges.empty?
       
       submission = BankSubmission.new
-      submission.charges = @unsubmitted_charges
+      submission.charges = @unsubmitted_charges.map { |o| o.bank_charge }
       submission.save
       
       redirect_to_overview(:submitted)
@@ -77,11 +72,21 @@ module Ticketing
         @orders << Web::Order.find(orderId)
       end
     end
-    
-    def find_unsubmitted_charges
-      @unsubmitted_charges = BankCharge.where(submission_id: nil, approved: true)
+
+    def find_charges_to_submit
+      @unsubmitted_charges = find_unsubmitted_charges(true)
     end
-    
+
+    def find_unsubmitted_charges(approved)
+      find_unpaid_orders.includes(:bank_charge)
+        .where(pay_method: Ticketing::Web::Order.pay_methods[:charge])
+        .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
+    end
+
+    def find_unpaid_orders
+      Web::Order.includes(:billing_account).where(paid: false).order(:number)
+    end
+
     def redirect_to_overview(notice = nil)
       options = { scope: [:ticketing, :payments] }
       options[:count] = @orders.count if @orders

@@ -4,12 +4,12 @@ module Ticketing
 
   	has_many :tickets, dependent: :destroy, autosave: true
     has_random_unique_number :number, 6
-    belongs_to :coupon, touch: true
+    belongs_to :coupon, autosave: true
 
   	validates_length_of :tickets, minimum: 1
 
+    before_validation :before_create_validation, on: :create
     before_create :before_create
-    after_create :after_create
 
     def number
       "1#{self[:number]}"
@@ -56,13 +56,15 @@ module Ticketing
 
     private
 
-    def after_create
-      log(:created)
-      updated_tickets
+    def before_create_validation
+      update_total_and_billing(:order_created)
+      true
     end
 
     def before_create
-      update_total_and_billing(:order_created)
+      log(:created)
+      updated_tickets
+      true
     end
 
     def update_total_and_billing(billing_note)
@@ -79,10 +81,6 @@ module Ticketing
 
     def update_paid
       self.paid = !billing_account.outstanding?
-
-      tickets.each do |ticket|
-        ticket.paid = self.paid
-      end
     end
 
     def after_account_transfer

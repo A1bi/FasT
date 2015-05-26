@@ -12,7 +12,7 @@
     <tbody>
       <tr>
         <% if @unsubmitted_charges.any? %>
-          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td><td><%= number_to_currency @unsubmitted_charges.sum(:amount) %></td>
+          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td><td><%= number_to_currency -@unsubmitted_charges.sum("ticketing_billing_accounts.balance") %></td>
           <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
         <% else %>
           <td colspan="4" class="empty">Keine Lastschriften einzureichen.</td>
@@ -62,7 +62,7 @@
             <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
             <td class="name"><%= charge.name %></td>
             <td><%= obfuscated_iban(charge.iban) %></td>
-            <td class="amount"><%= number_to_currency order.total %></td>
+            <td class="amount"><%= number_to_currency -order.billing_account.balance %></td>
           </tr>
         <% end %>
         <% if @orders[:unapproved].empty? %>

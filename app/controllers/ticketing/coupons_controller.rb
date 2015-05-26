@@ -24,8 +24,8 @@ module Ticketing
     
     def update
       params[:ticketing_coupon][:reservation_group_ids] ||= []
-      @coupon.update_attributes(coupon_params)
       @coupon.log(:edited)
+      @coupon.update_attributes(coupon_params)
       update_ticket_types
       redirect_to @coupon
     end
@@ -52,9 +52,9 @@ module Ticketing
       
       params[:text] = params[:text].gsub("%%recipient%%", params[:recipient]).gsub("%%code%%", @coupon.code) if params[:text].present?
       BaseMailer.mail(to: params[:email], subject: params[:subject], body: params[:text]).deliver
-      
-      @coupon.log(:sent, email: params[:email], recipient: params[:recipient])
-      
+
+      @coupon.log(:sent, email: params[:email], recipient: params[:recipient]).save
+
       flash[:notice] = t(:sent, scope: [:ticketing, :coupons])
       redirect_to @coupon
     end

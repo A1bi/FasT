@@ -20,7 +20,7 @@ module RandomUniqueAttribute
     protected
     
     def set_attr(attr, &block)
-      before_create do |record|
+      before_validation on: :create do |record|
         begin
           record[attr] = block.call
         end while self.class.exists?(attr => record[attr])

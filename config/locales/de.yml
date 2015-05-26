@@ -94,6 +94,7 @@ de:
         cancellation: "Stornierung"
         cash_refund_in_store: "Barrückzahlung in Vorverkaufsstelle"
         payment_received: "Zahlung erhalten"
+        bank_charge_submitted: "Lastschrift bei der Bank eingereicht"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."

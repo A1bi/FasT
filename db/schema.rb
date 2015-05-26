@@ -232,7 +232,7 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
-    t.datetime "expires"
+    t.datetime "expires",    limit: 255
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -270,15 +270,15 @@ ActiveRecord::Schema.define(version: 20150524120013) do
 
   create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
-    t.boolean  "paid",       default: false, null: false
-    t.decimal  "total",      default: 0.0,   null: false
+    t.boolean  "paid",                   default: false, null: false
+    t.decimal  "total",                  default: 0.0,   null: false
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
     t.string   "plz"
-    t.integer  "pay_method"
+    t.integer  "pay_method", limit: 255
     t.integer  "coupon_id"
     t.integer  "store_id"
     t.string   "type"
@@ -344,7 +344,6 @@ ActiveRecord::Schema.define(version: 20150524120013) do
     t.datetime "updated_at"
     t.integer  "seat_id"
     t.integer  "date_id"
-    t.boolean  "paid",            default: false
     t.boolean  "picked_up",       default: false
   end
 
