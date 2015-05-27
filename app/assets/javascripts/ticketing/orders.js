@@ -565,9 +565,19 @@ function FinishStep(delegate) {
       retailId: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
     };
-    $.post("/api/orders", info)
-      .done(function (res) { _this.orderPlaced(res); })
-      .fail(function () { _this.error(); });
+    
+    $.ajax({
+      url: "/api/orders",
+      type: "POST",
+      data: JSON.stringify(info),
+      contentType: "application/json",
+      success: function (res) {
+        _this.orderPlaced(res);
+      },
+      error: function () {
+        _this.error();
+      }
+    });
   };
   
   this.orderPlaced = function (res) {
@@ -853,6 +863,7 @@ function Ordering() {
     radius: 30,
     trail: 60,
     shadow: true,
+    top: 0,
     color: "white"
   };
   _this.modalSpinner = new Spinner(opts);

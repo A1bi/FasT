@@ -1,4 +1,3 @@
-<p>Folgende Tickets haben Sie bestellt:</p>
 <table id="ticketsTable">
   <tr class="top">
     <td>Aufführung</td>
@@ -21,7 +20,7 @@
     <td colspan="1" class="amount"><%= number_to_currency(@order.total) %></td>
   </tr>
 </table>
-<% if @order.paid && !(hide_notes ||= false) %>
+<% if should_attach_tickets? && !(hide_notes ||= false) %>
   <table style="background: #ebebeb;" cellspacing="7" align="center">
     <tr>
       <td>

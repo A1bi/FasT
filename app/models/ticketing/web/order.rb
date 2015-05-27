@@ -25,6 +25,11 @@ module Ticketing
       enqueue_mailing(:confirmation)
     end
     
+    def cancel_tickets(tickets, reason)
+      super
+      enqueue_mailing(:cancellation, reason: reason)
+    end
+    
     def approve
       return if !bank_charge
       bank_charge.approved = true
@@ -53,8 +58,8 @@ module Ticketing
 
     private
 
-    def enqueue_mailing(action)
-      Resque.enqueue(Mailer, id, action)
+    def enqueue_mailing(action, options = nil)
+      Resque.enqueue(Mailer, id, action, options)
     end
   end
 end

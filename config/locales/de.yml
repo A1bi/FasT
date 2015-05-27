@@ -179,7 +179,7 @@ de:
     pay_reminder:
       subject: "Zahlungserinnerung"
     cancellation:
-      subject: "Stornierung Ihrer Bestellung"
+      subject: "Stornierung Ihrer Tickets"
     resend_tickets:
       subject: "Ihre Tickets"
   newsletter_mailer:

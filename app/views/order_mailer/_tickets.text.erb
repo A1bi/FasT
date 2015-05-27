@@ -1,12 +1,10 @@
-Folgende Tickets haben Sie bestellt:
-
 <% @tickets.each do |ticket| %>
       <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | Block <%= ticket.seat.block.name %> | Sitz <%= ticket.seat.number %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------
 Gesamtbetrag: <%= number_to_currency(@order.total) %>
-<% if @order.paid && !(hide_notes ||= false) %>
+<% if should_attach_tickets? && !(hide_notes ||= false) %>
 
 --- Hinweise zu Ihren Tickets ---
 

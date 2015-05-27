@@ -2,7 +2,9 @@ class Ticketing::Coupon < BaseModel
   include RandomUniqueAttribute, Ticketing::Loggable
   
   has_random_unique_token :code, 6
-  has_many :ticket_type_assignments, class_name: Ticketing::CouponTicketTypeAssignment, dependent: :destroy
+  has_many :ticket_type_assignments,
+           class_name: Ticketing::CouponTicketTypeAssignment,
+           dependent: :destroy, autosave: true
   has_many :ticket_types, through: :ticket_type_assignments
   has_and_belongs_to_many :reservation_groups, join_table: :ticketing_coupons_reservation_groups
   has_many :orders, after_add: :redeemed

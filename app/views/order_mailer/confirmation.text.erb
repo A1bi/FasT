@@ -1,7 +1,7 @@
 vielen Dank für Ihre Bestellung <%= render "order_number" %>!
 
 
-<%= render "tickets" %>
+<%= render "tickets_ordered" %>
 
 
 <% if @order.charge? %>
@@ -21,7 +21,7 @@ Sie erhalten Ihre Tickets per Mail sofort nach Zahlungsgeingang.
 Sie erhalten Ihre Tickets nach Barzahlung an der Abendkasse.
 <% end %>
 <% end %>
-<% if @order.paid %>
+<% if should_attach_tickets? %>
 
 
 Wir wünschen Ihnen viel Spaß bei der Aufführung!

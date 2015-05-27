@@ -39,15 +39,18 @@ module Ticketing
 
     def cancel_tickets(tickets, reason)
       cancellation = nil
+      tickets_count = 0
       tickets.each do |ticket|
+        next if ticket.cancelled?
         cancellation = ticket.cancel(cancellation || reason)
+        tickets_count = tickets_count + 1
       end
       update_total_and_billing(:cancellation)
-      log(:tickets_cancelled, { count: tickets.count, reason: reason })
+      log(:tickets_cancelled, { count: tickets_count, reason: reason })
     end
 
     def cancelled?
-      tickets.cancelled(false).count.zero?
+      tickets.cancelled(false).empty?
     end
 
     private
@@ -71,7 +74,7 @@ module Ticketing
       end
 
       diff = old_total - self.total
-      deposit_into_account(diff, billing_note) if !diff.zero?
+      deposit_into_account(diff, billing_note)
     end
 
     def update_paid

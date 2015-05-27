@@ -5,56 +5,46 @@ class OrderMailer < BaseMailer
   
   helper Ticketing::TicketingHelper
   
-  def confirmation(order)
-		@order = order
+  def order_action(action, order, options = nil)
+    @order = order
     
     find_tickets
-    attach_tickets if order.paid
-		mail_to_customer
-	end
-  
-  def payment_received(order)
-    @order = order
+    attach_tickets if should_attach_tickets?
     
-    attach_tickets
-    mail_to_customer
-  end
-  
-  def overview(order)
-    @order = order
-    
-    attach_tickets
-    mail_to_customer
-  end
-  
-  def pay_reminder(order)
-    if order.is_a?(Ticketing::Web::Order) && order.transfer? && !order.paid
-      @order = order
-      
-      find_tickets
-      mail_to_customer
+    should_mail = true
+    if options.present?
+      should_mail = self.send(action, options.symbolize_keys)
+    else
+      should_mail = self.send(action)
     end
-  end
-  
-  def cancellation(order)
-    if order.is_a?(Ticketing::Web::Order)
-      @order = order
-      
-      mail_to_customer
+
+    if should_mail != false && @order.email.present?
+      mail  to: @order.email,
+            subject: t(:subject, scope: [mailer_name, action]),
+            template_name: action
     end
-  end
-  
-  def resend_tickets(order)
-    @order = order
-    
-    attach_tickets
-    mail_to_customer
   end
   
   private
   
-  def mail_to_customer
-    mail to: @order.email if @order.email.present?
+  def confirmation
+  end
+  
+  def payment_received
+  end
+  
+  def overview
+  end
+  
+  def pay_reminder
+    order.transfer? && !order.paid
+  end
+  
+  def cancellation(options)
+    @reason = options[:reason]
+  end
+  
+  def resend_tickets
   end
   
   def find_tickets
@@ -68,11 +58,15 @@ class OrderMailer < BaseMailer
     
     find_tickets
     @tickets.each do |ticket|
-      next if ticket.cancelled?
       attachments["passbook-#{ticket.number}.pkpass"] = {
         mime_type: @@passbook_mime_type,
         content: File.read(ticket.passbook_pass.path(true))
       }
     end
   end
+  
+  def should_attach_tickets?
+    !@order.cancelled? && (@order.paid || @order.charge?)
+  end
+  helper_method :should_attach_tickets?
 end

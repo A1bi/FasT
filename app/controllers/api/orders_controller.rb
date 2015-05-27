@@ -6,7 +6,7 @@ class Api::OrdersController < ApplicationController
     }
     
     info = params.require(:order)
-    retailId = params[:retailId].to_i
+    retailId = params[:retailId]
     type = (params[:type] || "").to_sym
     if type != :web && !((type == :admin && @_member.admin?) || (type == :retail && cookies.signed["_#{Rails.application.class.parent_name}_retail_store_id"] == retailId))
       type = :web
@@ -22,33 +22,35 @@ class Api::OrdersController < ApplicationController
     end
     seats = seating[:seats]
     
-    coupon_assignments = []
     if info[:couponCode].present?
       coupon = Ticketing::Coupon.where(code: info[:couponCode]).first
       coupon.orders << order if !coupon.expired?
     end
     
 		info[:tickets].each do |type_id, number|
-      number = number.to_i
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
       
       if ticket_type.exclusive && (type != :admin || coupon)
-        assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
+        # assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
+        # workaround: autosave is not triggered when fetching the tickets like shown above
+        assignment = coupon.ticket_type_assignments.find do |a|
+          a.ticket_type_id == ticket_type.id
+        end
+        puts assignment
         next if !assignment
         if assignment.number >= 0
           assignment.number = assignment.number - number
           next if assignment.number < 0
         end
-        coupon_assignments << assignment
       end
       
       number.times do
-				ticket = Ticketing::Ticket.new
-				ticket.type = ticket_type
-				ticket.seat = Ticketing::Seat.find(seats.shift)
-        ticket.date = Ticketing::EventDate.find(info[:date])
-        order.tickets << ticket
+        order.tickets.new({
+          type: ticket_type,
+          seat: Ticketing::Seat.find(seats.shift),
+          date: Ticketing::EventDate.find(info[:date])
+        })
 			end
 		end
   
@@ -65,13 +67,11 @@ class Api::OrdersController < ApplicationController
     end
     
     ActiveRecord::Base.transaction do
-      begin
-        if order.save
+      if order.save
+        begin
           if type == :web && params[:newsletter].present?
             Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
           end
-          
-          coupon_assignments.each { |a| a.save }
           
           options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }
           options[:store] = order.store.name if type == :retail
@@ -89,12 +89,14 @@ class Api::OrdersController < ApplicationController
     
           response[:ok] = true
           response[:order] = order.api_hash([:tickets, :printable])
-        else
-          response[:errors] << "Invalid order"
+          
+        rescue
+          response[:errors] << "Internal error"
+          raise ActiveRecord::Rollback
         end
-      rescue
-        response[:errors] << "Internal error"
-        raise ActiveRecord::Rollback
+      else
+        puts order.errors.messages
+        response[:errors] << "Invalid order"
       end
     end
     
