@@ -91,8 +91,7 @@ FasT::Application.routes.draw do
             get :transfer, path: "umbuchen"
             post :init_transfer
             patch :finish_transfer
-            post :printable
-            patch :mark
+            get :printable
           end
         end
       end

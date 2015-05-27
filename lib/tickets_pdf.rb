@@ -6,13 +6,11 @@ class TicketsPDF < Prawn::Document
   TICKET_WIDTH = 595
   TICKET_HEIGHT = 280
   
-  def initialize(retail = false)
-    @retail = retail
+  def initialize(margin = [14, 0], page_size = "A4")
     @tickets_drawn = 0
-    
-    margin = @retail ? [0] : [14, 0]
+    @stamps = {}
     @ticket_height = TICKET_HEIGHT - 1 - margin.first * 2 / 3
-    page_size = @retail ? [TICKET_WIDTH, TICKET_HEIGHT] : "A4"
+    @ticket_margin = 12
 
     super page_size: page_size, page_layout: :portrait, margin: margin, info: {
       Title:         t(:title),
@@ -48,13 +46,7 @@ class TicketsPDF < Prawn::Document
   private
 
   def draw_ticket(ticket)
-    if (!@retail && cursor - @ticket_height < 0) || (@retail && @tickets_drawn > 0)
-      start_new_page
-      fill_background
-    end
-    
-    ticket_margin = 12
-    bounding_box([0, cursor - ticket_margin], width: TICKET_WIDTH, height: @ticket_height - ticket_margin * 2) do
+    bounding_box([0, cursor - @ticket_margin], width: TICKET_WIDTH, height: @ticket_height - @ticket_margin * 2) do
       indent(10, 10) do
         text_indent = [35, 95]
         line_width = 0.5
@@ -86,12 +78,7 @@ class TicketsPDF < Prawn::Document
         end
       end
       
-      move_down ticket_margin
-    end
-    
-    if cursor > bounds.height / 3 && !@retail
-      move_down ticket_margin
-      draw_cut_line
+      move_down @ticket_margin
     end
     
     @tickets_drawn = @tickets_drawn.next
@@ -100,7 +87,7 @@ class TicketsPDF < Prawn::Document
   def draw_barcode_for_ticket(ticket)
     rotate(-90, origin: [0, bounds.height]) do
       bounding_box([0, bounds.height + bounds.width], width: bounds.height, height: bounds.width) do
-        BarcodePDF.draw_content("T#{ticket.number}M" + (@retail ? "0" : "1"), self)
+        BarcodePDF.draw_content(barcode_content_for_ticket(ticket), self)
       end
     end
   end
@@ -131,22 +118,24 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_event_info_for_date(date)
-    event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-    width = 370
-    if @retail
-      image event_image_path.sub_ext(".png"), width: width
-    else
+    create_stamp(:events, date.event) do
+      event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
+      width = 370
       svg File.read(event_image_path), at: [0, cursor], width: width
     end
     
-    move_down 5
-    font_size_name :normal do
-      text (I18n.l date.date, format: t(:event_date_format))
-    end
-  
-    font_size_name :small do
-      pad_bottom(10) { text t(:opens, time: I18n.l(date.date - 1.hour, format: t(:opens_date_format))) }
-      pad_bottom(30) { text t(:location) }
+    draw_stamp(:dates, date, true) do
+      draw_stamp(:events, date.event, false)
+      
+      move_down 5
+      font_size_name :normal do
+        text (I18n.l date.date, format: t(:event_date_format))
+      end
+    
+      font_size_name :small do
+        pad_bottom(10) { text t(:opens, time: I18n.l(date.date - 1.hour, format: t(:opens_date_format))) }
+        pad_bottom(30) { text t(:location) }
+      end
     end
   end
 
@@ -204,6 +193,33 @@ class TicketsPDF < Prawn::Document
     end
   end
   
+  def stamp_name(key, record)
+    key.to_s + "_" + record.id.to_s
+  end
+  
+  def create_stamp(key, record, &block)
+    if (@stamps[key] ||= {})[record].nil?
+      outer_start = y
+      float do
+        start = cursor
+        super(stamp_name(key, record), &block)
+        
+        @stamps[key][record] = {
+          start: outer_start,
+          height: start - cursor
+        }
+      end
+    end
+    
+    @stamps[key][record][:height]
+  end
+  
+  def draw_stamp(key, record, offset, &block)
+    height = create_stamp(key, record, &block)
+    stamp_at(stamp_name(key, record), [0, offset ? y - @stamps[key][record][:start] : 0])
+    move_down height
+  end
+  
   def font_size_name(size)
     font_size @font_sizes[size] do
       yield if block_given?
@@ -218,12 +234,12 @@ class TicketsPDF < Prawn::Document
   end
   
   def draw_cut_line
-    tmpCursor = cursor
+    start = cursor
     dash(10, space: 5, phase: 0)
     horizontal_line(0, bounds.width)
     stroke
     undash
-    move_up(cursor - tmpCursor)
+    move_up(cursor - start)
   end
   
   def fill_background
@@ -235,5 +251,9 @@ class TicketsPDF < Prawn::Document
   
   def t(key, options = {})
     I18n.t(key, options.merge({ scope: :tickets_pdf }))
+  end
+  
+  def barcode_content_for_ticket(ticket)
+    "T#{ticket.number}M"
   end
 end
