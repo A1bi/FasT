@@ -19,21 +19,39 @@ module Ticketing
     def new_retail
     end
 
-    def redeem_coupon
+    def add_coupon
       response = { ok: false }
+      
       coupon = Ticketing::Coupon.where(code: params[:code]).first
       if !coupon
         response[:error] = "not found"
       elsif coupon.expired?
         response[:error] = "expired"
       else
-        response[:ok] = true
+        response = {
+          ok: true,
+          coupon: {
+            id: coupon.id,
+            seats: update_exclusive_seats(:add, coupon.reservation_groups),
+            ticket_types: coupon.ticket_type_assignments.map do |assignment|
+              { id: assignment.ticket_type.id, number: assignment.number }
+            end
+          }
+        }
+      end
 
-        response[:seats] = set_exclusive_seats(coupon.reservation_groups).any?
-
-        response[:ticket_types] = coupon.ticket_type_assignments.map do |assignment|
-          { id: assignment.ticket_type.id, number: assignment.number }
-        end
+      render json: response
+    end
+    
+    def remove_coupon
+      response = { ok: false }
+      
+      coupon = Ticketing::Coupon.where(code: params[:code]).first
+      if coupon
+        update_exclusive_seats(:remove, coupon.reservation_groups)
+        response = {
+          ok: true
+        }
       end
 
       render json: response
@@ -44,8 +62,9 @@ module Ticketing
       (params[:groups] ||= []).each do |group_id|
         groups << Ticketing::ReservationGroup.find(group_id)
       end
+      update_exclusive_seats(:add, groups)
 
-      response = { ok: true, seats: set_exclusive_seats(groups, true).any? }
+      response = { ok: true, seats: true }
 
       render json: response
     end
@@ -181,16 +200,18 @@ module Ticketing
   		@seats = Ticketing::Seat.all
   		@ticket_types = Ticketing::TicketType.order(price: :desc)
     end
-
-    def set_exclusive_seats(groups, even_if_empty = false)
+    
+    def update_exclusive_seats(action, groups)
       seats = {}
       (groups).each do |reservation_group|
         reservation_group.reservations.each do |reservation|
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      NodeApi.seating_request("setExclusiveSeats", { seats: seats }, params[:seatingId]) if seats.any? || even_if_empty
-      seats
+      if seats.any?
+        NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
+        true
+      end
     end
 
     def redirect_to_order_details(notice = nil)
@@ -213,7 +234,7 @@ module Ticketing
     end
 
     def restrict_access
-      actions = [:new, :redeem_coupon, :search]
+      actions = [:new, :add_coupon, :remove_coupon, :search]
       if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
         actions.push :index, :show, :cancel, :seats, :search
         if @_retail_store.id

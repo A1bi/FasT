@@ -379,6 +379,10 @@ table.details {
     .coupon {
       margin-top: 20px;
       
+      .added {
+        display: none;
+      }
+      
       td {
         &:first-child {
           width: 38%;

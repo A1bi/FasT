@@ -7,7 +7,8 @@ class Ticketing::Coupon < BaseModel
            dependent: :destroy, autosave: true
   has_many :ticket_types, through: :ticket_type_assignments
   has_and_belongs_to_many :reservation_groups, join_table: :ticketing_coupons_reservation_groups
-  has_many :orders, after_add: :redeemed
+  has_many :redemptions, class_name: Ticketing::CouponRedemption, dependent: :destroy
+  has_many :orders, through: :redemptions
 
   before_create :before_create
 
@@ -26,9 +27,7 @@ class Ticketing::Coupon < BaseModel
     end
   end
   
-  protected
-  
-  def redeemed(order)
+  def redeem
     log(:redeemed)
   end
   

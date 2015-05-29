@@ -4,7 +4,8 @@ module Ticketing
 
   	has_many :tickets, dependent: :destroy, autosave: true
     has_random_unique_number :number, 6
-    belongs_to :coupon, autosave: true
+    has_many :coupon_redemptions, dependent: :destroy
+    has_many :coupons, through: :coupon_redemptions
 
   	validates_length_of :tickets, minimum: 1
 

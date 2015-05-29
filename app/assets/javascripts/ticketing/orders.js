@@ -177,10 +177,14 @@ function TicketsStep(delegate) {
   
   Step.call(this, "tickets", delegate);
   
-  this.info.api.tickets = {};
+  this.info.api = {
+    couponCodes: [],
+    tickets: {}
+  };
   this.info.internal = {
     ticketTotals: {},
-    exclusiveTicketTypes: []
+    coupons: [],
+    exclusiveSeats: false
   };
   
   this.getTypeTotal = function ($typeBox, number) {
@@ -217,21 +221,44 @@ function TicketsStep(delegate) {
     this.updateTotal();
   };
   
-  this.redeemCoupon = function () {
+  this.addCoupon = function () {
     var code = this.couponBox.find("input[name=code]").val();
-    if (code == "") return;
-    this.delegate.toggleModalSpinner(true);
-    $.post(this.couponBox.data("redeem-url"), {
-      code: code,
-      seatingId: this.delegate.getStepInfo("seats").api.seatingId
-    }).always(function (res) { _this.codeRedeemed(res); });
+    if (this.info.api.couponCodes.indexOf(code) > -1) {
+      this.couponAdded({ ok: false, error: "added" });
+      
+    } else if (code != "") {
+      this.delegate.toggleModalSpinner(true);
+      $.post(this.couponBox.data("add-url"), {
+        code: code,
+        seatingId: this.delegate.getStepInfo("seats").api.seatingId
+      }).always(function (res) { _this.couponAdded(res); });
+    }
   };
   
-  this.codeRedeemed = function (res) {
+  this.removeCoupon = function (index) {
+    var code = this.info.api.couponCodes[index];
+    
+    this.delegate.toggleModalSpinner(true);
+    $.post(this.couponBox.data("remove-url"), {
+      code: code,
+      seatingId: this.delegate.getStepInfo("seats").api.seatingId
+    }).always(function (res) {
+      if (res.ok) {
+        _this.info.internal.coupons.splice(index, 1);
+        _this.info.api.couponCodes.splice(index, 1);
+        _this.updateAddedCoupons();
+      }
+      _this.delegate.toggleModalSpinner(false);
+    });
+  };
+  
+  this.couponAdded = function (res) {
     var msg;
     if (res.ok === false) {
       if (res.error == "expired") {
         msg = "Dieser Code ist leider abgelaufen.";
+      } else if (res.error == "added") {
+        msg = "Dieser Code wurde bereits zu Ihrer Bestellung hinzugefügt."
       } else {
         msg = "Dieser Code ist nicht gültig.";
       }
@@ -239,77 +266,91 @@ function TicketsStep(delegate) {
        msg = "Es ist ein unbekannter Fehler aufgetreten.";
     } else {
       var couponField = this.couponBox.find("input[name=code]");
-      this.info.api.couponCode = couponField.val();
+      var coupon = res.coupon;
       
-      this.info.internal.exclusiveSeats = res.seats;
-      this.info.internal.exclusiveTicketTypes = [];
-      $.each(res.ticket_types, function (i, type) {
-        var typeBox = _this.box.find("#date_ticketing_ticket_type_" + type.id).toggle(type.number != 0);
-        if (type.number > 0) {
-          _this.info.internal.exclusiveTicketTypes.push(type.id);
-          var options = typeBox.find("option");
-          if (options.length - 1 > type.number) {
-            options.slice(type.number + 1).remove();
-          } else {
-            var sampleOption = options.last(), select = sampleOption.parent();
-            for (var i = options.length; i <= type.number; i++) {
-              sampleOption.clone().text(i).val(i).appendTo(select);
-            }
-          }
-        }
-      });
+      this.info.internal.coupons.push(coupon);
+      this.info.api.couponCodes.push(couponField.val());
       
+      this.updateAddedCoupons();
       this.trackPiwikGoal(2);
       
-      msg = "Ihr Gutschein wurde erfolgreich eingelöst.";
-      if (!this.delegate.admin && this.info.internal.exclusiveTicketTypes.length > 0) {
-        this.couponBox.find(".ticketTypeNote").show();
-      }
-      this.couponBox.find("input").attr("disabled", "disabled");
+      msg = "Ihr Gutschein wurde erfolgreich hinzugefügt.";
       couponField.blur().val("");
     }
     
     this.delegate.toggleModalSpinner(false);
-    var msgBox = this.couponBox.find(".msg .result").text(msg).toggleClass("error", !res.ok).parent();
-    if (msgBox.is(":visible")) {
-      this.resizeDelegateBox(true);
-    } else {
-      this.slideToggle(msgBox, true);
-    }
+    this.couponBox.find(".msg .result").text(msg).toggleClass("error", !res.ok).parent().show();
+    this.resizeDelegateBox();
+  };
+  
+  this.updateAddedCoupons = function () {
+    this.info.internal.exclusiveSeats = false;
+    
+    var addedBox = this.couponBox.find(".added")
+                    .toggle(this.info.api.couponCodes.length > 0)
+                    .find("td:last-child")
+                    .empty();
+    
+    var exclusiveTicketTypes = {};
+    $.each(this.info.internal.coupons, function (i, coupon) {
+      _this.info.internal.exclusiveSeats = _this.info.internal.exclusiveSeats || coupon.seats;
+      
+      $.each(coupon.ticket_types, function (j, type) {
+        exclusiveTicketTypes[type.id] = (exclusiveTicketTypes[type.id] || 0) + type.number;
+      });
+      
+      addedBox.append("<b>" + _this.info.api.couponCodes[i] + "</b> (<a href='#' data-index='" + i + "'>entfernen</a>)");
+      if (i < _this.info.internal.coupons.length - 1) {
+        addedBox.append(", ");
+      }
+    });
+    
+    this.box.find(".date_ticketing_ticket_type").each(function () {
+      var typeBox = $(this);
+      var number = exclusiveTicketTypes[typeBox.data("id")];
+      var isExclusive = typeBox.is(".exclusive");
+      var select = typeBox.find("select");
+      var options = select.find("option"), sampleOption = options.last();
+      var show = number > 0;
+      
+      typeBox.toggle(show || !isExclusive);
+      
+      if (isExclusive) {
+        options.slice((number || 0) + 1).remove();
+      }
+      
+      if (show) {
+        for (var k = options.length; k <= number; k++) {
+          sampleOption.clone().text(k).val(k).appendTo(select);
+        }
+        
+        if (!_this.delegate.admin && isExclusive) {
+          _this.couponBox.find(".ticketTypeNote").show();
+        }
+      }
+      
+      _this.choseNumber(select);
+    });
   };
   
   this.nextBtnEnabled = function () {
     return this.info.internal.numberOfTickets > 0;
   };
   
-  this.validate = function () {
-    return !this.askToRedeemCoupon();
-  };
-  
-  this.askToRedeemCoupon = function () {
-    if (this.couponField.val()) {
-      if (!confirm(this.couponBox.data("confirm-dismiss"))) {
-        this.couponField.focus();
-        return true;
-      }
-      this.couponField.val("");
-    }
-    return false;
-  };
-  
   this.couponBox = this.box.find(".coupon");
   this.couponField = this.couponBox.find("input[type=text]");
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
-    if (_this.askToRedeemCoupon()) {
-      $this.val(0);
-    }
     _this.choseNumber($this);
   });
   this.couponField.keyup(function (event) {
-    if (event.which == 13) _this.redeemCoupon();
+    if (event.which == 13) _this.addCoupon();
   });
   this.couponBox.find("input[type=submit]").click(function () {
-    _this.redeemCoupon();
+    _this.addCoupon();
+  });
+  this.couponBox.find(".added").on("click", "a", function (event) {
+    _this.removeCoupon($(this).data("index"));
+    event.preventDefault();
   });
 }
 
@@ -333,7 +374,7 @@ function SeatsStep(delegate) {
       this.chooser.toggleErrorBox(false);
       this.updateSeatingPlan();
     }
-    this.toggleExclusiveSeatsKey(!!info.internal.exclusiveSeats);
+    this.toggleExclusiveSeatsKey(info.internal.exclusiveSeats);
   };
   
   this.choseDate = function ($this) {
@@ -368,7 +409,7 @@ function SeatsStep(delegate) {
       seatingId: this.delegate.getStepInfo("seats").api.seatingId
     }).always(function (res) {
       _this.delegate.toggleModalSpinner(false);
-      _this.toggleExclusiveSeatsKey(!!res.seats);
+      _this.toggleExclusiveSeatsKey(res.seats);
       _this.resizeDelegateBox();
     });
   };
@@ -501,12 +542,11 @@ function ConfirmStep(delegate) {
         number = ticketsInfo.internal.numberOfTickets;
         total = ticketsInfo.internal.formattedTotal;
       } else if (typeBox.is(".coupon")) {
-        var redeemed = !!ticketsInfo.api.couponCode;
-        typeBox.find(".redeemed").addClass(redeemed ? "true" : "false");
+        togglePluralText(typeBox.find(".plural_text"), ticketsInfo.api.couponCodes.length || "keine");
       } else {
         var typeId = typeBox.find("td").first().data("id");
         number = ticketsInfo.api.tickets[typeId];
-        if ((!number || number < 1) && ticketsInfo.internal.exclusiveTicketTypes.indexOf(typeId) == -1) {
+        if (!number || number < 1) {
           typeBox.hide();
           return;
         }
@@ -557,7 +597,7 @@ function FinishStep(delegate) {
       seatingId: apiInfo.seats.seatingId,
       address: apiInfo.address,
       payment: apiInfo.payment,
-      couponCode: apiInfo.tickets.couponCode
+      couponCodes: apiInfo.tickets.couponCodes
     };
     var info = {
       order: orderInfo,

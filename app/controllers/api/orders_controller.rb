@@ -22,26 +22,41 @@ class Api::OrdersController < ApplicationController
     end
     seats = seating[:seats]
     
-    if info[:couponCode].present?
-      coupon = Ticketing::Coupon.where(code: info[:couponCode]).first
-      coupon.orders << order if !coupon.expired?
+    if info[:couponCodes].present? && info[:couponCodes].any?
+      coupons = Ticketing::Coupon.where(code: info[:couponCodes]).to_a
+      coupons.select! do |coupon|
+        if !coupon.expired?
+          coupon.redeem
+          order.coupons << coupon
+          true
+        end
+      end
     end
     
 		info[:tickets].each do |type_id, number|
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
       
-      if ticket_type.exclusive && (type != :admin || coupon)
-        # assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
-        # workaround: autosave is not triggered when fetching the tickets like shown above
-        assignment = coupon.ticket_type_assignments.find do |a|
-          a.ticket_type_id == ticket_type.id
+      if ticket_type.exclusive && type != :admin
+        remaining = number
+        
+        coupons.each do |coupon|
+          # assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
+          # workaround: autosave is not triggered when fetching the tickets like shown above
+          assignment = coupon.ticket_type_assignments.find do |a|
+            a.ticket_type_id == ticket_type.id
+          end
+          next if !assignment
+          
+          diff = assignment.number - remaining
+          assignment.number = [0, diff].max
+          remaining = -diff
+          break if diff >= 0
         end
-        puts assignment
-        next if !assignment
-        if assignment.number >= 0
-          assignment.number = assignment.number - number
-          next if assignment.number < 0
+        
+        if remaining > 0
+          response[:errors] << "Coupon error"
+          return render json: response
         end
       end
       

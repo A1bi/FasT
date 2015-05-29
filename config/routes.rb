@@ -180,7 +180,8 @@ FasT::Application.routes.draw do
           get "bestellen", action: :new, as: :new
         end
         collection do
-          post "redeem", action: :redeem_coupon, as: :redeem_coupon
+          post :add_coupon
+          post :remove_coupon
         end
       end
     end

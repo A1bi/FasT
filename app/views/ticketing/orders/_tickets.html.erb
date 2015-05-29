@@ -29,7 +29,7 @@
   			</tr>
       </tbody>
 		</table>
-  	<%= content_tag :table, data: { redeem_url: redeem_coupon_ticketing_order_path, confirm_dismiss: "Sie haben einen Gutscheincode eingegeben, jedoch nicht auf „einlösen“ geklickt. Möchten Sie diesen Gutscheincode wirklich nicht einlösen?" }, class: [:rounded, :coupon] do %>
+  	<%= content_tag :table, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
       <tr>
         <td>Gutscheincode einlösen:</td>
         <td>
@@ -41,6 +41,10 @@
             </div>
           </div>
         </td>
+      </tr>
+      <tr class="added">
+        <td>Hinzugefügte Gutscheine:</td>
+        <td></td>
       </tr>
     <% end %>
 	</div>

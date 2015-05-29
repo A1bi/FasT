@@ -8,12 +8,25 @@
   ["aufgegeben", l(@order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
   ["Tickets", @order.tickets.cancelled(false).count],
   ["Gesamtbetrag", number_to_currency(@order.total)],
-  ["bezahlt", @order.paid ? "ja" : "nein"],
-  ["Gutschein", @order.coupon ? link_to_if(admin?, @order.coupon.recipient, @order.coupon) : content_tag(:em, "keiner", class: :small)]
+  ["bezahlt", @order.paid ? "ja" : "nein"]
 ] %>
 <div class="topTables">
   <table class="rounded details">
     <%= render "show_overview_table", title: "Übersicht", overview: overview %>
+    <tbody>
+      <tr>
+        <td class="label">Gutscheine:</td>
+        <td>
+          <% if @order.coupons.any? %>
+            <% @order.coupons.each do |coupon| %>
+              <div><%= link_to_if(admin?, coupon.recipient, coupon) %></div>
+            <% end %>
+          <% else %>
+            <em class="small">keiner</em>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
     <%
       if @order.is_a? Ticketing::Retail::Order
         title = "Bestellung an Vorverkaufsstelle"
