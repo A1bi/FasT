@@ -5,7 +5,7 @@ module Ticketing
     validates_presence_of :store
 
     before_save :check_tickets
-    after_destroy :delete_printable
+    after_commit :delete_printable, on: :destroy
     
     def self.by_store(retail_id)
       where(:store_id => retail_id)

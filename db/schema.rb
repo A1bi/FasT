@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528135311) do
+ActiveRecord::Schema.define(version: 20150530125204) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(version: 20150528135311) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "passbook_devices", ["device_id"], name: "index_passbook_devices_on_device_id", unique: true
 
   create_table "passbook_logs", force: :cascade do |t|
     t.text     "message",    limit: 500

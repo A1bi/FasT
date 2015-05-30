@@ -5,9 +5,14 @@ module Passbook
       before_filter :prepare_device, only: [:unregister_device, :modified_passes]
     
       def register_device
-        device = Passbook::Models::Device.where(device_id: params[:device_id], push_token: params[:pushToken]).first_or_create
-        registration = Passbook::Models::Registration.where(pass_id: @pass.id, device_id: device.id).first_or_initialize
-      
+        begin
+          device = Passbook::Models::Device.where(device_id: params[:device_id], push_token: params[:pushToken]).first_or_create
+        rescue ActiveRecord::RecordNotUnique
+          retry
+        end
+        
+        registration = device.registrations.where(pass: @pass).first_or_initialize
+        
         if registration.new_record?
           registration.save
           render nothing: true, status: 201
@@ -31,7 +36,7 @@ module Passbook
       
         passes = @device.passes.where("passbook_passes.updated_at > ?", Time.at(params[:passesUpdatedSince].to_i))
       
-        if passes.count < 1
+        if passes.empty?
           render nothing: true, status: 204
         else
           render json: {
