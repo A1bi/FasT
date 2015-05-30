@@ -26,6 +26,12 @@
   
 	.role {
 		text-align: right;
+		
+		.desc {
+			font-size: 14px;
+			opacity: .8;
+			padding-bottom: 5px;
+		}
 	}
   
 	.actor {
@@ -46,7 +52,21 @@
 		width: 100%;
     
     .row {
-      padding: 7px 0px;
+      padding: 5px 0px;
+			
+			ul {
+				padding: 0;
+				margin: 0;
+				list-style: {
+					type: circle;
+					position: inside;
+				}
+				
+				li {
+					float: left;
+					padding-right: 7px;
+				}
+			}
       
   		span {
   			width: 60px;

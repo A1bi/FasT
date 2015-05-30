@@ -1,6 +1,72 @@
 <% title "Ladykillers" %>
 <% include_css "ladykillers" %>
 <% include_js "theater" %>
+<%
+@cast = [
+  {
+    name: "Mrs. Margaret Wilberforce",
+    desc: "eine entzückende alte Lady",
+    actors: ["Catrin Drogi"]
+  },
+  {
+    name: "Prof. Marcus",
+    desc: "ein undurchsichtiger Untermieter",
+    actors: ["Gerd Röser"]
+  },
+  {
+    name: "Dr. Courtenay",
+    desc: "Doktor der Medizin, hat durch überreichlichen Alkoholgenuss seine Lizenz eingebüßt",
+    actors: ["Dieter Stein"]
+  },
+  {
+    name: "Willie Knoxton",
+    desc: "ein gutmütiger, kräftiger Koloss",
+    actors: ["Thomas Ellerich"]
+  },
+  {
+    name: "Louis Harvey",
+    desc: "ein harter Bursche mit viel krimineller Energie",
+    actors: ["Stephan Hilken"]
+  },
+  {
+    name: "Gwendolyn Livingstone",
+    desc: "eine Freundin der Lady",
+    actors: ["Maria Oster"]
+  },
+  {
+    name: "Harriet Plimshead",
+    desc: "noch eine Freundin der Lady",
+    actors: ["Susanne Schubert"]
+  },
+  {
+    name: "Adele Townsend",
+    desc: "Nachbarin der Lady",
+    actors: ["Michaela Venus"]
+  },
+  {
+    name: "Griselda Cooke",
+    desc: "noch eine Nachbarin der Lady",
+    actors: ["Nina Lübke"]
+  },
+  {
+    name: "Polizist 1",
+    doubles: [
+      {
+        name: "Uli Hesse",
+        dates: [0, 2, 3, 4, 5]
+      },
+      {
+        name: "Otto Krechel",
+        dates: [1]
+      }
+    ]
+  },
+  {
+    name: "Polizist 2",
+    actors: ["Werner Lutz"]
+  }
+]
+%>
 <div class="info">
   <p>
     Die Freilichtbühne am schiefen Turm präsentiert:
@@ -26,4 +92,6 @@
   <p>
     Lassen Sie sich unter freiem Himmel Ihre Nerven und Lachmuskeln kitzeln, geniessen Sie schwarzen, britischen Humor und seien Sie gespannt auf den Ausgang des Stücks.
   </p>
+  <h2>Besetzung</h2>
+  <%= render "cast" %>
 </div>

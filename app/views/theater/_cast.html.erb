@@ -2,7 +2,12 @@
   <% @cast.each do |role| %>
     <% if role[:doubles] %><div class="double"><% end %>
     <div class="row">
-      <div class="role"><%= role[:name] %></div>
+      <div class="role">
+        <%= role[:name] %>
+        <% if role[:desc].present? %>
+          <div class="desc"><%= role[:desc] %></div>
+        <% end %>
+      </div>
       <div class="actor">
         <% if role[:doubles] %>
           <% role[:doubles].each do |double| %>
@@ -23,10 +28,12 @@
             <div class="row">
               <div class="role"><%= double[:name] %></div>
               <div class="actor">
-                <% if !dates.nil? %>
-                  <% dates.each do |date| %>
-                    <span><%= l (@dates[date] || @dates.first).date, format: "%d.%m." %></span><% if date != dates.last %> | <% end %>
-                  <% end %>
+                <% if dates.present? %>
+                  <ul>
+                    <% dates.each do |date| %>
+                      <li><%= l (@dates[date] || @dates.first).date, format: "%d.%m." %></li>
+                    <% end %>
+                  </ul>
                 <% else %>
                   <span>alle</span>
                 <% end %>
