@@ -398,29 +398,79 @@ function Seating(container) {
     this.drawLayer("key");
   };
   
+  var updateKeyPosition = function (stageX) {
+    if (_this.layers['key']) {
+      _this.layers['key'].position({
+        x: -stageX + _this.layers['key'].getAttr("originalX")
+      });
+    }
+  };
+  
   
   var isBig = this.container.is(".big");
   var planBox = this.container.find(".plan");
+  var viewChooser = this.container.find(".viewChooser");
+  var moveBox = this.container.find(".move");
+  var seatsLayerWidth = planBox.width() * ((isBig) ? 1.8 : 1);
+  var widthDiff = seatsLayerWidth - planBox.width();
+  
+  var stageIsPannedLeft = function () {
+    return Math.abs(_this.stage.position().x) < widthDiff / 2;
+  };
+  
+  var updateMoveBox = function () {
+    moveBox.find("span").hide().filter("." + (stageIsPannedLeft() ? "right" : "left")).show();
+  };
+  
+  var moveAnimation;
+  moveBox.click(function () {
+    if (moveAnimation && moveAnimation.isRunning()) return;
+    
+    var start = _this.stage.position().x, duration = 1000;
+    var change = (stageIsPannedLeft() ? -widthDiff : 0) - start;
+    
+    moveAnimation = new Kinetic.Animation(function (frame) {
+      var time = frame.time / duration - 1;
+      var x = -change * (time * time * time * time - 1) + start;
+      
+      if (frame.time >= duration) {
+        moveAnimation.stop();
+        updateMoveBox();
+      }
+
+      _this.stage.position({ x: x });
+      updateKeyPosition(x);
+    }, _this.stage);
+    moveAnimation.start();
+  });
+  
   this.stage = new Kinetic.Stage({
     container: planBox.get(0),
     width: planBox.width(),
     height: planBox.height(),
     draggable: isBig,
     dragBoundFunc: function (pos) {
+      var x = Math.min(0, Math.max(-widthDiff, pos.x));
       var newPos = {
-        x: Math.min(0, Math.max(planBox.width() * -0.8, pos.x)),
+        x: x,
         y: 0
       };
-      if (_this.layers['key']) _this.layers['key'].position({ x: -newPos.x + _this.layers['key'].getAttr("originalX") });
+      updateKeyPosition(x);
       return newPos;
     }
   })
   .on("dragstart", function () {
+    if (moveAnimation) {
+      moveAnimation.stop();
+    }
     _this.setCursor("move");
   })
   .on("dragend", function () {
     _this.setCursor();
+    updateMoveBox();
   });
+  
+  updateMoveBox();
   
   var drawStage = this.container.is(".stage");
   var drawKey = this.container.is(".key");
@@ -435,8 +485,9 @@ function Seating(container) {
     keyLayerHeight = 50;
     seatsLayerHeight -= keyLayerHeight;
   }
+  
   this.addLayer("seats", {
-    width: this.stage.width() * ((isBig) ? 1.8 : 1),
+    width: seatsLayerWidth,
     height: seatsLayerHeight,
     y: keyLayerHeight
   });
@@ -493,7 +544,6 @@ function Seating(container) {
     }));
   }
   
-  var viewChooser = this.container.find(".viewChooser");
   if (viewChooser.length) {
     var viewChooserCallback = function ($this) {
       $this.addClass("selected").siblings().removeClass("selected");

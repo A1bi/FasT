@@ -62,7 +62,7 @@ module Ticketing
       (params[:groups] ||= []).each do |group_id|
         groups << Ticketing::ReservationGroup.find(group_id)
       end
-      update_exclusive_seats(:add, groups)
+      update_exclusive_seats(:set, groups)
 
       response = { ok: true, seats: true }
 
@@ -203,12 +203,12 @@ module Ticketing
     
     def update_exclusive_seats(action, groups)
       seats = {}
-      (groups).each do |reservation_group|
+      groups.each do |reservation_group|
         reservation_group.reservations.each do |reservation|
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      if seats.any?
+      if groups.empty? || seats.any?
         NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
         true
       end

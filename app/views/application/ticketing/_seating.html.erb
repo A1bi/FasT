@@ -6,5 +6,8 @@
   <%= content_tag :div, class: [:viewChooser] do %>
     Ansicht:<% [[:simple, "einfach"], [:numbers_and_underlay, "mit Sitznummern und Blockfarben"], [:photo, "Foto"]].each_with_index do |type, i| %><% if i > 0 %>|<% end %><%= link_to type.last, nil, data: { type: type.first }, class: (view ||= :simple) == type.first ? :selected : nil %><% end %>
   <% end if (view_chooser ||= false) %>
+  <div class="move">
+    zum <span class="left">linken</span><span class="right">rechten</span> Bereich bewegen
+  </div>
   <div class="plan"></div>
 <% end %>
