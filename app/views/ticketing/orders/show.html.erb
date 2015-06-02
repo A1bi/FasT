@@ -90,14 +90,6 @@
               <% if retail? %>
                 <div><%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { printable_path: @order.printable_path } %></div>
               <% end %>
-              <div>
-                <%= link_to "Gesamte Bestellung stornieren", nil, id: "cancelAction" %>
-                <div id="cancelForm">
-                  <%= form_tag orders_path(:cancel_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich die gesamte Bestellung stornieren?" } do %>
-                    Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><%= submit_tag "stornieren" %>
-                  <% end %>
-                </div>
-              </div>
             <% end %>
           </td>
         </tr>

@@ -118,15 +118,6 @@ module Ticketing
       redirect_to_order_details :resent_tickets
     end
 
-    def cancel
-      @order.cancel_tickets(@order.tickets, params[:reason])
-      @order.save
-
-      NodeApi.update_seats_from_tickets(@order.tickets)
-
-      redirect_to_order_details :cancelled
-    end
-
     def seats
       render_cached_json [:ticketing, :orders, :show, @order, @order.tickets] do
         {

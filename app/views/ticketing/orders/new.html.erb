@@ -96,12 +96,11 @@
           <td class="checkbox"><%= f.check_box :newsletter, checked: true %></td>
           <td><%= f.label :newsletter do %>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.<% end %></td>
         </tr>
-  			<tr>
-          <td class="checkbox"><%= f.check_box :accepted %></td>
-          <td><%= f.label :accepted do %>Ich akzeptiere die <%= link_to "AGB", agb_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e. V.<% end %></td>
-        </tr>
       </table>
     <% end %>
+    <div class="note">
+      Mit dem Bestätigen dieser Bestellung akzeptiere ich die <%= link_to "AGB", agb_path, target: "_blank" %> und <%= link_to "Datenschutzerklärung", privacy_path, target: "_blank" %> der Freilichtbühne am schiefen Turm e. V.
+    </div>
 	</div>
 	<%= render "finish" %>
 <% end %>

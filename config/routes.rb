@@ -116,7 +116,6 @@ FasT::Application.routes.draw do
               post :send_pay_reminder
               patch :mark_as_paid
               patch :approve
-              post :cancel
               post :resend_tickets
               get :seats
             end

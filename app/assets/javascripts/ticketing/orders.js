@@ -530,7 +530,8 @@ function ConfirmStep(delegate) {
   };
   
   this.willMoveIn = function () {
-    this.delegate.setNextBtnText("bestellen");
+    var btnText = this.delegate.web ? "kostenpflichtig bestellen" : "bestätigen";
+    this.delegate.setNextBtnText(btnText);
     
     var ticketsInfo = this.delegate.getStepInfo("tickets");
     this.box.find(".date").text(this.delegate.getStepInfo("seats").internal.localizedDate);
@@ -576,11 +577,7 @@ function ConfirmStep(delegate) {
   };
   
   this.validate = function () {
-    return this.validateFields(function () {
-      if (this.delegate.web && !this.getFieldWithKey("accepted").is(":checked")) {
-        this.showErrorOnField("accepted");
-      }
-    }, function () {
+    return this.validateFields(function () {}, function () {
       this.info.api.newsletter = this.info.api.newsletter == "1";
     });
   };
