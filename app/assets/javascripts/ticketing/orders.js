@@ -651,6 +651,7 @@ function FinishStep(delegate) {
           this.trackPiwikGoal(1, orderInfo.total);
         }
     
+        this.resizeDelegateBox(true);
         this.delegate.noFurtherErrors = true;
         this.delegate.killExpirationTimer();
       }
