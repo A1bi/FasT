@@ -5,8 +5,7 @@ module Ticketing
 
     def index
       @orders = {
-        unpaid:     find_unpaid_orders
-                      .where(pay_method: Ticketing::Web::Order.pay_methods[:transfer]),
+        unpaid:     find_unpaid_orders,
         unapproved: find_unsubmitted_charges(false)
       }
 

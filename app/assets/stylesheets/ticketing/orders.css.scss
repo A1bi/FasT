@@ -98,7 +98,11 @@ table.details {
 }
 
 .topTables {
-  overflow: visible;
+  &:after {
+    content:"";
+    display:table;
+    clear:both;
+  }
 
   > table {
     float: left;
@@ -575,9 +579,13 @@ table.details {
       
       .restaurants {
         margin-bottom: 20px;
-        
-        li {
-          list-style-type: none;
+
+        ul {
+          padding-left: 0;
+
+          li {
+            list-style-type: none;
+          }
         }
       }
     }
