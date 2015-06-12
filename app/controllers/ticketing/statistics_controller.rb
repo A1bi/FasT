@@ -37,7 +37,7 @@ module Ticketing
       
       tickets = Ticketing::Ticket.where(created_at: range)
       stats = Rails.cache.fetch [:ticketing, :statistics, :daily, tickets] do
-        if ActiveRecord::Base.connection.instance_of? ActiveRecord::ConnectionAdapters::SQLite3Adapter
+        if ActiveRecord::Base.connection.adapter_name == "SQLite"
           t = tickets.group("DATE(ticketing_tickets.created_at)")
         else
           t = tickets.group_by_day("ticketing_tickets.created_at")
@@ -57,8 +57,9 @@ module Ticketing
       end
       
       stats.each do |key, value|
-        datasets[order_types.index(key.last.constantize) + 1][:data][key.first.to_s] = value
-        datasets.first[:data][key.first.to_s] = datasets.first[:data][key.first.to_s] + value
+        date_key = key.first.to_date.to_s
+        datasets[order_types.index(key.last.constantize) + 1][:data][date_key] = value
+        datasets.first[:data][date_key] = datasets.first[:data][date_key] + value
       end
       
       datasets.each do |set|

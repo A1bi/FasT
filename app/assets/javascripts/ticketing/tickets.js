@@ -57,6 +57,10 @@ function TicketTransfer(container) {
     alert("Die Sitzung ist abgelaufen.");
   };
   
+  this.returnToOrder = function () {
+    window.location = this.box.data("order-path");
+  };
+  
   
   this.chooser = new SeatChooser($(".seating"), this);
   
@@ -64,12 +68,17 @@ function TicketTransfer(container) {
     _this.updateDate();
   });
   
-  this.box.find(".submit button:last-child").click(function () {
+  var buttons = this.box.find(".submit button");
+  buttons.first().click(function () {
+    _this.returnToOrder();
+  });
+  
+  buttons.last().click(function () {
     if (_this.chooser.validate()) {
       if (confirm($(this).data("confirm"))) {
         _this.makeRequest("update", "patch", function (data) {
           if (data.responseJSON.ok) {
-            window.location = _this.box.data("order-path");
+            _this.returnToOrder();
           }
         });
       }

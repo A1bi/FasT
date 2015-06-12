@@ -89,6 +89,8 @@ FasT::Application.routes.draw do
           collection do
             patch :cancel, path: "stornieren"
             get :transfer, path: "umbuchen"
+            get :edit, path: "bearbeiten"
+            patch :update
             post :init_transfer
             patch :finish_transfer
             get :printable

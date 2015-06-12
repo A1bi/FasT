@@ -21,6 +21,18 @@ module Ticketing
     def transfer
     end
     
+    def edit
+    end
+    
+    def update
+      types = {}
+      params[:ticketing_tickets].each { |id, val| types[id.to_i] = val[:type_id].to_i }
+      @order.edit_ticket_types(@tickets, types)
+      @order.save
+      
+      redirect_to_order_details :edited
+    end
+    
     def init_transfer
       seats = {}
       @tickets.each do |ticket|
@@ -56,7 +68,7 @@ module Ticketing
           NodeApi.update_seats(updated_seats)
         end
         
-        flash[:notice] = t("ticketing.tickets.transferred", count: @tickets.count)
+        flash[:notice] = t("ticketing.tickets.edited", count: @tickets.count)
       else
         ok = false
       end

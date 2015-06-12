@@ -39,15 +39,21 @@ module Ticketing
     end
 
     def cancel_tickets(tickets, reason)
-      cancellation = nil
-      tickets_count = 0
+      tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|
-        next if ticket.cancelled?
         cancellation = ticket.cancel(cancellation || reason)
-        tickets_count = tickets_count + 1
       end
       update_total_and_billing(:cancellation)
-      log(:tickets_cancelled, { count: tickets_count, reason: reason })
+      log(:tickets_cancelled, { count: tickets.count, reason: reason })
+    end
+    
+    def edit_ticket_types(tickets, types)
+      tickets.reject! { |t| t.cancelled? }
+      tickets.each do |ticket|
+        ticket.type = TicketType.find(types[ticket.id])
+      end
+      update_total_and_billing(:ticket_types_edited)
+      log(:ticket_types_edited, { count: tickets.count })
     end
 
     def cancelled?

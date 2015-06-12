@@ -137,7 +137,8 @@
           <td colspan="7" class="actions">
             <%= select_tag :edit_action, options_for_select([
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
-              ["umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
+              ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
+              ["Kategorie umbuchen", :transfer, data: { path: orders_path(:edit_ticketing_order_tickets, @order), method: :get }],
               ["herunterladen", :transfer, data: { path: orders_path(:printable_ticketing_order_tickets, @order), method: :get }]
             ]), disabled: true, name: nil %>
             <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
@@ -180,14 +181,14 @@
         <tr>
           <td class="date"><%= l transfer.created_at, format: "%d.%m.%y, %H:%M" %></td>
           <td><%= t transfer.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
-          <td><%= number_to_currency(transfer.amount) %></td>
+          <td><%= format_billing_amount(transfer.amount) %></td>
         </tr>
       <% end %>
       <tr>
         <td></td>
         <td>Saldo</td>
         <td class="<%= @order.billing_account.outstanding? ? "negative" : "positive" %>">
-          <%= number_to_currency(@order.billing_account.balance) %>
+          <%= format_billing_amount(@order.billing_account.balance) %>
         </td>
       </tr>
     </tbody>

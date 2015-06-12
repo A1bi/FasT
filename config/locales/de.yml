@@ -65,7 +65,6 @@ de:
     orders:
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
-      cancelled: "Die Bestellung wurde erfolgreich storniert."
       resent_tickets: "Die Tickets wurden dem Käufer erneut zugesandt."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesandt."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
@@ -85,8 +84,11 @@ de:
           one: "Ein Ticket storniert (Grund: %{reason})"
           other: "%{count} Tickets storniert (Grund: %{reason})"
         tickets_transferred:
-          one: "Ein Ticket umgebucht"
-          other: "%{count} Tickets umgebucht"
+          one: "Aufführung oder Sitzplatz eines Tickets umgebucht"
+          other: "Aufführung oder Sitzplatz von %{count} Tickets umgebucht"
+        ticket_types_edited:
+          one: "Ticketkategorie eines Tickets umgebucht"
+          other: "Ticketkategorien von %{count} Tickets umgebucht"
         resent_tickets: "Tickets erneut zugesendet"
       balancing:
         order_created: "Bestellung aufgegeben"
@@ -95,11 +97,12 @@ de:
         cash_refund_in_store: "Barrückzahlung in Vorverkaufsstelle"
         payment_received: "Zahlung erhalten"
         bank_charge_submitted: "Lastschrift bei der Bank eingereicht"
+        ticket_types_edited: "Ticketkategorien umgebucht"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
         other: "%{count} Tickets wurden erfolgreich storniert."
-      transferred:
+      edited:
         one: "Das Ticket wurde erfolgreich umgebucht."
         other: "Die Tickets wurden erfolgreich umgebucht."
     payments:
