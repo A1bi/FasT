@@ -33,16 +33,21 @@ module Ticketing
       }
       labels = response[:labels]
       datasets = response[:datasets]
-      start = Date.today - 18.days
+      range = 18.days.ago.to_date..Date.today
       
-      tickets = Ticketing::Ticket.where("ticketing_tickets.created_at > ?", start)
+      tickets = Ticketing::Ticket.where(created_at: range)
       stats = Rails.cache.fetch [:ticketing, :statistics, :daily, tickets] do
-        tickets.includes(:order).group("DATE(ticketing_tickets.created_at)").group("ticketing_orders.type").count(:id)
+        if ActiveRecord::Base.connection.instance_of? ActiveRecord::ConnectionAdapters::SQLite3Adapter
+          t = tickets.group("DATE(ticketing_tickets.created_at)")
+        else
+          t = tickets.group_by_day("ticketing_tickets.created_at")
+        end
+        t.includes(:order).group("ticketing_orders.type").count(:id)
       end
       
       order_types = [Ticketing::Web::Order, Ticketing::Retail::Order]
       
-      (start..Date.today).each_with_index do |date, i|
+      range.each_with_index do |date, i|
         format = (i % 7 == 0) ? "%a %e. %B" : "%a %e."
         labels << l(date, format: format)
         order_types.each_with_index do |_, j|

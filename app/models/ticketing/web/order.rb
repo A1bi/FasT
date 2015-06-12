@@ -4,6 +4,9 @@ module Ticketing
 	
     has_one :bank_charge, class: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy, autosave: true
     enum pay_method: [:charge, :transfer, :cash]
+    
+    auto_strip_attributes :first_name, :last_name, squish: true
+    phony_normalize :phone, default_country_code: 'DE'
   
     validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create

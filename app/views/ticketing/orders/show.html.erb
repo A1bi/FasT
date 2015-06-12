@@ -39,7 +39,7 @@
           ["Nachname", @order.last_name],
           ["Vorname", @order.first_name],
           ["e-mail", @order.email],
-          ["Telefon", @order.phone],
+          ["Telefon", (@order.phone || "").phony_formatted],
           ["PLZ", @order.plz]
         ]
         if !@order.total.zero?
@@ -72,7 +72,9 @@
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if !@order.paid %>
-                  <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
+                  <% if !@order.charge? %>
+                    <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
+                  <% end %>
                   <% if @order.transfer? %>
                     <% if @order.email.present? %>
                       <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>

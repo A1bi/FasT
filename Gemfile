@@ -42,6 +42,12 @@ gem 'actionpack-action_caching'
 
 gem 'resque'
 
+gem 'groupdate', '~> 2.4.0'
+
+gem 'auto_strip_attributes', '~> 2.0'
+
+gem 'phony_rails', '~> 0.12'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

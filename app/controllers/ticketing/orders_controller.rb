@@ -10,13 +10,16 @@ module Ticketing
       if !@_member.admin? && !@event.sale_started?
         redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
       end
+      @max_tickets = 20
     end
 
     def new_admin
       @reservation_groups = Ticketing::ReservationGroup.all
+      @max_tickets = 50
     end
 
     def new_retail
+      @max_tickets = 30
     end
 
     def add_coupon

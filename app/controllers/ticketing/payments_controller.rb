@@ -5,7 +5,8 @@ module Ticketing
 
     def index
       @orders = {
-        unpaid:     find_unpaid_orders,
+        unpaid:     find_unpaid_orders
+                      .where.not(pay_method: Ticketing::Web::Order.pay_methods[:charge]),
         unapproved: find_unsubmitted_charges(false)
       }
 
@@ -56,7 +57,8 @@ module Ticketing
           mandate_id: charge.mandate_id,
           mandate_date_of_signature: charge.created_at.to_date,
           local_instrument: "COR1",
-          sequence_type: "OOFF"
+          sequence_type: "OOFF",
+          batch_booking: false
         )
       end
       
