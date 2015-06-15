@@ -35,7 +35,7 @@ module Ticketing
       datasets = response[:datasets]
       range = 18.days.ago.to_date..Date.today
       
-      tickets = Ticketing::Ticket.where(created_at: range)
+      tickets = Ticketing::Ticket.where("ticketing_tickets.created_at > ?", range.min)
       stats = Rails.cache.fetch [:ticketing, :statistics, :daily, tickets] do
         if ActiveRecord::Base.connection.adapter_name == "SQLite"
           t = tickets.group("DATE(ticketing_tickets.created_at)")

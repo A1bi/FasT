@@ -8,6 +8,12 @@
     [l(date.date, format: "%A, den %d. %B um %H.%M Uhr"), date.id]
   end, @tickets.first.date.id) %>
   </div>
+  <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
+    Vorreservierungen freischalten:
+    <% @reservation_groups.each do |group| %>
+      <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
+    <% end %>
+  <% end if (@reservation_groups || []).any? %>
   <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, view_chooser: true, error_box: true %>
   <div class="submit">
     <%= button_tag "abbrechen" %> 

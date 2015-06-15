@@ -18,6 +18,21 @@ function TicketTransfer(container) {
     });
   };
   
+  this.enableReservationGroups = function () {
+    var groups = [];
+    this.box.find(".reservationGroups :checkbox").each(function () {
+      var $this = $(this);
+      if ($this.is(":checked")) groups.push($this.prop("name"));
+    });
+    
+    $.post(this.box.find(".reservationGroups").data("enable-url"), {
+      groups: groups,
+      seatingId: this.seatingId
+    }).always(function (res) {
+      _this.chooser.drawKey(res.seats);
+    });
+  };
+  
   this.makeRequest = function (action, method, callback) {
     $.ajax({
       url: this.box.data(action + "-path"),
@@ -66,6 +81,10 @@ function TicketTransfer(container) {
   
   this.dateSelect.change(function () {
     _this.updateDate();
+  });
+  
+  this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
+    _this.enableReservationGroups();
   });
   
   var buttons = this.box.find(".submit button");

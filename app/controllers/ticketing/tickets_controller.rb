@@ -19,6 +19,7 @@ module Ticketing
     end
     
     def transfer
+      @reservation_groups = Ticketing::ReservationGroup.all if admin?
     end
     
     def edit
