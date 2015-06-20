@@ -17,7 +17,7 @@
           <%= prepopulated_text_field(f, :last_name) %>
         <% end %>
         <%= render layout: "field", locals: { name: "PLZ" } do %>
-          <%= f.text_field :plz, class: "field" %>
+          <%= f.text_field :plz, class: "field", maxlength: 5 %>
         <% end %>
         <%= render layout: "field", locals: { name: "Telefon" } do %>
           <%= f.text_field :phone, class: "field" %>

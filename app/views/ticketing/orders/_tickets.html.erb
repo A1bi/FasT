@@ -1,7 +1,30 @@
 <div class="stepCon tickets">
-  <div class="hl inner"><%= @event.name %></div>
+  <div class="hl inner">„<%= @event.name %>“</div>
 	<div class="number inner">
 		<table class="rounded">
+      <thead>
+        <tr>
+          <th colspan="4">Gutscheine</th>
+        </tr>
+      </thead>
+      <%= content_tag :tbody, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
+        <tr>
+          <td colspan="2">Gutscheincode einlösen:</td>
+          <td colspan="2">
+            <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "einlösen" %>
+            <div class="msg">
+              <div class="result"></div>
+            </div>
+          </td>
+        </tr>
+        <tr class="added hide">
+          <td colspan="2">
+            Hinzugefügte Gutscheine:
+            <div class="small">Mehrere Gutscheine sind möglich.</div>
+          </td>
+          <td colspan="2"></td>
+        </tr>
+      <% end %>
       <thead>
         <tr>
           <th colspan="4">Ihre gewünschten Tickets</th>
@@ -12,7 +35,7 @@
           <% @ticket_types.exclusive(exclusive).each do |type| %>
             <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }, class: (type.exclusive ? "exclusive" : nil)) do %>
               <td class="number">
-                <%= select_tag(:number, options_for_select(0..@max_tickets), id: nil) %>
+                <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..@max_tickets), id: nil) %>
               </td>
               <td class="type">
                 <%= type.name %>
@@ -29,26 +52,5 @@
   			</tr>
       </tbody>
 		</table>
-  	<%= content_tag :table, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
-      <tr>
-        <td>Gutscheincode einlösen:</td>
-        <td>
-          <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "einlösen" %>
-          <div class="msg">
-            <div class="result"></div>
-            <div class="ticketTypeNote">
-              Bitte achten Sie darauf, Ihre gewünschte Ticketanzahl in den nun freigeschalteten Ticketkategorien (gelb markiert) anzugeben.
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr class="added">
-        <td>
-          Hinzugefügte Gutscheine:
-          <div class="small">Mehrere Gutscheine sind möglich.</div>
-        </td>
-        <td></td>
-      </tr>
-    <% end %>
 	</div>
 </div>

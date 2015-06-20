@@ -271,6 +271,12 @@ function TicketsStep(delegate) {
       this.info.internal.coupons.push(coupon);
       this.info.api.couponCodes.push(couponField.val());
       
+      if ((coupon.ticket_types || []).length) {
+        $.each(this.info.api.tickets, function (key, val) {
+          _this.info.api.tickets[key] = 0;
+        });
+      }
+      
       this.updateAddedCoupons();
       this.trackPiwikGoal(2);
       
@@ -307,7 +313,8 @@ function TicketsStep(delegate) {
     
     this.box.find(".date_ticketing_ticket_type").each(function () {
       var typeBox = $(this);
-      var number = exclusiveTicketTypes[typeBox.data("id")];
+      var typeId = typeBox.data("id");
+      var number = exclusiveTicketTypes[typeId];
       var isExclusive = typeBox.is(".exclusive");
       var select = typeBox.find("select");
       var options = select.find("option"), sampleOption = options.last();
@@ -323,10 +330,10 @@ function TicketsStep(delegate) {
         for (var k = options.length; k <= number; k++) {
           sampleOption.clone().text(k).val(k).appendTo(select);
         }
-        
-        if (!_this.delegate.admin && isExclusive) {
-          _this.couponBox.find(".ticketTypeNote").show();
-        }
+      }
+      select.val(_this.info.api.tickets[typeId]);
+      if (select.val() === null) {
+        select.val(select.find("option").last().val());
       }
       
       _this.choseNumber(select);

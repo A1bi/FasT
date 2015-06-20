@@ -359,20 +359,10 @@ table.details {
 		div.number {
 			.date_ticketing_ticket_type {
         .stepBox:not(.admin) &.exclusive {
-          @include animation(exclusiveTicketType, .6s, 7, true);
+          @include animation(exclusiveTicketType, .7s, 19, true);
           display: none;
           background: #fff3aa;
         }
-	
-    		td {
-          &.number {
-            width: 45px;
-          
-            select {
-              width: 100%;
-            }
-          }
-    		}
 	
     		.type {
     			border-left: none;
@@ -381,16 +371,8 @@ table.details {
     }
     
     .coupon {
-      margin-top: 20px;
-      
       .added {
         display: none;
-      }
-      
-      td {
-        &:first-child {
-          width: 38%;
-        }
       }
       
       input[type=text] {
@@ -411,10 +393,6 @@ table.details {
           &.error {
             color: red;
           }
-        }
-        
-        .ticketTypeNote {
-          display: none;
         }
       }
     }
