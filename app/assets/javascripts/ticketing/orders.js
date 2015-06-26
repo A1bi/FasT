@@ -204,6 +204,7 @@ function TicketsStep(delegate) {
         var formattedTotal = _this.formatCurrency(total);
         _this.info.internal.formattedTotal = formattedTotal;
         _this.info.internal.total = total;
+        _this.info.internal.zeroTotal = total <= 0;
         $this.find(".total span").html(formattedTotal);
       }
     });
@@ -511,7 +512,7 @@ function PaymentStep(delegate) {
   };
   
   this.shouldBeSkipped = function () {
-    return this.delegate.getStepInfo("tickets").internal.total == 0;
+    return this.delegate.getStepInfo("tickets").internal.zeroTotal;
   };
   
   Step.call(this, "payment", delegate);
@@ -537,7 +538,12 @@ function ConfirmStep(delegate) {
   };
   
   this.willMoveIn = function () {
-    var btnText = this.delegate.web ? "kostenpflichtig bestellen" : "bestätigen";
+    var btnText;
+    if (this.delegate.web && !this.delegate.getStepInfo("tickets").internal.zeroTotal) {
+      btnText = "kostenpflichtig bestellen";
+    } else {
+      btnText = "bestätigen";
+    }
     this.delegate.setNextBtnText(btnText);
     
     var ticketsInfo = this.delegate.getStepInfo("tickets");
@@ -574,7 +580,7 @@ function ConfirmStep(delegate) {
       var info = _this.delegate.getStepInfo(this);
       if (!info) return;
       var box = _this.box.find("."+this);
-      if (this == "payment" && ticketsInfo.internal.total > 0) {
+      if (this == "payment" && !ticketsInfo.internal.zeroTotal) {
         box.removeClass("transfer charge").addClass(info.api.method);
       }
       $.each(info.api, function (key, value) {

@@ -40,6 +40,7 @@ module Ticketing
 
     def cancel_tickets(tickets, reason)
       tickets.reject! { |t| t.cancelled? }
+      cancellation = nil
       tickets.each do |ticket|
         cancellation = ticket.cancel(cancellation || reason)
       end
