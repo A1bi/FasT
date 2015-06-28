@@ -37,7 +37,7 @@ class OrderMailer < BaseMailer
   end
   
   def pay_reminder
-    order.transfer? && !order.paid
+    @order.transfer? && !@order.paid
   end
   
   def cancellation(options)

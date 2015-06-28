@@ -947,7 +947,28 @@ function Ordering() {
 
 $(function () {
   if ($(".stepBox").length) {
-    new Ordering();
+    var isAndroid = navigator.userAgent.indexOf('Android') >= 0;
+    var webkitVer = parseInt((/WebKit\/([0-9]+)/.exec(navigator.appVersion) || 0)[1],10) || void 0;
+    var isNativeAndroid = isAndroid && webkitVer <= 534 && navigator.vendor.indexOf('Google') == 0;
+
+    $.reject({
+      reject: {
+        all: isNativeAndroid
+      },
+      display: ["chrome", "firefox"],
+      imagePath: "/images/jReject/",
+      header: "Auch Ihr Internetbrowser macht Theater",
+      paragraph1: "Leider kann Ihr Internetbrowser unseren Bestellassistenten nicht richtig darstellen.",
+      paragraph2: "Bitte verwenden Sie einen der folgenden Browser. Die Installation ist schnell und kostenlos.",
+      close: false,
+      fadeInTime: 0,
+      fadeOutTime: 0,
+      afterReject: function () {
+        $(window).off("resize scroll");
+      }
+    });
+    
+    if (!isNativeAndroid) new Ordering();
   } else {  
     $("#cancelAction").click(function (event) {
       $(this).hide().siblings("#cancelForm").show();
