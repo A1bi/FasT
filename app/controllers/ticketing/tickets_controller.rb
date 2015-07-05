@@ -8,7 +8,7 @@ module Ticketing
     def cancel
       @order.cancel_tickets(@tickets, params[:reason])
       if retail? && params[:refund]
-        @order.refund
+        @order.cash_refund_in_store
       end
       
       if @order.save

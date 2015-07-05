@@ -98,9 +98,15 @@ class Api::OrdersController < ApplicationController
             }
           })
           
-          order.send_confirmation if type == :web
-          
           NodeApi.update_seats_from_tickets(order.tickets)
+          
+          if type == :admin
+            key = "ticketing.orders.created"
+            if order.email.present?
+              key = key + "_email"
+            end
+            flash[:notice] = t(key)
+          end
     
           response[:ok] = true
           response[:order] = order.api_hash([:tickets, :printable])

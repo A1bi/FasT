@@ -154,7 +154,7 @@
       <tbody>
         <tr>
           <td colspan="7">
-            <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } } %>
+            <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, view: :numbers_and_underlay %>
           </td>
         </tr>
       </tbody>
@@ -164,8 +164,8 @@
 <% cache [:ticketing, :orders, @order, @order.log_events] do %>
   <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>
 <% end %>
-<% cache [:ticketing, :orders, @order, @order.billing_account] do %>
-  <table class="rounded entries paymentLog details">
+<% cache [:ticketing, :orders, @order, @order.billing_account, params[:type]] do %>
+  <table class="rounded entries billingLog details">
     <thead>
       <tr>
         <th colspan="3">Zahlungsprotokoll</th>
@@ -176,7 +176,7 @@
         <th>Betrag</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="log">
       <% @order.billing_account.transfers.each do |transfer| %>
         <tr>
           <td class="date"><%= l transfer.created_at, format: "%d.%m.%y, %H:%M" %></td>
@@ -189,6 +189,26 @@
         <td>Saldo</td>
         <td class="<%= @order.billing_account.outstanding? ? "negative" : "positive" %>">
           <%= format_billing_amount(@order.billing_account.balance) %>
+        </td>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th colspan="3">Neue Zahlung verbuchen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="3">
+          <% if @billing_actions.empty? %>
+            Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
+          <% else %>
+            <%= form_tag orders_path(:create_billing_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
+              <%= select_tag :note, options_for_select(@billing_actions) %>
+              <span>Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %></span>
+              <%= submit_tag "buchen" %>
+            <% end %>
+          <% end %>
         </td>
       </tr>
     </tbody>

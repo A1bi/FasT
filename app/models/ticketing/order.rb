@@ -60,6 +60,14 @@ module Ticketing
     def cancelled?
       tickets.cancelled(false).empty?
     end
+    
+    def transfer_refund
+      withdraw_from_account(billing_account.balance, :transfer_refund)
+    end
+    
+    def correct_balance(amount)
+      deposit_into_account(amount, :correction)
+    end
 
     private
 

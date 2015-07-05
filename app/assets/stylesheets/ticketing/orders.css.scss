@@ -8,31 +8,47 @@ table.details {
   
   &.entries td {
     text-align: center;
+    
+    .seating .viewChooser {
+      display: none;
+    }
   }
   
   &.log td {
     text-align: left;
   }
 
-  &.paymentLog {
-    tr:last-child td {
-      border-top: 2px solid #ccc;
-      font-weight: bold;
+  &.billingLog {
+    .log {
+      tr:last-child td {
+        border-top: 2px solid #ccc;
+        font-weight: bold;
+      }
+
+      td {
+        text-align: left;
+
+        &:last-child {
+          text-align: right;
+        }
+
+        &.positive {
+          color: green;
+        }
+
+        &.negative {
+          color: red;
+        }
+      }
     }
-
-    td {
-      text-align: left;
-
-      &:last-child {
-        text-align: right;
+    
+    tbody:last-child {
+      input[type=text] {
+        width: 50px;
       }
-
-      &.positive {
-        color: green;
-      }
-
-      &.negative {
-        color: red;
+      
+      span {
+        display: none;
       }
     }
   }

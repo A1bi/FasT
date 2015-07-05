@@ -988,6 +988,12 @@ $(function () {
       $this.siblings(".cancellation").toggle($this.val() == "cancel");
     });
     
+    var toggleAmount = function () {
+      $(this).siblings("span").toggle($(this).val() == "correction");
+    };
+    var billingNote = $(".billingLog select").change(toggleAmount);
+    toggleAmount.call(billingNote);
+    
     var printer = new TicketPrinter();
     $("a.print-tickets").click(function (event) {
       event.preventDefault();
@@ -999,7 +1005,6 @@ $(function () {
       var seating = new Seating(seatingBox);
       seating.initSeats(function (seat) {
         var status = data.seats.indexOf(seat.id) != -1 ? Seat.Status.Chosen : Seat.Status.Taken;
-        seat.toggleNumber(true);
         seat.setStatus(status);
       });
     });

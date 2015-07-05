@@ -63,10 +63,13 @@ de:
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
   ticketing:
     orders:
+      created: "Die Bestellung wurde erfolgreich aufgenommen."
+      created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
-      resent_tickets: "Die Tickets wurden dem Käufer erneut zugesandt."
-      sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesandt."
+      resent_tickets: "Die Tickets wurden dem Käufer erneut zugesendet."
+      sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
+      created_billing: "Die Zahlung wurde verbucht."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       retail_access_denied: "Die angegebene Bestellung wurde nicht von dieser Vorverkaufsstelle aufgegeben und kann deshalb nicht eingesehen werden."
       pay_methods:
@@ -95,9 +98,11 @@ de:
         cash_in_store: "Barzahlung in Vorverkaufsstelle"
         cancellation: "Stornierung"
         cash_refund_in_store: "Barrückzahlung in Vorverkaufsstelle"
+        transfer_refund: "Rückzahlung per Überweisung"
         payment_received: "Zahlung erhalten"
         bank_charge_submitted: "Lastschrift bei der Bank eingereicht"
         ticket_types_edited: "Ticketkategorien umgebucht"
+        correction: "Korrektur"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."

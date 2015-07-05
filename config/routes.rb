@@ -120,6 +120,7 @@ FasT::Application.routes.draw do
               patch :approve
               post :resend_tickets
               get :seats
+              post :create_billing
             end
             collection do
               get :search, path: "suche"
@@ -163,6 +164,7 @@ FasT::Application.routes.draw do
             member do
               post :cancel
               get :seats
+              post :create_billing
             end
             collection do
               get :search, path: "suche"

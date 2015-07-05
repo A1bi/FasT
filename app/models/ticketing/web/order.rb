@@ -8,11 +8,13 @@ module Ticketing
     auto_strip_attributes :first_name, :last_name, squish: true
     phony_normalize :phone, default_country_code: 'DE'
   
-    validates_presence_of :email, :first_name, :last_name, :phone, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
+    validates_presence_of :email, :first_name, :last_name, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
+    
+    after_create :send_confirmation
 
     def send_pay_reminder
       enqueue_mailing(:pay_reminder)
@@ -62,7 +64,7 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      Resque.enqueue(Mailer, id, action, options)
+      Resque.enqueue(Mailer, id, action, options) if email.present?
     end
   end
 end

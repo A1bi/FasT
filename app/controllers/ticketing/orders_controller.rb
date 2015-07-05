@@ -1,8 +1,9 @@
 module Ticketing
   class OrdersController < BaseController
     before_filter :set_event_info, only: [:new, :new_retail, :new_admin]
-    before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :seats]
+    before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
     before_filter :prepare_new, only: [:new, :new_admin, :new_retail]
+    before_filter :prepare_billing_actions, only: [:show, :create_billing]
     ignore_restrictions
     before_filter :restrict_access
 
@@ -89,6 +90,9 @@ module Ticketing
     end
 
     def show
+      @billing_actions.map! do |transaction|
+        [t("ticketing.orders.balancing." + transaction.to_s), transaction]
+      end
     end
 
     def mark_as_paid
@@ -119,6 +123,19 @@ module Ticketing
         @order.save
       end
       redirect_to_order_details :resent_tickets
+    end
+    
+    def create_billing
+      if @billing_actions.include? params[:note].to_sym
+        if [:cash_refund_in_store, :transfer_refund].include? params[:note].to_sym
+          @order.send(params[:note])
+        else
+          amount = params[:amount].gsub(",", ".").to_f
+          @order.correct_balance(amount) if amount != 0
+        end
+        @order.save
+      end
+      redirect_to_order_details :created_billing
     end
 
     def seats
@@ -226,11 +243,24 @@ module Ticketing
       @order = Order.new
       @type = admin? ? :admin : retail? ? :retail : :web
     end
+    
+    def prepare_billing_actions
+      @billing_actions = []
+      if @order.billing_account.balance > 0
+        if admin?
+          @billing_actions << :transfer_refund
+        end
+        if @order.is_a? Ticketing::Retail::Order
+          @billing_actions << :cash_refund_in_store
+        end
+      end
+      @billing_actions << :correction if admin?
+    end
 
     def restrict_access
       actions = [:new, :add_coupon, :remove_coupon, :search]
       if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
-        actions.push :index, :show, :cancel, :seats, :search
+        actions.push :index, :show, :cancel, :seats, :search, :create_billing
         if @_retail_store.id
           actions.push :new_retail
         end

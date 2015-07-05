@@ -23,7 +23,7 @@ module Ticketing
       hash
     end
 
-    def refund
+    def cash_refund_in_store
       transfer_balance_to_store(:cash_refund_in_store)
     end
 
