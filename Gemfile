@@ -40,6 +40,8 @@ gem 'dalli'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
 
+gem 'ar_after_transaction', '~> 0.4.0'
+
 gem 'resque'
 
 gem 'groupdate', '~> 2.4.0'

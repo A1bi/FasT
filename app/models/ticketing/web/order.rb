@@ -43,7 +43,7 @@ module Ticketing
 
     def mark_as_paid
       super
-      enqueue_mailing(:payment_received) if transfer?
+      enqueue_mailing(:payment_received)
     end
     
     def api_hash(details = [], ticket_details = [])
@@ -64,7 +64,9 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      Resque.enqueue(Mailer, id, action, options) if email.present?
+      after_transaction do
+        Resque.enqueue(Mailer, id, action, options) if email.present?
+      end
     end
   end
 end

@@ -50,6 +50,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.6)
+    ar_after_transaction (0.4.0)
+      activerecord
     arel (6.0.0)
     auto_strip_attributes (2.0.6)
       activerecord (>= 3.0)
@@ -233,6 +235,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-action_caching
   actionpack-page_caching
+  ar_after_transaction (~> 0.4.0)
   auto_strip_attributes (~> 2.0)
   bcrypt-ruby
   bower-rails (~> 0.9.2)
