@@ -1,5 +1,13 @@
 <div class="stepCon tickets">
-  <div class="hl inner">„<%= @event.name %>“</div>
+  <% if web? %>
+    <div class="note">
+      Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets und damit verbundene Sitzplatzreservierung für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets später in digitaler Form per e-mail.
+      <div class="trenner"></div>
+      <p>Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.</p>
+    </div>
+  <% else %>
+    <div class="hl inner">„<%= @event.name %>“</div>
+  <% end %>
 	<div class="number inner">
 		<table class="rounded">
       <thead>
@@ -53,4 +61,10 @@
       </tbody>
 		</table>
 	</div>
+  <% if web? %>
+    <div class="note">
+      <div class="trenner"></div>
+      Gibt es Schwierigkeiten bei Ihrer Bestellung? Rufen Sie uns gerne an: (02653) 28 27 09
+    </div>
+  <% end %>
 </div>

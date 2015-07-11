@@ -323,6 +323,10 @@ table.details {
         margin: 7px 0px;
       }
     }
+    
+    .trenner {
+      margin: 18px -20px;
+    }
   }
 	
 	.field {
@@ -458,6 +462,12 @@ table.details {
     
     em.small {
       color: black;
+    }
+    
+    .number_of_tickets {
+      .trenner {
+        margin-top: 0;
+      }
     }
     
     .seat_chooser {

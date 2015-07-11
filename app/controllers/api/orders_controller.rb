@@ -37,7 +37,7 @@ class Api::OrdersController < ApplicationController
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
       
-      if ticket_type.exclusive && type != :admin
+      if ticket_type.exclusive
         remaining = number
         
         coupons.each do |coupon|
@@ -54,7 +54,7 @@ class Api::OrdersController < ApplicationController
           break if diff >= 0
         end
         
-        if remaining > 0
+        if remaining > 0 && type != :admin
           response[:errors] << "Coupon error"
           return render json: response
         end
