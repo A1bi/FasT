@@ -213,15 +213,19 @@ FasT::Application.routes.draw do
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
       resources :orders, only: [:create]
-      get "events/current", as: "current_event"
       controller :seats, path: :seats, as: :seats do
         get "availability", action: :availability
         get "/", action: :index
       end
-      resources :purchases, only: [:create] do
-        collection do
-          post :unlock_seats
-        end
+      controller :box_office, path: :box_office do
+        get :search
+        post :ticket_printable
+        patch :pick_up_tickets
+        post :place_order
+        patch :cancel_order
+        post :purchase
+        post :unlock_seats
+        get :event
       end
       post "push_notifications" => "push_notifications#register"
     end

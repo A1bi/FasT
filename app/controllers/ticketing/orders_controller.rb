@@ -160,19 +160,10 @@ module Ticketing
               flash[:alert] = t("ticketing.orders.retail_access_denied")
               return redirect_to orders_path(:ticketing_orders)
             end
-            return respond_to do |format|
-              format.html do
-                prms = { id: order.id }
-                prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
-                redirect_to orders_path(:ticketing_order, prms)
-              end
-              format.json do
-                render json: {
-                  order: order_search_hash(order),
-                  ticket: (ticket) ? ticket.id.to_s : nil
-                }
-              end
-            end
+            
+            prms = { id: order.id }
+            prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
+            return redirect_to orders_path(:ticketing_order, prms)
           end
 
         else
@@ -191,15 +182,6 @@ module Ticketing
         end
       else
         @orders = Ticketing::Order.none
-      end
-
-      respond_to do |format|
-        format.html
-        format.json do
-          render json: {
-            orders: @orders.map { |o| order_search_hash(o) }
-          }
-        end
       end
     end
 
@@ -258,7 +240,7 @@ module Ticketing
     end
 
     def restrict_access
-      actions = [:new, :add_coupon, :remove_coupon, :search]
+      actions = [:new, :add_coupon, :remove_coupon]
       if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
         actions.push :index, :show, :cancel, :seats, :search, :create_billing
         if @_retail_store.id

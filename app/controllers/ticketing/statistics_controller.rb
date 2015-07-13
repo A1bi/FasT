@@ -57,6 +57,7 @@ module Ticketing
       end
       
       stats.each do |key, value|
+        next if !order_types.include? key.last.constantize
         date_key = key.first.to_date.to_s
         datasets[order_types.index(key.last.constantize) + 1][:data][date_key] = value
         datasets.first[:data][date_key] = datasets.first[:data][date_key] + value

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150530125204) do
+ActiveRecord::Schema.define(version: 20150712120955) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -279,19 +279,20 @@ ActiveRecord::Schema.define(version: 20150530125204) do
 
   create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
-    t.boolean  "paid",                   default: false, null: false
-    t.decimal  "total",                  default: 0.0,   null: false
+    t.boolean  "paid",                      default: false, null: false
+    t.decimal  "total",                     default: 0.0,   null: false
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "gender"
     t.string   "phone"
     t.string   "plz"
-    t.integer  "pay_method", limit: 255
+    t.integer  "pay_method",    limit: 255
     t.integer  "store_id"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "box_office_id"
   end
 
   create_table "ticketing_push_notifications_devices", force: :cascade do |t|

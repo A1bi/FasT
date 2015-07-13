@@ -56,7 +56,6 @@ module Ticketing
         seat_id: seat.id.to_s
       }
       hash.merge!({
-        paid: paid,
         picked_up: picked_up
       }) if details.include? :status
       hash.merge(super)

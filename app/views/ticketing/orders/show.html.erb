@@ -29,11 +29,16 @@
     </tbody>
     <%
       if @order.is_a? Ticketing::Retail::Order
-        title = "Bestellung an Vorverkaufsstelle"
+        title = "Buchung in Vorverkaufsstelle"
         overview = [
           ["Vorverkaufsstelle", @order.store.name]
         ]
-      else
+      elsif @order.is_a? Ticketing::BoxOffice::Order
+        title = "Buchung an Abendkasse"
+        overview = [
+          ["Abendkasse", @order.box_office.name]
+        ]
+      elsif @order.is_a? Ticketing::Web::Order
         title = "Online-Bestellung"
         overview = [
           ["Nachname", @order.last_name],
