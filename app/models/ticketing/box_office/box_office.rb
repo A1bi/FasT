@@ -18,7 +18,12 @@ module Ticketing::BoxOffice
       end
       
       ticket_totals.each do |order, total|
-        transfer_to_account(order, total, :cash_at_box_office)
+        case purchase.pay_method
+        when "cash"
+          transfer_to_account(order, total, :cash_at_box_office)
+        when "electronic_cash" 
+          order.billing_account.deposit(total, :electronic_cash_at_box_office)
+        end
       end
     end
   end

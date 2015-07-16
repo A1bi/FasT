@@ -223,6 +223,7 @@ FasT::Application.routes.draw do
         patch :pick_up_tickets
         post :place_order
         patch :cancel_order
+        patch :cancel_tickets
         post :purchase
         post :unlock_seats
         get :event

@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(version: 20150712120955) do
     t.float    "total"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pay_method"
   end
 
   create_table "ticketing_cancellations", force: :cascade do |t|
