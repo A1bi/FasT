@@ -86,14 +86,20 @@ class Api::BoxOfficeController < ApplicationController
     
     params[:items].each do |item|
       purchase_item = purchase.items.new
-      if item[:type] == "ticket"
+      case item[:type]
+      when "ticket"
         ticket = Ticketing::Ticket.find(item[:id].to_i)
         purchase_item.purchasable = ticket
         purchase_item.number = 1
         tickets << ticket
-      else
+      when "product" 
         purchase_item.purchasable = Ticketing::BoxOffice::Product.find(item[:id].to_i)
         purchase_item.number = item[:number]
+      when "refund"
+        purchase_item.purchasable = Ticketing::BoxOffice::Refund.new
+        purchase_item.purchasable.order = Ticketing::Order.find(item[:order])
+        purchase_item.purchasable.amount = item[:amount]
+        purchase_item.number = 1
       end
     end
     
@@ -175,6 +181,18 @@ class Api::BoxOfficeController < ApplicationController
     }
     
     render :json => response
+  end
+  
+  def products
+    render json: {
+      products: Ticketing::BoxOffice::Product.all.map do |product|
+        {
+          id: product.id,
+          name: product.name,
+          price: product.price
+        }
+      end
+    }
   end
   
   private

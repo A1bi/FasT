@@ -219,6 +219,13 @@ ActiveRecord::Schema.define(version: 20150712120955) do
     t.string   "pay_method"
   end
 
+  create_table "ticketing_box_office_refunds", force: :cascade do |t|
+    t.decimal  "amount",     default: 0.0, null: false
+    t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ticketing_cancellations", force: :cascade do |t|
     t.string   "reason"
     t.datetime "created_at"

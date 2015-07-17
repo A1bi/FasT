@@ -1,7 +1,7 @@
 module Ticketing::BoxOffice
   class PurchaseItem < BaseModel
     belongs_to :purchase
-    belongs_to :purchasable, polymorphic: true
+    belongs_to :purchasable, polymorphic: true, autosave: true
   
     validates_presence_of :purchasable
     

@@ -2,29 +2,6 @@ module Ticketing::BoxOffice
   class BoxOffice < BaseModel
     include Ticketing::Billable
     
-    has_many :purchases, dependent: :destroy, after_add: :added_purchase, autosave: true
-    
-    private
-    
-    def added_purchase(purchase)
-      deposit_into_account(purchase.total, :cash_at_box_office)
-      
-      ticket_totals = {}
-      purchase.items.each do |item|
-        ticket = item.purchasable
-        if ticket.is_a? Ticketing::Ticket
-          ticket_totals[ticket.order] = (ticket_totals[ticket.order] || 0) + ticket.price
-        end
-      end
-      
-      ticket_totals.each do |order, total|
-        case purchase.pay_method
-        when "cash"
-          transfer_to_account(order, total, :cash_at_box_office)
-        when "electronic_cash" 
-          order.billing_account.deposit(total, :electronic_cash_at_box_office)
-        end
-      end
-    end
+    has_many :purchases, dependent: :destroy, autosave: true
   end
 end

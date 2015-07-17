@@ -227,6 +227,7 @@ FasT::Application.routes.draw do
         post :purchase
         post :unlock_seats
         get :event
+        get :products
       end
       post "push_notifications" => "push_notifications#register"
     end
