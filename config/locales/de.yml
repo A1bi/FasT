@@ -103,6 +103,9 @@ de:
         bank_charge_submitted: "Lastschrift bei der Bank eingereicht"
         ticket_types_edited: "Ticketkategorien umgebucht"
         correction: "Korrektur"
+        cash_at_box_office: "Barzahlung an Abendkasse"
+        electronic_cash_at_box_office: "EC-Zahlung an Abendkasse"
+        cash_refund_at_box_office: "Barrückzahlung an Abendkasse"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
