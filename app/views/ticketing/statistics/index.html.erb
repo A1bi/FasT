@@ -5,7 +5,7 @@
   <div class="hl">Ticket-Statistik</div>
   <div class="stats">
     <div class="box chooser">
-      <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span></div>
+      <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span> | <span data-table="box_office">Abendkassen</span></div>
     </div>
     <div class="total table">
       <%= render "stats_table", scopes: [{ title: "Gesamt", scope: @stats[:total] }] %>
@@ -20,6 +20,13 @@
       <% end %>
       <%= render "stats_table", scopes: scopes %>
     </div>
+    <div class="box_office table">
+      <% (scopes = []) << { title: "Abendkassen gesamt", scope: @stats[:box_office][:total] } %>
+      <% @box_offices.each do |box_office| %>
+        <% scopes << { title: box_office.name, scope: @stats[:box_office][:box_offices][box_office.id] } %>
+      <% end %>
+      <%= render "stats_table", scopes: scopes %>
+    </div>
     <table class="rounded daily_stats">
       <thead>
         <tr>
@@ -30,7 +37,7 @@
         <tr>
           <td>
             <canvas id="daily_stats" height="300" data-chart-data-path="<%= ticketing_statistics_chart_data_path %>"></canvas>
-            <div class="hcen key">Legende: <span class="total">gesamt</span> | <span class="online">online</span> | <span class="retail">Vorverkaufsstellen</span></div>
+            <div class="hcen key">Legende: <span class="total">gesamt</span> | <span class="web">online</span> | <span class="retail">Vorverkaufsstellen</span></div>
           </td>
         </tr>
       </tbody>

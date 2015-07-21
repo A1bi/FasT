@@ -8,6 +8,7 @@ module Ticketing
     
     def index
       @stores = Retail::Store.all
+      @box_offices = BoxOffice::BoxOffice.all
     end
     
     def index_retail

@@ -147,6 +147,8 @@ module Ticketing
     end
 
     def search
+      @orders = Ticketing::Order.none
+      
       if params[:q].present?
         if params[:q] =~ /\A(1|7)(\d{6})\z/
           if $1 == "1"
@@ -180,8 +182,6 @@ module Ticketing
           end
           @orders.order!(:last_name, :first_name)
         end
-      else
-        @orders = Ticketing::Order.none
       end
     end
 

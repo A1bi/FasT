@@ -10,6 +10,10 @@ module Ticketing
             stores: {},
             total: {}
           },
+          box_office: {
+            box_offices: {},
+            total: {}
+          },
           total: {}
         }
   
@@ -23,6 +27,10 @@ module Ticketing
             store_scope = stats[:retail][:stores][ticket.order.store_id] ||= {}
             scopes << store_scope
             scopes << stats[:retail][:total]
+          elsif ticket.order.is_a? BoxOffice::Order
+            store_scope = stats[:box_office][:box_offices][ticket.order.box_office_id] ||= {}
+            scopes << store_scope
+            scopes << stats[:box_office][:total]
           end
       
           scopes.each do |scope|
@@ -32,8 +40,10 @@ module Ticketing
           end
         end
   
-        scopes = [stats[:web], stats[:retail][:total], stats[:total]]
+        scopes = [stats[:web], stats[:retail][:total], stats[:box_office][:total], stats[:total]]
         Retail::Store.all.each { |store| scopes << stats[:retail][:stores][store.id] }
+        BoxOffice::BoxOffice.all.each { |box_office| scopes << stats[:box_office][:box_offices][box_office.id] }
+        
         scopes.each do |scope|
           next if !scope
           dates.each do |date|
