@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712120955) do
+ActiveRecord::Schema.define(version: 20150723170442) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -194,6 +194,13 @@ ActiveRecord::Schema.define(version: 20150712120955) do
     t.datetime "updated_at"
   end
 
+  create_table "ticketing_box_office_order_payments", force: :cascade do |t|
+    t.decimal  "amount",     default: 0.0, null: false
+    t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "ticketing_box_office_products", force: :cascade do |t|
     t.string   "name"
     t.float    "price"
@@ -217,13 +224,6 @@ ActiveRecord::Schema.define(version: 20150712120955) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "pay_method"
-  end
-
-  create_table "ticketing_box_office_refunds", force: :cascade do |t|
-    t.decimal  "amount",     default: 0.0, null: false
-    t.integer  "order_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "ticketing_cancellations", force: :cascade do |t|

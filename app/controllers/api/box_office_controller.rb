@@ -95,8 +95,8 @@ class Api::BoxOfficeController < ApplicationController
       when "product" 
         purchase_item.purchasable = Ticketing::BoxOffice::Product.find(item[:id].to_i)
         purchase_item.number = item[:number]
-      when "refund"
-        purchase_item.purchasable = Ticketing::BoxOffice::Refund.new
+      when "order_payment"
+        purchase_item.purchasable = Ticketing::BoxOffice::OrderPayment.new
         purchase_item.purchasable.order = Ticketing::Order.find(item[:order])
         purchase_item.purchasable.amount = item[:amount]
         purchase_item.number = 1

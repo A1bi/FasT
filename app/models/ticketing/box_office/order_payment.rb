@@ -1,9 +1,9 @@
 module Ticketing::BoxOffice
-  class Refund < BaseModel
+  class OrderPayment < BaseModel
     belongs_to :order, class_name: Ticketing::Order
     
     def total
-      -amount
+      amount
     end
   end
 end

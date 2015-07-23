@@ -32,8 +32,9 @@ module Ticketing::BoxOffice
         case purchasable
         when Product
           product_total = product_total + item.total
-        when Refund
-          transfer_to_account(purchasable.order, -purchasable.amount, :cash_refund_at_box_office)
+        when OrderPayment
+          note = purchasable.amount < 0 ? :cash_refund_at_box_office : :cash_at_box_office
+          transfer_to_account(purchasable.order, purchasable.amount, note)
         when Ticketing::Ticket
           ticket_totals[purchasable.order] = (ticket_totals[purchasable.order] || 0) + purchasable.price
         end
