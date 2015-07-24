@@ -86,6 +86,9 @@ de:
         tickets_cancelled:
           one: "Ein Ticket storniert (Grund: %{reason})"
           other: "%{count} Tickets storniert (Grund: %{reason})"
+        enabled_resale_for_tickets:
+          one: "Ein Ticket wurde zum Weiterverkauf freigegeben."
+          other: "%{count} Tickets wurden zum Weiterverkauf freigegeben."
         tickets_transferred:
           one: "Aufführung oder Sitzplatz eines Tickets umgebucht"
           other: "Aufführung oder Sitzplatz von %{count} Tickets umgebucht"
@@ -110,6 +113,9 @@ de:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
         other: "%{count} Tickets wurden erfolgreich storniert."
+      enabled_resale:
+        one: "Ein Ticket wurde erfolgreich zum Weiterverkauf freigegeben."
+        other: "%{count} Tickets wurden erfolgreich zum Weiterverkauf freigegeben."
       edited:
         one: "Das Ticket wurde erfolgreich umgebucht."
         other: "Die Tickets wurden erfolgreich umgebucht."

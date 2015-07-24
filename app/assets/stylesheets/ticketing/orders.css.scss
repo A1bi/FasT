@@ -83,6 +83,11 @@ table.details {
     &.number {
       width: 10%;
       font-weight: bold;
+      
+      .small {
+        font-style: italic;
+        font-weight: normal;
+      }
     }
     
     &.tickets {

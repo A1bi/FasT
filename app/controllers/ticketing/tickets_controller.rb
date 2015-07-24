@@ -11,11 +11,17 @@ module Ticketing
         @order.cash_refund_in_store
       end
       
-      if @order.save
-        NodeApi.update_seats_from_tickets(@tickets)
-      end
+      save_order_and_update_node_with_tickets(@order, @tickets)
 
       redirect_to_order_details :cancelled
+    end
+    
+    def enable_resale
+      @order.enable_resale_for_tickets(@tickets)
+      
+      save_order_and_update_node_with_tickets(@order, @tickets)
+      
+      redirect_to_order_details :enabled_resale
     end
     
     def transfer
@@ -101,6 +107,12 @@ module Ticketing
       # workaround: autosave is not triggered when fetching the tickets like shown above
       @tickets = @order.tickets.select do |ticket|
         params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
+      end
+    end
+    
+    def save_order_and_update_node_with_tickets(order, tickets)
+      if order.save
+        NodeApi.update_seats_from_tickets(tickets)
       end
     end
     

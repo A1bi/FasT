@@ -104,7 +104,7 @@
     </table>
   </div>
 </div>
-<% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, @order.tickets, params[:type]] do %>
+<% cache_if params[:ticket].nil?, [:ticketing, :orders, @order, Ticketing::Ticket, params[:type]] do %>
   <a id="tickets"></a>
   <%= form_tag nil, method: :patch, class: :edit_tickets do %>
     <table class="rounded entries details">
@@ -128,7 +128,14 @@
           <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.id %>
           <%= content_tag_for :tr, ticket, class: classes do %>
             <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
-            <td class="number"><%= ticket.number %></td>
+            <td class="number">
+              <%= ticket.number %>
+              <% if ticket.resale && !ticket.cancelled? %>
+                <div class="small">
+                  Weiterverkauf <% if ticket.resold? %>erfolgreich<% else %>möglich<% end %>
+                </div>
+              <% end %>
+            </td>
             <td class="name"><%= ticket.type.name %></td>
             <td class="amount"><%= number_to_currency ticket.type.price %></td>
             <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
@@ -142,6 +149,7 @@
           <td colspan="7" class="actions">
             <%= select_tag :edit_action, options_for_select([
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
+              ["zum Weiterverkauf freigeben", :enable_resale, data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" }],
               ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
               ["Kategorie umbuchen", :transfer, data: { path: orders_path(:edit_ticketing_order_tickets, @order), method: :get }],
               ["herunterladen", :transfer, data: { path: orders_path(:printable_ticketing_order_tickets, @order), method: :get }]

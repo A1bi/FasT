@@ -1,5 +1,6 @@
 class Api::BoxOfficeController < ApplicationController
-  before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets, :cancel_tickets]
+  before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
+  before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
   
   def place_order
     response = {
@@ -63,20 +64,10 @@ class Api::BoxOfficeController < ApplicationController
     render json: {}
   end
   
-  def cancel_tickets
-    order = @tickets.first.order
-    
-    # @tickets = order.tickets.cancelled(false).find(params[:ticket_ids])
-    # workaround: autosave is not triggered when fetching the tickets like shown above
-    @tickets = order.tickets.select do |ticket|
-      params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
-    end
-    
-    order.cancel_tickets(@tickets, :cancellation_at_box_office)
-    if order.save
-      NodeApi.update_seats_from_tickets(@tickets)
-    end
-    render json: { order: info_for_order(order) }
+  def cancel_tickets    
+    @order.cancel_tickets(@tickets, :cancellation_at_box_office)
+    save_order_and_update_node_with_tickets(@order, @tickets)
+    render json: { order: info_for_order(@order) }
   end
   
   def purchase
@@ -119,6 +110,7 @@ class Api::BoxOfficeController < ApplicationController
   end
   
   def search
+    ticket_id = nil
     orders = []
     if params[:q].present?
       if params[:q] =~ /\A(1|7)(\d{6})\z/
@@ -126,7 +118,10 @@ class Api::BoxOfficeController < ApplicationController
           orders << Ticketing::Order.where(number: $2).first
         else
           ticket = Ticketing::Ticket.where(number: $2).first
-          orders << ticket.order if ticket
+          if ticket
+            ticket_id = ticket.id
+            orders << ticket.order
+          end
         end
         
       else
@@ -141,6 +136,7 @@ class Api::BoxOfficeController < ApplicationController
     end
 
     render json: {
+      ticket_id: ticket_id.to_s,
       orders: orders.map { |o| info_for_order(o) }
     }
   end
@@ -154,6 +150,12 @@ class Api::BoxOfficeController < ApplicationController
   def pick_up_tickets
     @tickets.update_all(picked_up: true)
     render json: {}
+  end
+  
+  def enable_resale_for_tickets
+    @order.enable_resale_for_tickets(@tickets)
+    save_order_and_update_node_with_tickets(@order, @tickets)
+    render json: { order: info_for_order(@order) }
   end
   
   def unlock_seats
@@ -199,6 +201,22 @@ class Api::BoxOfficeController < ApplicationController
   
   def find_tickets
     @tickets = Ticketing::Ticket.where(id: params[:ticket_ids])
+  end
+  
+  def find_tickets_with_order
+    @order = Ticketing::Ticket.find(params[:ticket_ids].first).order
+    
+    # @tickets = order.tickets.cancelled(false).find(params[:ticket_ids])
+    # workaround: autosave is not triggered when fetching the tickets like shown above
+    @tickets = @order.tickets.select do |ticket|
+      params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
+    end
+  end
+  
+  def save_order_and_update_node_with_tickets(order, tickets)
+    if order.save
+      NodeApi.update_seats_from_tickets(tickets)
+    end
   end
   
   def info_for_order(order)

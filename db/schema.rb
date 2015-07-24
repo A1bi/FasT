@@ -362,6 +362,8 @@ ActiveRecord::Schema.define(version: 20150723170442) do
     t.integer  "seat_id"
     t.integer  "date_id"
     t.boolean  "picked_up",       default: false
+    t.boolean  "resale",          default: false
+    t.boolean  "invalidated",     default: false
   end
 
 end

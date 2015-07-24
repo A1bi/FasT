@@ -88,6 +88,7 @@ FasT::Application.routes.draw do
         resource :tickets, only: [] do
           collection do
             patch :cancel, path: "stornieren"
+            patch :enable_resale
             get :transfer, path: "umbuchen"
             get :edit, path: "bearbeiten"
             patch :update
@@ -224,6 +225,7 @@ FasT::Application.routes.draw do
         post :place_order
         patch :cancel_order
         patch :cancel_tickets
+        patch :enable_resale_for_tickets
         post :purchase
         post :unlock_seats
         get :event

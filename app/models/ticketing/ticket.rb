@@ -13,6 +13,7 @@ module Ticketing
   	validates_presence_of :type, :seat, :date
     validate :check_reserved
     
+    before_validation :update_invalidated
     before_save :update_passbook_pass
   
     def seat=(seat)
@@ -38,6 +39,10 @@ module Ticketing
       "7#{self[:number]}"
     end
     
+    def resold?
+      seat.taken?(date)
+    end
+    
     def can_check_in?
       !checked_in?
     end
@@ -56,7 +61,8 @@ module Ticketing
         seat_id: seat.id.to_s
       }
       hash.merge!({
-        picked_up: picked_up
+        picked_up: picked_up,
+        resale: resale
       }) if details.include? :status
       hash.merge(super)
     end
@@ -67,6 +73,11 @@ module Ticketing
       if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
       end
+    end
+    
+    def update_invalidated
+      self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
+      true
     end
     
     def update_passbook_pass

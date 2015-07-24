@@ -48,6 +48,14 @@ module Ticketing
       log(:tickets_cancelled, { count: tickets.count, reason: reason })
     end
     
+    def enable_resale_for_tickets(tickets)
+      tickets.reject! { |t| t.cancelled? }
+      tickets.each do |ticket|
+        ticket.resale = true
+      end
+      log(:enabled_resale_for_tickets, { count: tickets.count })
+    end
+    
     def edit_ticket_types(tickets, types)
       tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|

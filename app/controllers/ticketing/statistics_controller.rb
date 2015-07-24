@@ -19,7 +19,7 @@ module Ticketing
       render_cached_json [:ticketing, :statistics, :seats, @dates, Ticketing::Seat, Ticketing::Ticket] do
         {
           seats: Hash[@dates.map do |date|
-            [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map do |seat|
+            [date.id, Hash[Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
               [seat.id, !seat.taken? ? (seat.reserved? ? 2 : 1) : 0]
             end]]
           end]
