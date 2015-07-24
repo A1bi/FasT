@@ -6,6 +6,8 @@ class ChangeBoxOfficeRefundsAndTickets < ActiveRecord::Migration
     
     reversible do |change|
       change.up do
+        update "UPDATE ticketing_box_office_order_payments SET amount = amount * -1"
+        
         update "UPDATE ticketing_box_office_purchase_items SET purchasable_type = 'Ticketing::BoxOffice::OrderPayment' WHERE purchasable_type = 'Ticketing::BoxOffice::Refund'"
         
         tickets = Arel::Table.new(:ticketing_tickets)
@@ -17,6 +19,8 @@ class ChangeBoxOfficeRefundsAndTickets < ActiveRecord::Migration
       end
       
       change.down do
+        update "UPDATE ticketing_box_office_order_payments SET amount = amount * -1"
+        
         update "UPDATE ticketing_box_office_purchase_items SET purchasable_type = 'Ticketing::BoxOffice::Refund' WHERE purchasable_type = 'Ticketing::BoxOffice::OrderPayment'"
       end
     end
