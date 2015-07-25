@@ -1,6 +1,16 @@
 <% include_css "index" %>
 <% include_js "index" %>
 <% sale_started = Ticketing::Event.current.sale_started? %>
+<% file = Rails.root.join("public", "uploads", "index_alert.json") %>
+<% if File.exists? file %>
+  <% cache [:static, :index, :alert, File.mtime(file).to_i] do %>
+    <% info = JSON.parse(File.read(file), symbolize_names: true) %>
+    <div class="alert">
+      <div><%= info[:title] %></div>
+      <%= info[:text].html_safe %>
+    </div>
+  <% end %>
+<% end %>
 <% cache [:static, :index, sale_started] do %>
   <div class="teaser ladykillers">
     <h1>Ladykillers</h1>

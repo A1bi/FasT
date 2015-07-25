@@ -3,6 +3,22 @@
 @include font-face(adlib);
 @include font-face(ovo);
 
+.alert {
+	border: 2px solid red;
+	border-radius: 10px;
+	padding: 10px;
+	width: 80%;
+	margin: auto;
+	
+	div {
+		text-align: center;
+		font-weight: bold;
+		margin-bottom: 7px;
+		padding-bottom: 5px;
+		border-bottom: 1px solid gray;
+	}
+}
+
 .teaser {
 	margin: 30px auto;
 
