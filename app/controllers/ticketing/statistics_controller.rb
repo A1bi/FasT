@@ -13,6 +13,7 @@ module Ticketing
     
     def index_retail
       redirect_to root_path if !@_retail_store.id
+      @transfers = @_retail_store.billing_account.transfers.order(:created_at)
     end
     
     def seats

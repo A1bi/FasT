@@ -2,30 +2,32 @@
 <% include_js "index" %>
 <% sale_started = Ticketing::Event.current.sale_started? %>
 <% file = Rails.root.join("public", "uploads", "index_alert.json") %>
-<% if File.exists? file %>
-  <% cache [:static, :index, :alert, File.mtime(file).to_i] do %>
-    <% info = JSON.parse(File.read(file), symbolize_names: true) %>
-    <div class="alert">
-      <div><%= info[:title] %></div>
-      <%= info[:text].html_safe %>
+<div class="index">
+  <% if File.exists? file %>
+    <% cache [:static, :index, :alert, File.mtime(file).to_i] do %>
+      <% info = JSON.parse(File.read(file), symbolize_names: true) %>
+      <div class="alert">
+        <div><%= info[:title] %></div>
+        <%= info[:text].html_safe %>
+      </div>
+    <% end %>
+  <% end %>
+  <% cache [:static, :index, sale_started] do %>
+    <div class="teaser ladykillers">
+      <h1>Ladykillers</h1>
+      <div class="links">
+        <%= link_to "Über das Stück", theater_ladykillers_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+      </div>
+    </div>
+    <div class="trenner"></div>
+    <%= render "newsletter/form" %>
+    <div class="partner-lotto">
+      <span class="disclaimer">Mit freundlicher Unterstützung von:</span>
+      <div>
+        <%= link_to "https://www.lotto-rlp.de", target: "_blank" do %>
+          <%= image_tag "misc/partner-lotto.png" %>
+        <% end %>
+      </div>
     </div>
   <% end %>
-<% end %>
-<% cache [:static, :index, sale_started] do %>
-  <div class="teaser ladykillers">
-    <h1>Ladykillers</h1>
-    <div class="links">
-      <%= link_to "Über das Stück", theater_ladykillers_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
-    </div>
-  </div>
-  <div class="trenner"></div>
-  <%= render "newsletter/form" %>
-  <div class="partner-lotto">
-    <span class="disclaimer">Mit freundlicher Unterstützung von:</span>
-    <div>
-      <%= link_to "https://www.lotto-rlp.de", target: "_blank" do %>
-        <%= image_tag "misc/partner-lotto.png" %>
-      <% end %>
-    </div>
-  </div>
-<% end %>
+</div>
