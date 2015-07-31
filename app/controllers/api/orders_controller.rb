@@ -40,7 +40,7 @@ class Api::OrdersController < ApplicationController
       if ticket_type.exclusive
         remaining = number
         
-        coupons.each do |coupon|
+        (coupons ||= []).each do |coupon|
           # assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
           # workaround: autosave is not triggered when fetching the tickets like shown above
           assignment = coupon.ticket_type_assignments.find do |a|

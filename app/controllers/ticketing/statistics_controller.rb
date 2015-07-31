@@ -12,7 +12,9 @@ module Ticketing
     end
     
     def index_retail
-      redirect_to root_path if !@_retail_store.id
+      if !@_retail_store.id
+        return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
+      end
       @transfers = @_retail_store.billing_account.transfers.order(:created_at)
     end
     
