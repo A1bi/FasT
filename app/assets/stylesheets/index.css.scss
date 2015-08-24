@@ -9,7 +9,7 @@
 	padding: 10px;
 	width: 80%;
 	margin: auto;
-	
+
 	div {
 		text-align: center;
 		font-weight: bold;
@@ -22,26 +22,16 @@
 .teaser {
 	margin: 30px auto;
 
-  &.ladykillers {
-		$highlight-color: #CC003A;
+  &.drachenjungfrau {
+		$highlight-color: #006733;
     position: relative;
-    background: url(asset_path("theater/ladykillers/index.png")) no-repeat;
+    background: url(asset_path("theater/drachenjungfrau/index.jpg")) no-repeat;
     width: 610px;
-    height: 545px;
-
-		h1 {
-			padding: 15px;
-			margin: 0px;
-			text-align: center;
-			font-size: 50px;
-			font-family: "adlib", "sans-serif";
-			letter-spacing: 3px;
-			color: $highlight-color;
-		}
+    height: 686px;
 
 		.links {
-      text-align: center;
-      bottom: 18px;
+			text-align: center;
+			padding-top: 140px;
       font-family: "ovo", "Arial";
       font-size: 20px;
 			color: $highlight-color;

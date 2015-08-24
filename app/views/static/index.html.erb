@@ -13,10 +13,9 @@
     <% end %>
   <% end %>
   <% cache [:static, :index, sale_started] do %>
-    <div class="teaser ladykillers">
-      <h1>Ladykillers</h1>
+    <div class="teaser drachenjungfrau">
       <div class="links">
-        <%= link_to "Über das Stück", theater_ladykillers_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+        <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
       </div>
     </div>
     <div class="trenner"></div>

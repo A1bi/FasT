@@ -32,6 +32,20 @@ $shadowColor: black;
   }
 }
 
+.drachenjungfrau {
+  $highlightColor: #006733;
+  $shadowColor: black;
+
+  .hl, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+
+  .title {
+    padding-top: 10px !important;
+  }
+}
+
+
 .container {
   overflow: auto;
   margin: 20px 0px;

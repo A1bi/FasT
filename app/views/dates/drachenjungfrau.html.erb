@@ -1,0 +1,50 @@
+<% title "Termine - Kinder- und Jugendtheater 2015 - Die Drachenjungfrau" %>
+<% include_css "dates" %>
+<% cache [:dates, @event, @ticket_types, @event.dates.map { |e| e.sold_out? }] do %>
+  <div class="drachenjungfrau">
+    Das <b>Kinder- und Jugendtheater</b> der Freilichtbühne am schiefen Turm präsentiert <b>„Die Drachenjungfrau“</b> in der Friedenskirche Kaisersesch (In der Langheck 1) an folgenden Tagen:
+    <div class="container">
+      <div class="title">
+        <%= image_tag("theater/drachenjungfrau/title.jpg", alt: "Die Drachenjungfrau") %>
+      </div>
+      <div class="box dates">
+        <div class="top">
+          Termine
+        </div>
+        <div class="con">
+          <table>
+            <% @event.dates.each do |date| %>
+              <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
+                <td class="point"></td>
+                <td class="day">
+                  <span class="line_through"><%= l date.date, format: "%A" %></span>
+                  <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
+                </td>
+                <td class="date">
+                  <span class="line_through"><%= l date.date, format: "%d. %B" %></span>
+                  <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
+                </td>
+              <% end %>
+            <% end %>
+          </table>
+          <p>Einlass jeweils eine Stunde vor Beginn.</p>
+        </div>
+      </div>
+    </div>
+    <div class="trenner"></div>
+    <div class="hl">
+      Ticketvorverkauf
+      <div class="small">ab 4. Oktober 2015</div>
+    </div>
+    <% if @event.sale_started? %>
+      <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
+      <div class="stores">
+        <b>Oder auch in der Buchhandlung Walgenbach in Kaisersesch.</b>
+      </div>
+    <% end %>
+    <div class="hcen hotline">
+      <a name="hotline"></a>
+      Info-Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>
+    </div>
+  </div>
+<% end %>
