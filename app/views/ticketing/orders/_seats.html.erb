@@ -1,6 +1,6 @@
-<div class="stepCon seats">
+<div class="stepCon seats" data-bound-to-seats="<%= @event.seating.bound_to_seats? %>">
   <div class="note">
-    Bitte wählen Sie Ihren gewünschten Aufführungstermin. Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
+    Bitte wählen Sie Ihren gewünschten Aufführungstermin.<% if @event.seating.bound_to_seats? %> Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.<% end %>
   </div>
   <div class="inner">
   	<table class="rounded date">
@@ -21,22 +21,26 @@
       </tbody>
     </table>
   </div>
-  <div class="seat_chooser">
-  	<div class="note plural_text number_of_tickets">
-      <div class="trenner"></div>
-      Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
-      <p><em>Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.</em></p>
-    </div>
-    <% if admin? && @reservation_groups.any? %>
-      <div class="note">
-        <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
-          Vorreservierungen freischalten:
-          <% @reservation_groups.each do |group| %>
-            <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
-          <% end %>
-        <% end %>
+  <% if @event.seating.bound_to_seats? %>
+    <div class="seat_chooser">
+    	<div class="note plural_text number_of_tickets">
+        <div class="trenner"></div>
+        Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
+        <p><em>Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.</em></p>
       </div>
-    <% end %>
-    <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, view_chooser: true, view: :numbers_and_underlay %>
-  </div>
+      <% if admin? && @reservation_groups.any? %>
+        <div class="note">
+          <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
+            Vorreservierungen freischalten:
+            <% @reservation_groups.each do |group| %>
+              <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, view_chooser: true, view: :numbers_and_underlay %>
+    </div>
+  <% else %>
+    <div class="no-seating">Bei diesem Stück gilt freie Platzwahl.</div>
+  <% end %>
 </div>

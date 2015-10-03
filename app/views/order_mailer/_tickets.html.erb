@@ -10,8 +10,12 @@
     <tr>
       <td><%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %></td>
       <td><%= ticket.type.name %></td>
-      <td><%= ticket.seat.block.name %></td>
-      <td><%= ticket.seat.number %></td>
+      <% if ticket.seat.present? %>
+        <td><%= ticket.seat.block.name %></td>
+        <td><%= ticket.seat.number %></td>
+      <% else %>
+        <td colspan="2">Freie Platzwahl</td>
+      <% end %>
       <td><%= number_to_currency(ticket.price) %></td>
     </tr>
   <% end %>

@@ -1,3 +1,4 @@
 class Ticketing::Block < BaseModel
-  has_many :seats, :dependent => :destroy
+  belongs_to :seating
+  has_many :seats, dependent: :destroy
 end

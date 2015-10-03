@@ -139,8 +139,12 @@
             <td class="name"><%= ticket.type.name %></td>
             <td class="amount"><%= number_to_currency ticket.type.price %></td>
             <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
-            <td><%= ticket.seat.block.name %></td>
-            <td><%= ticket.seat.number %></td>
+            <% if ticket.seat.present? %>
+              <td><%= ticket.seat.block.name %></td>
+              <td><%= ticket.seat.number %></td>
+            <% else %>
+              <td colspan="2">Freie Platzwahl</td>
+            <% end %>
           <% end %>
         <% end %>
       </tbody>
@@ -159,18 +163,20 @@
           </td>
         </tr>
       </tbody>
-      <thead>
-        <tr>
-          <th colspan="7">Sitzplätze</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="7">
-            <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, view: :numbers_and_underlay %>
-          </td>
-        </tr>
-      </tbody>
+      <% if @order.tickets.first.seat.present? %>
+        <thead>
+          <tr>
+            <th colspan="7">Sitzplätze</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="7">
+              <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, view: :numbers_and_underlay %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
     </table>
   <% end %>
 <% end %>

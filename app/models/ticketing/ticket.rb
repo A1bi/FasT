@@ -10,8 +10,9 @@ module Ticketing
     has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
-  	validates_presence_of :type, :seat, :date
-    validate :check_reserved
+  	validates_presence_of :type, :date
+    validates_presence_of :seat, if: :seat_required?
+    validate :check_reserved, if: :seat_required?
     
     before_validation :update_invalidated
     before_save :update_passbook_pass
@@ -58,7 +59,7 @@ module Ticketing
         date_id: date.id.to_s,
         type_id: type_id.to_s,
         price: price,
-        seat_id: seat.id.to_s
+        seat_id: seat ? seat.id.to_s : nil
       }
       hash.merge!({
         picked_up: picked_up,
@@ -68,6 +69,10 @@ module Ticketing
     end
   
     private
+
+    def seat_required?
+      date.event.seating.bound_to_seats?
+    end
   
     def check_reserved
       if @check_reserved && seat.taken?(date)

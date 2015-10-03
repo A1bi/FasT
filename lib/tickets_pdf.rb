@@ -140,8 +140,14 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_seat_info(seat)
-    texts = array_of_texts_with_translations %w(block seat), [seat.block.name, seat.number]
-    draw_horizontal_array_of_texts texts, :normal, 8
+    if seat.present?
+      texts = array_of_texts_with_translations %w(block seat), [seat.block.name, seat.number]
+      draw_horizontal_array_of_texts texts, :normal, 8
+    else
+      font_size_name :normal do
+        text "Freie Platzwahl"
+      end
+    end
   end
 
   def draw_ticket_type_info(type)    

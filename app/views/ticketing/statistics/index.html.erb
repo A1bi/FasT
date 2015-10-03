@@ -53,4 +53,4 @@
       <%= render "application/ticketing/seating", options: { data: { date: date.id, additional_path: ticketing_statistics_seats_path } } %>
     </div>
   <% end %>
-<% end %>
+<% end if @event.seating.bound_to_seats? %>

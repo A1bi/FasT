@@ -367,7 +367,7 @@ function SeatsStep(delegate) {
   var _this = this;
   
   this.validate = function () {
-    return this.chooser.validate();
+    return !this.boundToSeats || this.chooser.validate();
   };
   
   this.nextBtnEnabled = function () {
@@ -375,6 +375,8 @@ function SeatsStep(delegate) {
   };
   
   this.willMoveIn = function () {
+    if (!this.boundToSeats) return;
+    
     var info = this.delegate.getStepInfo("tickets");
     if (this.numberOfSeats != info.internal.numberOfTickets) {
       this.numberOfSeats = info.internal.numberOfTickets;
@@ -392,9 +394,13 @@ function SeatsStep(delegate) {
     
     this.info.api.date = $this.data("id");
     this.info.internal.localizedDate = $this.text();
-    this.updateSeatingPlan();
     
-    this.slideToggle(this.seatingBox, true);
+    if (this.boundToSeats) {
+      this.updateSeatingPlan();
+      this.slideToggle(this.seatingBox, true);
+    } else {
+      this.delegate.updateNextBtn();
+    }
   };
   
   this.updateSeatingPlan = function () {
@@ -449,11 +455,14 @@ function SeatsStep(delegate) {
   Step.call(this, "seats", delegate);
   
   
-  this.delegate.toggleModalSpinner(true, true);
+  this.boundToSeats = this.box.data("boundToSeats");
   this.seatingBox = this.box.find(".seat_chooser");
-  this.box.show();
-  this.chooser = new SeatChooser(this.seatingBox.find(".seating"), this);
-  this.box.hide();
+  if (this.boundToSeats) {
+    this.delegate.toggleModalSpinner(true, true);
+    this.box.show();
+    this.chooser = new SeatChooser(this.seatingBox.find(".seating"), this);
+    this.box.hide();
+  }
   this.seatingBox.hide();
   
   this.box.find(".date td").click(function () {

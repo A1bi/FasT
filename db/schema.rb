@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150723170442) do
+ActiveRecord::Schema.define(version: 20151003130228) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20150723170442) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "color",      default: "black"
+    t.integer  "seating_id", default: 1,       null: false
   end
 
   create_table "ticketing_box_office_box_offices", force: :cascade do |t|
@@ -273,6 +274,7 @@ ActiveRecord::Schema.define(version: 20150723170442) do
     t.datetime "updated_at"
     t.string   "identifier"
     t.datetime "sale_start"
+    t.integer  "seating_id", default: 1, null: false
   end
 
   create_table "ticketing_log_events", force: :cascade do |t|
@@ -330,6 +332,12 @@ ActiveRecord::Schema.define(version: 20150723170442) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
+  end
+
+  create_table "ticketing_seatings", force: :cascade do |t|
+    t.integer  "number_of_seats", default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "ticketing_seats", force: :cascade do |t|

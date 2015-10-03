@@ -3,6 +3,7 @@ module Ticketing
     include Statistics
 
     has_many :dates, class_name: EventDate
+    belongs_to :seating
 
     def self.by_identifier(id)
       where(identifier: id).first

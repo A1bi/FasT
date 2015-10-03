@@ -15,12 +15,17 @@ class Api::OrdersController < ApplicationController
     order = (type == :retail ? Ticketing::Retail::Order : Ticketing::Web::Order).new
     order.admin_validations = true if type == :admin
     
-    seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
-    if !seating[:ok]
-      response[:errors] << "Seating error"
-      return render json: response
+    date = Ticketing::EventDate.find(info[:date])
+    
+    bound_to_seats = date.event.seating.bound_to_seats?
+    if bound_to_seats
+      seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
+      if !seating[:ok]
+        response[:errors] << "Seating error"
+        return render json: response
+      end
+      seats = seating[:seats]
     end
-    seats = seating[:seats]
     
     if info[:couponCodes].present? && info[:couponCodes].any?
       coupons = Ticketing::Coupon.where(code: info[:couponCodes]).to_a
@@ -61,11 +66,11 @@ class Api::OrdersController < ApplicationController
       end
       
       number.times do
-        order.tickets.new({
+        ticket = order.tickets.new({
           type: ticket_type,
-          seat: Ticketing::Seat.find(seats.shift),
-          date: Ticketing::EventDate.find(info[:date])
+          date: date
         })
+        ticket.seat = Ticketing::Seat.find(seats.shift) if bound_to_seats
 			end
 		end
   
@@ -98,7 +103,7 @@ class Api::OrdersController < ApplicationController
             }
           })
           
-          NodeApi.update_seats_from_tickets(order.tickets)
+          NodeApi.update_seats_from_tickets(order.tickets) if bound_to_seats
           
           if type == :admin
             key = "ticketing.orders.created"
