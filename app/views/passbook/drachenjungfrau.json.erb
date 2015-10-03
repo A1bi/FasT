@@ -1,0 +1,87 @@
+<% ticket = info[:ticket] %>
+<% date = ticket.date.date.to_formatted_s(:w3c) %>
+{
+  "formatVersion": 1,
+  "description": "Ticket für das Theaterstück ticket.date.event.name",
+  "organizationName": "Freilichtbühne am schiefen Turm",
+  "passTypeIdentifier": "pass.de.theater-kaisersesch.FasT",
+  "groupingIdentifier" : "<%= ticket.order.number.to_s %>",
+  "voided": <%= ticket.cancelled? %>,
+  "teamIdentifier": "V48L6BF6M3",
+  "webServiceURL": "<%= api_passbook_root_url %>",
+  "relevantDate": "<%= date %>",
+  "locations": [
+    {
+      "latitude": 50.228048,
+      "longitude": 7.125668
+    }
+  ],
+  "eventTicket": {
+    "primaryFields": [
+      {
+        "key": "date",
+        "label": "Datum",
+        "value": "<%= date %>",
+        "dateStyle": "PKDateStyleFull",
+        "changeMessage": "Ihr Ticket wurde auf folgendes Datum umgebucht: %@"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "seat",
+        "label": "Sitz",
+        "value": "Freie Platzwahl"
+      },
+      {
+        "key": "opens",
+        "label": "Einlass",
+        "value": "<%= (ticket.date.date - 1.hour).to_formatted_s(:w3c) %>",
+        "timeStyle": "PKDateStyleShort"
+      },
+      {
+        "key": "time",
+        "label": "Beginn",
+        "value": "<%= date %>",
+        "timeStyle": "PKDateStyleShort",
+        "changeMessage": "Der Beginn der Aufführung wurde geändert auf %@."
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "location",
+        "label": "Ort",
+        "attributedValue": "Friedenskirche Kaisersesch"
+      },
+      {
+        "key": "number",
+        "label": "Ticket",
+        "value": "<%= ticket.number %>"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "locationAdress",
+        "label": "Adresse der Spielstätte",
+        "attributedValue": "<a href='http://maps.apple.com/?ll=50.228048,7.125668&q=Friedenskirche+Kaisersesch'>In der Langheck 1, 56759 Kaisersesch</a>"
+      },
+      {
+        "key": "website",
+        "label": "Website",
+        "value": "<%= root_url %>"
+      },
+      {
+        "key": "hotline",
+        "label": "Hotline",
+        "value": "(02653) 28 27 09"
+      },
+      {
+        "key": "order",
+        "label": "Ihre Bestellnummer",
+        "value": "<%= ticket.order.number %>"
+      }
+    ]
+  },
+  "backgroundColor": "rgb(227, 216, 204)",
+  "foregroundColor": "rgb(23, 87, 43)",
+  "labelColor": "rgb(0, 0, 0)"
+}
