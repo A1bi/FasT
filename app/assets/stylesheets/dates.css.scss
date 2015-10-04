@@ -36,7 +36,7 @@ $shadowColor: black;
   $highlightColor: #006733;
   $shadowColor: black;
 
-  .hl, .shadow, .prices table td.price, .dates td {
+  .hl, .shadow, .prices table td.price, .dates td, a {
     color: $highlightColor;
   }
 

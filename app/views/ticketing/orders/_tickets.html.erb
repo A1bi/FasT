@@ -1,7 +1,7 @@
 <div class="stepCon tickets">
   <% if web? %>
     <div class="note">
-      Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets und damit verbundene Sitzplatzreservierung für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets später in digitaler Form per e-mail.
+      Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets <% if @event.seating.bound_to_seats? %>und damit verbundene Sitzplatzreservierung <% end %>für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets später in digitaler Form per e-mail.
       <div class="trenner"></div>
       <p>Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.</p>
     </div>

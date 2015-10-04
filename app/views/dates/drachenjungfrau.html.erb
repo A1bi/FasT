@@ -2,10 +2,12 @@
 <% include_css "dates" %>
 <% cache [:dates, @event, @ticket_types, @event.dates.map { |e| e.sold_out? }] do %>
   <div class="drachenjungfrau">
-    Das <b>Kinder- und Jugendtheater</b> der Freilichtbühne am schiefen Turm präsentiert <b>„Die Drachenjungfrau“</b> in der Friedenskirche Kaisersesch (In der Langheck 1) an folgenden Tagen:
+    Das <b>Kinder- und Jugendtheater</b> der Freilichtbühne am schiefen Turm präsentiert <b><%= link_to "„Die Drachenjungfrau“", theater_drachenjungfrau_path %></b> in der <b>Friedenskirche Kaisersesch</b> (In der Langheck 1) an folgenden Tagen:
     <div class="container">
       <div class="title">
-        <%= image_tag("theater/drachenjungfrau/title.jpg", alt: "Die Drachenjungfrau") %>
+        <%= link_to theater_drachenjungfrau_path do %>
+          <%= image_tag("theater/drachenjungfrau/title.jpg", alt: "Die Drachenjungfrau") %>
+        <% end %>
       </div>
       <div class="box dates">
         <div class="top">
@@ -36,15 +38,25 @@
       Ticketvorverkauf
       <div class="small">ab 4. Oktober 2015</div>
     </div>
+    <div class="prices">
+      <table class="rounded">
+        <% @ticket_types.each do |type| %>
+          <tr>
+            <td class="price"><%= number_to_currency(type.price) %></td>
+            <td><%= type.name %><div class="small"><%= type.info %></div></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
     <% if @event.sale_started? %>
-      <%= link_to "Tickets jetzt online bestellen!", new_ticketing_order_path, class: "hl order shadow" %>
+      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path, class: "hl order shadow" %>
       <div class="stores">
-        <b>Oder auch in der Buchhandlung Walgenbach in Kaisersesch.</b>
+        Gerne erhalten Sie Ihre Tickets alternativ auch in der <b>Buchhandlung Walgenbach</b> in Kaisersesch oder unter der folgenden Rufnummer.
       </div>
     <% end %>
     <div class="hcen hotline">
       <a name="hotline"></a>
-      Info-Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>
+      Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>
     </div>
   </div>
 <% end %>
