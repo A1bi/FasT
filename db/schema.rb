@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003130228) do
+ActiveRecord::Schema.define(version: 20151006141228) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -275,6 +275,7 @@ ActiveRecord::Schema.define(version: 20151003130228) do
     t.string   "identifier"
     t.datetime "sale_start"
     t.integer  "seating_id", default: 1, null: false
+    t.string   "location"
   end
 
   create_table "ticketing_log_events", force: :cascade do |t|

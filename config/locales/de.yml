@@ -175,7 +175,6 @@ de:
     seat: "Sitz"
     website: "www.theater-kaisersesch.de"
     header: "Die Freilichtbühne am schiefen Turm präsentiert"
-    location: "Historischer Ortskern, Kaisersesch"
     opens: "Einlass ab %{time}"
     opens_date_format: "%H.%M Uhr"
   action_mailer:

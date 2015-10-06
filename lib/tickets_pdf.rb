@@ -134,7 +134,7 @@ class TicketsPDF < Prawn::Document
     
       font_size_name :small do
         pad_bottom(10) { text t(:opens, time: I18n.l(date.date - 1.hour, format: t(:opens_date_format))) }
-        pad_bottom(30) { text t(:location) }
+        pad_bottom(30) { text date.event.location }
       end
     end
   end
