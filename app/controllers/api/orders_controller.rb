@@ -16,6 +16,10 @@ class Api::OrdersController < ApplicationController
     order.admin_validations = true if type == :admin
     
     date = Ticketing::EventDate.find(info[:date])
+    if date.sold_out?
+      response[:errors] << "Sold out"
+      return render json: response
+    end
     
     bound_to_seats = date.event.seating.bound_to_seats?
     if bound_to_seats

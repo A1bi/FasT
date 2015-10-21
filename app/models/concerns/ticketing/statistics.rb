@@ -47,7 +47,7 @@ module Ticketing
         scopes.each do |scope|
           next if !scope
           dates.each do |date|
-            calc_percentage(scope[date.id])
+            calc_percentage(scope[date.id], [date])
           end
           calc_percentage(scope[:total], dates)
         end
@@ -58,10 +58,10 @@ module Ticketing
     
     private
     
-    def calc_percentage(scope, dates = nil)
+    def calc_percentage(scope, dates)
       return if !scope
-      @seats ||= Seat.count.to_f
-      scope[:percentage] = (scope[:total] / (@seats * (dates || [nil]).count) * 100).floor
+      number_of_seats = dates.first.event.seating.number_of_seats
+      scope[:percentage] = (scope[:total] / (number_of_seats.to_f * dates.count) * 100).floor
     end
     
     def increment_stats_values(scope, ticket_type, ticket_price)

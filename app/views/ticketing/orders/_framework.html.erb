@@ -7,7 +7,7 @@
 <div class="progress">
 	<div class="step bar"></div>
 	<div class="step current tickets">Tickets</div>
-	<div class="step seats">Sitzplätze</div>
+	<div class="step seats"><% if @event.seating.bound_to_seats? %>Sitzplätze<% else %>Aufführung<% end %></div>
 	<div class="step address">Adresse</div>
 	<div class="step payment">Bezahlen</div>
 	<div class="step confirm">Bestätigen</div>
