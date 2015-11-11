@@ -76,16 +76,18 @@ function TicketTransfer(container) {
     window.location = this.box.data("order-path");
   };
   
-  
-  this.chooser = new SeatChooser($(".seating"), this);
-  
-  this.dateSelect.change(function () {
-    _this.updateDate();
-  });
-  
-  this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
-    _this.enableReservationGroups();
-  });
+  var seatingBox = $(".seating");
+  if (seatingBox.length) {
+    this.chooser = new SeatChooser(seatingBox, this);
+    
+    this.dateSelect.change(function () {
+      _this.updateDate();
+    });
+    
+    this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
+      _this.enableReservationGroups();
+    });
+  }
   
   var buttons = this.box.find(".submit button");
   buttons.first().click(function () {
@@ -93,7 +95,7 @@ function TicketTransfer(container) {
   });
   
   buttons.last().click(function () {
-    if (_this.chooser.validate()) {
+    if (!_this.chooser || _this.chooser.validate()) {
       if (confirm($(this).data("confirm"))) {
         _this.makeRequest("update", "patch", function (data) {
           if (data.responseJSON.ok) {

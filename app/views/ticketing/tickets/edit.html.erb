@@ -25,14 +25,18 @@
             <%= f.collection_select :type_id, Ticketing::TicketType.all, :id, :name %>
           </td>
           <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
-          <td><%= ticket.seat.block.name %></td>
-          <td><%= ticket.seat.number %></td>
+          <% if ticket.seat.present? %>
+            <td><%= ticket.seat.block.name %></td>
+            <td><%= ticket.seat.number %></td>
+          <% else %>
+            <td colspan="2">Freie Platzwahl</td>
+          <% end %>
         <% end %>
       <% end %>
     </tbody>
   </table>
   <div class="submit">
-    <%= button_tag "abbrechen", type: :reset, onclick: "history.back()" %> 
+    <%= button_tag "abbrechen", type: :reset, onclick: "history.back()" %>
     <%= button_tag "ändern", data: { confirm: "Möchten Sie die Ticketkategorien wirklich ändern?" } %>
   </div>
 <% end %>

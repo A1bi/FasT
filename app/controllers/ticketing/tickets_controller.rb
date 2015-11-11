@@ -2,6 +2,7 @@ module Ticketing
   class TicketsController < BaseController
     before_filter :find_tickets_with_order, except: [:printable, :mark]
     before_filter :find_tickets, only: [:printable, :mark]
+    before_filter :find_event, only: [:transfer, :finish_transfer]
     ignore_restrictions
     before_filter :restrict_access
     
@@ -51,27 +52,37 @@ module Ticketing
     
     def finish_transfer
       ok = true
-      seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seatingId] }).body
-      chosen_seats = seating[:seats]
-      if seating[:ok] && @tickets.count == chosen_seats.count
+      bound_to_seats = @event.seating.bound_to_seats?
+      
+      if bound_to_seats
+        seating = NodeApi.seating_request("getChosenSeats", { clientId: params[:seatingId] }).body
+        chosen_seats = seating[:seats]
+      end
+      
+      if !bound_to_seats || (seating[:ok] && @tickets.count == chosen_seats.count)
         date = Ticketing::EventDate.find(params[:date_id])
-        updated_seats = {}
         
-        @tickets.reject! do |ticket|
-          ticket.date == date && chosen_seats.delete(ticket.seat.id.to_s).present?
+        if bound_to_seats
+          updated_seats = {}
+          
+          @tickets.reject! do |ticket|
+            ticket.date == date && chosen_seats.delete(ticket.seat.id.to_s).present?
+          end
         end
         
         @tickets.each do |ticket|
-          seat = Ticketing::Seat.find(chosen_seats.shift)          
-          tmp = { ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id, true)]] }
-          tmp.deep_merge!({ date.id => Hash[[seat.node_hash(date.id, false)]] })
-          ticket.seat = seat
+          if bound_to_seats
+            seat = Ticketing::Seat.find(chosen_seats.shift)
+            tmp = { ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id, true)]] }
+            tmp.deep_merge!({ date.id => Hash[[seat.node_hash(date.id, false)]] })
+            updated_seats.deep_merge!(tmp)
+            ticket.seat = seat
+          end
           ticket.date = date
-          updated_seats.deep_merge!(tmp)
         end
         
         @order.log(:tickets_transferred, { count: @tickets.count })
-        if @order.save
+        if @order.save && bound_to_seats
           NodeApi.update_seats(updated_seats)
         end
         
@@ -108,6 +119,10 @@ module Ticketing
       @tickets = @order.tickets.select do |ticket|
         params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
       end
+    end
+    
+    def find_event
+      @event = @tickets.first.date.event
     end
     
     def save_order_and_update_node_with_tickets(order, tickets)
