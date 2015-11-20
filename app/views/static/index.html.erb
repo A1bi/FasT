@@ -1,6 +1,5 @@
 <% include_css "index" %>
 <% include_js "index" %>
-<% sale_started = Ticketing::Event.current.sale_started? %>
 <% file = Rails.root.join("public", "uploads", "index_alert.json") %>
 <div class="index">
   <% if File.exists? file %>
@@ -12,11 +11,15 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index, sale_started] do %>
-    <div class="teaser drachenjungfrau">
-      <div class="links">
-        <%= link_to "Über das Stück", theater_drachenjungfrau_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
-      </div>
+  <% cache [:static, :index] do %>
+    <div class="hcen">
+      <div class="hl">Danke für eine tolle Saison!</div>
+      <p>
+        Unser <b>Sommernachtstheater 2015 „<%= link_to theater_ladykillers_path do %>Ladykillers<% end %>“</b> und unser neues <b>Kinder- und Jugendtheater</b> mit dem Stück <b>„<%= link_to theater_drachenjungfrau_path do %>Die Drachenjungfrau<% end %>“</b> waren ein voller Erfolg.
+      </p>
+      <p>
+        Wir bedanken uns bei unseren Zuschauern und allen, die mitgewirkt haben - sowohl auf als auch hinter der Bühne.
+      </p>
     </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
