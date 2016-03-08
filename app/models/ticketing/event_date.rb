@@ -17,6 +17,10 @@ module Ticketing
       ((ticket_stats_for_dates(event.dates)[:total][id] || {})[:percentage] || 0) >= 100 
     end
   
+    def door_time
+      date - 1.hour
+    end
+
     private
   
     def self.current_range
