@@ -9,7 +9,21 @@ class DatesController < ApplicationController
   end
   
   def alte_dame
-    @structured_data = []
+    @create_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
+  end
+
+  private
+
+  def prepare_ticket_prices
+    @ticket_types = Ticketing::TicketType.exclusive(false).order("price DESC")
+  end
+
+  def prepare_event
+    @event = Ticketing::Event.by_identifier(params[:action]) || Ticketing::Event.first
+  end
+
+  def structured_data
+    data = []
 
     @event.dates.each do |date|
       offers = []
@@ -25,7 +39,7 @@ class DatesController < ApplicationController
         }
       end
 
-      @structured_data << {
+      event = {
         "@context" => "http://schema.org",
         "@type" => "TheaterEvent",
         name: @event.name,
@@ -39,23 +53,21 @@ class DatesController < ApplicationController
           sameAs: root_url,
           address: "Burgstraße 2, 56759 Kaisersesch"
         },
-        offers: offers,
-        workPerformed: {
+        offers: offers
+      }
+
+      if @create_work_url
+        event[:workPerformed] = {
           "@type" => "CreativeWork",
           name: @event.name,
           sameAs: "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
         }
-      }
-    end
-  end
+      end
 
-  private
-  
-  def prepare_ticket_prices
-    @ticket_types = Ticketing::TicketType.exclusive(false).order("price DESC")
+      data << event
+    end
+
+    data
   end
-  
-  def prepare_event
-    @event = Ticketing::Event.by_identifier(params[:action]) || Ticketing::Event.first
-  end
+  helper_method :structured_data
 end
