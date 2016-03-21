@@ -19,6 +19,36 @@
 	}
 }
 
+@import url(https://fonts.googleapis.com/css?family=Cardo);
+.memorial {
+	width: 90%;
+	margin: auto;
+	margin-top: 30px;
+	margin-bottom: 50px;
+	padding: 20px;
+	border: 2px solid black;
+	font-family: 'Cardo', serif;
+
+	h1 {
+		margin: 0;
+		margin-bottom: 20px;
+	}
+
+	h2 {
+		margin-top: 10px;
+	}
+
+	h1, h2 {
+		font-weight: normal;
+		text-align: center;
+	}
+
+	.pic {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+}
+
 .teaser {
 	margin: 30px auto;
 
