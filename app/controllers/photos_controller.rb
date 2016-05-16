@@ -1,7 +1,8 @@
 class PhotosController < ApplicationController
-  restrict_access_to_group :admin
-	
-  before_filter :find_photo, :only => [:edit, :update, :destroy, :toggle_slide]
+  restrict_access_to_group :admin, :except => [:download]
+  restrict_access_to_group :member, :only => [:download]
+
+  before_filter :find_photo, :only => [:edit, :update, :destroy, :toggle_slide, :download]
   before_filter :find_gallery, :only => [:new, :edit, :create]
   
   def new
@@ -51,6 +52,10 @@ class PhotosController < ApplicationController
 		
 		redirect_to edit_gallery_path(params[:gallery_id]), :notice => t("photos.toggle_slide")[@photo.slide?]
 	end
+  
+  def download
+    send_file @photo.image.path
+  end
 	
 	private
 	

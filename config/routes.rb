@@ -61,6 +61,7 @@ FasT::Application.routes.draw do
           post "sort"
         end
         member do
+          get "download"
           patch "toggle_slide"
         end
       end

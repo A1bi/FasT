@@ -3,6 +3,7 @@ function Gallery(g) {
 	var gallery = g;
 	var pics = [];
 	var cur = -1;
+	var downloadPath;
 	
 	this.addPics = function (p) {
 		$.extend(pics, p);
@@ -24,6 +25,12 @@ function Gallery(g) {
 		numbers.eq(1).html(pics.length);
 		
 		$(".bar .desc").html(curPic.text);
+		
+		var link = $('#download-link a');
+		if (!downloadPath) {
+			downloadPath = link.attr('href');
+		}
+		link.attr('href', downloadPath.replace('-id-', curPic.id));
 	}
 	
 	var getIndex = function (direction) {

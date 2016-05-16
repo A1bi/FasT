@@ -129,9 +129,16 @@
 	}
 }
 
-.info div {
-	margin-top: 10px;
-	text-align: center;
+.info {
+	div {
+		margin-top: 10px;
+		text-align: center;
+	}
+	
+	#download-link {
+		text-align: right;
+		font-size: 12px;
+	}
 }
 
 .edit {
