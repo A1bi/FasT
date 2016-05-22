@@ -6,14 +6,17 @@ module Ticketing
   	belongs_to :type, class_name: TicketType
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
+    belongs_to :signing_key, class_name: TicketSigningKey
     has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
-  	validates_presence_of :type, :date
+  	validates_presence_of :type, :date, :signing_key
     validates_presence_of :seat, if: :seat_required?
     validate :check_reserved, if: :seat_required?
     validate :check_order_index, if: :order_index_changed?
+    validate :check_signing_key, if: :signing_key_id_changed?
     
+    after_initialize :set_signing_key
     before_validation :update_invalidated
   
     def seat=(seat)
@@ -51,6 +54,14 @@ module Ticketing
       !!checkins.last.try(:in)
     end
     
+    def signed_info
+      if !@signed_info
+        v = ActiveSupport::MessageVerifier.new(signing_key.secret, serializer: JSON)
+        @signed_info = v.generate(api_hash) + "--" + signing_key.id.to_s
+      end
+      @signed_info
+    end
+    
     def api_hash(details = [])
       hash = {
         id: id.to_s,
@@ -83,6 +94,16 @@ module Ticketing
       if self.class.where(order_id: order_id, order_index: order_index).any?
         errors.add :order_index, "duplicate order index"
       end
+    end
+    
+    def check_signing_key
+      if !signing_key.active
+        errors.add :signing_key, "signing key must not be inactive"
+      end
+    end
+    
+    def set_signing_key
+      self.signing_key = TicketSigningKey.random_active
     end
     
     def update_invalidated
