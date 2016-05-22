@@ -15,7 +15,6 @@ module Ticketing
     validate :check_order_index, if: :order_index_changed?
     
     before_validation :update_invalidated
-    before_save :update_passbook_pass
   
     def seat=(seat)
       @check_reserved = true

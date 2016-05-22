@@ -30,9 +30,13 @@
       <td>
         <div class="hl">Hinweise zu Ihren Tickets</div>
         <p>Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser e-mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.</p>
-        <p>Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch einfach Ihre Bestellnummer <b><%= @order.number %></b> notieren und an der Abendkasse nennen.</p>
-        <p>Als Besitzer eines Smartphones können Sie Ihre Tickets alternativ auch einfach zu „Wallet“ (ehemals „Passbook“, vorinstalliert auf Apple iOS) oder <%= link_to "„PassWallet“", "https://play.google.com/store/apps/details?id=com.attidomobile.passwallet&hl=de" %> (separate App für Google Android) hinzufügen. Dazu öffnen Sie diese Mail einfach auf Ihrem Gerät.</p>
+        <p>Sollten Sie keine Möglichkeit zum Drucken haben, erhalten Sie Ihre Tickets unter Vorlage Ihrer Bestellnummer <b><%= @order.number %></b> an der Abendkasse. Alternativ können Sie Ihre Tickets natürlich gerne auch auf Ihrem Smartphone vorzeigen.</p>
       </td>
     </tr>
   </table>
+  <p class="hcen">
+    <a href="#">
+      <img src="/images/mail/add_to_wallet.png" height="40" alt="Zu Apple Wallet hinzufügen" />
+    </a>
+  </p>
 <% end %>
