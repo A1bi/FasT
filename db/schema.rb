@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151006141228) do
+ActiveRecord::Schema.define(version: 20160522172027) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -361,7 +361,6 @@ ActiveRecord::Schema.define(version: 20151006141228) do
   end
 
   create_table "ticketing_tickets", force: :cascade do |t|
-    t.integer  "number"
     t.decimal  "price",           default: 0.0,   null: false
     t.integer  "order_id"
     t.integer  "cancellation_id"
@@ -373,6 +372,9 @@ ActiveRecord::Schema.define(version: 20151006141228) do
     t.boolean  "picked_up",       default: false
     t.boolean  "resale",          default: false
     t.boolean  "invalidated",     default: false
+    t.integer  "order_index",     default: 0,     null: false
   end
+
+  add_index "ticketing_tickets", ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true
 
 end

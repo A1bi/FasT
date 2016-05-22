@@ -3,7 +3,7 @@ module Ticketing
   	include Loggable, RandomUniqueAttribute, Billable
 
   	has_many :tickets, dependent: :destroy, autosave: true
-    has_random_unique_number :number, 6
+    has_random_unique_number :number, 7
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
 
@@ -11,10 +11,6 @@ module Ticketing
 
     before_validation :before_create_validation, on: :create
     before_create :before_create
-
-    def number
-      "1#{self[:number]}"
-    end
 
     def self.api_hash(details = [], ticket_details = [])
       includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash(details, tickets_details) }
@@ -81,6 +77,11 @@ module Ticketing
 
     def before_create_validation
       update_total_and_billing(:order_created)
+      
+      tickets.each_with_index do |ticket, index|
+        ticket.order_index = index + 1
+      end
+      
       true
     end
 

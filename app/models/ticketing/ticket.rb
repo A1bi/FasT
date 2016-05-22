@@ -1,18 +1,18 @@
 module Ticketing
   class Ticket < BaseModel
-  	include Cancellable, RandomUniqueAttribute
+  	include Cancellable
 	
   	belongs_to :order, touch: true
   	belongs_to :type, class_name: TicketType
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
-    has_random_unique_number :number, 6
     has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
   	validates_presence_of :type, :date
     validates_presence_of :seat, if: :seat_required?
     validate :check_reserved, if: :seat_required?
+    validate :check_order_index, if: :order_index_changed?
     
     before_validation :update_invalidated
     before_save :update_passbook_pass
@@ -37,7 +37,7 @@ module Ticketing
     end
     
     def number
-      "7#{self[:number]}"
+      "#{order.number}-#{self[:order_index]}"
     end
     
     def resold?
@@ -77,6 +77,12 @@ module Ticketing
     def check_reserved
       if @check_reserved && seat.taken?(date)
         errors.add :seat, "seat not available"
+      end
+    end
+    
+    def check_order_index
+      if self.class.where(order_id: order_id, order_index: order_index).any?
+        errors.add :order_index, "duplicate order index"
       end
     end
     
