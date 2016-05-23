@@ -18,6 +18,7 @@ module Ticketing
     
     after_initialize :set_signing_key
     before_validation :update_invalidated
+    before_save :update_passbook_pass
   
     def seat=(seat)
       @check_reserved = true
@@ -54,12 +55,19 @@ module Ticketing
       !!checkins.last.try(:in)
     end
     
-    def signed_info
+    def signed_info(additional = nil)
       if !@signed_info
-        v = ActiveSupport::MessageVerifier.new(signing_key.secret, serializer: JSON)
-        @signed_info = v.generate(api_hash) + "--" + signing_key.id.to_s
+        @signed_info = signing_key.sign(api_hash)
       end
-      @signed_info
+      signed = @signed_info
+      if additional
+        signed = signed + "--" + additional.to_s
+      end
+      signed
+    end
+    
+    def url_safe_signed_info
+      signed_info.tr("+/=", "-_,")
     end
     
     def api_hash(details = [])
@@ -76,6 +84,13 @@ module Ticketing
         resale: resale
       }) if details.include? :status
       hash.merge(super)
+    end
+    
+    def create_passbook_pass
+      if passbook_pass.nil?
+        update_passbook_pass(true)
+        save
+      end
     end
   
     private
@@ -111,10 +126,12 @@ module Ticketing
       true
     end
     
-    def update_passbook_pass
-      super(date.event.identifier, { ticket: self })
-      
-      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+    def update_passbook_pass(create = false)
+      if passbook_pass.present? || create
+        super(date.event.identifier, { ticket: self })
+        
+        NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+      end
     end
   end
 end

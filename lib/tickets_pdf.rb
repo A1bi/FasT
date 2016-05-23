@@ -1,7 +1,10 @@
 require "prawn"
+require "prawn/table"
+require "prawn/qrcode"
 
 class TicketsPDF < Prawn::Document
   include ActionView::Helpers::NumberHelper
+  include Rails.application.routes.url_helpers
   
   TICKET_WIDTH = 595
   TICKET_HEIGHT = 280
@@ -16,19 +19,20 @@ class TicketsPDF < Prawn::Document
       Title:         t(:title),
       Author:        t(:author),
       Creator:       t(:creator),
-      Producer:      t(:creator),
       CreationDate:  Time.now
     }
     
     fill_color "000000"
     stroke_color "000000"
+    
+    font_name = "OpenSans"
     fonts = {}
-    [["avenir", "Avenir"]].each do |font|
-      fonts[font[1]] = { normal: Rails.root.join('app', 'assets', 'fonts', "#{font[0]}.ttf").to_s }
+    [:normal, :bold].each do |style|
+      (fonts[font_name] ||= {})[style] = Rails.root.join('app', 'assets', 'fonts', "#{font_name}-#{style}.ttf").to_s
     end
     font_families.update(fonts)
-    font "Avenir"
-    @font_sizes = { normal: 17, small: 14, tiny: 11 }
+    font font_name
+    @font_sizes = { normal: 15, small: 13, tiny: 11 }
     
     fill_background
   end
@@ -48,32 +52,25 @@ class TicketsPDF < Prawn::Document
   def draw_ticket(ticket)
     bounding_box([0, cursor - @ticket_margin], width: TICKET_WIDTH, height: @ticket_height - @ticket_margin * 2) do
       indent(10, 10) do
-        text_indent = [35, 95]
-        line_width = 0.5
+        draw_header 0.5
+        move_down 20
         
-        header_line_cursor = draw_header line_width
-        bottom_info_height = 0
-        float do
-          bottom_info_height = draw_bottom_info_for_ticket ticket, text_indent.first, line_width
-        end
-        
-        float do
-          barcode_margin = 10
-          move_up header_line_cursor
-          bounding_box([bounds.width - text_indent.last, cursor - barcode_margin], width: text_indent.last, height: cursor - bottom_info_height - barcode_margin * 2) do
-            indent(30, 20) do
-              draw_barcode_for_ticket ticket
+        bounding_box([0, cursor], width: bounds.width, height: cursor) do
+          indent(20, 20) do
+            indent(0, 140) do
+              draw_event_info_for_date ticket.date
+              draw_ticket_info ticket
             end
-          end
-        end
-        
-        move_down 15
-        indent(text_indent.first, text_indent.last) do
-          bounding_box([0, cursor], width: bounds.width, height: bounds.height) do
-            draw_event_info_for_date ticket.date
-            draw_seat_info ticket.seat
-            move_up 40
-            draw_ticket_type_info ticket.type
+
+            move_cursor_to bounds.top
+            indent(bounds.right - 130, 0) do
+              draw_barcode_for_ticket(ticket)
+              
+              move_down 10
+              font_size 8 do
+                text t(:additional_info)
+              end
+            end
           end
         end
       end
@@ -85,15 +82,10 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_barcode_for_ticket(ticket)
-    rotate(-90, origin: [0, bounds.height]) do
-      bounding_box([0, bounds.height + bounds.width], width: bounds.height, height: bounds.width) do
-        BarcodePDF.draw_content(barcode_content_for_ticket(ticket), self)
-      end
-    end
+    print_qr_code(barcode_content_for_ticket(ticket), extent: bounds.width, stroke: true)
   end
   
   def draw_header(line_width)
-    line_cursor = 0
     font_size_name :small do
       header = t(:header)
       box_height = height_of header
@@ -101,7 +93,7 @@ class TicketsPDF < Prawn::Document
         text_width = 0
         character_spacing 1.2 do
           text_width = width_of header
-          text header, align: :center, valign: :center
+          text header, align: :center
         end
     
         move_cursor_to box_height / 2
@@ -111,91 +103,89 @@ class TicketsPDF < Prawn::Document
           horizontal_line 0, text_start - padding
           horizontal_line text_start + text_width + padding, bounds.width
         end
-        line_cursor = cursor
       end
     end
-    line_cursor
   end
 
   def draw_event_info_for_date(date)
     create_stamp(:events, date.event) do
       event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-      width = 370
-      svg File.read(event_image_path), at: [0, cursor], width: width
+      height = 30
+      svg File.read(event_image_path), at: [0, cursor], height: height
     end
     
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
-      
       move_down 5
-      font_size_name :normal do
-        text (I18n.l date.date, format: t(:event_date_format))
+      
+      info = [
+        [t(:date), t(:begins), t(:opens)],
+        [
+          I18n.l(date.date, format: t(:date_format)),
+          I18n.l(date.date, format: t(:time_format)),
+          I18n.l(date.door_time, format: t(:time_format)),
+        ]
+      ]
+      
+      draw_info_table(info) do
+        row(0..1).columns(1..2).align = :right
       end
-    
-      font_size_name :small do
-        pad_bottom(10) { text t(:opens, time: I18n.l(date.door_time, format: t(:opens_date_format))) }
-        pad_bottom(30) { text date.event.location }
-      end
+      
+      info = [
+        [t(:location)],
+        [date.event.location]
+      ]
+      
+      draw_info_table(info)
     end
   end
 
-  def draw_seat_info(seat)
-    if seat.present?
-      texts = array_of_texts_with_translations %w(block seat), [seat.block.name, seat.number]
-      draw_horizontal_array_of_texts texts, :normal, 8
+  def draw_ticket_info(ticket)
+    info = []
+    if ticket.seat.nil?
+      info << [""]
+      info << [t(:free_seating)]
     else
-      font_size_name :normal do
-        text "Freie Platzwahl"
-      end
-    end
-  end
-
-  def draw_ticket_type_info(type)    
-    font_size_name :normal do
-      text type.name, align: :right
-      text (type.price.zero? ? "" : number_to_currency(type.price)), align: :right
-    end
-  end
-
-  def draw_bottom_info_for_ticket(ticket, text_indent, line_width)
-    padding = 15
-    text_size = :tiny
-    move_text_down = 4
-    height = height_of(t(:website), size: @font_sizes[text_size]) + line_width + move_text_down
-    
-    bounding_box([0, height], width: bounds.width, height: height) do
-      draw_line(line_width) do
-        horizontal_line 0, bounds.right
-      end
-    
-      move_down move_text_down
-    
-      indent(text_indent) do
-        texts = array_of_texts_with_translations %w(ticket order), [ticket.number, ticket.order.number]
-        texts.push t(:website)
-        draw_horizontal_array_of_texts texts, text_size, padding
-      end
+      info << [t(:block), t(:seat)]
+      info << [ticket.seat.block.name, ticket.seat.number]
     end
     
-    height
+    draw_info_table(info) do
+      row(0..1).columns(1).align = :right
+    end
+    
+    info = []
+    if ticket.type.price.zero?
+      info << [""]
+      info << [ticket.type.name]
+    else
+      info << [ticket.type.name]
+      info << [number_to_currency(ticket.type.price)]
+    end
+    
+    info[0] << t(:ticket)
+    info[1] << ticket.number
+    
+    draw_info_table(info)
   end
   
-  def array_of_texts_with_translations(keys, values)
-    values.each_with_index.map do |value, i|
-      "#{t(keys[i])}: #{value}"
-    end
-  end
-
-  def draw_horizontal_array_of_texts(texts, size, padding)
-    font_size_name size do
-      table([texts]) do |table|
-        table.cells.padding = [0, padding]
-        table.cells.valign = :bottom
-        table.cells.border_width = 0.3
-        table.column(0).padding_left = 0
-        table.columns(0..-2).borders = [:right]
-        table.column(-1).borders = []
-      end
+  def draw_info_table(info, options = {}, &block)
+    tiny_size = @font_sizes[:tiny]
+    normal_size = @font_sizes[:normal]
+    
+    table(info, options) do
+      cells.borders = []
+      cells.padding = [2, 25, 0, 0]
+      cells.size = normal_size
+      
+      even_rows = (0..info.count-1).select { |i| i.even? }
+      row(even_rows).padding = [10, 25, 0, 0]
+      row(even_rows).size = tiny_size
+      
+      odd_rows = (0..info.count-1).select { |i| i.odd? }
+      row(odd_rows).font_style = :bold
+      
+      instance_eval(&block) if block_given?
     end
   end
   
@@ -260,6 +250,6 @@ class TicketsPDF < Prawn::Document
   end
   
   def barcode_content_for_ticket(ticket)
-    "T#{ticket.number}M"
+    root_url + "tickets/" + ticket.url_safe_signed_info + "--"
   end
 end

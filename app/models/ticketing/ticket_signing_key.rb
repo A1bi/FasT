@@ -18,6 +18,13 @@ module Ticketing
 
       where(active: true).offset(rand(count)).first
     end
+    
+    def sign(data)
+      if !@verifier
+        @verifier = ActiveSupport::MessageVerifier.new(secret, serializer: JSON)
+      end
+      @verifier.generate(data) + "--" + id.to_s
+    end
 
     private
 

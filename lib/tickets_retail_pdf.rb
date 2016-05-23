@@ -18,6 +18,6 @@ class TicketsRetailPDF < TicketsPDF
   end
   
   def barcode_content_for_ticket(ticket)
-    super + "0"
+    super + "1"
   end
 end
