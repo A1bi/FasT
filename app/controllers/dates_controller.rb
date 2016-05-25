@@ -1,4 +1,6 @@
 class DatesController < ApplicationController
+  include ActionView::Helpers::AssetUrlHelper
+  
   before_filter :prepare_ticket_prices
   before_filter :prepare_event
   
@@ -29,7 +31,7 @@ class DatesController < ApplicationController
       offers = []
       @ticket_types.each do |type|
         offers << {
-          # url: "",
+          url: new_ticketing_order_url,
           name: type.name,
           category: "primary",
           price: type.price,
@@ -43,8 +45,8 @@ class DatesController < ApplicationController
         "@context" => "http://schema.org",
         "@type" => "TheaterEvent",
         name: @event.name,
-        # "image": "",
-        # "url": "",
+        image: asset_url("theater/alte_dame/index.jpg"),
+        url: theater_alte_dame_url,
         startDate: date.date.iso8601,
         doorTime: date.door_time.iso8601,
         location: {
