@@ -59,6 +59,18 @@ h3 {
 
 @include font-face(qlassik);
 @include font-face(ovo);
+@font-face {
+  font-family: "Open Sans";
+  src: url(asset_path("OpenSans-Regular.woff"));
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url(asset_path("OpenSans-Bold.woff"));
+  font-weight: bold;
+  font-style: normal;
+}
 
 html {
   #jr_inner {

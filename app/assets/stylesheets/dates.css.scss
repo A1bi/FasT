@@ -45,6 +45,19 @@ $shadowColor: black;
   }
 }
 
+.alte_dame {
+  $highlightColor: #e6007e;
+  $shadowColor: rgba(black, .5);
+
+  .hl, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+
+  .title {
+    padding-top: 10px !important;
+  }
+}
+
 
 .container {
   overflow: auto;
