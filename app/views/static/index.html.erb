@@ -1,5 +1,6 @@
 <% include_css "index" %>
 <% include_js "index" %>
+<% sale_started = Ticketing::Event.current.sale_started? %>
 <% file = Rails.root.join("public", "uploads", "index_alert.json") %>
 <div class="index">
   <% if File.exists? file %>
@@ -12,14 +13,10 @@
     <% end %>
   <% end %>
   <% cache [:static, :index] do %>
-    <div class="hcen">
-      <div class="hl">Es geht wieder los!</div>
-      <p>
-        Die Vorbereitungen für unser Sommernachtstheater 2016 <b>„Der Besuch der alten Dame“</b> laufen bereits auf Hochtouren. Wir proben jeden Montag und Mittwoch, schauen Sie gerne einmal vorbei.
-      </p>
-      <p>
-        Auch die <%= link_to "Aufführungstermine", dates_path %> stehen bereits fest. Tickets erhalten Sie ab 5. Juni.
-      </p>
+    <div class="teaser alte-dame">
+      <div class="links">
+        <%= link_to "Über das Stück", theater_alte_dame_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+      </div>
     </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
