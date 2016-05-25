@@ -20,10 +20,11 @@ module Ticketing
     end
     
     def sign(data)
-      if !@verifier
-        @verifier = ActiveSupport::MessageVerifier.new(secret, serializer: JSON)
-      end
       @verifier.generate(data) + "--" + id.to_s
+    end
+    
+    def verify(data)
+      @verifier.verify(data)
     end
 
     private
@@ -33,6 +34,8 @@ module Ticketing
         self[:active] = true
         self[:secret] = SecureRandom.hex(@@secret_length)
       end
+      
+      @verifier = ActiveSupport::MessageVerifier.new(self[:secret], serializer: JSON)
     end
   end
 end

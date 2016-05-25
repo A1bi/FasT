@@ -45,11 +45,14 @@ end
 
 ## ticket system
 # events
-event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers" })
+event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers", location: "Testbühne" })
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
 end
+
+# seating
+seating = event.create_seating(number_of_seats: 0)
 
 # seat blocks
 block_names = %w(rot grün blau)
@@ -57,7 +60,7 @@ colors = %w(red green blue)
 x = 5
 y = 5
 3.times do |i|
-	block = Ticketing::Block.create(name: block_names[i], color: colors[i])
+	block = seating.blocks.create(name: block_names[i], color: colors[i])
 
 	# seats
 	x2 = nil

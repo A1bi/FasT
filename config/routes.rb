@@ -191,6 +191,12 @@ FasT::Application.routes.draw do
         end
       end
     end
+    
+    controller :orders, path: "tickets" do
+      scope path: ":signed_info", constraints: { signed_info: /[\w_,~]+--\h+--\d+(--\d+)?/ } do
+        get action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
+      end
+    end
 
     namespace :members, path: "mitglieder" do
       resource :member, path: "mitgliedschaft", controller: :member, only: [:edit, :update] do

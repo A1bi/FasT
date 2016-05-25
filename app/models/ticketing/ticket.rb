@@ -66,8 +66,23 @@ module Ticketing
       signed
     end
     
-    def url_safe_signed_info
-      signed_info.tr("+/=", "-_,")
+    def url_safe_signed_info(additional = nil)
+      signed_info(additional).tr("+/=", "~_,")
+    end
+    
+    def self.find_by_signed_info(signed_info)
+      parts = /^[\w+\/=]+--\h+--(\d+)(--.+)?$/.match(signed_info)
+      if parts
+        key = TicketSigningKey.find(parts[1])
+        info = key.verify(signed_info)
+        if info
+          find(info['id'])
+        end
+      end
+    end
+    
+    def self.find_by_urlsafe_signed_info(signed_info)
+      find_by_signed_info(signed_info.tr("~_,", "+/="))
     end
     
     def api_hash(details = [])
