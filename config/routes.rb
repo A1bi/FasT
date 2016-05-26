@@ -18,6 +18,7 @@ FasT::Application.routes.draw do
     get "don-camillo-und-peppone", action: :don_camillo, as: :don_camillo
     get "ladykillers"
     get "die-drachenjungfrau", action: :drachenjungfrau, as: :drachenjungfrau
+    get "der-besuch-der-alten-dame", action: :alte_dame, as: :alte_dame
   end
 
   # info

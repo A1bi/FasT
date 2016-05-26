@@ -22,22 +22,25 @@
 .teaser {
 	margin: 30px auto;
 
-  &.drachenjungfrau {
-		$highlight-color: #006733;
+  &.alte-dame {
+		$highlight-color: #e6007e;
     position: relative;
-    background: url(asset_path("theater/drachenjungfrau/index.jpg")) no-repeat;
-    width: 610px;
-    height: 686px;
+    background:url(asset_path("theater/alte_dame/index.jpg")) no-repeat;
+    width: 100%;
+    height: 384px;
 
 		.links {
 			text-align: center;
-			padding-top: 145px;
-      font-family: "ovo", "Arial";
-      font-size: 20px;
+			padding-top: 290px;
+			padding-left: 147px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 19px;
+			font-weight: bold;
+			font-variant: small-caps;
 			color: $highlight-color;
 
       a {
-        padding: 0px 10px;
+        padding: 0px 7px;
         color: black;
         text-decoration: none;
 

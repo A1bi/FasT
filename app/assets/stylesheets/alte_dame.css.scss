@@ -1,0 +1,85 @@
+@import "theater";
+
+$regularColor: black;
+$highlightColor: #e6007e;
+
+#content {
+  > .top {
+    background: url(asset_path("theater/alte_dame/content_top.png")) no-repeat;
+    height: 406px;
+  }
+
+  > .content {
+    background: url(asset_path("theater/alte_dame/content_bg.png")) repeat-y;
+    padding: 1px 50px;
+    min-height: 0px;
+    color: white;
+  }
+
+  > .bottom {
+    background: url(asset_path("theater/alte_dame/content_bottom.png")) no-repeat;
+    height: 30px;
+  }
+}
+
+.info {
+  margin-top: -190px;
+  color: $regularColor;
+  line-height: 1.5em;
+  font: {
+    size: 16px;
+    family: 'Open Sans', sans-serif;
+  }
+  text-align: justify;
+  
+  .title {
+    text-align: center;
+    padding-left: 150px;
+    padding-bottom: 30px;
+    
+    .highlight {
+      font-size: 34px;
+    }
+  }
+
+  h2, a, .highlight {
+    color: $highlightColor;
+    font: {
+      variant: small-caps;
+      weight: bold;
+    }
+  }
+
+  a {
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: 0px 0px 15px -15px;
+    font: {
+      size: 26px;
+      weight: bold;
+    }
+  }
+}
+
+.cast {
+  line-height: 1.2em;
+  
+  .alt {
+    box-shadow: none;
+    background: transparent;
+    border: $highlightColor solid {
+      width: 1px 0;
+    }
+  }
+  
+  .actor {
+    color: $highlightColor;
+  }
+  
+  .small {
+    color: $regularColor;
+  }
+}
