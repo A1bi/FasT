@@ -15,7 +15,7 @@ class TicketsWebPDF < TicketsPDF
     end
   end
   
-  def barcode_content_for_ticket(ticket)
-    super + "0"
+  def signed_ticket_info_extension
+    0
   end
 end

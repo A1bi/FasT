@@ -1,0 +1,98 @@
+<%=
+date = ticket.date.date.to_formatted_s(:w3c)
+info = {
+  formatVersion: 1,
+  description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
+  organizationName: "Freilichtbühne am schiefen Turm",
+  passTypeIdentifier: "pass.de.theater-kaisersesch.FasT",
+  groupingIdentifier: ticket.order.number.to_s,
+  voided: ticket.cancelled?,
+  teamIdentifier: "V48L6BF6M3",
+  webServiceURL: api_passbook_root_url,
+  relevantDate: date,
+  barcode: {
+    format: "PKBarcodeFormatQR",
+    message: ticket.signed_info(2),
+    messageEncoding: "utf-8",
+    altText: ticket.number
+  },
+  locations: [
+    {
+      latitude: 50.23089,
+      longitude: 7.141626
+    }
+  ],
+  eventTicket: {
+    primaryFields: [
+      {
+        key: "date",
+        label: "Datum",
+        value: date,
+        dateStyle: "PKDateStyleFull",
+        changeMessage: "Ihr Ticket wurde auf folgendes Datum umgebucht: %@"
+      }
+    ],
+    secondaryFields: [
+      {
+        key: "block",
+        label: "Block",
+        value: ticket.seat.block.name,
+        changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
+      },
+      {
+        key: "seat",
+        label: "Sitzplatz",
+        value: ticket.seat.number,
+        textAlignment: "PKTextAlignmentLeft",
+        changeMessage: "Ihre neue Sitznummer lautet %@."
+      },
+      {
+        key: "time",
+        label: "Beginn",
+        value: date,
+        timeStyle: "PKDateStyleShort",
+        changeMessage: "Der Beginn der Aufführung wurde geändert auf %@."
+      },
+      {
+        key: "opens",
+        label: "Einlass",
+        value: ticket.date.door_time.to_formatted_s(:w3c),
+        timeStyle: "PKDateStyleShort"
+      }
+    ],
+    auxiliaryFields: [
+      {
+        key: "location",
+        label: "Ort",
+        value: ticket.date.event.location
+      }
+    ],
+    backFields: [
+      {
+        key: "locationAddress",
+        label: "Adresse der Spielstätte",
+        value: "Burgstraße, 56759 Kaisersesch\nEine Karte mit Parkmöglichkeiten finden Sie <a href=\"#{info_url}\">hier</a>."
+      },
+      {
+        key: "overviewUrl",
+        label: "Ticket umbuchen oder stornieren",
+        value: "Auf unserer <a href=\"#{order_overview_url(ticket.url_safe_signed_info)}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
+      },
+      {
+        key: "hotline",
+        label: "Hotline",
+        value: "+49 2653 282709"
+      },
+      {
+        key: "order",
+        label: "Ticketnummer",
+        value: ticket.number
+      }
+    ]
+  },
+  backgroundColor: "rgb(255, 255, 255)",
+  foregroundColor: "rgb(0, 0, 0)",
+  labelColor: "rgb(0, 0, 0)"
+}.merge(info || {})
+raw info.to_json
+%>
