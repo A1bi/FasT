@@ -5,7 +5,7 @@ module GbookHelper
 		pages = (GbookEntry.count.to_f / @steps.to_f).ceil;
     pages.times do |i|
       if @page != i+1
-        output += link_to i+1, gbook_entries_path(:page => i+1)
+        output += link_to i+1, gbook_entries_path(i == 0 ? nil : { :page => i+1 })
       else
         output += (i+1).to_s
       end

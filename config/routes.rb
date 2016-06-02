@@ -33,7 +33,7 @@ FasT::Application.routes.draw do
     get "geschichte", action: :history, as: :history
     get "impressum"
     get "satzung"
-    get "agb"
+    #get "agb"
     get "datenschutz", action: :privacy, as: :privacy
 
     root action: :index
