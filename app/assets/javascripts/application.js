@@ -19,4 +19,5 @@
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
 //= require jReject/js/jquery.reject
+//= require modernizr
 //= require _main

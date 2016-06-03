@@ -168,6 +168,7 @@ function Seat(id, block, number, pos, delegate) {
     seat: this
   });
   if (this.delegate) {
+    this.group.setListening(true);
     this.group.on("click touchend", function () {
       if (_this.delegate.clickedSeat) _this.delegate.clickedSeat(_this);
     }).on("mouseover", function () {
@@ -408,69 +409,17 @@ function Seating(container) {
   
   
   var isBig = this.container.is(".big");
-  var planBox = this.container.find(".plan");
+  var planWrapper = this.container.find(".plan-wrapper");
+  var planBox = planWrapper.find(".plan");
   var viewChooser = this.container.find(".viewChooser");
-  var moveBox = this.container.find(".move");
-  var seatsLayerWidth = planBox.width() * ((isBig) ? 1.8 : 1);
-  var widthDiff = seatsLayerWidth - planBox.width();
-  
-  var stageIsPannedLeft = function () {
-    return Math.abs(_this.stage.position().x) < widthDiff / 2;
-  };
-  
-  var updateMoveBox = function () {
-    moveBox.find("span").hide().filter("." + (stageIsPannedLeft() ? "right" : "left")).show();
-  };
-  
-  var moveAnimation;
-  moveBox.click(function () {
-    if (moveAnimation && moveAnimation.isRunning()) return;
-    
-    var start = _this.stage.position().x, duration = 1000;
-    var change = (stageIsPannedLeft() ? -widthDiff : 0) - start;
-    
-    moveAnimation = new Kinetic.Animation(function (frame) {
-      var time = frame.time / duration - 1;
-      var x = -change * (time * time * time * time - 1) + start;
-      
-      if (frame.time >= duration) {
-        moveAnimation.stop();
-        updateMoveBox();
-      }
-
-      _this.stage.position({ x: x });
-      updateKeyPosition(x);
-    }, _this.stage);
-    moveAnimation.start();
-  });
+  var seatsLayerWidth = planBox.width();
   
   this.stage = new Kinetic.Stage({
     container: planBox.get(0),
-    width: planBox.width(),
-    height: planBox.height(),
-    draggable: isBig,
-    dragBoundFunc: function (pos) {
-      var x = Math.min(0, Math.max(-widthDiff, pos.x));
-      var newPos = {
-        x: x,
-        y: 0
-      };
-      updateKeyPosition(x);
-      return newPos;
-    }
+    width: seatsLayerWidth,
+    height: planBox.height()
   })
-  .on("dragstart", function () {
-    if (moveAnimation) {
-      moveAnimation.stop();
-    }
-    _this.setCursor("move");
-  })
-  .on("dragend", function () {
-    _this.setCursor();
-    updateMoveBox();
-  });
-  
-  updateMoveBox();
+  .setListening(false);
   
   var drawStage = this.container.is(".stage");
   var drawKey = this.container.is(".key");
@@ -554,7 +503,6 @@ function Seating(container) {
       _this.layers['seats'].visible(!_this.viewOptions['photo']);
       _this.drawSeatsLayer();
       _this.underlayImage.visible(_this.viewOptions['underlay']);
-      _this.photoUnderlayImage.visible(_this.viewOptions['photo']);
       _this.drawLayer("background");
     };
     
@@ -567,28 +515,25 @@ function Seating(container) {
         height: _this.layers['seats'].width() / underlay.width * underlay.height,
         visible: false
       }));
-      
-      var photo = new Image();
-      photo.src = "/uploads/seating_photo.jpg";
-      photo.onload = function () {
-        _this.photoUnderlayImage = _this.addToLayer("background", new Kinetic.Image({
-          image: photo,
-          width: _this.layers['seats'].width(),
-          height: _this.layers['seats'].width() / photo.width * photo.height,
-          visible: false
-        }));
         
-        viewChooser.find("a").click(function (event) {
-          event.preventDefault();
-          var $this = $(this);
-          if ($this.is(".selected")) return;
-          viewChooserCallback($this);
-        });
-        viewChooserCallback(viewChooser.find(".selected"));
-      };
+      viewChooser.find("a").click(function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        if ($this.is(".selected")) return;
+        viewChooserCallback($this);
+      });
+      viewChooserCallback(viewChooser.find(".selected"));
     };
   }
   this.drawLayer("background");
+  
+  this.wiggle = function () {
+    if (isBig) {
+      planWrapper.animate({ scrollLeft: seatsLayerWidth * 0.2 }, 350, function () {
+        planWrapper.animate({ scrollLeft: 0 }, 350);
+      });
+    }
+  };
 };
 
 function SeatingStandalone(container) {
