@@ -248,13 +248,14 @@ function TicketsStep(delegate) {
         _this.info.internal.coupons.splice(index, 1);
         _this.info.api.couponCodes.splice(index, 1);
         _this.updateAddedCoupons();
+        _this.updateCouponResult('', false);
       }
       _this.delegate.toggleModalSpinner(false);
     });
   };
   
   this.couponAdded = function (res) {
-    var msg;
+    var msg = "Ihr Gutschein wurde erfolgreich hinzugefügt.";
     if (res.ok === false) {
       if (res.error == "expired") {
         msg = "Dieser Code ist leider abgelaufen.";
@@ -272,22 +273,23 @@ function TicketsStep(delegate) {
       this.info.internal.coupons.push(coupon);
       this.info.api.couponCodes.push(couponField.val());
       
-      if ((coupon.ticket_types || []).length) {
-        $.each(this.info.api.tickets, function (key, val) {
-          _this.info.api.tickets[key] = 0;
-        });
-      }
-      
       this.updateAddedCoupons();
       this.trackPiwikGoal(2);
       
-      msg = "Ihr Gutschein wurde erfolgreich hinzugefügt.";
+      if (coupon.seats) {
+        msg += " Es wurden exklusive Sitzplätze für Sie freigeschaltet.";
+      }
+      
       couponField.blur().val("");
     }
     
     this.delegate.toggleModalSpinner(false);
-    this.couponBox.find(".msg .result").text(msg).toggleClass("error", !res.ok).parent().show();
+    this.updateCouponResult(msg, !res.ok);
     this.resizeDelegateBox();
+  };
+  
+  this.updateCouponResult = function (msg, error) {
+    this.couponBox.find(".msg .result").text(msg).toggleClass("error", error).parent().toggle(!!msg);
   };
   
   this.updateAddedCoupons = function () {
@@ -298,46 +300,13 @@ function TicketsStep(delegate) {
                     .find("td:last-child")
                     .empty();
     
-    var exclusiveTicketTypes = {};
     $.each(this.info.internal.coupons, function (i, coupon) {
       _this.info.internal.exclusiveSeats = _this.info.internal.exclusiveSeats || coupon.seats;
-      
-      $.each(coupon.ticket_types, function (j, type) {
-        exclusiveTicketTypes[type.id] = (exclusiveTicketTypes[type.id] || 0) + type.number;
-      });
       
       addedBox.append("<b>" + _this.info.api.couponCodes[i] + "</b> (<a href='#' data-index='" + i + "'>entfernen</a>)");
       if (i < _this.info.internal.coupons.length - 1) {
         addedBox.append(", ");
       }
-    });
-    
-    this.box.find(".date_ticketing_ticket_type").each(function () {
-      var typeBox = $(this);
-      var typeId = typeBox.data("id");
-      var number = exclusiveTicketTypes[typeId];
-      var isExclusive = typeBox.is(".exclusive");
-      var select = typeBox.find("select");
-      var options = select.find("option"), sampleOption = options.last();
-      var show = number > 0;
-      
-      typeBox.toggle(show || !isExclusive);
-      
-      if (isExclusive) {
-        options.slice((number || 0) + 1).remove();
-      }
-      
-      if (show) {
-        for (var k = options.length; k <= number; k++) {
-          sampleOption.clone().text(k).val(k).appendTo(select);
-        }
-      }
-      select.val(_this.info.api.tickets[typeId]);
-      if (select.val() === null) {
-        select.val(select.find("option").last().val());
-      }
-      
-      _this.choseNumber(select);
     });
   };
   
@@ -570,8 +539,6 @@ function ConfirmStep(delegate) {
       if (typeBox.is(".total")) {
         number = ticketsInfo.internal.numberOfTickets;
         total = ticketsInfo.internal.formattedTotal;
-      } else if (typeBox.is(".coupon")) {
-        togglePluralText(typeBox.find(".plural_text"), ticketsInfo.api.couponCodes.length || "keine");
       } else {
         var typeId = typeBox.find("td").first().data("id");
         number = ticketsInfo.api.tickets[typeId];

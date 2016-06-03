@@ -201,7 +201,7 @@ module Ticketing
       end
       if groups.empty? || seats.any?
         NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
-        true
+        seats.any?
       end
     end
 

@@ -12,46 +12,21 @@
 		<table class="rounded">
       <thead>
         <tr>
-          <th colspan="4">Gutscheine</th>
-        </tr>
-      </thead>
-      <%= content_tag :tbody, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
-        <tr>
-          <td colspan="2">Gutscheincode einlösen:</td>
-          <td colspan="2">
-            <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "einlösen" %>
-            <div class="msg">
-              <div class="result"></div>
-            </div>
-          </td>
-        </tr>
-        <tr class="added hide">
-          <td colspan="2">
-            Hinzugefügte Gutscheine:
-            <div class="small">Mehrere Gutscheine sind möglich.</div>
-          </td>
-          <td colspan="2"></td>
-        </tr>
-      <% end %>
-      <thead>
-        <tr>
           <th colspan="4">Ihre gewünschten Tickets</th>
         </tr>
       </thead>
       <tbody>
-        <% [false, true].each do |exclusive| %>
-          <% @ticket_types.exclusive(exclusive).each do |type| %>
-            <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }, class: (type.exclusive ? "exclusive" : nil)) do %>
-              <td class="number">
-                <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..@max_tickets), id: nil) %>
-              </td>
-              <td class="type">
-                <%= type.name %>
-                <div class="small"><%= type.info %></div>
-              </td>
-              <td class="single">je <%= number_to_currency(type.price || 0) %></td>
-              <td class="total"><span></span> €</td>
-            <% end %>
+        <% @ticket_types.exclusive(false).each do |type| %>
+          <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }, class: (type.exclusive ? "exclusive" : nil)) do %>
+            <td class="number">
+              <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..@max_tickets), id: nil) %>
+            </td>
+            <td class="type">
+              <%= type.name %>
+              <div class="small"><%= type.info %></div>
+            </td>
+            <td class="single">je <%= number_to_currency(type.price || 0) %></td>
+            <td class="total"><span></span> €</td>
           <% end %>
         <% end %>
   			<tr class="total">
@@ -60,6 +35,32 @@
   			</tr>
       </tbody>
 		</table>
+    
+    <%= content_tag :table, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
+      <thead>
+        <tr>
+          <th colspan="2">Gutscheine</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gutscheincode einlösen:</td>
+          <td>
+            <%= text_field_tag :code, "", class: "noKeyCatch" %> <%= submit_tag "einlösen" %>
+            <div class="msg">
+              <div class="result"></div>
+            </div>
+          </td>
+        </tr>
+        <tr class="added hide">
+          <td>
+            Hinzugefügte Gutscheine:
+            <div class="small">Mehrere Gutscheine sind möglich.</div>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    <% end %>
 	</div>
   <% if web? %>
     <div class="note">

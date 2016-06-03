@@ -396,6 +396,8 @@ table.details {
     }
     
     .coupon {
+      margin-top: 30px;
+      
       .added {
         display: none;
       }
@@ -542,18 +544,6 @@ table.details {
         
         &:last-child {
           border-left: none;
-        }
-      }
-    }
-    
-    .coupon {
-      .redeemed {
-        &.true .false {
-          display: none;
-        }
-        
-        &.false {
-          font-weight: bold;
         }
       }
     }
