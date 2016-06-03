@@ -1,8 +1,4 @@
 class OrderMailer < BaseMailer
-  @@passbook_mime_type = "application/vnd.apple.pkpass"
-  
-  default parts_order: ["multipart/alternative", "application/pdf", @@passbook_mime_type]
-  
   helper Ticketing::TicketingHelper
   
   def order_action(action, order, options = nil)
@@ -55,14 +51,6 @@ class OrderMailer < BaseMailer
     pdf = TicketsWebPDF.new
     pdf.add_tickets @order.tickets
     attachments['tickets.pdf'] = pdf.render
-    
-    find_tickets
-    @tickets.each do |ticket|
-      attachments["passbook-#{ticket.number}.pkpass"] = {
-        mime_type: @@passbook_mime_type,
-        content: File.read(ticket.passbook_pass.path(true))
-      }
-    end
   end
   
   def should_attach_tickets?

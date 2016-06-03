@@ -26,8 +26,10 @@ gem 'bcrypt-ruby'
 
 gem 'icalendar'
 
-gem 'prawn', '~> 1.0.0'
-gem 'prawn-svg'
+gem 'prawn', '~> 2.1.0'
+gem 'prawn-table', '~> 0.2.1'
+gem 'prawn-svg', '~> 0.25.1'
+gem 'prawn-qrcode', '~> 0.2.2'
 
 gem 'rubyzip', '~> 1.1.0'
 

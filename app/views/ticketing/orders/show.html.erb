@@ -125,7 +125,7 @@
       <tbody class="hover">
         <% @order.tickets.each do |ticket| %>
           <% classes = [:cancelled] if ticket.cancelled? %>
-          <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.id %>
+          <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.order_index %>
           <%= content_tag_for :tr, ticket, class: classes do %>
             <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
             <td class="number">

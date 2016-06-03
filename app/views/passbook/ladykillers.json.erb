@@ -10,6 +10,12 @@
   "teamIdentifier": "V48L6BF6M3",
   "webServiceURL": "<%= api_passbook_root_url %>",
   "relevantDate": "<%= date %>",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "<%= ticket.signed_info(2) %>",
+    "messageEncoding": "utf-8",
+    "altText": "<%= ticket.number %>"
+  },
   "locations": [
     {
       "latitude": 50.23089,
@@ -41,17 +47,17 @@
         "changeMessage": "Ihre neue Sitznummer lautet %@."
       },
       {
-        "key": "opens",
-        "label": "Einlass",
-        "value": "<%= (ticket.date.date - 1.hour).to_formatted_s(:w3c) %>",
-        "timeStyle": "PKDateStyleShort"
-      },
-      {
         "key": "time",
         "label": "Beginn",
         "value": "<%= date %>",
         "timeStyle": "PKDateStyleShort",
         "changeMessage": "Der Beginn der Aufführung wurde geändert auf %@."
+      },
+      {
+        "key": "opens",
+        "label": "Einlass",
+        "value": "<%= (ticket.date.date - 1.hour).to_formatted_s(:w3c) %>",
+        "timeStyle": "PKDateStyleShort"
       }
     ],
     "auxiliaryFields": [
@@ -59,11 +65,6 @@
         "key": "location",
         "label": "Ort",
         "value": "Historischer Ortskern, Kaisersesch"
-      },
-      {
-        "key": "number",
-        "label": "Ticket",
-        "value": "<%= ticket.number %>"
       }
     ],
     "backFields": [

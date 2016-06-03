@@ -1,19 +1,22 @@
 module Ticketing
   class Ticket < BaseModel
-  	include Cancellable, RandomUniqueAttribute
+  	include Cancellable
 	
   	belongs_to :order, touch: true
   	belongs_to :type, class_name: TicketType
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
-    has_random_unique_number :number, 6
+    belongs_to :signing_key, class_name: TicketSigningKey
     has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
-  	validates_presence_of :type, :date
+  	validates_presence_of :type, :date, :signing_key
     validates_presence_of :seat, if: :seat_required?
     validate :check_reserved, if: :seat_required?
+    validate :check_order_index, if: :order_index_changed?
+    validate :check_signing_key, if: :signing_key_id_changed?
     
+    after_initialize :set_signing_key
     before_validation :update_invalidated
     before_save :update_passbook_pass
   
@@ -37,7 +40,7 @@ module Ticketing
     end
     
     def number
-      "7#{self[:number]}"
+      "#{order.number}-#{self[:order_index]}"
     end
     
     def resold?
@@ -50,6 +53,36 @@ module Ticketing
     
     def checked_in?
       !!checkins.last.try(:in)
+    end
+    
+    def signed_info(additional = nil)
+      if !@signed_info
+        @signed_info = signing_key.sign(api_hash)
+      end
+      signed = @signed_info
+      if additional
+        signed = signed + "--" + additional.to_s
+      end
+      signed
+    end
+    
+    def url_safe_signed_info(additional = nil)
+      signed_info(additional).tr("+/=", "~_,")
+    end
+    
+    def self.find_by_signed_info(signed_info)
+      parts = /^[\w+\/=]+--\h+--(\d+)(--.+)?$/.match(signed_info)
+      if parts
+        key = TicketSigningKey.find(parts[1])
+        info = key.verify(signed_info)
+        if info
+          find(info['id'])
+        end
+      end
+    end
+    
+    def self.find_by_urlsafe_signed_info(signed_info)
+      find_by_signed_info(signed_info.tr("~_,", "+/="))
     end
     
     def api_hash(details = [])
@@ -67,6 +100,13 @@ module Ticketing
       }) if details.include? :status
       hash.merge(super)
     end
+    
+    def create_passbook_pass
+      if passbook_pass.nil?
+        update_passbook_pass(true)
+        save
+      end
+    end
   
     private
 
@@ -80,15 +120,33 @@ module Ticketing
       end
     end
     
+    def check_order_index
+      if self.class.where(order_id: order_id, order_index: order_index).any?
+        errors.add :order_index, "duplicate order index"
+      end
+    end
+    
+    def check_signing_key
+      if !signing_key.active
+        errors.add :signing_key, "signing key must not be inactive"
+      end
+    end
+    
+    def set_signing_key
+      self.signing_key = TicketSigningKey.random_active
+    end
+    
     def update_invalidated
       self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
       true
     end
     
-    def update_passbook_pass
-      super(date.event.identifier, { ticket: self })
-      
-      NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+    def update_passbook_pass(create = false)
+      if passbook_pass.present? || create
+        super(date.event.identifier, { ticket: self })
+        
+        NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+      end
     end
   end
 end

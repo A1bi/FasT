@@ -150,12 +150,10 @@ module Ticketing
       @orders = Ticketing::Order.none
       
       if params[:q].present?
-        if params[:q] =~ /\A(1|7)(\d{6})\z/
-          if $1 == "1"
-            order = Ticketing::Order.where(number: $2).first
-          else
-            ticket = Ticketing::Ticket.where(number: $2).first
-            order = ticket.order if ticket
+        if params[:q] =~ /\A(\d{7})(-(\d+))?\z/
+          order = Ticketing::Order.where(number: $1).first
+          if $3.present?
+            ticket_index = $3
           end
           if order
             if retail? && (!order.is_a?(Ticketing::Retail::Order) || order.store != @_retail_store)
@@ -164,7 +162,7 @@ module Ticketing
             end
             
             prms = { id: order.id }
-            prms.merge!({ ticket: ticket.id, anchor: :tickets }) if ticket
+            prms.merge!({ ticket: ticket_index, anchor: :tickets }) if ticket_index
             return redirect_to orders_path(:ticketing_order, prms)
           end
 
