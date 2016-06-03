@@ -1,4 +1,4 @@
-//= require socket.io-client/dist/socket.io
+//= require socket.io-client/socket.io
 //= require kineticjs/kinetic
 
 function Seat(id, block, number, pos, delegate) {
@@ -877,8 +877,8 @@ function SeatChooser(container, delegate) {
   
   this.initSeats();
   
-  this.node = io.connect("/seating", {
-    "resource": "node",
+  this.node = io("/seating", {
+    "path": "/node",
     "reconnect": false
   });
   
