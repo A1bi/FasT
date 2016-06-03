@@ -528,7 +528,7 @@ function Seating(container) {
   this.drawLayer("background");
   
   this.wiggle = function () {
-    if (isBig) {
+    if (isBig && planWrapper.scrollLeft() === 0) {
       planWrapper.animate({ scrollLeft: seatsLayerWidth * 0.2 }, 350, function () {
         planWrapper.animate({ scrollLeft: 0 }, 350);
       });
@@ -808,7 +808,7 @@ function SeatChooser(container, delegate) {
       }
     });
     
-    var eventMappings = [["expired", "Expired"], ["connect_failed", "CouldNotConnect"], ["disconnect", "Disconnected"]];
+    var eventMappings = [["expired", "Expired"], ["connect_error", "CouldNotConnect"], ["disconnect", "Disconnected"]];
     for (var i = 0, eLength = eventMappings.length; i < eLength; i++) {
       var mapping = eventMappings[i];
       _this.node.on(mapping[0], (function (event) {
@@ -824,7 +824,7 @@ function SeatChooser(container, delegate) {
   
   this.node = io("/seating", {
     "path": "/node",
-    "reconnect": false
+    "reconnection": false
   });
   
   this.registerEvents();
