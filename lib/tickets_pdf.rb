@@ -69,6 +69,11 @@ class TicketsPDF < Prawn::Document
               move_down 10
               font_size 8 do
                 text t(:additional_info)
+                move_down 8
+                t(:contact_info).each do |txt|
+                  text txt, align: :center
+                  move_down 4
+                end
               end
             end
           end

@@ -183,7 +183,10 @@ de:
     opens: "Einlass"
     location: "Aufführungsort"
     free_seating: "Freie Platzwahl"
-    additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:\n\nwww.theater-kaisersesch.de\n(02653) 28 27 09"
+    additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:"
+    contact_info:
+      - "www.theater-kaisersesch.de"
+      - "(02653) 28 27 09"
   action_mailer:
     defaults:
       from: "Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>"
