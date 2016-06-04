@@ -1,4 +1,6 @@
 class Ticketing::PushNotifications::Device < BaseModel
+  serialize :settings
+  
   validates_presence_of :token, :app
   validates_uniqueness_of :token, scope: :app
   
