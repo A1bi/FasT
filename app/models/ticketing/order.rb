@@ -72,6 +72,14 @@ module Ticketing
     def correct_balance(amount)
       deposit_into_account(amount, :correction)
     end
+    
+    def signed_info(authorized = false)
+      info = {
+        or: id
+      }
+      info[:au] = 1 if authorized
+      SigningKey.random_active.sign(info)
+    end
 
     private
 

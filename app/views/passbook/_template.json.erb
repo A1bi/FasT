@@ -52,12 +52,6 @@ info = {
         value: date,
         timeStyle: "PKDateStyleShort",
         changeMessage: "Der Beginn der Aufführung wurde geändert auf %@."
-      },
-      {
-        key: "opens",
-        label: "Einlass",
-        value: ticket.date.door_time.to_formatted_s(:w3c),
-        timeStyle: "PKDateStyleShort"
       }
     ],
     auxiliaryFields: [
@@ -65,6 +59,12 @@ info = {
         key: "location",
         label: "Ort",
         value: ticket.date.event.location
+      },
+      {
+        key: "opens",
+        label: "Einlass",
+        value: ticket.date.door_time.to_formatted_s(:w3c),
+        timeStyle: "PKDateStyleShort"
       }
     ],
     backFields: [
@@ -76,7 +76,7 @@ info = {
       {
         key: "overviewUrl",
         label: "Ticket umbuchen oder stornieren",
-        value: "Auf unserer <a href=\"#{order_overview_url(ticket.url_safe_signed_info)}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
+        value: "Auf unserer <a href=\"#{order_overview_url(ticket.order.signed_info(true))}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
       },
       {
         key: "hotline",

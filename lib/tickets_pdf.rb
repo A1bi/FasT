@@ -250,7 +250,7 @@ class TicketsPDF < Prawn::Document
   end
   
   def barcode_content_for_ticket(ticket)
-    order_overview_url(ticket.url_safe_signed_info(signed_ticket_info_extension))
+    order_overview_url(ticket.signed_info(signed_ticket_info_extension))
   end
   
   def signed_ticket_info_extension

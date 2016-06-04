@@ -34,9 +34,13 @@
       </td>
     </tr>
   </table>
+  <% overview_url = order_overview_url(@order.signed_info(true)) %>
   <p class="hcen">
-    <a href="#">
+    <%= link_to overview_url do %>
       <img src="/images/mail/add_to_wallet.png" height="40" alt="Zu Apple Wallet hinzufügen" />
-    </a>
+    <% end %>
+  </p>
+  <p class="hcen">
+    <%= link_to "Tickets umbuchen oder stornieren", overview_url %>
   </p>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604102137) do
+ActiveRecord::Schema.define(version: 20160604163914) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -352,7 +352,7 @@ ActiveRecord::Schema.define(version: 20160604102137) do
     t.integer  "position_y", default: 0
   end
 
-  create_table "ticketing_ticket_signing_keys", force: :cascade do |t|
+  create_table "ticketing_signing_keys", force: :cascade do |t|
     t.string   "secret",     limit: 32, default: "",   null: false
     t.boolean  "active",                default: true, null: false
     t.datetime "created_at"
@@ -381,7 +381,6 @@ ActiveRecord::Schema.define(version: 20160604102137) do
     t.boolean  "resale",          default: false
     t.boolean  "invalidated",     default: false
     t.integer  "order_index",     default: 0,     null: false
-    t.integer  "signing_key_id"
   end
 
   add_index "ticketing_tickets", ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true

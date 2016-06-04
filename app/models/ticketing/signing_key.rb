@@ -1,9 +1,8 @@
 module Ticketing
-  class TicketSigningKey < BaseModel
+  class SigningKey < BaseModel
     @@minimum_number_of_keys = 5
     @@secret_length = 32
     
-    has_many :tickets, foreign_key: :signing_key_id
     attr_readonly :secret
 
     validates_presence_of :secret
@@ -20,7 +19,16 @@ module Ticketing
     end
     
     def sign(data)
-      @verifier.generate(data) + "--" + id.to_s
+      @verifier.generate({ k: id, d: data }).tr("+/=", "~_,")
+    end
+    
+    def self.verify(signed)
+      signed = signed.tr("~_,", "+/=")
+      parts = signed.split('--')
+      data = JSON.parse(Base64.decode64(parts[0]))
+      key = find(data['k'])
+      data = key.verify(signed)
+      data['d'].deep_symbolize_keys if data
     end
     
     def verify(data)

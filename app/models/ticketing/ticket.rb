@@ -6,17 +6,14 @@ module Ticketing
   	belongs_to :type, class_name: TicketType
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
-    belongs_to :signing_key, class_name: TicketSigningKey
     has_passbook_pass
     has_many :checkins, class_name: BoxOffice::Checkin
 	
-  	validates_presence_of :type, :date, :signing_key
+  	validates_presence_of :type, :date
     validates_presence_of :seat, if: :seat_required?
     validate :check_reserved, if: :seat_required?
     validate :check_order_index, if: :order_index_changed?
-    validate :check_signing_key, if: :signing_key_id_changed?
     
-    after_initialize :set_signing_key
     before_validation :update_invalidated
     before_save :update_passbook_pass
   
@@ -57,32 +54,19 @@ module Ticketing
     
     def signed_info(additional = nil)
       if !@signed_info
-        @signed_info = signing_key.sign(api_hash)
+        info = {
+          ti: id,
+          no: number.to_s,
+          da: date.id,
+          ty: type_id,
+          se: seat ? seat.id : nil
+        }
+        info[:cancelled] = 1 if cancelled?
+        @signed_info = SigningKey.random_active.sign(info)
       end
       signed = @signed_info
-      if additional
-        signed = signed + "--" + additional.to_s
-      end
+      signed = signed + "--" + additional.to_s if additional
       signed
-    end
-    
-    def url_safe_signed_info(additional = nil)
-      signed_info(additional).tr("+/=", "~_,")
-    end
-    
-    def self.find_by_signed_info(signed_info)
-      parts = /^[\w+\/=]+--\h+--(\d+)(--.+)?$/.match(signed_info)
-      if parts
-        key = TicketSigningKey.find(parts[1])
-        info = key.verify(signed_info)
-        if info
-          find(info['id'])
-        end
-      end
-    end
-    
-    def self.find_by_urlsafe_signed_info(signed_info)
-      find_by_signed_info(signed_info.tr("~_,", "+/="))
     end
     
     def api_hash(details = [])
@@ -124,16 +108,6 @@ module Ticketing
       if self.class.where(order_id: order_id, order_index: order_index).any?
         errors.add :order_index, "duplicate order index"
       end
-    end
-    
-    def check_signing_key
-      if !signing_key.active
-        errors.add :signing_key, "signing key must not be inactive"
-      end
-    end
-    
-    def set_signing_key
-      self.signing_key = TicketSigningKey.random_active
     end
     
     def update_invalidated
