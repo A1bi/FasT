@@ -5,6 +5,7 @@ module Ticketing
     validates_presence_of :store
 
     before_save :check_tickets
+    after_save :check_printable
     after_commit :delete_printable, on: :destroy
     
     def self.by_store(retail_id)
@@ -41,7 +42,7 @@ module Ticketing
     def check_tickets
       tickets.each do |ticket|
         if ticket.changed?
-          update_printable
+          @update_printable = true
           break
         end
       end
@@ -58,6 +59,13 @@ module Ticketing
       pdf = TicketsRetailPDF.new
       pdf.add_tickets tickets
       pdf.render_file(printable_path(true))
+    end
+    
+    def check_printable
+      if @update_printable
+        update_printable
+        @update_printable = false
+      end
     end
     
     def delete_printable

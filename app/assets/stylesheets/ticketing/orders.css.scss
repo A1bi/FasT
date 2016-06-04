@@ -81,7 +81,7 @@ table.details {
     }
     
     &.number {
-      width: 10%;
+      width: 15%;
       font-weight: bold;
       
       .small {
@@ -114,6 +114,12 @@ table.details {
     
     .index &.date {
       text-align: right;
+    }
+    
+    &.wallet {
+      img {
+        width: 110px;
+      }
     }
   }
 }

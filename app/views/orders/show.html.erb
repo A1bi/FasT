@@ -1,0 +1,61 @@
+<% title "Ihre Bestellung ##{@order.number}" %>
+<% include_css "ticketing/orders" %>
+<div class="hl">Ihre Bestellung #<%= @order.number %></div>
+<% if @authorized %>
+  <table class="rounded entries details">
+    <thead>
+      <tr>
+        <th colspan="6">Ihre Tickets</th>
+      </tr>
+      <tr>
+        <th>Nummer</th>
+        <th>Kategorie</th>
+        <th>Aufführung</th>
+        <th>Block</th>
+        <th>Sitz</th>
+        <% if @show_wallet %><th></th><% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.tickets.each do |ticket| %>
+        <% classes = [:cancelled] if ticket.cancelled? %>
+        <%= content_tag_for :tr, ticket, class: classes do %>
+          <td class="number">
+            <%= ticket.number %>
+          </td>
+          <td class="name"><%= ticket.type.name %> (<%= number_to_currency ticket.type.price %>)</td>
+          <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
+          <% if ticket.seat.present? %>
+            <td><%= ticket.seat.block.name %></td>
+            <td><%= ticket.seat.number %></td>
+          <% else %>
+            <td colspan="2">Freie Platzwahl</td>
+          <% end %>
+          <% if @show_wallet %>
+            <td class="wallet">
+              <%= link_to order_overview_wallet_path(ticket.signed_info) do %>
+                <%= image_tag("passbook/add_to_wallet.png") %>
+              <% end if !ticket.cancelled? %>
+            </td>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <p class="hcen">
+    Leider können Sie derzeit noch nicht online umbuchen oder stornieren, wir arbeiten mit Hochdruck an einer Lösung.
+  </p>
+  <p class="hcen">
+    Gerne nehmen wir Ihre Änderungswünsche auch telefonisch entgegen: <b>(02653) 28 27 09</b>
+  </p>
+<% else %>
+  <p>
+    Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
+  </p>
+  <%= form_tag order_overview_path(params[:signed_info]), method: :post, class: :hcen do %>
+    E-Mail-Adresse: <%= text_field_tag :email %>
+    <p>
+      <%= submit_tag :absenden %>
+    </p>
+  <% end %>
+<% end %>
