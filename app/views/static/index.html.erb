@@ -12,7 +12,7 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index] do %>
+  <% cache [:static, :index, sale_started] do %>
     <div class="teaser alte-dame">
       <div class="links">
         <%= link_to "Über das Stück", theater_alte_dame_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
