@@ -111,7 +111,7 @@ class Api::OrdersController < ApplicationController
             device.push(payload)
           end
           
-          NodeApi.update_seats_from_tickets(order.tickets) if bound_to_seats
+          NodeApi.update_seats_from_records(order.tickets) if bound_to_seats
           
           if type == :admin
             key = "ticketing.orders.created"

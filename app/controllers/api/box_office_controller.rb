@@ -36,7 +36,7 @@ class Api::BoxOfficeController < ApplicationController
     ActiveRecord::Base.transaction do
       if order.save
         begin          
-          NodeApi.update_seats_from_tickets(order.tickets)
+          NodeApi.update_seats_from_records(order.tickets)
     
           response[:ok] = true
           response[:order] = info_for_order(order)
@@ -59,7 +59,7 @@ class Api::BoxOfficeController < ApplicationController
     if order
       tickets = order.tickets.to_a
       order.destroy
-      NodeApi.update_seats_from_tickets(tickets)
+      NodeApi.update_seats_from_records(tickets)
     end
     render json: {}
   end
@@ -215,7 +215,7 @@ class Api::BoxOfficeController < ApplicationController
   
   def save_order_and_update_node_with_tickets(order, tickets)
     if order.save
-      NodeApi.update_seats_from_tickets(tickets)
+      NodeApi.update_seats_from_records(tickets)
     end
   end
   

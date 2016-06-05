@@ -127,7 +127,7 @@ module Ticketing
     
     def save_order_and_update_node_with_tickets(order, tickets)
       if order.save
-        NodeApi.update_seats_from_tickets(tickets)
+        NodeApi.update_seats_from_records(tickets)
       end
     end
     

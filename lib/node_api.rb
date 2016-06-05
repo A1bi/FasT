@@ -54,11 +54,13 @@ class NodeApi
     seating_request("updateSeats", { seats: seats })
   end
   
-  def self.update_seats_from_tickets(tickets)
+  def self.update_seats_from_records(records)
     seats = {}
-    tickets.each do |ticket|
-      seats.deep_merge!({ ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id)]] })
+    records.each do |record|
+      if record.respond_to?(:date_id) && record.respond_to?(:seat) && record.seat.is_a?(Ticketing::Seat)
+        seats.deep_merge!({ record.date_id => Hash[[record.seat.node_hash(record.date_id)]] })
+      end
     end
-    NodeApi.update_seats(seats)
+    NodeApi.update_seats(seats) if seats.any?
   end
 end
