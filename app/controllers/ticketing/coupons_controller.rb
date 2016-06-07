@@ -18,7 +18,6 @@ module Ticketing
     
     def create
       @coupon = Coupon.create(coupon_params)
-      update_ticket_types
       redirect_to @coupon
     end
     
@@ -26,7 +25,6 @@ module Ticketing
       params[:ticketing_coupon][:reservation_group_ids] ||= []
       @coupon.log(:edited)
       @coupon.update_attributes(coupon_params)
-      update_ticket_types
       redirect_to @coupon
     end
     
@@ -66,27 +64,11 @@ module Ticketing
     end
     
     def prepare_vars
-      @ticket_types = Ticketing::TicketType.all
       @reservation_groups = Ticketing::ReservationGroup.all
     end
     
-    def update_ticket_types
-      @ticket_types.each do |type|
-        p = params[:ticket_types][type.id.to_s] || {}
-        next if !p
-        
-        assignment = @coupon.ticket_type_assignments.where(ticket_type_id: type.id).first_or_initialize
-        if !p[:enabled].blank?
-          assignment.number = p[:number].blank? ? -1 : p[:number]
-          assignment.save
-        elsif !assignment.new_record?
-          assignment.destroy
-        end
-      end
-    end
-    
     def coupon_params
-      params.require(:ticketing_coupon).permit(:expires, :recipient, reservation_group_ids: [])
+      params.require(:ticketing_coupon).permit(:expires, :recipient, :free_tickets, reservation_group_ids: [])
     end
   end
 end

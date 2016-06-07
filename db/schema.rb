@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604163914) do
+ActiveRecord::Schema.define(version: 20160607170525) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -240,20 +240,13 @@ ActiveRecord::Schema.define(version: 20160604163914) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ticketing_coupon_ticket_type_assignments", force: :cascade do |t|
-    t.integer  "coupon_id"
-    t.integer  "ticket_type_id"
-    t.integer  "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
-    t.datetime "expires",    limit: 255
+    t.datetime "expires",      limit: 255
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "free_tickets",             default: 0
   end
 
   create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|

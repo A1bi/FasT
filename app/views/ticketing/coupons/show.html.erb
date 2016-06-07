@@ -20,14 +20,10 @@
         <td><%= @coupon.recipient %></td>
       </tr>
       <tr>
-        <td>Ticketkategorien:</td>
+        <td>Freikarten:</td>
         <td>
-          <% if !@coupon.ticket_type_assignments.empty? %>
-            <ul>
-            <% @coupon.ticket_type_assignments.each do |assignment| %>
-              <li><%= assignment.ticket_type.name %> (<%= assignment_number(assignment) %>)</li>
-            <% end %>
-            </ul>
+          <% if @coupon.free_tickets > 0 %>
+            <%= @coupon.free_tickets %>
           <% else %>
             <em>keine</em>
           <% end %>

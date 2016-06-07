@@ -4,7 +4,7 @@ $(function () {
     table.find("td.actions *").prop("disabled", table.find(":checkbox:checked").length < 1);
   }
   
-  var tableRows = $("tbody.hover tr, th").click(function (e) {
+  var tableRows = $("tbody.hover tr, th").click(function () {
     var $this = $(this);
     var checkbox = $this.find(":checkbox");
     if (checkbox.length) {
@@ -17,7 +17,9 @@ $(function () {
     }
   });
   tableRows.find("a").click(function (event) {
-    event.stopPropagation();
+    if (!$(this).data('confirm')) {
+      event.stopPropagation();
+    }
   });
   tableRows.find(":checkbox").click(function (event) {
     event.stopPropagation();

@@ -11,20 +11,9 @@
         <td><%= f.text_field :recipient %></td>
       </tr>
       <tr>
-        <td>Ticketkategorien:</td>
+        <td>Freikarten:</td>
         <td>
-          <ul>
-            <% @ticket_types.each do |type| %>
-              <% assignment = @coupon.ticket_type_assignments.where(ticket_type_id: type.id).first %>
-              <li>
-                <span class="ticketType">
-                  <%= check_box_tag :ticket_types, true, assignment.present?, name: "ticket_types[#{type.id}][enabled]", id: dom_id(type) %>
-                  <%= label_tag dom_id(type), type.name %>
-                </span>
-                Anzahl: <%= text_field_tag "ticket_types[#{type.id}][number]", assignment_number(assignment, true), class: :numberField %>
-              </li>
-              <% end %>
-          </ul>
+          <%= f.number_field :free_tickets, class: :numberField %>
         </td>
       </tr>
       <tr>
