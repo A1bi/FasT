@@ -10,4 +10,6 @@ Gesamtbetrag: <%= number_to_currency(@order.total) %>
 
 Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser e-mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.
 Sollten Sie keine Möglichkeit zum Drucken haben, können Sie sich auch einfach Ihre Bestellnummer <%= @order.number %> notieren und an der Abendkasse nennen.
+
+Über folgende Adresse haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren: <%= overview_url %>
 <% end %>
