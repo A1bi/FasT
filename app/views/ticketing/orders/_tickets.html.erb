@@ -16,8 +16,8 @@
         </tr>
       </thead>
       <tbody>
-        <% @ticket_types.exclusive(false).each do |type| %>
-          <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }, class: (type.exclusive ? "exclusive" : nil)) do %>
+        <% @ticket_types.each do |type| %>
+          <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }) do %>
             <td class="number">
               <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..@max_tickets), id: nil) %>
             </td>

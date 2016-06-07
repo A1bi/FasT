@@ -284,15 +284,6 @@ table.details {
   }
 }
 
-@include keyframes(exclusiveTicketType) {
-	from {
-    background: white;
-	}
-	to {
-    background: #fff3aa;
-	}
-}
-
 .stepCon {
 	position: absolute;
 	left: 100%;
@@ -389,13 +380,7 @@ table.details {
     
 		div.number {
 			.date_ticketing_ticket_type {
-        .stepBox:not(.admin) &.exclusive {
-          @include animation(exclusiveTicketType, .7s, 19, true);
-          display: none;
-          background: #fff3aa;
-        }
-	
-    		.type {
+        .type {
     			border-left: none;
     		}
       }

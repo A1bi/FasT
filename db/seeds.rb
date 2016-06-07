@@ -84,7 +84,8 @@ end
 # ticket types
 [
 	{ name: "Ermäßigt", info: "Kinder, Schüler, Studenten (Vorlage des gültigen Schüler- oder Studentenausweises)", price: 8.5 },
-	{ name: "Erwachsene", price: 12.5 }
+	{ name: "Erwachsene", price: 12.5 },
+	{ name: "Freikarte", price: 0, exclusive: true }
 ].each do |type|
 	type = Ticketing::TicketType.create(type)
 end

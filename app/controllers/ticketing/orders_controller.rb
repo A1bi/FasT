@@ -11,7 +11,7 @@ module Ticketing
       if !@_member.admin? && !@event.sale_started?
         redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
       end
-      @max_tickets = 20
+      @max_tickets = 25
     end
 
     def new_admin
@@ -20,7 +20,7 @@ module Ticketing
     end
 
     def new_retail
-      @max_tickets = 30
+      @max_tickets = 35
     end
 
     def add_coupon
@@ -190,6 +190,7 @@ module Ticketing
       @dates = @event.dates.where("date > ?", Time.zone.now)
   		@seats = Ticketing::Seat.all
   		@ticket_types = Ticketing::TicketType.order(price: :desc)
+      @ticket_types = @ticket_types.exclusive(false) if !admin?
     end
     
     def update_exclusive_seats(action, groups)
