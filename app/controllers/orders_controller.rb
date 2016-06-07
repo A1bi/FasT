@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
       @order = Ticketing::Order.find(data[:or])
       @authorized = data[:au].present? || !@order.is_a?(Ticketing::Web::Order)
     else
-      render nothing: true, status: 404
+      redirect_to root_url
     end
   end
 end
