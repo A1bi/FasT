@@ -2,6 +2,7 @@ module Ticketing
   class OrdersController < BaseController
     before_filter :set_event_info, only: [:new, :new_retail, :new_admin]
     before_filter :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
+    before_filter :find_coupon, only: [:add_coupon, :remove_coupon]
     before_filter :prepare_new, only: [:new, :new_admin, :new_retail]
     before_filter :prepare_billing_actions, only: [:show, :create_billing]
     ignore_restrictions
@@ -26,20 +27,17 @@ module Ticketing
     def add_coupon
       response = { ok: false }
       
-      coupon = Ticketing::Coupon.where(code: params[:code]).first
-      if !coupon
+      if !@coupon
         response[:error] = "not found"
-      elsif coupon.expired?
+      elsif @coupon.expired?
         response[:error] = "expired"
       else
         response = {
           ok: true,
           coupon: {
-            id: coupon.id,
-            seats: update_exclusive_seats(:add, coupon.reservation_groups),
-            ticket_types: coupon.ticket_type_assignments.map do |assignment|
-              { id: assignment.ticket_type.id, number: assignment.number }
-            end
+            id: @coupon.id,
+            free_tickets: @coupon.free_tickets,
+            seats: update_exclusive_seats(:add, @coupon.reservation_groups)
           }
         }
       end
@@ -50,9 +48,8 @@ module Ticketing
     def remove_coupon
       response = { ok: false }
       
-      coupon = Ticketing::Coupon.where(code: params[:code]).first
-      if coupon
-        update_exclusive_seats(:remove, coupon.reservation_groups)
+      if @coupon
+        update_exclusive_seats(:remove, @coupon.reservation_groups)
         response = {
           ok: true
         }
@@ -218,6 +215,10 @@ module Ticketing
         orders = Ticketing::Order.all
       end
       @order = orders.find(params[:id])
+    end
+    
+    def find_coupon
+      @coupon = Ticketing::Coupon.where(code: params[:code]).first
     end
 
     def prepare_new

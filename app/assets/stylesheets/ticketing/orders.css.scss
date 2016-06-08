@@ -595,11 +595,17 @@ table.details {
 }
 
 .stepCon.tickets, .stepCon.confirm {
-	tr.total {
-		font-weight: bold;
-		
-		td {
-			border-top: 1px solid #cccccc;
-		}
-	}
+	tr {
+    td.total, td.amount {
+      text-align: right;
+    }
+    
+    &.total, &.subtotal {
+  		font-weight: bold;
+  		
+  		td {
+  			border-top: 1px solid #cccccc;
+  		}
+  	}
+  }
 }

@@ -191,24 +191,26 @@ function TicketsStep(delegate) {
     return $typeBox.data("price") * $typeBox.find("select").val();
   };
   
-  this.updateTotal = function () {
-    var total = 0;
+  this.updateSubtotal = function () {
+    this.info.internal.subtotal = 0;
     this.info.internal.numberOfTickets = 0;
+    this.tickets = [];
     this.box.find(".number tr").each(function () {
       var $this = $(this);
       if ($this.is(".date_ticketing_ticket_type")) {
-        _this.info.internal.numberOfTickets += parseInt($this.find("select").val());
-        total += _this.getTypeTotal($this);
-      } else {
+        var number = parseInt($this.find("select").val());
+        _this.info.internal.numberOfTickets += number;
+        _this.info.internal.subtotal += _this.getTypeTotal($this);
+        for (var i = 0; i < number; i++) {
+          _this.tickets.push($this.data("price"));
+        }
+      } else if ($this.is('.subtotal')) {
         togglePluralText($this.find("td").first(), _this.info.internal.numberOfTickets);
-        var formattedTotal = _this.formatCurrency(total);
-        _this.info.internal.formattedTotal = formattedTotal;
-        _this.info.internal.total = total;
-        _this.info.internal.zeroTotal = total <= 0;
-        $this.find(".total span").html(formattedTotal);
+        $this.find(".total span").html(_this.formatCurrency(_this.info.internal.subtotal));
       }
     });
-    
+
+    this.updateDiscounts();
     this.delegate.updateNextBtn();
   };
   
@@ -219,7 +221,7 @@ function TicketsStep(delegate) {
     
     this.info.api.tickets[typeId] = parseInt($this.val());
     this.info.internal.ticketTotals[typeId] = total;
-    this.updateTotal();
+    this.updateSubtotal();
   };
   
   this.addCoupon = function () {
@@ -308,6 +310,44 @@ function TicketsStep(delegate) {
         addedBox.append(", ");
       }
     });
+    
+    this.updateDiscounts();
+  };
+  
+  this.updateDiscounts = function () {
+    var tickets = this.tickets.slice(0).sort(function (a, b) {
+      return a - b;
+    });
+    this.info.internal.total = this.info.internal.subtotal;
+    this.info.internal.discount = 0;
+    
+    this.box.find("tr.discount").remove();
+    $.each(this.info.internal.coupons, function (i, coupon) {
+      if (coupon.free_tickets > 0) {
+        var discount = 0;
+        for (var j = 0; j < coupon.free_tickets; j++) {
+          var ticketToRemove = tickets.pop();
+          if (ticketToRemove) {
+            discount -= ticketToRemove;
+            _this.info.internal.total -= ticketToRemove;
+          }
+        }
+        _this.info.internal.discount += discount;
+        
+        var discountBox = $("<tr>").addClass("discount");
+        var info = $("<td>").addClass("plural_text").attr("colspan", 3).html("Gutschein <em>" + _this.info.api.couponCodes[i] + '</em> (Wert: <span class="number"><span></span></span> Freikarte<span class="plural">n</span>)');
+        discountBox.append(
+          info,
+          $("<td>").addClass("amount").text(_this.formatCurrency(discount) + " €")
+        );
+        discountBox.insertBefore(_this.box.find("tr.total"));
+        togglePluralText(info, coupon.free_tickets);
+      }
+    });
+    
+    var $this = this.box.find(".number tr.total");
+    this.info.internal.zeroTotal = this.info.internal.total <= 0;
+    $this.find(".total span").html(_this.formatCurrency(_this.info.internal.total));
   };
   
   this.nextBtnEnabled = function () {
@@ -536,9 +576,17 @@ function ConfirmStep(delegate) {
     this.box.find(".tickets tbody tr").show().each(function () {
       var typeBox = $(this);
       var number, total;
-      if (typeBox.is(".total")) {
+      if (typeBox.is(".subtotal")) {
         number = ticketsInfo.internal.numberOfTickets;
-        total = ticketsInfo.internal.formattedTotal;
+        total = _this.formatCurrency(ticketsInfo.internal.subtotal);
+      } else if (typeBox.is(".discount")) {
+        if (ticketsInfo.internal.discount === 0) {
+          typeBox.hide();
+          return;
+        }
+        total = _this.formatCurrency(ticketsInfo.internal.discount);
+      } else if (typeBox.is(".total")) {
+        total = _this.formatCurrency(ticketsInfo.internal.total);
       } else {
         var typeId = typeBox.find("td").first().data("id");
         number = ticketsInfo.api.tickets[typeId];
@@ -550,7 +598,7 @@ function ConfirmStep(delegate) {
       }
       typeBox.find(".total span").text(total);
       var single = typeBox.find(".single");
-      if (typeBox.is(".total")) {
+      if (typeBox.is(".subtotal")) {
         togglePluralText(single, number);
       } else {
         if (number == 0) number = "keine";

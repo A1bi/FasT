@@ -11,9 +11,17 @@
   			<td class="single"><b class="number">0</b> je <%= number_to_currency(type.price || 0) %></td>
   			<td class="total" data-price="<%= type.price %>"><span></span> €</td>
   		<% end %>
+			<tr class="subtotal">
+				<td></td>
+				<td class="single plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span></td>
+				<td class="total"><span></span> €</td>
+			</tr>
+			<tr class="discount">
+				<td colspan="2">Abzug durch Gutscheine</td>
+				<td class="total"><span></span> €</td>
+			</tr>
   		<tr class="total">
-  			<td>Gesamt</td>
-        <td class="single plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span></td>
+  			<td colspan="2">Gesamt</td>
   			<td class="total"><span></span> €</td>
   		</tr>
     </tbody>
