@@ -269,11 +269,10 @@ function TicketsStep(delegate) {
     } else if (!res.ok) {
        msg = "Es ist ein unbekannter Fehler aufgetreten.";
     } else {
-      var couponField = this.couponBox.find("input[name=code]");
       var coupon = res.coupon;
       
       this.info.internal.coupons.push(coupon);
-      this.info.api.couponCodes.push(couponField.val());
+      this.info.api.couponCodes.push(this.couponField.val());
       
       this.updateAddedCoupons();
       this.trackPiwikGoal(2);
@@ -281,10 +280,9 @@ function TicketsStep(delegate) {
       if (coupon.seats) {
         msg += " Es wurden exklusive Sitzplätze für Sie freigeschaltet.";
       }
-      
-      couponField.blur().val("");
     }
     
+    this.couponField.blur().val("");
     this.delegate.toggleModalSpinner(false);
     this.updateCouponResult(msg, !res.ok);
     this.resizeDelegateBox();
@@ -354,8 +352,16 @@ function TicketsStep(delegate) {
     return this.info.internal.numberOfTickets > 0;
   };
   
+  this.validate = function () {
+    if (this.couponField.val() != "") {
+      this.addCoupon();
+      return false;
+    }
+    return true;
+  };
+  
   this.couponBox = this.box.find(".coupon");
-  this.couponField = this.couponBox.find("input[type=text]");
+  this.couponField = this.couponBox.find("input[name=code]");
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
     _this.choseNumber($this);
   });

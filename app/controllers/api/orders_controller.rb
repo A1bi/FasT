@@ -31,43 +31,9 @@ class Api::OrdersController < ApplicationController
       seats = seating[:seats]
     end
     
-    if info[:couponCodes].present? && info[:couponCodes].any?
-      coupons = Ticketing::Coupon.where(code: info[:couponCodes]).to_a
-      coupons.select! do |coupon|
-        if !coupon.expired?
-          coupon.redeem
-          order.coupons << coupon
-          true
-        end
-      end
-    end
-    
 		info[:tickets].each do |type_id, number|
 			ticket_type = Ticketing::TicketType.find_by_id(type_id)
-      next if !ticket_type || number < 1
-      
-      if ticket_type.exclusive
-        remaining = number
-        
-        (coupons ||= []).each do |coupon|
-          # assignment = coupon.ticket_type_assignments.where(ticket_type_id: ticket_type).first
-          # workaround: autosave is not triggered when fetching the tickets like shown above
-          assignment = coupon.ticket_type_assignments.find do |a|
-            a.ticket_type_id == ticket_type.id
-          end
-          next if !assignment
-          
-          diff = assignment.number - remaining
-          assignment.number = [0, diff].max
-          remaining = -diff
-          break if diff >= 0
-        end
-        
-        if remaining > 0 && type != :admin
-          response[:errors] << "Coupon error"
-          return render json: response
-        end
-      end
+      next if !ticket_type || number < 1 || (ticket_type.exclusive && type != :admin)
       
       number.times do
         ticket = order.tickets.new({
@@ -77,7 +43,24 @@ class Api::OrdersController < ApplicationController
         ticket.seat = Ticketing::Seat.find(seats.shift) if bound_to_seats
 			end
 		end
-  
+    
+    tickets_by_price = order.tickets.to_a.sort_by{ |x| x.price }
+    free_ticket_type = Ticketing::TicketType.where(price: 0).first
+    if info[:couponCodes].present? && info[:couponCodes].any?
+      coupons = Ticketing::Coupon.where(code: info[:couponCodes])
+      coupons.each do |coupon|
+        next if coupon.expired?
+        coupon.redeem
+        order.coupons << coupon
+        
+        coupon.free_tickets.times do
+          break if tickets_by_price.empty?
+          tickets_by_price.shift.type = free_ticket_type
+          coupon.free_tickets = coupon.free_tickets - 1
+        end
+      end
+    end
+    
     if type != :retail
       order.attributes = info.require(:address).permit(:email, :first_name, :gender, :last_name, :phone, :plz)
 
