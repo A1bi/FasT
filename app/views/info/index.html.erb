@@ -1,44 +1,152 @@
-<% title "Informationen zu unseren Aufführungen" %>
+<% title "Häufig gestellte Fragen" %>
 <% include_css "info" %>
 <% include_js "info" %>
-<div class="weather">
-	<div class="header">
-		<div class="hl">
-			Wetter in Kaisersesch
+<div class="hl">
+	Häufig gestellte Fragen
+</div>
+
+<div class="section">
+	<h2>Vorverkauf</h2>
+
+	<div class="question">Wo erhalte ich Tickets?</div>
+	<div class="answer">
+		Tickets können Sie bequem von zu Hause aus <%= link_to "online", new_ticketing_order_path %> bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
+		<ul>
+			<li>Sportstudio Otto Krechel, Kaisersesch</li>
+			<li>Buchhandlung Walgenbach, Kaisersesch</li>
+			<li>Buchhandlung Layaa-Laulhé, Cochem</li>
+		</ul>
+	</div>
+
+	<div class="question">Gibt es Platzreservierungen?</div>
+	<div class="answer">Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung oder beim Kauf in einer Vorverkaufsstelle anhand unseres Sitzplans frei wählen können.</div>
+
+	<div class="question">Gibt es gehbehindertengerechte Sitzplätze?</div>
+	<div class="answer">Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.</div>
+
+	<div class="question">Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?</div>
+	<div class="answer">Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.</div>
+
+	<div class="question">Wie erhalte ich meine Tickets, die ich online bestellt habe?</div>
+	<div class="answer">
+		Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+		<p>Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.</p>
+	</div>
+
+	<div class="question">Kann ich meine Tickets auch auf einem Handy vorzeigen?</div>
+	<div class="answer">
+		Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+		<p>Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie mit der genannten App den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „<%= link_to "Wallet Passes", "https://play.google.com/store/apps/details?id=io.walletpasses.android", target: "_blank" %>“ möglich.</p>
+	</div>
+
+	<div class="question">Lassen sich Tickets umbuchen oder stornieren?</div>
+	<div class="answer">
+		Sie können Ihre Tickets bis 24 Stunden vor Aufführungsbeginn jederzeit umbuchen oder stornieren. Dies gilt auch für Tickets, die in einer Vorverkaufsstelle gekauft wurden. Selbstverständlich erhalten Sie bei einer Stornierung den vollen Betrag der stornierten Tickets zurück.
+		<p>Bitte kontaktieren Sie uns hierzu telefonisch: <b>(02653) 28 27 09</b>. In Zukunft werden wir den Umbuchungsservice auch online anbieten.
+	</div>
+</div>
+
+<div class="trenner"></div>
+
+<div class="section">
+	<h2>Anfahrt</h2>
+
+	<div id="map"></div>
+
+	<div class="question">Wo finde ich die Freilichtbühne?</div>
+	<div class="answer">
+		Unser Freilichttheater findet im Historischen Ortskern von Kaisersesch statt. Dieser befindet sich in der Burgstraße, direkt an der Hauptstraße, bzw. neben der Kirche.
+		<p>Im Ort sollte Ihnen unser namensgebender Kirchturm eine gute Orientierungshilfe sein.</p>
+	</div>
+
+	<div class="question">Wie reise ich mit dem Auto an?</div>
+	<div class="answer">
+		Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgende der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
+		<p>Weitere Parkmöglichkeiten sind in der obigen Karte markiert.</p>
+	</div>
+
+	<div class="question">Wie reise ich mit öffentlichen Verkehrsmitteln an?</div>
+	<div class="answer">
+		Möchten Sie mit der Bahn anreisen, fahren Sie von Andernach kommend mit der Regionalbahn der DB Regio bis zum Bahnhof Kaisersesch. Von dort folgen Sie der Bahnhofstraße abwärts in den Ort bis zum Zentralplatz (Sparkasse).
+		<p>Mit dem Bus fahren Sie bis zum Balduinplatz.</p>
+	</div>
+</div>
+
+<div class="trenner"></div>
+
+<div class="section">
+	<h2>Wetter</h2>
+
+	<div id="wu">
+		<div class="info fadeIn">
+			<div class="icon">
+				<span class="temp"></span>° C
+			</div>
+			<div class="data">
+				Heute Min: <span class="low"></span>° C | Max: <span class="high"></span>° C
+				<br />Regenwahrscheinlichkeit: <span class="pop"></span> %
+			</div>
 		</div>
+		<div class="loader"></div>
 		<div class="source fadeIn">
-			Stand: <span class="date"></span> Uhr&nbsp;
+			Das aktuelle Wetter in Kaisersesch, Stand: <span class="date"></span> Uhr&nbsp;
 			<%= link_to "http://www.wunderground.com/q/zmw:00000.13.10613", target: "_blank" do %>
 				<%= image_tag "info/wunderground.png", alt: "Weather Underground", title: "Wetterdaten zur Verfügung gestellt von Weather Underground" %>
 			<% end %>
 		</div>
 	</div>
-	<div class="info fadeIn">
-		<div class="icon">
-			<span class="temp"></span>° C
-		</div>
-		<div class="data">
-			Heute Min: <span class="low"></span>° C | Max: <span class="high"></span>° C
-			<br />Regenwahrscheinlichkeit: <span class="pop"></span> %
-		</div>
+
+	<div class="question">Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?</div>
+	<div class="answer">
+		Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Aufführung schon im Vorfeld absagen oder in der ersten Hälfte des Stücks abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
+		<p>Bitte prüfen Sie an Aufführungstagen mit schlechtem Wetter unsere Homepage, die wir laufend mit aktuellen Informationen versorgen werden.</p>
 	</div>
-	<div class="loader"></div>
+
+	<div class="question">Sind die Zuschauerränge überdacht?</div>
+	<div class="answer">
+		Leider nicht. Wir bitten Sie daher, gegebenenfalls an wetterfeste Kleidung zu denken. Gerne erhalten Sie vor Ort aber auch Regenponchos.
+	</div>
 </div>
+
 <div class="trenner"></div>
-<div class="hl">
-	Anfahrt
-</div>
-<div class="map">
-	<div id="map"></div>
-	<div>
-		<h3>Mit dem Auto</h3>
-		Autobahn A48, Abfahrt Kaisersesch, Richtung Kaisersesch.<br />
-		Ca. 200 m nach der Stadteinfahrt befindet sich rechts hinter dem Busbahnhof der Parkplatz „Balduinplatz“.<br />
-		Weitere Parkmöglichkeiten sind in der obigen Karte markiert.<br />
-		Von dort sind es nur wenige Gehminuten zur Freilichtbühne im Historischen Ortskern. Der Weg ist ausgeschildert.
-		<h3>Mit der Bahn</h3>
-		Von Andernach aus kommend mit der Regionalbahn bis zum Bahnhof Kaisersesch.<br />
-		Von dort der Bahnhofstraße abwärts in den Ort folgen bis zum Zentralplatz (Sparkasse, Raiffeisenbank).<br />
-		Der Weg zur Freilichtbühne ist ausgeschildert.
+
+<div class="section">
+	<h2>Aufführung</h2>
+
+	<div class="question">Ich habe Tickets kurzfristig abzugeben. Kann ich diese an der Abendkasse zurückgeben?</div>
+	<div class="answer">Ja, das ist möglich. Sofern wir einen neuen Besitzer für Ihre Tickets finden können, erhalten Sie den vollen Betrag zurück.</div>
+
+	<div class="question">Kann ich an der Abendkasse mit EC-Karte bezahlen?</div>
+	<div class="answer">
+		Ja, das ist möglich, gerne auch bei kleinen Beträgen.
+		<p>Bitte beachten Sie, dass die Snack- und Getränkestände hingegen nur Bargeld akzeptieren.</p>
 	</div>
+
+	<div class="question">Werden vor Ort Speisen und Getränke angeboten?</div>
+	<div class="answer">Ja, an unseren Ständen bieten wir gepflegte Getränke und leckere Kleinigkeiten an.</div>
+
+	<div class="question">Wird es eine Pause geben?</div>
+	<div class="answer">Ja, um circa 21.15 Uhr machen wir eine Pause von etwa 20 Minuten.</div>
+
+	<div class="question">Wie lange dauert die Aufführung?</div>
+	<div class="answer">Wir spielen bis etwa 22.30 Uhr.</div>
+
+	<div class="question">Kann ich während der Aufführung fotografieren oder filmen?</div>
+	<div class="answer">Leider können wir Ihnen dies nicht gestatten.</div>
+
+	<div class="question">Gibt es ein Rauchverbot?</div>
+	<div class="answer">Während der Aufführung ja, gerne können Sie aber unsere Pause für die ein oder andere Zigarette nutzen.</div>
+</div>
+
+<div class="trenner"></div>
+
+<div class="section">
+	<h2>Meine Frage wurde nicht beantwortet</h2>
+	<p>
+		Kein Problem! Rufen Sie uns gerne an oder schreiben Sie uns:
+	</p>
+	<p>
+		Telefon: <b>(02653) 28 27 09</b><br />
+		e-mail: <script>document.write(deobfuscate("wiuznfuquow@tzqhqeaqtuuer-zkqawisqeuwrusuesczh.wqqduze"));</script>
+	</p>
 </div>

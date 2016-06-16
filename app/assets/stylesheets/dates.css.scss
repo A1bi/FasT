@@ -49,7 +49,7 @@ $shadowColor: black;
   $highlightColor: #e6007e;
   $shadowColor: rgba(black, .5);
 
-  .hl, .shadow, .prices table td.price, .dates td {
+  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
     color: $highlightColor;
   }
 

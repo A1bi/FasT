@@ -6,7 +6,7 @@ function Weather() {
 	var weatherData = {}, wBox, spinner;
 
 	var getData = function () {
-		$.getJSON("/info/weather.json", function (data) {
+		$.getJSON("/faq/weather.json", function (data) {
 			weatherData = data.data;
 
 			initWeather();
@@ -31,7 +31,7 @@ function Weather() {
 	}
 
 	this.init = function () {
-    wBox = $(".weather");
+    wBox = $("#wu");
 
     var opts = {
       lines: 12,
@@ -48,8 +48,12 @@ function Weather() {
 }
 
 $(function () {
+	$(".question").click(function () {
+		$(this).toggleClass("disclosed").find("+ .answer").slideToggle();
+	});
+
 	// init map data
-	$.getJSON("/info/map.json", function (data) {
+	$.getJSON("/faq/map.json", function (data) {
 		var map = new Map("map", ["https://a.tile.openstreetmap.org/${z}/${x}/${y}.png"]);
 
 		$.each(data.icons, function (key, value) {

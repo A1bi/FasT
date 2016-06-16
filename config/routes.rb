@@ -22,11 +22,12 @@ FasT::Application.routes.draw do
   end
 
   # info
-  controller :info, path: "info", as: :info do
+  controller :info, path: "faq", as: :info do
     get "/", action: :index
     get "map"
     get "weather"
   end
+  get "info", to: redirect("faq")
 
   # static pages
   controller :static do
