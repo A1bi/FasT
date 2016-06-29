@@ -61,7 +61,6 @@ module Ticketing
           ty: type_id,
           se: seat ? seat.id : nil
         }
-        info[:cancelled] = 1 if cancelled?
         @signed_info = SigningKey.random_active.sign(info)
       end
       signed = @signed_info

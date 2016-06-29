@@ -257,7 +257,7 @@ function TicketsStep(delegate) {
   };
   
   this.couponAdded = function (res) {
-    var msg = "Ihr Gutschein wurde erfolgreich hinzugefügt.";
+    var msg = "Ihr Gutschein wurde erfolgreich hinzugefügt. Weitere Gutscheine sind möglich.";
     if (res.ok === false) {
       if (res.error == "expired") {
         msg = "Dieser Code ist leider abgelaufen.";
