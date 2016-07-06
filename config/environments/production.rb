@@ -46,26 +46,13 @@ FasT::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-	config.assets.precompile << Proc.new { |path|
-		if path =~ /\.(css|js)\z/
-			# exclude global files
-			if path[0] == "_"
-				false
-			else
-        full_path = Rails.application.assets.resolve(path).to_path
-				app_assets_path = Rails.root.join('app', 'assets').to_path
-				if full_path.starts_with? app_assets_path
-					# including asset
-					true
-				else
-					# excluding asset
-					false
-				end
-			end
-		else
-			false
-		end
-	}
+  config.assets.precompile << Proc.new { |path, full_path|
+    if !full_path.include?(Rails.root.join("app").to_s) || (path =~ /\.(css|js)\z/ && File.basename(path).starts_with?("_"))
+      false
+    else
+      true
+    end
+  }
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
