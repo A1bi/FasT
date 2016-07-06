@@ -4,12 +4,12 @@ end
 
 # gbook entries
 11.times do
-	GbookEntry.create(author: Faker::NameDE.name, text: Faker::Lorem.paragraph(5 + random(10)))
+	GbookEntry.create(author: FFaker::NameDE.name, text: FFaker::Lorem.paragraph(5 + random(10)))
 end
 
 # galleries
 3.times do
-	Gallery.create(title: Faker::Lorem.sentence(4), disclaimer: "&copy; #{Faker::NameDE.name}")
+	Gallery.create(title: FFaker::Lorem.sentence(4), disclaimer: "&copy; #{FFaker::NameDE.name}")
 end
 
 
@@ -19,7 +19,7 @@ end
 	if i == 1
 		attrs.merge!({ first_name: "Albrecht", last_name: "Oster", email: "a.oster@online.de", group_name: :admin })
 	else
-		attrs.merge!({ first_name: Faker::NameDE.first_name, last_name: Faker::NameDE.last_name, email: Faker::Internet.free_email, group_name: :member })
+		attrs.merge!({ first_name: FFaker::NameDE.first_name, last_name: FFaker::NameDE.last_name, email: FFaker::Internet.free_email, group_name: :member })
 	end
 	member = Members::Member.new(attrs)
 	member.save(perform_validations: false)
@@ -30,22 +30,22 @@ locations = ["hier", "da", "dort", "irgendwo", "nirgendwo"]
 titles = ["Dies", "Das", "Irgendwas", "Tolle Sachen", "Treffen XY"]
 5.times do
 	date = Time.now + 3.weeks + random(4).days - random(1000).minutes
-	Members::Date.create({ datetime: date, info: Faker::Lorem.sentence, title: titles.sample, location: locations.sample })
+	Members::Date.create({ datetime: date, info: FFaker::Lorem.sentence, title: titles.sample, location: locations.sample })
 end
 
 # files
-# Members::File.create({ title: "Test-Datei", description: Faker::Lorem.sentence(6), path: "dummy.pdf" })
+# Members::File.create({ title: "Test-Datei", description: FFaker::Lorem.sentence(6), path: "dummy.pdf" })
 
 
 ## newsletters
 3.times do
-  Newsletter::Subscriber.create(email: Faker::Internet.free_email)
+  Newsletter::Subscriber.create(email: FFaker::Internet.free_email)
 end
 
 
 ## ticket system
 # events
-event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers", location: "Testbühne" })
+event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers", location: "Testbühne", sale_start: Time.zone.now - 1.week })
 4.times do |i|
 	# dates
 	event.dates.create(date: Time.zone.now + i.days)
