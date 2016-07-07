@@ -694,6 +694,7 @@ function FinishStep(delegate) {
           }, 2000);
           
         } else if (this.delegate.web) {
+          this.box.find('.order-number b').text(orderInfo.number);
           this.trackPiwikGoal(1, orderInfo.total);
         }
     
