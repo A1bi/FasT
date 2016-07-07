@@ -36,7 +36,7 @@ gem 'rubyzip', '~> 1.2.0'
 gem 'roadie', '~> 3.1.1'
 gem 'roadie-rails', '~> 1.1.1'
 
-gem 'sepa_king', '~> 0.7.0'
+gem 'sepa_king', github: 'salesking/sepa_king', ref: '78a643c'
 
 gem 'dalli', '~> 2.7.6'
 

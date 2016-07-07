@@ -58,7 +58,8 @@ module Ticketing
           mandate_date_of_signature: charge.created_at.to_date,
           local_instrument: "COR1",
           sequence_type: "OOFF",
-          batch_booking: false
+          batch_booking: true,
+          requested_date: Date.today + 2
         )
       end
       
