@@ -841,7 +841,7 @@ SeatingStandalone.prototype = Object.create(Seating.prototype);
 SeatingEditor.prototype = Object.create(Seating.prototype);
 SeatChooser.prototype = Object.create(Seating.prototype);
 
-$(window).load(function () {
+$(window).on('load', function () {
   $(".seating").each(function () {
     var $this = $(this), klass;
     if ($this.is(".editor")) {

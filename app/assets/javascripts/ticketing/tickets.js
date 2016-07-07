@@ -109,7 +109,7 @@ function TicketTransfer(container) {
   });
 }
 
-$(window).load(function () {
+$(window).on('load', function () {
   var transferBox = $(".transfer");
   if (transferBox.length) new TicketTransfer(transferBox);
 });

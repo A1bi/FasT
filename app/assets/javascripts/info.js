@@ -14,7 +14,7 @@ function Weather() {
 	}
 
 	var initWeather = function () {
-		var image = $("<img />").attr("src", "/assets/info/weather/" + weatherData.icon + ".gif").load(function () {
+		var image = $("<img />").attr("src", "/assets/info/weather/" + weatherData.icon + ".gif").on('load', function () {
 			$(".loader", wBox).addClass("out");
       setTimeout(function () {
 				spinner.stop();

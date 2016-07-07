@@ -12,7 +12,7 @@ function Gallery(g) {
 	var updatePic = function () {
 		var curPic = pics[cur];
 		
-		$(".photo img").attr("src", curPic.path).load(function () {
+		$(".photo img").attr("src", curPic.path).on('load', function () {
 			$(this).parent().css({width: $(this).width()});
 			
 			var nextPic = pics[getIndex(1)];

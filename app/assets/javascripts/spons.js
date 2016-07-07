@@ -40,7 +40,7 @@ $(function () {
       boxWidth = sponsorsBox.outerWidth();
     
   $.each(sponsorsBox.data("sponsors"), function () {
-    var logo = $("<img>").attr("src", "/assets/dates/spons/"+this[0]+".png").attr("alt", this[1]).load(function () {
+    var logo = $("<img>").attr("src", "/assets/dates/spons/"+this[0]+".png").attr("alt", this[1]).on('load', function () {
       loadedLogos++;
       positionLogos();
     });

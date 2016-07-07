@@ -962,23 +962,21 @@ function Ordering() {
     steps = [TicketsStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
   }
   
-  $(window).load(function () {
-    var progressSteps = _this.progressBox.find(".step");
-    var width = _this.progressBox.width() / (steps.length - 1);
-    progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
-    
-    $.each(steps, function (index, stepClass) {
-      stepClass.prototype = Step.prototype;
-      var step = new stepClass(_this);
-      _this.steps.push(step);
-    
-      progressSteps.filter("." + step.name).show();
-    });
-    
-    _this.registerEvents();
-    _this.showNext(false);
-    _this.resetExpirationTimer();
+  var progressSteps = _this.progressBox.find(".step");
+  var width = _this.progressBox.width() / (steps.length - 1);
+  progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
+  
+  $.each(steps, function (index, stepClass) {
+    stepClass.prototype = Step.prototype;
+    var step = new stepClass(_this);
+    _this.steps.push(step);
+  
+    progressSteps.filter("." + step.name).show();
   });
+  
+  _this.registerEvents();
+  _this.showNext(false);
+  _this.resetExpirationTimer();
 }
 
 $(function () {

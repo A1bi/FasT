@@ -1,4 +1,4 @@
-$(window).load(function () {
+$(window).on('load', function () {
 	var ad = $(".partner-lotto");
 	var text = $(".disclaimer", ad);
 	var prev = ad.prev();
