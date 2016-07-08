@@ -3,8 +3,9 @@ lock '3.5.0'
 
 set :application, 'FasT'
 set :repo_url, 'git@github.com:A1bi/FasT.git'
+set :deploy_to, "$HOME/apps/FasT/#{fetch(:stage)}"
 
-append :linked_files, 'config/database.yml'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml'
 append :linked_dirs, 'public/system', 'public/uploads'
 
 set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
@@ -14,7 +15,7 @@ set :keep_releases, 3
 namespace :deploy do
   after :publishing, :restart do
     on roles(:web) do
-      execute :service, 'unicorn_' + fetch(:application), :restart
+      execute :service, "unicorn_#{fetch(:application)}", :restart
     end
   end
 end
@@ -27,7 +28,7 @@ namespace :rails do
   end
 
   task :restart_resque do
-    on roles(:app) do
+    on roles(:resque) do
       within current_path do
         execute :rake, 'resque:restart'
       end

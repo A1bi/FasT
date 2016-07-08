@@ -18,6 +18,7 @@
 /public/uploads
 
 /config/database.yml
+/config/secrets.yml
 /config/application.yml
 
 /vendor/assets/bower_components

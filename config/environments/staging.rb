@@ -74,7 +74,7 @@ FasT::Application.configure do
 
   config.cache_store = :dalli_store, 'localhost', {
     namespace: Rails.application.class.parent_name + '/' + Rails.env,
-    expires_in: 2.days,
+    expires_in: 1.day,
     compress: true
   }
 
