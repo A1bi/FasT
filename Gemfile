@@ -13,9 +13,9 @@ gem 'sass-rails',   '~> 5.0.5'
 #gem 'coffee-rails', '~> 3.2.1'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', :platforms => :ruby
+gem 'therubyracer', platforms: :ruby
 
-gem 'uglifier', '~> 3.0'
+gem 'uglifier'
 
 gem 'jquery-rails', '~> 4.1.1'
 gem 'jquery-ui-rails', '~> 5.0.5'
