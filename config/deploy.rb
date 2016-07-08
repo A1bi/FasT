@@ -1,34 +1,46 @@
-require "bundler/capistrano"
-require "rvm/capistrano"
-require "capistrano-resque"
+# config valid only for current version of Capistrano
+lock '3.5.0'
 
-load "config/recipes/base"
-load "config/recipes/nginx"
-load "config/recipes/unicorn"
-load "config/recipes/mysql"
-load "config/recipes/memcached"
-load "config/recipes/rails"
+set :application, 'FasT'
+set :repo_url, 'git@github.com:A1bi/FasT.git'
 
-server "213.239.219.83", :web, :app, :db, :resque_worker, :resque_scheduler, primary: true
+append :linked_files, 'config/database.yml'
+append :linked_dirs, 'public/system', 'public/uploads'
 
-set :user, "deployer"
-set :application, "FasT"
-set :github_user, "A1bi"
-set :domain_name, "theater-kaisersesch.de"
-set :deploy_to, "/home/#{user}/apps/#{application}"
-set :deploy_via, :remote_cache
-set :use_sudo, false
+set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
 
-set :scm, "git"
-set :repository, "git@github.com:#{github_user}/#{application}.git"
-set :branch, "master"
+set :keep_releases, 3
 
-default_run_options[:pty] = true
-ssh_options[:forward_agent] = true
+namespace :deploy do
+  after :publishing, :restart do
+    on roles(:web) do
+      execute :service, 'unicorn_' + fetch(:application), :restart
+    end
+  end
+end
 
-after "deploy", "deploy:cleanup" # keep only the last 5 releases
+namespace :rails do
+  task :clear_cache do
+    on roles(:app) do
+      execute 'echo "flush_all" | nc localhost 11211'
+    end
+  end
 
-set :workers, { "mailer_queue" => 1 }
-set :resque_environment_task, true
+  task :restart_resque do
+    on roles(:app) do
+      within current_path do
+        execute :rake, 'resque:restart'
+      end
+    end
+  end
 
-after "deploy:restart", "resque:restart"
+  task :console do
+    on roles(:app), primary: true do |host|
+      cmd = "cd #{fetch(:deploy_to)}/current && #{SSHKit.config.command_map[:bundle]} exec rails console #{fetch(:stage)}"
+      exec "ssh -l #{host.user} #{host.hostname} -p #{host.port || 22} -t '#{cmd}'"
+    end
+  end
+end
+
+after 'deploy:restart', 'rails:clear_cache'
+after 'deploy:restart', 'rails:restart_resque'
