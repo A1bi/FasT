@@ -6,9 +6,6 @@ class AddPaidToTicketingTickets < ActiveRecord::Migration
   def migrate(direction)
     super
     if direction == :up
-      Ticketing::Order.where(paid: true).each do |order|
-        order.tickets.update_all(paid: order.paid)
-      end
       change_column :members_dates, :info, :text, limit: nil
     end
   end
