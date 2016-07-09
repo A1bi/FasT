@@ -12,10 +12,13 @@ set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
 
 set :keep_releases, 3
 
+set :workers, { mailer_queue: 1 }
+set :resque_environment_task, true
+
 namespace :deploy do
   after :publishing, :restart do
-    on roles(:web) do
-      execute :service, "unicorn_#{fetch(:application)}", :restart
+    on roles(:app) do
+      execute "bash -l -c 'service unicorn_#{fetch(:application)}_#{fetch(:stage)} restart'"
     end
   end
 end
@@ -23,15 +26,7 @@ end
 namespace :rails do
   task :clear_cache do
     on roles(:app) do
-      execute 'echo "flush_all" | nc localhost 11211'
-    end
-  end
-
-  task :restart_resque do
-    on roles(:resque) do
-      within current_path do
-        execute :rake, 'resque:restart'
-      end
+      execute 'echo "flush_all" | nc -q 2 localhost 11211'
     end
   end
 
@@ -44,4 +39,4 @@ namespace :rails do
 end
 
 after 'deploy:restart', 'rails:clear_cache'
-after 'deploy:restart', 'rails:restart_resque'
+after 'deploy:restart', 'resque:restart'

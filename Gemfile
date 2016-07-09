@@ -69,6 +69,7 @@ group :development do
   gem 'capistrano-rvm', '~> 0.1.1', require: false
   gem 'capistrano-bundler', '~> 1.1.3', require: false
   gem 'capistrano-rails', '~> 1.1.7', require: false
+  gem 'capistrano-resque', '~> 0.2.2', require: false
 	gem 'sqlite3', '~> 1.3.11'
 	gem 'ffaker', '~> 2.2.0'
 end
