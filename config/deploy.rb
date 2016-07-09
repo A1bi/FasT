@@ -12,24 +12,21 @@ set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
 
 set :keep_releases, 3
 
+# unicorn
+set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
+
+# resque
 set :workers, { mailer_queue: 1 }
 set :resque_environment_task, true
 
 namespace :deploy do
   after :publishing, :restart do
-    on roles(:app) do
-      execute "bash -l -c 'service unicorn_#{fetch(:application)}_#{fetch(:stage)} restart'"
-    end
+    invoke 'unicorn:restart'
+    invoke 'resque:restart'
   end
 end
 
 namespace :rails do
-  task :clear_cache do
-    on roles(:app) do
-      execute 'echo "flush_all" | nc -q 2 localhost 11211'
-    end
-  end
-
   task :console do
     on roles(:app), primary: true do |host|
       cmd = "cd #{fetch(:deploy_to)}/current && #{SSHKit.config.command_map[:bundle]} exec rails console #{fetch(:stage)}"
@@ -37,6 +34,3 @@ namespace :rails do
     end
   end
 end
-
-after 'deploy:restart', 'rails:clear_cache'
-after 'deploy:restart', 'resque:restart'
