@@ -1,11 +1,12 @@
-app_path = "$HOME/apps/FasT/#{Rails.env}"
+rails_env = ENV['RAILS_ENV']
+app_path = "#{ENV['HOME']}/apps/FasT/#{rails_env}"
 current_path = "#{app_path}/current"
 shared_path = "#{app_path}/shared"
 
 working_directory current_path
 pid "#{shared_path}/tmp/pids/unicorn.pid"
 
-listen "/tmp/unicorn.FasT.#{Rails.env}.sock", backlog: 64
+listen "/tmp/unicorn.FasT.#{rails_env}.sock", backlog: 64
 worker_processes 3
 timeout 45
 
@@ -43,6 +44,6 @@ after_fork do |server, worker|
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.establish_connection
   end
-  
+
   Rails.cache.clear if defined? Rails.cache
 end
