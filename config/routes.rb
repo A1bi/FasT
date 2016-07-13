@@ -244,6 +244,9 @@ FasT::Application.routes.draw do
         get :event
         get :products
       end
+      controller :check_in, path: :check_in do
+        get "/", action: :index
+      end
       post "push_notifications" => "push_notifications#register"
     end
 
