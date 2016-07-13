@@ -13,6 +13,7 @@ set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
 set :keep_releases, 3
 
 # unicorn
+set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
 
 # resque
