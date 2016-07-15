@@ -9,13 +9,13 @@ class TicketsPDF < Prawn::Document
   TICKET_WIDTH = 595
   TICKET_HEIGHT = 280
   
-  def initialize(margin = [14, 0], page_size = "A4")
+  def initialize(margin = [14, 0], page_size = "A4", page_layout = :portrait)
     @tickets_drawn = 0
     @stamps = {}
     @ticket_height = TICKET_HEIGHT - 1 - margin.first * 2 / 3
     @ticket_margin = 12
 
-    super page_size: page_size, page_layout: :portrait, margin: margin, info: {
+    super page_size: page_size, page_layout: page_layout, margin: margin, info: {
       Title:         t(:title),
       Author:        t(:author),
       Creator:       t(:creator),

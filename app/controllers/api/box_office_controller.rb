@@ -113,15 +113,12 @@ class Api::BoxOfficeController < ApplicationController
     ticket_id = nil
     orders = []
     if params[:q].present?
-      if params[:q] =~ /\A(1|7)(\d{6})\z/
-        if $1 == "1"
-          orders << Ticketing::Order.where(number: $2).first
-        else
-          ticket = Ticketing::Ticket.where(number: $2).first
-          if ticket
-            ticket_id = ticket.id
-            orders << ticket.order
-          end
+      if params[:q] =~ /\A(\d{7})(-(\d+))?\z/
+        order = Ticketing::Order.where(number: $1).first
+        orders << order
+        if order && $3.present?
+          ticket = order.tickets.where(order_index: $3).first
+          ticket_id = ticket.id if ticket
         end
         
       else
@@ -142,7 +139,7 @@ class Api::BoxOfficeController < ApplicationController
   end
   
   def ticket_printable
-    pdf = TicketsRetailPDF.new
+    pdf = TicketsBoxOfficePDF.new
     pdf.add_tickets(@tickets)
     send_data pdf.render, type: "application/pdf", disposition: "inline"
   end
