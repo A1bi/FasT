@@ -22,6 +22,6 @@ class TicketsBoxOfficePDF < TicketsPDF
   end
   
   def signed_ticket_info_extension
-    2
+    3
   end
 end

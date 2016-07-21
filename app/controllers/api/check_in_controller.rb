@@ -26,4 +26,16 @@ class Api::CheckInController < ApplicationController
 
     render json: response
   end
+  
+  def create
+    params[:check_ins].each do |check_in|
+      ticket = Ticketing::Ticket.find(check_in[:ticket_id])
+      ticket.check_ins.create({
+        date: Time.at(check_in[:date]),
+        medium: check_in[:medium]
+      })
+    end
+
+    render json: { ok: true }
+  end
 end

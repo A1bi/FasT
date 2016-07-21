@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607170525) do
+ActiveRecord::Schema.define(version: 20160721123404) do
 
   create_table "galleries", force: :cascade do |t|
     t.string   "title"
@@ -180,15 +180,6 @@ ActiveRecord::Schema.define(version: 20160607170525) do
     t.datetime "updated_at"
   end
 
-  create_table "ticketing_box_office_checkins", force: :cascade do |t|
-    t.integer  "ticket_id"
-    t.integer  "checkpoint_id"
-    t.boolean  "in"
-    t.integer  "medium"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "ticketing_box_office_checkpoints", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -231,6 +222,13 @@ ActiveRecord::Schema.define(version: 20160607170525) do
     t.string   "reason"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "ticketing_check_ins", force: :cascade do |t|
+    t.integer  "ticket_id"
+    t.integer  "checkpoint_id"
+    t.integer  "medium"
+    t.datetime "date"
   end
 
   create_table "ticketing_coupon_redemptions", force: :cascade do |t|

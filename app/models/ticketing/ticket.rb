@@ -7,7 +7,7 @@ module Ticketing
     belongs_to :seat
   	belongs_to :date, class_name: EventDate
     has_passbook_pass
-    has_many :checkins, class_name: BoxOffice::Checkin
+    has_many :check_ins
 	
   	validates_presence_of :type, :date
     validates_presence_of :seat, if: :seat_required?
