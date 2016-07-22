@@ -1,6 +1,7 @@
 class Api::BoxOfficeController < ApplicationController
   before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
+  before_action :find_box_office, only: [:place_order, :purchase, :report, :bill]
   
   def place_order
     response = {
@@ -10,7 +11,7 @@ class Api::BoxOfficeController < ApplicationController
     
     info = params.require(:order)
     order = Ticketing::BoxOffice::Order.new
-    order.box_office = Ticketing::BoxOffice::BoxOffice.first
+    order.box_office = @box_office
     
     seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
     if !seating[:ok]
@@ -94,11 +95,10 @@ class Api::BoxOfficeController < ApplicationController
       end
     end
     
-    office = Ticketing::BoxOffice::BoxOffice.first
-    office.purchases << purchase
+    @box_office.purchases << purchase
     
     ok = false
-    if office.save
+    if @box_office.save
       ok = true
       tickets.each do |ticket|
         ticket.picked_up = true
@@ -194,6 +194,48 @@ class Api::BoxOfficeController < ApplicationController
     }
   end
   
+  def report
+    response = {}
+    
+    start_date = 12.hours.ago
+    
+    response[:products] = @box_office
+      .purchases
+      .where("ticketing_box_office_purchases.created_at > ?", start_date)
+      .includes(:items)
+      .where("ticketing_box_office_purchase_items.purchasable_type = 'Ticketing::BoxOffice::Product'")
+      .group("ticketing_box_office_purchase_items.purchasable_id")
+      .sum("ticketing_box_office_purchase_items.number")
+      .map do |item_id, number|
+        {
+          name: Ticketing::BoxOffice::Product.find(item_id).name,
+          number: number
+        }
+    end
+    
+    response[:billings] = @box_office
+      .billing_account
+      .transfers
+      .where("created_at > ?", start_date)
+      .map do |transfer|
+        {
+          reason: t("ticketing.orders.balancing." + transfer.note_key.to_s, default: transfer.note_key.to_s),
+          amount: transfer.amount,
+          date: transfer.created_at.to_i
+        }
+    end
+    
+    response[:balance] = @box_office.billing_account.balance
+    
+    render json: response
+  end
+  
+  def bill
+    @box_office.billing_account.deposit(params[:amount], params[:reason])
+    @box_office.billing_account.save
+    render json: { ok: true }
+  end
+  
   private
   
   def find_tickets
@@ -208,6 +250,10 @@ class Api::BoxOfficeController < ApplicationController
     @tickets = @order.tickets.select do |ticket|
       params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
     end
+  end
+  
+  def find_box_office
+    @box_office = Ticketing::BoxOffice::BoxOffice.first
   end
   
   def save_order_and_update_node_with_tickets(order, tickets)

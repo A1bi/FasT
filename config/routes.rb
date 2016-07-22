@@ -233,7 +233,7 @@ FasT::Application.routes.draw do
       end
       controller :box_office, path: :box_office do
         get :search
-        post :ticket_printable
+        get :ticket_printable
         patch :pick_up_tickets
         post :place_order
         patch :cancel_order
@@ -243,6 +243,8 @@ FasT::Application.routes.draw do
         post :unlock_seats
         get :event
         get :products
+        get :report
+        post :bill
       end
       controller :check_in, path: :check_in do
         get "/", action: :index
