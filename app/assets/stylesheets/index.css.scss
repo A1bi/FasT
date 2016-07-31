@@ -19,77 +19,36 @@
 	}
 }
 
-.teaser {
-	margin: 30px auto;
-
-  &.alte-dame {
-		$highlight-color: #e6007e;
-    position: relative;
-    background:url(asset_path("theater/alte_dame/index_teaser.jpg")) no-repeat;
+.epilogue {
+	&.alte-dame {
+		background:url(asset_path("theater/alte_dame/epilogue.jpg")) no-repeat;
+		background-size: cover;
     width: 100%;
-    height: 384px;
-
-		.links {
-			text-align: center;
-			padding-top: 290px;
-			padding-left: 147px;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 19px;
+    height: 350px;
+		overflow: auto;
+		
+		div {
+			margin: auto;
+			margin-top: 220px;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 26.5px;
 			font-weight: bold;
 			font-variant: small-caps;
-			color: $highlight-color;
-
-      a {
-        padding: 0px 7px;
-        color: black;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  .highlight {
-    top: 150px;
-    right: 30px;
-    font-size: 45px;
-    color: red;
-    text-shadow: -1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white, 1px 1px 0 white, 1px 1px 4px black;
-    z-index: 99;
-    @include animation(highlight, 1s, 1);
-    @include vendor-specific(transform, rotate(350deg));
-
-    &.addition {
-      top: 70px;
-      right: 20px;
-      @include vendor-specific(animation-name, (highlight, addition));
-      @include vendor-specific(animation-duration, (1s, 1s));
-      @include vendor-specific(animation-iteration-count, (1, infinite));
-      @include vendor-specific(animation-direction, alternate);
-    }
-  }
-}
-
-@include keyframes(highlight) {
-  from {
-    @include vendor-specific(transform, rotate(0deg) scale(0));
-  }
-
-  to {
-    @include vendor-specific(transform, rotate(710deg) scale(1));
-  }
-}
-
-@include keyframes(addition) {
-  from {
-    @include vendor-specific(transform, scale(1) rotate(350deg));
-  }
-
-  to {
-    @include vendor-specific(transform, scale(.9) rotate(350deg));
-  }
+			color: yellow;
+			text-shadow: -1px 0 2px black, 0 1px 2px black, 1px 0 2px black, 0 -1px 2px black;
+			text-align: center;
+			width: 75%;
+			
+			a {
+				color: inherit;
+				text-decoration: none;
+				
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
 }
 
 .partner-lotto {

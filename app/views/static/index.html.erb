@@ -12,10 +12,11 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index, sale_started] do %>
-    <div class="teaser alte-dame">
-      <div class="links">
-        <%= link_to "Über das Stück", theater_alte_dame_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+  <% cache [:static, :index] do %>
+    <div class="epilogue alte-dame">
+      <div>
+        Wir danken unserem tollen Publikum für sechs wundervolle Aufführungen von<br />
+        „<%= link_to "Der Besuch der alten Dame", theater_alte_dame_path %>“
       </div>
     </div>
     <div class="trenner"></div>
