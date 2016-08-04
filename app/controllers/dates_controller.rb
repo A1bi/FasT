@@ -1,15 +1,15 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
-  
+
   before_filter :prepare_ticket_prices
   before_filter :prepare_event
-  
+
   def don_camillo
   end
-  
+
   def jedermann
   end
-  
+
   def alte_dame
     @create_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
   end

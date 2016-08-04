@@ -25,11 +25,11 @@
 <% end %>
 <%= content_for :steps do %>
   <%= render "tickets" %>
-	<%= render "seats" %>
-	<div class="stepCon confirm">
-		<div class="note">Bitte kontrollieren Sie die Bestellung noch einmal und klicken anschließend auf <em>bestätigen</em>.</div>
+  <%= render "seats" %>
+  <div class="stepCon confirm">
+    <div class="note">Bitte kontrollieren Sie die Bestellung noch einmal und klicken anschließend auf <em>bestätigen</em>.</div>
     <%= render "confirm_tickets" %>
-	</div>
+  </div>
   <%= render "finish" %>
 <% end %>
 <%= render "framework" %>

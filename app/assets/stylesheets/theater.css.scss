@@ -1,84 +1,84 @@
 @import "_mixins";
 
 .cast {
-	margin: 20px 0px;
-	font-size: 16px;
+  margin: 20px 0px;
+  font-size: 16px;
 
-	.row {
-		padding: 4px 0px;
-		overflow: auto;
+  .row {
+    padding: 4px 0px;
+    overflow: auto;
 
-		> div {
-			width: 46%;
-			float: left;
-			padding: 0px 10px;
-			vertical-align: top;
-		}
-		
-		.small {
-			font-size: 11px;
-		}
-	}
+    > div {
+      width: 46%;
+      float: left;
+      padding: 0px 10px;
+      vertical-align: top;
+    }
 
-	p {
-		margin: 10px 0px;
-	}
-  
-	.role {
-		text-align: right;
-		
-		.desc {
-			font-size: 14px;
-			opacity: .8;
-			padding-bottom: 5px;
-		}
-	}
-  
-	.actor {
-		font-weight: bold;
-		text-align: left;
-	}
-  
-	.newSection div {
-		padding-top: 20px;
-	}
-  
-	.alt {
-		font-size: 13px;
-		background: #2d2d2d;
-		box-shadow: inset 0px 2px 5px black;
-		margin: 5px 0px 15px 0px;
-		display: none;
-		width: 100%;
-    
+    .small {
+      font-size: 11px;
+    }
+  }
+
+  p {
+    margin: 10px 0px;
+  }
+
+  .role {
+    text-align: right;
+
+    .desc {
+      font-size: 14px;
+      opacity: .8;
+      padding-bottom: 5px;
+    }
+  }
+
+  .actor {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .newSection div {
+    padding-top: 20px;
+  }
+
+  .alt {
+    font-size: 13px;
+    background: #2d2d2d;
+    box-shadow: inset 0px 2px 5px black;
+    margin: 5px 0px 15px 0px;
+    display: none;
+    width: 100%;
+
     .row {
       padding: 5px 0px;
-			
-			ul {
-				padding: 0;
-				margin: 0;
-				list-style: {
-					type: circle;
-					position: inside;
-				}
-				
-				li {
-					float: left;
-					padding-right: 7px;
-				}
-			}
-      
-  		span {
-  			width: 60px;
-  			display: inline-block;
-  			text-align: center;
-  		}
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: {
+          type: circle;
+          position: inside;
+        }
+
+        li {
+          float: left;
+          padding-right: 7px;
+        }
+      }
+
+      span {
+        width: 60px;
+        display: inline-block;
+        text-align: center;
+      }
     }
-	}
-	
-	.double {
-		.actor, .alt {
-			cursor: pointer;
-		}
-	}
+  }
+
+  .double {
+    .actor, .alt {
+      cursor: pointer;
+    }
+  }
 }

@@ -71,12 +71,12 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.7', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-resque', '~> 0.2.2', require: false
-	gem 'sqlite3', '~> 1.3.11'
-	gem 'ffaker', '~> 2.2.0'
+  gem 'sqlite3', '~> 1.3.11'
+  gem 'ffaker', '~> 2.2.0'
 end
 
 group :staging, :production do
-	gem 'mysql2', '~> 0.4.4'
+  gem 'mysql2', '~> 0.4.4'
 end
 
 # To use debugger

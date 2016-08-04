@@ -11,23 +11,23 @@
   background: rgba(0, 0, 0, .9);
   color: white;
   box-shadow: 1px 1px 5px black;
-  
+
   .info {
     padding-left: 60px;
-    
+
     p {
       font-size: 13px;
       margin: 15px 0px 0px 0px;
     }
-  
+
     a {
       color: white;
     }
   }
-  
+
   .spinner {
     position: absolute;
     top: 40px;
     left: 39px;
-  }  
+  }
 }

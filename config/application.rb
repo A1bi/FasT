@@ -46,24 +46,24 @@ module FasT
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
     config.active_record.raise_in_transactional_callbacks = true
-    
+
     config.action_controller.include_all_helpers = false
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.assets.paths << Rails.root.join("lib", "assets", "javascripts")
-    
+
     config.to_prepare do
       Passbook.options[:path] = File.join("system", "passbook")
       Passbook.options[:full_path] = File.join(Rails.public_path, Passbook.options[:path])
     end
-    
+
     config.action_mailer.default_url_options = CONFIG[:url_options]
     config.roadie.url_options = CONFIG[:url_options]
     Rails.application.routes.default_url_options = CONFIG[:url_options]
-    
+
     Paperclip.options[:command_path] = CONFIG[:imagemagick_path]
   end
 end

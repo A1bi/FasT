@@ -12,8 +12,8 @@ FasT::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
-	config.action_mailer.perform_deliveries = true
-	config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = CONFIG[:smtp]
 
   # Print deprecation notices to the Rails logger
@@ -22,9 +22,9 @@ FasT::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   config.assets.check_precompiled_asset = false
-  
+
   config.eager_load = false
-  
+
   config.to_prepare do
     Passbook.options.merge!(CONFIG[:passbook])
   end

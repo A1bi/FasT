@@ -5,7 +5,7 @@ module Ticketing
             dependent: :nullify, autosave: true, after_add: :propagate_submission
 
     validates_length_of :charges, minimum: 1
-    
+
     private
 
     def propagate_submission(charge)

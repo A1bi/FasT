@@ -3,7 +3,7 @@ module Newsletter
     include RandomUniqueAttribute
 
     has_random_unique_token :token
-    
+
     auto_strip_attributes :last_name, squish: true
 
     validates :email,

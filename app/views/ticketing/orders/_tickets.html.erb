@@ -8,8 +8,8 @@
   <% else %>
     <div class="hl inner">„<%= @event.name %>“</div>
   <% end %>
-	<div class="number inner">
-		<table class="rounded">
+  <div class="number inner">
+    <table class="rounded">
       <thead>
         <tr>
           <th colspan="4">Ihre gewünschten Tickets</th>
@@ -31,15 +31,15 @@
         <% end %>
         <tr class="subtotal">
           <td colspan="3" class="plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt</td>
-  				<td class="total"><span></span> €</td>
+          <td class="total"><span></span> €</td>
         </div>
-  			<tr class="total">
-  				<td colspan="3">Gesamt</td>
-  				<td class="total"><span></span> €</td>
-  			</tr>
+        <tr class="total">
+          <td colspan="3">Gesamt</td>
+          <td class="total"><span></span> €</td>
+        </tr>
       </tbody>
-		</table>
-    
+    </table>
+
     <%= content_tag :table, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon] do %>
       <thead>
         <tr>
@@ -62,7 +62,7 @@
         </tr>
       </tbody>
     <% end %>
-	</div>
+  </div>
   <% if web? %>
     <div class="note">
       <div class="trenner"></div>

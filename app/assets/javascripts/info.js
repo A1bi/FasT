@@ -3,34 +3,34 @@
 
 function Weather() {
 
-	var weatherData = {}, wBox, spinner;
+  var weatherData = {}, wBox, spinner;
 
-	var getData = function () {
-		$.getJSON("/faq/weather.json", function (data) {
-			weatherData = data.data;
+  var getData = function () {
+    $.getJSON("/faq/weather.json", function (data) {
+      weatherData = data.data;
 
-			initWeather();
-		});
-	}
+      initWeather();
+    });
+  }
 
-	var initWeather = function () {
-		var image = $("<img />").attr("src", "/assets/info/weather/" + weatherData.icon + ".gif").on('load', function () {
-			$(".loader", wBox).addClass("out");
+  var initWeather = function () {
+    var image = $("<img />").attr("src", "/assets/info/weather/" + weatherData.icon + ".gif").on('load', function () {
+      $(".loader", wBox).addClass("out");
       setTimeout(function () {
-				spinner.stop();
-			}, 500);
-			$(".fadeIn", wBox).addClass("in");
-		}).appendTo($(".icon", wBox));
+        spinner.stop();
+      }, 500);
+      $(".fadeIn", wBox).addClass("in");
+    }).appendTo($(".icon", wBox));
 
-		$.each(weatherData, function (key, value) {
-			if (key === "icon") {
-				return;
-			}
-			$("."+key, wBox).html(value);
-		});
-	}
+    $.each(weatherData, function (key, value) {
+      if (key === "icon") {
+        return;
+      }
+      $("."+key, wBox).html(value);
+    });
+  }
 
-	this.init = function () {
+  this.init = function () {
     wBox = $("#wu");
 
     var opts = {
@@ -42,36 +42,36 @@ function Weather() {
     };
     spinner = new Spinner(opts).spin($(".loader", wBox).get(0));
 
-		getData();
-	}
+    getData();
+  }
 
 }
 
 $(function () {
-	$(".question").click(function () {
-		$(this).toggleClass("disclosed").find("+ .answer").slideToggle();
-	});
+  $(".question").click(function () {
+    $(this).toggleClass("disclosed").find("+ .answer").slideToggle();
+  });
 
-	// init map data
-	$.getJSON("/faq/map.json", function (data) {
-		var map = new Map("map", ["https://a.tile.openstreetmap.org/${z}/${x}/${y}.png"]);
+  // init map data
+  $.getJSON("/faq/map.json", function (data) {
+    var map = new Map("map", ["https://a.tile.openstreetmap.org/${z}/${x}/${y}.png"]);
 
-		$.each(data.icons, function (key, value) {
-			data.icons[key].file = value.file;
-		});
-		map.registerIcons(data.icons);
+    $.each(data.icons, function (key, value) {
+      data.icons[key].file = value.file;
+    });
+    map.registerIcons(data.icons);
 
-		map.registerLocations(data.locations);
+    map.registerLocations(data.locations);
 
-		$.each(data.markers, function (key, value) {
-			data.markers[key].bubble = true;
-		});
-		map.addMarkers(data.markers);
+    $.each(data.markers, function (key, value) {
+      data.markers[key].bubble = true;
+    });
+    map.addMarkers(data.markers);
 
-		map.setCenter(data.centerLoc, data.zoom);
-	});
+    map.setCenter(data.centerLoc, data.zoom);
+  });
 
-	// init weather
-	var weather = new Weather();
-	weather.init();
+  // init weather
+  var weather = new Weather();
+  weather.init();
 });

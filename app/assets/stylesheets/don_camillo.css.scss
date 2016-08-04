@@ -35,7 +35,7 @@ $highlightColor: #f23233;
     align: justify;
     shadow: #000000 0px 0px 10px;
   }
-  
+
   h2, a, .highlight {
     color: $highlightColor;
   }
@@ -56,15 +56,15 @@ $highlightColor: #f23233;
 
 .cast {
   line-height: 1.2em;
-  
+
   .alt {
     background: rgba(black, .2);
   }
-  
+
   .actor {
     color: $highlightColor;
   }
-  
+
   .small {
     color: $regularColor;
   }

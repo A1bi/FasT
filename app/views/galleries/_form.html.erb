@@ -1,24 +1,24 @@
 <% include_css "galleries" %>
 <div class="box">
-	<div class="top">
-		Neue Fotogalerie erstellen
-	</div>
-	<div class="con">
-	    <%= render "errors", :errors => @gallery.errors %>
-		<%= form_for @gallery do |f| %>
-		<table>
-			<tr class="name">
-				<td>Titel:</td>
-				<td><%= f.text_field :title %></td>
-			</tr>
-			<tr>
-				<td>Copyright-Hinweise:</td>
-				<td><%= f.text_field :disclaimer %></td>
-			</tr>
-		</table>
-		<div class="submit hcen">
-			<%= cond_submit f %>
-		</div>
-		<% end %>
-	</div>
+  <div class="top">
+    Neue Fotogalerie erstellen
+  </div>
+  <div class="con">
+      <%= render "errors", :errors => @gallery.errors %>
+    <%= form_for @gallery do |f| %>
+    <table>
+      <tr class="name">
+        <td>Titel:</td>
+        <td><%= f.text_field :title %></td>
+      </tr>
+      <tr>
+        <td>Copyright-Hinweise:</td>
+        <td><%= f.text_field :disclaimer %></td>
+      </tr>
+    </table>
+    <div class="submit hcen">
+      <%= cond_submit f %>
+    </div>
+    <% end %>
+  </div>
 </div>

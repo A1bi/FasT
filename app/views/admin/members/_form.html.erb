@@ -1,53 +1,53 @@
 <% title "Mitgliederverwaltung - #{title}" %>
 <div class="hl">Mitgliederverwaltung</div>
 <%= form_for [:admin, @member] do |f| %>
-	<div class="box">
-		<div class="top">
-			<%= title %>
-		</div>
-		<div class="con">
-			<%= render "errors", errors: @member.errors %>
-			<table>
-				<tr>
-					<td>Vorname:</td>
-					<td><%= f.text_field :first_name, required: true %></td>
-				</tr>
-				<tr>
-					<td>Nachname:</td>
-					<td><%= f.text_field :last_name, required: true %></td>
-				</tr>
-				<tr>
-					<td>Spitzname:</td>
-					<td><%= f.text_field :nickname %></td>
-				</tr>
-				<tr>
-					<td>e-mail-Adresse:</td>
-					<td><%= f.text_field :email %></td>
-				</tr>
-				<tr>
-					<td>Geburtstag:</td>
-					<td><%= f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year %></td>
-				</tr>
-				<tr>
-					<td>Gruppe:</td>
-					<td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
-				</tr>
-				<%= content_tag :tr do %>
-					<td>
-						Aktivierungsmail zusenden:
-					</td>
-					<td>
-						<%= check_box :activation, :send, checked: true %>
-						<div class="small">Wird nur versendet, wenn e-mail-Adresse angegeben.</div>
-					</td>
-				<% end if @member.new_record? %>
-			</table>
-			<div class="submit">
-				<%= cond_submit f %>
-			</div>
+  <div class="box">
+    <div class="top">
+      <%= title %>
+    </div>
+    <div class="con">
+      <%= render "errors", errors: @member.errors %>
+      <table>
+        <tr>
+          <td>Vorname:</td>
+          <td><%= f.text_field :first_name, required: true %></td>
+        </tr>
+        <tr>
+          <td>Nachname:</td>
+          <td><%= f.text_field :last_name, required: true %></td>
+        </tr>
+        <tr>
+          <td>Spitzname:</td>
+          <td><%= f.text_field :nickname %></td>
+        </tr>
+        <tr>
+          <td>e-mail-Adresse:</td>
+          <td><%= f.text_field :email %></td>
+        </tr>
+        <tr>
+          <td>Geburtstag:</td>
+          <td><%= f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year %></td>
+        </tr>
+        <tr>
+          <td>Gruppe:</td>
+          <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
+        </tr>
+        <%= content_tag :tr do %>
+          <td>
+            Aktivierungsmail zusenden:
+          </td>
+          <td>
+            <%= check_box :activation, :send, checked: true %>
+            <div class="small">Wird nur versendet, wenn e-mail-Adresse angegeben.</div>
+          </td>
+        <% end if @member.new_record? %>
+      </table>
+      <div class="submit">
+        <%= cond_submit f %>
+      </div>
       <%= content_tag :div, class: [:small, :hcen] do %>
         <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, method: :patch, data: { confirm: "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
       <% end if !@member.new_record? && @member.email.present? %>
-		</div>
-	</div>
+    </div>
+  </div>
 <% end %>

@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
-	<title>Freilichtbühne am schiefen Turm e. V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
-	<link rel="shortcut icon" href="<%= asset_path("favicon.ico") %>" />
+  <meta charset="utf-8" />
+  <meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
+  <title>Freilichtbühne am schiefen Turm e. V.<% if content_for?(:title) %> - <%= yield(:title) %><% end %></title>
+  <link rel="shortcut icon" href="<%= asset_path("favicon.ico") %>" />
 
-	<%= csrf_meta_tag %>
+  <%= csrf_meta_tag %>
 
-	<%= stylesheet_link_tag "application", media: "all" %>
-	<%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
 
-	<%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
-	<%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
+  <%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
+  <%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
 
-	<%= yield(:head) %>
+  <%= yield(:head) %>
 
-	<% cache [:application, :slides, Photo.slides] do %>
-		<script>
-			var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
-		</script>
-	<% end if !@no_slides %>
+  <% cache [:application, :slides, Photo.slides] do %>
+    <script>
+      var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
+    </script>
+  <% end if !@no_slides %>
 </head>
 <body<% if @no_slides %> class="noSlides"<% end %>>
   <div id="wrapper">
-  	<div id="sky"></div>
-  	<div id="slides">
-  		<div class="slide finished"></div>
-  		<div class="slide finished"></div>
-  		<div class="fg"></div>
-  	</div>
-  	<div id="left">
-  		<a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
-  		<div id="navi">
-  			<ul>
-  				<li><%= link_to "Home", root_path %></li>
-  				<li class="spacer"></li>
-					<li><%= link_to "Termine", dates_path %></li>
-  				<li class="spacer"></li>
-  				<li><%= link_to "Informationen", info_path %></li>
-  				<li class="spacer"></li>
-  				<li><%= link_to "Geschichte", history_path %></li>
-  				<li class="spacer"></li>
-  				<li><%= link_to "Theater", theater_path %></li>
-  				<li class="spacer"></li>
-  				<li><%= link_to "Fotogalerie", galleries_path %></li>
-  				<li class="spacer"></li>
-  				<li><%= link_to "Gästebuch", gbook_entries_path %></li>
-  			</ul>
-  		</div>
-  	</div>
-  	<div id="right">
-  		<div id="content">
-  			<div class="top">
-  				<%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !@_member.id %>
-  			</div>
-  			<div class="content">
+    <div id="sky"></div>
+    <div id="slides">
+      <div class="slide finished"></div>
+      <div class="slide finished"></div>
+      <div class="fg"></div>
+    </div>
+    <div id="left">
+      <a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
+      <div id="navi">
+        <ul>
+          <li><%= link_to "Home", root_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Termine", dates_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Informationen", info_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Geschichte", history_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Theater", theater_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Fotogalerie", galleries_path %></li>
+          <li class="spacer"></li>
+          <li><%= link_to "Gästebuch", gbook_entries_path %></li>
+        </ul>
+      </div>
+    </div>
+    <div id="right">
+      <div id="content">
+        <div class="top">
+          <%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !@_member.id %>
+        </div>
+        <div class="content">
           <% if !@no_member_controls %>
             <% if @_member.id %>
               <%= render "members_navi", title: "Mitgliederbereich", namespace: :members, actions:
@@ -76,31 +76,31 @@
               [:orders, :statistics, [:logout, nil, { data: { confirm: "Möchten Sie sich wirklich ausloggen?\nEine Buchung ist danach erst wieder durch einen erneuten Login möglich." } }]]
             %>
           <% end %>
-  				<% flash.each do |type, msg| %>
-  					<div class="messages <%= type %>">
-  						<div class="icon"></div>
-  				      <ul>
-  							<li><%= msg %></li>
-  						</ul>
-  					</div>
-  				<% end %>
-  				<%= yield %>
-  			</div>
-  			<div class="bottom">
-  				<div>
-  					&copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e. V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "Datenschutz", privacy_path %> - <%= link_to "Mitgliedsantrag", "/uploads/Mitgliedsantrag.pdf" %>
-  				</div>
-  			</div>
-  		</div>
-  	</div>
+          <% flash.each do |type, msg| %>
+            <div class="messages <%= type %>">
+              <div class="icon"></div>
+                <ul>
+                <li><%= msg %></li>
+              </ul>
+            </div>
+          <% end %>
+          <%= yield %>
+        </div>
+        <div class="bottom">
+          <div>
+            &copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e. V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "Datenschutz", privacy_path %> - <%= link_to "Mitgliedsantrag", "/uploads/Mitgliedsantrag.pdf" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <%= yield(:footer) %>
-	<% if Rails.env.production? %>
-		<% as_site = 6 %>
-		<% base_url = "https://system.albisigns.de/" %>
-		<script>var as_site = <%= as_site %>;</script>
-		<%= javascript_include_tag base_url + "stats.js" %>
-		<noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", alt: "" %></noscript>
-	<% end %>
+  <% if Rails.env.production? %>
+    <% as_site = 6 %>
+    <% base_url = "https://system.albisigns.de/" %>
+    <script>var as_site = <%= as_site %>;</script>
+    <%= javascript_include_tag base_url + "stats.js" %>
+    <noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", alt: "" %></noscript>
+  <% end %>
 </body>
 </html>

@@ -4,17 +4,17 @@
   </div>
   <div class="note">
     <p class="order-number">Ihre Bestellnummer lautet <b></b>.</p>
-  	<p>Innerhalb der nächsten fünf Minuten erhalten Sie eine e-mail mit <span class="tickets">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.<br />Sollten Sie keine Nachricht vorfinden, schauen Sie bitte auch in Ihren Spam-Ordner.</p>
+    <p>Innerhalb der nächsten fünf Minuten erhalten Sie eine e-mail mit <span class="tickets">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.<br />Sollten Sie keine Nachricht vorfinden, schauen Sie bitte auch in Ihren Spam-Ordner.</p>
     <p>In unseren <%= link_to "FAQ", info_path %> finden Sie übrigens weitere hilfreiche Informationen zu den Aufführungen.</p>
   </div>
   <div class="trenner"></div>
   <%= render "dates/restaurants" %>
 <% end %>
 <% content_for :steps do %>
-	<%= render "tickets" %>
-	<%= render "seats" %>
-	<%= render "address" %>
-	<%= render "payment", methods: [
+  <%= render "tickets" %>
+  <%= render "seats" %>
+  <%= render "address" %>
+  <%= render "payment", methods: [
     {
       name: :charge,
       human_name: "SEPA-Lastschrift",
@@ -25,11 +25,11 @@
       human_name: "Vorkasse per Überweisung",
       desc: "Sie erhalten Ihre Tickets nach Zahlungseingang."
     }
-	] %>
-	<div class="stepCon confirm">
-		<div class="note">Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.</div>
+  ] %>
+  <div class="stepCon confirm">
+    <div class="note">Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.</div>
     <%= render "confirm_tickets" %>
-		<div class="address inner">
+    <div class="address inner">
       <table class="rounded form">
         <thead>
           <tr>
@@ -37,23 +37,23 @@
           </tr>
         </thead>
         <tbody>
-      		<tr>
-      			<td>Name:</td>
-      			<td><span class="first_name"></span> <span class="last_name"></span></td>
-      		</tr>
-      		<tr>
-      			<td>Telefonnummer:</td>
-      			<td class="phone"></td>
-      		</tr>
-      		<tr>
-      			<td>e-mail-Adresse:</td>
-      			<td class="email"></td>
-      		</tr>
+          <tr>
+            <td>Name:</td>
+            <td><span class="first_name"></span> <span class="last_name"></span></td>
+          </tr>
+          <tr>
+            <td>Telefonnummer:</td>
+            <td class="phone"></td>
+          </tr>
+          <tr>
+            <td>e-mail-Adresse:</td>
+            <td class="email"></td>
+          </tr>
         </tbody>
-    	</table>
+      </table>
     </div>
-		<div class="payment inner">
-			<div class="transfer">
+    <div class="payment inner">
+      <div class="transfer">
         <table class="rounded form">
           <thead>
             <tr>
@@ -66,32 +66,32 @@
             </tr>
           </tbody>
         </table>
-			</div>
-			<div class="charge">
-				<table class="rounded form">
+      </div>
+      <div class="charge">
+        <table class="rounded form">
           <thead>
             <tr>
               <th colspan="2">Bezahlung per SEPA-Lastschrift</th>
             </tr>
           </thead>
           <tbody>
-  					<tr>
-  						<td>Kontoinhaber:</td>
-  						<td class="name"></td>
-  					</tr>
-  					<tr>
-  						<td>IBAN:</td>
-  						<td class="iban"></td>
-  					</tr>
+            <tr>
+              <td>Kontoinhaber:</td>
+              <td class="name"></td>
+            </tr>
+            <tr>
+              <td>IBAN:</td>
+              <td class="iban"></td>
+            </tr>
             <tr>
               <td colspan="2">
                 Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
               </td>
             </tr>
           </tbody>
-				</table>
-			</div>
-		</div>
+        </table>
+      </div>
+    </div>
     <%= form_for :confirm do |f| %>
       <table class="rounded checkboxes form inner">
         <tr>
@@ -100,7 +100,7 @@
         </tr>
       </table>
     <% end %>
-	</div>
-	<%= render "finish" %>
+  </div>
+  <%= render "finish" %>
 <% end %>
 <%= render "framework" %>

@@ -1,8 +1,8 @@
 <% content_for :steps do %>
-	<%= render "tickets" %>
-	<%= render "seats" %>
-	<%= render "address" %>
-	<%= render "payment", methods: [
+  <%= render "tickets" %>
+  <%= render "seats" %>
+  <%= render "address" %>
+  <%= render "payment", methods: [
     {
       name: :transfer,
       human_name: "Vorkasse per Überweisung",
@@ -13,10 +13,10 @@
       human_name: "Barzahlung",
       desc: "Der Kunde bezahlt an der Abendkasse und erhält dort auch seine Tickets."
     }
-	] %>
-	<div class="stepCon confirm">
+  ] %>
+  <div class="stepCon confirm">
     <%= render "confirm_tickets" %>
-		<div class="address inner">
+    <div class="address inner">
       <table class="rounded form">
         <thead>
           <tr>
@@ -24,21 +24,21 @@
           </tr>
         </thead>
         <tbody>
-      		<tr>
-      			<td>Name:</td>
-      			<td><span class="first_name"></span> <span class="last_name"></span></td>
-      		</tr>
-      		<tr>
-      			<td>Telefonnummer:</td>
-      			<td class="phone"></td>
-      		</tr>
-      		<tr>
-      			<td>e-mail-Adresse:</td>
-      			<td class="email"></td>
-      		</tr>
+          <tr>
+            <td>Name:</td>
+            <td><span class="first_name"></span> <span class="last_name"></span></td>
+          </tr>
+          <tr>
+            <td>Telefonnummer:</td>
+            <td class="phone"></td>
+          </tr>
+          <tr>
+            <td>e-mail-Adresse:</td>
+            <td class="email"></td>
+          </tr>
         </tbody>
-    	</table>
+      </table>
     </div>
-	</div>
+  </div>
 <% end %>
 <%= render "framework", title: "Neue Bestellung aufnehmen" %>

@@ -4,7 +4,7 @@ module Passbook
       'passbook_'
     end
   end
-  
+
   def self.options
     @options ||= {}
   end

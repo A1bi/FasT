@@ -10,7 +10,7 @@ function Step(name, delegate) {
   this.info = { api: {}, internal: {} };
   this.delegate = delegate;
   this.foundErrors;
-  
+
   var _this = this;
   this.validator = new Validator();
   this.validator.error = function (msg) {
@@ -57,9 +57,9 @@ Step.prototype = {
   moveIn: function (animate) {
     this.delegate.setNextBtnText();
     this.willMoveIn();
-    
+
     animate = animate !== false;
-    
+
     this.box.show();
     var props = { left: "0%" };
     if (animate) {
@@ -69,17 +69,17 @@ Step.prototype = {
     }
     this.resizeDelegateBox(animate);
   },
-  
+
   moveOut: function (left) {
     this.box.animate({left: 100 * ((left) ? -1 : 1) + "%"}, function () {
       $(this).hide();
     });
   },
-  
+
   resizeDelegateBox: function (animated) {
     this.delegate.resizeStepBox(this.box.outerHeight(true), animated);
   },
-  
+
   slideToggle: function (obj, toggle) {
     var _this = this;
     var props = {
@@ -87,16 +87,16 @@ Step.prototype = {
         _this.resizeDelegateBox(false);
       }
     };
-    
+
     if (toggle) {
       obj.slideDown(props);
     } else {
       obj.slideUp(props);
     }
-    
+
     return obj;
   },
-  
+
   updateInfoFromFields: function () {
     var _this = this;
     $.each(this.box.find("form").serializeArray(), function () {
@@ -106,58 +106,58 @@ Step.prototype = {
       }
     });
   },
-  
+
   getStepInfo: function (stepName) {
     return this.delegate.info[stepName].internal;
   },
-  
+
   getFieldWithKey: function (key) {
     return this.box.find("#" + this.name + "_" + key);
   },
-  
+
   validate: function () {
     return true;
   },
-  
+
   validateFields: function (beforeProc, afterProc) {
     this.box.find("tr").removeClass("error");
     this.foundErrors = false;
     beforeProc.call(this);
-    
+
     if (this.foundErrors) {
       this.resizeDelegateBox(true);
     } else {
       this.updateInfoFromFields();
     }
     if (afterProc) afterProc.call(this);
-    
+
     return !this.foundErrors;
   },
-  
+
   getValidatorCheckForField: function (key, msg) {
     return this.validator.check(this.getFieldWithKey(key).val(), [key, msg]);
   },
-  
+
   showErrorOnField: function (key, msg) {
     var field = this.getFieldWithKey(key).parents("tr").addClass("error");
     if (msg) field.find(".msg").html(msg);
     this.foundErrors = true;
   },
-  
+
   willMoveIn: function () {},
-  
+
   shouldBeSkipped: function () {
     return false;
   },
-  
+
   nextBtnEnabled: function () {
     return true;
   },
-  
+
   formatCurrency: function (value) {
     return value.toFixed(2).toString().replace(".", ",");
   },
-  
+
   trackPiwikGoal: function (id, revenue) {
     try {
       _paq.push(['trackGoal', id, revenue]);
@@ -174,9 +174,9 @@ Step.prototype = {
 function TicketsStep(delegate) {
   var _this = this;
   this.couponBox;
-  
+
   Step.call(this, "tickets", delegate);
-  
+
   this.info.api = {
     couponCodes: [],
     tickets: {}
@@ -186,11 +186,11 @@ function TicketsStep(delegate) {
     coupons: [],
     exclusiveSeats: false
   };
-  
+
   this.getTypeTotal = function ($typeBox, number) {
     return $typeBox.data("price") * $typeBox.find("select").val();
   };
-  
+
   this.updateSubtotal = function () {
     this.info.internal.subtotal = 0;
     this.info.internal.numberOfTickets = 0;
@@ -213,22 +213,22 @@ function TicketsStep(delegate) {
     this.updateDiscounts();
     this.delegate.updateNextBtn();
   };
-  
+
   this.choseNumber = function ($this) {
     var typeBox = $this.parents("tr"), typeId = typeBox.data("id");
     var total = this.formatCurrency(this.getTypeTotal(typeBox));
     typeBox.find("td.total span").html(total);
-    
+
     this.info.api.tickets[typeId] = parseInt($this.val());
     this.info.internal.ticketTotals[typeId] = total;
     this.updateSubtotal();
   };
-  
+
   this.addCoupon = function () {
     var code = this.couponBox.find("input[name=code]").val();
     if (this.info.api.couponCodes.indexOf(code) > -1) {
       this.couponAdded({ ok: false, error: "added" });
-      
+
     } else if (code != "") {
       this.delegate.toggleModalSpinner(true);
       $.post(this.couponBox.data("add-url"), {
@@ -237,10 +237,10 @@ function TicketsStep(delegate) {
       }).always(function (res) { _this.couponAdded(res); });
     }
   };
-  
+
   this.removeCoupon = function (index) {
     var code = this.info.api.couponCodes[index];
-    
+
     this.delegate.toggleModalSpinner(true);
     $.post(this.couponBox.data("remove-url"), {
       code: code,
@@ -255,7 +255,7 @@ function TicketsStep(delegate) {
       _this.delegate.toggleModalSpinner(false);
     });
   };
-  
+
   this.couponAdded = function (res) {
     var msg = "Ihr Gutschein wurde erfolgreich hinzugefügt. Weitere Gutscheine sind möglich.";
     if (res.ok === false) {
@@ -270,55 +270,55 @@ function TicketsStep(delegate) {
        msg = "Es ist ein unbekannter Fehler aufgetreten.";
     } else {
       var coupon = res.coupon;
-      
+
       this.info.internal.coupons.push(coupon);
       this.info.api.couponCodes.push(this.couponField.val());
-      
+
       this.updateAddedCoupons();
       this.trackPiwikGoal(2);
-      
+
       if (coupon.seats) {
         msg += " Es wurden exklusive Sitzplätze für Sie freigeschaltet.";
       }
     }
-    
+
     this.couponField.blur().val("");
     this.delegate.toggleModalSpinner(false);
     this.updateCouponResult(msg, !res.ok);
     this.resizeDelegateBox();
   };
-  
+
   this.updateCouponResult = function (msg, error) {
     this.couponBox.find(".msg .result").text(msg).toggleClass("error", error).parent().toggle(!!msg);
   };
-  
+
   this.updateAddedCoupons = function () {
     this.info.internal.exclusiveSeats = false;
-    
+
     var addedBox = this.couponBox.find(".added")
                     .toggle(this.info.api.couponCodes.length > 0)
                     .find("td:last-child")
                     .empty();
-    
+
     $.each(this.info.internal.coupons, function (i, coupon) {
       _this.info.internal.exclusiveSeats = _this.info.internal.exclusiveSeats || coupon.seats;
-      
+
       addedBox.append("<b>" + _this.info.api.couponCodes[i] + "</b> (<a href='#' data-index='" + i + "'>entfernen</a>)");
       if (i < _this.info.internal.coupons.length - 1) {
         addedBox.append(", ");
       }
     });
-    
+
     this.updateDiscounts();
   };
-  
+
   this.updateDiscounts = function () {
     var tickets = this.tickets.slice(0).sort(function (a, b) {
       return a - b;
     });
     this.info.internal.total = this.info.internal.subtotal;
     this.info.internal.discount = 0;
-    
+
     this.box.find("tr.discount").remove();
     $.each(this.info.internal.coupons, function (i, coupon) {
       if (coupon.free_tickets > 0) {
@@ -331,7 +331,7 @@ function TicketsStep(delegate) {
           }
         }
         _this.info.internal.discount += discount;
-        
+
         var discountBox = $("<tr>").addClass("discount");
         var info = $("<td>").addClass("plural_text").attr("colspan", 3).html("Gutschein <em>" + _this.info.api.couponCodes[i] + '</em> (Wert: <span class="number"><span></span></span> Freikarte<span class="plural">n</span>)');
         discountBox.append(
@@ -342,16 +342,16 @@ function TicketsStep(delegate) {
         togglePluralText(info, coupon.free_tickets);
       }
     });
-    
+
     var $this = this.box.find(".number tr.total");
     this.info.internal.zeroTotal = this.info.internal.total <= 0;
     $this.find(".total span").html(_this.formatCurrency(_this.info.internal.total));
   };
-  
+
   this.nextBtnEnabled = function () {
     return this.info.internal.numberOfTickets > 0;
   };
-  
+
   this.validate = function () {
     if (this.couponField.val() != "") {
       this.addCoupon();
@@ -359,7 +359,7 @@ function TicketsStep(delegate) {
     }
     return true;
   };
-  
+
   this.couponBox = this.box.find(".coupon");
   this.couponField = this.couponBox.find("input[name=code]");
   this.registerEventAndInitiate(this.box.find("select"), "change", function ($this) {
@@ -380,18 +380,18 @@ function TicketsStep(delegate) {
 function SeatsStep(delegate) {
   this.chooser = null;
   var _this = this;
-  
+
   this.validate = function () {
     return !this.boundToSeats || this.chooser.validate();
   };
-  
+
   this.nextBtnEnabled = function () {
     return !!this.info.api.date;
   };
-  
+
   this.willMoveIn = function () {
     if (!this.boundToSeats) return;
-    
+
     var info = this.delegate.getStepInfo("tickets");
     if (this.numberOfSeats != info.internal.numberOfTickets) {
       this.numberOfSeats = info.internal.numberOfTickets;
@@ -401,43 +401,43 @@ function SeatsStep(delegate) {
     }
     this.toggleExclusiveSeatsKey(info.internal.exclusiveSeats);
   };
-  
+
   this.choseDate = function ($this) {
     if ($this.is(".selected") || $this.is(".disabled")) return;
     $this.parents("table").find(".selected").removeClass("selected");
     $this.addClass("selected");
-    
+
     this.info.api.date = $this.data("id");
     this.info.internal.localizedDate = $this.text();
-    
+
     if (this.boundToSeats) {
       this.updateSeatingPlan();
       this.slideToggle(this.seatingBox, true);
-      
+
       $('html, body').animate({ scrollTop: this.seatingBox.offset().top }, 500);
       setTimeout(function () {
         _this.chooser.wiggle();
       }, 800);
-      
+
     } else {
       this.delegate.updateNextBtn();
     }
   };
-  
+
   this.updateSeatingPlan = function () {
     this.delegate.toggleModalSpinner(true);
     this.chooser.setDateAndNumberOfSeats(this.info.api.date, this.numberOfSeats, function () {
       _this.delegate.toggleModalSpinner(false);
     });
   };
-  
+
   this.enableReservationGroups = function () {
     var groups = [];
     this.box.find(".reservationGroups :checkbox").each(function () {
       var $this = $(this);
       if ($this.is(":checked")) groups.push($this.prop("name"));
     });
-    
+
     this.delegate.toggleModalSpinner(true);
     $.post(this.box.find(".reservationGroups").data("enable-url"), {
       groups: groups,
@@ -448,34 +448,34 @@ function SeatsStep(delegate) {
       _this.resizeDelegateBox();
     });
   };
-  
+
   this.toggleExclusiveSeatsKey = function (toggle) {
     this.chooser.drawKey(toggle);
   };
-  
+
   this.seatChooserIsReady = function () {
     this.delegate.toggleModalSpinner(false);
   };
-  
+
   this.seatChooserGotSeatingId = function (event) {
     this.info.api.seatingId = this.chooser.seatingId;
   };
-  
+
   this.seatChooserDisconnected = function () {
     this.delegate.showModalAlert("Die Verbindung zum Server wurde unterbrochen.<br />Bitte geben Sie Ihre Bestellung erneut auf.<br />Wir entschuldigen uns für diesen Vorfall.");
   };
-  
+
   this.seatChooserCouldNotConnect = function () {
     this.delegate.showModalAlert("Derzeit ist keine Buchung möglich.<br />Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.");
   };
-  
+
   this.seatChooserExpired = function () {
     this.delegate.expire();
   };
-  
+
   Step.call(this, "seats", delegate);
-  
-  
+
+
   this.boundToSeats = this.box.data("boundToSeats");
   this.seatingBox = this.box.find(".seat_chooser");
   if (this.boundToSeats) {
@@ -485,7 +485,7 @@ function SeatsStep(delegate) {
     this.box.hide();
   }
   this.seatingBox.hide();
-  
+
   this.box.find(".date td").click(function () {
     _this.choseDate($(this));
   });
@@ -496,14 +496,14 @@ function SeatsStep(delegate) {
 
 function AddressStep(delegate) {
   var _this = this;
-  
+
   this.validate = function () {
     return this.validateFields(function () {
       if (this.delegate.web) {
         $.each(["first_name", "last_name", "phone"], function () {
           _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
         });
-    
+
         if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
         this.getValidatorCheckForField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.").notEmpty().equals(this.getFieldWithKey("email").val());
       }
@@ -515,13 +515,13 @@ function AddressStep(delegate) {
       }
     });
   };
-  
+
   Step.call(this, "address", delegate);
 }
 
 function PaymentStep(delegate) {
   var _this = this;
-  
+
   this.validate = function () {
     if (this.methodIsCharge()) {
       return this.validateFields(function () {
@@ -529,25 +529,25 @@ function PaymentStep(delegate) {
         this.getValidatorCheckForField("iban", "Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isIBAN();
       });
     }
-    
+
     return true;
   };
-  
+
   this.methodIsCharge = function () {
     return this.info.api.method == "charge";
   };
-  
+
   this.nextBtnEnabled = function () {
     return !!this.info.api.method;
   };
-  
+
   this.shouldBeSkipped = function () {
     return this.delegate.getStepInfo("tickets").internal.zeroTotal;
   };
-  
+
   Step.call(this, "payment", delegate);
-  
-  
+
+
   this.registerEventAndInitiate(this.box.find("[name=method]"), "click", function ($this) {
     if (!$this.is(":checked")) return;
     _this.info.api.method = $this.val();
@@ -558,15 +558,15 @@ function PaymentStep(delegate) {
 
 function ConfirmStep(delegate) {
   var _this = this;
-  
+
   Step.call(this, "confirm", delegate);
-  
+
   this.updateSummary = function (info, part) {
     $.each(info, function (key, value) {
       _this.box.find("."+part+" ."+key).text(value);
     });
   };
-  
+
   this.willMoveIn = function () {
     var btnText;
     if (this.delegate.web && !this.delegate.getStepInfo("tickets").internal.zeroTotal) {
@@ -575,10 +575,10 @@ function ConfirmStep(delegate) {
       btnText = "bestätigen";
     }
     this.delegate.setNextBtnText(btnText);
-    
+
     var ticketsInfo = this.delegate.getStepInfo("tickets");
     this.box.find(".date").text(this.delegate.getStepInfo("seats").internal.localizedDate);
-    
+
     this.box.find(".tickets tbody tr").show().each(function () {
       var typeBox = $(this);
       var number, total;
@@ -611,7 +611,7 @@ function ConfirmStep(delegate) {
         single.find(".number").text(number);
       }
     });
-    
+
     $.each(["address", "payment"], function () {
       var info = _this.delegate.getStepInfo(this);
       if (!info) return;
@@ -624,7 +624,7 @@ function ConfirmStep(delegate) {
       });
     });
   };
-  
+
   this.validate = function () {
     return this.validateFields(function () {}, function () {
       this.info.api.newsletter = this.info.api.newsletter == "1";
@@ -634,7 +634,7 @@ function ConfirmStep(delegate) {
 
 function FinishStep(delegate) {
   var _this = this;
-  
+
   this.placeOrder = function () {
     var apiInfo = this.delegate.getApiInfo();
     var orderInfo = {
@@ -651,7 +651,7 @@ function FinishStep(delegate) {
       retailId: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
     };
-    
+
     $.ajax({
       url: "/api/orders",
       type: "POST",
@@ -665,21 +665,21 @@ function FinishStep(delegate) {
       }
     });
   };
-  
+
   this.orderPlaced = function (res) {
     this.delegate.toggleModalSpinner(false);
-    
+
     if (!res.ok) {
       this.error();
       return;
-      
+
     } else {
       var orderInfo = res.order;
       var detailsPath = this.delegate.stepBox.data("order-path").replace(":id", orderInfo.id);
-      
+
       if (this.delegate.admin) {
         window.location = detailsPath;
-      
+
       } else {
         this.box.find(".success").show();
         if (this.delegate.retail) {
@@ -687,37 +687,37 @@ function FinishStep(delegate) {
           infoBox.find(".total span").text(this.formatCurrency(orderInfo.total));
           infoBox.find(".number").text(orderInfo.tickets.length);
           infoBox.find("a.details").prop("href", detailsPath);
-          
+
           var printer = new TicketPrinter();
           setTimeout(function () {
             printer.printTicketsWithNotification(orderInfo.printable_path);
           }, 2000);
-          
+
         } else if (this.delegate.web) {
           this.box.find('.order-number b').text(orderInfo.number);
           this.trackPiwikGoal(1, orderInfo.total);
         }
-    
+
         this.resizeDelegateBox(true);
         this.delegate.noFurtherErrors = true;
         this.delegate.killExpirationTimer();
       }
     }
   };
-  
+
   this.error = function () {
     this.delegate.showModalAlert("Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.");
   };
-  
+
   this.willMoveIn = function () {
     var payInfo = this.delegate.getStepInfo("payment");
     if (payInfo) this.box.find(".tickets").toggle(payInfo.api.method == "charge");
     this.delegate.hideOrderControls();
     this.delegate.toggleModalSpinner(true);
-    
+
     this.placeOrder();
   };
-  
+
   Step.call(this, "finish", delegate);
 }
 
@@ -734,40 +734,40 @@ function Ordering() {
   this.modalSpinner;
   this.noFurtherErrors = false;
   var _this = this;
-  
+
   this.toggleBtn = function (btn, toggle, style_class) {
     style_class = style_class || "disabled";
     this.btns.filter("."+btn).toggleClass(style_class, !toggle);
   };
-  
+
   this.toggleNextBtn = function (toggle, style_class) {
     this.toggleBtn("next", toggle, style_class);
   };
-  
+
   this.setNextBtnText = function (text) {
     this.btns.filter(".next").find(".action").text(text || "weiter");
   };
-  
+
   this.updateNextBtn = function () {
     if (!this.currentStep) return;
     this.toggleNextBtn(this.currentStep.nextBtnEnabled());
   };
-  
+
   this.updateBtns = function () {
     this.toggleBtn("prev", this.currentStepIndex > 0);
     this.updateNextBtn();
   };
-  
+
   this.hideOrderControls = function () {
     $(".progress, .btns").slideUp();
   };
-  
+
   this.goNext = function ($this) {
     if ($this.is(".disabled")) return;
-    
+
     if ($this.is(".prev")) {
       this.showPrev();
-      
+
     } else {
       var scrollPos = this.stepBox;
       if (this.currentStep.validate()) {
@@ -781,7 +781,7 @@ function Ordering() {
       $("body").animate({ scrollTop: scrollPos.position().top });
     }
   };
-  
+
   this.showNext = function (animate) {
     if (this.currentStep) {
       this.currentStep.moveOut(true);
@@ -789,13 +789,13 @@ function Ordering() {
     this.updateCurrentStep(1);
     this.moveInCurrentStep(animate);
   };
-  
+
   this.showPrev = function () {
     this.currentStep.moveOut(false);
     this.updateCurrentStep(-1);
     this.moveInCurrentStep();
   };
-  
+
   this.toggleModalBox = function (toggle, callback, stop, instant) {
     if (stop) this.modalBox.stop();
     if (instant) {
@@ -805,7 +805,7 @@ function Ordering() {
     }
     return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
   };
-  
+
   this.toggleModalSpinner = function (toggle, instant) {
     if (toggle) {
       this.toggleNextBtn(false);
@@ -818,7 +818,7 @@ function Ordering() {
       }, true);
     }
   };
-  
+
   this.showModalAlert = function (msg) {
     if (this.noFurtherErrors) return;
     this.noFurtherErrors = true;
@@ -827,14 +827,14 @@ function Ordering() {
     this.toggleModalBox(true).find(".messages").show().find("li").first().html(msg);
     this.hideOrderControls();
   };
-  
+
   this.updateCurrentStep = function (inc) {
     do {
       this.currentStepIndex += inc;
       this.currentStep = this.steps[this.currentStepIndex];
     } while (this.currentStep.shouldBeSkipped());
   };
-  
+
   this.updateProgress = function() {
     if (this.currentStepIndex == this.steps.length - 1) return;
 
@@ -843,23 +843,23 @@ function Ordering() {
     var bar = this.progressBox.find(".bar");
     bar.css("left", bar.width() * this.currentStepIndex);
   };
-  
+
   this.moveInCurrentStep = function (animate) {
     this.currentStep.moveIn(animate);
     this.updateBtns();
     this.updateProgress();
   };
-  
+
   this.resizeStepBox = function (height, animated) {
     var props = { height: height };
-    
+
     if (animated) {
       this.stepBox.animate(props);
     } else {
       this.stepBox.css(props);
     }
   };
-  
+
   this.getStepInfo = function (stepName) {
     var info;
     $.each(this.steps, function () {
@@ -870,7 +870,7 @@ function Ordering() {
     });
     return info;
   };
-  
+
   this.getApiInfo = function () {
     var info = {};
     $.each(this.steps, function () {
@@ -878,7 +878,7 @@ function Ordering() {
     });
     return info;
   };
-  
+
   this.updateExpirationCounter = function (seconds) {
     if (this.expirationTimer.type == 0 && seconds < 1) {
       this.expirationTimer.type = 1;
@@ -896,54 +896,54 @@ function Ordering() {
       _this.updateExpirationCounter(--seconds);
     }, 1000);
   };
-  
+
   this.killExpirationTimer = function () {
     clearTimeout(this.expirationTimer.timer);
     this.expirationBox.slideUp();
   };
-  
+
   this.resetExpirationTimer = function () {
     this.killExpirationTimer();
     if (this.noFurtherErrors) return;
     this.expirationTimer.type = 0;
     this.updateExpirationCounter(this.expirationTimer.times[0] - this.expirationTimer.times[1]);
   };
-  
+
   this.expire = function () {
     this.showModalAlert("Ihre Sitzung ist abgelaufen.<br />Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.");
   };
-  
+
   this.registerEvents = function () {
     this.btns.click(function () {
       _this.goNext($(this));
     });
-    
+
     $(document).click(function () {
       _this.resetExpirationTimer();
     }).keydown(function () {
       _this.resetExpirationTimer();
     });
-    
+
     var nextBtn = this.btns.filter(".next");
     $(".stepBox input:not(.noKeyCatch)").keyup(function (event) {
       if (event.which == 13) _this.goNext(nextBtn);
     });
   };
-  
-  
+
+
   _this.stepBox = $(".stepBox");
   if (!_this.stepBox) return;
   _this.expirationBox = $(".expiration");
   _this.btns = $(".btns .btn");
   _this.progressBox = $(".progress");
   _this.modalBox = _this.stepBox.find(".modalAlert");
-  
+
   _this.retailId = _this.stepBox.data("retail-id");
   _this.type = _this.stepBox.data("type");
   _this.retail = _this.type == "retail";
   _this.admin = _this.type == "admin";
   _this.web = !_this.retail && !_this.admin;
-  
+
   var opts = {
     lines: 13,
     length: 20,
@@ -955,26 +955,26 @@ function Ordering() {
     color: "white"
   };
   _this.modalSpinner = new Spinner(opts);
-  
+
   var steps;
   if (_this.retail) {
     steps = [TicketsStep, SeatsStep, ConfirmStep, FinishStep];
   } else {
     steps = [TicketsStep, SeatsStep, AddressStep, PaymentStep, ConfirmStep, FinishStep];
   }
-  
+
   var progressSteps = _this.progressBox.find(".step");
   var width = _this.progressBox.width() / (steps.length - 1);
   progressSteps.css({ width: width }).filter(".bar").css({ width: Math.round(width) });
-  
+
   $.each(steps, function (index, stepClass) {
     stepClass.prototype = Step.prototype;
     var step = new stepClass(_this);
     _this.steps.push(step);
-  
+
     progressSteps.filter("." + step.name).show();
   });
-  
+
   _this.registerEvents();
   _this.showNext(false);
   _this.resetExpirationTimer();
@@ -1002,9 +1002,9 @@ $(function () {
         $(window).off("resize scroll");
       }
     });
-    
+
     if (!isNativeAndroid) new Ordering();
-  } else {  
+  } else {
     $("#cancelAction").click(function (event) {
       $(this).hide().siblings("#cancelForm").show();
       event.preventDefault();
@@ -1022,19 +1022,19 @@ $(function () {
       var $this = $(this);
       $this.siblings(".cancellation").toggle($this.val() == "cancel");
     });
-    
+
     var toggleAmount = function () {
       $(this).siblings("span").toggle($(this).val() == "correction");
     };
     var billingNote = $(".billingLog select").change(toggleAmount);
     toggleAmount.call(billingNote);
-    
+
     var printer = new TicketPrinter();
     $("a.print-tickets").click(function (event) {
       event.preventDefault();
       printer.printTicketsWithNotification($(this).data("printable-path"));
     });
-    
+
     var seatingBox = $(".seating");
     $.getJSON(seatingBox.data("additional-path"), function (data) {
       var seating = new Seating(seatingBox);

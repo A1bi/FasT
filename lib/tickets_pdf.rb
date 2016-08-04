@@ -5,10 +5,10 @@ require "prawn/qrcode"
 class TicketsPDF < Prawn::Document
   include ActionView::Helpers::NumberHelper
   include Rails.application.routes.url_helpers
-  
+
   TICKET_WIDTH = 595
   TICKET_HEIGHT = 280
-  
+
   def initialize(margin = [14, 0], page_size = "A4", page_layout = :portrait)
     @tickets_drawn = 0
     @stamps = {}
@@ -21,10 +21,10 @@ class TicketsPDF < Prawn::Document
       Creator:       t(:creator),
       CreationDate:  Time.now
     }
-    
+
     fill_color "000000"
     stroke_color "000000"
-    
+
     font_name = "OpenSans"
     fonts = {}
     [:normal, :bold].each do |style|
@@ -33,20 +33,20 @@ class TicketsPDF < Prawn::Document
     font_families.update(fonts)
     font font_name
     @font_sizes = { normal: 15, small: 13, tiny: 11 }
-    
+
     fill_background
   end
-  
+
   def add_tickets(tickets)
     tickets.each do |ticket|
       draw_ticket ticket if !ticket.cancelled?
     end
   end
-  
+
   def add_ticket(ticket)
     draw_ticket ticket
   end
-  
+
   private
 
   def draw_ticket(ticket)
@@ -54,7 +54,7 @@ class TicketsPDF < Prawn::Document
       indent(10, 10) do
         draw_header 0.5
         move_down 20
-        
+
         bounding_box([0, cursor], width: bounds.width, height: cursor) do
           indent(20, 20) do
             indent(0, 140) do
@@ -65,7 +65,7 @@ class TicketsPDF < Prawn::Document
             move_cursor_to bounds.top
             indent(bounds.right - 130, 0) do
               draw_barcode_for_ticket(ticket)
-              
+
               move_down 10
               font_size 8 do
                 text t(:additional_info)
@@ -79,17 +79,17 @@ class TicketsPDF < Prawn::Document
           end
         end
       end
-      
+
       move_down @ticket_margin
     end
-    
+
     @tickets_drawn = @tickets_drawn.next
   end
 
   def draw_barcode_for_ticket(ticket)
     print_qr_code(barcode_content_for_ticket(ticket), extent: bounds.width, stroke: true)
   end
-  
+
   def draw_header(line_width)
     font_size_name :small do
       header = t(:header)
@@ -100,7 +100,7 @@ class TicketsPDF < Prawn::Document
           text_width = width_of header
           text header, align: :center
         end
-    
+
         move_cursor_to box_height / 2
         draw_line(line_width) do
           padding = 10
@@ -118,11 +118,11 @@ class TicketsPDF < Prawn::Document
       height = 30
       svg File.read(event_image_path), at: [0, cursor], height: height
     end
-    
+
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
       move_down 5
-      
+
       info = [
         [t(:date), t(:begins), t(:opens)],
         [
@@ -131,16 +131,16 @@ class TicketsPDF < Prawn::Document
           I18n.l(date.door_time, format: t(:time_format)),
         ]
       ]
-      
+
       draw_info_table(info) do
         row(0..1).columns(1..2).align = :right
       end
-      
+
       info = [
         [t(:location)],
         [date.event.location]
       ]
-      
+
       draw_info_table(info)
     end
   end
@@ -154,11 +154,11 @@ class TicketsPDF < Prawn::Document
       info << [t(:block), t(:seat)]
       info << [ticket.seat.block.name, ticket.seat.number]
     end
-    
+
     draw_info_table(info) do
       row(0..1).columns(1).align = :right
     end
-    
+
     info = []
     if ticket.type.price.zero?
       info << [""]
@@ -167,73 +167,73 @@ class TicketsPDF < Prawn::Document
       info << [ticket.type.name]
       info << [number_to_currency(ticket.type.price)]
     end
-    
+
     info[0] << t(:ticket)
     info[1] << ticket.number
-    
+
     draw_info_table(info)
   end
-  
+
   def draw_info_table(info, options = {}, &block)
     tiny_size = @font_sizes[:tiny]
     normal_size = @font_sizes[:normal]
-    
+
     table(info, options) do
       cells.borders = []
       cells.padding = [2, 25, 0, 0]
       cells.size = normal_size
-      
+
       even_rows = (0..info.count-1).select { |i| i.even? }
       row(even_rows).padding = [10, 25, 0, 0]
       row(even_rows).size = tiny_size
-      
+
       odd_rows = (0..info.count-1).select { |i| i.odd? }
       row(odd_rows).font_style = :bold
-      
+
       instance_eval(&block) if block_given?
     end
   end
-  
+
   def stamp_name(key, record)
     key.to_s + "_" + record.id.to_s
   end
-  
+
   def create_stamp(key, record, &block)
     if (@stamps[key] ||= {})[record].nil?
       outer_start = y
       float do
         start = cursor
         super(stamp_name(key, record), &block)
-        
+
         @stamps[key][record] = {
           start: outer_start,
           height: start - cursor
         }
       end
     end
-    
+
     @stamps[key][record][:height]
   end
-  
+
   def draw_stamp(key, record, offset, &block)
     height = create_stamp(key, record, &block)
     stamp_at(stamp_name(key, record), [0, offset ? y - @stamps[key][record][:start] : 0])
     move_down height
   end
-  
+
   def font_size_name(size)
     font_size @font_sizes[size] do
       yield if block_given?
     end
   end
-  
+
   def draw_line(width)
     line_width = width
     stroke do
       yield
     end
   end
-  
+
   def draw_cut_line
     start = cursor
     dash(10, space: 5, phase: 0)
@@ -242,22 +242,22 @@ class TicketsPDF < Prawn::Document
     undash
     move_up(cursor - start)
   end
-  
+
   def fill_background
     save_graphics_state do
       fill_color "ffffff"
       fill_rectangle [0, bounds.height], bounds.width, bounds.height
     end
   end
-  
+
   def t(key, options = {})
     I18n.t(key, options.merge({ scope: :tickets_pdf }))
   end
-  
+
   def barcode_content_for_ticket(ticket)
     CONFIG[:ticket_barcode_base_url] + ticket.signed_info(signed_ticket_info_extension)
   end
-  
+
   def signed_ticket_info_extension
     ""
   end

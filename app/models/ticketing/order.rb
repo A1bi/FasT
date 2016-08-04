@@ -1,13 +1,13 @@
 module Ticketing
   class Order < BaseModel
-  	include Loggable, RandomUniqueAttribute, Billable
+    include Loggable, RandomUniqueAttribute, Billable
 
-  	has_many :tickets, dependent: :destroy, autosave: true
+    has_many :tickets, dependent: :destroy, autosave: true
     has_random_unique_number :number, 7
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
 
-  	validates_length_of :tickets, minimum: 1
+    validates_length_of :tickets, minimum: 1
 
     before_validation :before_create_validation, on: :create
     before_create :before_create
@@ -43,7 +43,7 @@ module Ticketing
       update_total_and_billing(:cancellation)
       log(:tickets_cancelled, { count: tickets.count, reason: reason })
     end
-    
+
     def enable_resale_for_tickets(tickets)
       tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|
@@ -51,7 +51,7 @@ module Ticketing
       end
       log(:enabled_resale_for_tickets, { count: tickets.count })
     end
-    
+
     def edit_ticket_types(tickets, types)
       tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|
@@ -64,15 +64,15 @@ module Ticketing
     def cancelled?
       tickets.cancelled(false).empty?
     end
-    
+
     def transfer_refund
       withdraw_from_account(billing_account.balance, :transfer_refund)
     end
-    
+
     def correct_balance(amount)
       deposit_into_account(amount, :correction)
     end
-    
+
     def signed_info(authorized = false)
       info = {
         or: id
@@ -85,11 +85,11 @@ module Ticketing
 
     def before_create_validation
       update_total_and_billing(:order_created)
-      
+
       tickets.each_with_index do |ticket, index|
         ticket.order_index = index + 1
       end
-      
+
       true
     end
 

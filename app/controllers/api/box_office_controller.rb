@@ -2,28 +2,28 @@ class Api::BoxOfficeController < ApplicationController
   before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
   before_action :find_box_office, only: [:place_order, :purchase, :report, :bill]
-  
+
   def place_order
     response = {
       ok: false,
       errors: []
     }
-    
+
     info = params.require(:order)
     order = Ticketing::BoxOffice::Order.new
     order.box_office = @box_office
-    
+
     seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
     if !seating[:ok]
       response[:errors] << "Seating error"
       return render json: response
     end
     seats = seating[:seats]
-    
-		info[:tickets].each do |type_id, number|
-			ticket_type = Ticketing::TicketType.find_by_id(type_id)
+
+    info[:tickets].each do |type_id, number|
+      ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
-      
+
       number.times do
         order.tickets.new({
           type: ticket_type,
@@ -31,17 +31,17 @@ class Api::BoxOfficeController < ApplicationController
           date: Ticketing::EventDate.find(info[:date]),
           picked_up: true
         })
-			end
-		end
-    
+      end
+    end
+
     ActiveRecord::Base.transaction do
       if order.save
-        begin          
+        begin
           NodeApi.update_seats_from_records(order.tickets)
-    
+
           response[:ok] = true
           response[:order] = info_for_order(order)
-          
+
         rescue
           response[:errors] << "Internal error"
           raise ActiveRecord::Rollback
@@ -51,10 +51,10 @@ class Api::BoxOfficeController < ApplicationController
         response[:errors] << "Invalid order"
       end
     end
-    
+
     render json: response
   end
-  
+
   def cancel_order
     order = Ticketing::BoxOffice::Order.find_by_id(params[:id])
     if order
@@ -64,18 +64,18 @@ class Api::BoxOfficeController < ApplicationController
     end
     render json: {}
   end
-  
-  def cancel_tickets    
+
+  def cancel_tickets
     @order.cancel_tickets(@tickets, :cancellation_at_box_office)
     save_order_and_update_node_with_tickets(@order, @tickets)
     render json: { order: info_for_order(@order) }
   end
-  
+
   def purchase
     purchase = Ticketing::BoxOffice::Purchase.new
     purchase.pay_method = params[:pay_method]
     tickets = []
-    
+
     params[:items].each do |item|
       purchase_item = purchase.items.new
       case item[:type]
@@ -84,7 +84,7 @@ class Api::BoxOfficeController < ApplicationController
         purchase_item.purchasable = ticket
         purchase_item.number = 1
         tickets << ticket
-      when "product" 
+      when "product"
         purchase_item.purchasable = Ticketing::BoxOffice::Product.find(item[:id].to_i)
         purchase_item.number = item[:number]
       when "order_payment"
@@ -94,9 +94,9 @@ class Api::BoxOfficeController < ApplicationController
         purchase_item.number = 1
       end
     end
-    
+
     @box_office.purchases << purchase
-    
+
     ok = false
     if @box_office.save
       ok = true
@@ -105,10 +105,10 @@ class Api::BoxOfficeController < ApplicationController
         ticket.save
       end
     end
-    
+
     render json: { ok: ok }
   end
-  
+
   def search
     ticket_id = nil
     orders = []
@@ -120,7 +120,7 @@ class Api::BoxOfficeController < ApplicationController
           ticket = order.tickets.where(order_index: $3).first
           ticket_id = ticket.id if ticket
         end
-        
+
       else
         table = Ticketing::Order.arel_table
         matches = nil
@@ -137,24 +137,24 @@ class Api::BoxOfficeController < ApplicationController
       orders: orders.map { |o| info_for_order(o) }
     }
   end
-  
+
   def ticket_printable
     pdf = TicketsBoxOfficePDF.new
     pdf.add_tickets(@tickets)
     send_data pdf.render, type: "application/pdf", disposition: "inline"
   end
-  
+
   def pick_up_tickets
     @tickets.update_all(picked_up: true)
     render json: {}
   end
-  
+
   def enable_resale_for_tickets
     @order.enable_resale_for_tickets(@tickets)
     save_order_and_update_node_with_tickets(@order, @tickets)
     render json: { order: info_for_order(@order) }
   end
-  
+
   def unlock_seats
     seats = {}
     Ticketing::ReservationGroup.all.each do |reservation_group|
@@ -165,23 +165,23 @@ class Api::BoxOfficeController < ApplicationController
     NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seating_id], seats: seats }) if seats.any?
     render nothing: true
   end
-  
+
   def event
     event = Ticketing::Event.current
-    
+
     response = {
       name: event.name,
       dates: event.dates.map { |date| { id: date.id.to_s, date: date.date.to_i } },
       ticket_types: Ticketing::TicketType.all.map { |type| { id: type.id.to_s, name: type.name, info: type.info || "", price: type.price || 0, exclusive: type.exclusive } },
-      
+
       seats: Ticketing::Seat.all.map do |seat|
         { id: seat.id.to_s, block: { name: seat.block.name, color: seat.block.color }, row: seat.row.to_s, number: seat.number.to_s, grid: { x: seat.position_x, y: seat.position_y } }
       end
     }
-    
+
     render :json => response
   end
-  
+
   def products
     render json: {
       products: Ticketing::BoxOffice::Product.all.map do |product|
@@ -193,12 +193,12 @@ class Api::BoxOfficeController < ApplicationController
       end
     }
   end
-  
+
   def report
     response = {}
-    
+
     start_date = 12.hours.ago
-    
+
     response[:products] = @box_office
       .purchases
       .where("ticketing_box_office_purchases.created_at > ?", start_date)
@@ -212,7 +212,7 @@ class Api::BoxOfficeController < ApplicationController
           number: number
         }
     end
-    
+
     response[:billings] = @box_office
       .billing_account
       .transfers
@@ -224,44 +224,44 @@ class Api::BoxOfficeController < ApplicationController
           date: transfer.created_at.to_i
         }
     end
-    
+
     response[:balance] = @box_office.billing_account.balance
-    
+
     render json: response
   end
-  
+
   def bill
     @box_office.billing_account.deposit(params[:amount], params[:reason])
     @box_office.billing_account.save
     render json: { ok: true }
   end
-  
+
   private
-  
+
   def find_tickets
     @tickets = Ticketing::Ticket.where(id: params[:ticket_ids])
   end
-  
+
   def find_tickets_with_order
     @order = Ticketing::Ticket.find(params[:ticket_ids].first).order
-    
+
     # @tickets = order.tickets.cancelled(false).find(params[:ticket_ids])
     # workaround: autosave is not triggered when fetching the tickets like shown above
     @tickets = @order.tickets.select do |ticket|
       params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
     end
   end
-  
+
   def find_box_office
     @box_office = Ticketing::BoxOffice::BoxOffice.first
   end
-  
+
   def save_order_and_update_node_with_tickets(order, tickets)
     if order.save
       NodeApi.update_seats_from_records(tickets)
     end
   end
-  
+
   def info_for_order(order)
     order.api_hash([:personal, :log_events, :tickets, :status, :billing], [:status])
   end

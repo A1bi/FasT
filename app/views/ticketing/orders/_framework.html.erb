@@ -2,37 +2,37 @@
 <% include_css "ticketing/orders" %>
 <% include_js "ticketing/orders" %>
 <div class="hl">
-	<%= title %>
+  <%= title %>
 </div>
 <div class="progress">
-	<div class="step bar"></div>
-	<div class="step current tickets">Tickets</div>
-	<div class="step seats"><% if @event.seating.bound_to_seats? %>Sitzplätze<% else %>Aufführung<% end %></div>
-	<div class="step address">Adresse</div>
-	<div class="step payment">Bezahlen</div>
-	<div class="step confirm">Bestätigen</div>
+  <div class="step bar"></div>
+  <div class="step current tickets">Tickets</div>
+  <div class="step seats"><% if @event.seating.bound_to_seats? %>Sitzplätze<% else %>Aufführung<% end %></div>
+  <div class="step address">Adresse</div>
+  <div class="step payment">Bezahlen</div>
+  <div class="step confirm">Bestätigen</div>
 </div>
 <div class="messages warning expiration">
-	<div class="icon"></div>
+  <div class="icon"></div>
   <ul>
-	  <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
+    <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
   </ul>
 </div>
 <%= content_tag :div, class: [:stepBox, @type], data: { type: @type, order_path: orders_path(:ticketing_order, ":id"), retail_id: @_retail_store.id } do %>
   <div class="modalAlert">
-		<div class="messages alert">
-			<div class="icon"></div>
+    <div class="messages alert">
+      <div class="icon"></div>
       <ul>
-			  <li></li>
+        <li></li>
         <li><%= link_to "Bestellvorgang neu starten", request.path, class: :btn %></li>
-		  </ul>
-	  </div>
+      </ul>
+    </div>
   </div>
   <%= yield :steps %>
 <% end %>
 <div class="btns">
-	<div class="btn prev disabled">zurück</div>
-	<div class="btn next disabled">
-		<span class="action">weiter</span>
-	</div>
+  <div class="btn prev disabled">zurück</div>
+  <div class="btn next disabled">
+    <span class="action">weiter</span>
+  </div>
 </div>

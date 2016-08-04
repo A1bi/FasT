@@ -1,6 +1,6 @@
 <div class="stepCon payment">
   <%= form_for :payment do |f| %>
-		<table class="inner rounded">
+    <table class="inner rounded">
       <thead>
         <tr>
           <th colspan="2">Zahlungsmethode</th>
@@ -9,18 +9,18 @@
       <tbody>
         <% methods.each do |method| %>
           <% method_id = "method#{method[:name].capitalize}".to_sym %>
-    			<tr>
-    				<td class="radio"><input type="radio" name="method" value="<%= method[:name] %>" id="<%= method_id %>" /></td>
-    				<td>
+          <tr>
+            <td class="radio"><input type="radio" name="method" value="<%= method[:name] %>" id="<%= method_id %>" /></td>
+            <td>
               <%= label_tag method_id do %><b><%= method[:human_name] %></b><% end %>
               <div class="small"><%= label_tag method_id, method[:desc] %></div>
-    			  </td>
-    			</tr>
+            </td>
+          </tr>
         <% end %>
       </tbody>
-		</table>
-		<div class="charge inner">
-			<table class="form rounded">
+    </table>
+    <div class="charge inner">
+      <table class="form rounded">
         <thead>
           <tr>
             <th colspan="2">Ihre Bankdaten</th>
@@ -46,7 +46,7 @@
             </td>
           </tr>
         </tbody>
-			</table>
-		</div>
+      </table>
+    </div>
   <% end %>
 </div>

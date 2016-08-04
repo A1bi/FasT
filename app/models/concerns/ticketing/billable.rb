@@ -11,7 +11,7 @@ module Ticketing
     def billing_account
       super || build_billing_account
     end
-    
+
     def api_hash(details = [])
       hash = defined?(super) ? super : {}
       hash.merge!({

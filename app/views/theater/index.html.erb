@@ -1,18 +1,18 @@
 <% title "Unsere Theaterstücke" %>
 <div class="hl">
-	Unsere Theaterstücke
+  Unsere Theaterstücke
 </div>
 <div style="margin-top: 20px;" class="hcen">
-	<% [
-		["drachenjungfrau", "Die Drachenjungfrau", true],
-		["ladykillers", "Ladykillers", true],
-		["don_camillo", "Don Camillo und Peppone", true],
+  <% [
+    ["drachenjungfrau", "Die Drachenjungfrau", true],
+    ["ladykillers", "Ladykillers", true],
+    ["don_camillo", "Don Camillo und Peppone", true],
     ["jedermann", "Jedermann", true],
-		["montevideo", "Das Haus in Montevideo", true],
-		["hexenjagd", "Hexenjagd", true],
-		["medicus", "Der Medicus vom Orient", true],
-		["phantasus", "Der Riese Phantasus", true]
-	].each do |t| %>
-  	<p><%= link_to_if t[2], image_tag("theater/#{t[0]}.jpg", alt: t[1], title: t[1]), { action: t[0] } %></p>
-	<% end %>
+    ["montevideo", "Das Haus in Montevideo", true],
+    ["hexenjagd", "Hexenjagd", true],
+    ["medicus", "Der Medicus vom Orient", true],
+    ["phantasus", "Der Riese Phantasus", true]
+  ].each do |t| %>
+    <p><%= link_to_if t[2], image_tag("theater/#{t[0]}.jpg", alt: t[1], title: t[1]), { action: t[0] } %></p>
+  <% end %>
 </div>

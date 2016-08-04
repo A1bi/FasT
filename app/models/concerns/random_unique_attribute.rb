@@ -9,16 +9,16 @@ module RandomUniqueAttribute
         min + SecureRandom.random_number(max)
       end
     end
-    
+
     def has_random_unique_token(attr, length = nil)
       length = length / 2 if length
       set_attr attr do
         SecureRandom.hex length
       end
     end
-    
+
     protected
-    
+
     def set_attr(attr, &block)
       before_validation on: :create do |record|
         begin

@@ -6,28 +6,28 @@ $total-border: 2px $light-blue solid;
 
 .stats {
   margin: 10px 0px;
-  
+
   .chooser {
     text-align: center;
     width: 100%;
-  
+
     .top {
       font-size: 15px;
-    
+
       span {
         padding: 0px 5px;
         cursor: pointer;
-        
+
         &:hover, &.selected {
           text-decoration: underline;
         }
       }
     }
   }
-  
+
   div.table {
     margin: 10px 0px;
-    
+
     &:not(.total):not(.active) {
       display: none;
     }
@@ -39,7 +39,7 @@ $total-border: 2px $light-blue solid;
         &:not(:first-child) {
           text-align: center;
         }
-      
+
         &.total {
           &.first {
             border-left: $total-border;
@@ -47,50 +47,50 @@ $total-border: 2px $light-blue solid;
           font-weight: bold;
         }
       }
-    
+
       &.total td {
         border-top: $total-border;
       }
-    
+
       &:last-child td {
         padding: 5px;
       }
     }
   }
-  
+
   .daily_stats .key {
     .total {
       color: red;
     }
-    
+
     .web {
       color: $dark-blue;
     }
-    
+
     .retail {
       color: $light-blue;
     }
   }
-  
+
   .billing {
     td {
       &:not(.amount) {
         text-align: left !important;
       }
-      
+
       &.amount {
         text-align: right;
-        
+
         &.positive {
           color: green;
         }
-        
+
         &.negative {
           color: red;
         }
       }
     }
-    
+
     .total {
       font-weight: bold;
     }

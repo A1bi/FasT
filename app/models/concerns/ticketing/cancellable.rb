@@ -1,11 +1,11 @@
 module Ticketing
   module Cancellable
-  	extend ActiveSupport::Concern
-	
-  	included do
-  		belongs_to :cancellation, autosave: true
+    extend ActiveSupport::Concern
+
+    included do
+      belongs_to :cancellation, autosave: true
     end
-		
+
     def cancel(reason)
       return if cancelled?
       if reason.is_a? Ticketing::Cancellation
@@ -20,7 +20,7 @@ module Ticketing
     def cancelled?
       cancellation.present?
     end
-    
+
     def api_hash(details = [])
       hash = defined?(super) ? super : {}
       hash.merge!({
@@ -29,7 +29,7 @@ module Ticketing
       }) if details.include? :status
       hash
     end
-    
+
     module ClassMethods
       def cancelled(cancelled = true)
         where(arel_table[:cancellation_id].send((cancelled ? :not_eq : :eq), nil))

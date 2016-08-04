@@ -10,7 +10,7 @@ $(function () {
       $(this).siblings(tableClass).slideDown();
     });
   });
-  
+
   var seatingBoxes = $(".seating");
   if (seatingBoxes.length) {
     $.getJSON(seatingBoxes.first().data("additional-path"), function (data) {
@@ -35,11 +35,11 @@ $(function () {
       });
     });
   }
-  
+
   var dailyStatsCanvas = $("#daily_stats");
   if (dailyStatsCanvas.length) {
     dailyStatsCanvas.prop("width", dailyStatsCanvas.parent().width());
-    
+
     $.getJSON(dailyStatsCanvas.data("chart-data-path"), function (data) {
       $.each(data.datasets, function (i, dataset) {
         var color = dailyStatsCanvas.siblings(".key").find("span").eq(i).css("color"),
@@ -54,7 +54,7 @@ $(function () {
           pointStrokeColor: "white"
         });
       });
-      
+
       var options = {
         bezierCurve: false,
         datasetStrokeWidth: 1

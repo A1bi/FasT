@@ -31,12 +31,12 @@ $highlightColor: #e6007e;
     family: 'Open Sans', sans-serif;
   }
   text-align: justify;
-  
+
   .title {
     text-align: center;
     padding-left: 150px;
     padding-bottom: 30px;
-    
+
     .highlight {
       font-size: 34px;
     }
@@ -66,7 +66,7 @@ $highlightColor: #e6007e;
 
 .cast {
   line-height: 1.2em;
-  
+
   .alt {
     box-shadow: none;
     background: transparent;
@@ -74,11 +74,11 @@ $highlightColor: #e6007e;
       width: 1px 0;
     }
   }
-  
+
   .actor {
     color: $highlightColor;
   }
-  
+
   .small {
     color: $regularColor;
   }

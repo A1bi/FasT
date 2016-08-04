@@ -1,54 +1,54 @@
 .parag {
-	margin-top: 20px;
+  margin-top: 20px;
 
-	h3 {
-		font-size: 16px;
-		margin: 15px 0px;
-	}
+  h3 {
+    font-size: 16px;
+    margin: 15px 0px;
+  }
 
-	p {
-		margin: 7px 0px;
-	}
+  p {
+    margin: 7px 0px;
+  }
 
-	.nrs {
-		font-weight: normal;
-		margin: 0px 20px;
-	}
+  .nrs {
+    font-weight: normal;
+    margin: 0px 20px;
+  }
 
-	ol {
-		&.nrs {
-			margin: 0px 10px;
-		}
+  ol {
+    &.nrs {
+      margin: 0px 10px;
+    }
 
-		&.letters {
-			list-style-type: lower-alpha;
-		}
+    &.letters {
+      list-style-type: lower-alpha;
+    }
 
-		&.no {
-			list-style-type: none;
-		}
+    &.no {
+      list-style-type: none;
+    }
 
-		li {
-			margin: 4px 0px;
-		}
-	}
+    li {
+      margin: 4px 0px;
+    }
+  }
 }
 
 .headline {
-	font-size: 18px;
-	text-align: center;
-	margin: 10px 0;
+  font-size: 18px;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .closure {
-	margin-top: 40px;
+  margin-top: 40px;
 }
 
 .privacy {
-	iframe {
-		width: 95%;
-		margin: 0 auto;
-		display: block;
-		border: 1px solid #cccccc;
-	}
+  iframe {
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid #cccccc;
+  }
 }

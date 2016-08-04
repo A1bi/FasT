@@ -18,7 +18,7 @@ class Api::SeatsController < ApplicationController
       }
     end
   end
-  
+
   def availability
     render json: {
       seats: Hash[Ticketing::Event.current.dates.map do |date|

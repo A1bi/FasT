@@ -1,10 +1,10 @@
 class OrdersController < ApplicationController
   before_action :find_records
-  
+
   def show
     @show_wallet = request.user_agent.match(/(Android|iP(hone|ad|od)|OS X|Windows Phone)/).present?
   end
-  
+
   def check_email
     if @order.is_a?(Ticketing::Web::Order) && @order.email.present? && @order.email == params[:email]
       redirect_to order_overview_path(@order.signed_info(true))
@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
       redirect_to request.path, alert: t("orders.overview.wrong_email")
     end
   end
-  
+
   def passbook_pass
     if @ticket
       @ticket.create_passbook_pass
@@ -21,9 +21,9 @@ class OrdersController < ApplicationController
       render nothing: true, status: 403
     end
   end
-  
+
   private
-  
+
   def find_records
     data = Ticketing::SigningKey.verify(params[:signed_info])
     if data[:ti].present?

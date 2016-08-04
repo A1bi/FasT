@@ -1,4 +1,4 @@
-class TicketsWebPDF < TicketsPDF  
+class TicketsWebPDF < TicketsPDF
   private
 
   def draw_ticket(ticket)
@@ -6,15 +6,15 @@ class TicketsWebPDF < TicketsPDF
       start_new_page
       fill_background
     end
-    
+
     super
-    
+
     if cursor > bounds.height / 3
       move_down @ticket_margin
       draw_cut_line
     end
   end
-  
+
   def signed_ticket_info_extension
     0
   end

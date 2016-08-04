@@ -7,30 +7,30 @@
   <div class="hl">Termine</div>
   <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
   <table class="rounded dates">
-  	<tr>
-  		<th>Zeitpunkt</th>
+    <tr>
+      <th>Zeitpunkt</th>
       <th>Titel</th>
-  		<th>Infos</th>
-  		<th>Ort</th>
-  		<% if @_member.admin? %><th></th><% end %>
-  	</tr>
-  	<%= content_tag_for :tr, @dates do |date| %>
-  		<td>
+      <th>Infos</th>
+      <th>Ort</th>
+      <% if @_member.admin? %><th></th><% end %>
+    </tr>
+    <%= content_tag_for :tr, @dates do |date| %>
+      <td>
         <%= l date.datetime, format: "%A, %d. %B" %>
         <br /><%= date.datetime.strftime("%H.%M") %> Uhr
       </td>
       <td><%= date.title %></td>
-  		<td><%= nl2br date.info %></td>
-  		<td><%= date.location %></td>
-  		<%= content_tag :td, :class => :actionBtns do %>
-  			<%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
-  		<% end if @_member.admin? %>
-  	<% end %>
+      <td><%= nl2br date.info %></td>
+      <td><%= date.location %></td>
+      <%= content_tag :td, :class => :actionBtns do %>
+        <%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
+      <% end if @_member.admin? %>
+    <% end %>
   </table>
   <div class="export">
-  	<% webcal_url = members_dates_url(:format => :ics, :protocol => "webcal") %>
-  	Termine abonnieren mit: <%= link_to "iPhone / Mac / Windows", webcal_url %> | 
-  	<%= link_to "Google Calendar", "https://www.google.com/calendar/render?cid=" + webcal_url, :target => "_blank" %>
+    <% webcal_url = members_dates_url(:format => :ics, :protocol => "webcal") %>
+    Termine abonnieren mit: <%= link_to "iPhone / Mac / Windows", webcal_url %> |
+    <%= link_to "Google Calendar", "https://www.google.com/calendar/render?cid=" + webcal_url, :target => "_blank" %>
   </div>
   <div class="trenner"></div>
 <% end %>
@@ -38,18 +38,18 @@
   <div class="hl">Downloads</div>
   <%= render "new_button", :action => "Neue Datei", :url => new_members_file_path, :admin_required => true %>
   <table class="rounded files">
-  	<%= content_tag_for :tr, @files do |file| %>
-  		<td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
-  		<td>
-  			<%= file.title %>
-  			<div class="small">
-  				<%= file.description %>
-  			</div>
-  		</td>
-  		<td class="download"><%= link_to "download", file.file.url, :target => "_blank" %></td>
-  		<%= content_tag :td, :class => :actionBtns do %>
-  			<%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
-  		<% end if @_member.admin? %>
-  	<% end %>
+    <%= content_tag_for :tr, @files do |file| %>
+      <td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
+      <td>
+        <%= file.title %>
+        <div class="small">
+          <%= file.description %>
+        </div>
+      </td>
+      <td class="download"><%= link_to "download", file.file.url, :target => "_blank" %></td>
+      <%= content_tag :td, :class => :actionBtns do %>
+        <%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
+      <% end if @_member.admin? %>
+    <% end %>
   </table>
 <% end %>

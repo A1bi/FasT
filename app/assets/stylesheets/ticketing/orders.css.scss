@@ -5,15 +5,15 @@
 
 table.details {
   margin: 15px 0px;
-  
+
   &.entries td {
     text-align: center;
-    
+
     .seating .viewChooser {
       display: none;
     }
   }
-  
+
   &.log td {
     text-align: left;
   }
@@ -41,12 +41,12 @@ table.details {
         }
       }
     }
-    
+
     tbody:last-child {
       input[type=text] {
         width: 50px;
       }
-      
+
       span {
         display: none;
       }
@@ -57,65 +57,65 @@ table.details {
     th:last-child {
       width: 70%;
       text-align: left;
-      
+
       input[type=text] {
         width: 70%;
       }
     }
   }
-  
+
   tr.cancelled td {
     color: #cccccc;
     text-decoration: line-through;
   }
-  
+
   td {
     padding: 5px 8px !important;
-    
+
     &.checkbox {
       width: 7%;
     }
-    
+
     &.name, &.actions {
       text-align: left;
     }
-    
+
     &.number {
       width: 15%;
       font-weight: bold;
-      
+
       .small {
         font-style: italic;
         font-weight: normal;
       }
     }
-    
+
     &.tickets {
       width: 5%;
     }
-    
+
     &.amount {
       text-align: right;
       width: 12%;
     }
-    
+
     &.date {
       width: 20%;
     }
-    
+
     &.label {
       width: 25%;
     }
-    
+
     &.empty {
       font-style: italic;
       text-align: center;
     }
-    
+
     .index &.date {
       text-align: right;
     }
-    
+
     &.wallet {
       img {
         width: 110px;
@@ -135,20 +135,20 @@ table.details {
     float: left;
     width: 58%;
   }
-  
+
   .rightTables {
     float: right;
     width: 40%;
-    
+
     .actions div {
       margin: 5px;
-      
+
       #cancelForm {
         display: none;
         margin-top: 15px;
       }
     }
-    
+
     .cancellation th {
       color: red;
       text-shadow: 1px 1px 3px white;
@@ -157,91 +157,91 @@ table.details {
 }
 
 .btns {
-	position: relative;
-	width: 90%;
-	margin: auto;
-	margin-top: 10px;
-	height: 50px;
-  
-  .btn {
-  	padding: 5px 20px;
-  	border-radius: 20px;
-  	@include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
-  	color: #ffffff;
-  	text-decoration: none;
-  	box-shadow: #666666 0px 0px 6px;
-  	margin: 10px;
-  	cursor: pointer;
+  position: relative;
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  height: 50px;
 
-  	&:hover {
-  		text-decoration: underline;
-  		box-shadow: #666666 0px 0px 8px;
-  	}
-    
+  .btn {
+    padding: 5px 20px;
+    border-radius: 20px;
+    @include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: #666666 0px 0px 6px;
+    margin: 10px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+      box-shadow: #666666 0px 0px 8px;
+    }
+
     &:active {
       box-shadow: #666666 0px 0px 4px;
     }
 
-  	&.disabled {
-  		cursor: default;
-  		background: #cccccc;
-		
-  		&:hover {
-  			text-decoration: none;
-  			box-shadow: #666666 0px 0px 6px;
-  		}
-  	}
+    &.disabled {
+      cursor: default;
+      background: #cccccc;
 
-  	&.prev, &.next {
-  		position: absolute;
-  		top: 0px;
-  	}
-	
-  	&.prev {
-  		left: 0px;
-  	}
-	
-  	&.next {
-  		right: 0px;
-  	}
+      &:hover {
+        text-decoration: none;
+        box-shadow: #666666 0px 0px 6px;
+      }
+    }
+
+    &.prev, &.next {
+      position: absolute;
+      top: 0px;
+    }
+
+    &.prev {
+      left: 0px;
+    }
+
+    &.next {
+      right: 0px;
+    }
   }
 }
 
 .progress, .stepBox {
-	position: relative;
-	border: 1px solid #cccccc;
-	width: 600px;
-	overflow: hidden;
-	margin: auto;
-	border-radius: 7px;
+  position: relative;
+  border: 1px solid #cccccc;
+  width: 600px;
+  overflow: hidden;
+  margin: auto;
+  border-radius: 7px;
 }
 
 .progress {
-	.step {
-		position: relative;
-		float: left;
-		text-align: center;
-		padding: 2px 0px;
-		font-size: 12px;
-		color: #cccccc;
-		z-index: 2;
+  .step {
+    position: relative;
+    float: left;
+    text-align: center;
+    padding: 2px 0px;
+    font-size: 12px;
+    color: #cccccc;
+    z-index: 2;
     display: none;
-		@include transition(color, .5s, ease-in-out);
-		
-		&.current {
-			color: #ffffff;
-		}
-		
-		&.bar {
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			height: 100%;
+    @include transition(color, .5s, ease-in-out);
+
+    &.current {
+      color: #ffffff;
+    }
+
+    &.bar {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 100%;
       display: block;
-		 	@include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
-			@include transition(left, .5s, ease-in-out);
-		}
-	}
+       @include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
+      @include transition(left, .5s, ease-in-out);
+    }
+  }
 }
 
 .expiration {
@@ -251,18 +251,18 @@ table.details {
 }
 
 @include keyframes(expiration) {
-	from {
+  from {
     color: red;
-	}
-	to {
+  }
+  to {
     color: white;
-	}
+  }
 }
 
 .stepBox {
-	margin-top: 30px;
-	min-height: 250px;
-  
+  margin-top: 30px;
+  min-height: 250px;
+
   .modalAlert {
     position: absolute;
     width: 100%;
@@ -271,11 +271,11 @@ table.details {
     background: rgba(0, 0, 0, .85);
     z-index: 3;
     display: none;
-    
+
     .spinner {
       margin: 125px auto;
     }
-    
+
     .messages {
       margin: 80px auto;
       width: 70%;
@@ -285,12 +285,12 @@ table.details {
 }
 
 .stepCon {
-	position: absolute;
-	left: 100%;
+  position: absolute;
+  left: 100%;
   min-height: 200px;
-	width: 100%;
-	display: none;
-  
+  width: 100%;
+  display: none;
+
   .inner, .note, .seating .error {
     width: 90%;
     box-sizing: border-box;
@@ -299,112 +299,112 @@ table.details {
       right: auto;
     }
   }
-	
-	.inner {
+
+  .inner {
     margin: 25px auto;
-    
+
     tr {
       td {
         @include transition((color, background), .5s);
         padding: 8px;
       }
     }
-	}
-  
+  }
+
   .note {
     font-size: 13px;
     margin: 15px auto;
-    
+
     &.additional {
       border: 2px solid #cccccc;
       border-radius: 7px;
       padding: 0px 7px;
       font-style: italic;
-      
+
       p {
         margin: 7px 0px;
       }
     }
-    
+
     .trenner {
       margin: 18px -20px;
     }
   }
-	
-	.field {
-		width: 250px;
-	}
-  
-	table.form {
+
+  .field {
+    width: 250px;
+  }
+
+  table.form {
     tr {
       &.error {
         td {
           color: white;
           background: red;
-          
+
           .msg {
             font-size: 12px;
             display: block;
           }
-          
+
           .small {
             display: none;
           }
         }
       }
-      
-  		td {
+
+      td {
         .small {
-  			  margin-top: 5px;
-  			  color: #000000;
+          margin-top: 5px;
+          color: #000000;
         }
-      
+
         .msg {
           display: none;
           font-size: 14px;
           padding: 2px 6px;
         }
-      
+
         &:first-child {
           padding-top: 12px;
           width: 28%;
         }
-    	}
+      }
     }
   }
-	
-	&.tickets {
+
+  &.tickets {
     .hl {
       font-size: 26px;
     }
-    
-		div.number {
-			.date_ticketing_ticket_type {
+
+    div.number {
+      .date_ticketing_ticket_type {
         .type {
-    			border-left: none;
-    		}
+          border-left: none;
+        }
       }
     }
-    
+
     .coupon {
       margin-top: 30px;
-      
+
       .added {
         display: none;
       }
-      
+
       input[type=text] {
         width: 80px;
       }
-      
+
       .msg {
         font-size: 13px;
         display: none;
-        
+
         div {
           margin-top: 5px;
         }
-        
+
         .result {
           color: green;
 
@@ -414,197 +414,197 @@ table.details {
         }
       }
     }
-	}
-	
-	&.seats {    
-		table.date td {
+  }
+
+  &.seats {
+    table.date td {
       color: black;
       text-align: center;
-			padding: 7px;
-      
+      padding: 7px;
+
       &:not(.selected):not(.disabled) {
-			  cursor: pointer;
+        cursor: pointer;
       }
-    
+
       &:not(:last-child) {
         border-bottom: 1px solid #cccccc;
       }
-			
-			&:hover {
-				text-decoration: none;
-			}
-		
-			&.selected {
-				font-weight: bold;
-			}
-      
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &.selected {
+        font-weight: bold;
+      }
+
       &:not(.disabled) {
         &:hover, &.selected {
           background: $faint-blue;
         }
       }
-		
-			&.disabled {
-				color: #cccccc;
-        
+
+      &.disabled {
+        color: #cccccc;
+
         .line_through {
           text-decoration: line-through !important;
         }
-			}
-      
+      }
+
       .sold_out {
         color: red;
         font-style: italic;
       }
-		}
-    
+    }
+
     em.small {
       color: black;
     }
-    
+
     .number_of_tickets {
       .trenner {
         margin-top: 0;
       }
     }
-    
+
     .seat_chooser {
       margin-top: 10px;
-      
+
       > :first-child {
         margin-top: 0px;
       }
     }
-    
+
     .no-seating {
       text-align: center;
       font-style: italic;
     }
-	}
-	
-	&.address {
+  }
 
-	}
-	
-	&.payment {
-		td {
-			padding-top: 10px;
-		
-			.small {
-				color: #000000;
-			}
-		}
-	
-		.radio {
-			width: 10%;
+  &.address {
+
+  }
+
+  &.payment {
+    td {
+      padding-top: 10px;
+
+      .small {
+        color: #000000;
+      }
+    }
+
+    .radio {
+      width: 10%;
       text-align: center;
-		}
-	
-		.charge {
-			display: none;
-		}
-	}
-	
-	&.confirm {
-		.payment {
-			margin-top: 10px;
-      
+    }
+
+    .charge {
+      display: none;
+    }
+  }
+
+  &.confirm {
+    .payment {
+      margin-top: 10px;
+
       .charge, .transfer {
         display: none;
       }
-      
+
       &.charge .charge, &.transfer .transfer {
         display: block;
       }
-		}
-	
-		.date {
-			font-weight: bold;
-		}
-    
+    }
+
+    .date {
+      font-weight: bold;
+    }
+
     .checkboxes {
       margin: 15px auto;
       font-size: 14px;
-      
+
       tr td {
         padding: 7px;
-        
+
         &:first-child {
           width: 7%;
         }
-        
+
         &:last-child {
           border-left: none;
         }
       }
     }
-	}
-	
-	&.finish {
+  }
+
+  &.finish {
     text-align: center;
-    
+
     .success {
       display: none;
-      
-  		.hl {
-  			font-size: 28px;
-  		}
-		
-  		.tickets {
-  			display: none;
-  		}
-    
+
+      .hl {
+        font-size: 28px;
+      }
+
+      .tickets {
+        display: none;
+      }
+
       .info {
         width: 60%;
         margin: 30px auto;
-        
+
         td {
           padding: 6px;
-          
+
           &:not(.links) {
             text-align: left !important;
           }
-        
+
           &.total {
             font-size: 30px;
             font-weight: bold;
           }
         }
       }
-      
+
       .note {
         p {
           margin-top: 30px;
           margin-bottom: 30px;
         }
-        
+
         .order-number {
           font-size: 16px;
         }
       }
     }
-	}
+  }
 }
 
 .stepCon.tickets {
   .single, td.total {
-  	width: 18%;
-  	text-align: right;
+    width: 18%;
+    text-align: right;
   }
 }
 
 .stepCon.tickets, .stepCon.confirm {
-	tr {
+  tr {
     td.total, td.amount {
       text-align: right;
     }
-    
+
     &.total, &.subtotal {
-  		font-weight: bold;
-  		
-  		td {
-  			border-top: 1px solid #cccccc;
-  		}
-  	}
+      font-weight: bold;
+
+      td {
+        border-top: 1px solid #cccccc;
+      }
+    }
   }
 }

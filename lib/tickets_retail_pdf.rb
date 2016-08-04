@@ -1,11 +1,11 @@
-class TicketsRetailPDF < TicketsPDF  
+class TicketsRetailPDF < TicketsPDF
   def initialize
     margin = [0]
     page_size = [TICKET_WIDTH, TICKET_HEIGHT]
-    
+
     super(margin, page_size)
   end
-  
+
   private
 
   def draw_ticket(ticket)
@@ -13,10 +13,10 @@ class TicketsRetailPDF < TicketsPDF
       start_new_page
       fill_background
     end
-    
+
     super
   end
-  
+
   def signed_ticket_info_extension
     1
   end

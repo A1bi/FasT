@@ -3,32 +3,32 @@
   <div class="hl">Newsletter</div>
   <%= render "new_button", action: "neuen Newsletter erstellen", url: new_admin_newsletter_path %>
   <table class="rounded">
-  	<thead>
-  		<tr>
-  			<th>Betreff</th>
-  			<th>gesendet</th>
-  			<th class="actionBtns"></th>
-  		</tr>
-  	</thead>
-  	<tbody>
-  		<% @newsletters.each do |letter| %>
-  			<tr>
-  				<td><%= link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter) %></td>
-  				<td>
+    <thead>
+      <tr>
+        <th>Betreff</th>
+        <th>gesendet</th>
+        <th class="actionBtns"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @newsletters.each do |letter| %>
+        <tr>
+          <td><%= link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter) %></td>
+          <td>
             <% if letter.sent.present? %>
               <%= l letter.sent, format: "%d. %B %Y um %H.%M Uhr" %>
             <% else %>
               <%= link_to "senden", deliver_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
             <% end %>
           </td>
-  				<td class="actionBtns">
+          <td class="actionBtns">
             <% if !letter.sent? %>
               <%= link_to "", edit_admin_newsletter_path(letter), :class => :edit, :title => "bearbeiten" %>
               <%= link_to "", admin_newsletter_path(letter), { :method => :delete, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich löschen?" }, :class => :delete, :title => "löschen" } %>
             <% end %>
           </td>
-  			</tr>
-  		<% end %>
-  	</tbody>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </div>

@@ -2,23 +2,23 @@
 <div class="hl">Mitglieder-Login</div>
 <%= form_tag members_login_path do %>
 <table class="rounded panel">
-	<tr>
-		<td>e-mail-Adresse:</td>
-		<td><%= email_field_tag :email, params[:email] %></td>
-	</tr>
-	<tr>
-		<td>
+  <tr>
+    <td>e-mail-Adresse:</td>
+    <td><%= email_field_tag :email, params[:email] %></td>
+  </tr>
+  <tr>
+    <td>
       Passwort:
       <br /><%= link_to "vergessen?", forgot_password_members_member_path %>
     </td>
-		<td><%= password_field_tag :password %></td>
-	</tr>
+    <td><%= password_field_tag :password %></td>
+  </tr>
   <tr>
     <td></td>
     <td><%= label_tag do %><%= check_box_tag :remember %> eingeloggt bleiben<% end %></td>
   </tr>
 </table>
 <div class="submit">
-	<%= submit_tag "login" %>
+  <%= submit_tag "login" %>
 </div>
 <% end %>

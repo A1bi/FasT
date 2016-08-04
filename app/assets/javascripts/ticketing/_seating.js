@@ -11,12 +11,12 @@ function Seat(id, block, number, pos, delegate) {
   this.group;
   this.text;
   var _this = this;
-  
+
   this.setSelected = function (sel) {
     this.selected = sel;
     this.setStatus(Seat.Status[sel ? "Selected" : "Default"]);
   };
-  
+
   this.getShapeScope = function () {
     switch (this.status) {
     case Seat.Status.Selected:
@@ -26,7 +26,7 @@ function Seat(id, block, number, pos, delegate) {
       return Seat;
     }
   };
-  
+
   this.renderStatusShape = function () {
     var shapeScope = this.getShapeScope();
     if (shapeScope.statusShapeQueues[this.status]) {
@@ -36,7 +36,7 @@ function Seat(id, block, number, pos, delegate) {
       shapeScope.statusShapeQueues[this.status] = [this];
     }
     Seat.statusShapesToRender++;
-    
+
     var defaultOptions = {
       width: Seat.size[0],
       height: Seat.size[1],
@@ -51,7 +51,7 @@ function Seat(id, block, number, pos, delegate) {
       shadowBlur: 3
     };
     if (this.block) defaultOptions['fill'] = this.block.color;
-    
+
     var options;
     switch (this.status) {
     case Seat.Status.Default:
@@ -92,7 +92,7 @@ function Seat(id, block, number, pos, delegate) {
       };
       break;
     }
-  
+
     new Kinetic.Rect(defaultOptions).setAttrs(options).toImage({
       x: -Seat.cacheOffset[0],
       y: -Seat.cacheOffset[1],
@@ -117,23 +117,23 @@ function Seat(id, block, number, pos, delegate) {
       })(this.status)
     });
   };
-  
+
   this.getStatusShape = function () {
     return this.getShapeScope().statusShapes[this.status];
   };
-  
+
   this.updateStatusShape = function () {
     if (!this.getStatusShape()) {
       this.renderStatusShape();
       return;
     }
-    
+
     if (this.shape) this.shape.destroy();
     this.shape = this.getStatusShape().clone();
     this.group.add(this.shape);
     this.shape.draw().moveToBottom();
   };
-  
+
   this.updateNumber = function () {
     var textColor;
     switch (this.status) {
@@ -146,19 +146,19 @@ function Seat(id, block, number, pos, delegate) {
     }
     this.text.fill(textColor);
   };
-  
+
   this.setStatus = function (status) {
     if (this.status == status) return;
     this.status = status;
     this.updateStatusShape();
     this.updateNumber();
   };
-  
+
   this.toggleNumber = function (toggle) {
     this.text.visible(toggle);
   };
-  
-  
+
+
   this.group = new Kinetic.Group({
     x: pos[0],
     y: pos[1],
@@ -177,7 +177,7 @@ function Seat(id, block, number, pos, delegate) {
       _this.delegate.setCursor();
     });
   }
-  
+
   var fontSize = Seat.size[1] * 0.6;
   this.text = new Kinetic.Text({
     y: (Seat.cacheSize[1] - fontSize) / 2,
@@ -222,7 +222,7 @@ function SeatBlock(id, color, delegate) {
   this.group = new Kinetic.Group();
   this.statusShapes = {};
   this.statusShapeQueues = {};
-  
+
   this.addSeat = function (id, number, pos) {
     var seat = new Seat(id, this, number, pos, this.delegate);
     this.seats.push(seat);
@@ -245,19 +245,19 @@ function Seating(container) {
     photo: false
   };
   var _this = this;
-  
+
   this.getGridPos = function (pos) {
     return { position_x: Math.round(pos.x / this.gridCellSize), position_y: Math.round(pos.y / this.gridCellSize) };
   };
-  
+
   this.initSeats = function (seatCallback, afterCallback) {
     $.getJSON("/api/seats", function (data) {
-      
+
       for (var i = 0, bLength = data.blocks.length; i < bLength; i++) {
         var blockInfo = data.blocks[i];
         var block = new SeatBlock(blockInfo.id, blockInfo.color, _this);
         _this.addToLayer("seats", block.group);
-        
+
         for (var j = 0, sLength = blockInfo.seats.length; j < sLength; j++) {
           var seatInfo = blockInfo.seats[j];
           var pos = [seatInfo.position[0] * _this.gridCellSize, seatInfo.position[1] * _this.gridCellSize];
@@ -266,45 +266,45 @@ function Seating(container) {
           _this.seats[seatInfo.id] = seat;
           if (seatCallback) seatCallback(seat);
         }
-        
+
       }
       if (afterCallback) afterCallback();
-      
+
     });
   };
-  
+
   this.toggleNumbers = function (toggle) {
     for (var seatId in this.seats) {
       this.seats[seatId].toggleNumber(toggle);
     }
   };
-  
+
   this.setCursor = function (type) {
     this.container.css({ cursor: type || "auto" });
   };
-  
+
   this.addLayer = function (name, options) {
     var layer = new Kinetic.Layer(options);
     this.layers[name] = layer;
     this.stage.add(layer);
     return layer;
   };
-  
+
   this.addToLayer = function (layerName, item) {
     this.layers[layerName].add(item);
     return item;
   };
-  
+
   this.drawLayer = function (name) {
     console.log("Drawing " + name + " layer");
     this.layers[name].draw();
   };
-  
+
   this.drawSeatsLayer = function () {
     this.layers['seats'].cache();
     this.drawLayer("seats");
   };
-  
+
   this.drawKey = function (exclusive) {
     var rectPadding = 10;
     var keyRectWidth = this.stage.width() * 0.8, keyRectHeight = keyLayerHeight - rectPadding * 2;
@@ -322,7 +322,7 @@ function Seating(container) {
       keyGroup.add(keyText);
       xPos += keyText.width() + 7;
     };
-    
+
     if (!this.layers['key']) {
       this.addLayer("key", {
         width: keyRectWidth,
@@ -331,19 +331,19 @@ function Seating(container) {
         y: rectPadding
       });
       this.layers['key'].setAttr("originalX", this.layers['key'].position().x);
-      
+
       Seat.statusShapeRenderingCallbacks.push(function () {
         _this.drawLayer("key");
       });
     } else {
       this.layers['key'].removeChildren();
     }
-    
+
     var keyGroup = this.addToLayer("key", new Kinetic.Group({
       width: keyRectWidth,
       height: keyRectHeight
     }));
-  
+
     var keyRect = new Kinetic.Rect({
       width: keyRectWidth,
       height: keyRectHeight,
@@ -354,9 +354,9 @@ function Seating(container) {
       cornerRadius: 8
     });
     keyGroup.add(keyRect);
-    
+
     drawText("Sitzplatz-Legende", true);
-    
+
     var statuses = [Seat.Status.Available, Seat.Status.Taken, Seat.Status.Chosen];
     if (exclusive) statuses.push(Seat.Status.Exclusive);
     for (var i = 0; i < statuses.length; i++) {
@@ -366,14 +366,14 @@ function Seating(container) {
         strokeWidth: 1
       }));
       xPos += 1 + padding;
-    
+
       var seatScale = .8;
       var seat = new Seat(null, null, 0, [xPos, (keyRectHeight - Seat.cacheSize[1] * seatScale) / 2]);
       keyGroup.add(seat.group);
       seat.setStatus(statuses[i]);
       seat.group.setScale({ x: seatScale, y: seatScale });
       xPos += Seat.cacheSize[0] * seatScale + 3;
-      
+
       var text;
       switch (statuses[i]) {
       case Seat.Status.Available:
@@ -390,15 +390,15 @@ function Seating(container) {
       }
       drawText(text);
     }
-    
+
     xPos += 3;
     keyGroup.width(xPos);
     keyRect.width(xPos);
     keyGroup.position({ x: (keyRectWidth - xPos) / 2 });
-    
+
     this.drawLayer("key");
   };
-  
+
   var updateKeyPosition = function (stageX) {
     if (_this.layers['key']) {
       _this.layers['key'].position({
@@ -406,21 +406,21 @@ function Seating(container) {
       });
     }
   };
-  
-  
+
+
   var isBig = this.container.is(".big");
   var planWrapper = this.container.find(".plan-wrapper");
   var planBox = planWrapper.find(".plan");
   var viewChooser = this.container.find(".viewChooser");
   var seatsLayerWidth = planBox.width();
-  
+
   this.stage = new Kinetic.Stage({
     container: planBox.get(0),
     width: seatsLayerWidth,
     height: planBox.height()
   })
   .setListening(false);
-  
+
   var drawStage = this.container.is(".stage");
   var drawKey = this.container.is(".key");
   var seatsLayerHeight = this.stage.height();
@@ -434,19 +434,19 @@ function Seating(container) {
     keyLayerHeight = 50;
     seatsLayerHeight -= keyLayerHeight;
   }
-  
+
   this.addLayer("seats", {
     width: seatsLayerWidth,
     height: seatsLayerHeight,
     y: keyLayerHeight
   });
-  
+
   this.gridCellSize = this.layers['seats'].width() / this.maxHorizontalGridCells;
   Seat.setSize([this.gridCellSize * this.seatSizeFactor, this.gridCellSize * this.seatSizeFactor]);
   Seat.statusShapeRenderingCallbacks.push(function () {
     _this.drawSeatsLayer();
   });
-  
+
   if (drawStage) {
     var stageRectWidth = this.layers['seats'].width() * 0.95, stageRectHeight = 40;
     this.addLayer("stage", {
@@ -472,17 +472,17 @@ function Seating(container) {
     stageText.position({ x: (stageRectWidth - stageText.width()) / 2 });
     this.drawLayer("stage");
   }
-  
+
   if (drawKey) {
     this.drawKey(false);
   }
-  
+
   this.addLayer("background", {
     width: this.layers['seats'].width(),
     height: this.stage.height(),
     y: keyLayerHeight
   }).moveToBottom();
-  
+
   if (this.container.is(".background")) {
     this.background = this.addToLayer("background", new Kinetic.Rect({
       width: this.layers['background'].width(),
@@ -492,7 +492,7 @@ function Seating(container) {
       fillLinearGradientColorStops: [0, "white", 1, "#E1F0FF"]
     }));
   }
-  
+
   if (viewChooser.length) {
     var viewChooserCallback = function ($this) {
       $this.addClass("selected").siblings().removeClass("selected");
@@ -505,7 +505,7 @@ function Seating(container) {
       _this.underlayImage.visible(_this.viewOptions['underlay']);
       _this.drawLayer("background");
     };
-    
+
     var underlay = new Image();
     underlay.src = "/uploads/seating_underlay.png";
     underlay.onload = function () {
@@ -515,7 +515,7 @@ function Seating(container) {
         height: _this.layers['seats'].width() / underlay.width * underlay.height,
         visible: false
       }));
-        
+
       viewChooser.find("a").click(function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -526,7 +526,7 @@ function Seating(container) {
     };
   }
   this.drawLayer("background");
-  
+
   this.wiggle = function () {
     if (isBig && planWrapper.scrollLeft() === 0) {
       planWrapper.animate({ scrollLeft: seatsLayerWidth * 0.2 }, 350, function () {
@@ -538,7 +538,7 @@ function Seating(container) {
 
 function SeatingStandalone(container) {
   Seating.call(this, container);
-  
+
   this.initSeats(function (seat) {
     seat.toggleNumber(true);
     seat.updateStatusShape();
@@ -547,12 +547,12 @@ function SeatingStandalone(container) {
 
 function SeatingEditor(container) {
   Seating.call(this, container);
-  
+
   this.selecting = false;
   this.selectedSeats = [];
   this.selectedSeatsGroup = [];
   var _this = this;
-  
+
   this.saveSeatsInfo = function () {
     var seats = {};
     for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
@@ -565,11 +565,11 @@ function SeatingEditor(container) {
       data: { seats: seats }
     });
   };
-  
+
   this.toggleSelecting = function (event, toggle) {
     _this.selecting = event.metaKey;
   };
-  
+
   this.relocateSelectedSeats = function () {
     var delta = this.selectedSeatsGroup.position();
     this.selectedSeatsGroup.setPosition({ x: 0, y: 0 }).find(".seat").each(function(seat) {
@@ -577,7 +577,7 @@ function SeatingEditor(container) {
       seat.position({ x: pos.x + delta.x, y: pos.y + delta.y });
     });
   };
-  
+
   this.updateSelectedSeats = function () {
     this.relocateSelectedSeats();
     this.selectedSeatsGroup.moveToTop();
@@ -586,18 +586,18 @@ function SeatingEditor(container) {
         seat.moveTo(seat.attrs.seat.block.group);
       }
     });
-    
+
     for (var i = 0, sLength = this.selectedSeats.length; i < sLength; i++) {
       this.selectedSeats[i].group.moveTo(this.selectedSeatsGroup);
     }
-    
+
     _this.drawSeatsLayer();
   };
-  
+
   this.mouseOverSeat = function (seat) {
     this.setCursor(seat.selected ? "move" : "pointer");
   };
-  
+
   this.clickedSeat = function (seat) {
     var index = this.selectedSeats.indexOf(seat);
     var selected = false, cursor;
@@ -622,17 +622,17 @@ function SeatingEditor(container) {
     }
     this.updateSelectedSeats();
   };
-  
-  
+
+
   this.initSeats(function (seat) {
     seat.toggleNumber(true);
     seat.updateStatusShape();
   });
-  
+
   this.layers['background'].on("mouseup touchend", function () {
     _this.clickedSeat();
   });
-  
+
   this.selectedSeatsGroup = this.addToLayer("seats", new Kinetic.Group({
     draggable: true,
     dragBoundFunc: function (pos) {
@@ -651,13 +651,13 @@ function SeatingEditor(container) {
     _this.saveSeatsInfo();
     _this.drawSeatsLayer();
   });
-  
+
   $(document).on("keydown keyup", this.toggleSelecting);
 };
 
 function SeatChooser(container, delegate) {
   Seating.call(this, container);
-  
+
   this.date = null;
   this.seatsInfo = {};
   this.numberOfSeats = 0;
@@ -667,8 +667,8 @@ function SeatChooser(container, delegate) {
   this.errorBox = this.container.find(".error");
   this.delegate = delegate;
   this.noErrors = false;
-	var _this = this;
-  
+  var _this = this;
+
   this.updateSeats = function (seats) {
     var updatedSeats = {};
     for (var dateId in seats) {
@@ -684,7 +684,7 @@ function SeatChooser(container, delegate) {
     }
     this.updateSeatPlan(updatedSeats);
   };
-  
+
   this.updateSeatPlan = function (updatedSeats) {
     if (!this.date) return;
     console.log("Updating seating plan");
@@ -713,21 +713,21 @@ function SeatChooser(container, delegate) {
     }
     if (redraw) this.drawSeatsLayer();
   };
-  
+
   this.chooseSeat = function (seat) {
     var originalStatus = seat.status;
     var allowedStatuses = [Seat.Status.Available, Seat.Status.Exclusive, Seat.Status.Chosen];
     if (allowedStatuses.indexOf(originalStatus) == -1) return;
-    
+
     var newStatus = (originalStatus == Seat.Status.Chosen) ? Seat.Status.PreAvailable : Seat.Status.PreChosen;
     seat.setStatus(newStatus);
-    
+
     this.node.emit("chooseSeat", { seatId: seat.id }, function (res) {
       if (!res.ok) seat.setStatus(originalStatus);
       _this.updateErrorBoxIfVisible();
     });
   };
-  
+
   this.setDateAndNumberOfSeats = function (date, number, callback) {
     this.numberOfSeats = number;
     if (this.date != date) {
@@ -735,28 +735,28 @@ function SeatChooser(container, delegate) {
       this.updateSeatPlan();
     }
     this.updateErrorBoxIfVisible();
-    
+
     this.node.emit("setDateAndNumberOfSeats", {
       date: this.date,
       numberOfSeats: this.numberOfSeats
     }, callback);
   };
-  
+
   this.updateErrorBox = function () {
     var number = this.getSeatsYetToChoose();
     var toggle = number > 0;
-    
+
     if (toggle) {
       togglePluralText(this.errorBox, number);
     }
-    
+
     this.toggleErrorBox(toggle);
   };
-  
+
   this.updateErrorBoxIfVisible = function () {
     if (this.errorBox.is(":visible")) this.updateErrorBox();
   };
-  
+
   this.toggleErrorBox = function (toggle) {
     if (!toggle && !this.errorBox.is(":visible")) {
       this.errorBox.hide();
@@ -768,46 +768,46 @@ function SeatChooser(container, delegate) {
       this.errorBox["slide" + ((toggle) ? "Down" : "Up")].call(this.errorBox);
     }
   };
-  
+
   this.getSeatsYetToChoose = function () {
     return this.numberOfSeats - this.numberOfChosenSeats;
   };
-  
+
   this.validate = function () {
     this.updateErrorBox();
     return this.getSeatsYetToChoose() < 1;
   };
-  
+
   this.mouseOverSeat = function (seat) {
     this.setCursor((seat.status == Seat.Status.Taken) ? null : "pointer");
   };
-  
+
   this.clickedSeat = function (seat) {
     if (seat) this.chooseSeat(seat);
   };
-  
-	this.registerEvents = function () {
+
+  this.registerEvents = function () {
     $(window).on("beforeunload", function () {
       _this.noErrors = true;
     });
-    
+
     this.node.on("gotSeatingId", function (data) {
       _this.seatingId = data.id;
       _this.delegate.seatChooserGotSeatingId();
       _this.delegate.seatChooserIsReady();
     });
-    
+
     this.node.on("updateSeats", function (res) {
       console.log("Seat updates received");
       _this.updateSeats(res.seats);
     });
-    
+
     this.node.on("error", function (error) {
       if (!(error instanceof Object)) {
         _this.delegate.seatChooserCouldNotConnect();
       }
     });
-    
+
     var eventMappings = [["expired", "Expired"], ["connect_error", "CouldNotConnect"], ["disconnect", "Disconnected"]];
     for (var i = 0, eLength = eventMappings.length; i < eLength; i++) {
       var mapping = eventMappings[i];
@@ -817,16 +817,16 @@ function SeatChooser(container, delegate) {
         };
       })(mapping[1]));
     }
-	};
-  
-  
+  };
+
+
   this.initSeats();
-  
+
   this.node = io("/seating", {
     "path": "/node",
     "reconnection": false
   });
-  
+
   this.registerEvents();
 };
 

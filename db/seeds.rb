@@ -1,36 +1,36 @@
 def random(n)
-	SecureRandom.random_number(n)
+  SecureRandom.random_number(n)
 end
 
 # gbook entries
 11.times do
-	GbookEntry.create(author: FFaker::NameDE.name, text: FFaker::Lorem.paragraph(5 + random(10)))
+  GbookEntry.create(author: FFaker::NameDE.name, text: FFaker::Lorem.paragraph(5 + random(10)))
 end
 
 # galleries
 3.times do
-	Gallery.create(title: FFaker::Lorem.sentence(4), disclaimer: "&copy; #{FFaker::NameDE.name}")
+  Gallery.create(title: FFaker::Lorem.sentence(4), disclaimer: "&copy; #{FFaker::NameDE.name}")
 end
 
 
 ## members
 10.times do |i|
-	attrs = { password: "123456" }
-	if i == 1
-		attrs.merge!({ first_name: "Albrecht", last_name: "Oster", email: "a.oster@online.de", group_name: :admin })
-	else
-		attrs.merge!({ first_name: FFaker::NameDE.first_name, last_name: FFaker::NameDE.last_name, email: FFaker::Internet.free_email, group_name: :member })
-	end
-	member = Members::Member.new(attrs)
-	member.save(perform_validations: false)
+  attrs = { password: "123456" }
+  if i == 1
+    attrs.merge!({ first_name: "Albrecht", last_name: "Oster", email: "a.oster@online.de", group_name: :admin })
+  else
+    attrs.merge!({ first_name: FFaker::NameDE.first_name, last_name: FFaker::NameDE.last_name, email: FFaker::Internet.free_email, group_name: :member })
+  end
+  member = Members::Member.new(attrs)
+  member.save(perform_validations: false)
 end
 
 # dates
 locations = ["hier", "da", "dort", "irgendwo", "nirgendwo"]
 titles = ["Dies", "Das", "Irgendwas", "Tolle Sachen", "Treffen XY"]
 5.times do
-	date = Time.now + 3.weeks + random(4).days - random(1000).minutes
-	Members::Date.create({ datetime: date, info: FFaker::Lorem.sentence, title: titles.sample, location: locations.sample })
+  date = Time.now + 3.weeks + random(4).days - random(1000).minutes
+  Members::Date.create({ datetime: date, info: FFaker::Lorem.sentence, title: titles.sample, location: locations.sample })
 end
 
 # files
@@ -47,8 +47,8 @@ end
 # events
 event = Ticketing::Event.create({ name: "Test Ladykillers", identifier: "ladykillers", location: "Testbühne", sale_start: Time.zone.now - 1.week })
 4.times do |i|
-	# dates
-	event.dates.create(date: Time.zone.now + i.days)
+  # dates
+  event.dates.create(date: Time.zone.now + i.days)
 end
 
 # seating
@@ -60,34 +60,34 @@ colors = %w(red green blue)
 x = 5
 y = 5
 3.times do |i|
-	block = seating.blocks.create(name: block_names[i], color: colors[i])
+  block = seating.blocks.create(name: block_names[i], color: colors[i])
 
-	# seats
-	x2 = nil
-	6.times do |row|
-		x2 = x
-		y2 = y + row * 5
-		6.times do |number|
-			seat = block.seats.new
-			seat.number = number+1
-			seat.row = row+1
-			seat.position_x = x2
-			seat.position_y = y2
-			seat.save
-			x2 = x2 + 4
-		end
-	end
+  # seats
+  x2 = nil
+  6.times do |row|
+    x2 = x
+    y2 = y + row * 5
+    6.times do |number|
+      seat = block.seats.new
+      seat.number = number+1
+      seat.row = row+1
+      seat.position_x = x2
+      seat.position_y = y2
+      seat.save
+      x2 = x2 + 4
+    end
+  end
 
-	x = x2 + 6
+  x = x2 + 6
 end
 
 # ticket types
 [
-	{ name: "Ermäßigt", info: "Kinder, Schüler, Studenten (Vorlage des gültigen Schüler- oder Studentenausweises)", price: 8.5 },
-	{ name: "Erwachsene", price: 12.5 },
-	{ name: "Freikarte", price: 0, exclusive: true }
+  { name: "Ermäßigt", info: "Kinder, Schüler, Studenten (Vorlage des gültigen Schüler- oder Studentenausweises)", price: 8.5 },
+  { name: "Erwachsene", price: 12.5 },
+  { name: "Freikarte", price: 0, exclusive: true }
 ].each do |type|
-	type = Ticketing::TicketType.create(type)
+  type = Ticketing::TicketType.create(type)
 end
 
 # retail stores

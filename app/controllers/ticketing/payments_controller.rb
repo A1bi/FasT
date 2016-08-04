@@ -12,7 +12,7 @@ module Ticketing
 
       @submissions = BankSubmission.order(created_at: :desc)
     end
-    
+
     def mark_as_paid
       @orders.each do |order|
         order.mark_as_paid
@@ -20,7 +20,7 @@ module Ticketing
       end
       redirect_to_overview(:marked_as_paid)
     end
-    
+
     def approve
       @orders.each do |order|
         order.approve
@@ -28,20 +28,20 @@ module Ticketing
       end
       redirect_to_overview(:approved)
     end
-    
+
     def submit
       return redirect_to_overview if @unsubmitted_charges.empty?
-      
+
       submission = BankSubmission.new
       submission.charges = @unsubmitted_charges.map { |o| o.bank_charge }
       submission.save
-      
+
       redirect_to_overview(:submitted)
     end
-    
+
     def submission_file
       submission = BankSubmission.find(params[:id])
-      
+
       submissions_scope = [:ticketing, :payments, :submissions]
       creditor = Hash[[:name, :iban, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
       debit = SEPA::DirectDebit.new(creditor)
@@ -62,12 +62,12 @@ module Ticketing
           requested_date: Date.today + 2
         )
       end
-      
+
       send_data debit.to_xml("pain.008.003.02"), filename: "sepa-#{submission.id}.xml", type: "application/xml"
     end
-    
+
     private
-    
+
     def find_orders
       @orders = []
       (params[:orders] ||= []).each do |orderId|

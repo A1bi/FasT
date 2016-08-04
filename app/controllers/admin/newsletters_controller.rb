@@ -1,5 +1,5 @@
 module Admin
-	class NewslettersController < BaseController
+  class NewslettersController < BaseController
     before_action :find_newsletter, only: [:show, :edit, :update, :destroy, :deliver]
     before_action :prepare_new_newsletter, :only => [:new, :create]
     before_action :redirect_if_sent, only: [:edit, :update, :deliver, :destroy]

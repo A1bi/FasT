@@ -1,26 +1,26 @@
 .export {
-	font-size: 12px;
-	text-align: right;
-	margin: 7px 10px;
-	color: #cccccc;
-	
-	a {
-		color: #cccccc;
-	}
+  font-size: 12px;
+  text-align: right;
+  margin: 7px 10px;
+  color: #cccccc;
+
+  a {
+    color: #cccccc;
+  }
 }
 .files td {
-	&:first-child {
-		width: 8%;
-		text-align: center;
-	}
-	
-	&.download {
-		width: 1%;
-	}
+  &:first-child {
+    width: 8%;
+    text-align: center;
+  }
+
+  &.download {
+    width: 1%;
+  }
 }
 .dates tr td {
   vertical-align: top;
-  
+
   &:first-child {
     width: 28%;
   }

@@ -1,126 +1,126 @@
 @import "_mixins";
 
 .section {
-	margin: 30px 15px;
+  margin: 30px 15px;
 
-	h2 {
-		font-size: 20px;
-	}
+  h2 {
+    font-size: 20px;
+  }
 
-	> div, > p {
-		margin-left: 10px;
-		margin-top: 8px;
-	}
+  > div, > p {
+    margin-left: 10px;
+    margin-top: 8px;
+  }
 
-	.question {
-		font-size: 16px;
-		margin-top: 15px;
-		cursor: pointer;
+  .question {
+    font-size: 16px;
+    margin-top: 15px;
+    cursor: pointer;
 
-		&.disclosed {
-			font-weight: bold;
-		}
-	}
+    &.disclosed {
+      font-weight: bold;
+    }
+  }
 
-	.answer {
-		margin-left: 20px;
-		margin-bottom: 25px;
-		display: none;
+  .answer {
+    margin-left: 20px;
+    margin-bottom: 25px;
+    display: none;
 
-		> *:last-child {
-			margin-bottom: 0;
-		}
-	}
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 #map, #wu {
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 #map {
-	height: 250px;
-	transition: height .5s;
+  height: 250px;
+  transition: height .5s;
 
-	.olControlAttribution, .olControlScaleLine {
-		font-size: 11px;
-		bottom: 0px;
-		right: 0px;
-		background: rgba(255, 255, 255, 0.7);
-		padding: 4px;
-		border-top-left-radius: 6px;
-	}
+  .olControlAttribution, .olControlScaleLine {
+    font-size: 11px;
+    bottom: 0px;
+    right: 0px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 4px;
+    border-top-left-radius: 6px;
+  }
 
-	.olMapViewport {
-		border-radius: 15px;
-		box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-	}
+  .olMapViewport {
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  }
 
-	.olTileImage {
-		@include transition(opacity, .2s);
-	}
+  .olTileImage {
+    @include transition(opacity, .2s);
+  }
 
-	.olPopup {
-		padding: 5px;
-		box-shadow: 1px 1px 6px #cccccc;
-		border: {
-			radius: 10px;
-			top-right-radius: 0px;
-		}
-	}
+  .olPopup {
+    padding: 5px;
+    box-shadow: 1px 1px 6px #cccccc;
+    border: {
+      radius: 10px;
+      top-right-radius: 0px;
+    }
+  }
 }
 
 #wu {
-	position: relative;
+  position: relative;
 
-	.loader {
-		width: 100%;
-		opacity: 1;
-		transition: opacity .3s;
+  .loader {
+    width: 100%;
+    opacity: 1;
+    transition: opacity .3s;
 
-		&.out {
-			opacity: 0;
-		}
-	}
+    &.out {
+      opacity: 0;
+    }
+  }
 
-	.fadeIn {
-		opacity: 0;
-		transition: opacity 1s;
+  .fadeIn {
+    opacity: 0;
+    transition: opacity 1s;
 
-		&.in {
-			opacity: 1;
-		}
-	}
+    &.in {
+      opacity: 1;
+    }
+  }
 
-	.source, .info {
-		clear: both;
-	}
+  .source, .info {
+    clear: both;
+  }
 
-	.source {
-		font-size: 12px;
-		text-align: center;
+  .source {
+    font-size: 12px;
+    text-align: center;
 
-		img {
-			height: 25px;
-			vertical-align: bottom;
-		}
-	}
+    img {
+      height: 25px;
+      vertical-align: bottom;
+    }
+  }
 
-	.info {
-		width: 65%;
-		margin: auto;
+  .info {
+    width: 65%;
+    margin: auto;
 
-		.icon {
-			float: left;
-			font-size: 30px;
+    .icon {
+      float: left;
+      font-size: 30px;
 
-			img {
-				vertical-align: middle;
-			}
-		}
+      img {
+        vertical-align: middle;
+      }
+    }
 
-		.data {
-			padding-top: 7px;
-			float: right;
-		}
-	}
+    .data {
+      padding-top: 7px;
+      float: right;
+    }
+  }
 }

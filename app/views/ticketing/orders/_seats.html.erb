@@ -3,27 +3,27 @@
     Bitte wählen Sie Ihren gewünschten Aufführungstermin.<% if @event.seating.bound_to_seats? %> Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.<% end %>
   </div>
   <div class="inner">
-  	<table class="rounded date">
+    <table class="rounded date">
       <thead>
         <tr>
           <th>Ihre gewünschte Aufführung</th>
         </tr>
       </thead>
       <tbody>
-    		<% @dates.each do |date| %>
+        <% @dates.each do |date| %>
           <tr>
-    			  <%= content_tag_for(:td, date, data: { id: date.id }, class: [date.sold_out? ? :disabled: nil]) do %>
-              <span class="line_through"><%= l date.date, format: "%A, den %d. %B um %H.%M Uhr" %></span> 
+            <%= content_tag_for(:td, date, data: { id: date.id }, class: [date.sold_out? ? :disabled: nil]) do %>
+              <span class="line_through"><%= l date.date, format: "%A, den %d. %B um %H.%M Uhr" %></span>
               <% if date.sold_out? %><span class="sold_out">ausverkauft</span><% end %>
             <% end %>
           </tr>
-    		<% end %>
+        <% end %>
       </tbody>
     </table>
   </div>
   <% if @event.seating.bound_to_seats? %>
     <div class="seat_chooser">
-    	<div class="note plural_text number_of_tickets">
+      <div class="note plural_text number_of_tickets">
         <div class="trenner"></div>
         Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
         <p><em>Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.</em></p>

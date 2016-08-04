@@ -26,7 +26,7 @@ module Ticketing
 
     def add_coupon
       response = { ok: false }
-      
+
       if !@coupon
         response[:error] = "not found"
       elsif @coupon.expired?
@@ -44,10 +44,10 @@ module Ticketing
 
       render json: response
     end
-    
+
     def remove_coupon
       response = { ok: false }
-      
+
       if @coupon
         update_exclusive_seats(:remove, @coupon.reservation_groups)
         response = {
@@ -121,7 +121,7 @@ module Ticketing
       end
       redirect_to_order_details :resent_tickets
     end
-    
+
     def create_billing
       if @billing_actions.include? params[:note].to_sym
         if [:cash_refund_in_store, :transfer_refund].include? params[:note].to_sym
@@ -145,7 +145,7 @@ module Ticketing
 
     def search
       @orders = Ticketing::Order.none
-      
+
       if params[:q].present?
         if params[:q] =~ /\A(\d{7})(-(\d+))?\z/
           order = Ticketing::Order.where(number: $1).first
@@ -157,7 +157,7 @@ module Ticketing
               flash[:alert] = t("ticketing.orders.retail_access_denied")
               return redirect_to orders_path(:ticketing_orders)
             end
-            
+
             prms = { id: order.id }
             prms.merge!({ ticket: ticket_index, anchor: :tickets }) if ticket_index
             return redirect_to orders_path(:ticketing_order, prms)
@@ -182,14 +182,14 @@ module Ticketing
 
     private
 
-  	def set_event_info
-  		@event = Ticketing::Event.current
+    def set_event_info
+      @event = Ticketing::Event.current
       @dates = @event.dates.where("date > ?", Time.zone.now)
-  		@seats = Ticketing::Seat.all
-  		@ticket_types = Ticketing::TicketType.order(price: :desc)
+      @seats = Ticketing::Seat.all
+      @ticket_types = Ticketing::TicketType.order(price: :desc)
       @ticket_types = @ticket_types.exclusive(false) if !admin?
     end
-    
+
     def update_exclusive_seats(action, groups)
       seats = {}
       groups.each do |reservation_group|
@@ -216,7 +216,7 @@ module Ticketing
       end
       @order = orders.find(params[:id])
     end
-    
+
     def find_coupon
       @coupon = Ticketing::Coupon.where(code: params[:code]).first
     end
@@ -225,7 +225,7 @@ module Ticketing
       @order = Order.new
       @type = admin? ? :admin : retail? ? :retail : :web
     end
-    
+
     def prepare_billing_actions
       @billing_actions = []
       if @order.billing_account.balance > 0

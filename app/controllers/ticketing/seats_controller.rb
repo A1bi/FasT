@@ -1,7 +1,7 @@
 module Ticketing
   class SeatsController < BaseController
     before_filter :find_all_seats, only: [:index, :edit]
-  
+
     def index
       respond_to do |format|
         format.html
@@ -10,7 +10,7 @@ module Ticketing
         end
       end
     end
-    
+
     def edit
       @blocks = Ticketing::Block.order(:id)
       @new_seats = @blocks.map do |block|
@@ -19,7 +19,7 @@ module Ticketing
         seat
       end
     end
-  
+
     def create
       seat = Ticketing::Seat.new(seat_params)
       if seat.save
@@ -33,38 +33,38 @@ module Ticketing
         }
       end
     end
-    
+
     def update
       seat_params = params.permit(seats: [:number, :position_x, :position_y]).fetch(:seats, {})
       Ticketing::Seat.update(seat_params.keys, seat_params.values)
-    
+
       render nothing: true
     end
-    
+
     def destroy
       Ticketing::Seat.destroy(params[:ids])
-      
+
       render nothing: true
     end
-  
+
     private
-    
+
     def find_all_seats
       seating = Ticketing::Event.current.seating
       seating = Ticketing::Seating.where(number_of_seats: 0).last if !seating.bound_to_seats?
       @seats = seating.seats.order(:number)
     end
-    
+
     def seat_params
       params.require(:seat).permit(:number, :row, :block_id, :position_x, :position_y)
     end
-    
+
     def printable(seats)
       pdf_config = {
         page_size: "A4",
         page_layout: :landscape
       }
-      
+
       colors = {
         red: "ff0000",
         green: "008000",
@@ -74,17 +74,17 @@ module Ticketing
         black: "000000",
         white: "ffffff"
       }
-      
+
       Prawn::Document.new(pdf_config) do
         cell_size = bounds.width / 150
         seat_size = cell_size * 2.8
         seat_padding = 1
-        
+
         seats.all.each do |seat|
           bounding_box [seat.position_x * cell_size, bounds.height - seat.position_y * cell_size], width: seat_size, height: seat_size do
             fill_color colors[seat.block.color.to_sym] || "ffffff"
             fill_rounded_rectangle [0, 0], bounds.width, bounds.height, 1
-            
+
             fill_color "ffffff"
             text_box seat.number.to_s,
               at: [seat_padding, -seat_padding],
