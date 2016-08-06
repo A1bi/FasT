@@ -1,3 +1,5 @@
+//= require OpenLayers/ol.css
+
 @import "_mixins";
 
 .section {
@@ -38,34 +40,13 @@
 }
 
 #map {
-  height: 250px;
-  transition: height .5s;
+  height: 270px;
 
-  .olControlAttribution, .olControlScaleLine {
-    font-size: 11px;
-    bottom: 0px;
-    right: 0px;
-    background: rgba(255, 255, 255, 0.7);
-    padding: 4px;
-    border-top-left-radius: 6px;
-  }
-
-  .olMapViewport {
-    border-radius: 15px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  }
-
-  .olTileImage {
-    @include transition(opacity, .2s);
-  }
-
-  .olPopup {
-    padding: 5px;
-    box-shadow: 1px 1px 6px #cccccc;
-    border: {
-      radius: 10px;
-      top-right-radius: 0px;
-    }
+  .popup {
+    background: white;
+    border-radius: 4px;
+    padding: 6px;
+    opacity: .9;
   }
 }
 

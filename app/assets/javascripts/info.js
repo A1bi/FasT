@@ -54,21 +54,14 @@ $(function () {
 
   // init map data
   $.getJSON("/faq/map.json", function (data) {
-    var map = new Map("map", ["https://a.tile.openstreetmap.org/${z}/${x}/${y}.png"]);
+    var map = new Map("map", data.center, data.zoom);
 
-    $.each(data.icons, function (key, value) {
-      data.icons[key].file = value.file;
-    });
     map.registerIcons(data.icons);
 
-    map.registerLocations(data.locations);
-
-    $.each(data.markers, function (key, value) {
-      data.markers[key].bubble = true;
+    data.markers.forEach(function (marker) {
+      marker.content = '<b>' + marker.title + '</b><br>' + marker.desc;
     });
     map.addMarkers(data.markers);
-
-    map.setCenter(data.centerLoc, data.zoom);
   });
 
   // init weather
