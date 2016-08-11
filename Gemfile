@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.1'
+gem 'rails', '~> 5.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -40,9 +40,6 @@ gem 'sepa_king', '~> 0.8.0'
 
 gem 'dalli', '~> 2.7.6'
 
-gem 'actionpack-page_caching', '~> 1.0.2'
-gem 'actionpack-action_caching', '~> 1.1.1'
-
 gem 'ar_after_transaction', '~> 0.4.0'
 
 gem 'resque', '~> 1.26.0'
@@ -52,6 +49,8 @@ gem 'groupdate', '~> 3.0.0'
 gem 'auto_strip_attributes', '~> 2.0'
 
 gem 'phony_rails', '~> 0.14.2'
+
+gem 'record_tag_helper', '~> 1.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -1,7 +1,7 @@
 module Members
   class SessionsController < BaseController
     ignore_restrictions
-    skip_filter :reset_goto
+    skip_before_action :reset_goto
 
     def create
       member = Member.where({:email => params[:email]}).first

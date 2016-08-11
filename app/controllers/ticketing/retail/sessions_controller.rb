@@ -1,7 +1,7 @@
 module Ticketing::Retail
   class SessionsController < Ticketing::BaseController
     ignore_restrictions
-    skip_filter :reset_goto
+    skip_before_action :reset_goto
 
     def new
       @stores = Ticketing::Retail::Store.order(:name)

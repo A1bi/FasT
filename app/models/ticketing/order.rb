@@ -89,13 +89,10 @@ module Ticketing
       tickets.each_with_index do |ticket, index|
         ticket.order_index = index + 1
       end
-
-      true
     end
 
     def before_create
       log(:created)
-      true
     end
 
     def update_total_and_billing(billing_note)

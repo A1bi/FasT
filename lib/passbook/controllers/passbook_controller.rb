@@ -1,8 +1,8 @@
 module Passbook
   module Controllers
     class PassbookController < ApplicationController
-      before_filter :prepare_pass, only: [:register_device, :unregister_device, :show_pass]
-      before_filter :prepare_device, only: [:unregister_device, :modified_passes]
+      before_action :prepare_pass, only: [:register_device, :unregister_device, :show_pass]
+      before_action :prepare_device, only: [:unregister_device, :modified_passes]
 
       def register_device
         begin

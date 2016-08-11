@@ -1,6 +1,6 @@
 module Ticketing
   class SeatsController < BaseController
-    before_filter :find_all_seats, only: [:index, :edit]
+    before_action :find_all_seats, only: [:index, :edit]
 
     def index
       respond_to do |format|

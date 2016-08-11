@@ -3,12 +3,12 @@
 FasT::Application.routes.draw do
 
   # dates
-  controller :dates, path: "termine", as: :dates do
+  scope controller: :dates, path: "termine", as: :dates do
     root action: :alte_dame, as: ""
   end
 
   # theater
-  controller :theater, path: "theater", as: :theater do
+  scope controller: :theater, path: "theater", as: :theater do
     get "/", action: :index
     get "montevideo"
     get "hexenjagd"
@@ -22,7 +22,7 @@ FasT::Application.routes.draw do
   end
 
   # info
-  controller :info, path: "faq", as: :info do
+  scope controller: :info, path: "faq", as: :info do
     get "/", action: :index
     get "map"
     get "weather"
@@ -30,7 +30,7 @@ FasT::Application.routes.draw do
   get "info", to: redirect("faq")
 
   # static pages
-  controller :static do
+  scope controller: :static do
     get "geschichte", action: :history, as: :history
     get "impressum"
     get "satzung"
@@ -104,7 +104,7 @@ FasT::Application.routes.draw do
       end
 
       scope path: "vorverkauf" do
-        controller :statistics, path: "statistik", as: :statistics do
+        scope controller: :statistics, path: "statistik", as: :statistics do
           get "/", action: :index
           get "seats", action: :seats, as: :seats
           get "chart_data", action: :chart_data, as: :chart_data
@@ -132,7 +132,7 @@ FasT::Application.routes.draw do
             end
           end
         end
-        controller :payments, path: "zahlungen", as: :payments do
+        scope controller: :payments, path: "zahlungen", as: :payments do
           get "/", action: :index
           patch :mark_as_paid
           patch :approve
@@ -194,7 +194,7 @@ FasT::Application.routes.draw do
       end
     end
 
-    controller :orders, path: "tickets" do
+    scope controller: :orders, path: "tickets" do
       scope path: ":signed_info", constraints: { signed_info: /[\w_,~]+--\h+(--\d+)?/ }, as: :order_overview do
         get action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
         get action: :show
@@ -206,9 +206,9 @@ FasT::Application.routes.draw do
     namespace :members, path: "mitglieder" do
       resource :member, path: "mitgliedschaft", controller: :member, only: [:edit, :update] do
         member do
-          get "activate", path: "aktivieren"
+          get "aktivieren", action: :activate, as: :activate
           patch "finish_activation"
-          get "forgot_password", path: "passwort_vergessen"
+          get "passwort_vergessen", action: :forgot_password, as: :forgot_password
           post "reset_password"
         end
       end
@@ -219,7 +219,7 @@ FasT::Application.routes.draw do
       post "login" => "sessions#create"
       get "logout" => "sessions#destroy", as: :logout
 
-      root to: "main#index"
+      root to: "main#index", as: :root
     end
 
   end
@@ -227,7 +227,7 @@ FasT::Application.routes.draw do
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
       resources :orders, only: [:create]
-      controller :seats, path: :seats, as: :seats do
+      scope controller: :seats, path: :seats, as: :seats do
         get "availability", action: :availability
         get "/", action: :index
       end

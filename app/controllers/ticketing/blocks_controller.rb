@@ -1,6 +1,6 @@
 module Ticketing
   class BlocksController < BaseController
-    before_filter :find_block, :only => [:edit, :update, :destroy]
+    before_action :find_block, :only => [:edit, :update, :destroy]
 
     def new
       @block = Ticketing::Block.new

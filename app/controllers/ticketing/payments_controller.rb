@@ -1,7 +1,7 @@
 module Ticketing
   class PaymentsController < BaseController
-    before_filter :find_orders, only: [:mark_as_paid, :approve]
-    before_filter :find_charges_to_submit, only: [:index, :submit]
+    before_action :find_orders, only: [:mark_as_paid, :approve]
+    before_action :find_charges_to_submit, only: [:index, :submit]
 
     def index
       @orders = {

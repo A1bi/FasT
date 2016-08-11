@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -85,9 +84,8 @@ ActiveRecord::Schema.define(version: 20160721123404) do
     t.string   "push_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["device_id"], name: "index_passbook_devices_on_device_id", unique: true
   end
-
-  add_index "passbook_devices", ["device_id"], name: "index_passbook_devices_on_device_id", unique: true
 
   create_table "passbook_logs", force: :cascade do |t|
     t.text     "message",    limit: 500
@@ -135,7 +133,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
     t.datetime "updated_at"
     t.boolean  "approved",        default: false
     t.integer  "submission_id"
-    t.decimal  "amount",          default: 0.0,   null: false
+    t.decimal  "amount",          default: "0.0", null: false
   end
 
   create_table "ticketing_bank_submissions", force: :cascade do |t|
@@ -144,27 +142,25 @@ ActiveRecord::Schema.define(version: 20160721123404) do
   end
 
   create_table "ticketing_billing_accounts", force: :cascade do |t|
-    t.decimal  "balance",       default: 0.0, null: false
-    t.integer  "billable_id",                 null: false
-    t.string   "billable_type",               null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.decimal  "balance",       default: "0.0", null: false
+    t.integer  "billable_id",                   null: false
+    t.string   "billable_type",                 null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["billable_id", "billable_type"], name: "index_billing_acounts_on_id_and_type"
   end
-
-  add_index "ticketing_billing_accounts", ["billable_id", "billable_type"], name: "index_billing_acounts_on_id_and_type"
 
   create_table "ticketing_billing_transfers", force: :cascade do |t|
-    t.decimal  "amount",              default: 0.0, null: false
+    t.decimal  "amount",              default: "0.0", null: false
     t.string   "note_key"
-    t.integer  "account_id",                        null: false
+    t.integer  "account_id",                          null: false
     t.integer  "participant_id"
     t.integer  "reverse_transfer_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["account_id"], name: "index_ticketing_billing_transfers_on_account_id"
+    t.index ["participant_id"], name: "index_ticketing_billing_transfers_on_participant_id"
   end
-
-  add_index "ticketing_billing_transfers", ["account_id"], name: "index_ticketing_billing_transfers_on_account_id"
-  add_index "ticketing_billing_transfers", ["participant_id"], name: "index_ticketing_billing_transfers_on_participant_id"
 
   create_table "ticketing_blocks", force: :cascade do |t|
     t.string   "name"
@@ -187,7 +183,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
   end
 
   create_table "ticketing_box_office_order_payments", force: :cascade do |t|
-    t.decimal  "amount",     default: 0.0, null: false
+    t.decimal  "amount",     default: "0.0", null: false
     t.integer  "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -240,11 +236,11 @@ ActiveRecord::Schema.define(version: 20160721123404) do
 
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
-    t.datetime "expires",      limit: 255
+    t.datetime "expires",      precision: 255
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "free_tickets",             default: 0
+    t.integer  "free_tickets",                 default: 0
   end
 
   create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|
@@ -282,7 +278,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
   create_table "ticketing_orders", force: :cascade do |t|
     t.integer  "number"
     t.boolean  "paid",                      default: false, null: false
-    t.decimal  "total",                     default: 0.0,   null: false
+    t.decimal  "total",                     default: "0.0", null: false
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
@@ -352,7 +348,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
 
   create_table "ticketing_ticket_types", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "price",      default: 0.0,   null: false
+    t.decimal  "price",      default: "0.0", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "info"
@@ -360,7 +356,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
   end
 
   create_table "ticketing_tickets", force: :cascade do |t|
-    t.decimal  "price",           default: 0.0,   null: false
+    t.decimal  "price",           default: "0.0", null: false
     t.integer  "order_id"
     t.integer  "cancellation_id"
     t.integer  "type_id"
@@ -372,8 +368,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
     t.boolean  "resale",          default: false
     t.boolean  "invalidated",     default: false
     t.integer  "order_index",     default: 0,     null: false
+    t.index ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true
   end
-
-  add_index "ticketing_tickets", ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true
 
 end

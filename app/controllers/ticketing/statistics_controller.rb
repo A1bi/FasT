@@ -2,8 +2,8 @@ module Ticketing
   class StatisticsController < BaseController
     include Statistics
 
-    before_filter :prepare_vars
-    before_filter :fetch_stats, except: [:seats]
+    before_action :prepare_vars
+    before_action :fetch_stats, except: [:seats]
     ignore_restrictions only: [:index_retail]
 
     def index

@@ -2,8 +2,8 @@ class PhotosController < ApplicationController
   restrict_access_to_group :admin, :except => [:download]
   restrict_access_to_group :member, :only => [:download]
 
-  before_filter :find_photo, :only => [:edit, :update, :destroy, :toggle_slide, :download]
-  before_filter :find_gallery, :only => [:new, :edit, :create]
+  before_action :find_photo, :only => [:edit, :update, :destroy, :toggle_slide, :download]
+  before_action :find_gallery, :only => [:new, :edit, :create]
 
   def new
     @photo = @gallery.photos.new

@@ -1,10 +1,10 @@
 module Ticketing
   class TicketsController < BaseController
-    before_filter :find_tickets_with_order, except: [:printable, :mark]
-    before_filter :find_tickets, only: [:printable, :mark]
-    before_filter :find_event, only: [:transfer, :finish_transfer]
+    before_action :find_tickets_with_order, except: [:printable, :mark]
+    before_action :find_tickets, only: [:printable, :mark]
+    before_action :find_event, only: [:transfer, :finish_transfer]
     ignore_restrictions
-    before_filter :restrict_access
+    before_action :restrict_access
 
     def cancel
       @order.cancel_tickets(@tickets, params[:reason])

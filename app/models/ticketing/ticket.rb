@@ -111,7 +111,6 @@ module Ticketing
 
     def update_invalidated
       self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
-      true
     end
 
     def update_passbook_pass(create = false)

@@ -1,8 +1,8 @@
 class GalleriesController < ApplicationController
   restrict_access_to_group :admin, :except => [:index, :show]
 
-  before_filter :disable_slides, :except => [:index]
-  before_filter :find_gallery, :only => [:show, :edit, :update, :destroy]
+  before_action :disable_slides, :except => [:index]
+  before_action :find_gallery, :only => [:show, :edit, :update, :destroy]
 
   def index
     @galleries = Gallery.order(:position)

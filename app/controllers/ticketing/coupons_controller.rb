@@ -1,7 +1,7 @@
 module Ticketing
   class CouponsController < BaseController
-    before_filter :find_coupon, only: [:edit, :update, :show, :destroy, :mail]
-    before_filter :prepare_vars, only: [:edit, :new, :update, :create]
+    before_action :find_coupon, only: [:edit, :update, :show, :destroy, :mail]
+    before_action :prepare_vars, only: [:edit, :new, :update, :create]
 
     def index
       @coupons = Coupon.expired(false).order(:recipient)

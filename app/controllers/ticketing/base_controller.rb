@@ -1,9 +1,9 @@
 class Ticketing::BaseController < ApplicationController
   restrict_access_to_group :admin
 
-  before_filter :disable_slides
-  before_filter :authenticate_retail_store
-  before_filter :disable_member_controls_for_retail
+  before_action :disable_slides
+  before_action :authenticate_retail_store
+  before_action :disable_member_controls_for_retail
 
   helper TicketingHelper
 

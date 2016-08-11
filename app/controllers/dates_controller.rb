@@ -1,8 +1,8 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  before_filter :prepare_ticket_prices
-  before_filter :prepare_event
+  before_action :prepare_ticket_prices
+  before_action :prepare_event
 
   def don_camillo
   end

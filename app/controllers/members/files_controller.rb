@@ -1,6 +1,6 @@
 module Members
   class FilesController < BaseController
-    before_filter :find_file, :only => [:edit, :update, :destroy]
+    before_action :find_file, :only => [:edit, :update, :destroy]
 
     restrict_access_to_group :admin
 

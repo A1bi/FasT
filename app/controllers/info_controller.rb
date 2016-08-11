@@ -2,8 +2,6 @@ class InfoController < ApplicationController
 
   require 'open-uri'
 
-  caches_action :weather, :expires_in => 30.minutes
-
   def index
   end
 
@@ -11,29 +9,30 @@ class InfoController < ApplicationController
   end
 
   def weather
-    api_key = "63fa222741909726"
-    api_url = "http://api.wunderground.com/api/" + api_key + "/conditions/forecast/q/Germany/Kaisersesch.json"
+    render text: (Rails.cache.fetch([:info, :weather], expires_in: 30.minutes) do
 
-    data = JSON.parse(open(api_url).read, symbolize_names: true)
+      api_key = "63fa222741909726"
+      api_url = "http://api.wunderground.com/api/" + api_key + "/conditions/forecast/q/Germany/Kaisersesch.json"
 
-    if data[:error].nil?
-      simple_forecast = data[:forecast][:simpleforecast][:forecastday][0]
+      data = JSON.parse(open(api_url).read, symbolize_names: true)
 
-      weather = {
-        temp: data[:current_observation][:temp_c].floor,
-        low: simple_forecast[:low][:celsius],
-        high: simple_forecast[:high][:celsius],
-        pop: data[:forecast][:txt_forecast][:forecastday][0][:pop],
-        icon: simple_forecast[:icon],
-        date: Time.parse(data[:current_observation][:observation_time_rfc822]).to_s(:time)
-      }
-    end
+      if data[:error].nil?
+        simple_forecast = data[:forecast][:simpleforecast][:forecastday][0]
 
-    response = {
-      error: "",
-      data: weather
-    }
+        weather = {
+          temp: data[:current_observation][:temp_c].floor,
+          low: simple_forecast[:low][:celsius],
+          high: simple_forecast[:high][:celsius],
+          pop: data[:forecast][:txt_forecast][:forecastday][0][:pop],
+          icon: simple_forecast[:icon],
+          date: Time.parse(data[:current_observation][:observation_time_rfc822]).to_s(:time)
+        }
+      end
 
-    render :json => response
+      {
+        data: weather
+      }.to_json
+
+    end)
   end
 end

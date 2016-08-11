@@ -1,9 +1,9 @@
 module Admin
   class MembersController < BaseController
-    before_filter :find_groups, :only => [:new, :edit, :create, :update]
-    before_filter :find_member, :only => [:edit, :update, :destroy, :reactivate]
-    before_filter :prepare_new_member, :only => [:new, :create]
-    before_filter :update_member, :only => [:create, :update]
+    before_action :find_groups, :only => [:new, :edit, :create, :update]
+    before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
+    before_action :prepare_new_member, :only => [:new, :create]
+    before_action :update_member, :only => [:create, :update]
 
     def index
       @members = Members::Member.order(:last_name).order(:first_name)

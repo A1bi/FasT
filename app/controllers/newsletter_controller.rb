@@ -1,5 +1,5 @@
 class NewsletterController < ApplicationController
-  before_filter :find_subscriber, except: :create
+  before_action :find_subscriber, except: :create
 
   def create
     @subscriber = Newsletter::Subscriber.new(newsletter_params)

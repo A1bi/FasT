@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   attr_writer :restricted_to_group
 
-  before_filter :authenticate_user
-  prepend_before_filter :reset_goto
+  before_action :authenticate_user
+  prepend_before_action :reset_goto
 
   protected
 
@@ -28,14 +28,14 @@ class ApplicationController < ActionController::Base
   end
 
   def self.ignore_restrictions(options = {})
-    skip_filter :restrict_access, options
+    skip_before_action :restrict_access, options
   end
 
   def self.restrict_access_to_group(group, options = {})
-    before_filter options do |c|
+    before_action options do |c|
       c.restricted_to_group = group
     end
-    before_filter :restrict_access, options
+    before_action :restrict_access, options
   end
 
   def disable_slides
