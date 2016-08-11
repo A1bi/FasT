@@ -231,25 +231,25 @@ FasT::Application.routes.draw do
         get "availability", action: :availability
         get "/", action: :index
       end
-      controller :box_office, path: :box_office do
-        get :search
-        get :ticket_printable
-        patch :pick_up_tickets
-        post :place_order
-        patch :cancel_order
-        patch :cancel_tickets
-        patch :enable_resale_for_tickets
-        post :purchase
-        post :unlock_seats
-        get :event
-        get :products
-        get :report
-        post :bill
-      end
-      controller :check_in, path: :check_in do
-        get "/", action: :index
-        post "/", action: :create
-      end
+      # controller :box_office, path: :box_office do
+      #   get :search
+      #   get :ticket_printable
+      #   patch :pick_up_tickets
+      #   post :place_order
+      #   patch :cancel_order
+      #   patch :cancel_tickets
+      #   patch :enable_resale_for_tickets
+      #   post :purchase
+      #   post :unlock_seats
+      #   get :event
+      #   get :products
+      #   get :report
+      #   post :bill
+      # end
+      # controller :check_in, path: :check_in do
+      #   get "/", action: :index
+      #   post "/", action: :create
+      # end
       post "push_notifications" => "push_notifications#register"
     end
 
