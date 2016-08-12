@@ -48,7 +48,7 @@ class GalleriesController < ApplicationController
     params[:gallery].each_with_index do |id, index|
       Gallery.find(id).update_attribute(:position, index+1)
     end
-    render :nothing => true
+    head :ok
   end
 
   private

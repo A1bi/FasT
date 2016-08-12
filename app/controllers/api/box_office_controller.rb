@@ -163,7 +163,7 @@ class Api::BoxOfficeController < ApplicationController
       end
     end
     NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seating_id], seats: seats }) if seats.any?
-    render nothing: true
+    head :ok
   end
 
   def event

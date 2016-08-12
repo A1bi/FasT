@@ -9,7 +9,7 @@ class InfoController < ApplicationController
   end
 
   def weather
-    render text: (Rails.cache.fetch([:info, :weather], expires_in: 30.minutes) do
+    render json: (Rails.cache.fetch([:info, :weather], expires_in: 30.minutes) do
 
       api_key = "63fa222741909726"
       api_url = "http://api.wunderground.com/api/" + api_key + "/conditions/forecast/q/Germany/Kaisersesch.json"

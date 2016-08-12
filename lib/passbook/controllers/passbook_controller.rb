@@ -15,29 +15,24 @@ module Passbook
 
         if registration.new_record?
           registration.save
-          render nothing: true, status: 201
+          head 201
         else
-          render nothing: true
+          head :ok
         end
       end
 
       def unregister_device
-        return render nothing: true if @device.nil?
-
-        @device.passes.delete(@pass)
-
-        render nothing: true
+        @device.passes.delete(@pass) if @device.present?
+        head :ok
       end
 
       def modified_passes
-        return render nothing: true, status: 204 if @device.nil?
+        if @device.present?
+          passes = @device.passes.where("passbook_passes.updated_at > ?", Time.at((params[:passesUpdatedSince] || 0).to_i))
+        end
 
-        params[:passesUpdatedSince] ||= 0
-
-        passes = @device.passes.where("passbook_passes.updated_at > ?", Time.at(params[:passesUpdatedSince].to_i))
-
-        if passes.empty?
-          render nothing: true, status: 204
+        if @device.nil? || passes.empty?
+          head 204
         else
           render json: {
             lastUpdated: Time.zone.now.to_i.to_s,
@@ -55,7 +50,7 @@ module Passbook
           Passbook::Models::Log.create(message: message)
         end
 
-        render nothing: true
+        head :ok
       end
 
       private
@@ -66,7 +61,7 @@ module Passbook
         @pass = Passbook::Models::Pass.where(type_id: params[:pass_type_id], serial_number: params[:serial_number]).first
 
         if @pass.nil? || @pass.auth_token != auth_token
-          return render nothing: true, status: 401
+          return head 401
         end
       end
 

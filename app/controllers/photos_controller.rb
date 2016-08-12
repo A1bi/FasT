@@ -43,7 +43,7 @@ class PhotosController < ApplicationController
     end
     photo.gallery.update_attribute(:updated_at, Time.now)
 
-    render :nothing => true
+    head :ok
   end
 
   def toggle_slide

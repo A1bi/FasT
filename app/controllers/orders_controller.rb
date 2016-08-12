@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
       @ticket.create_passbook_pass
       send_file @ticket.passbook_pass.path(true), type: "application/vnd.apple.pkpass"
     else
-      render nothing: true, status: 403
+      head 403
     end
   end
 

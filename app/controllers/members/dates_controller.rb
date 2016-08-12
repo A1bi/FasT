@@ -9,7 +9,7 @@ module Members
       @dates = Members::Date.all
       respond_to do |format|
         format.ics do
-          render text: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
+          render plain: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
             require 'icalendar'
 
             cal = Icalendar::Calendar.new

@@ -38,13 +38,13 @@ module Ticketing
       seat_params = params.permit(seats: [:number, :position_x, :position_y]).fetch(:seats, {})
       Ticketing::Seat.update(seat_params.keys, seat_params.values)
 
-      render nothing: true
+      head :ok
     end
 
     def destroy
       Ticketing::Seat.destroy(params[:ids])
 
-      render nothing: true
+      head :ok
     end
 
     private
