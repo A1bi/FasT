@@ -12,12 +12,18 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index] do %>
-    <div class="epilogue alte-dame">
-      <div>
-        Wir danken unserem tollen Publikum für sechs wundervolle Aufführungen von<br />
-        „<%= link_to "Der Besuch der alten Dame", theater_alte_dame_path %>“
-      </div>
+  <% cache [:static, :index, sale_started] do %>
+    <div class="teaser alice_wunderland">
+      <ul class="links">
+        <li>
+          <%= link_to "Termine", dates_path %>
+        </li>
+        <% if sale_started %>
+          <li>
+            <%= link_to "Tickets bestellen", new_ticketing_order_path %>
+          </li>
+        <% end %>
+      </ul>
     </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
