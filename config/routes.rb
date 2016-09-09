@@ -23,8 +23,9 @@ FasT::Application.routes.draw do
 
   # info
   scope controller: :info, path: "faq", as: :info do
-    get "/", action: :index
+    get "/", action: :index_fall
     get "map"
+    get "map_fall"
     get "weather"
   end
   get "info", to: redirect("faq")

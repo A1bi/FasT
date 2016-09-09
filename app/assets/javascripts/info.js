@@ -32,6 +32,9 @@ function Weather() {
 
   this.init = function () {
     wBox = $("#wu");
+    if (!wBox.length) {
+      return;
+    }
 
     var opts = {
       lines: 12,
@@ -52,8 +55,10 @@ $(function () {
     $(this).toggleClass("disclosed").find("+ .answer").slideToggle();
   });
 
+  var path = "/faq/map" + ($("#map").is(".fall") ? "_fall" : "") + ".json";
+
   // init map data
-  $.getJSON("/faq/map.json", function (data) {
+  $.getJSON(path, function (data) {
     var map = new Map("map", data.center, data.zoom);
 
     map.registerIcons(data.icons);
