@@ -11,7 +11,11 @@ class DatesController < ApplicationController
   end
 
   def alte_dame
-    @create_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
+    @creative_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
+  end
+
+  def alice_wunderland
+    @creative_work_url = "https://de.wikipedia.org/wiki/Alice_im_Wunderland"
   end
 
   private
@@ -45,7 +49,7 @@ class DatesController < ApplicationController
         "@context" => "http://schema.org",
         "@type" => "TheaterEvent",
         name: @event.name,
-        image: asset_url("theater/alte_dame/index.jpg"),
+        image: asset_url("theater/alice_wunderland/index_teaser.jpg"),
         url: theater_alte_dame_url,
         startDate: date.date.iso8601,
         doorTime: date.door_time.iso8601,
@@ -58,11 +62,11 @@ class DatesController < ApplicationController
         offers: offers
       }
 
-      if @create_work_url
+      if @creative_work_url
         event[:workPerformed] = {
           "@type" => "CreativeWork",
           name: @event.name,
-          sameAs: "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
+          sameAs: @creative_work_url
         }
       end
 

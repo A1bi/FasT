@@ -391,7 +391,7 @@ html {
 }
 .small {
   font-size: 13px;
-  color: #cccccc;
+  color: lighten(black, 40%);
 }
 .trenner {
   background: url(asset_path("trenner.png")) no-repeat;

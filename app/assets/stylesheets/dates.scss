@@ -26,10 +26,6 @@ $shadowColor: black;
   .hl, .shadow, .prices table td.price, .dates td {
     color: $highlightColor;
   }
-
-  .title {
-    padding-top: 10px !important;
-  }
 }
 
 .drachenjungfrau {
@@ -38,10 +34,6 @@ $shadowColor: black;
 
   .hl, .shadow, .prices table td.price, .dates td, a {
     color: $highlightColor;
-  }
-
-  .title {
-    padding-top: 10px !important;
   }
 }
 
@@ -52,9 +44,18 @@ $shadowColor: black;
   .hl, .hl .small, .shadow, .prices table td.price, .dates td {
     color: $highlightColor;
   }
+}
+
+.alice_wunderland {
+  $highlightColor: #F07F3C;
+  $shadowColor: rgba(black, .5);
+
+  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
 
   .title {
-    padding-top: 10px !important;
+    padding-top: 50px !important;
   }
 }
 
