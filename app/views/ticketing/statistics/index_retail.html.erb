@@ -4,7 +4,7 @@
   <div class="stats">
     <div class="hl">Ticket-Statistik</div>
     <div class="table active">
-      <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: @stats[:retail][:stores][@_retail_store.id] }] %>
+      <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: stats_for_current_event[:retail][:stores][@_retail_store.id] }] %>
     </div>
     <div class="hl">Kassenstand</div>
     <table class="rounded billing">

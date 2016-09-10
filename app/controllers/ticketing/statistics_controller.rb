@@ -3,7 +3,6 @@ module Ticketing
     include Statistics
 
     before_action :prepare_vars
-    before_action :fetch_stats, except: [:seats]
     ignore_restrictions only: [:index_retail]
 
     def index
@@ -76,9 +75,10 @@ module Ticketing
 
     private
 
-    def fetch_stats
-      @stats = ticket_stats_for_dates @dates
+    def stats_for_current_event
+      ticket_stats_for_dates @dates
     end
+    helper_method :stats_for_current_event
 
     def prepare_vars
       @event = Event.current

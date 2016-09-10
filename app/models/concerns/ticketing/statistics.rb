@@ -3,7 +3,7 @@ module Ticketing
     extend ActiveSupport::Concern
 
     def ticket_stats_for_dates(dates)
-      Rails.cache.fetch [:ticketing, :statistics, dates, Ticket] do
+      Rails.cache.fetch [:ticketing, :statistics, dates, Ticket.all] do
         stats = {
           web: {},
           retail: {
