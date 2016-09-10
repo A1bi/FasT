@@ -115,8 +115,8 @@ class TicketsPDF < Prawn::Document
   def draw_event_info_for_date(date)
     create_stamp(:events, date.event) do
       event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-      height = 30
-      svg File.read(event_image_path), at: [0, cursor], height: height
+      height = 45
+      svg File.read(event_image_path), height: height
     end
 
     draw_stamp(:dates, date, true) do

@@ -197,9 +197,9 @@ FasT::Application.routes.draw do
 
     scope controller: :orders, path: "tickets" do
       scope path: ":signed_info", constraints: { signed_info: /[\w_,~]+--\h+(--\d+)?/ }, as: :order_overview do
-        get action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
-        get action: :show
-        post action: :check_email
+        get "/", action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
+        get "/", action: :show
+        post "/", action: :check_email
         get "/wallet", action: :passbook_pass, as: :wallet
       end
     end

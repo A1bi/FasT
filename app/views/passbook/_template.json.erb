@@ -1,6 +1,7 @@
 <%=
 date = ticket.date.date.to_formatted_s(:w3c)
-info = {
+
+_info = {
   formatVersion: 1,
   description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
   organizationName: "Freilichtbühne am schiefen Turm",
@@ -33,19 +34,6 @@ info = {
       }
     ],
     secondaryFields: [
-      {
-        key: "block",
-        label: "Block",
-        value: ticket.seat.block.name,
-        changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
-      },
-      {
-        key: "seat",
-        label: "Sitzplatz",
-        value: ticket.seat.number,
-        textAlignment: "PKTextAlignmentLeft",
-        changeMessage: "Ihre neue Sitznummer lautet %@."
-      },
       {
         key: "time",
         label: "Beginn",
@@ -93,6 +81,32 @@ info = {
   backgroundColor: "rgb(255, 255, 255)",
   foregroundColor: "rgb(0, 0, 0)",
   labelColor: "rgb(0, 0, 0)"
-}.merge(info || {})
+}
+
+if ticket.date.event.seating.bound_to_seats?
+  _info[:eventTicket][:secondaryFields].unshift(
+    {
+      key: "block",
+      label: "Block",
+      value: ticket.seat.block.name,
+      changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
+    },
+    {
+      key: "seat",
+      label: "Sitzplatz",
+      value: ticket.seat.number,
+      textAlignment: "PKTextAlignmentLeft",
+      changeMessage: "Ihre neue Sitznummer lautet %@."
+    }
+  )
+else
+  _info[:eventTicket][:secondaryFields].unshift({
+    key: "seat",
+    label: "Sitzplatz",
+    value: "Freie Platzwahl"
+  })
+end
+
+info = _info.deep_merge(info || {})
 raw info.to_json
 %>
