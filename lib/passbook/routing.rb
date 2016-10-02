@@ -12,8 +12,8 @@ module Passbook
 
           scope "devices/:device_id/registrations/:pass_type_id" do
             scope ":serial_number" do
-              post action: :register_device
-              delete action: :unregister_device
+              post "/", action: :register_device
+              delete "/", action: :unregister_device
             end
             get "/", action: :modified_passes
           end
