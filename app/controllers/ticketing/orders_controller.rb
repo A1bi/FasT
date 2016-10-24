@@ -191,16 +191,15 @@ module Ticketing
     end
 
     def update_exclusive_seats(action, groups)
+      return false if params[:seatingId].blank?
       seats = {}
       groups.each do |reservation_group|
         reservation_group.reservations.each do |reservation|
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      if groups.empty? || seats.any?
-        NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
-        seats.any?
-      end
+      NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
+      seats.any?
     end
 
     def redirect_to_order_details(notice = nil)
