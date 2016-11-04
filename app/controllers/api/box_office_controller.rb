@@ -13,22 +13,30 @@ class Api::BoxOfficeController < ApplicationController
     order = Ticketing::BoxOffice::Order.new
     order.box_office = @box_office
 
-    seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
-    if !seating[:ok]
-      response[:errors] << "Seating error"
-      return render json: response
+    date = Ticketing::EventDate.find(info[:date])
+
+    if date.event.seating.bound_to_seats?
+      seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
+      if !seating[:ok]
+        response[:errors] << "Seating error"
+        return render json: response
+      end
+      seats = seating[:seats]
     end
-    seats = seating[:seats]
 
     info[:tickets].each do |type_id, number|
       ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
 
+      if date.event.seating.bound_to_seats?
+        seat = date.event.seating.seats.find(seats.shift)
+      end
+
       number.times do
         order.tickets.new({
           type: ticket_type,
-          seat: Ticketing::Seat.find(seats.shift),
-          date: Ticketing::EventDate.find(info[:date]),
+          seat: seat,
+          date: date,
           picked_up: true
         })
       end
@@ -37,7 +45,9 @@ class Api::BoxOfficeController < ApplicationController
     ActiveRecord::Base.transaction do
       if order.save
         begin
-          NodeApi.update_seats_from_records(order.tickets)
+          if date.event.seating.bound_to_seats?
+            NodeApi.update_seats_from_records(order.tickets)
+          end
 
           response[:ok] = true
           response[:order] = info_for_order(order)
@@ -174,9 +184,10 @@ class Api::BoxOfficeController < ApplicationController
       dates: event.dates.map { |date| { id: date.id.to_s, date: date.date.to_i } },
       ticket_types: Ticketing::TicketType.all.map { |type| { id: type.id.to_s, name: type.name, info: type.info || "", price: type.price || 0, exclusive: type.exclusive } },
 
-      seats: Ticketing::Seat.all.map do |seat|
+      seats: event.seating.seats.map do |seat|
         { id: seat.id.to_s, block: { name: seat.block.name, color: seat.block.color }, row: seat.row.to_s, number: seat.number.to_s, grid: { x: seat.position_x, y: seat.position_y } }
-      end
+      end,
+      bound_to_seats: event.seating.bound_to_seats?
     }
 
     render :json => response
