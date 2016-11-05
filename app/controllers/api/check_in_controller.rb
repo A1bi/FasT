@@ -16,10 +16,10 @@ class Api::CheckInController < ApplicationController
     response[:changed_tickets] = tickets.map do |ticket|
       {
         id: ticket.id,
-        date_id: ticket.date.id,
+        date_id: ticket.date_id,
         number: ticket.number,
-        type_id: ticket.type.id,
-        seat_id: ticket.seat.id,
+        type_id: ticket.type_id,
+        seat_id: ticket.seat_id,
         cancelled: ticket.cancelled?
       }
     end
