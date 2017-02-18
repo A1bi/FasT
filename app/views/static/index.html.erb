@@ -13,18 +13,7 @@
     <% end %>
   <% end %>
   <% cache [:static, :index, sale_started] do %>
-    <div class="teaser alice_wunderland">
-      <ul class="links">
-        <li>
-          <%= link_to "Termine", dates_path %>
-        </li>
-        <% if sale_started %>
-          <li>
-            <%= link_to "Tickets bestellen", new_ticketing_order_path %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render 'dates/teaser_dates' %>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
     <div class="partner-lotto">
