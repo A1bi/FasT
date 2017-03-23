@@ -1,1 +1,1 @@
-server 'a0s.de', user: 'deployer', roles: %w{app db web resque_worker}
+server 'hope.a0s.de', user: 'rails', roles: %w{app db web resque_worker}

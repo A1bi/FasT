@@ -81,7 +81,7 @@ GEM
       addressable
     dalli (2.7.6)
     erubis (2.7.0)
-    et-orbi (1.0.1)
+    et-orbi (1.0.2)
       tzinfo
     execjs (2.7.0)
     ffaker (2.5.0)

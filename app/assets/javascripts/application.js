@@ -14,10 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui/core
 //= require jquery-ui/widget
-//= require jquery-ui/mouse
-//= require jquery-ui/sortable
-//= require jquery-ui/draggable
-//= require jquery-ui/droppable
+//= require jquery-ui/widgets/sortable
 //= require jReject
 //= require modernizr
 //= require _main
