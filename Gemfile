@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', github: 'rails/rails', branch: '5-0-stable'
+gem 'rails', '~> 5.0.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -61,8 +61,6 @@ gem 'record_tag_helper', '~> 1.0'
 # Use unicorn as the app server
 gem 'unicorn', '~> 5.1.0'
 
-gem 'bower-rails', '~> 0.10.0'
-
 group :development do
   gem 'capistrano', '~> 3.6.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
@@ -80,3 +78,12 @@ end
 
 # To use debugger
 # gem 'debugger'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-chartjs', '~> 1.0.2'
+  gem 'rails-assets-jReject', '~> 1.1.4'
+  gem 'rails-assets-validator-js', '~> 1.3.0'
+  gem 'rails-assets-socket.io-client', '~> 1.4.6'
+  gem 'rails-assets-spinjs', '~> 2.1.0'
+  gem 'rails-assets-ol3-bower', '~> 3.17.1'
+end

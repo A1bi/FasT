@@ -1,5 +1,5 @@
 //= require socket.io-client/socket.io
-//= require kineticjs/kinetic
+//= require kineticjs
 
 function Seat(id, block, number, pos, delegate) {
   this.id = id;

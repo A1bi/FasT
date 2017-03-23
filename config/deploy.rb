@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.6.0'
+lock '3.6.1'
 
 set :application, 'FasT'
 set :repo_url, 'git@github.com:A1bi/FasT.git'
@@ -7,8 +7,6 @@ set :deploy_to, "$HOME/apps/FasT/#{fetch(:stage)}"
 
 append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml'
 append :linked_dirs, 'public/system', 'public/uploads'
-
-set :default_env, { path: "$HOME/.nvm/versions/node/v6.3.0/bin:$PATH" }
 
 set :keep_releases, 3
 

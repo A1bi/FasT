@@ -1,4 +1,4 @@
-//= require spin.js/spin
+//= require spinjs
 
 function TicketPrinter() {
   var _this = this;

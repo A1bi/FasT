@@ -1,5 +1,5 @@
 //= require map
-//= require spin.js/spin
+//= require spinjs
 
 function Weather() {
 

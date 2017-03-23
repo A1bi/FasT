@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require jReject/css/jquery.reject
+ *= require jReject
  */
 
 @import "_mixins";

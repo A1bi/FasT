@@ -1,5 +1,5 @@
 //= require ./_seating
-//= require Chart.js/Chart.min
+//= require chartjs
 
 $(function () {
   $(".chooser span").click(function () {
