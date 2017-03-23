@@ -8,7 +8,7 @@ gem 'rails', '~> 5.0.2'
 # Gems used only for assets and not required
 # in production environments by default.
 
-gem 'sprockets-rails',    '~> 3.1.0'
+gem 'sprockets-rails',    '~> 3.2.0'
 gem 'sass-rails',   '~> 5.0.5'
 #gem 'coffee-rails', '~> 3.2.1'
 
@@ -17,34 +17,34 @@ gem 'therubyracer', platforms: :ruby
 
 gem 'uglifier'
 
-gem 'jquery-rails', '~> 4.1.1'
-gem 'jquery-ui-rails', '~> 5.0.5'
+gem 'jquery-rails', '~> 4.3.1'
+gem 'jquery-ui-rails', '~> 6.0.0'
 
-gem 'paperclip', '~> 5.0.0'
+gem 'paperclip', '~> 5.1.0'
 
 gem 'bcrypt-ruby', '~> 3.1.5'
 
 gem 'icalendar', '~> 2.4.0'
 
-gem 'prawn', '~> 2.1.0'
+gem 'prawn', '~> 2.2.2'
 gem 'prawn-table', '~> 0.2.1'
-gem 'prawn-svg', '~> 0.25.1'
-gem 'prawn-qrcode', '~> 0.2.2'
+gem 'prawn-svg', '~> 0.26.0'
+gem 'prawn-qrcode', '~> 0.3.0'
 
 gem 'rubyzip', '~> 1.2.0'
 
-gem 'roadie', '~> 3.1.1'
+gem 'roadie', '~> 3.2.1'
 gem 'roadie-rails', '~> 1.1.1'
 
-gem 'sepa_king', '~> 0.8.0'
+gem 'sepa_king', '~> 0.9.0'
 
 gem 'dalli', '~> 2.7.6'
 
 gem 'ar_after_transaction', '~> 0.4.0'
 
-gem 'resque', '~> 1.26.0'
+gem 'resque', '~> 1.27.2'
 
-gem 'groupdate', '~> 3.0.0'
+gem 'groupdate', '~> 3.2.0'
 
 gem 'auto_strip_attributes', '~> 2.0'
 
@@ -59,17 +59,17 @@ gem 'record_tag_helper', '~> 1.0'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-gem 'unicorn', '~> 5.1.0'
+gem 'unicorn', '~> 5.2.0'
 
 group :development do
-  gem 'capistrano', '~> 3.6.0'
+  gem 'capistrano', '~> 3.8.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1.3', require: false
-  gem 'capistrano-rails', '~> 1.1.7', require: false
+  gem 'capistrano-bundler', '~> 1.2.0', require: false
+  gem 'capistrano-rails', '~> 1.2.3', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-resque', '~> 0.2.2', require: false
   gem 'sqlite3', '~> 1.3.11'
-  gem 'ffaker', '~> 2.2.0'
+  gem 'ffaker', '~> 2.5.0'
 end
 
 group :staging, :production do
