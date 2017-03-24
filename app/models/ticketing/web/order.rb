@@ -14,7 +14,7 @@ module Ticketing
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
 
-    after_create :send_confirmation
+    after_create_commit :send_confirmation
 
     def send_pay_reminder
       enqueue_mailing(:pay_reminder)
@@ -64,9 +64,7 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      after_transaction do
-        Resque.enqueue(Mailer, id, action, options) if email.present?
-      end
+      Resque.enqueue(Mailer, id, action, options) if email.present?
     end
   end
 end

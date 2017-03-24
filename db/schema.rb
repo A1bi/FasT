@@ -236,7 +236,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
 
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string   "code"
-    t.datetime "expires",      precision: 255
+    t.datetime "expires",      precision: 0
     t.string   "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -285,7 +285,7 @@ ActiveRecord::Schema.define(version: 20160721123404) do
     t.integer  "gender"
     t.string   "phone"
     t.string   "plz"
-    t.integer  "pay_method",    limit: 255
+    t.integer  "pay_method",    limit: 1
     t.integer  "store_id"
     t.string   "type"
     t.datetime "created_at"

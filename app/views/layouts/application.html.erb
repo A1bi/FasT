@@ -97,7 +97,7 @@
   <%= yield(:footer) %>
   <% if Rails.env.production? %>
     <% as_site = 6 %>
-    <% base_url = "https://system.albisigns.de/" %>
+    <% base_url = "https://piwik.a0s.de/" %>
     <script>var as_site = <%= as_site %>;</script>
     <%= javascript_include_tag base_url + "stats.js" %>
     <noscript><%= image_tag base_url + "stats" + as_site.to_s + ".png", alt: "" %></noscript>

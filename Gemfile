@@ -40,8 +40,6 @@ gem 'sepa_king', '~> 0.9.0'
 
 gem 'dalli', '~> 2.7.6'
 
-gem 'ar_after_transaction', '~> 0.4.0'
-
 gem 'resque', '~> 1.27.2'
 
 gem 'groupdate', '~> 3.2.0'

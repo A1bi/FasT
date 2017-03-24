@@ -43,8 +43,6 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     airbrussh (1.1.2)
       sshkit (>= 1.6.1, != 1.7.0)
-    ar_after_transaction (0.4.0)
-      activerecord
     arel (7.1.4)
     auto_strip_attributes (2.1.0)
       activerecord (>= 3.0)
@@ -255,7 +253,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ar_after_transaction (~> 0.4.0)
   auto_strip_attributes (~> 2.0)
   bcrypt-ruby (~> 3.1.5)
   capistrano (~> 3.8.0)
