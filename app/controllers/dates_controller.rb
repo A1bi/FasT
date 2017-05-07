@@ -11,11 +11,18 @@ class DatesController < ApplicationController
   end
 
   def alte_dame
+    @event_image = "theater/alice_wunderland/index_teaser.jpg"
+    @event_url = theater_alte_dame_url
     @creative_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
   end
 
   def alice_wunderland
     @creative_work_url = "https://de.wikipedia.org/wiki/Alice_im_Wunderland"
+  end
+
+  def magdalena
+    @event_image = "theater/magdalena/index_teaser.jpg"
+    @creative_work_url = "http://www.gerstenberg-verlag.de/index.php?id=detailansicht&url_ISBN=9783836957076"
   end
 
   private
@@ -49,8 +56,8 @@ class DatesController < ApplicationController
         "@context" => "http://schema.org",
         "@type" => "TheaterEvent",
         name: @event.name,
-        image: asset_url("theater/alice_wunderland/index_teaser.jpg"),
-        url: theater_alte_dame_url,
+        image: @event_image ? asset_url(@event_image) : nil,
+        url: @event_url,
         startDate: date.date.iso8601,
         doorTime: date.door_time.iso8601,
         location: {

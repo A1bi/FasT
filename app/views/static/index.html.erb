@@ -13,7 +13,9 @@
     <% end %>
   <% end %>
   <% cache [:static, :index, sale_started] do %>
-    <%= render 'dates/teaser_dates' %>
+  <div class="teaser magdalena">
+    <%= link_to image_tag("theater/magdalena/index_teaser.jpg"), dates_path %>
+  </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
     <div class="partner-lotto">

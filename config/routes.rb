@@ -4,7 +4,7 @@ FasT::Application.routes.draw do
 
   # dates
   scope controller: :dates, path: "termine", as: :dates do
-    root action: :teaser, as: ""
+    root action: :magdalena, as: ""
   end
 
   # theater
@@ -23,7 +23,7 @@ FasT::Application.routes.draw do
 
   # info
   scope controller: :info, path: "faq", as: :info do
-    get "/", action: :index_fall
+    get "/", action: :index
     get "map"
     get "map_fall"
     get "weather"

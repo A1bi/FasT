@@ -59,6 +59,24 @@ $shadowColor: black;
   }
 }
 
+.magdalena {
+  $highlightColor: #d26200;
+  $shadowColor: rgba(black, .5);
+
+  .hl, .hl .small, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+
+  .title {
+    padding-top: 18px !important;
+
+    img {
+      width: 270px;
+    }
+  }
+}
+
+
 
 .container {
   overflow: auto;
@@ -147,6 +165,17 @@ $shadowColor: black;
       text-align: right;
       font-weight: bold;
     }
+  }
+}
+
+.stores {
+  width: 80%;
+  margin: auto;
+  margin-top: 40px;
+  font-size: 13px;
+
+  p {
+    margin-top: 10px;
   }
 }
 
