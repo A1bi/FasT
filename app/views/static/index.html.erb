@@ -15,6 +15,9 @@
   <% cache [:static, :index, sale_started] do %>
   <div class="teaser magdalena">
     <%= link_to image_tag("theater/magdalena/index_teaser.jpg"), dates_path %>
+    <div class="hcen" style="margin-top: 20px; font-size: 18px;">
+      <%= link_to "Tickets jetzt bestellen", new_ticketing_order_path if sale_started %>
+    </div>
   </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>

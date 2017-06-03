@@ -53,7 +53,7 @@ class TicketsPDF < Prawn::Document
     bounding_box([0, cursor - @ticket_margin], width: TICKET_WIDTH, height: @ticket_height - @ticket_margin * 2) do
       indent(10, 10) do
         draw_header 0.5
-        move_down 20
+        move_down 10
 
         bounding_box([0, cursor], width: bounds.width, height: cursor) do
           indent(20, 20) do
@@ -64,6 +64,7 @@ class TicketsPDF < Prawn::Document
 
             move_cursor_to bounds.top
             indent(bounds.right - 130, 0) do
+              move_down 10
               draw_barcode_for_ticket(ticket)
 
               move_down 10
@@ -115,13 +116,12 @@ class TicketsPDF < Prawn::Document
   def draw_event_info_for_date(date)
     create_stamp(:events, date.event) do
       event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-      height = 45
+      height = 60
       svg File.read(event_image_path), height: height
     end
 
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
-      move_down 5
 
       info = [
         [t(:date), t(:begins), t(:opens)],
