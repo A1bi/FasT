@@ -21,7 +21,7 @@ class DatesController < ApplicationController
   end
 
   def magdalena
-    @event_image = "theater/magdalena/index_teaser.jpg"
+    @event_image = "theater/magdalena/index.jpg"
     @creative_work_url = "http://www.gerstenberg-verlag.de/index.php?id=detailansicht&url_ISBN=9783836957076"
   end
 
