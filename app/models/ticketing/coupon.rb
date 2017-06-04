@@ -3,7 +3,7 @@ class Ticketing::Coupon < BaseModel
 
   has_random_unique_token :code, 6
   has_and_belongs_to_many :reservation_groups, join_table: :ticketing_coupons_reservation_groups
-  has_many :redemptions, class_name: Ticketing::CouponRedemption, dependent: :destroy
+  has_many :redemptions, class_name: 'Ticketing::CouponRedemption', dependent: :destroy
   has_many :orders, through: :redemptions
 
   before_create :before_create

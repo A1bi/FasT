@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -28,19 +28,19 @@ gem 'icalendar', '~> 2.4.0'
 
 gem 'prawn', '~> 2.2.2'
 gem 'prawn-table', '~> 0.2.1'
-gem 'prawn-svg', '~> 0.26.0'
+gem 'prawn-svg', '~> 0.27.1'
 gem 'prawn-qrcode', '~> 0.3.0'
 
 gem 'rubyzip', '~> 1.2.0'
 
 gem 'roadie', '~> 3.2.1'
-gem 'roadie-rails', '~> 1.1.1'
+gem 'roadie-rails', '~> 1.2.1'
 
 gem 'sepa_king', '~> 0.9.0'
 
 gem 'dalli', '~> 2.7.6'
 
-gem 'resque', '~> 1.27.2'
+gem 'resque', '~> 1.27.4'
 
 gem 'groupdate', '~> 3.2.0'
 
@@ -57,7 +57,7 @@ gem 'record_tag_helper', '~> 1.0'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-gem 'unicorn', '~> 5.2.0'
+gem 'unicorn', '~> 5.3.0'
 
 group :development do
   gem 'capistrano', '~> 3.8.0'
@@ -71,7 +71,7 @@ group :development do
 end
 
 group :staging, :production do
-  gem 'mysql2', '~> 0.4.4'
+  gem 'mysql2', '~> 0.4.6'
 end
 
 # To use debugger

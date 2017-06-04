@@ -3,9 +3,9 @@ module Ticketing
     include Cancellable
 
     belongs_to :order, touch: true
-    belongs_to :type, class_name: TicketType
+    belongs_to :type, class_name: 'TicketType'
     belongs_to :seat
-    belongs_to :date, class_name: EventDate
+    belongs_to :date, class_name: 'EventDate'
     has_passbook_pass
     has_many :check_ins
 

@@ -1,6 +1,6 @@
 module Ticketing::BoxOffice
   class OrderPayment < BaseModel
-    belongs_to :order, class_name: Ticketing::Order
+    belongs_to :order, class_name: 'Ticketing::Order'
 
     def total
       amount

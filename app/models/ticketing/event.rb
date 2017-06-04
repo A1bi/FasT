@@ -2,7 +2,7 @@ module Ticketing
   class Event < BaseModel
     include Statistics
 
-    has_many :dates, class_name: EventDate
+    has_many :dates, class_name: 'EventDate'
     belongs_to :seating
 
     def self.by_identifier(id)

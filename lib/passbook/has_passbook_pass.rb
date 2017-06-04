@@ -8,7 +8,7 @@ module Passbook
     module ClassMethods
       def has_passbook_pass(options = {})
         has_one (options[:attribute] || :passbook_pass),
-                class_name: Passbook::Models::Pass,
+                class_name: 'Passbook::Models::Pass',
                 as: :assignable, dependent: :destroy
 
         after_save :save_passbook_pass

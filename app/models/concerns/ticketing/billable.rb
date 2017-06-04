@@ -5,7 +5,7 @@ module Ticketing
     included do
       has_one :billing_account,
               as: :billable, inverse_of: :billable, autosave: true,
-              class_name: Ticketing::Billing::Account, dependent: :destroy
+              class_name: 'Ticketing::Billing::Account', dependent: :destroy
     end
 
     def billing_account

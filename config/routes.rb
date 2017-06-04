@@ -232,7 +232,7 @@ FasT::Application.routes.draw do
         get "availability", action: :availability
         get "/", action: :index
       end
-      controller :box_office, path: :box_office do
+      scope controller: :box_office, path: :box_office do
         get :search
         get :ticket_printable
         patch :pick_up_tickets
@@ -247,7 +247,7 @@ FasT::Application.routes.draw do
         get :report
         post :bill
       end
-      controller :check_in, path: :check_in do
+      scope controller: :check_in, path: :check_in do
         get "/", action: :index
         post "/", action: :create
       end

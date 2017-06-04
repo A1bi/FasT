@@ -3,7 +3,7 @@ module Ticketing::BoxOffice
     include Ticketing::Billable
 
     belongs_to :box_office
-    has_many :items, class_name: PurchaseItem, dependent: :destroy
+    has_many :items, class_name: 'PurchaseItem', dependent: :destroy
 
     validates_presence_of :box_office
     validates_length_of :items, minimum: 1

@@ -1,6 +1,6 @@
 module Ticketing
   class BankCharge < BaseModel
-    belongs_to :submission, class_name: BankSubmission
+    belongs_to :submission, class_name: 'BankSubmission'
     belongs_to :chargeable, polymorphic: true, autosave: true
 
     auto_strip_attributes :name, squish: true

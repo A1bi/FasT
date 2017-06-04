@@ -2,7 +2,7 @@ module Ticketing
   class Web::Order < Order
     attr_accessor :admin_validations
 
-    has_one :bank_charge, class_name: Ticketing::BankCharge, as: :chargeable, validate: true, dependent: :destroy, autosave: true
+    has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
     enum pay_method: [:charge, :transfer, :cash]
 
     auto_strip_attributes :first_name, :last_name, squish: true
