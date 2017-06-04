@@ -18,7 +18,7 @@ module Ticketing
     end
 
     def seats
-      render_cached_json [:ticketing, :statistics, :seats, @dates, Ticketing::Seat, Ticketing::Ticket] do
+      render_cached_json [:ticketing, :statistics, :seats, @dates, Ticketing::Seat.all, Ticketing::Ticket.all] do
         {
           seats: Hash[@dates.map do |date|
             [date.id, Hash[Ticketing::Seat.with_booked_status_on_date(date).map do |seat|

@@ -45,7 +45,7 @@
     </table>
   </div>
 <% end %>
-<% cache [:ticketing, :statistics, Ticketing::Seat] do %>
+<% cache [:ticketing, :statistics, Ticketing::Seat.all] do %>
   <div class="hl">Sitzauslastung</div>
   <% @dates.each do |date| %>
     <% @date = date %>
