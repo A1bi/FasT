@@ -1,0 +1,3 @@
+<% plays.each do |t| %>
+  <p><%= link_to_if t[2], image_tag("theater/#{t[0]}.jpg", alt: t[1], title: t[1]), { action: t[0] } %></p>
+<% end %>

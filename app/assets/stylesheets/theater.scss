@@ -1,5 +1,26 @@
 @import "_mixins";
 
+.theater.index {
+  h2 {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  table {
+    tr {
+      td:first-child {
+        font-weight: bold;
+        width: 25%;
+      }
+    }
+  }
+}
+
 .cast {
   margin: 20px 0px;
   font-size: 16px;

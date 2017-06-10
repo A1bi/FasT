@@ -32,7 +32,6 @@ FasT::Application.routes.draw do
 
   # static pages
   scope controller: :static do
-    get "geschichte", action: :history, as: :history
     get "impressum"
     get "satzung"
     #get "agb"
