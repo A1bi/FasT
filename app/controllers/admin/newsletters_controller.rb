@@ -59,12 +59,9 @@ module Admin
         Resque.enqueue(NewsletterMailingJob, @newsletter.id, params[:preview_email])
 
         flash.notice = t("admin.newsletters.preview_sent")
-        redirect = edit_admin_newsletter_path(@newsletter)
-      else
-        redirect = { action: :index }
       end
 
-      redirect_to redirect
+      redirect_to edit_admin_newsletter_path(@newsletter)
     end
   end
 end

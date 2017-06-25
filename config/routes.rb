@@ -78,6 +78,7 @@ FasT::Application.routes.draw do
         member do
           post :deliver
         end
+        resources :images, controller: :newsletter_images, only: [:create, :destroy]
       end
       resources :members_members, path: "mitglieder", except: [:show], controller: :members do
         member do

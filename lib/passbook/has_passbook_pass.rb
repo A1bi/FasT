@@ -2,9 +2,6 @@ module Passbook
   module HasPassbookPass
     extend ActiveSupport::Concern
 
-    included do
-    end
-
     module ClassMethods
       def has_passbook_pass(options = {})
         has_one (options[:attribute] || :passbook_pass),
