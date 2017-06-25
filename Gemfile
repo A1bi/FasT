@@ -63,7 +63,7 @@ group :development do
   gem 'capistrano', '~> 3.8.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
   gem 'capistrano-bundler', '~> 1.2.0', require: false
-  gem 'capistrano-rails', '~> 1.2.3', require: false
+  gem 'capistrano-rails', '~> 1.3.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-resque', '~> 0.2.2', require: false
   gem 'sqlite3', '~> 1.3.11'
