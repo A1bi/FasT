@@ -51,42 +51,44 @@
     </div>
   </div>
 <% end %>
-<div class="box">
-  <div class="top">
-    Hochgeladene Fotos
-  </div>
-  <div class="con">
-    <a name="images"></a>
-    <% if @newsletter.images.any? %>
-      <table>
-        <% @newsletter.images.each do |image| %>
-          <tr>
-            <td><%= image_tag image.image.url(:thumb) %></td>
-            <td>
-              <input type="text" value="%%bild_<%= image.id %>%%">
-              <p>Dieser Code kann an beliebiger Stelle im Text eingefügt werden und wird beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.</p>
-              <% if !@newsletter.sent? %>
-                <p><%= link_to "Foto löschen", admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: "Möchten Sie dieses Foto wirklich löschen?" } %></p>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </table>
-    <% else %>
-      <em>Zu diesem Newsletter wurden keine Fotos hochgeladen.</em>
-    <% end %>
-  </div>
-</div>
-<% if !@newsletter.sent? %>
+<% if @newsletter.persisted? %>
   <div class="box">
     <div class="top">
-      Neues Foto hochladen
+      Hochgeladene Fotos
     </div>
     <div class="con">
-      <%= form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f| %>
-        <%= f.file_field :image, required: true %>
-        <p class="hcen"><%= f.submit 'hochladen' %></p>
+      <a name="images"></a>
+      <% if @newsletter.images.any? %>
+        <table>
+          <% @newsletter.images.each do |image| %>
+            <tr>
+              <td><%= image_tag image.image.url(:thumb) %></td>
+              <td>
+                <input type="text" value="%%bild_<%= image.id %>%%">
+                <p>Dieser Code kann an beliebiger Stelle im Text eingefügt werden und wird beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.</p>
+                <% if !@newsletter.sent? %>
+                  <p><%= link_to "Foto löschen", admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: "Möchten Sie dieses Foto wirklich löschen?" } %></p>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      <% else %>
+        <em>Zu diesem Newsletter wurden keine Fotos hochgeladen.</em>
       <% end %>
     </div>
   </div>
+  <% if !@newsletter.sent? %>
+    <div class="box">
+      <div class="top">
+        Neues Foto hochladen
+      </div>
+      <div class="con">
+        <%= form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f| %>
+          <%= f.file_field :image, required: true %>
+          <p class="hcen"><%= f.submit 'hochladen' %></p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
