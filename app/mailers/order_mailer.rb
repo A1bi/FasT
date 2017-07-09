@@ -33,7 +33,7 @@ class OrderMailer < BaseMailer
   end
 
   def pay_reminder
-    @order.transfer? && !@order.paid
+    @order.transfer_payment? && !@order.paid
   end
 
   def cancellation(options)
@@ -54,7 +54,7 @@ class OrderMailer < BaseMailer
   end
 
   def should_attach_tickets?
-    !@order.cancelled? && (@order.paid || @order.charge?)
+    !@order.cancelled? && (@order.paid || @order.charge_payment?)
   end
   helper_method :should_attach_tickets?
 

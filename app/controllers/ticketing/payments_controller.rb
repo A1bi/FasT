@@ -5,12 +5,17 @@ module Ticketing
 
     def index
       @orders = {
-        unpaid:     find_unpaid_orders
-                      .where.not(pay_method: Ticketing::Web::Order.pay_methods[:charge]),
+        unpaid: {
+          transfer: find_unpaid_orders.transfer_payment,
+          cash: find_unpaid_orders.cash_payment
+        },
         unapproved: find_unsubmitted_charges(false)
       }
 
-      @submissions = BankSubmission.order(created_at: :desc)
+      unpaid_ids = @orders[:unpaid].values.map { |orders| orders.pluck(:id) }
+      @orders[:unpaid][:other] = find_unpaid_orders(false).where.not(id: unpaid_ids)
+
+      @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
     end
 
     def mark_as_paid
@@ -85,8 +90,9 @@ module Ticketing
         .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
     end
 
-    def find_unpaid_orders
-      Web::Order.includes(:billing_account).where(paid: false).order(:number)
+    def find_unpaid_orders(web = true)
+      klass = web ? Web::Order : Order
+      klass.includes(:billing_account).where(paid: false).order(:number)
     end
 
     def redirect_to_overview(notice = nil)

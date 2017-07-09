@@ -12,6 +12,8 @@ module Ticketing
     before_validation :before_create_validation, on: :create
     before_create :before_create
 
+    delegate :balance, to: :billing_account
+
     def self.api_hash(details = [], ticket_details = [])
       includes({ tickets: [:seat, :date] }).all.map { |order| order.api_hash(details, tickets_details) }
     end

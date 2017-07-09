@@ -65,7 +65,7 @@ class Api::OrdersController < ApplicationController
       order.attributes = info.require(:address).permit(:email, :first_name, :gender, :last_name, :phone, :plz)
 
       order.pay_method = (info[:payment] ||= {}).delete(:method)
-      if order.charge?
+      if order.charge_payment?
         order.build_bank_charge(info.require(:payment).permit(:name, :iban))
       end
 

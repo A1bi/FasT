@@ -1,19 +1,21 @@
 <% cache_if (cache_key ||= nil).present?, [:ticketing, cache_key, orders, params[:type]] do %>
   <% orders = orders.all %>
-  <table class="rounded entries details">
+  <table class="rounded entries details <%= local_assigns.fetch(:class, nil) %>">
     <thead>
       <% if defined? table_title %>
-        <tr>
-          <th colspan="<%= (checkbox ||= false) ? 6 : 5 %>"><%= table_title %></th>
-        </tr>
+        <% Array(table_title).each do |title| %>
+          <tr>
+            <th colspan="<%= local_assigns.fetch(:checkbox, false) ? 6 : 5 %>"><%= title %></th>
+          </tr>
+        <% end %>
       <% end %>
       <% if orders.any? %>
         <tr>
-          <% if checkbox %><th class="checkbox"><%= check_box_tag "orders_all[]" %></th><% end %>
+          <% if checkbox ||= false %><th class="checkbox"><%= check_box_tag "orders_all[]" %></th><% end %>
           <th>Nummer</th>
-          <th><% if web %>Name<% else %>Vorverkaufsstelle<% end %></th>
+          <th><% if web ||= false %>Name<% else %>Vorverkaufsstelle<% end %></th>
           <th>Tickets</th>
-          <th>Betrag</th>
+          <th><% if show_balance ||= false %>offen<% else %>Betrag<% end %></th>
           <th>Datum</th>
         </tr>
       <% end %>
@@ -27,12 +29,12 @@
           <td class="name">
             <% if web %>
               <%= order.last_name.presence || content_tag(:em, "nicht angegeben") %>, <%= order.first_name.presence || content_tag(:em, "nicht angegeben") %>
-            <% else %>
+            <% elsif order.is_a? Ticketing::Retail::Order %>
               <%= order.store.name %>
             <% end %>
           </td>
           <td class="tickets"><%= order.tickets.cancelled(false).size %></td>
-          <td class="amount"><%= number_to_currency order.total %></td>
+          <td class="amount"><%= number_to_currency(show_balance ? -order.balance : order.total) %></td>
           <td class="date"><%= l order.created_at, format: "%d.%m.%y, %H:%M" %></td>
         <% end %>
       <% end %>

@@ -1,1 +1,3 @@
-<%= submit_tag text, data: { disable_with: "Einen Moment bitte...", confirm: (confirm ||= nil) } if orders.any? %>
+<% if (orders.is_a?(ActiveRecord::Relation) && orders.any?) || (orders.is_a?(Hash) && orders.values.all? { |o| o.any? }) %>
+  <%= submit_tag text, data: { disable_with: "Einen Moment bitte...", confirm: (confirm ||= nil) } %>
+<% end %>

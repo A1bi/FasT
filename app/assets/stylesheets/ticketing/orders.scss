@@ -124,6 +124,29 @@ table.details {
   }
 }
 
+.unpaid_orders {
+  table.transfer {
+    margin-bottom: 0;
+    border-bottom: {
+      left-radius: 0;
+      right-radius: 0;
+    }
+
+    tr:last-child td {
+      border-radius: 0 !important;
+      border-bottom: 0;
+    }
+  }
+
+  table.cash {
+    margin-top: 0;
+
+    tr:first-child th {
+      border-radius: 0 !important;
+    }
+  }
+}
+
 .topTables {
   &:after {
     content:"";
