@@ -79,7 +79,7 @@
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders] do %>
     <%= render "application/ticketing/orders_table", table_title: ["Unbezahlte Bestellungen", "Überweisung"], orders: @orders[:unpaid][:transfer], web: true, checkbox: true, cache_key: [:payments, :unpaid, :transfer], show_balance: true, class: :transfer %>
     <%= render "application/ticketing/orders_table", table_title: "Barzahlung", orders: @orders[:unpaid][:cash], web: true, checkbox: true, cache_key: [:payments, :unpaid, :cash], show_balance: true, class: :cash %>
-    <% if @orders[:unpaid][:other] %>
+    <% if @orders[:unpaid][:other].any? %>
       <%= render "application/ticketing/orders_table", table_title: "sonstige", orders: @orders[:unpaid][:other], checkbox: true, cache_key: [:payments, :unpaid, :other], show_balance: true %>
     <% end %>
     <%= render "index_submit", text: "als bezahlt markieren", confirm: "Möchten Sie diese Bestellungen wirklich als bezahlt markieren?", orders: @orders[:unpaid] %>

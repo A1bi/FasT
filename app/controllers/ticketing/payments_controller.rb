@@ -7,13 +7,12 @@ module Ticketing
       @orders = {
         unpaid: {
           transfer: find_unpaid_orders.transfer_payment,
-          cash: find_unpaid_orders.cash_payment
+          cash: find_unpaid_orders.cash_payment,
+          other: find_unpaid_orders(false)
+            .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash))
         },
         unapproved: find_unsubmitted_charges(false)
       }
-
-      unpaid_ids = @orders[:unpaid].values.map { |orders| orders.pluck(:id) }
-      @orders[:unpaid][:other] = find_unpaid_orders(false).where.not(id: unpaid_ids)
 
       @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
     end
