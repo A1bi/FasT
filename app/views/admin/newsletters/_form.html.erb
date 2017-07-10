@@ -1,4 +1,4 @@
-<% title "Newsletter - #{title}" %>
+<% title "Newsletter – #{title}" %>
 <% include_css "admin/newsletters" %>
 <div class="hl">Newsletter</div>
 <%= form_for @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter) do |f| %>
