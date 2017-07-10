@@ -19,6 +19,7 @@ FasT::Application.routes.draw do
     get "ladykillers"
     get "die-drachenjungfrau", action: :drachenjungfrau, as: :drachenjungfrau
     get "der-besuch-der-alten-dame", action: :alte_dame, as: :alte_dame
+    get "magdalena-himmelstürmerin", action: :magdalena, as: :magdalena
   end
 
   # info

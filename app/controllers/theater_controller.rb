@@ -1,6 +1,6 @@
 class TheaterController < ApplicationController
   before_action :disable_member_controls, :except => [:index]
-  before_action :prepare_dates, only: [:jedermann, :don_camillo, :ladykillers, :alte_dame]
+  before_action :prepare_dates, only: [:jedermann, :don_camillo, :ladykillers, :alte_dame, :magdalena]
 
   private
 
