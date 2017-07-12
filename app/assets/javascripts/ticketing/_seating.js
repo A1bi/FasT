@@ -655,6 +655,58 @@ function SeatingEditor(container) {
   $(document).on("keydown keyup", this.toggleSelecting);
 };
 
+function SeatSelector(container, delegate) {
+  Seating.call(this, container);
+  this.delegate = delegate;
+  var _this = this;
+
+  this.selectedSeats = [];
+
+  this.clickedSeat = function (seat) {
+    var selected = seat.status === Seat.Status.Exclusive;
+    if (selected) {
+      this.selectedSeats.splice(this.selectedSeats.indexOf(seat), 1);
+    } else {
+      this.selectedSeats.push(seat);
+    }
+    seat.setStatus(selected ? Seat.Status.Default : Seat.Status.Exclusive);
+    this.drawSeatsLayer();
+  };
+
+  this.mouseOverSeat = function () {
+    this.setCursor("pointer");
+  };
+
+  this.setSelectedSeats = function (seats) {
+    this.selectedSeats.forEach(function (seat) {
+      seat.setStatus(Seat.Status.Default);
+    });
+    this.selectedSeats = [];
+
+    (seats || []).forEach(function (seatId) {
+      var seat = _this.seats[seatId];
+      _this.selectedSeats.push(seat);
+      seat.setStatus(Seat.Status.Exclusive);
+    });
+    this.drawSeatsLayer();
+  };
+
+  this.getSelectedSeatIds = function () {
+    return this.selectedSeats.map(function (seat) {
+      return seat.id;
+    });
+  };
+
+  this.initSeats(function (seat) {
+    seat.toggleNumber(true);
+    seat.updateStatusShape();
+  }, function () {
+    if (_this.delegate.seatSelectorIsReady) {
+      _this.delegate.seatSelectorIsReady();
+    }
+  });
+}
+
 function SeatChooser(container, delegate) {
   Seating.call(this, container);
 

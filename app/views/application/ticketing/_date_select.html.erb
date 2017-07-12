@@ -1,0 +1,5 @@
+<div class="date">
+  Aufführung: <%= select_tag :date, options_for_select(dates.map do |date|
+    [l(date.date, format: "%A, den %d. %B um %H.%M Uhr"), date.id]
+  end, preselected_date.id) %>
+</div>

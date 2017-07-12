@@ -143,6 +143,9 @@ de:
         sent: "Gutschein verschickt an %{recipient} (%{email})"
         edited: "Gutschein bearbeitet"
         redeemed: "Gutschein eingelöst"
+    reservation_groups:
+      created: "Die Vorreservierungsgruppe wurde erfolgreich erstellt."
+      destroyed: "Die Vorreservierungsgruppe wurde gelöscht."
     retail:
       sessions:
         auth_error: "Das eingegebene Passwort ist nicht korrekt."

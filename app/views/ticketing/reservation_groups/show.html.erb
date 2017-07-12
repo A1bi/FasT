@@ -1,0 +1,20 @@
+<% title "Sitzplatzvorreservierungen bearbeiten" %>
+<% include_js "ticketing/reservation_groups" %>
+<% include_css "ticketing/reservation_groups" %>
+<div class="hl">Sitzplatzvorreservierungen bearbeiten</div>
+<%= content_tag :div, class: :reservation_groups, data: { seats: @seats, update_path: ticketing_reservation_group_path(@group) } do %>
+  <div class="groups">
+    Vorreservierungen: <%= select_tag :group, options_from_collection_for_select(@groups, :id, :name, @group.id) %> <%= link_to "Gruppe löschen", ticketing_reservation_group_path(@group), method: :delete, data: { confirm: "Möchten Sie diese Gruppe und alle damit verbundenen Sitzplatzvorreservierungen löschen?" } %>
+  </div>
+  <%= render "application/ticketing/date_select", dates: @dates, preselected_date: @dates.first %>
+  <%= render "application/ticketing/seating", options: { class: [:stage, :reservator, :background, :big] }, view_chooser: true %>
+  <p class="hcen">
+    <%= submit_tag "speichern", class: :save %>
+  </p>
+  <div class="create">
+    <hr>
+    <%= form_for Ticketing::ReservationGroup.new do |f| %>
+      Neue Gruppe erstellen: <%= f.text_field :name, placeholder: "Name der Gruppe" %> <%= f.submit "erstellen" %>
+    <% end %>
+  </div>
+<% end %>

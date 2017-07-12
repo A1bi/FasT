@@ -150,6 +150,7 @@ FasT::Application.routes.draw do
             end
           end
         end
+        resources :reservation_groups, path: "vorreservierungen", only: [:index, :show, :create, :update, :destroy]
         resources :blocks, path: "blöcke", except: [:index, :show]
         resources :coupons, path: "gutscheine" do
           member do

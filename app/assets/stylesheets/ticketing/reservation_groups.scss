@@ -1,0 +1,22 @@
+//= require ./_seating
+
+.reservation_groups {
+  .groups, .date {
+    padding: 5px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .date {
+    margin-bottom: 20px;
+  }
+
+  .create {
+    margin-top: 30px;
+    text-align: center;
+
+    hr {
+      margin-bottom: 20px;
+    }
+  }
+}
