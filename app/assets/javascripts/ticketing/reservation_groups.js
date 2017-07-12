@@ -4,6 +4,7 @@
 function ReservationGroups(container) {
   this.box = container;
   this.dateSelect = this.box.find(".date select");
+  this.groupSelect = this.box.find(".groups select");
   this.seats = this.box.data("seats") || {};
   this.date;
   var _this = this;
@@ -30,6 +31,10 @@ function ReservationGroups(container) {
 
     this.dateSelect.change(function () {
       _this.updateDate();
+    });
+
+    this.groupSelect.change(function () {
+      location.href = _this.box.data("show-path") + _this.groupSelect.val();
     });
 
     this.box.find("input.save").click(function () {

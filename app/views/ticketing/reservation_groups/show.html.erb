@@ -2,7 +2,7 @@
 <% include_js "ticketing/reservation_groups" %>
 <% include_css "ticketing/reservation_groups" %>
 <div class="hl">Sitzplatzvorreservierungen bearbeiten</div>
-<%= content_tag :div, class: :reservation_groups, data: { seats: @seats, update_path: ticketing_reservation_group_path(@group) } do %>
+<%= content_tag :div, class: :reservation_groups, data: { seats: @seats, show_path: ticketing_reservation_group_path(''), update_path: ticketing_reservation_group_path(@group) } do %>
   <div class="groups">
     Vorreservierungen: <%= select_tag :group, options_from_collection_for_select(@groups, :id, :name, @group.id) %> <%= link_to "Gruppe löschen", ticketing_reservation_group_path(@group), method: :delete, data: { confirm: "Möchten Sie diese Gruppe und alle damit verbundenen Sitzplatzvorreservierungen löschen?" } %>
   </div>
