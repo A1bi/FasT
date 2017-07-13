@@ -12,6 +12,10 @@ class Api::CheckInController < ApplicationController
       { id: date.id, date: date.date.to_i }
     end
 
+    response[:ticket_types] = Ticketing::TicketType.all.map do |type|
+      { id: type.id, name: type.name }
+    end
+
     tickets = Ticketing::Ticket.where(date: dates).where("created_at != updated_at")
     response[:changed_tickets] = tickets.map do |ticket|
       {
