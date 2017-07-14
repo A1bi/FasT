@@ -15,30 +15,26 @@ class Api::BoxOfficeController < ApplicationController
 
     date = Ticketing::EventDate.find(info[:date])
 
-    if date.event.seating.bound_to_seats?
-      seating = NodeApi.seating_request("getChosenSeats", { clientId: info[:seatingId] }).body
-      if !seating[:ok]
+    bound_to_seats = date.event.seating.bound_to_seats?
+    if bound_to_seats
+      seats = NodeApi.get_chosen_seats(info[:seatingId])
+      if !seats
         response[:errors] << "Seating error"
         return render json: response
       end
-      seats = seating[:seats]
     end
 
     info[:tickets].each do |type_id, number|
       ticket_type = Ticketing::TicketType.find_by_id(type_id)
       next if !ticket_type || number < 1
 
-      if date.event.seating.bound_to_seats?
-        seat = date.event.seating.seats.find(seats.shift)
-      end
-
       number.times do
-        order.tickets.new({
+        ticket = order.tickets.new({
           type: ticket_type,
-          seat: seat,
           date: date,
           picked_up: true
         })
+        ticket.seat = date.event.seating.seats.find(seats.shift) if bound_to_seats
       end
     end
 
@@ -172,7 +168,7 @@ class Api::BoxOfficeController < ApplicationController
         (seats[reservation.date.id] ||= []) << reservation.seat.id
       end
     end
-    NodeApi.seating_request("setExclusiveSeats", { clientId: params[:seating_id], seats: seats }) if seats.any?
+    NodeApi.seating_request("setExclusiveSeats", { seats: seats }, params[:seating_id]) if seats.any?
     head :ok
   end
 

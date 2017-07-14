@@ -50,6 +50,15 @@ class NodeApi
     make_request("seating", info)
   end
 
+  def self.get_chosen_seats(clientId)
+    body = seating_request("getChosenSeats", {}, clientId).body
+    if !body[:ok]
+      nil
+    else
+      body[:seats]
+    end
+  end
+
   def self.update_seats(seats)
     seating_request("updateSeats", { seats: seats })
   end
