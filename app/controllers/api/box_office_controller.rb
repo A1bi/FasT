@@ -167,7 +167,7 @@ class Api::BoxOfficeController < ApplicationController
 
   def unlock_seats
     seats = {}
-    Ticketing::ReservationGroup.all.each do |reservation_group|
+    Ticketing::ReservationGroup.where.not(id: 8).each do |reservation_group|
       reservation_group.reservations.each do |reservation|
         (seats[reservation.date.id] ||= []) << reservation.seat.id
       end
