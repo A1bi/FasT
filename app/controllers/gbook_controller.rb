@@ -17,6 +17,23 @@ class GbookController < ApplicationController
     @entry = GbookEntry.new(entry_params)
 
     if @entry.save
+      begin
+        t_key = "gbook.push_notification." + (@entry.anonymous? ? "anonymous" : "author")
+        aps = {
+          alert: t(t_key, { author: @entry.author })
+        }
+        Ticketing::PushNotifications::Device.where(app: :stats).each do |device|
+          payload = {
+            aps: aps
+          }
+          payload[:aps][:sound] = "default" if device.settings[:sound_enabled]
+          device.push(payload)
+        end
+
+        GbookMailer.new_entry(@entry).deliver
+      rescue
+      end
+
       redirect_to gbook_entries_path
     else
       render :action => "new"

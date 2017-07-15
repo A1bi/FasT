@@ -8,6 +8,9 @@ de:
     btn_delete: "löschen"
   gbook:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein."
+    push_notification:
+      author: "Es wurde ein neuer Gästebucheintrag von „%{author}“ verfasst."
+      anonymous: "Es wurde ein neuer anonymer Gästebucheintrag verfasst."
   galleries:
     edit:
       is_slide:
@@ -202,6 +205,9 @@ de:
       subject: "Willkommen im Mitgliederbereich!"
     reset_password:
       subject: "Passwort zurücksetzen"
+  gbook_mailer:
+    new_entry:
+      subject: "Neuer Gästebucheintrag"
   order_mailer:
     confirmation:
       subject: "Ihre Bestellung"
