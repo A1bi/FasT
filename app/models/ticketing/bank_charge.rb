@@ -21,6 +21,10 @@ module Ticketing
       return if submission.present?
       super
     end
+    
+    def submitted?
+      submission.present?
+    end
 
     private
 

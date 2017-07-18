@@ -66,5 +66,10 @@ module Ticketing
     def enqueue_mailing(action, options = nil)
       Resque.enqueue(Mailer, id, action, options) if email.present?
     end
+    
+    def update_paid
+      super
+      self.paid = self.paid || (bank_charge.present? && !bank_charge.submitted?)
+    end
   end
 end

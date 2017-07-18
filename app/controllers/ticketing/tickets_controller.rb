@@ -54,7 +54,7 @@ module Ticketing
       ok = true
       bound_to_seats = @event.seating.bound_to_seats?
 
-      chosen_seats = NodeApi.get_chosen_seats(info[:seatingId]) if bound_to_seats
+      chosen_seats = NodeApi.get_chosen_seats(params[:seatingId]) if bound_to_seats
 
       if !bound_to_seats || (chosen_seats && @tickets.count == chosen_seats.count)
         date = Ticketing::EventDate.find(params[:date_id])
