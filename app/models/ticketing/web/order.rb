@@ -15,6 +15,13 @@ module Ticketing
     validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
 
     after_create_commit :send_confirmation
+    
+    def self.charges_to_submit(approved)
+      charge_payment
+        .includes(:billing_account, :bank_charge)
+        .where("ticketing_billing_accounts.balance < 0")
+        .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
+    end
 
     def send_pay_reminder
       enqueue_mailing(:pay_reminder)

@@ -11,7 +11,7 @@ module Ticketing
           other: find_unpaid_orders(false)
             .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash))
         },
-        unapproved: find_unsubmitted_charges(false)
+        unapproved: Web::Order.charges_to_submit(false)
       }
 
       @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
@@ -80,13 +80,7 @@ module Ticketing
     end
 
     def find_charges_to_submit
-      @unsubmitted_charges = find_unsubmitted_charges(true)
-    end
-
-    def find_unsubmitted_charges(approved)
-      find_unpaid_orders.includes(:bank_charge)
-        .where(pay_method: Ticketing::Web::Order.pay_methods[:charge])
-        .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
+      @unsubmitted_charges = Web::Order.charges_to_submit(true)
     end
 
     def find_unpaid_orders(web = true)

@@ -77,20 +77,15 @@
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if !@order.paid %>
-                  <% if !@order.charge_payment? %>
-                    <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
-                  <% end %>
-                  <% if @order.transfer_payment? %>
-                    <% if @order.email.present? %>
-                      <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
-                    <% end %>
-                  <% else %>
-                    <% if @order.bank_charge && !@order.bank_charge.approved %>
-                      <div><%= link_to "als geprüft markieren", orders_path(:approve_ticketing_order, @order), method: :patch %></div>
-                    <% end %>
+                  <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
+                  <% if @order.transfer_payment? && @order.email.present? %>
+                    <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
                   <% end %>
                 <% end %>
-                <% if @order.paid || @order.charge_payment? %>
+                <% if @order.bank_charge && !@order.bank_charge.approved %>
+                  <div><%= link_to "als geprüft markieren", orders_path(:approve_ticketing_order, @order), method: :patch %></div>
+                <% end %>
+                <% if @order.paid %>
                   <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } if @order.email.present? %></div>
                 <% end %>
               <% end %>
@@ -151,13 +146,14 @@
       <tbody>
         <tr>
           <td colspan="7" class="actions">
-            <%= select_tag :edit_action, options_for_select([
+            <% options = [
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
-              ["zum Weiterverkauf freigeben", :enable_resale, data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" }],
+              ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }, true],
               ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
               ["Kategorie umbuchen", :transfer, data: { path: orders_path(:edit_ticketing_order_tickets, @order), method: :get }],
               ["herunterladen", :transfer, data: { path: orders_path(:printable_ticketing_order_tickets, @order), method: :get }]
-            ]), disabled: true, name: nil %>
+            ].keep_if { |option| !option[3] || admin? } %>
+            <%= select_tag :edit_action, options_for_select(options), disabled: true, name: nil %>
             <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
             <%= submit_tag :ok, name: nil, disabled: true %>
           </td>
