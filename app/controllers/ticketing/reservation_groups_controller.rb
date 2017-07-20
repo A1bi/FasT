@@ -30,17 +30,19 @@ module Ticketing
       reservations = []
       ids = []
 
-      params.require(:seats).each do |date_id, seat_ids|
-        seat_ids.each do |seat_id|
-          r = @group.reservations.where(date_id: date_id, seat_id: seat_id).first_or_create
-          reservations << r
-          ids << r.id
+      ActiveRecord::Base.transaction do
+        params.require(:seats).each do |date_id, seat_ids|
+          seat_ids.each do |seat_id|
+            r = @group.reservations.where(date_id: date_id, seat_id: seat_id).first_or_create
+            reservations << r
+            ids << r.id
+          end
         end
-      end
 
-      removed = @group.reservations.where.not(id: ids)
-      reservations.concat(removed)
-      removed.destroy_all
+        removed = @group.reservations.where.not(id: ids)
+        reservations.concat(removed)
+        removed.destroy_all
+      end
 
       NodeApi.update_seats_from_records(reservations)
 

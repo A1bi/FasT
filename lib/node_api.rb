@@ -70,6 +70,6 @@ class NodeApi
         seats.deep_merge!({ record.date_id => Hash[[record.seat.node_hash(record.date_id)]] })
       end
     end
-    NodeApi.update_seats(seats) if seats.any?
+    update_seats(seats) if seats.any?
   end
 end
