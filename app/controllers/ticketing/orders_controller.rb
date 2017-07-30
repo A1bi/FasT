@@ -9,8 +9,12 @@ module Ticketing
     before_action :restrict_access
 
     def new
-      if !@_member.admin? && !@event.sale_started?
-        redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
+      if !@_member.admin?
+        if !@event.sale_started?
+          redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
+        elsif @event.sale_ended?
+          redirect_to root_path, alert: t("ticketing.orders.sale_ended", event: @event.name)
+        end
       end
       @max_tickets = 25
     end

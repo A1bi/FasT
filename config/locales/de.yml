@@ -74,6 +74,7 @@ de:
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
       created_billing: "Die Zahlung wurde verbucht."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
+      sale_ended: "Tickets zu „%{event}“ sind nicht mehr erhältlich."
       retail_access_denied: "Die angegebene Bestellung wurde nicht von dieser Vorverkaufsstelle aufgegeben und kann deshalb nicht eingesehen werden."
       pay_methods:
         charge: "SEPA-Lastschrift"

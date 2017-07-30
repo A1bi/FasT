@@ -1,6 +1,6 @@
 <% include_css "index" %>
 <% include_js "index" %>
-<% sale_started = Ticketing::Event.current.sale_started? %>
+<% on_sale = Ticketing::Event.current.on_sale? %>
 <% file = Rails.root.join("public", "uploads", "index_alert.json") %>
 <div class="index">
   <% if File.exists? file %>
@@ -12,10 +12,10 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index, sale_started] do %>
+  <% cache [:static, :index, on_sale] do %>
     <div class="teaser magdalena">
       <div class="links">
-        <%= link_to "Über das Stück", theater_magdalena_path %> | <%= link_to "Termine", dates_path %><% if sale_started %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+        <%= link_to "Über das Stück", theater_magdalena_path %> | <%= link_to "Termine", dates_path %><% if on_sale %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
       </div>
     </div>
     <div class="trenner"></div>

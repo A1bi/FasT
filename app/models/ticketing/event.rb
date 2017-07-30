@@ -2,7 +2,7 @@ module Ticketing
   class Event < BaseModel
     include Statistics
 
-    has_many :dates, class_name: 'EventDate'
+    has_many :dates, -> { order(:date) }, class_name: 'EventDate'
     belongs_to :seating
 
     def self.by_identifier(id)
@@ -19,6 +19,14 @@ module Ticketing
 
     def sale_started?
       sale_start.nil? || Time.now > sale_start
+    end
+
+    def sale_ended?
+      dates.last.date < Time.now
+    end
+
+    def on_sale?
+      sale_started? && !sale_ended?
     end
   end
 end
