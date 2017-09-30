@@ -160,12 +160,12 @@ class TicketsPDF < Prawn::Document
     end
 
     info = []
-    if ticket.type.price.zero?
+    if ticket.price.zero?
       info << [""]
       info << [ticket.type.name]
     else
       info << [ticket.type.name]
-      info << [number_to_currency(ticket.type.price)]
+      info << [number_to_currency(ticket.price)]
     end
 
     info[0] << t(:ticket)

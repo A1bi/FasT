@@ -132,7 +132,7 @@
               <% end %>
             </td>
             <td class="name"><%= ticket.type.name %></td>
-            <td class="amount"><%= number_to_currency ticket.type.price %></td>
+            <td class="amount"><%= number_to_currency ticket.price %></td>
             <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
             <% if ticket.seat.present? %>
               <td><%= ticket.seat.block.name %></td>
