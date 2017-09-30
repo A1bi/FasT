@@ -59,6 +59,22 @@ $shadowColor: black;
   }
 }
 
+.willibald {
+  $highlightColor: #006633;
+
+  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
+    color: $highlightColor;
+  }
+
+  .title {
+    padding-top: 50px !important;
+    
+    img {
+      width: 90%;
+    }
+  }
+}
+
 .magdalena {
   $highlightColor: #5e799a;
   $shadowColor: rgba(black, .5);

@@ -4,7 +4,7 @@ FasT::Application.routes.draw do
 
   # dates
   scope controller: :dates, path: "termine", as: :dates do
-    root action: :magdalena, as: ""
+    root action: :willibald, as: ""
   end
 
   # theater

@@ -24,6 +24,11 @@ class DatesController < ApplicationController
     @event_image = "theater/magdalena/index.jpg"
     @creative_work_url = "http://www.gerstenberg-verlag.de/index.php?id=detailansicht&url_ISBN=9783836957076"
   end
+  
+  def willibald
+    @event_image = "theater/willibald/index.jpg"
+    @creative_work_url = "http://www.willi-faehrmann.de/details-kinder/items/16.html"
+  end
 
   private
 
