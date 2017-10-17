@@ -30,13 +30,17 @@
   &.willibald {
     position: relative;
     background:url(asset_path("theater/willibald/index.png")) no-repeat;
-    background-size: 86%;
+    background-size: 75%;
     background-position: top center;
     width: 100%;
 
+    .info {
+      text-align: justify;
+      padding: 170px 25px 0px 25px;
+    }
+
     .links {
       text-align: center;
-      padding-top: 245px;
       font-family: 'Open Sans', sans-serif;
       font-size: 20px;
       font-weight: bold;

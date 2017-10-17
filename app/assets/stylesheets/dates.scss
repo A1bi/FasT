@@ -62,13 +62,13 @@ $shadowColor: black;
 .willibald {
   $highlightColor: #006633;
 
-  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
+  .hl, .hl .small, .prices table td.price, .dates td {
     color: $highlightColor;
   }
 
   .title {
-    padding-top: 50px !important;
-    
+    padding-top: 80px !important;
+
     img {
       width: 90%;
     }

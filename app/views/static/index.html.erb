@@ -14,8 +14,14 @@
   <% end %>
   <% cache [:static, :index, on_sale] do %>
     <div class="teaser willibald">
+      <div class="info">
+        <p><b>„In gefährlichen Zeiten braucht es einen starken Boss!“</b></p>
+        <p>Willibald, Meister im Dreikäsehochstemmen und stärkste Maus im Haus, nutzt die aufkommende Angst vor der Katze zur Machtübernahme. Der demokratisch gewählte Präsident wird abgesetzt. Von nun an sorgen Willibald und seine Getreuen für Ordnung im Mäuserudel. Es wird marschiert und pariert. Die neue Mäuseordnung wird jedoch gestört durch die weiße Lillimaus. Nicht genug, dass sie keinen anständigen grauen Pelz trägt, sie wagt es auch noch, Willibald zu widersprechen. Lillimaus wird zur Nichtmaus erklärt und in die Bibliothek verbannt. Dort findet eine Maus fast nichts zu fressen, doch Lillimaus entdeckt das Geheimnis der Bücher und lernt lesen.</p>
+        <p>Willi Fährmanns Parabel auf Faschismus und Diktatur mit deutlichen Bezügen zum Nationalsozialismus verarbeitet das Thema kindgerecht und doch mit Ernsthaftigkeit. Sein Plädoyer für Menschlichkeit und Gedankenfreiheit stand auf der Auswahlliste zum Deutschen Jugendliteraturpreis und ist in seiner Thematik aktueller denn je.<br>
+        Die Kinder- und Jugendgruppe der Freilichtbühne am schiefen Turm inszeniert den Jugendroman in einer eigenen Bühnenfassung. Diese ist geeignet für Menschen ab 6 Jahren.</p>
+      </div>
       <div class="links">
-        <%= link_to "Termine", dates_path %><% if on_sale %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+        – <%= link_to "Termine", dates_path %><% if on_sale %> – <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %> –
       </div>
     </div>
     <div class="trenner"></div>
