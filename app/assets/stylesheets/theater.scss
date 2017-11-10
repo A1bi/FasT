@@ -13,9 +13,19 @@
 
   table {
     tr {
-      td:first-child {
-        font-weight: bold;
-        width: 25%;
+      td {
+        vertical-align: top;
+
+        &:first-child {
+          font-weight: bold;
+          width: 25%;
+        }
+      }
+    }
+
+    &.others {
+      tr td {
+        padding-top: 10px;
       }
     }
   }
