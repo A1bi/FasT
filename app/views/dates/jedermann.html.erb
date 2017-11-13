@@ -1,6 +1,5 @@
 <% title "Termine – Sommernachtstheater 2013 – Jedermann"%>
 <% include_css "dates" %>
-<% include_js "spons" %>
 <% cache [:dates, @event, @ticket_types] do %>
   <div class="jedermann">
     Unser <b>Sommernachtstheater 2013 „<%= link_to "Jedermann", theater_jedermann_path, class: "shadow" %>“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
@@ -54,7 +53,5 @@
       <a name="hotline"></a>
       Info-Hotline: <b>(0 26 53) 28 27 09</b> <em class="small">(zum Ortstarif)</em>
     </div>
-    <div class="trenner"></div>
-    <%= render "spons", sponsors: [["lotto", "Lotto Stiftung Rheinland-Pfalz"], ["vg", "Verbandsgemeinde Kaisersesch"], ["fiat", "Auto-Gerhartz Illerich"], ["raiba", "Raiffeisenbank Kaisersesch-Kaifenheim eG"], ["spmm", "Sparkasse Mittelmosel"], ["wisolar", "Wi Solar"], ["stein", "Autohaus Stein"]] %>
   </div>
 <% end %>
