@@ -51,8 +51,8 @@ module Admin
 
     def find_groups
       @groups = [];
-      Members::Member.groups.each do |id, name|
-        @groups << [t("members.groups." + name.to_s), id]
+      Members::Member.groups.keys.each do |group|
+        @groups << [t("members.groups." + group), group]
       end
     end
 

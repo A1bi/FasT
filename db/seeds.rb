@@ -17,9 +17,9 @@ end
 10.times do |i|
   attrs = { password: "123456" }
   if i == 1
-    attrs.merge!({ first_name: "Albrecht", last_name: "Oster", email: "a.oster@online.de", group_name: :admin })
+    attrs.merge!({ first_name: "Albrecht", last_name: "Oster", email: "a.oster@online.de", group: :admin })
   else
-    attrs.merge!({ first_name: FFaker::NameDE.first_name, last_name: FFaker::NameDE.last_name, email: FFaker::Internet.free_email, group_name: :member })
+    attrs.merge!({ first_name: FFaker::NameDE.first_name, last_name: FFaker::NameDE.last_name, email: FFaker::Internet.free_email, group: :member })
   end
   member = Members::Member.new(attrs)
   member.save(perform_validations: false)

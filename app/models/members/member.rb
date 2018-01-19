@@ -16,28 +16,14 @@ class Members::Member < BaseModel
 
   validates_presence_of :first_name, :last_name
 
+  enum group: [:member, :admin]
+
   def nickname
     super.presence || self.first_name
   end
 
   def full_name
     self.first_name + " " + self.last_name
-  end
-
-  def group
-    self[:group] || 1
-  end
-
-  def group_name
-    self.class.groups[self.group] || :none
-  end
-
-  def group_name=(name)
-    self.group = self.class.groups.invert[name]
-  end
-
-  def admin?
-    self.group_name == :admin
   end
 
   def set_random_password
@@ -62,10 +48,6 @@ class Members::Member < BaseModel
   end
 
   private
-
-  def self.groups
-    {1 => :member, 2 => :admin}
-  end
 
   def self.random_hash
     SecureRandom.hex

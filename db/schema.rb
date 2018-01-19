@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624162514) do
+ActiveRecord::Schema.define(version: 20180119163716) do
 
   create_table "galleries", force: :cascade do |t|
     t.string "title"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20170624162514) do
     t.string "password_digest"
     t.string "first_name"
     t.string "last_name"
-    t.integer "group"
+    t.integer "group", default: 0
     t.datetime "last_login"
     t.datetime "created_at"
     t.datetime "updated_at"

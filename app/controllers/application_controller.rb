@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     if !@_member.id
       session[:goto_after_login] = request.original_url
       return redirect_to members_login_path, :flash => { :warning => t("application.login_required") }
-    elsif ![:admin, @restricted_to_group].include? @_member.group_name
+    elsif Members::Member.groups[@restricted_to_group] > Members::Member.groups[@_member.group]
       return redirect_to members_root_path, :alert => t("application.access_denied")
     end
   end

@@ -7,7 +7,7 @@ namespace :member do
     CSV.foreach(args[:filepath], :headers => true, :col_sep => ";") do |row|
       attrs = row.to_hash
       member = Member.new attrs, :without_protection => true
-      member.group_name = :member
+      member.group = :member
       member.birthday = Date.strptime(attrs['birthday'], "%m/%d/%Y") if attrs['birthday'].present?
       member.reset_password
       i = i+1 if member.save(:validate => false)
