@@ -36,7 +36,7 @@
 <% end %>
 <% cache [:members, :main, @files, @_member.admin?] do %>
   <div class="hl">Downloads</div>
-  <%= render "new_button", :action => "Neue Datei", :url => new_members_file_path, :admin_required => true %>
+  <%= render "new_button", :action => "Neues Dokument", :url => new_members_document_path, :admin_required => true %>
   <table class="rounded files">
     <%= content_tag_for :tr, @files do |file| %>
       <td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
@@ -48,7 +48,7 @@
       </td>
       <td class="download"><%= link_to "download", file.file.url, :target => "_blank" %></td>
       <%= content_tag :td, :class => :actionBtns do %>
-        <%= render "admin_actions", :obj => file, :delete_confirm => "diese Datei" %>
+        <%= render "admin_actions", :obj => [:members, file], :delete_confirm => "diese Datei" %>
       <% end if @_member.admin? %>
     <% end %>
   </table>

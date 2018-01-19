@@ -12,6 +12,18 @@
 
 ActiveRecord::Schema.define(version: 20180119163716) do
 
+  create_table "documents", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.integer "file_file_size"
+    t.datetime "file_updated_at"
+    t.integer "members_group", default: 0
+  end
+
   create_table "galleries", force: :cascade do |t|
     t.string "title"
     t.string "disclaimer"
@@ -34,17 +46,6 @@ ActiveRecord::Schema.define(version: 20180119163716) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
-  end
-
-  create_table "members_files", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "file_file_name"
-    t.string "file_content_type"
-    t.integer "file_file_size"
-    t.datetime "file_updated_at"
   end
 
   create_table "members_members", force: :cascade do |t|

@@ -36,6 +36,7 @@ de:
       member: "Mein Mitgliedskonto"
       logout: "Logout"
     admin:
+      documents: "Dokumente"
       members_members: "Mitgliederverwaltung"
       newsletters: "Newsletter"
     ticketing:

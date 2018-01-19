@@ -75,6 +75,7 @@ FasT::Application.routes.draw do
     end
 
     namespace :admin, path: "vorstand" do
+      resources :documents, path: "dokumente", except: [:show]
       resources :newsletters do
         member do
           post :deliver
@@ -216,7 +217,7 @@ FasT::Application.routes.draw do
         end
       end
       resources :dates, path: "termine", except: [:show]
-      resources :files, path: "dateien", except: [:index, :show]
+      resources :documents, path: "dokumente", except: [:index, :show]
 
       get "login" => "sessions#new", as: :login
       post "login" => "sessions#create"

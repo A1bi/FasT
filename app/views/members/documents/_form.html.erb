@@ -1,5 +1,5 @@
-<%= render "errors", :errors => (@file.errors.delete(:file); @file.errors) %>
-<%= form_for @file do |f| %>
+<%= render "errors", :errors => (@document.errors.delete(:file); @document.errors) %>
+<%= form_for [:members, @document] do |f| %>
   <table class="rounded">
     <tr>
       <td>Titel</td>

@@ -1,0 +1,26 @@
+<% title "Vorstandsbereich – Dokumente" %>
+<% include_css "members/main" %>
+<% cache [:admin, :documents, @documents] do %>
+  <div class="hl">Dokumente</div>
+  <p>Diese Dokumente sind nur für den Vorstand einsehbar.</p>
+  <%= render "new_button", :action => "Neues Dokument", :url => new_admin_document_path %>
+  <% if @documents.any? %>
+    <table class="rounded files">
+      <%= content_tag_for :tr, @documents do |doc| %>
+        <td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
+        <td>
+          <%= doc.title %>
+          <div class="small">
+            <%= doc.description %>
+          </div>
+        </td>
+        <td class="download"><%= link_to "download", doc.file.url, :target => "_blank" %></td>
+        <%= content_tag :td, :class => :actionBtns do %>
+          <%= render "admin_actions", :obj => [:admin, doc], :delete_confirm => "dieses Dokument" %>
+        <% end %>
+      <% end %>
+    </table>
+  <% else %>
+    <em>Keine Dokumente vorhanden.</em>
+  <% end %>
+<% end %>
