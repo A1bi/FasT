@@ -8,6 +8,7 @@
         <th class="id">#</th>
         <th>Nachname</th>
         <th>Vorname</th>
+        <th>Gruppe</th>
         <th class="actionBtns"></th>
       </tr>
     </thead>
@@ -17,6 +18,7 @@
           <td class="id"><%= member.id %></td>
           <td><%= member.last_name %></td>
           <td><%= member.first_name %></td>
+          <td><%= t("members.groups." + member.group) %></td>
           <td class="actionBtns">
             <%= render "admin_actions", :obj => [:admin, member], :delete_confirm => "dieses Mitglied" %>
           </td>
