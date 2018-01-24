@@ -36,7 +36,7 @@ gem 'rubyzip', '~> 1.2.0'
 gem 'roadie', '~> 3.2.1'
 gem 'roadie-rails', '~> 1.2.1'
 
-gem 'sepa_king', '~> 0.9.0'
+gem 'sepa_king', '~> 0.10.0'
 
 gem 'dalli', '~> 2.7.6'
 
@@ -57,17 +57,17 @@ gem 'record_tag_helper', '~> 1.0'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-gem 'unicorn', '~> 5.3.0'
+gem 'unicorn', '~> 5.4.0'
 
 group :development do
-  gem 'capistrano', '~> 3.8.0'
+  gem 'capistrano', '~> 3.10.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
-  gem 'capistrano-bundler', '~> 1.2.0', require: false
+  gem 'capistrano-bundler', '~> 1.3.0', require: false
   gem 'capistrano-rails', '~> 1.3.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-resque', '~> 0.2.2', require: false
   gem 'sqlite3', '~> 1.3.11'
-  gem 'ffaker', '~> 2.5.0'
+  gem 'ffaker', '~> 2.8.0'
 end
 
 group :staging, :production do

@@ -1,5 +1,5 @@
 set :application, 'FasT'
-set :repo_url, 'git@github.com:A1bi/FasT.git'
+set :repo_url, 'git@gitea.dyn.a0s.de:Albrecht/FasT.git'
 set :deploy_to, "$HOME/apps/FasT/#{fetch(:stage)}"
 
 append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml'
