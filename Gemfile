@@ -20,7 +20,7 @@ gem 'uglifier'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 6.0.0'
 
-gem 'paperclip', '~> 5.1.0'
+gem 'paperclip', '~> 5.2.0'
 
 gem 'bcrypt-ruby', '~> 3.1.5'
 
