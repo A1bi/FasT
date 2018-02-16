@@ -59,33 +59,36 @@ function togglePluralText(box, number) {
 
 if (!window.console) window.console = { log: function () {} };
 
-$(function () {
-  $.reject({
-    reject: {
-      msie: 8,
-      firefox: 5,
-      chrome: 13
-    },
-    display: ["chrome", "firefox"],
-    browserInfo: {
-      safari: {
-        text: "Apple Safari"
+Raven
+  .config('https://14c471d166ef460ea32f681e65427ae0@sentry.a0s.de/2')
+  .install()
+  .context(function () {
+    $.reject({
+      reject: {
+        msie: 8,
+        firefox: 5,
+        chrome: 13
+      },
+      display: ["chrome", "firefox"],
+      browserInfo: {
+        safari: {
+          text: "Apple Safari"
+        }
+      },
+      imagePath: "/images/jReject/",
+      header: "Auch Ihr Internetbrowser macht Theater",
+      paragraph1: "Leider verwenden Sie einen <b>veralteten Internetbrowser</b>, der unsere Seiten nicht korrekt darstellen und Sie zudem <b>großen Sicherheitsrisiken</b> aussetzen kann.",
+      paragraph2: "Installieren Sie sich einfach <b>schnell und kostenlos</b> die neueste Version von einem der folgenden Browser und schon ist das Problem behoben.",
+      close: false,
+      fadeInTime: 0,
+      fadeOutTime: 0,
+      beforeReject: function () {
+        if ($.os.name == "mac") this.display.push("safari");
+      },
+      afterReject: function () {
+        var inner = $("#jr_inner"), list = inner.find("ul");
+        inner.css("max-width", "").css("min-width", "");
+        list.css("margin-left", (inner.width() - list.width()) / 2);
       }
-    },
-    imagePath: "/images/jReject/",
-    header: "Auch Ihr Internetbrowser macht Theater",
-    paragraph1: "Leider verwenden Sie einen <b>veralteten Internetbrowser</b>, der unsere Seiten nicht korrekt darstellen und Sie zudem <b>großen Sicherheitsrisiken</b> aussetzen kann.",
-    paragraph2: "Installieren Sie sich einfach <b>schnell und kostenlos</b> die neueste Version von einem der folgenden Browser und schon ist das Problem behoben.",
-    close: false,
-    fadeInTime: 0,
-    fadeOutTime: 0,
-    beforeReject: function () {
-      if ($.os.name == "mac") this.display.push("safari");
-    },
-    afterReject: function () {
-      var inner = $("#jr_inner"), list = inner.find("ul");
-      inner.css("max-width", "").css("min-width", "");
-      list.css("margin-left", (inner.width() - list.width()) / 2);
-    }
+    });
   });
-});

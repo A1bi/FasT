@@ -17,4 +17,5 @@
 //= require jquery-ui/widgets/sortable
 //= require jReject
 //= require modernizr
+//= require raven-js
 //= require _main

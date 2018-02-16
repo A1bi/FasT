@@ -50,6 +50,8 @@ gem 'phony_rails', '~> 0.14.2'
 
 gem 'record_tag_helper', '~> 1.0'
 
+gem 'sentry-raven'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -84,4 +86,5 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-socket.io-client', '~> 1.4.6'
   gem 'rails-assets-spinjs', '~> 2.1.0'
   gem 'rails-assets-ol3-bower', '~> 3.17.1'
+  gem 'rails-assets-raven-js'
 end

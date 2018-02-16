@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   attr_writer :restricted_to_group
 
   before_action :authenticate_user
+  before_action :set_raven_context
   prepend_before_action :reset_goto
 
   protected
@@ -16,6 +17,14 @@ class ApplicationController < ActionController::Base
     end
     @_member ||= Members::Member.new
     Ticketing::LogEvent.set_logging_member(@_member)
+  end
+
+  def set_raven_context
+    Raven.user_context(
+      id: @_member.id,
+      email: @_member.email
+    ) if @_member
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 
   def restrict_access
