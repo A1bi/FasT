@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.1.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -20,7 +20,7 @@ gem 'uglifier'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 6.0.0'
 
-gem 'paperclip', '~> 5.2.0'
+gem 'paperclip', '~> 6.0.0'
 
 gem 'bcrypt-ruby', '~> 3.1.5'
 
@@ -85,6 +85,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-validator-js', '~> 1.3.0'
   gem 'rails-assets-socket.io-client', '~> 1.4.6'
   gem 'rails-assets-spinjs', '~> 2.1.0'
-  gem 'rails-assets-ol3-bower', '~> 3.17.1'
+  gem 'rails-assets-ol3-bower', '~> 3.18.2'
   gem 'rails-assets-raven-js'
 end
