@@ -15,21 +15,10 @@
   <%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
 
   <%= yield(:head) %>
-
-  <% cache [:application, :slides, Photo.slides] do %>
-    <script>
-      var slides = <%= Photo.slides.map { |photo| [photo.id, photo.image.original_filename, photo.updated_at.to_i] }.to_json.html_safe %>;
-    </script>
-  <% end if !@no_slides %>
 </head>
-<body<% if @no_slides %> class="noSlides"<% end %>>
+<body>
   <div id="wrapper">
     <div id="sky"></div>
-    <div id="slides">
-      <div class="slide finished"></div>
-      <div class="slide finished"></div>
-      <div class="fg"></div>
-    </div>
     <div id="left">
       <a href="/" id="logo">Freilichtbühne am schiefen Turm</a>
       <div id="navi">

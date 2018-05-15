@@ -31,9 +31,6 @@
         <%= div_for @gallery.photos do |photo| %>
           <% cache [:galleries, :edit, photo] do %>
             <%= image_tag photo.image.url(:thumb), alt: photo.text, class: "move_handle" %>
-            <%= content_tag :div, class: [:circle, :slide, (photo.slide? ? :isSlide : nil)], title: t(".is_slide")[photo.slide?] do %>
-              <%= link_to "Diashow", toggle_slide_gallery_photo_path(@gallery, photo), method: :patch %>
-            <% end %>
             <div class="circle number"></div>
             <div class="actionBtns">
               <%= render "admin_actions", obj: [@gallery, photo], delete_confirm: "dieses Foto" %>
