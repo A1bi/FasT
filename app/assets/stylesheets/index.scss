@@ -21,10 +21,21 @@
 
 .teaser {
   margin: 30px auto;
+  text-align: center;
 
   ul {
     padding: 0;
     list-style: none;
+  }
+
+  img {
+    margin: 20px;
+    width: 90%;
+  }
+
+  a {
+    font-size: 18px;
+    color: #B1CB22;
   }
 
   &.willibald {
@@ -60,10 +71,14 @@
 }
 
 .partner-lotto {
-  position: absolute;
+  position: relative;
   margin: 0px 10px 10px 10px;
   text-align: center;
   bottom: 0px;
+
+  &.adjusted .wrap {
+    position: absolute;
+  }
 
   .disclaimer {
     color: #cccccc;
@@ -80,5 +95,9 @@
 
   div {
     margin-top: 10px;
+  }
+
+  img {
+    width: 35%;
   }
 }
