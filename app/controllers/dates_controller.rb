@@ -30,6 +30,11 @@ class DatesController < ApplicationController
     @creative_work_url = "http://www.willi-faehrmann.de/details-kinder/items/16.html"
   end
 
+  def sommernachtstraum
+    # @event_image = "theater/magdalena/index.jpg"
+    @creative_work_url = "https://de.wikipedia.org/wiki/Ein_Sommernachtstraum"
+  end
+
   private
 
   def prepare_ticket_prices

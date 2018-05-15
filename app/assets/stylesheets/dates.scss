@@ -92,6 +92,23 @@ $shadowColor: black;
   }
 }
 
+.sommernachtstraum {
+  $highlightColor: #B1CB22;
+
+  .hl, .hl .small, .prices table td.price, .dates td {
+    color: $highlightColor;
+    text-shadow: none;
+  }
+
+  .title {
+    padding-top: 115px !important;
+
+    img {
+      width: 275px;
+    }
+  }
+}
+
 
 
 .container {

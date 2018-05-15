@@ -1,0 +1,69 @@
+<% title "Ein Sommernachtstraum – Termine" %>
+<% include_css "dates" %>
+<% cache [:dates, @event, @ticket_types, @event.on_sale?, @event.dates.map { |e| e.sold_out? }] do %>
+  <script type="application/ld+json">
+    <%= raw json_escape(structured_data.to_json) %>
+  </script>
+  <div class="sommernachtstraum">
+    Unser <b>Sommernachtstheater 2018 <%= link_to_if false, "„Ein Sommernachtstraum“", theater_magdalena_path %></b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+    <div class="container">
+      <div class="title">
+        <%= link_to_if false, image_tag("theater/sommernachtstraum/title.svg", alt: "Ein Sommernachtstraum"), theater_magdalena_path %>
+      </div>
+      <div class="box dates">
+        <div class="top">
+          Termine
+        </div>
+        <div class="con">
+          <table>
+            <% @event.dates.each do |date| %>
+              <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
+                <td class="point"></td>
+                <td class="day">
+                  <span class="line_through"><%= l date.date, format: "%A" %></span>
+                  <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
+                </td>
+                <td class="date">
+                  <span class="line_through"><%= l date.date, format: "%e. %B" %></span>
+                  <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
+                </td>
+              <% end %>
+            <% end %>
+          </table>
+          <p>Einlass jeweils eine Stunde vor Beginn.</p>
+        </div>
+      </div>
+    </div>
+    <div class="trenner"></div>
+    <div class="hl">
+      Ticketvorverkauf
+      <div class="small">ab <%= l @event.sale_start, format: "%e. %B" %></div>
+    </div>
+    <div class="prices">
+      <table class="rounded">
+        <% @ticket_types.each do |type| %>
+          <tr>
+            <td class="price"><%= number_to_currency(type.price) %></td>
+            <td><%= type.name %><div class="small"><%= type.info %></div></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <% if @event.on_sale? %>
+      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path, class: "hl order" %>
+      <div class="stores">
+        Alternativ erhalten Sie Ihre Tickets auch in folgenden <b>Vorverkaufsstellen</b>:
+        <p>Sportstudio (Kaisersesch), Buchhandlung Walgenbach (Kaisersesch), Buchhandlung Layaa-Laulhé (Cochem)</p>
+      </div>
+    <% end %>
+    <div class="trenner"></div>
+    <div class="hcen hotline">
+      <div class="hl">Sie haben Fragen?</div>
+      <br />Schauen Sie in unsere <%= link_to "häufig gestellten Fragen", info_path %> oder rufen Sie uns an:
+      <a name="hotline"></a>
+      <p>Info-Hotline: <b>(02653) 28 27 09</b> <em class="small">(zum Ortstarif)</em></p>
+    </div>
+    <div class="trenner"></div>
+    <%= render "restaurants" %>
+  </div>
+<% end %>
