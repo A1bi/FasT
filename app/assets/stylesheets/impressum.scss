@@ -1,55 +1,5 @@
 .impressum {
-  .contact {
-    width: 100%;
-
-    hr {
-      width: 90%;
-      height: 0px;
-      margin: 15px auto;
-      border: {
-        top: none;
-        bottom-color: #cccccc;
-      }
-    }
-
-    .board {
-      overflow: auto;
-
-      div {
-        float: left;
-
-        &:first-child {
-          padding-right: 50px;
-        }
-      }
-    }
-
-    .links {
-      margin-bottom: 5px;
-      color: #cccccc;
-
-      a {
-        color: #cccccc;
-      }
-    }
-  }
-
-  .webdesign {
-    float: right;
-    width: 37%;
-  }
-
   h3 {
-    margin-top: 0px;
-  }
-  h4 {
-    margin-top: 10px;
-    margin-bottom: 0px;
-  }
-
-  hr {
-    width: 85%;
-    margin: 20px auto;
-    border-bottom: 0;
+    margin-top: 30px;
   }
 }
