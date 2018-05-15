@@ -101,7 +101,7 @@ html {
   background: url(asset_path("sky.png")) no-repeat;
   z-index: -1;
   position: absolute;
-  top: 0px;
+  top: -54px;
   left: -30px;
 }
 
@@ -184,7 +184,7 @@ html {
      background: url(asset_path("content_top.png")) no-repeat;
      height: 55px;
      width: 100%;
-     margin-top: 95px;
+     margin-top: 30px;
 
     .login {
       position: absolute;
@@ -206,9 +206,9 @@ html {
 
   > .content {
     position: relative;
-     background: url(asset_path("content_bg.png")) repeat-y;
-     padding: 10px 35px 10px 33px;
-     min-height: 550px;
+    background: url(asset_path("content_bg.png")) repeat-y;
+    padding: 10px 50px 10px 50px;
+    min-height: 550px;
 
     ul.navi {
       margin: auto;
