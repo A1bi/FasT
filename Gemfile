@@ -81,7 +81,6 @@ end
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartjs', '~> 1.0.2'
-  gem 'rails-assets-jReject', '~> 1.1.4'
   gem 'rails-assets-validator-js', '~> 1.3.0'
   gem 'rails-assets-socket.io-client', '~> 2.1.0'
   gem 'rails-assets-spinjs', '~> 2.1.0'
