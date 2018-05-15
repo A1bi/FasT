@@ -1,4 +1,4 @@
-//= require socket.io-client/socket.io
+//= require socket.io-client/dist/socket.io.js
 //= require kineticjs
 
 function Seat(id, block, number, pos, delegate) {

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1.5'
+gem 'rails', '~> 5.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -33,16 +33,16 @@ gem 'prawn-qrcode', '~> 0.3.0'
 
 gem 'rubyzip', '~> 1.2.0'
 
-gem 'roadie', '~> 3.2.1'
-gem 'roadie-rails', '~> 1.2.1'
+gem 'roadie', '~> 3.3.0'
+gem 'roadie-rails', '~> 1.3.0'
 
-gem 'sepa_king', '~> 0.10.0'
+gem 'sepa_king', '~> 0.11.0'
 
 gem 'dalli', '~> 2.7.6'
 
 gem 'resque', '~> 1.27.4'
 
-gem 'groupdate', '~> 3.2.0'
+gem 'groupdate', '~> 4.0.0'
 
 gem 'auto_strip_attributes', '~> 2.0'
 
@@ -69,11 +69,11 @@ group :development do
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-resque', '~> 0.2.2', require: false
   gem 'sqlite3', '~> 1.3.11'
-  gem 'ffaker', '~> 2.8.0'
+  gem 'ffaker', '~> 2.9.0'
 end
 
 group :staging, :production do
-  gem 'mysql2', '~> 0.4.6'
+  gem 'mysql2', '~> 0.5.1'
 end
 
 # To use debugger
@@ -83,7 +83,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-chartjs', '~> 1.0.2'
   gem 'rails-assets-jReject', '~> 1.1.4'
   gem 'rails-assets-validator-js', '~> 1.3.0'
-  gem 'rails-assets-socket.io-client', '~> 1.4.6'
+  gem 'rails-assets-socket.io-client', '~> 2.1.0'
   gem 'rails-assets-spinjs', '~> 2.1.0'
   gem 'rails-assets-ol3-bower', '~> 3.18.2'
   gem 'rails-assets-raven-js'
