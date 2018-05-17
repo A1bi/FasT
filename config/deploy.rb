@@ -1,6 +1,6 @@
 set :application, 'FasT'
 set :repo_url, 'git@gitea.dyn.a0s.de:Albrecht/FasT.git'
-set :deploy_to, "$HOME/apps/FasT/#{fetch(:stage)}"
+set :deploy_to, '$HOME/FasT'
 
 append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/application.yml'
 append :linked_dirs, 'public/system', 'public/uploads'
@@ -12,7 +12,7 @@ set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
 
 # resque
-set :workers, { mailer_queue: 1 }
+set :workers, mailer_queue: 1
 set :resque_environment_task, true
 
 namespace :deploy do
