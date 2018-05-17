@@ -52,6 +52,10 @@ gem 'record_tag_helper', '~> 1.0'
 
 gem 'sentry-raven'
 
+gem 'bootsnap', require: false
+
+gem 'listen', '~> 3.0'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -70,6 +74,8 @@ group :development do
   gem 'capistrano-resque', '~> 0.2.2', require: false
   gem 'sqlite3', '~> 1.3.11'
   gem 'ffaker', '~> 2.9.0'
+  gem 'spring', '~> 2.0.0'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :staging, :production do

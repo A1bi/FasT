@@ -1,4 +1,4 @@
-FasT::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -28,4 +28,6 @@ FasT::Application.configure do
   config.to_prepare do
     Passbook.options.merge!(CONFIG[:passbook])
   end
+
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-FasT::Application.routes.draw do
+Rails.application.routes.draw do
 
   # dates
   scope controller: :dates, path: "termine", as: :dates do

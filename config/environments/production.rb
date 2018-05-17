@@ -1,5 +1,4 @@
-require File.expand_path('../shared_production', __FILE__)
+require_relative 'shared_production'
 
-FasT::Application.configure do
-
+Rails.application.configure do
 end
