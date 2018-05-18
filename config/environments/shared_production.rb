@@ -72,11 +72,7 @@ Rails.application.configure do
 
   config.eager_load = true
 
-  config.cache_store = :dalli_store, '/tmp/memcached.sock', {
-    namespace: Rails.application.class.parent_name + '/' + Rails.env,
-    expires_in: 2.days,
-    compress: true
-  }
+  config.cache_store = :mem_cache_store, '/tmp/memcached.sock'
 
   Passbook.options.merge!(CONFIG[:passbook])
 end

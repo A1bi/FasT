@@ -38,7 +38,7 @@ gem 'roadie-rails', '~> 1.3.0'
 
 gem 'sepa_king', '~> 0.11.0'
 
-gem 'dalli', '~> 2.7.6'
+gem 'dalli', '~> 2.7.8'
 
 gem 'resque', '~> 1.27.4'
 

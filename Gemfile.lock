@@ -307,7 +307,7 @@ DEPENDENCIES
   capistrano-resque (~> 0.2.2)
   capistrano-rvm (~> 0.1.1)
   capistrano3-unicorn
-  dalli (~> 2.7.6)
+  dalli (~> 2.7.8)
   ffaker (~> 2.9.0)
   groupdate (~> 4.0.0)
   icalendar (~> 2.4.0)
