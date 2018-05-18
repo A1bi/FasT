@@ -1,102 +1,6 @@
-$highlightColor: black;
-$shadowColor: black;
-
-.jedermann {
-  $highlightColor: #d10a11;
-  $shadowColor: #fff7b2;
-
-  .hl, .shadow, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-}
-
-.don_camillo {
-  $highlightColor: #f23233;
-  $shadowColor: #00900E;
-
-  .hl, .shadow, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-}
-
-.ladykillers {
-  $highlightColor: #CC003A;
-  $shadowColor: #00900E;
-
-  .hl, .shadow, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-}
-
-.drachenjungfrau {
-  $highlightColor: #006733;
-  $shadowColor: black;
-
-  .hl, .shadow, .prices table td.price, .dates td, a {
-    color: $highlightColor;
-  }
-}
-
-.alte_dame {
-  $highlightColor: #e6007e;
-  $shadowColor: rgba(black, .5);
-
-  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-}
-
-.alice_wunderland {
-  $highlightColor: #F07F3C;
-  $shadowColor: rgba(black, .5);
-
-  .hl, .hl .small, .shadow, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-
-  .title {
-    padding-top: 50px !important;
-  }
-}
-
-.willibald {
-  $highlightColor: #006633;
-
-  .hl, .hl .small, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-
-  .title {
-    padding-top: 80px !important;
-
-    img {
-      width: 90%;
-    }
-  }
-}
-
-.magdalena {
-  $highlightColor: #5e799a;
-  $shadowColor: rgba(black, .5);
-
-  .hl, .hl .small, .prices table td.price, .dates td {
-    color: $highlightColor;
-  }
-
-  .title {
-    padding-top: 90px !important;
-
-    img {
-      width: 270px;
-    }
-  }
-}
-
 .sommernachtstraum {
-  $highlightColor: #B1CB22;
-
   .hl, .hl .small, .prices table td.price, .dates td {
-    color: $highlightColor;
+    color: #B1CB22;
     text-shadow: none;
   }
 
@@ -108,8 +12,6 @@ $shadowColor: black;
     }
   }
 }
-
-
 
 .container {
   overflow: auto;

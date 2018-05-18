@@ -1,34 +1,8 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  before_action :prepare_ticket_prices
+  before_action :prepare_ticket_types
   before_action :prepare_event
-
-  def don_camillo
-  end
-
-  def jedermann
-  end
-
-  def alte_dame
-    @event_image = "theater/alice_wunderland/index_teaser.jpg"
-    @event_url = theater_alte_dame_url
-    @creative_work_url = "https://de.wikipedia.org/wiki/Der_Besuch_der_alten_Dame"
-  end
-
-  def alice_wunderland
-    @creative_work_url = "https://de.wikipedia.org/wiki/Alice_im_Wunderland"
-  end
-
-  def magdalena
-    @event_image = "theater/magdalena/index.jpg"
-    @creative_work_url = "http://www.gerstenberg-verlag.de/index.php?id=detailansicht&url_ISBN=9783836957076"
-  end
-  
-  def willibald
-    @event_image = "theater/willibald/index.jpg"
-    @creative_work_url = "http://www.willi-faehrmann.de/details-kinder/items/16.html"
-  end
 
   def sommernachtstraum
     # @event_image = "theater/magdalena/index.jpg"
@@ -37,8 +11,9 @@ class DatesController < ApplicationController
 
   private
 
-  def prepare_ticket_prices
-    @ticket_types = Ticketing::TicketType.exclusive(false).order("price DESC")
+  def prepare_ticket_types
+    @ticket_types = Ticketing::TicketType.exclusive(false).order(price: :desc)
+    puts Ticketing::TicketType.exclusive(false).count
   end
 
   def prepare_event
