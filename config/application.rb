@@ -60,6 +60,8 @@ module FasT
       Passbook.options[:path] = File.join("system", "passbook")
       Passbook.options[:full_path] = File.join(Rails.public_path, Passbook.options[:path])
     end
+    config.require_master_key = true
+
 
     config.action_mailer.default_url_options = CONFIG[:url_options]
     config.roadie.url_options = CONFIG[:url_options]

@@ -19,10 +19,10 @@ test:
   timeout: 5000
 
 production:
-  adapter: mysql
-  host: 127.0.0.1
-  pool: 5
+  adapter: mysql2
+  host: 'fd00::1'
+  database: fast_production
+  username: fast_production
+  password: '<%= Rails.application.credentials.database[:password] %>'
   timeout: 5000
-  database: FasT
-  username: dummy
-  password: dummy
+  pool: 5

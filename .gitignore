@@ -17,9 +17,10 @@
 /public/system
 /public/uploads
 
-/config/database.yml
-/config/secrets.yml
 /config/application.yml
 
 # Redis
 dump.rdb
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
