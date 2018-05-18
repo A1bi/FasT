@@ -8,6 +8,10 @@ module Passbook
   def self.options
     @options ||= {}
   end
+
+  def self.options=(options)
+    @options = options
+  end
 end
 
 require 'passbook/has_passbook_pass'

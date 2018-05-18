@@ -73,6 +73,4 @@ Rails.application.configure do
   config.eager_load = true
 
   config.cache_store = :mem_cache_store, '/tmp/memcached.sock'
-
-  Passbook.options.merge!(CONFIG[:passbook])
 end

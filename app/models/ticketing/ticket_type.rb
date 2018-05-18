@@ -5,7 +5,7 @@ class Ticketing::TicketType < BaseModel
     self[:price] || 0
   end
 
-  def self.exclusive(e = true)
-    where(exclusive: !!e)
+  def self.exclusive(exclusive)
+    where(exclusive: exclusive)
   end
 end

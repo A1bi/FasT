@@ -1,0 +1,6 @@
+passbook:
+  path: '<%= File.join(%w[system passbook]) %>'
+  full_path: '<%= File.join(Rails.public_path, %w[system passbook]) %>'
+  wwdr_ca_path: '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'
+  developer_cert_path:
+    pass.de.theater-kaisersesch.FasT: '/usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12'

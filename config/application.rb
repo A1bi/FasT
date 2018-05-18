@@ -4,10 +4,6 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups)
 
-CONFIG = YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
-CONFIG.merge!(CONFIG.fetch(Rails.env, {}))
-CONFIG.deep_symbolize_keys!
-
 module FasT
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -56,17 +52,17 @@ module FasT
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.assets.paths << Rails.root.join("lib", "assets", "javascripts")
 
-    config.to_prepare do
-      Passbook.options[:path] = File.join("system", "passbook")
-      Passbook.options[:full_path] = File.join(Rails.public_path, Passbook.options[:path])
-    end
     config.require_master_key = true
 
+    url_options = Settings.url_options.to_h
+    config.action_mailer.default_url_options = url_options
+    config.roadie.url_options = url_options
+    Rails.application.routes.default_url_options = url_options
 
-    config.action_mailer.default_url_options = CONFIG[:url_options]
-    config.roadie.url_options = CONFIG[:url_options]
-    Rails.application.routes.default_url_options = CONFIG[:url_options]
+    Paperclip.options[:command_path] = Settings.imagemagick_path
 
-    Paperclip.options[:command_path] = CONFIG[:imagemagick_path]
+    config.after_initialize do
+      Passbook.options = Settings.passbook
+    end
   end
 end

@@ -25,9 +25,5 @@ Rails.application.configure do
 
   config.eager_load = false
 
-  config.to_prepare do
-    Passbook.options.merge!(CONFIG[:passbook])
-  end
-
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

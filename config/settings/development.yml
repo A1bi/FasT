@@ -1,0 +1,7 @@
+url_options:
+  host: localhost
+  port: 4000
+  protocol: http
+secure_session_cookie?: false
+imagemagick_path: /opt/ImageMagick/bin/
+ticket_barcode_base_url: 'http://ao-imac.local:4000/tickets/'
