@@ -12,7 +12,7 @@
   </thead>
   <tbody class="hover">
     <% coupons.each do |coupon| %>
-      <% cache [:ticketing, :coupons, coupon] do %>
+      <% cache coupon do %>
         <tr data-path="<%= ticketing_coupon_path(coupon) %>">
           <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
           <td>

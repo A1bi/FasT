@@ -1,4 +1,4 @@
-<% cache_if (cache_key ||= nil).present?, [:ticketing, cache_key, orders, params[:type]] do %>
+<% cache_if (cache_key ||= nil).present?, [cache_key, orders, params[:type]] do %>
   <% orders = orders.all %>
   <table class="rounded entries details <%= local_assigns.fetch(:class, nil) %>">
     <thead>

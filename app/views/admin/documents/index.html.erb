@@ -1,6 +1,6 @@
 <% title "Vorstandsbereich – Dokumente" %>
 <% include_css "members/main" %>
-<% cache [:admin, :documents, @documents] do %>
+<% cache @documents do %>
   <div class="hl">Dokumente</div>
   <p>Diese Dokumente sind nur für den Vorstand einsehbar.</p>
   <%= render "new_button", :action => "Neues Dokument", :url => new_admin_document_path %>

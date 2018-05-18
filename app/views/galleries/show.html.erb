@@ -2,7 +2,7 @@
 <% include_css "galleries" %>
 <% include_js "galleries" %>
 <% content_for :head do %>
-  <% cache [:galleries, :show, @gallery] do %>
+  <% cache @gallery do %>
     <script>
       (function () {
         var g = new Gallery("<%= @gallery.id %>");

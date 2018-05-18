@@ -3,7 +3,7 @@
 <p><b>Hallo <%= @_member.nickname %>!</b></p>
 <p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Vorerst beschränkt sich dies auf unsere Probentermine und Downloads. In den kommenden Monaten werden wir diesen Bereich aber weiter ausbauen.</p>
 <div class="trenner"></div>
-<% cache [:members, :main, @dates, @_member.admin?] do %>
+<% cache [@dates, @_member.admin?] do %>
   <div class="hl">Termine</div>
   <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
   <table class="rounded dates">
@@ -34,7 +34,7 @@
   </div>
   <div class="trenner"></div>
 <% end %>
-<% cache [:members, :main, @files, @_member.admin?] do %>
+<% cache [@files, @_member.admin?] do %>
   <div class="hl">Downloads</div>
   <%= render "new_button", :action => "Neues Dokument", :url => new_members_document_path, :admin_required => true %>
   <table class="rounded files">

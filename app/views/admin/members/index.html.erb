@@ -1,5 +1,5 @@
 <% title "Mitgliederverwaltung" %>
-<% cache [:admin, :members, @members] do %>
+<% cache @members do %>
   <div class="hl">Mitgliederverwaltung</div>
   <%= render "new_button", :action => "neues Mitglied" %>
   <table class="rounded">

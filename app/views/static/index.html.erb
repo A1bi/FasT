@@ -4,7 +4,7 @@
 <% file = Rails.root.join("public", "uploads", "index_alert.json") %>
 <div class="index">
   <% if File.exists? file %>
-    <% cache [:static, :index, :alert, File.mtime(file).to_i] do %>
+    <% cache [:alert, File.mtime(file).to_i] do %>
       <% info = JSON.parse(File.read(file), symbolize_names: true) %>
       <div class="alert">
         <div><%= info[:title] %></div>
@@ -12,7 +12,7 @@
       </div>
     <% end %>
   <% end %>
-  <% cache [:static, :index, on_sale] do %>
+  <% cache on_sale do %>
     <div class="teaser">
       <div class="hl">Unser Sommernachtstheater 2018</div>
       <%= image_tag 'theater/sommernachtstraum/title.svg', alt: 'Ein Sommernachtstraum' %>

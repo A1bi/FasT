@@ -1,7 +1,7 @@
 <% title "Statistik" %>
 <% include_css "ticketing/statistics" %>
 <% include_js "ticketing/statistics" %>
-<% cache [:ticketing, :statistics, Ticketing::Ticket.all] do %>
+<% cache Ticketing::Ticket.all do %>
   <% stats = stats_for_current_event %>
   <div class="hl">Ticket-Statistik</div>
   <div class="stats">
@@ -45,7 +45,7 @@
     </table>
   </div>
 <% end %>
-<% cache [:ticketing, :statistics, Ticketing::Seat.all] do %>
+<% cache Ticketing::Seat.all do %>
   <div class="hl">Sitzauslastung</div>
   <% @dates.each do |date| %>
     <% @date = date %>

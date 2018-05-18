@@ -94,6 +94,6 @@
     <%= submit_tag "senden" %>
   </div>
 <% end %>
-<% cache [:ticketing, :coupons, @coupon, @coupon.log_events] do %>
+<% cache [@coupon, @coupon.log_events] do %>
   <%= render "application/ticketing/log_events", events: @coupon.log_events, scope: %i(ticketing coupons log_events) %>
 <% end %>

@@ -22,14 +22,14 @@
   </script>
 <% end %>
 <%= render "form" %>
-<% cache [:galleries, :edit, @gallery] do %>
+<% cache @gallery do %>
   <div class="edit box">
     <div class="top">Reihenfolge der Fotos bearbeiten</div>
     <div class="con">
       <%= render "new_button", action: "neues Foto", url: new_gallery_photo_path(@gallery) %>
       <div id="photos" data-sort-url="<%= sort_gallery_photos_path(@gallery) %>">
         <%= div_for @gallery.photos do |photo| %>
-          <% cache [:galleries, :edit, photo] do %>
+          <% cache photo, version: photo.updated_at do %>
             <%= image_tag photo.image.url(:thumb), alt: photo.text, class: "move_handle" %>
             <div class="circle number"></div>
             <div class="actionBtns">
