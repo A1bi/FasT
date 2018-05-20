@@ -8,8 +8,19 @@ function togglePluralText(box, number) {
   box.find(".number span").text(number);
 }
 
+function dissmissCookieConsent() {
+  document.cookie = 'cookie_consent_dismissed=1; expires=Sat, 22 May 2021 22:00:00 CEST +02:00';
+  var box = $(this).parent();
+  box.css('margin-top', -box.outerHeight());
+}
+
 if (!window.console) window.console = { log: function () {} };
 
 Raven
   .config('https://14c471d166ef460ea32f681e65427ae0@sentry.a0s.de/2')
-  .install();
+  .install()
+  .context(function () {
+    $(function () {
+      $('#cookie-consent button').click(dissmissCookieConsent);
+    });
+  });
