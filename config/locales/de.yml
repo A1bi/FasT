@@ -250,6 +250,8 @@ de:
           attributes:
             email:
               taken: "Diese e-mail-Adresse ist bereits beim Newsletter angemeldet."
+            privacy_terms:
+              accepted: "Bitte akzeptieren Sie unsere Datenschutzerklärung."
         members/member:
           attributes:
             email:

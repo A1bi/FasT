@@ -1,5 +1,5 @@
 <% title "Newsletter bearbeiten" %>
-<%= render "form" %>
+<%= render "form", text: 'Hier haben Sie die Möglichkeit, Angaben zur Ihrer Anmeldung bei unserem Newsletter zu bearbeiten oder stattdessen alle weiteren Mails abzubestellen.' %>
 <div class="hcen">
   <%= button_to "Newsletter abbestellen", newsletter_subscriber_path(token: @subscriber.token), method: :delete %>
 </div>

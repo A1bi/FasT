@@ -12,6 +12,8 @@ module Newsletter
               :uniqueness => { :case_sensitive => false },
               :email_format => true
 
+    validates :privacy_terms, acceptance: true
+
     def self.consented
       where.not(consented_at: nil)
     end
