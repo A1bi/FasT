@@ -1,5 +1,5 @@
+<% content_for :address do %>
 Sehr geehrte<% if @order.gender == 0 %> Frau<% else %>r Herr<% end %> <%= @order.last_name %>,
+<% end %>
 
-<%= yield %>
-
-Die Freilichtbühne am schiefen Turm Kaisersesch
+<%= render template: 'layouts/mailer' %>

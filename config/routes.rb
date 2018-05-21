@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     root action: :index
   end
 
+  direct(:eu_dispute_resolution) { 'https://ec.europa.eu/consumers/odr' }
+
   # resources
   scope path_names: { new: "neu", edit: "bearbeiten" } do
 

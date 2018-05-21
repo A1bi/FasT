@@ -5,41 +5,29 @@
   <title>Freilichtbühne am schiefen Turm e. V.</title>
   <style type="text/css">
     body {
-      background: #0869ed url(/images/mail/bg.png) repeat-x;
-      font-family: Arial;
+      background: white;
+      font-family: sans-serif;
+      font-size: 13px;
+      color: black;
     }
     a {
       text-decoration: none;
       color: #0064ec;
     }
-    table tr.top td {
-      font-weight: bold;
-      border-bottom-width: 2px;
-    }
-    #tab1 {
-      width: 100%;
-    }
-    #tab2 {
-      border-collapse: collapse;
-      padding: 0px;
-    }
-    #logoCell {
-      background: white;
-    }
-    #content {
-      background: white;
-      padding: 20px;
-    }
-    #content table {
+    table {
       margin: 20px auto;
       width: 90%;
       background: #dceffb;
       border-collapse: collapse;
     }
-    #content table td {
+    table td {
       border: 1px solid;
       border-color: #afd5f4;
       padding: 3px 10px;
+    }
+    table tr.top td {
+      font-weight: bold;
+      border-bottom-width: 2px;
     }
     #ticketsTable {
       border: 1px solid #cccccc;
@@ -63,16 +51,25 @@
       margin: 10px;
       font-weight: bold;
     }
-    .address {
-      padding-bottom: 15px;
+    .header {
+      text-align: center;
     }
     .signature {
-      padding-top: 15px;
+      font-weight: bold;
     }
-    .footer {
+    .content, .signature, .footer, .imprint {
+      margin-top: 20px;
+      padding-top: 5px;
+    }
+    .imprint {
       color: gray;
+      border-top: 1px solid gray;
+    }
+    .imprint, .imprint h2 {
       font-size: 12px;
-      padding-top: 30px;
+    }
+    .imprint h2 {
+      font-weight: bold;
     }
     .hcen {
       text-align: center;
@@ -80,26 +77,56 @@
   </style>
 </head>
 <body>
-  <table id="tab1">
-    <tr>
-      <td>
-        <table width="600" align="center" id="tab2">
-          <tr>
-            <td id="logoCell">
-              <%= image_tag "/images/mail/header.png", alt: "Freilichtbühne am schiefen Turm" %>
-            </td>
-          </tr>
-          <tr>
-            <td id="content">
-              <p class="address"><%= yield :address %></p>
-              <%= yield %>
-              <p class="signature">Die Freilichtbühne am schiefen Turm Kaisersesch</p>
-              <% if content_for? :footer %><p class="footer"><%= yield :footer %></div><% end %>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+  <div class="header">
+    <%= attached_image_tag('logo.jpg') %>
+  </div>
+  <p class="address">
+    <%= yield :address %>
+  </p>
+  <div class="content">
+    <%= yield %>
+  </div>
+  <p class="signature">
+    <%= render 'layouts/mailer_ending' %>
+  </p>
+  <% if content_for? :footer %>
+    <p class="footer">
+      <%= yield :footer %>
+    </div>
+  <% end %>
+  <div class="imprint">
+    <h2>Freilichtbühne am schiefen Turm e. V.</h2>
+    Mausbachstraße 11<br>
+    56759 Kaisersesch
+
+    <p>
+      Telefon: +49 2653 2827989<br>
+      e-mail: info@theater-kaisersesch.de
+    </p>
+
+    <p>
+      Registergericht: Amtsgericht Koblenz<br>
+      Registernummer: VR 20526
+    </p>
+
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE295892528</p>
+
+    <h2>Vertretungsberechtigter Vorstand:</h2>
+    <p>
+      1. Vorsitzender: Helmut Mattern<br>
+      2. Vorsitzender: Stefan Gasser
+    </p>
+
+    <p>
+      Plattform der EU-Kommission zur Online-Streitbeilegung: <%= link_to eu_dispute_resolution_url, eu_dispute_resolution_url %>
+    </p>
+
+    <p>Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.</p>
+
+    <p>
+      <%= link_to 'Impressum', impressum_url %> –
+      <%= link_to 'Datenschutzerklärung', privacy_url %>
+    </p>
+  </div>
 </body>
 </html>

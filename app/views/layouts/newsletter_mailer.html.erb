@@ -1,7 +1,7 @@
-<% content_for :address do %>
-Sehr geehrte<% if @subscriber.last_name.present? %><% if @subscriber.gender == 0 %> Frau<% else %>r Herr<% end %> <%= @subscriber.last_name %><% else %> Theaterfreundin, sehr geehrter Theaterfreund<% end %>,
-<% end %>
+<% content_for :address, render('layouts/newsletter_address') %>
+
 <% content_for :footer do %>
-Sie können diesen Newsletter jederzeit <%= link_to "abbestellen", edit_newsletter_subscriber_url(token: @subscriber.token) %>.
+Sollten Sie unseren Newsletter künftig nicht mehr erhalten wollen, so können Sie ihn jederzeit <%= link_to 'abbestellen', edit_newsletter_subscriber_url(token: @subscriber.token) %>.
 <% end %>
-<%= render template: "layouts/mailer" %>
+
+<%= render template: 'layouts/mailer' %>

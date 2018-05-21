@@ -18,7 +18,7 @@
           <td>
             Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
             <p><%= f.text_area :body_text, required: true, readonly: @newsletter.sent? %></p>
-            Die Freilichtbühne am schiefen Turm Kaisersesch
+            <%= render 'layouts/mailer_ending' %>
           </td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
           <td>
             Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
             <p><%= f.text_area :body_html, readonly: @newsletter.sent? %></p>
-            Die Freilichtbühne am schiefen Turm Kaisersesch
+            <%= render 'layouts/mailer_ending' %>
           </td>
         </tr>
         <% if !@newsletter.sent? %>
