@@ -60,9 +60,5 @@ module FasT
     Rails.application.routes.default_url_options = url_options
 
     Paperclip.options[:command_path] = Settings.imagemagick_path
-
-    config.after_initialize do
-      Passbook.options = Settings.passbook
-    end
   end
 end

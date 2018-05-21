@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
   attr_writer :restricted_to_group
 
   before_action :authenticate_user
