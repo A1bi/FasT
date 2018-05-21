@@ -76,7 +76,7 @@ class Api::OrdersController < ApplicationController
       if order.save
         begin
           if type == :web && params[:newsletter].present?
-            Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name)
+            Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name, privacy_terms: true)
           end
 
           options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }

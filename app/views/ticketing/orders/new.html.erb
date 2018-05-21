@@ -95,8 +95,8 @@
     <%= form_for :confirm do |f| %>
       <table class="rounded checkboxes form inner">
         <tr>
-          <td class="checkbox"><%= f.check_box :newsletter, checked: true %></td>
-          <td><%= f.label :newsletter do %>Ich möchte den kostenlosen Newsletter der Freilichtbühne am schiefen Turm erhalten, um alle Neuigkeiten rund um den Verein sofort zu erfahren.<% end %></td>
+          <td class="checkbox"><%= f.check_box :newsletter %></td>
+          <td><%= f.label :newsletter do %><%= render 'newsletter/privacy_terms' %><% end %></td>
         </tr>
       </table>
     <% end %>
