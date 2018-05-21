@@ -3,7 +3,7 @@ class Newsletter::Newsletter < BaseModel
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::AssetTagHelper
 
-  belongs_to :subscriber_list, required: true
+  belongs_to :subscriber_list
   has_many :images
 
   validates :subject, presence: true

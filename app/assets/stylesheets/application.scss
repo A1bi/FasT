@@ -351,12 +351,13 @@ html {
   button {
     display: block;
     width: 16%;
-    padding: 10px 0;
+    padding: 8px 0;
     float: right;
     background: #0064ec;
     color: white;
     font-size: 13px;
     font-weight: bold;
+    border: 0;
     cursor: pointer;
 
     &:hover {

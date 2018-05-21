@@ -3,7 +3,7 @@ module Newsletter
     include RandomUniqueAttribute
 
     has_random_unique_token :token
-    belongs_to :subscriber_list, required: true
+    belongs_to :subscriber_list
 
     auto_strip_attributes :last_name, squish: true
 

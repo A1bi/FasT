@@ -3,7 +3,7 @@ module Ticketing
     extend ActiveSupport::Concern
 
     included do
-      belongs_to :cancellation, autosave: true
+      belongs_to :cancellation, optional: true, autosave: true
     end
 
     def cancel(reason)
