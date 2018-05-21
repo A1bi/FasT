@@ -3,6 +3,7 @@ module Newsletter
     include RandomUniqueAttribute
 
     has_random_unique_token :token
+    belongs_to :subscriber_list, required: true
 
     auto_strip_attributes :last_name, squish: true
 
@@ -10,5 +11,18 @@ module Newsletter
               :presence => true,
               :uniqueness => { :case_sensitive => false },
               :email_format => true
+
+    def self.consented
+      where.not(consented_at: nil)
+    end
+
+    def consented?
+      consented_at.present?
+    end
+
+    def consent!
+      self.consented_at = Time.now
+      save
+    end
   end
 end

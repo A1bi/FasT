@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119163716) do
+ActiveRecord::Schema.define(version: 2018_05_21_105047) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -80,6 +80,14 @@ ActiveRecord::Schema.define(version: 20180119163716) do
     t.datetime "sent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "subscriber_list_id", default: 1, null: false
+    t.index ["subscriber_list_id"], name: "index_newsletter_newsletters_on_subscriber_list_id"
+  end
+
+  create_table "newsletter_subscriber_lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "newsletter_subscribers", force: :cascade do |t|
@@ -89,6 +97,9 @@ ActiveRecord::Schema.define(version: 20180119163716) do
     t.datetime "updated_at"
     t.integer "gender"
     t.string "last_name"
+    t.integer "subscriber_list_id", default: 1, null: false
+    t.datetime "consented_at"
+    t.index ["subscriber_list_id"], name: "index_newsletter_subscribers_on_subscriber_list_id"
   end
 
   create_table "passbook_devices", force: :cascade do |t|

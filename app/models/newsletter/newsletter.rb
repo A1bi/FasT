@@ -1,9 +1,13 @@
-class Newsletter::Newsletter < ActiveRecord::Base
+class Newsletter::Newsletter < BaseModel
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::AssetTagHelper
 
+  belongs_to :subscriber_list, required: true
   has_many :images
+
+  validates :subject, presence: true
+  validates :body_text, presence: true
 
   IMAGE_REGEXP = /%%bild_(\d+)%%/
 
