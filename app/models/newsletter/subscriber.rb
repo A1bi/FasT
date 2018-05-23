@@ -14,16 +14,16 @@ module Newsletter
 
     validates :privacy_terms, acceptance: true
 
-    def self.consented
-      where.not(consented_at: nil)
+    def self.confirmed
+      where.not(confirmed_at: nil)
     end
 
-    def consented?
-      consented_at.present?
+    def confirmed?
+      confirmed_at.present?
     end
 
-    def consent!
-      self.consented_at = Time.now
+    def confirm!
+      self.confirmed_at = Time.now
       save
     end
   end

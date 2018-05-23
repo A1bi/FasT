@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_105047) do
     t.integer "gender"
     t.string "last_name"
     t.integer "subscriber_list_id", default: 1, null: false
-    t.datetime "consented_at"
+    t.datetime "confirmed_at"
     t.index ["subscriber_list_id"], name: "index_newsletter_subscribers_on_subscriber_list_id"
   end
 
