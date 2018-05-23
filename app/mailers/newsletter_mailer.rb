@@ -1,6 +1,7 @@
 class NewsletterMailer < BaseMailer
-  def subscribed(subscriber)
+  def confirmation_instructions(subscriber)
     @subscriber = subscriber
+    @hide_unsubscribe_link = true
     mail to: subscriber.email
   end
 

@@ -5,7 +5,7 @@ class NewsletterController < ApplicationController
     @subscriber = Newsletter::Subscriber.new(newsletter_params)
     if @subscriber.save
       flash.notice = t("newsletter.subscriber.created")
-      NewsletterMailer.subscribed(@subscriber).deliver
+      NewsletterMailer.confirmation_instructions(@subscriber).deliver
       redirect_to root_path
     else
       render :new
@@ -18,6 +18,11 @@ class NewsletterController < ApplicationController
   def update
     @subscriber.update_attributes(newsletter_params)
     flash.notice = t("application.saved_changes")
+    redirect_to root_path
+  end
+
+  def confirm
+    flash.notice = t('newsletter.subscriber.confirmed') if @subscriber.confirm!
     redirect_to root_path
   end
 

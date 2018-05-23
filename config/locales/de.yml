@@ -22,7 +22,8 @@ de:
       true: "Das Foto wurde zur Diashow hinzugefügt."
   newsletter:
     subscriber:
-      created: "Sie haben sich erfolgreich zum Newsletter angemeldet."
+      created: "Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben."
+      confirmed: "Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt."
       destroyed: "Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht."
   admin:
     members:
@@ -224,8 +225,8 @@ de:
     resend_tickets:
       subject: "Ihre Tickets"
   newsletter_mailer:
-    subscribed:
-      subject: "Ihre Anmeldung zum Newsletter"
+    confirmation_instructions:
+      subject: "Bitte bestätigen Sie Ihre Anmeldung zum Newsletter"
   activerecord:
     errors:
       messages:

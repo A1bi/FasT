@@ -72,8 +72,8 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :newsletter_subscriber, controller: :newsletter, path: :newsletter, only: [:create, :update, :destroy] do
-      get :edit
+    resource :newsletter_subscriber, controller: :newsletter, path: :newsletter, only: [:create, :edit, :update, :destroy] do
+      get :confirm
     end
 
     namespace :admin, path: "vorstand" do
