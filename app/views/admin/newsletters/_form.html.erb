@@ -32,6 +32,10 @@
             <%= render 'layouts/mailer_ending' %>
           </td>
         </tr>
+        <tr>
+          <td>Empfängergruppe:</td>
+          <td><%= f.select :subscriber_list_id, options_for_select(@subscriber_list.map { |list| [subscriber_list_with_count(list), list.id] }, selected: @newsletter.subscriber_list_id) %></td>
+        </tr>
         <% if !@newsletter.sent? %>
           <tr>
             <td>Vorschau verschicken an:</td>

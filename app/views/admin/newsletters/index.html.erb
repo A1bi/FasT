@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th>Betreff</th>
+        <th>Empfängergruppe</th>
         <th>gesendet</th>
         <th class="actionBtns"></th>
       </tr>
@@ -14,6 +15,7 @@
       <% @newsletters.each do |letter| %>
         <tr>
           <td><%= link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter) %></td>
+          <td><%= subscriber_list_with_count(letter.subscriber_list) %></td>
           <td>
             <% if letter.sent.present? %>
               <%= l letter.sent, format: "%d. %B %Y um %H.%M Uhr" %>
