@@ -11,6 +11,10 @@ class Newsletter::Newsletter < BaseModel
 
   IMAGE_REGEXP = /%%bild_(\d+)%%/
 
+  def recipients
+    subscriber_list.subscribers
+  end
+
   def body_text_final
     body_text.gsub(IMAGE_REGEXP, '')
   end
