@@ -55,6 +55,8 @@ module FasT
     config.require_master_key = true
 
     url_options = Settings.url_options.to_h
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = Rails.application.credentials.smtp
     config.action_mailer.default_url_options = url_options
     config.roadie.url_options = url_options
     Rails.application.routes.default_url_options = url_options
