@@ -4,7 +4,7 @@ class Newsletter::Newsletter < BaseModel
   include ActionView::Helpers::AssetTagHelper
 
   has_and_belongs_to_many :subscriber_lists
-  has_many :subscribers, ->{ confirmed }, as: :recipients, through: :subscriber_lists
+  has_many :subscribers, ->{ confirmed }, through: :subscriber_lists
   has_many :images
 
   alias_attribute :recipients, :subscribers
