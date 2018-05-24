@@ -3,17 +3,16 @@ class Newsletter::Newsletter < BaseModel
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::AssetTagHelper
 
-  belongs_to :subscriber_list
+  has_and_belongs_to_many :subscriber_lists
+  has_many :subscribers, ->{ confirmed }, as: :recipients, through: :subscriber_lists
   has_many :images
+
+  alias_attribute :recipients, :subscribers
 
   validates :subject, presence: true
   validates :body_text, presence: true
 
   IMAGE_REGEXP = /%%bild_(\d+)%%/
-
-  def recipients
-    subscriber_list.subscribers
-  end
 
   def body_text_final
     body_text.gsub(IMAGE_REGEXP, '')

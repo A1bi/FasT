@@ -80,8 +80,13 @@ ActiveRecord::Schema.define(version: 2018_05_21_105047) do
     t.datetime "sent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "subscriber_list_id", default: 1, null: false
-    t.index ["subscriber_list_id"], name: "index_newsletter_newsletters_on_subscriber_list_id"
+  end
+
+  create_table "newsletter_newsletters_subscriber_lists", id: false, force: :cascade do |t|
+    t.integer "newsletter_id"
+    t.integer "subscriber_list_id"
+    t.index ["newsletter_id"], name: "index_newsletter_newsletters_subscriber_lists_on_letter_id"
+    t.index ["subscriber_list_id"], name: "index_newsletter_newsletters_subscriber_lists_on_list_id"
   end
 
   create_table "newsletter_subscriber_lists", force: :cascade do |t|

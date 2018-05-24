@@ -34,7 +34,14 @@
         </tr>
         <tr>
           <td>Empfängergruppe:</td>
-          <td><%= f.select :subscriber_list_id, options_for_select(@subscriber_list.map { |list| [subscriber_list_with_count(list), list.id] }, selected: @newsletter.subscriber_list_id) %></td>
+          <td>
+            <%= f.collection_check_boxes(:subscriber_list_ids, @subscriber_lists, :id, :name) do |b| %>
+              <%= b.label(class: "check_box") do %>
+                <%= b.check_box %>
+                <%= subscriber_list_with_count(b.object) %>
+              <% end %>
+            <% end %>
+          </td>
         </tr>
         <% if !@newsletter.sent? %>
           <tr>

@@ -15,7 +15,12 @@
       <% @newsletters.each do |letter| %>
         <tr>
           <td><%= link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter) %></td>
-          <td><%= subscriber_list_with_count(letter.subscriber_list) %></td>
+          <td>
+            <% letter.subscriber_lists.each do |list| %>
+              <div><%= subscriber_list_with_count(list) %></div>
+            <% end %>
+            <div><b>Gesamt <%= letter.subscribers.count %> Empfänger</b></div>
+          </td>
           <td>
             <% if letter.sent.present? %>
               <%= l letter.sent, format: "%d. %B %Y um %H.%M Uhr" %>
