@@ -2,7 +2,7 @@ module Admin
   class NewslettersController < BaseController
     before_action :find_newsletter, only: [:show, :edit, :update, :destroy, :deliver]
     before_action :prepare_new_newsletter, :only => [:new, :create]
-    before_action :prepare_subscriber_list, :only => [:new, :edit]
+    before_action :prepare_subscriber_list, :only => [:new, :edit, :show]
     before_action :redirect_if_sent, only: [:edit, :update, :deliver, :destroy]
     before_action :update_newsletter, only: [:create, :update]
 
