@@ -60,7 +60,7 @@ module Admin
       @newsletter.assign_attributes(params.require(:newsletter_newsletter).permit(:subject, :body_html, :body_text, subscriber_list_ids: []))
       @newsletter.save
 
-      if params[:preview_email].present?
+      if params[:send_preview_email].present? && params[:preview_email].present?
         Resque.enqueue(NewsletterMailingJob, @newsletter.id, params[:preview_email])
 
         flash.notice = t("admin.newsletters.preview_sent")
