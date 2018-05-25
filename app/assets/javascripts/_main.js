@@ -16,8 +16,20 @@ function dissmissCookieConsent() {
 
 if (!window.console) window.console = { log: function () {} };
 
+var environment = 'production';
+if (location.href.indexOf('staging') > -1) {
+  environment = 'staging';
+} else if (location.href.indexOf('localhost') > -1) {
+  environment = 'development';
+}
+
 Raven
-  .config('https://14c471d166ef460ea32f681e65427ae0@sentry.a0s.de/2')
+  .config('https://1ba66cdff88948a8a0784eaeb89c5dc2@sentry.a0s.de/2', {
+    environment: environment,
+    shouldSendCallback: function () {
+      return environment !== 'development';
+    }
+  })
   .install()
   .context(function () {
     $(function () {
