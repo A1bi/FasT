@@ -9,7 +9,7 @@ function togglePluralText(box, number) {
 }
 
 function dissmissCookieConsent() {
-  document.cookie = 'cookie_consent_dismissed=1; expires=Sat, 22 May 2021 22:00:00 CEST +02:00';
+  document.cookie = 'cookie_consent_dismissed=1; expires=Sat, 22 May 2021 22:00:00 CEST +02:00; path=/';
   var box = $(this).parent();
   box.css('margin-top', -box.outerHeight());
 }
