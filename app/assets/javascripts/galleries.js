@@ -27,10 +27,10 @@ function Gallery(g) {
     $(".bar .desc").html(curPic.text);
 
     var link = $('#download-link a');
-    if (!downloadPath) {
-      downloadPath = link.attr('href');
+    if (link.length) {
+      downloadPath = downloadPath || link.attr('href');
+      link.attr('href', downloadPath.replace('-id-', curPic.id));
     }
-    link.attr('href', downloadPath.replace('-id-', curPic.id));
   }
 
   var getIndex = function (direction) {
