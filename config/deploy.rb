@@ -25,7 +25,7 @@ end
 namespace :rails do
   task :console do
     on roles(:app), primary: true do |host|
-      cmd = "cd #{fetch(:deploy_to)}/current && #{SSHKit.config.command_map[:bundle]} exec rails console #{fetch(:stage)}"
+      cmd = "cd #{fetch(:deploy_to)}/current && #{SSHKit.config.command_map[:bundle]} exec rails c -e #{fetch(:stage)}"
       exec "ssh -l #{host.user} #{host.hostname} -p #{host.port || 22} -t '#{cmd}'"
     end
   end

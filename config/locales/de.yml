@@ -314,6 +314,8 @@ de:
         unit: "€"
         separator: ","
         delimiter: "."
+    format:
+      delimiter: "."
   i18n:
     transliterate:
       rule:

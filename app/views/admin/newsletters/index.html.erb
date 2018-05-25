@@ -19,7 +19,7 @@
             <% letter.subscriber_lists.each do |list| %>
               <div><%= subscriber_list_with_count(list) %></div>
             <% end %>
-            <div><b>Gesamt <%= letter.subscribers.count %> Empfänger</b></div>
+            <div><b>Gesamt <%= number_with_delimiter letter.subscribers.count %> Empfänger</b></div>
           </td>
           <td>
             <% if letter.sent.present? %>

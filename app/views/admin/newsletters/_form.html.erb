@@ -36,10 +36,12 @@
           <td>Empfängergruppe:</td>
           <td>
             <%= f.collection_check_boxes(:subscriber_list_ids, @subscriber_lists, :id, :name) do |b| %>
-              <%= b.label(class: "check_box") do %>
-                <%= b.check_box %>
-                <%= subscriber_list_with_count(b.object) %>
-              <% end %>
+              <div>
+                <%= b.label(class: "check_box") do %>
+                  <%= b.check_box %>
+                  <%= subscriber_list_with_count(b.object) %>
+                <% end %>
+              </div>
             <% end %>
           </td>
         </tr>
