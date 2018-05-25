@@ -15,8 +15,7 @@ module Newsletter
     validates :privacy_terms, acceptance: true
 
     def self.confirmed
-      all
-      # where.not(confirmed_at: nil)
+      where.not(confirmed_at: nil)
     end
 
     def confirmed?

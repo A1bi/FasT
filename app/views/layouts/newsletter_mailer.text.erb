@@ -1,7 +1,7 @@
 <% content_for :address, render('layouts/newsletter_address') %>
 
 <% content_for :footer do %>
-<% if @subscriber.confirmed? %>Sie erhalten diesen Newsletter, da Sie sich zu unserem Newsletter angemeldet hatten. <% end %>Sollten Sie unseren Newsletter künftig nicht mehr erhalten wollen, so können Sie ihn jederzeit über folgenden Link abbestellen: <%= edit_newsletter_subscriber_url(token: @subscriber.token) %>
+<% if @subscriber.confirmed? %>Sie erhalten diese E-Mail, da Sie sich zu unserem Newsletter angemeldet hatten. <% end %>Sollten Sie unseren Newsletter künftig nicht mehr erhalten wollen, so können Sie ihn jederzeit über folgenden Link abbestellen: <%= edit_newsletter_subscriber_url(token: @subscriber.token) %>
 <% end unless @hide_unsubscribe_link&.present? %>
 
 <%= render template: 'layouts/mailer' %>
