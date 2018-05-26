@@ -33,38 +33,22 @@
     width: 90%;
   }
 
-  a {
-    font-size: 18px;
+  .links {
+    text-align: center;
     color: #B1CB22;
-  }
-
-  &.willibald {
-    position: relative;
-    background:url(asset_path("theater/willibald/index.png")) no-repeat;
-    background-size: 75%;
-    background-position: top center;
-    width: 100%;
-
-    .info {
-      text-align: justify;
-      padding: 170px 25px 0px 25px;
+    font: {
+      family: 'Ovo', serif;
+      size: 22px;
+      weight: bold;
     }
 
-    .links {
-      text-align: center;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 20px;
-      font-weight: bold;
-      color: #006633;
+    a {
+      padding: 0px 7px;
+      color: inherit;
+      text-decoration: none;
 
-      a {
-        padding: 0px 7px;
-        color: #006633;
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }

@@ -16,7 +16,11 @@
     <div class="teaser">
       <div class="hl">Unser Sommernachtstheater 2018</div>
       <%= image_tag 'theater/sommernachtstraum/title.svg', alt: 'Ein Sommernachtstraum' %>
-      <div><%= link_to "Termine und Informationen", dates_path %></div>
+      <div class="links">
+        <%= link_to "Über das Stück", theater_sommernachtstraum_path %> |
+        <%= link_to "Termine", dates_path %>
+        <% if on_sale %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+      </div>
     </div>
     <div class="trenner"></div>
     <%= render "newsletter/form" %>
