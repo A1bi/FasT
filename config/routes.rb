@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get "die-drachenjungfrau", action: :drachenjungfrau, as: :drachenjungfrau
     get "der-besuch-der-alten-dame", action: :alte_dame, as: :alte_dame
     get "magdalena-himmelstürmerin", action: :magdalena, as: :magdalena
+    get "ein-sommernachtstraum", action: :sommernachtstraum, as: :sommernachtstraum
   end
 
   # info

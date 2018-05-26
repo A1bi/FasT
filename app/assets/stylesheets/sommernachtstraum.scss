@@ -1,0 +1,65 @@
+@import "theater";
+
+$regularColor: white;
+$highlightColor: #b1cb22;
+
+#content {
+  > .top {
+    background: url(asset_path("theater/sommernachtstraum/content_top.png")) no-repeat;
+    height: 447px;
+  }
+
+  > .content {
+    background: url(asset_path("theater/sommernachtstraum/content_bg.png")) repeat-y;
+    padding: 1px 50px;
+    min-height: 0px;
+    color: white;
+  }
+
+  > .bottom {
+    background: url(asset_path("theater/sommernachtstraum/content_bottom.png")) no-repeat;
+    height: 33px;
+  }
+}
+
+.info {
+  margin-top: -40px;
+  color: $regularColor;
+  line-height: 1.5em;
+  font: {
+    size: 16px;
+    family: 'Ovo', sans-serif;
+  }
+  text-align: justify;
+
+  .title {
+    text-align: center;
+    padding-left: 150px;
+    padding-bottom: 30px;
+
+    .highlight {
+      font-size: 34px;
+    }
+  }
+
+  h2, a, .highlight {
+    color: $highlightColor;
+    font: {
+      variant: small-caps;
+      weight: bold;
+    }
+  }
+
+  a {
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: 35px 0px 15px -15px;
+    font: {
+      size: 26px;
+      weight: bold;
+    }
+  }
+}
