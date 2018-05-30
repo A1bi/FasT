@@ -10,7 +10,7 @@ module Passbook
 
         after_save :save_passbook_pass
 
-        include Passbook::HasPassbookPass::LocalInstanceMethods
+        include LocalInstanceMethods
       end
     end
 

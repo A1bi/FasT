@@ -52,20 +52,8 @@ module Ticketing
       !!checkins.last.try(:in)
     end
 
-    def signed_info(additional = nil)
-      if !@signed_info
-        info = {
-          ti: id,
-          no: number.to_s,
-          da: date.id,
-          ty: type_id,
-          se: seat ? seat.id : nil
-        }
-        @signed_info = SigningKey.random_active.sign(info)
-      end
-      signed = @signed_info
-      signed = signed + "--" + additional.to_s if additional
-      signed
+    def signed_info(medium = nil)
+      SigningKey.random_active.sign_ticket(self, medium)
     end
 
     def api_hash(details = [])

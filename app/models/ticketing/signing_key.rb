@@ -18,21 +18,38 @@ module Ticketing
       where(active: true).offset(rand(count)).first
     end
 
-    def sign(data)
-      @verifier.generate({ k: id, d: data }).tr("+/=", "~_,")
+    def sign_ticket(ticket, medium = nil)
+      ticket_data = Ticketing::TicketBinary.from_ticket(ticket, signing_key: self, medium: medium)
+      signature = generate_digest(ticket_data.to_binary_s)
+      data = Ticketing::SignedTicketBinary.new(ticket: ticket_data, signature: signature)
+      self.class.encode_data(data.to_binary_s)
     end
 
-    def self.verify(signed)
-      signed = signed.tr("~_,", "+/=")
-      parts = signed.split('--')
-      data = JSON.parse(Base64.decode64(parts[0]))
-      key = find(data['k'])
-      data = key.verify(signed)
-      data['d'].deep_symbolize_keys if data
+    def self.verify_ticket(data)
+      begin
+        data = decode_data(data)
+        signed = Ticketing::SignedTicketBinary.read(data)
+      rescue
+        return false
+      end
+
+      ticket_data = signed[:ticket]
+      key = find(ticket_data[:key_id])
+      return false unless key.verify(ticket_data.to_binary_s, signed[:signature])
+
+      Ticketing::Ticket.find_by_id(ticket_data[:id])
     end
 
-    def verify(data)
-      @verifier.verify(data)
+    def verify(data, signature)
+      generate_digest(data) == signature
+    end
+
+    def self.encode_data(data)
+      Base64.urlsafe_encode64(data, padding: false)
+    end
+
+    def self.decode_data(data)
+      Base64.urlsafe_decode64(data)
     end
 
     private
@@ -42,8 +59,11 @@ module Ticketing
         self[:active] = true
         self[:secret] = SecureRandom.hex(@@secret_length)
       end
+    end
 
-      @verifier = ActiveSupport::MessageVerifier.new(self[:secret], serializer: JSON)
+    def generate_digest(data)
+      require 'openssl' unless defined?(OpenSSL)
+      OpenSSL::HMAC.digest('sha1', secret, data)
     end
   end
 end
