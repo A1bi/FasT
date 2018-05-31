@@ -1,7 +1,7 @@
-class NewsletterMailingJob
-  @queue = :mailer_queue
+class NewsletterMailingJob < ApplicationJob
+  queue_as :mailing
 
-  def self.perform(id, preview_email = nil)
+  def perform(id, preview_email = nil)
     newsletter = Newsletter::Newsletter.find(id)
 
     recipients = if preview_email.present?

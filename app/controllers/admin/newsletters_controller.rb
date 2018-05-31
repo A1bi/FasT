@@ -28,7 +28,7 @@ module Admin
     end
 
     def deliver
-      Resque.enqueue(NewsletterMailingJob, @newsletter.id)
+      NewsletterMailingJob.perform_later(@newsletter.id)
       @newsletter.update(sent: Time.now)
 
       flash.notice = t("admin.newsletters.sent")
@@ -61,7 +61,7 @@ module Admin
       @newsletter.save
 
       if params[:send_preview_email].present? && params[:preview_email].present?
-        Resque.enqueue(NewsletterMailingJob, @newsletter.id, params[:preview_email])
+        NewsletterMailingJob.perform_later(@newsletter.id, params[:preview_email])
 
         flash.notice = t("admin.newsletters.preview_sent")
       end

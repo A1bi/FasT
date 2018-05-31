@@ -71,7 +71,7 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      Resque.enqueue(Mailer, id, action, options) if email.present?
+      MailingJob.perform_later(id, action, options) if email.present?
     end
     
     def update_paid

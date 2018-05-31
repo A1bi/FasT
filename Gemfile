@@ -40,7 +40,7 @@ gem 'sepa_king', '~> 0.11.0'
 
 gem 'dalli', '~> 2.7.8'
 
-gem 'resque', '~> 1.27.4'
+gem 'sidekiq', '~> 5.1.3'
 
 gem 'groupdate', '~> 4.0.0'
 
