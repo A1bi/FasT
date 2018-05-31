@@ -1,13 +1,14 @@
 module Ticketing
   class TicketBinary < BinData::Record
-    uint8     :key_id
-    uint16be  :id
+    bit4      :version, asserted_value: 1
+    bit8      :key_id
+    bit16     :id
     bit20     :order_number
-    uint8     :order_index
-    uint8     :date_id
-    uint8     :type_id
+    bit8      :order_index
+    bit8      :date_id
+    bit8      :type_id
     bit12     :seat_id
-    uint8     :medium
+    bit4      :medium
 
     def self.from_ticket(ticket, signing_key: nil, medium: nil)
       unless ticket.is_a?(Ticketing::Ticket)
