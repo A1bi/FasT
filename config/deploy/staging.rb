@@ -1,1 +1,1 @@
-server 'staging.theater-kaisersesch.de', user: 'rails', roles: %w[app db web resque_worker]
+server 'staging.theater-kaisersesch.de', user: 'rails', roles: %w[app db web]

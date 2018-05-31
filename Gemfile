@@ -75,7 +75,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.3.0', require: false
   gem 'capistrano-rails', '~> 1.3.0', require: false
   gem 'capistrano3-unicorn', require: false
-  gem 'capistrano-resque', '~> 0.2.2', require: false
+  gem 'capistrano-sidekiq', '~> 1.0.2', require: false
   gem 'sqlite3', '~> 1.3.11'
   gem 'ffaker', '~> 2.9.0'
   gem 'spring', '~> 2.0.0'

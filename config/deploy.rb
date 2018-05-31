@@ -11,15 +11,8 @@ set :keep_releases, 3
 set :unicorn_pid, "#{shared_path}/tmp/pids/unicorn.pid"
 set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
 
-# resque
-set :workers, mailer_queue: 1
-set :resque_environment_task, true
-
 namespace :deploy do
-  after :publishing, :restart do
-    invoke 'unicorn:restart'
-    invoke 'resque:restart'
-  end
+  after :published, 'unicorn:restart'
 end
 
 namespace :rails do

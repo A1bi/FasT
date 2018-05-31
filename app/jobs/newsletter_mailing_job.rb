@@ -1,5 +1,5 @@
 class NewsletterMailingJob < ApplicationJob
-  queue_as :mailing
+  queue_as :mailers
 
   def perform(id, preview_email = nil)
     newsletter = Newsletter::Newsletter.find(id)

@@ -54,7 +54,7 @@ module FasT
 
     config.require_master_key = true
 
-    config.active_job.queue_adapter = :resque
+    config.active_job.queue_adapter = :sidekiq
 
     url_options = Settings.url_options.to_h
     config.action_mailer.delivery_method = :smtp
