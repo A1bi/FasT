@@ -2,12 +2,15 @@ module Ticketing
   class Order < BaseModel
     include Loggable, RandomUniqueAttribute, Billable
 
+    NUMBER_MAX = 2**20
+    NUM_TICKETS_MAX = 2**8
+
     has_many :tickets, dependent: :destroy, autosave: true
-    has_random_unique_number :number, 7
+    has_random_unique_number :number, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
 
-    validates_length_of :tickets, minimum: 1
+    validates_length_of :tickets, minimum: 1, maximum: NUM_TICKETS_MAX
 
     before_validation :before_create_validation, on: :create
     before_create :before_create

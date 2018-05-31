@@ -2,9 +2,8 @@ module RandomUniqueAttribute
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def has_random_unique_number(attr, digits)
-      min = 10 ** (digits - 1)
-      max = 10 ** digits - min
+    def has_random_unique_number(attr, min: 0, max:)
+      max -= min
       set_attr attr do
         min + SecureRandom.random_number(max)
       end
