@@ -46,7 +46,7 @@ module Members
         member.set_activation_code
         member.save
 
-        MemberMailer.reset_password(member).deliver
+        MemberMailer.reset_password(member).deliver_later
 
         flash.notice = t("members.member.password_reset")
         redirect_to_login

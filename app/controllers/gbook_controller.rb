@@ -30,7 +30,7 @@ class GbookController < ApplicationController
           device.push(payload)
         end
 
-        GbookMailer.new_entry(@entry).deliver
+        GbookMailer.new_entry(@entry).deliver_later
       rescue
       end
 

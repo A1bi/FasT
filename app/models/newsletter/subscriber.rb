@@ -26,5 +26,10 @@ module Newsletter
       self.confirmed_at = Time.now
       save
     end
+
+    def send_confirmation_instructions(after_order: false, delay: nil)
+      return if new_record?
+      NewsletterMailer.confirmation_instructions(self, after_order: after_order).deliver_later(wait: delay)
+    end
   end
 end

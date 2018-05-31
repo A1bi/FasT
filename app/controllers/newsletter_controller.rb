@@ -4,8 +4,8 @@ class NewsletterController < ApplicationController
   def create
     @subscriber = Newsletter::Subscriber.new(newsletter_params)
     if @subscriber.save
+      @subscriber.send_confirmation_instructions
       flash.notice = t("newsletter.subscriber.created")
-      NewsletterMailer.confirmation_instructions(@subscriber).deliver
       redirect_to root_path
     else
       render :new

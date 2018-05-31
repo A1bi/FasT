@@ -71,7 +71,7 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      MailingJob.perform_later(id, action, options) if email.present?
+      OrderMailer.order_action(action.to_s, self, options).deliver_later if email.present?
     end
     
     def update_paid

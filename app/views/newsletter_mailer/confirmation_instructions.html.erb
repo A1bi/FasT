@@ -1,4 +1,4 @@
-wir danken für Ihr Interesse an unserem Newsletter. <b>Bitte bestätigen Sie Ihre Anmeldung</b> nun noch durch einen Klick auf folgenden Button:
+<% if @after_order %>bei Ihrer kürzlichen Ticket-Bestellung gaben Sie an, sich für unseren Newsletter zu interessieren. Dafür danken wir Ihnen herzlich.<% else %>wir bedanken uns herzlich für Ihr Interesse an unserem Newsletter.<% end %> <b>Bitte bestätigen Sie Ihre Anmeldung</b> nun noch durch einen Klick auf folgenden Button:
 
 <p class="hcen buttons"><%= link_to 'Anmeldung bestätigen', confirm_newsletter_subscriber_url(token: @subscriber.token) %></p>
 

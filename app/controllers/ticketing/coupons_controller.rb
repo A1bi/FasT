@@ -49,7 +49,7 @@ module Ticketing
       end
 
       params[:text] = params[:text].gsub("%%recipient%%", params[:recipient]).gsub("%%code%%", @coupon.code) if params[:text].present?
-      BaseMailer.mail(to: params[:email], subject: params[:subject], body: params[:text]).deliver
+      BaseMailer.mail(to: params[:email], subject: params[:subject], body: params[:text]).deliver_later
 
       @coupon.log(:sent, email: params[:email], recipient: params[:recipient]).save
 

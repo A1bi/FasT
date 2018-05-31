@@ -1,4 +1,4 @@
-wir danken für Ihr Interesse an unserem Newsletter. Bitte bestätigen Sie Ihre Anmeldung nun noch durch einen Klick auf folgenden Link: <%= confirm_newsletter_subscriber_url(token: @subscriber.token) %>
+<% if @after_order %>bei Ihrer kürzlichen Ticket-Bestellung gaben Sie an, sich für unseren Newsletter zu interessieren. Dafür danken wir Ihnen herzlich.<% else %>wir bedanken uns herzlich für Ihr Interesse an unserem Newsletter.<% end %> Bitte bestätigen Sie Ihre Anmeldung nun noch durch einen Klick auf folgenden Link: <%= confirm_newsletter_subscriber_url(token: @subscriber.token) %>
 
 Nach Ihrer Bestätigung sind Sie zu unserem Newsletter angemeldet und gehören somit in Zukunft immer zu den Ersten, die Neuigkeiten rund um unseren Verein erfahren. Ihre Einwilligung in den Versand unseres Newsletters ist jederzeit widerruflich. Der Newsletter-Versand erfolgt entsprechend unserer Datenschutzerklärung und nur zur Bewerbung unserer Neuigkeiten.
 
