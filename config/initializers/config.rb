@@ -54,6 +54,11 @@ Config.setup do |config|
       required(:developer_cert_path).filled
     end
 
+    required(:apns).schema do
+      required(:team_id).filled
+      required(:topics)
+    end
+
     required(:ticket_barcode_base_url).filled
   end
 

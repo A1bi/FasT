@@ -47,6 +47,9 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     airbrussh (1.3.0)
       sshkit (>= 1.6.1, != 1.7.0)
+    apnotic (1.3.1)
+      connection_pool (~> 2.0)
+      net-http2 (>= 0.17, < 2)
     arel (9.0.0)
     auto_strip_attributes (2.4.0)
       activerecord (>= 4.0)
@@ -126,6 +129,7 @@ GEM
       activesupport (>= 4.2.0)
     groupdate (4.0.1)
       activesupport (>= 4.2)
+    http-2 (0.9.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     iban-tools (1.1.0)
@@ -161,6 +165,8 @@ GEM
     msgpack (1.2.4)
     multipart-post (2.0.0)
     mysql2 (0.5.1)
+    net-http2 (0.17.0)
+      http-2 (= 0.9.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
@@ -306,6 +312,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  apnotic (~> 1.3.1)
   auto_strip_attributes (~> 2.0)
   bcrypt-ruby (~> 3.1.5)
   bindata (~> 2.4.3)

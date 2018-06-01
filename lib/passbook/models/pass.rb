@@ -22,6 +22,10 @@ module Passbook
         File.join(Passbook.options[full ? :full_path : :path], filename)
       end
 
+      def push
+        registrations.find_each(&:push)
+      end
+
       private
 
       def set_filename

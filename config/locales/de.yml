@@ -9,6 +9,7 @@ de:
   gbook:
     wrong_code: "Der Code stimmt nicht mit der Grafik überein."
     push_notification:
+      title: "Gästebuch"
       author: "Es wurde ein neuer Gästebucheintrag von „%{author}“ verfasst."
       anonymous: "Es wurde ein neuer anonymer Gästebucheintrag verfasst."
   galleries:

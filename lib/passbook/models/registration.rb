@@ -5,6 +5,18 @@ module Passbook
       belongs_to :pass
 
       validates_presence_of :device, :pass
+
+      def token
+        device.push_token
+      end
+
+      def topic
+        pass.type_id
+      end
+
+      def push
+        Ticketing::PushNotificationsJob.perform_later(self, force_production_gateway: true)
+      end
     end
   end
 end

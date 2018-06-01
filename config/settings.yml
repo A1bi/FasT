@@ -1,3 +1,8 @@
+apns:
+  team_id: V48L6BF6M3
+  topics:
+    stats: 'de.theater-kaisersesch.stats'
+
 passbook:
   path: '<%= File.join(%w[system passbook]) %>'
   full_path: '<%= File.join(Rails.public_path, %w[system passbook]) %>'

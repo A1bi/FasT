@@ -82,16 +82,11 @@ class Api::OrdersController < ApplicationController
 
           options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }
           options[:store] = order.store.name if type == :retail
-          aps = {
-            alert: t(type, options),
-            badge: Ticketing::Ticket.where("created_at >= ?", Time.zone.now.beginning_of_day).count
-          }
-          Ticketing::PushNotifications::Device.where(app: :stats).each do |device|
-            payload = {
-              aps: aps
-            }
-            payload[:aps][:sound] = "cash.aif" if device.settings[:sound_enabled]
-            device.push(payload)
+          body = t(type, options)
+          badge = Ticketing::Ticket.where('created_at >= ?', Time.zone.now.beginning_of_day).count
+
+          Ticketing::PushNotifications::Device.where(app: :stats).find_each do |device|
+            device.push(body: body, badge: badge, sound: 'cash.aif')
           end
 
           NodeApi.update_seats_from_records(order.tickets) if bound_to_seats

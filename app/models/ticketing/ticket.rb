@@ -104,8 +104,7 @@ module Ticketing
     def update_passbook_pass(create = false)
       if passbook_pass.present? || create
         super(date.event.identifier, { ticket: self })
-
-        NodeApi.push_to_app(:passbook, { aps: "" }, passbook_pass.devices.map { |device| device.push_token })
+        passbook_pass.push
       end
     end
   end

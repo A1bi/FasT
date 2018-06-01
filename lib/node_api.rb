@@ -23,27 +23,6 @@ class NodeApi
     response
   end
 
-  def self.push(action, recipients, recipientIds = nil, info = nil)
-    recipientIds.map! { |id| id.to_s }
-    data = {
-      action: action,
-      recipients: recipients,
-      recipientIds: recipientIds,
-      info: info
-    }
-    make_request("push", data)
-  end
-
-  def self.push_to_app(app, notification, tokens)
-    return if tokens.empty?
-    data = {
-      app: app,
-      notification: notification,
-      tokens: tokens
-    }
-    make_request("pushToApp", data)
-  end
-
   def self.seating_request(action, info, client_id = nil)
     info[:action] = action
     info[:clientId] = client_id if client_id
