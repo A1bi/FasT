@@ -3,8 +3,6 @@ module Ticketing::BoxOffice
     belongs_to :purchase
     belongs_to :purchasable, polymorphic: true, autosave: true
 
-    validates_presence_of :purchasable
-
     def number
       self[:number] || 0
     end

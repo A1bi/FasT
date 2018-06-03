@@ -1,7 +1,7 @@
 class Ticketing::LogEvent < BaseModel
   serialize :info
 
-  belongs_to :member, class_name: 'Members::Member'
+  belongs_to :member, class_name: 'Members::Member', optional: true
   belongs_to :loggable, polymorphic: true
 
   before_create :update_member

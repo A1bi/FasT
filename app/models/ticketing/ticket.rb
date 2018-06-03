@@ -4,12 +4,11 @@ module Ticketing
 
     belongs_to :order, touch: true
     belongs_to :type, class_name: 'TicketType'
-    belongs_to :seat
+    belongs_to :seat, optional: true
     belongs_to :date, class_name: 'EventDate'
     has_passbook_pass
     has_many :check_ins
 
-    validates_presence_of :type, :date
     validates_presence_of :seat, if: :seat_required?
     validate :check_reserved, if: :seat_required?
     validate :check_order_index, if: :order_index_changed?
@@ -44,14 +43,6 @@ module Ticketing
       seat.taken?(date)
     end
 
-    def can_check_in?
-      !checked_in?
-    end
-
-    def checked_in?
-      !!checkins.last.try(:in)
-    end
-
     def signed_info(params = {})
       SigningKey.random_active.sign_ticket(self, params)
     end
@@ -82,11 +73,11 @@ module Ticketing
     private
 
     def seat_required?
-      date.event.seating.bound_to_seats?
+      date&.event&.seating&.bound_to_seats?
     end
 
     def check_reserved
-      if @check_reserved && seat.taken?(date)
+      if @check_reserved && seat&.taken?(date)
         errors.add :seat, "seat not available"
       end
     end

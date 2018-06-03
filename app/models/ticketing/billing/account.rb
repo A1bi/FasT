@@ -3,7 +3,6 @@ module Ticketing::Billing
     belongs_to :billable, polymorphic: true, inverse_of: :billing_account
     has_many :transfers, autosave: true, dependent: :destroy
 
-    validates_presence_of :billable
     validates_numericality_of :balance
 
     def deposit(amount, note_key)

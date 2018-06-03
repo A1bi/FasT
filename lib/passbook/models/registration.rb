@@ -4,8 +4,6 @@ module Passbook
       belongs_to :device
       belongs_to :pass
 
-      validates_presence_of :device, :pass
-
       def token
         device.push_token
       end

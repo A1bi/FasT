@@ -5,7 +5,6 @@ module Ticketing::BoxOffice
     belongs_to :box_office
     has_many :items, class_name: 'PurchaseItem', dependent: :destroy
 
-    validates_presence_of :box_office
     validates_length_of :items, minimum: 1
 
     before_validation :update_total

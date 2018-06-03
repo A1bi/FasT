@@ -4,7 +4,6 @@ module Ticketing::Billing
     belongs_to :participant, class_name: 'Account', optional: true, autosave: true
     belongs_to :reverse_transfer, class_name: 'Transfer', optional: true
 
-    validates_presence_of :account
     validates_numericality_of :amount
 
     def note_key
