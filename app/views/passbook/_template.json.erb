@@ -1,6 +1,13 @@
 <%=
 date = ticket.date.date.to_formatted_s(:w3c)
 
+barcode = {
+  format: 'PKBarcodeFormatQR',
+  message: ticket.signed_info(medium: 2),
+  messageEncoding: 'utf-8',
+  altText: ticket.number
+}
+
 _info = {
   formatVersion: 1,
   description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
@@ -11,12 +18,8 @@ _info = {
   teamIdentifier: "V48L6BF6M3",
   webServiceURL: api_passbook_root_url,
   relevantDate: date,
-  barcode: {
-    format: "PKBarcodeFormatQR",
-    message: ticket.signed_info(medium: 2),
-    messageEncoding: "utf-8",
-    altText: ticket.number
-  },
+  barcode: barcode,
+  barcodes: [barcode],
   locations: [
     {
       latitude: 50.23089,
@@ -35,6 +38,12 @@ _info = {
     ],
     secondaryFields: [
       {
+        key: "opens",
+        label: "Einlass",
+        value: ticket.date.door_time.to_formatted_s(:w3c),
+        timeStyle: "PKDateStyleShort"
+      },
+      {
         key: "time",
         label: "Beginn",
         value: date,
@@ -49,11 +58,11 @@ _info = {
         value: ticket.date.event.location
       },
       {
-        key: "opens",
-        label: "Einlass",
-        value: ticket.date.door_time.to_formatted_s(:w3c),
-        timeStyle: "PKDateStyleShort"
-      }
+        key: "ticket_type",
+        label: "Kategorie",
+        value: ticket.type.name,
+        changeMessage: "Die Kategorie Ihres Tickets wurde geändert auf „%@“."
+      },
     ],
     backFields: [
       {
