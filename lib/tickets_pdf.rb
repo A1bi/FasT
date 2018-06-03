@@ -63,19 +63,8 @@ class TicketsPDF < Prawn::Document
             end
 
             move_cursor_to bounds.top
-            indent(bounds.right - 130, 0) do
-              move_down 10
+            indent(bounds.right - 135, 0) do
               draw_barcode_for_ticket(ticket)
-
-              move_down 10
-              font_size 8 do
-                text t(:additional_info)
-                move_down 8
-                t(:contact_info).each do |txt|
-                  text txt, align: :center
-                  move_down 4
-                end
-              end
             end
           end
         end
@@ -88,7 +77,7 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_barcode_for_ticket(ticket)
-    print_qr_code(barcode_content_for_ticket(ticket), extent: bounds.width, stroke: true)
+    print_qr_code(barcode_content_for_ticket(ticket), extent: bounds.width.to_f)
   end
 
   def draw_header(line_width)
@@ -116,32 +105,25 @@ class TicketsPDF < Prawn::Document
   def draw_event_info_for_date(date)
     create_stamp(:events, date.event) do
       event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-      height = 60
-      svg File.read(event_image_path), height: height
+      svg File.read(event_image_path), width: bounds.width * 0.85
     end
 
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
 
-      info = [
+      draw_info_table([
         [t(:date), t(:begins), t(:opens)],
         [
           I18n.l(date.date, format: t(:date_format)),
           I18n.l(date.date, format: t(:time_format)),
           I18n.l(date.door_time, format: t(:time_format)),
         ]
-      ]
+      ])
 
-      draw_info_table(info) do
-        row(0..1).columns(1..2).align = :right
-      end
-
-      info = [
+      draw_info_table([
         [t(:location)],
         [date.event.location]
-      ]
-
-      draw_info_table(info)
+      ])
     end
   end
 
@@ -155,9 +137,7 @@ class TicketsPDF < Prawn::Document
       info << [ticket.seat.block.name, ticket.seat.number]
     end
 
-    draw_info_table(info) do
-      row(0..1).columns(1).align = :right
-    end
+    draw_info_table(info)
 
     info = []
     if ticket.price.zero?
@@ -171,7 +151,13 @@ class TicketsPDF < Prawn::Document
     info[0] << t(:ticket)
     info[1] << ticket.number
 
-    draw_info_table(info)
+    start = cursor
+    table = draw_info_table(info)
+
+    float do
+      move_up start - cursor - 12
+      text_box t(:additional_info), size: 8, inline_format: true, at: [table.width, cursor]
+    end
   end
 
   def draw_info_table(info, options = {}, &block)
@@ -180,7 +166,7 @@ class TicketsPDF < Prawn::Document
 
     table(info, options) do
       cells.borders = []
-      cells.padding = [2, 25, 0, 0]
+      cells.padding = [2, 20, 0, 0]
       cells.size = normal_size
 
       even_rows = (0..info.count-1).select { |i| i.even? }
