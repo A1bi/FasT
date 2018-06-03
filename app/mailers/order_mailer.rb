@@ -1,24 +1,18 @@
 class OrderMailer < BaseMailer
   helper Ticketing::TicketingHelper
 
-  def order_action(action, order, options = nil)
+  def order_action(action, order, options = {})
     @order = order
 
     find_tickets
     attach_tickets if should_attach_tickets?
 
-    should_mail = true
-    if options.present?
-      should_mail = self.send(action, options.symbolize_keys)
-    else
-      should_mail = self.send(action)
-    end
+    should_mail = send(action, options.symbolize_keys)
 
-    if should_mail != false && @order.email.present?
-      mail  to: @order.email,
-            subject: t(:subject, scope: [mailer_name, action]),
-            template_name: action
-    end
+    return if should_mail == false || @order.email.nil?
+    mail  to: @order.email,
+          subject: t(:subject, scope: [mailer_name, action]),
+          template_name: action
   end
 
   private
@@ -36,8 +30,8 @@ class OrderMailer < BaseMailer
     @order.transfer_payment? && !@order.paid
   end
 
-  def cancellation(options)
-    @reason = options[:reason]
+  def cancellation(reason: nil)
+    @reason = reason
   end
 
   def resend_tickets

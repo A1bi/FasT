@@ -71,7 +71,8 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      OrderMailer.order_action(action.to_s, self, options).deliver_later if email.present?
+      # delay by 10 seconds so Sidekiq isn't faster and sees the old state
+      OrderMailer.order_action(action.to_s, self, options).deliver_later(wait: 10.seconds) if email.present?
     end
     
     def update_paid
