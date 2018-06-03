@@ -82,6 +82,7 @@ group :development do
   gem 'ffaker', '~> 2.9.0'
   gem 'spring', '~> 2.0.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'byebug'
 end
 
 group :staging, :production do
