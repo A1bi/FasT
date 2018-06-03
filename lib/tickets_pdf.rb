@@ -65,6 +65,13 @@ class TicketsPDF < Prawn::Document
             move_cursor_to bounds.top
             indent(bounds.right - 135, 0) do
               draw_barcode_for_ticket(ticket)
+
+              move_down 10
+
+              draw_stamp(:logo, nil, true) do
+                event_image_path = Rails.root.join('app', 'assets', 'images', 'logo_ticket.svg')
+                svg File.read(event_image_path), width: bounds.width * 0.55, position: :center
+              end
             end
           end
         end
@@ -110,6 +117,8 @@ class TicketsPDF < Prawn::Document
 
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
+
+      move_down 10
 
       draw_info_table([
         [t(:date), t(:begins), t(:opens)],
@@ -181,7 +190,7 @@ class TicketsPDF < Prawn::Document
   end
 
   def stamp_name(key, record)
-    key.to_s + "_" + record.id.to_s
+    "#{key}_#{record ? record.id : 'default'}"
   end
 
   def create_stamp(key, record, &block)
