@@ -52,8 +52,8 @@ module Ticketing
       !!checkins.last.try(:in)
     end
 
-    def signed_info(medium = nil)
-      SigningKey.random_active.sign_ticket(self, medium)
+    def signed_info(params = {})
+      SigningKey.random_active.sign_ticket(self, params)
     end
 
     def api_hash(details = [])

@@ -202,7 +202,10 @@ Rails.application.routes.draw do
     end
 
     scope controller: :orders, path: "tickets" do
-      scope path: ":signed_info", constraints: { signed_info: /[\w_,~]+--\h+(--\d+)?/ }, as: :order_overview do
+      max_length = Ticketing::SigningKey.max_info_length
+      info_regex = Regexp.new(/[A-Za-z0-9\-_]{1,#{max_length}}/)
+
+      scope path: ":signed_info", constraints: { signed_info: info_regex }, as: :order_overview do
         get "/", action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
         get "/", action: :show
         post "/", action: :check_email

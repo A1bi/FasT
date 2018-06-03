@@ -21,7 +21,7 @@ class TicketsBoxOfficePDF < TicketsPDF
     end
   end
 
-  def signed_ticket_info_extension
-    3
+  def signed_info_medium
+    4
   end
 end

@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 
   def check_email
     if @order.is_a?(Ticketing::Web::Order) && @order.email.present? && @order.email == params[:email]
-      redirect_to order_overview_path(@order.signed_info(true))
+      redirect_to order_overview_path(@order.signed_info(authenticated: true))
     else
       redirect_to request.path, alert: t("orders.overview.wrong_email")
     end
@@ -25,16 +25,17 @@ class OrdersController < ApplicationController
   private
 
   def find_records
-    data = Ticketing::SigningKey.verify(params[:signed_info])
-    if data[:ti].present?
-      @ticket = Ticketing::Ticket.find(data[:ti])
+    info = Ticketing::SigningKey.verify_info(params[:signed_info])
+
+    if info.ticket?
+      @ticket = Ticketing::Ticket.find(info.ticket.id)
       @order = @ticket.order
-      @authorized = !@ticket.order.is_a?(Ticketing::Web::Order)
-    elsif data[:or].present?
-      @order = Ticketing::Order.find(data[:or])
-      @authorized = data[:au].present? || !@order.is_a?(Ticketing::Web::Order)
+    elsif info.order?
+      @order = Ticketing::Order.find(info.order.id)
     else
-      redirect_to root_url
+      return redirect_to root_url
     end
+
+    @authenticated = info.authenticated.nonzero? || !@order.is_a?(Ticketing::Web::Order)
   end
 end

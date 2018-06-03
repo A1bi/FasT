@@ -59,7 +59,7 @@ class OrderMailer < BaseMailer
   helper_method :should_attach_tickets?
 
   def overview_url
-    @overview_url ||= order_overview_url(@order.signed_info(true))
+    @overview_url ||= order_overview_url(@order.signed_info(authenticated: true))
   end
   helper_method :overview_url
 end

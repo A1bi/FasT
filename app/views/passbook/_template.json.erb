@@ -13,7 +13,7 @@ _info = {
   relevantDate: date,
   barcode: {
     format: "PKBarcodeFormatQR",
-    message: ticket.signed_info(2),
+    message: ticket.signed_info(medium: 2),
     messageEncoding: "utf-8",
     altText: ticket.number
   },
@@ -64,7 +64,7 @@ _info = {
       {
         key: "overviewUrl",
         label: "Ticket umbuchen oder stornieren",
-        value: "Auf unserer <a href=\"#{order_overview_url(ticket.order.signed_info(true))}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
+        value: "Auf unserer <a href=\"#{order_overview_url(ticket.order.signed_info(authenticated: true))}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
       },
       {
         key: "hotline",

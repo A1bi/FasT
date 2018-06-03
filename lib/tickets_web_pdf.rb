@@ -15,7 +15,7 @@ class TicketsWebPDF < TicketsPDF
     end
   end
 
-  def signed_ticket_info_extension
-    0
+  def signed_info_medium
+    1
   end
 end

@@ -1,7 +1,7 @@
 <% title "Ihre Bestellung ##{@order.number}" %>
 <% include_css "ticketing/orders" %>
 <div class="hl">Ihre Bestellung #<%= @order.number %></div>
-<% if @authorized %>
+<% if @authenticated %>
   <table class="rounded entries details">
     <thead>
       <tr>

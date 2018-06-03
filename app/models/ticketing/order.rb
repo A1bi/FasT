@@ -78,12 +78,8 @@ module Ticketing
       deposit_into_account(amount, :correction)
     end
 
-    def signed_info(authorized = false)
-      info = {
-        or: id
-      }
-      info[:au] = 1 if authorized
-      SigningKey.random_active.sign(info)
+    def signed_info(params = {})
+      SigningKey.random_active.sign_order(self, params)
     end
 
     private

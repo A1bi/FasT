@@ -18,26 +18,26 @@ module Ticketing
       where(active: true).offset(rand(count)).first
     end
 
-    def sign_ticket(ticket, medium = nil)
-      ticket_data = Ticketing::TicketBinary.from_ticket(ticket, signing_key: self, medium: medium)
-      signature = generate_digest(ticket_data.to_binary_s)
-      data = Ticketing::SignedTicketBinary.new(ticket: ticket_data, signature: signature)
-      self.class.encode_data(data.to_binary_s)
+    def sign_ticket(ticket, params = {})
+      sign_record(params.merge(ticket: ticket))
     end
 
-    def self.verify_ticket(data)
+    def sign_order(order, params = {})
+      sign_record(params.merge(order: order))
+    end
+
+    def self.verify_info(data)
       begin
         data = decode_data(data)
-        signed = Ticketing::SignedTicketBinary.read(data)
+        info = Ticketing::SignedInfoBinary.read(data)
       rescue
         return false
       end
 
-      ticket_data = signed[:ticket]
-      key = find(ticket_data[:key_id])
-      return false unless key.verify(ticket_data.to_binary_s, signed[:signature])
+      key = find(info.signing_key_id)
+      return false unless key.verify(info.data_to_sign, info.signature)
 
-      Ticketing::Ticket.find_by_id(ticket_data[:id])
+      info
     end
 
     def verify(data, signature)
@@ -52,6 +52,11 @@ module Ticketing
       Base64.urlsafe_decode64(data)
     end
 
+    def self.max_info_length
+      # calculate length after base64 encoding
+      (Ticketing::SignedInfoBinary.max_length / 3.0).ceil * 4
+    end
+
     private
 
     def after_initialize
@@ -64,6 +69,12 @@ module Ticketing
     def generate_digest(data)
       require 'openssl' unless defined?(OpenSSL)
       OpenSSL::HMAC.digest('sha1', secret, data)
+    end
+
+    def sign_record(params)
+      info = Ticketing::SignedInfoBinary.from_record(params.merge(signing_key_id: id))
+      info.sign { |data| generate_digest(data) }
+      self.class.encode_data(info.to_binary_s)
     end
   end
 end
