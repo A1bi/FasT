@@ -1,25 +1,29 @@
 <% include_css "index" %>
 <% include_js "index" %>
-<% on_sale = Ticketing::Event.current.on_sale? %>
-<% file = Rails.root.join("public", "uploads", "index_alert.json") %>
 <div class="index">
-  <% if File.exists? file %>
-    <% cache [:alert, File.mtime(file).to_i] do %>
-      <% info = JSON.parse(File.read(file), symbolize_names: true) %>
+  <% if File.exists? @alert_file %>
+    <% cache [:alert, File.mtime(@alert_file).to_i] do %>
+      <% info = JSON.parse(File.read(@alert_file), symbolize_names: true) %>
       <div class="alert">
         <div><%= info[:title] %></div>
         <%= info[:text].html_safe %>
       </div>
     <% end %>
   <% end %>
-  <% cache on_sale do %>
+  <% cache @event.on_sale? do %>
     <div class="teaser">
       <div class="hl">Unser Sommernachtstheater 2018</div>
       <%= image_tag 'theater/sommernachtstraum/title.svg', alt: 'Ein Sommernachtstraum' %>
       <div class="links">
         <%= link_to "Über das Stück", theater_sommernachtstraum_path %> |
-        <%= link_to "Termine", dates_path %>
-        <% if on_sale %> | <%= link_to "Tickets bestellen", new_ticketing_order_path %><% end %>
+        <%= link_to "Termine", dates_path %> |
+        <span>
+          <% if @event.on_sale? %>
+            <%= link_to "Tickets bestellen", new_ticketing_order_path %>
+          <% else %>
+            Tickets ab <%= l @event.sale_start, format: "%e. %B" %>
+          <% end %>
+        </span>
       </div>
     </div>
     <div class="trenner"></div>
