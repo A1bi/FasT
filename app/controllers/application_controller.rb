@@ -46,6 +46,10 @@ class ApplicationController < ActionController::Base
     before_action :restrict_access, options
   end
 
+  def self.ignore_authenticity_token
+    skip_before_action :verify_authenticity_token
+  end
+
   def disable_slides
     @no_slides = true
   end

@@ -1,7 +1,8 @@
 module Passbook
   module Controllers
     class PassbookController < ApplicationController
-      skip_before_action :verify_authenticity_token
+      ignore_authenticity_token
+
       before_action :prepare_pass, only: [:register_device, :unregister_device, :show_pass]
       before_action :prepare_device, only: [:unregister_device, :modified_passes]
 
