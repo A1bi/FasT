@@ -5,7 +5,7 @@ function TicketPrinter() {
 
   this.notifyHelper = function (cmd, options) {
     var url = TicketPrinter.urlScheme + "://" + cmd;
-    if (options) url += "!" + options
+    if (options) url += "/" + options
     window.location.href = url;
   };
 

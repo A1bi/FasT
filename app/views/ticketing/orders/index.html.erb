@@ -1,6 +1,6 @@
 <% title "Bestellungen" %>
 <% include_css "ticketing/orders" %>
-<% include_js "ticketing/base" %>
+<% include_js "ticketing/orders_index" %>
 <div class="index">
   <div class="hl">Bestellungen</div>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
@@ -10,5 +10,8 @@
     <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
   <% else %>
     <%= render "application/ticketing/orders_table", table_title: "Bisherige Bestellungen in Ihrer Vorverkaufsstelle", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
+    <div class="hright">
+      <a href="#" id="print-test" data-confirm="Möchten Sie wirklich einen Testdruck ausführen?">Testdruck</a> – <a href="#" id="print-settings">Druckeinstellungen</a>
+    </div>
   <% end %>
 </div>
