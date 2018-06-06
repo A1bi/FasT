@@ -102,12 +102,14 @@ class Api::OrdersController < ApplicationController
           response[:ok] = true
           response[:order] = order.api_hash([:tickets, :printable])
 
-        rescue
+        rescue StandardError => exception
+          Raven.capture_exception(exception)
           response[:errors] << "Internal error"
           raise ActiveRecord::Rollback
         end
+
       else
-        puts order.errors.messages
+        Raven.capture_message('Invalid order', extra: { errors: order.errors.messages })
         response[:errors] << "Invalid order"
       end
     end

@@ -3,7 +3,7 @@ module Passbook
     class Pass < ActiveRecord::Base
       include RandomUniqueAttribute
 
-      belongs_to :assignable, polymorphic: true
+      belongs_to :assignable, polymorphic: true, optional: true
       has_many :registrations, dependent: :destroy
       has_many :devices, through: :registrations
       has_random_unique_token :serial_number, 10
