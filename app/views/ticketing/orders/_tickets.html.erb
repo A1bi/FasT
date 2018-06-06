@@ -32,7 +32,13 @@
         <tr class="subtotal">
           <td colspan="3" class="plural_text"><span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt</td>
           <td class="total"><span></span> €</td>
-        </div>
+        </tr>
+        <tr class="ignore_free_tickets">
+          <td colspan="4">
+            <%= check_box_tag(:ignore_free_tickets) %>
+            <%= label_tag :ignore_free_tickets do %>Freikarten nicht in Anspruch nehmen<% end %>
+          </td>
+        </tr>
         <tr class="total">
           <td colspan="3">Gesamt</td>
           <td class="total"><span></span> €</td>

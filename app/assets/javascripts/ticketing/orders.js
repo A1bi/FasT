@@ -316,32 +316,41 @@ function TicketsStep(delegate) {
     var tickets = this.tickets.slice(0).sort(function (a, b) {
       return a - b;
     });
+    var any_free_tickets = false;
     this.info.internal.total = this.info.internal.subtotal;
     this.info.internal.discount = 0;
 
     this.box.find("tr.discount").remove();
     $.each(this.info.internal.coupons, function (i, coupon) {
       if (coupon.free_tickets > 0) {
+        any_free_tickets = true;
         var discount = 0;
+
         for (var j = 0; j < coupon.free_tickets; j++) {
           var ticketToRemove = tickets.pop();
           if (ticketToRemove) {
             discount -= ticketToRemove;
-            _this.info.internal.total -= ticketToRemove;
           }
         }
-        _this.info.internal.discount += discount;
+
+        if (!_this.info.api.ignore_free_tickets) {
+          _this.info.internal.total += discount;
+          _this.info.internal.discount += discount;
+        }
 
         var discountBox = $("<tr>").addClass("discount");
+        discountBox.toggleClass("ignore", _this.info.api.ignore_free_tickets);
         var info = $("<td>").addClass("plural_text").attr("colspan", 3).html("Gutschein <em>" + _this.info.api.couponCodes[i] + '</em> (Wert: <span class="number"><span></span></span> Freikarte<span class="plural">n</span>)');
         discountBox.append(
           info,
           $("<td>").addClass("amount").text(_this.formatCurrency(discount) + " €")
         );
-        discountBox.insertBefore(_this.box.find("tr.total"));
+        discountBox.insertAfter(_this.box.find("tr.subtotal"));
         togglePluralText(info, coupon.free_tickets);
       }
     });
+
+    this.box.find('tr.ignore_free_tickets').toggle(any_free_tickets && this.info.internal.exclusiveSeats);
 
     var $this = this.box.find(".number tr.total");
     this.info.internal.zeroTotal = this.info.internal.total <= 0;
@@ -374,6 +383,10 @@ function TicketsStep(delegate) {
   this.couponBox.find(".added").on("click", "a", function (event) {
     _this.removeCoupon($(this).data("index"));
     event.preventDefault();
+  });
+  this.registerEventAndInitiate(this.box.find("tr.ignore_free_tickets input"), "change", function ($this) {
+    _this.info.api.ignore_free_tickets = $this.is(":checked");
+    _this.updateDiscounts();
   });
 }
 
@@ -640,6 +653,7 @@ function FinishStep(delegate) {
     var orderInfo = {
       date: apiInfo.seats.date,
       tickets: apiInfo.tickets.tickets,
+      ignore_free_tickets: apiInfo.tickets.ignore_free_tickets,
       seatingId: apiInfo.seats.seatingId,
       address: apiInfo.address,
       payment: apiInfo.payment,
@@ -982,11 +996,8 @@ function Ordering() {
 
 $(function () {
   if ($(".stepBox").length) {
-    var isAndroid = navigator.userAgent.indexOf('Android') >= 0;
-    var webkitVer = parseInt((/WebKit\/([0-9]+)/.exec(navigator.appVersion) || 0)[1],10) || void 0;
-    var isNativeAndroid = isAndroid && webkitVer <= 534 && navigator.vendor.indexOf('Google') == 0;
+    new Ordering();
 
-    if (!isNativeAndroid) new Ordering();
   } else {
     $("#cancelAction").click(function (event) {
       $(this).hide().siblings("#cancelForm").show();

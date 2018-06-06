@@ -16,18 +16,12 @@ class Api::OrdersController < ApplicationController
     order.admin_validations = true if type == :admin
 
     date = Ticketing::EventDate.find(info[:date])
-    if date.sold_out?
-      response[:errors] << "Sold out"
-      return render json: response
-    end
+    return render_error('Sold out') if date.sold_out?
 
     bound_to_seats = date.event.seating.bound_to_seats?
     if bound_to_seats
       seats = NodeApi.get_chosen_seats(info[:seatingId])
-      if !seats
-        response[:errors] << "Seating error"
-        return render json: response
-      end
+      return render_error('Seating error') if !seats
     end
 
     info[:tickets].each do |type_id, number|
@@ -51,10 +45,11 @@ class Api::OrdersController < ApplicationController
         next if coupon.expired?
         coupon.redeem
         order.coupons << coupon
+        next if info[:ignore_free_tickets].present?
 
         coupon.free_tickets.times do
           break if tickets_by_price.empty?
-          tickets_by_price.shift.type = free_ticket_type
+          tickets_by_price.pop.type = free_ticket_type
           coupon.free_tickets = coupon.free_tickets - 1
         end
       end
@@ -109,11 +104,18 @@ class Api::OrdersController < ApplicationController
         end
 
       else
-        Raven.capture_message('Invalid order', extra: { errors: order.errors.messages })
-        response[:errors] << "Invalid order"
+        return render_error('Invalid order', errors: order.errors.messages)
       end
     end
 
+    render json: response
+  end
+
+  private
+
+  def render_error(error, extra = nil)
+    Raven.capture_message(error, extra: extra)
+    response[:errors] << error
     render json: response
   end
 end
