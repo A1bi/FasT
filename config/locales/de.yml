@@ -209,7 +209,7 @@ de:
   gbook_mailer:
     new_entry:
       subject: "Neuer Gästebucheintrag"
-  order_mailer:
+  ticketing/order_mailer:
     confirmation:
       subject: "Ihre Bestellung"
     overview:
