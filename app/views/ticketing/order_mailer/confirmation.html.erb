@@ -1,4 +1,4 @@
-vielen Dank für Ihre Bestellung <%= render "order_number" %>!
+vielen Dank für Ihre Bestellung <%= render_inline "order_number" %>!
 <%= render "tickets_ordered" %>
 <p>
   <% if @order.charge_payment? %>

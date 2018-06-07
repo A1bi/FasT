@@ -1,4 +1,4 @@
-wir möchten Sie darauf hinweisen, dass <% if @tickets.empty? %>Ihre<% else %>ein Teil Ihrer<% end %> Bestellung <%= render "order_number" %> aus folgendem Grund storniert wurde: <%= @reason.present? ? @reason : "<em>Kein Grund angegeben.</em>".html_safe %>
+wir möchten Sie darauf hinweisen, dass <% if @tickets.empty? %>Ihre<% else %>ein Teil Ihrer<% end %> Bestellung <%= render_inline "order_number" %> aus folgendem Grund storniert wurde: <%= @reason.present? ? @reason : "<em>Kein Grund angegeben.</em>".html_safe %>
 
 Die stornierten Tickets verlieren damit ihre Gültigkeit. Bei weiteren Fragen können Sie sich gerne an uns wenden.
 

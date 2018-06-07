@@ -1,4 +1,4 @@
-leider konnten wir zu Ihrer Bestellung <%= render "order_number" %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
+leider konnten wir zu Ihrer Bestellung <%= render_inline "order_number" %> vom <%= l @order.created_at, format: "%d.%m.%Y" %> bisher keinen Zahlungseingang feststellen.
 <%= render "tickets_ordered" %>
 Wir möchten Sie daher daran erinnern, den Betrag von <b><%= number_to_currency(@order.total) %></b> auf folgendes Konto zu überweisen:
 <%= render "bank_details" %>
