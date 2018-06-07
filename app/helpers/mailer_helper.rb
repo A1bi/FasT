@@ -1,8 +1,11 @@
 module MailerHelper
-  def attached_image_tag(filename)
+  def attached_image_tag(filename, options = {})
     name = "inline_#{filename}"
     attachments.inline[name] = File.read("#{Rails.root}/public/images/mail/#{filename}")
-    image_tag attachments[name].url
+
+    options[:style] = "height:#{options[:height]}px;width:auto" if options[:height]
+
+    image_tag attachments[name].url, options
   end
 
   def render_inline(template, options = {})
