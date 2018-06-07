@@ -34,26 +34,30 @@ module Ticketing
     end
 
     def mail
-      (session[:coupon_sending] ||= {})[:subject] = params[:subject]
-      session[:coupon_sending][:text] = params[:text]
+      session[:coupon_sending] = {
+        subject: params[:subject],
+        text: params[:text]
+      }
 
-      if ((params[:member] || {})[:id]).present?
+      recipient = params[:recipient]
+      email = params[:email]
+
+      if params.dig(:member, :id).present?
         member = Members::Member.find(params[:member][:id])
-        params[:email] = member.email
-        params[:recipient] = member.nickname
-
-        if params[:member_is_recipient].present?
-          @coupon.recipient = member.full_name
-          @coupon.save
-        end
+        recipient = member.full_name
+        email = member.email
+        @coupon.update(recipient: recipient) if params[:member_is_recipient].present?
       end
 
-      params[:text] = params[:text].gsub("%%recipient%%", params[:recipient]).gsub("%%code%%", @coupon.code) if params[:text].present?
-      BaseMailer.mail(to: params[:email], subject: params[:subject], body: params[:text]).deliver_later
+      Ticketing::CouponsMailer.coupon(@coupon,
+                                      email: email,
+                                      recipient: recipient,
+                                      subject: params[:subject],
+                                      body: params[:text]).deliver_later
 
-      @coupon.log(:sent, email: params[:email], recipient: params[:recipient]).save
+      @coupon.log(:sent, email: email, recipient: recipient).save
 
-      flash[:notice] = t(:sent, scope: [:ticketing, :coupons])
+      flash[:notice] = t(:sent, scope: %i[ticketing coupons])
       redirect_to @coupon
     end
 

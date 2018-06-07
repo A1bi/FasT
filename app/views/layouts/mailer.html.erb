@@ -84,6 +84,10 @@
       background: #0064ec;
       color: white;
     }
+    .coupon-code {
+      font-family: monospace;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -96,9 +100,11 @@
   <div class="content">
     <%= yield %>
   </div>
-  <p class="signature">
-    <%= render 'layouts/mailer_ending' %>
-  </p>
+  <% if @skip_ending&.blank? %>
+    <p class="signature">
+      <%= render 'layouts/mailer_ending' %>
+    </p>
+  <% end %>
   <% if content_for? :footer %>
     <p class="footer">
       <%= yield :footer %>
