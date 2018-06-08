@@ -151,7 +151,10 @@ module Ticketing
       @orders = Ticketing::Order.none
 
       if params[:q].present?
-        if params[:q] =~ /\A(\d{7})(-(\d+))?\z/
+        max_digits = Ticketing::Order::NUMBER_MAX_DIGITS
+        ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
+
+        if params[:q] =~ ticket_number_regex
           order = Ticketing::Order.where(number: $1).first
           if $3.present?
             ticket_index = $3

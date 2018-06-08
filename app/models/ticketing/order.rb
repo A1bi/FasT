@@ -3,6 +3,7 @@ module Ticketing
     include Loggable, RandomUniqueAttribute, Billable
 
     NUMBER_MAX = 2**20
+    NUMBER_MAX_DIGITS = Math.log10(NUMBER_MAX).ceil
     NUM_TICKETS_MAX = 2**8
 
     has_many :tickets, dependent: :destroy, autosave: true
