@@ -36,7 +36,8 @@ Rails.application.routes.draw do
   scope controller: :static do
     get "impressum"
     get "satzung"
-    #get "agb"
+    get "agb"
+    get "widerrufsbelehrung", action: :widerruf, as: :widerruf
     get "datenschutz", action: :privacy, as: :privacy
 
     root action: :index

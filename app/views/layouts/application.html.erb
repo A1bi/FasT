@@ -83,9 +83,15 @@
           <%= yield %>
         </div>
         <div class="bottom">
-          <div>
-            &copy; 2009 - <%= Time.now.year %> Freilichtbühne am schiefen Turm e. V. - <%= link_to "Impressum", impressum_path %> - <%= link_to "Satzung", satzung_path %> - <%= link_to "Datenschutzerklärung", privacy_path %> - <%= link_to "Mitgliedsantrag", "/uploads/Mitgliedsantrag.pdf" %>
-          </div>
+          <ul>
+            <li><%= link_to 'Impressum', impressum_path %></li>
+            <li><%= link_to 'AGB', agb_path %></li>
+            <li><%= link_to 'Widerrufsbelehrung', widerruf_path %></li>
+            <li><%= link_to 'Datenschutzerklärung', privacy_path %></li>
+            <li><%= link_to 'Mitgliedsantrag', '/uploads/Mitgliedsantrag.pdf' %></li>
+            <li><%= link_to 'Satzung', satzung_path %></li>
+          </ul>
+          &copy; 2009–<%= Time.now.year %> Freilichtbühne am schiefen Turm e. V.
         </div>
       </div>
     </div>

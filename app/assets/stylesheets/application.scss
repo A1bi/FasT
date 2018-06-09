@@ -312,21 +312,28 @@ html {
 
   > .bottom {
     position: relative;
-    background: url(asset_path("content_bottom.png")) no-repeat;
+    background: url(asset_path('content_bottom.png')) no-repeat;
     width: 100%;
-    padding-top: 30px;
-    height: 50px;
-  }
-
-  > .bottom div {
+    min-height: 50px;
+    padding: 25px 0;
     text-align: center;
     font-size: 12px;
-    color: #ffffff;
-    opacity: 0.6;
-    width: 100%;
 
-    a {
+    &, a {
       color: #ffffff;
+    }
+
+    ul {
+      padding: 0;
+
+      li {
+        display: inline;
+
+        &:not(:first-child):before {
+          content: '–';
+          padding-right: 3px;
+        }
+      }
     }
   }
 }

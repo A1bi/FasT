@@ -44,7 +44,7 @@
   margin-top: 40px;
 }
 
-.privacy {
+.privacy, .agb, .widerruf {
   ol {
     counter-reset: item;
     padding: 0;
@@ -108,5 +108,28 @@
     width: 100%;
     display: block;
     border: 0;
+  }
+}
+
+.widerruf table {
+  tr {
+    &:not(:last-child) td {
+      padding: 10px 0;
+      vertical-align: bottom;
+
+      &:last-child {
+        width: 60%;
+        height: 40px;
+        border-bottom: 1px solid black;
+      }
+    }
+
+    &:last-child td {
+      width: 50%;
+      height: 100px;
+      padding-top: 30px;
+      border-bottom: 1px solid black;
+      vertical-align: top;
+    }
   }
 }
