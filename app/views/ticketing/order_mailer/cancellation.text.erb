@@ -3,7 +3,7 @@ wir möchten Sie darauf hinweisen, dass <% if @tickets.empty? %>Ihre<% else %>ei
 Die stornierten Tickets verlieren damit ihre Gültigkeit. Bei weiteren Fragen können Sie sich gerne an uns wenden.
 
 <% if @tickets.any? %>
-Folgende nicht stornierte Tickets sind weiterhin in Ihrer Bestellung vorhanden:
+Folgende nicht stornierte Tickets sind weiterhin gültig:
 <%= render "tickets" %>
 <% end %>
 

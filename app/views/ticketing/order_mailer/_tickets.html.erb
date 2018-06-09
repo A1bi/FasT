@@ -4,7 +4,7 @@
     <td>Kategorie</td>
     <td>Block</td>
     <td>Sitz</td>
-    <td>Preis</td>
+    <td class="amount">Preis</td>
   </tr>
   <% @tickets.each do |ticket| %>
     <tr>
@@ -16,7 +16,7 @@
       <% else %>
         <td colspan="2">Freie Platzwahl</td>
       <% end %>
-      <td><%= number_to_currency(ticket.price) %></td>
+      <td class="amount"><%= number_to_currency(ticket.price) %></td>
     </tr>
   <% end %>
   <tr class="total">
@@ -25,11 +25,11 @@
   </tr>
 </table>
 <% if should_attach_tickets? && !(hide_notes ||= false) %>
-  <table style="background: #ebebeb;" cellspacing="7" align="center">
+  <table style="background: #f5f5f5;" cellspacing="7" align="center">
     <tr>
       <td>
         <div class="hl">Hinweise zu Ihren Tickets</div>
-        <p>Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser e-mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.</p>
+        <p>Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser E-Mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.</p>
         <p>Sollten Sie keine Möglichkeit zum Drucken haben, erhalten Sie Ihre Tickets unter Vorlage Ihrer Bestellnummer <b><%= @order.number %></b> an der Abendkasse. Alternativ können Sie Ihre Tickets natürlich gerne auch auf Ihrem Smartphone vorzeigen.</p>
       </td>
     </tr>

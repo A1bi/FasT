@@ -1,4 +1,4 @@
-vielen Dank für Ihre Bestellung <%= render_inline "order_number" %>!
+vielen Dank für Ihre Bestellung <%= render_inline "order_number" %>.
 <%= render "tickets_ordered" %>
 <p>
   <% if @order.charge_payment? %>
@@ -25,7 +25,7 @@ vielen Dank für Ihre Bestellung <%= render_inline "order_number" %>!
     <% if @order.transfer_payment? %>
       Bitte überweisen Sie den Betrag von <b><%= number_to_currency(@order.total) %></b> auf folgendes Konto:
       <%= render "bank_details" %>
-      <p>Sie erhalten Ihre Tickets per Mail sofort nach Zahlungsgeingang.</p>
+      <p>Sie erhalten Ihre Tickets per E-Mail nach Zahlungseingang.</p>
     <% elsif @order.cash_payment? %>
       <p>Sie erhalten Ihre Tickets nach Barzahlung an der Abendkasse.</p>
     <% end %>

@@ -16,13 +16,12 @@
     }
     table {
       margin: 20px auto;
-      width: 90%;
-      background: #dceffb;
       border-collapse: collapse;
     }
     table td {
-      border: 1px solid;
-      border-color: #afd5f4;
+      border: 0 solid;
+      border-color: #e5e5e5;
+      border-bottom-width: 1px;
       padding: 3px 10px;
     }
     table tr.top td {
@@ -30,21 +29,16 @@
       border-bottom-width: 2px;
     }
     #ticketsTable {
-      border: 1px solid #cccccc;
-    }
-    #ticketsTable tr img {
-      vertical-align: middle;
-    }
-    #ticketsTable .passbook {
-      text-align: center;
+      width: 100%;
     }
     #ticketsTable .total td {
       border-top-width: 2px;
+      border-bottom: 0;
       padding: 5px 10px;
-    }
-    #ticketsTable .total .amount {
       font-weight: bold;
-      text-align: left;
+    }
+    #ticketsTable .amount {
+      text-align: right;
     }
     .hl {
       text-align: center;
@@ -100,7 +94,7 @@
   <div class="content">
     <%= yield %>
   </div>
-  <% if @skip_ending&.blank? %>
+  <% if @skip_ending.blank? %>
     <p class="signature">
       <%= render 'layouts/mailer_ending' %>
     </p>
@@ -117,7 +111,7 @@
 
     <p>
       Telefon: +49 2653 2827989<br>
-      e-mail: info@theater-kaisersesch.de
+      E-Mail: info@theater-kaisersesch.de
     </p>
 
     <p>
