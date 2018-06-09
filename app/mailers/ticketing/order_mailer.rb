@@ -8,7 +8,7 @@ module Ticketing
       find_tickets
       attach_tickets if should_attach_tickets?
 
-      should_mail = options ? send(action, options.symbolize_keys) : send(action)
+      should_mail = options&.any? ? send(action, options.symbolize_keys) : send(action)
 
       return if should_mail == false || @order.email.nil?
       mail  to: @order.email,

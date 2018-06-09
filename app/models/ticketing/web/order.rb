@@ -14,8 +14,9 @@ module Ticketing
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
 
-    after_create_commit :send_confirmation
-    
+    after_create :send_confirmation
+    after_commit :send_queued_mails
+
     def self.charges_to_submit(approved)
       charge_payment
         .includes(:billing_account, :bank_charge)
@@ -34,12 +35,12 @@ module Ticketing
     end
 
     def send_confirmation
-      enqueue_mailing(:confirmation)
+      enqueue_mailing(:confirmation, depends_on_commit: true)
     end
 
     def cancel_tickets(tickets, reason)
       super
-      enqueue_mailing(:cancellation, reason: reason)
+      enqueue_mailing(:cancellation, depends_on_commit: true, reason: reason)
     end
 
     def approve
@@ -50,7 +51,7 @@ module Ticketing
 
     def mark_as_paid
       super
-      enqueue_mailing(:payment_received)
+      enqueue_mailing(:payment_received, depends_on_commit: true)
     end
 
     def api_hash(details = [], ticket_details = [])
@@ -71,10 +72,23 @@ module Ticketing
     private
 
     def enqueue_mailing(action, options = nil)
-      # delay by 10 seconds so Sidekiq isn't faster and sees the old state
-      Ticketing::OrderMailer.order_action(action.to_s, self, options).deliver_later(wait: 10.seconds) if email.present?
+      return if email.blank?
+
+      mail = Ticketing::OrderMailer.order_action(action.to_s, self, options)
+
+      if options&.delete(:depends_on_commit)
+        (@queued_mails ||= []) << mail
+      else
+        mail.deliver_later
+      end
     end
-    
+
+    def send_queued_mails
+      @queued_mails&.each do |mail|
+        mail.deliver_later
+      end
+    end
+
     def update_paid
       super
       self.paid = self.paid || (bank_charge.present? && !bank_charge.submitted?)
