@@ -5,9 +5,19 @@ class BaseMailer < ActionMailer::Base
 
   default I18n.t("action_mailer.defaults")
 
-  def mail(opts)
-    opts[:to] = "albo@a0s.de" if Rails.env.development?
+  def mail(options)
+    if Rails.env.development?
+      options[:to] = 'albo@a0s.de'
+    else
+      parts = options[:to].split('@')
+      unless parts[1].ascii_only?
+        parts[1] = SimpleIDN.to_ascii(parts[1])
+        options[:to] = parts.join('@')
+      end
+    end
+
     super
+
     fix_mixed_attachments
   end
 
