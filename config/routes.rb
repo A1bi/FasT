@@ -268,4 +268,22 @@ Rails.application.routes.draw do
 
   end
 
+  scope path: :admin do
+    require 'sidekiq/web'
+    if Rails.env.production?
+      Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+        credentials = Rails.application.credentials.sidekiq
+        ActiveSupport::SecurityUtils.secure_compare(
+          ::Digest::SHA256.hexdigest(username),
+          ::Digest::SHA256.hexdigest(credentials.dig(:web, :username) || SecureRandom.hex)
+        ) &&
+          ActiveSupport::SecurityUtils.secure_compare(
+            ::Digest::SHA256.hexdigest(password),
+            ::Digest::SHA256.hexdigest(credentials.dig(:web, :password) || SecureRandom.hex)
+          )
+      end
+    end
+    mount Sidekiq::Web, at: 'sidekiq'
+  end
+
 end
