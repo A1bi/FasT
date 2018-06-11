@@ -1,10 +1,5 @@
 class Api::OrdersController < ApplicationController
   def create
-    response = {
-      ok: false,
-      errors: []
-    }
-
     info = params.require(:order)
     retailId = params[:retailId]
     type = (params[:type] || "").to_sym
@@ -94,28 +89,27 @@ class Api::OrdersController < ApplicationController
             flash[:notice] = t(key)
           end
 
-          response[:ok] = true
-          response[:order] = order.api_hash([:tickets, :printable])
+          render json: {
+            ok: true,
+            order: order.api_hash(%i[tickets printable])
+          }
 
         rescue StandardError => exception
           Raven.capture_exception(exception)
-          response[:errors] << "Internal error"
+          render json: { ok: false, error: 'Internal error' }
           raise ActiveRecord::Rollback
         end
 
       else
-        return render_error('Invalid order', errors: order.errors.messages)
+        render_error('Invalid order', errors: order.errors.messages)
       end
     end
-
-    render json: response
   end
 
   private
 
   def render_error(error, extra = nil)
     Raven.capture_message(error, extra: extra)
-    response[:errors] << error
-    render json: response
+    render json: { ok: false, error: error }
   end
 end
