@@ -327,6 +327,7 @@ DEPENDENCIES
   capistrano-sidekiq (~> 1.0.2)
   capistrano3-unicorn
   config
+  connection_pool (~> 2.2.2)
   dalli (~> 2.7.8)
   ffaker (~> 2.9.0)
   groupdate (~> 4.0.0)

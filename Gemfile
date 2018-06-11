@@ -61,6 +61,7 @@ gem 'config'
 gem 'bindata', '~> 2.4.3'
 
 gem 'apnotic', '~> 1.3.1'
+gem 'connection_pool', '~> 2.2.2'
 
 gem 'simpleidn', '~> 0.0.9'
 

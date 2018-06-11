@@ -2,22 +2,30 @@ module Ticketing
   class PushNotificationsJob < ApplicationJob
     queue_as :default
 
-    CREDENTIALS = Rails.application.credentials.apns
+    def self.create_pool(size:, force_production: false)
+      ConnectionPool.new(size: size) do
+        development = Rails.env.development? && !force_production
+        credentials = Rails.application.credentials.apns
+        connection_options = {
+          auth_method: :token,
+          cert_path: StringIO.new(credentials[:key]),
+          key_id: credentials[:key_id],
+          team_id: Settings.apns.team_id
+        }
 
-    CONNECTION_OPTIONS = {
-      auth_method: :token,
-      cert_path: StringIO.new(CREDENTIALS[:key]),
-      key_id: CREDENTIALS[:key_id],
-      team_id: Settings.apns.team_id
-    }
-
-    CONNECTION_POOL = Apnotic::ConnectionPool.send(Rails.env.development? ? :development : :new,
-                                                   CONNECTION_OPTIONS,
-                                                   size: 2)
-
-    if Rails.env.development?
-      CONNECTION_POOL_PRODUCTION = Apnotic::ConnectionPool.new(CONNECTION_OPTIONS, size: 1)
+        connection = Apnotic::Connection.send(development ? :development : :new, connection_options)
+        # we must catch this exception or the whole Sidekiq process will die, not just this thread
+        connection.on(:error) do |exception|
+          logger.error "Exception has been raised on APNS socket: #{exception}"
+        end
+        connection
+      end
     end
+
+    CONNECTION_POOL = create_pool(size: 5)
+
+    # add another production pool even if in development -> passbook notifications only support production
+    CONNECTION_POOL_PRODUCTION = create_pool(size: 1, force_production: true) if Rails.env.development?
 
     def perform(device, body: nil, title: nil, badge: nil, sound: nil, force_production_gateway: false)
       pool = Rails.env.development? && force_production_gateway ? CONNECTION_POOL_PRODUCTION : CONNECTION_POOL
