@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_105047) do
+ActiveRecord::Schema.define(version: 2018_06_12_105436) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_105047) do
     t.integer "number_of_seats", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "underlay_filename"
   end
 
   create_table "ticketing_seats", force: :cascade do |t|

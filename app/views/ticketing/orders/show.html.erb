@@ -168,7 +168,7 @@
         <tbody>
           <tr>
             <td colspan="7">
-              <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, view: :numbers_and_underlay %>
+              <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, default_view: :numbers_and_underlay %>
             </td>
           </tr>
         </tbody>

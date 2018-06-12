@@ -268,6 +268,27 @@ function Seating(container) {
         }
 
       }
+
+      var underlay = new Image();
+      underlay.src = data.underlay_path;
+      underlay.onload = function () {
+        _this.underlayImage = _this.addToLayer('background', new Kinetic.Image({
+          image: underlay,
+          width: _this.layers['seats'].width(),
+          height: _this.layers['seats'].width() / underlay.width * underlay.height,
+          visible: false
+        }));
+
+        viewChooser.find('a').click(function (event) {
+          event.preventDefault();
+          var $this = $(this);
+          if ($this.is(".selected")) return;
+          _this.switchToView($this.data('type'));
+        });
+
+        _this.switchToView(_this.container.data('default-view'));
+      };
+
       if (afterCallback) afterCallback();
 
     });
@@ -399,6 +420,21 @@ function Seating(container) {
     this.drawLayer("key");
   };
 
+  this.switchToView = function (view) {
+    if (viewChooser.length) {
+      viewChooser.find('a').removeClass('selected');
+      viewChooser.find('[data-type="' + view + '"]').addClass('selected');
+    }
+
+    _this.viewOptions['numbers'] = _this.viewOptions['underlay'] = view == 'numbers_and_underlay';
+    _this.viewOptions['photo'] = view == 'photo';
+    _this.toggleNumbers(_this.viewOptions['numbers']);
+    _this.layers['seats'].visible(!_this.viewOptions['photo']);
+    _this.drawSeatsLayer();
+    _this.underlayImage.visible(_this.viewOptions['underlay']);
+    _this.drawLayer("background");
+  }
+
   var updateKeyPosition = function (stageX) {
     if (_this.layers['key']) {
       _this.layers['key'].position({
@@ -493,38 +529,6 @@ function Seating(container) {
     }));
   }
 
-  if (viewChooser.length) {
-    var viewChooserCallback = function ($this) {
-      $this.addClass("selected").siblings().removeClass("selected");
-      var viewType = $this.data("type");
-      _this.viewOptions['numbers'] = _this.viewOptions['underlay'] = viewType == "numbers_and_underlay";
-      _this.viewOptions['photo'] = viewType == "photo";
-      _this.toggleNumbers(_this.viewOptions['numbers']);
-      _this.layers['seats'].visible(!_this.viewOptions['photo']);
-      _this.drawSeatsLayer();
-      _this.underlayImage.visible(_this.viewOptions['underlay']);
-      _this.drawLayer("background");
-    };
-
-    var underlay = new Image();
-    underlay.src = "/uploads/seating_underlay.png";
-    underlay.onload = function () {
-      _this.underlayImage = _this.addToLayer("background", new Kinetic.Image({
-        image: underlay,
-        width: _this.layers['seats'].width(),
-        height: _this.layers['seats'].width() / underlay.width * underlay.height,
-        visible: false
-      }));
-
-      viewChooser.find("a").click(function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        if ($this.is(".selected")) return;
-        viewChooserCallback($this);
-      });
-      viewChooserCallback(viewChooser.find(".selected"));
-    };
-  }
   this.drawLayer("background");
 
   this.wiggle = function () {

@@ -1,7 +1,9 @@
 class Api::SeatsController < ApplicationController
   def index
-    render_cached_json [:api, :seats, :index, Ticketing::Seat.all] do
+    seating = Ticketing::Event.current.seating
+    render_cached_json [:api, :seats, :index, seating, seating.seats] do
       {
+        underlay_path: "/uploads/#{seating.underlay_filename}",
         blocks: Ticketing::Block.all.map do |block|
           {
             color: block.color,

@@ -38,7 +38,7 @@
           <% end %>
         </div>
       <% end %>
-      <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, view_chooser: true, view: :numbers_and_underlay %>
+      <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, error_box: true, default_view: :numbers_and_underlay %>
     </div>
   <% else %>
     <div class="no-seating">Bei diesem Stück gilt freie Platzwahl.</div>

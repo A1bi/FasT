@@ -11,7 +11,7 @@
         <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
       <% end %>
     <% end if (@reservation_groups || []).any? %>
-    <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, view_chooser: true, error_box: true %>
+    <%= render "application/ticketing/seating", options: { class: [:stage, :big, :background, :key] }, view_chooser: true, default_view: :numbers_and_underlay, error_box: true %>
   <% end %>
   <div class="submit">
     <%= button_tag "abbrechen" %>
