@@ -59,9 +59,9 @@ module Ticketing
     private
 
     def calc_percentage(scope, dates)
-      return if !scope
-      number_of_seats = dates.first.event.seating.number_of_seats
-      scope[:percentage] = (scope[:total] / (number_of_seats.to_f * dates.count) * 100).floor
+      return unless scope.present?
+      number_of_seats = dates.sum { |date| date.event.seating.number_of_unreserved_seats_on_date(date) }
+      scope[:percentage] = (scope[:total] / number_of_seats.to_f * 100).floor
     end
 
     def increment_stats_values(scope, ticket_type, ticket_price)
