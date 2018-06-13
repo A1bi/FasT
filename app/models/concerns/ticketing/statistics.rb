@@ -3,7 +3,7 @@ module Ticketing
     extend ActiveSupport::Concern
 
     def ticket_stats_for_dates(dates)
-      Rails.cache.fetch [:ticketing, :statistics, dates, Ticket.all] do
+      Rails.cache.fetch [:ticketing, :statistics, dates, Ticket.all, Reservation.all] do
         stats = {
           web: {},
           retail: {
@@ -40,16 +40,18 @@ module Ticketing
           end
         end
 
-        scopes = [stats[:web], stats[:retail][:total], stats[:box_office][:total], stats[:total]]
+        dates.each do |date|
+          calc_percentage_of_booked_seats(stats[:total][date.id], [date])
+        end
+        calc_percentage_of_booked_seats(stats[:total][:total], dates)
+
+        scopes = [stats[:web], stats[:retail][:total], stats[:box_office][:total]]
         Retail::Store.all.each { |store| scopes << stats[:retail][:stores][store.id] }
         BoxOffice::BoxOffice.all.each { |box_office| scopes << stats[:box_office][:box_offices][box_office.id] }
 
         scopes.each do |scope|
           next if !scope
-          dates.each do |date|
-            calc_percentage(scope[date.id], [date])
-          end
-          calc_percentage(scope[:total], dates)
+          calc_percentage_of_all_sales(scope, stats[:total][:total][:total])
         end
 
         stats
@@ -58,10 +60,15 @@ module Ticketing
 
     private
 
-    def calc_percentage(scope, dates)
+    def calc_percentage_of_booked_seats(scope, dates)
       return unless scope.present?
       number_of_seats = dates.sum { |date| date.event.seating.number_of_unreserved_seats_on_date(date) }
       scope[:percentage] = (scope[:total] / number_of_seats.to_f * 100).floor
+    end
+
+    def calc_percentage_of_all_sales(scope, total_number_of_tickets)
+      return unless scope.present?
+      scope[:total][:percentage] = (scope[:total][:total] / total_number_of_tickets.to_f * 100).floor
     end
 
     def increment_stats_values(scope, ticket_type, ticket_price)

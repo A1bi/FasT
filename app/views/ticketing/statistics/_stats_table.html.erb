@@ -20,8 +20,10 @@
           <% @ticket_types.each do |type| %>
             <td><%= ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0 %></td>
           <% end %>
-          <td class="total first"><%= scope[:scope][date.id][:total] || 0 %></td>
-          <td class="total" title="Anteil am Ticketkontingent für diese Aufführung"><%= scope[:scope][date.id][:percentage] || 0 %> %</td>
+          <td class="total first" colspan="<%= local_assigns[:total] ? 1 : 2 %>"><%= scope[:scope][date.id][:total] || 0 %></td>
+          <% if local_assigns[:total] %>
+            <td class="total" title="Auslastung der Aufführung (geblockte Plätze ausgenommen)"><%= scope[:scope][date.id][:percentage] || 0 %> %</td>
+          <% end %>
           <td class="total"><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
         </tr>
       <% end %>
@@ -30,8 +32,11 @@
         <% @ticket_types.each do |type| %>
           <td><%= (scope[:scope][:total] ||= {})[type.id] || 0 %></td>
         <% end %>
-        <td class="total first"><%= scope[:scope][:total][:total] || 0 %></td>
-        <td class="total" title="Anteil am gesamten Ticketkontingent"><%= scope[:scope][:total][:percentage] || 0 %> %</td>
+        <td class="total first" colspan="<%= local_assigns[:retail].blank? ? 1 : 2 %>"><%= scope[:scope][:total][:total] || 0 %></td>
+        <% if local_assigns[:retail].blank? %>
+          <% title = local_assigns[:total] ? "Gesamtauslastung" : "Anteil an allen Verkäufen" %>
+          <td class="total" title="<%= title %>"><%= scope[:scope][:total][:percentage] || 0 %> %</td>
+        <% end %>
         <td class="total"><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
       </tr>
     </tbody>

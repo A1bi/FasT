@@ -1,7 +1,7 @@
 <% title "Statistik" %>
 <% include_css "ticketing/statistics" %>
 <% include_js "ticketing/statistics" %>
-<% cache Ticketing::Ticket.all do %>
+<% cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all] do %>
   <% stats = stats_for_current_event %>
   <div class="hl">Ticket-Statistik</div>
   <div class="stats">
@@ -9,7 +9,7 @@
       <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span> | <span data-table="box_office">Abendkassen</span></div>
     </div>
     <div class="total table">
-      <%= render "stats_table", scopes: [{ title: "Gesamt", scope: stats[:total] }] %>
+      <%= render "stats_table", scopes: [{ title: "Gesamt", scope: stats[:total] }], total: true %>
     </div>
     <div class="web table">
       <%= render "stats_table", scopes: [{ title: "Online-Bestellungen", scope: stats[:web] }] %>
