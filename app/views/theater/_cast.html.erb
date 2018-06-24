@@ -1,5 +1,5 @@
 <div class="cast">
-  <% @cast.each do |role| %>
+  <% (@cast || cast).each do |role| %>
     <% if role[:doubles] %><div class="double"><% end %>
     <div class="row">
       <div class="role">
@@ -35,7 +35,7 @@
                     <% end %>
                   </ul>
                 <% else %>
-                  <span>alle</span>
+                  alle Aufführungen
                 <% end %>
               </div>
             </div>

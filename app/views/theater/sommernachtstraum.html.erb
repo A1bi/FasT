@@ -12,4 +12,221 @@
   <p>
     Freuen Sie sich auf die „zauberhafte“ Lösung dieser Verstrickungen in unserem klassisch-unterhaltsamen Sommernachtstheater unter freiem Himmel. Erleben Sie im Schatten des schiefen Kirchturms von Kaisersesch einen unvergesslichen Abend.
   </p>
+  <h2>Besetzung</h2>
+  <div class="cast">
+    <h3>Die Athener</h3>
+    <%= render 'cast', cast: [
+      {
+        name: 'Hermia',
+        doubles: [
+          {
+            name: 'Hannah Lehnen',
+            dates: [0, 1, 4]
+          },
+          {
+            name: 'Melissa Gasser',
+            dates: [2, 3, 5]
+          }
+        ]
+      },
+      {
+        name: 'Helena',
+        doubles: [
+          {
+            name: 'Carla Wink',
+            dates: [0, 1, 2]
+          },
+          {
+            name: 'Marie Schnadhorst',
+            dates: [3, 4, 5]
+          }
+        ]
+      },
+      {
+        name: 'Lysander',
+        actors: ['Morten Roscher']
+      },
+      {
+        name: 'Demetrius',
+        actors: ['Jacob Heimes']
+      },
+      {
+        name: 'Theseus, Fürst von Athen',
+        actors: ['Karl-Heinz Lehner']
+      },
+      {
+        name: 'Hippolyta, die Amazonkönigin',
+        actors: ['Maria Oster']
+      },
+      {
+        name: 'Philostrat',
+        actors: ['Walter Loreth']
+      },
+      {
+        name: 'Egeus, Hermias Vater',
+        actors: ['Rolf Heidorn']
+      }
+    ] %>
+    <h3>Elfen & Kobolde</h3>
+    <%= render 'cast', cast: [
+      {
+        name: 'Oberon, der Elfenkönig',
+        actors: ['Thomas Ellerich']
+      },
+      {
+        name: 'Titania, die Elfenkönigin',
+        actors: ['Simone Spies']
+      },
+      {
+        name: 'Puck, der Kobold',
+        actors: ['Kirsten Roscher']
+      },
+      {
+        name: 'Elfe Senfsamen',
+        actors: ['Gisela Lehner']
+      },
+      {
+        name: 'Elfe Motte',
+        actors: ['Hannah Fickert']
+      },
+      {
+        name: 'Elfe Erbsenblüte',
+        actors: ['Dany Gasser']
+      },
+      {
+        name: 'Elfe Spinnweb',
+        actors: ['Michaela Venus']
+      },
+      {
+        name: 'weitere Elfen',
+        doubles: [
+          {
+            name: 'Emma Gödert',
+            dates: [0, 1, 2, 3]
+          },
+          {
+            name: 'Daniela Gödert',
+            dates: [0, 1, 2, 3]
+          },
+          {
+            name: 'Cosima Heinrich'
+          },
+          {
+            name: 'Saskia Scharbach',
+            dates: [0, 1, 4, 5]
+          },
+          {
+            name: 'Magda Sturtz'
+          },
+          {
+            name: 'Sonja Makhlis'
+          }
+        ]
+      },
+      {
+        name: 'weitere Kobolde',
+        doubles: [
+          {
+            name: 'Yannik Gasser',
+            dates: [3, 4, 5]
+          },
+          {
+            name: 'Jakob Ellerich'
+          },
+          {
+            name: 'Tim Steffes'
+          },
+          {
+            name: 'Valentin Heinrich'
+          }
+        ]
+      }
+    ] %>
+    <h3>Die Handwerker</h3>
+    <%= render 'cast', cast: [
+      {
+        name: 'Squenz, Zimmermann, Regisseur',
+        actors: ['Helmut Mattern']
+      },
+      {
+        name: 'Schnock, Schreiner, Löwe',
+        actors: ['Otto Krechel']
+      },
+      {
+        name: 'Zettel, Weber, Pyramus',
+        actors: ['Stephan Hilken']
+      },
+      {
+        name: 'Flaut, Blasebalkflicker, Thisbe',
+        actors: ['Stefan Gasser']
+      },
+      {
+        name: 'Schnauz, Kesselflicker, Wand',
+        actors: ['Wilfried Bernauer']
+      },
+      {
+        name: 'Schlucker, Schneider, Mond',
+        actors: ['Werner Lutz']
+      }
+    ] %>
+    <h3>Athener Volk</h3>
+    <%= render 'cast', cast: [
+      {
+        name: 'Mitglied des Kirchenchors',
+        doubles: [
+          {
+            name: 'Dr. Elke Koller'
+          },
+          {
+            name: 'Heidrun Bretz'
+          },
+          {
+            name: 'Renate Sommer'
+          },
+          {
+            name: 'Margit Fischer',
+            dates: [0, 1, 2, 3, 5]
+          },
+          {
+            name: 'Karlheinz Werr'
+          },
+          {
+            name: 'Gerda Schnitzler',
+            dates: [1, 2, 3, 4, 5]
+          },
+          {
+            name: 'Monika Näckel',
+            dates: [0, 1, 4, 5]
+          },
+          {
+            name: 'Margret Walgenbach'
+          }
+        ]
+      }
+    ] %>
+    <h3>Musiker</h3>
+    <%= render 'cast', cast: [
+      {
+        name: 'Keyboard, Blockflöte, Leitung',
+        doubles: [
+          {
+            name: 'Annemarie Taßler',
+            dates: [1, 2, 3, 4, 5]
+          }
+        ]
+      },
+      {
+        name: 'Bassgitarre',
+        actors: ['Rüdiger Wink']
+      },
+      {
+        name: 'Blockflöte',
+        actors: ['Dorothea Kirsch', 'Sabine Ziegler', 'Julia Makhlis']
+      },
+      {
+        name: 'Keyboard, Gesang',
+        actors: ['Sirin Roscher']
+      }
+    ] %>
+  </div>
 </div>

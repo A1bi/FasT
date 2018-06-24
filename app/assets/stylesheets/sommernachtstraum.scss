@@ -63,3 +63,32 @@ $highlightColor: #b1cb22;
     }
   }
 }
+
+.cast {
+  .small {
+    color: #9AA5BF;
+  }
+
+  .alt {
+    box-shadow: none;
+    background: transparent;
+    border: $highlightColor solid {
+      width: 1px 0;
+    }
+
+    .row {
+      ul {
+        list-style-type: none;
+
+        li {
+          &:not(:first-child)::before {
+            content: '–';
+            padding-right: 6px;
+          }
+
+          padding-right: 6px;
+        }
+      }
+    }
+  }
+}

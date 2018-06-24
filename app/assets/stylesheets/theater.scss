@@ -35,6 +35,10 @@
   margin: 20px 0px;
   font-size: 16px;
 
+  h3 {
+    text-align: center;
+  }
+
   .row {
     padding: 4px 0px;
     overflow: auto;
@@ -97,12 +101,6 @@
           float: left;
           padding-right: 7px;
         }
-      }
-
-      span {
-        width: 60px;
-        display: inline-block;
-        text-align: center;
       }
     }
   }
