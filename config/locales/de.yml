@@ -211,6 +211,9 @@ de:
   gbook_mailer:
     new_entry:
       subject: "Neuer Gästebucheintrag"
+  contact_message_mailer:
+    contact_message:
+      subject: "Neue Nachricht über das Kontaktformular"
   ticketing/order_mailer:
     confirmation:
       subject: "Ihre Bestellung"
