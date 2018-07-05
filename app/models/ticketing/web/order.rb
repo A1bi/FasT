@@ -89,6 +89,13 @@ module Ticketing
       end
     end
 
+    def update_total_and_billing(billing_note)
+      old_total = total
+      super
+      # set default pay method when a free order (without a pay method set) turns into a non-free order
+      self.pay_method = :cash if pay_method.blank? && old_total.zero? && total.positive?
+    end
+
     def update_paid
       super
       self.paid = self.paid || (bank_charge.present? && !bank_charge.submitted?)
