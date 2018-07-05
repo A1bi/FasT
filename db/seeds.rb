@@ -2,11 +2,6 @@ def random(n)
   SecureRandom.random_number(n)
 end
 
-# gbook entries
-11.times do
-  GbookEntry.create(author: FFaker::NameDE.name, text: FFaker::Lorem.paragraph(5 + random(10)))
-end
-
 # galleries
 3.times do
   Gallery.create(title: FFaker::Lorem.sentence(4), disclaimer: "&copy; #{FFaker::NameDE.name}")

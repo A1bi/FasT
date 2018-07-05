@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_12_105436) do
+ActiveRecord::Schema.define(version: 2018_07_05_202900) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -28,13 +28,6 @@ ActiveRecord::Schema.define(version: 2018_06_12_105436) do
     t.string "title"
     t.string "disclaimer"
     t.integer "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "gbook_entries", force: :cascade do |t|
-    t.string "author"
-    t.text "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

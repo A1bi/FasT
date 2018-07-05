@@ -6,12 +6,6 @@ de:
     submit_create: "erstellen"
     submit_save: "speichern"
     btn_delete: "löschen"
-  gbook:
-    wrong_code: "Der Code stimmt nicht mit der Grafik überein."
-    push_notification:
-      title: "Gästebuch"
-      author: "Es wurde ein neuer Gästebucheintrag von „%{author}“ verfasst."
-      anonymous: "Es wurde ein neuer anonymer Gästebucheintrag verfasst."
   contact_messages:
     success: "Vielen Dank für Ihre Nachricht. Wir werden uns schnellstmöglich bei Ihnen melden."
   galleries:
@@ -208,9 +202,6 @@ de:
       subject: "Willkommen im Mitgliederbereich!"
     reset_password:
       subject: "Passwort zurücksetzen"
-  gbook_mailer:
-    new_entry:
-      subject: "Neuer Gästebucheintrag"
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"
@@ -249,12 +240,6 @@ de:
         email:
           invalid: "Die e-mail-Adresse ist ungültig."
       models:
-        gbook_entry:
-          attributes:
-            text:
-              blank: "Bitte geben Sie eine Nachricht ein."
-            author:
-              blank: "Bitte geben Sie Ihren Namen an."
         photo:
           attributes:
             image:

@@ -1,9 +1,0 @@
-<% if @entry.anonymous? %>
-Es wurde soeben folgender anonymer Eintrag im Gästebuch verfasst:
-<% else %>
-Es wurde soeben folgender Eintrag von „<%= @entry.author %>“ im Gästebuch verfasst:
-<% end %>
-
-<%= @entry.text %>
-
-Direkt zum Gästebuch: <%= URI.unescape(gbook_entries_url) %>

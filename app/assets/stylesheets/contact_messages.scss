@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+
+  td {
+    padding-top: 10px;
+
+    &:last-child {
+      width: 60%;
+    }
+  }
+}
+
+textarea {
+  height: 150px;
+}
+
+.name input, textarea {
+  width: 90%;
+}

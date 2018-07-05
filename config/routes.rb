@@ -48,16 +48,6 @@ Rails.application.routes.draw do
   # resources
   scope path_names: { new: "neu", edit: "bearbeiten" } do
 
-    # gbook
-    resources :gbook_entries,
-      controller: :gbook,
-      path: "gästebuch",
-      except: [:show] do
-        collection do
-          get "(:page)", action: :index, as: "", constraints: { page: /\d+/ }
-        end
-      end
-
     resources :contact_messages, only: %i[index create], path: 'kontakt'
 
     # galleries
