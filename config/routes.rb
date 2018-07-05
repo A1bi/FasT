@@ -58,6 +58,8 @@ Rails.application.routes.draw do
         end
       end
 
+    resources :contact_messages, only: %i[index create], path: 'kontakt'
+
     # galleries
     resources :galleries, path: "galerie" do
       collection do

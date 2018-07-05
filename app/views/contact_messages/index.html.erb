@@ -1,0 +1,43 @@
+<% title "Kontakt" %>
+<!-- <% include_css "gbook" %> -->
+<div class="impressum">
+  <div class="hl">Kontakt</div>
+
+  <%= render 'static/main_address' %>
+
+  <h2>Ticket-Hotline</h2>
+
+  Telefon: +49 2653 282709
+
+  <h2>Kontaktformular</h2>
+
+  Sie haben eine Frage zu unserem Verein, den Theaterstücken oder Ihren gebuchten Tickets? Möchten Sie uns Feedback zu unseren Aufführungen geben?
+  <p>Teilen Sie uns Ihr Anliegen gerne über folgendes Kontaktformular mit und wir werden uns schnellstmöglich bei Ihnen melden.</p>
+
+  <div class="trenner"></div>
+
+  <%= form_for @message do |f| %>
+    <%= render 'errors', errors: @message.errors %>
+    <table>
+      <tr class="name">
+        <td>Ihr Name:</td>
+        <td><%= f.text_field :name, required: true %></td>
+      </tr>
+      <tr class="name">
+        <td>Ihre E-Mail-Adresse:</td>
+        <td><%= f.email_field :email, required: true %></td>
+      </tr>
+      <tr class="name">
+        <td>Ihre Telefonnummer:</td>
+        <td><%= f.telephone_field :phone, placeholder: 'falls Sie einen Rückruf wünschen' %></td>
+      </tr>
+      <tr>
+        <td>Ihre Nachricht:</td>
+        <td><%= f.text_area :content, required: true %></td>
+      </tr>
+    </table>
+    <div class="submit">
+      <%= f.submit value: 'absenden' %>
+    </div>
+  <% end %>
+</div>
