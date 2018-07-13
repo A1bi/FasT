@@ -1,4 +1,6 @@
 class Api::BoxOfficeController < ApplicationController
+  ignore_authenticity_token
+
   before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
   before_action :find_box_office, only: [:place_order, :purchase, :report, :bill]
