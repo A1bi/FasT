@@ -1,6 +1,6 @@
 module Ticketing
   class CheckIn < BaseModel
     belongs_to :ticket
-    belongs_to :checkpoint
+    belongs_to :checkpoint, optional: true
   end
 end

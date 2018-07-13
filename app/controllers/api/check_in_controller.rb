@@ -1,4 +1,6 @@
 class Api::CheckInController < ApplicationController
+  ignore_authenticity_token
+
   def index
     response = {}
 
@@ -23,7 +25,7 @@ class Api::CheckInController < ApplicationController
         date_id: ticket.date_id,
         number: ticket.number,
         type_id: ticket.type_id,
-        seat_id: ticket.seat_id,
+        seat_id: ticket.seat_id || 0,
         cancelled: ticket.cancelled?
       }
     end
