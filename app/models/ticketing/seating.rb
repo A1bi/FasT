@@ -16,11 +16,19 @@ module Ticketing
 
       seats = Ticketing::Seat.arel_table
       reservations = Ticketing::Reservation.arel_table
+      tickets = Ticketing::Ticket.arel_table
       join = self.seats.arel
+                 .join(tickets, Arel::Nodes::OuterJoin)
+                 .on(
+                    tickets[:seat_id].eq(seats[:id])
+                    .and(tickets[:date_id].eq(date.id))
+                    .and(tickets[:cancellation_id].eq(nil))
+                  )
                  .join(reservations, Arel::Nodes::OuterJoin)
                  .on(
                    reservations[:seat_id].eq(seats[:id])
                    .and(reservations[:date_id].eq(date.id))
+                   .and(tickets[:id].eq(nil))
                  )
                  .join_sources
 
