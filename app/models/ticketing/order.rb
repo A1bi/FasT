@@ -83,6 +83,10 @@ module Ticketing
       SigningKey.random_active.sign_order(self, params)
     end
 
+    def after_account_transfer
+      update_paid
+    end
+
     private
 
     def before_create_validation
@@ -111,10 +115,6 @@ module Ticketing
 
     def update_paid
       self.paid = !billing_account.outstanding?
-    end
-
-    def after_account_transfer
-      update_paid
     end
   end
 end

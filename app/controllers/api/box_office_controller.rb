@@ -83,6 +83,7 @@ class Api::BoxOfficeController < ApplicationController
     purchase = Ticketing::BoxOffice::Purchase.new
     purchase.pay_method = params[:pay_method]
     tickets = []
+    orders = []
 
     params[:items].each do |item|
       purchase_item = purchase.items.new
@@ -92,14 +93,17 @@ class Api::BoxOfficeController < ApplicationController
         purchase_item.purchasable = ticket
         purchase_item.number = 1
         tickets << ticket
+        orders << ticket.order
       when "product"
         purchase_item.purchasable = Ticketing::BoxOffice::Product.find(item[:id].to_i)
         purchase_item.number = item[:number]
       when "order_payment"
+        order = Ticketing::Order.find(item[:order])
         purchase_item.purchasable = Ticketing::BoxOffice::OrderPayment.new
-        purchase_item.purchasable.order = Ticketing::Order.find(item[:order])
+        purchase_item.purchasable.order = order
         purchase_item.purchasable.amount = item[:amount]
         purchase_item.number = 1
+        orders << order
       end
     end
 
@@ -112,6 +116,7 @@ class Api::BoxOfficeController < ApplicationController
         ticket.picked_up = true
         ticket.save
       end
+      orders.uniq.each(&:save)
     end
 
     render json: { ok: ok }
@@ -121,7 +126,9 @@ class Api::BoxOfficeController < ApplicationController
     ticket_id = nil
     orders = []
     if params[:q].present?
-      if params[:q] =~ /\A(\d{7})(-(\d+))?\z/
+      max_digits = Ticketing::Order::NUMBER_MAX_DIGITS
+      ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
+      if params[:q] =~ ticket_number_regex
         order = Ticketing::Order.where(number: $1).first
         orders << order
         if order && $3.present?

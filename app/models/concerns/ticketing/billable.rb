@@ -20,10 +20,10 @@ module Ticketing
       hash
     end
 
-    private
-
     def after_account_transfer
     end
+
+    private
 
     def withdraw_from_account(amount, note_key)
       billing_account.withdraw(amount, note_key)
@@ -38,6 +38,7 @@ module Ticketing
     def transfer_to_account(recipient, amount, note_key)
       billing_account.transfer(recipient.billing_account, amount, note_key)
       after_account_transfer
+      recipient.after_account_transfer
     end
   end
 end
