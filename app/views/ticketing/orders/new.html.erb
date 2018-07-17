@@ -24,6 +24,11 @@
       name: :transfer,
       human_name: "Vorkasse per Überweisung",
       desc: "Sie erhalten Ihre Tickets nach Zahlungseingang."
+    },
+    {
+      name: :box_office,
+      human_name: "Zahlung an der Abendkasse",
+      desc: "Sie erhalten Ihre Tickets nach Zahlung in bar oder per EC-Karte an der Abendkasse."
     }
   ] %>
   <div class="stepCon confirm">
@@ -87,6 +92,20 @@
               <td colspan="2">
                 Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
               </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box_office">
+        <table class="rounded form">
+          <thead>
+            <tr>
+              <th colspan="2">Bezahlung an der Abendkasse</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sie erhalten Ihre Tickets an der Abendkasse nach Zahlung in bar oder per EC-Karte.</td>
             </tr>
           </tbody>
         </table>

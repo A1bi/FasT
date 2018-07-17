@@ -79,6 +79,7 @@ de:
         charge: "SEPA-Lastschrift"
         transfer: "Überweisung"
         cash: "Barzahlung"
+        box_office: "Zahlung an der Abendkasse"
       log_events:
         created: "Bestellung aufgegeben"
         sent_pay_reminder: "Zahlungserinnerung gesendet"

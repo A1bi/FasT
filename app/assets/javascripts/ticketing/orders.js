@@ -421,6 +421,7 @@ function SeatsStep(delegate) {
     $this.addClass("selected");
 
     this.info.api.date = $this.data("id");
+    this.info.internal.boxOfficePayment = $this.data("box-office-payment");
     this.info.internal.localizedDate = $this.text();
 
     if (this.boundToSeats) {
@@ -535,6 +536,18 @@ function AddressStep(delegate) {
 function PaymentStep(delegate) {
   var _this = this;
 
+  this.willMoveIn = function () {
+    if (this.delegate.web) {
+      var boxOffice = this.delegate.getStepInfo("seats").internal.boxOfficePayment;
+      this.box.find(".transfer").toggle(!boxOffice);
+      this.box.find(".box_office").toggle(boxOffice);
+
+      if (!boxOffice && this.info.api.method == "box_office") {
+        this.info.api.method = null;
+      }
+    }
+  };
+
   this.validate = function () {
     if (this.methodIsCharge()) {
       return this.validateFields(function () {
@@ -564,7 +577,7 @@ function PaymentStep(delegate) {
   this.registerEventAndInitiate(this.box.find("[name=method]"), "click", function ($this) {
     if (!$this.is(":checked")) return;
     _this.info.api.method = $this.val();
-    _this.slideToggle(_this.box.find(".charge"), _this.methodIsCharge());
+    _this.slideToggle(_this.box.find(".charge_data"), _this.methodIsCharge());
     _this.delegate.updateNextBtn();
   });
 }

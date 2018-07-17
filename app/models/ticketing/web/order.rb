@@ -3,7 +3,7 @@ module Ticketing
     attr_accessor :admin_validations
 
     has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
-    enum pay_method: [:charge, :transfer, :cash], _suffix: :payment
+    enum pay_method: [:charge, :transfer, :cash, :box_office], _suffix: :payment
 
     auto_strip_attributes :first_name, :last_name, squish: true
     phony_normalize :phone, default_country_code: 'DE'

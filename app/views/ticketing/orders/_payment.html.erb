@@ -9,7 +9,7 @@
       <tbody>
         <% methods.each do |method| %>
           <% method_id = "method#{method[:name].capitalize}".to_sym %>
-          <tr>
+          <tr class="<%= method[:name] %>">
             <td class="radio"><input type="radio" name="method" value="<%= method[:name] %>" id="<%= method_id %>" /></td>
             <td>
               <%= label_tag method_id do %><b><%= method[:human_name] %></b><% end %>
@@ -19,7 +19,7 @@
         <% end %>
       </tbody>
     </table>
-    <div class="charge inner">
+    <div class="charge_data inner">
       <table class="form rounded">
         <thead>
           <tr>
