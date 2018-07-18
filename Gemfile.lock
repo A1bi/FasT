@@ -166,7 +166,7 @@ GEM
     msgpack (1.2.4)
     multipart-post (2.0.0)
     mysql2 (0.5.1)
-    net-http2 (0.17.0)
+    net-http2 (0.18.0)
       http-2 (= 0.9.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
