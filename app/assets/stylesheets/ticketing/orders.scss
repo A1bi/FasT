@@ -125,7 +125,7 @@ table.details {
 }
 
 .unpaid_orders {
-  table.transfer {
+  table.transfer, table.cash {
     margin-bottom: 0;
     border-bottom: {
       left-radius: 0;
@@ -138,7 +138,7 @@ table.details {
     }
   }
 
-  table.cash {
+  table.cash, table.box_office {
     margin-top: 0;
 
     tr:first-child th {

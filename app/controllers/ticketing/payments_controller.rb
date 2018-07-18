@@ -8,8 +8,9 @@ module Ticketing
         unpaid: {
           transfer: find_unpaid_orders.transfer_payment,
           cash: find_unpaid_orders.cash_payment,
+          box_office: find_unpaid_orders.box_office_payment,
           other: find_unpaid_orders(false)
-            .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash))
+            .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash, :box_office))
         },
         unapproved: Web::Order.charges_to_submit(false)
       }
