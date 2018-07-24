@@ -5,7 +5,6 @@ class DatesController < ApplicationController
   before_action :prepare_event
 
   def sommernachtstraum
-    # @event_image = "theater/magdalena/index.jpg"
     @creative_work_url = "https://de.wikipedia.org/wiki/Ein_Sommernachtstraum"
   end
 

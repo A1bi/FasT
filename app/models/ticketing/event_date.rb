@@ -14,7 +14,8 @@ module Ticketing
     end
 
     def sold_out?
-      ((ticket_stats_for_dates(event.dates)[:total][id] || {})[:percentage] || 0) >= 100
+      threshold = date.past? ? 97 : 100
+      ((ticket_stats_for_dates(event.dates)[:total][id] || {})[:percentage] || 0) >= threshold
     end
 
     def door_time
