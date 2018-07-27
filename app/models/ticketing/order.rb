@@ -40,7 +40,7 @@ module Ticketing
       log(:marked_as_paid)
     end
 
-    def cancel_tickets(tickets, reason)
+    def cancel_tickets(tickets, reason, send_mail = true)
       tickets.reject! { |t| t.cancelled? }
       cancellation = nil
       tickets.each do |ticket|

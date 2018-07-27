@@ -39,7 +39,7 @@ module Ticketing
     end
 
     def cancel_tickets(tickets, reason, send_mail = true)
-      super(tickets, reason)
+      super
       enqueue_mailing(:cancellation, depends_on_commit: true, reason: reason.to_s) if send_mail
     end
 
