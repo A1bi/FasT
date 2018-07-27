@@ -236,6 +236,7 @@ Rails.application.routes.draw do
       end
       scope controller: :box_office, path: :box_office do
         get :search
+        get :todays
         get :ticket_printable
         patch :pick_up_tickets
         post :place_order

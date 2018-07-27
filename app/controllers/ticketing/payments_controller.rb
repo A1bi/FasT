@@ -86,7 +86,7 @@ module Ticketing
 
     def find_unpaid_orders(web = true)
       klass = web ? Web::Order : Order
-      klass.includes(:billing_account).where(paid: false).order(:number)
+      klass.includes(:billing_account).unpaid.order(:number)
     end
 
     def redirect_to_overview(notice = nil)

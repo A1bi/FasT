@@ -123,17 +123,15 @@ class Api::BoxOfficeController < ApplicationController
   end
 
   def search
-    ticket_id = nil
-    orders = []
+    ticket = nil
+    orders = nil
     if params[:q].present?
       max_digits = Ticketing::Order::NUMBER_MAX_DIGITS
       ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
       if params[:q] =~ ticket_number_regex
-        order = Ticketing::Order.where(number: $1).first
-        orders << order
-        if order && $3.present?
-          ticket = order.tickets.where(order_index: $3).first
-          ticket_id = ticket.id if ticket
+        orders = Ticketing::Order.where(number: Regexp.last_match(1))
+        if orders.any? && Regexp.last_match(3).present?
+          ticket = orders.first.tickets.find_by_order_index(Regexp.last_match(3))
         end
 
       else
@@ -147,10 +145,25 @@ class Api::BoxOfficeController < ApplicationController
       end
     end
 
-    render json: {
-      ticket_id: ticket_id.to_s,
-      orders: orders.map { |o| info_for_order(o) }
-    }
+    render_orders(orders, ticket)
+  end
+
+  def todays
+    orders = Ticketing::Order
+             .unpaid
+             .joins(tickets: :date)
+             .where(
+               ticketing_tickets: {
+                 cancellation_id: nil
+               },
+               ticketing_event_dates: {
+                 date: Date.today.all_day
+               }
+             )
+             .order(:last_name, :first_name)
+             .distinct
+
+    render_orders(orders)
   end
 
   def ticket_printable
@@ -280,5 +293,12 @@ class Api::BoxOfficeController < ApplicationController
 
   def info_for_order(order)
     order.api_hash([:personal, :log_events, :tickets, :status, :billing], [:status])
+  end
+
+  def render_orders(orders, ticket = nil)
+    render json: {
+      ticket_id: ticket&.id&.to_s,
+      orders: orders.map { |o| info_for_order(o) }
+    }
   end
 end

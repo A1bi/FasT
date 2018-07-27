@@ -67,6 +67,10 @@ module Ticketing
       log(:ticket_types_edited, { count: tickets.count })
     end
 
+    def self.unpaid
+      where(paid: false)
+    end
+
     def cancelled?
       tickets.cancelled(false).empty?
     end
