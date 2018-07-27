@@ -74,7 +74,7 @@ class Api::BoxOfficeController < ApplicationController
   end
 
   def cancel_tickets
-    @order.cancel_tickets(@tickets, :cancellation_at_box_office)
+    @order.cancel_tickets(@tickets, :cancellation_at_box_office, false)
     save_order_and_update_node_with_tickets(@order, @tickets)
     render json: { order: info_for_order(@order) }
   end

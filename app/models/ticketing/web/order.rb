@@ -38,9 +38,9 @@ module Ticketing
       enqueue_mailing(:confirmation, depends_on_commit: true)
     end
 
-    def cancel_tickets(tickets, reason)
-      super
-      enqueue_mailing(:cancellation, depends_on_commit: true, reason: reason)
+    def cancel_tickets(tickets, reason, send_mail = true)
+      super(tickets, reason)
+      enqueue_mailing(:cancellation, depends_on_commit: true, reason: reason.to_s) if send_mail
     end
 
     def approve
