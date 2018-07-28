@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   # dates
   scope controller: :dates, path: "termine", as: :dates do
-    root action: :sommernachtstraum, as: ""
+    root action: :teaser, as: ""
   end
 
   # theater

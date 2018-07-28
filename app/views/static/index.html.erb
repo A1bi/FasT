@@ -13,17 +13,11 @@
   <% cache @event.on_sale? do %>
     <div class="teaser">
       <div class="hl">Unser Sommernachtstheater 2018</div>
-      <%= image_tag 'theater/sommernachtstraum/title.svg', alt: 'Ein Sommernachtstraum' %>
+      <%= link_to theater_sommernachtstraum_path do %>
+        <%= image_tag 'theater/sommernachtstraum/title.svg', alt: 'Ein Sommernachtstraum' %>
+      <% end %>
       <div class="links">
-        <%= link_to "Über das Stück", theater_sommernachtstraum_path %> |
-        <%= link_to "Termine", dates_path %> |
-        <span>
-          <% if @event.on_sale? %>
-            <%= link_to "Tickets bestellen", new_ticketing_order_path %>
-          <% else %>
-            Tickets ab <%= l @event.sale_start, format: "%e. %B" %>
-          <% end %>
-        </span>
+        Vielen Dank an unser Publikum!
       </div>
     </div>
     <div class="trenner"></div>
