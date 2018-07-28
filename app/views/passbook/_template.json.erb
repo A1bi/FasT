@@ -3,7 +3,7 @@ date = ticket.date.date.to_formatted_s(:w3c)
 
 barcode = {
   format: 'PKBarcodeFormatQR',
-  message: ticket.signed_info(medium: 3),
+  message: ticket.signed_info(medium: Ticketing::CheckIn.media[:passbook]),
   messageEncoding: 'utf-8',
   altText: ticket.number
 }

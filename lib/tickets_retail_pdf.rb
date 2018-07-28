@@ -18,6 +18,6 @@ class TicketsRetailPDF < TicketsPDF
   end
 
   def signed_info_medium
-    2
+    :retail
   end
 end

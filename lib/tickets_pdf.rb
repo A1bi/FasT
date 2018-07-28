@@ -250,10 +250,11 @@ class TicketsPDF < Prawn::Document
   end
 
   def barcode_content_for_ticket(ticket)
-    Settings.ticket_barcode_base_url + ticket.signed_info(medium: signed_info_medium)
+    medium = Ticketing::CheckIn.media[signed_info_medium]
+    Settings.ticket_barcode_base_url + ticket.signed_info(medium: medium)
   end
 
   def signed_info_medium
-    0
+    :unknown
   end
 end

@@ -16,6 +16,6 @@ class TicketsWebPDF < TicketsPDF
   end
 
   def signed_info_medium
-    1
+    :web
   end
 end

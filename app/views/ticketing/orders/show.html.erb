@@ -105,7 +105,7 @@
     <table class="rounded entries details">
       <thead>
         <tr>
-          <th colspan="7">In der Bestellung enthaltene Tickets</th>
+          <th colspan="<%= tickets_colspan %>">In der Bestellung enthaltene Tickets</th>
         </tr>
         <tr>
           <th class="checkbox"><%= check_box_tag "tickets_all[]" %></th>
@@ -115,6 +115,9 @@
           <th>Aufführung</th>
           <th>Block</th>
           <th>Sitz</th>
+          <% if @show_check_ins %>
+            <th>Einlass</th>
+          <% end %>
         </tr>
       </thead>
       <tbody class="hover">
@@ -140,12 +143,21 @@
             <% else %>
               <td colspan="2">Freie Platzwahl</td>
             <% end %>
+            <% if @show_check_ins %>
+              <td>
+                <% if (check_in = ticket.check_ins.first) %>
+                  <span title="via <%= t(check_in.medium, scope: 'ticketing.orders.check_ins.media') %>">
+                    <%= l check_in.date, format: '%H:%M' %>
+                  </span>
+                <% end %>
+              </td>
+            <% end %>
           <% end %>
         <% end %>
       </tbody>
       <tbody>
         <tr>
-          <td colspan="7" class="actions">
+          <td colspan="<%= tickets_colspan %>" class="actions">
             <% options = [
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
               ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }, true],
@@ -162,12 +174,12 @@
       <% if @order.tickets.first.seat.present? %>
         <thead>
           <tr>
-            <th colspan="7">Sitzplätze</th>
+            <th colspan="<%= tickets_colspan %>">Sitzplätze</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="7">
+            <td colspan="<%= tickets_colspan %>">
               <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, default_view: :numbers_and_underlay %>
             </td>
           </tr>

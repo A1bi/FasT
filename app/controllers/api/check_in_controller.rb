@@ -38,7 +38,7 @@ class Api::CheckInController < ApplicationController
       ticket = Ticketing::Ticket.find(check_in[:ticket_id])
       ticket.check_ins.create({
         date: Time.at(check_in[:date]),
-        medium: check_in[:medium]
+        medium: Ticketing::CheckIn.media.key(check_in[:medium].to_i)
       })
     end
 

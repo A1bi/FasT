@@ -91,6 +91,7 @@ module Ticketing
     end
 
     def show
+      @show_check_ins = admin? && @order.tickets.any? { |t| t.check_ins.any? || t.date.date.past? }
       @billing_actions.map! do |transaction|
         [t("ticketing.orders.balancing." + transaction.to_s), transaction]
       end

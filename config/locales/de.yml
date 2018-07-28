@@ -80,6 +80,13 @@ de:
         transfer: "Überweisung"
         cash: "Barzahlung"
         box_office: "Zahlung an der Abendkasse"
+      check_ins:
+        media:
+          unknown: unbekanntes Ticket-Medium
+          web: Online-Ticket
+          retail: Vorverkaufsstellen-Ticket
+          passbook: Apple Wallet
+          box_office: Abendkassen-Ticket
       log_events:
         created: "Bestellung aufgegeben"
         sent_pay_reminder: "Zahlungserinnerung gesendet"
