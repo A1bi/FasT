@@ -143,7 +143,8 @@ de:
         name: "Freilichtbühne am schiefen Turm"
         iban: "DE65570691440000178167"
         creditor_identifier: "DE21ZZZ00001271843"
-        remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
+        debit_remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
+        transfer_remittance_information: "Erstattung zu Ihrer Bestellung mit der Nummer %{number}"
     coupons:
       free_tickets:
         one: "%{count} Freikarte"

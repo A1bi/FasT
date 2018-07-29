@@ -136,7 +136,8 @@ Rails.application.routes.draw do
           patch :mark_as_paid
           patch :approve
           post :submit
-          get :submission_file, path: "sepa_auftrag/:id"
+          get :submission_file, path: "sepa-auftrag/:id"
+          get :credit_transfer_file, path: "sepa-transfer"
         end
         resources :seats, path: "sitzplan", only: [:index, :create] do
           collection do

@@ -13,9 +13,7 @@ module Ticketing
             .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash, :box_office))
         },
         unapproved: Web::Order.charges_to_submit(false),
-        outstanding_credit: Order.joins(:billing_account)
-                                 .where('ticketing_billing_accounts.balance > 0')
-                                 .order(:number)
+        outstanding_credit: orders_with_outstanding_credit
       }
 
       @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
@@ -50,9 +48,10 @@ module Ticketing
     def submission_file
       submission = BankSubmission.find(params[:id])
 
-      submissions_scope = [:ticketing, :payments, :submissions]
-      creditor = Hash[[:name, :iban, :creditor_identifier].map { |key| [key, t(key, scope: submissions_scope)] }]
-      debit = SEPA::DirectDebit.new(creditor)
+      info_keys = %i[name iban creditor_identifier]
+      debit_info = Hash[info_keys.map { |key| [key, translate_submission(key)] }]
+
+      debit = SEPA::DirectDebit.new(debit_info)
       debit.message_identification = "FasT/#{submission.id}"
 
       submission.charges.each do |charge|
@@ -61,7 +60,7 @@ module Ticketing
           iban: charge.iban,
           amount: charge.amount,
           instruction: charge.id,
-          remittance_information: t(:remittance_information, scope: submissions_scope, number: charge.chargeable.number),
+          remittance_information: translate_submission(:debit_remittance_information, number: charge.chargeable.number),
           mandate_id: charge.mandate_id,
           mandate_date_of_signature: charge.created_at.to_date,
           local_instrument: "COR1",
@@ -71,7 +70,36 @@ module Ticketing
         )
       end
 
-      send_data debit.to_xml("pain.008.003.02"), filename: "sepa-#{submission.id}.xml", type: "application/xml"
+      send_data debit.to_xml, filename: 'sepa-#{submission.id}.xml', type: 'application/xml'
+    end
+
+    def credit_transfer_file
+      orders = orders_with_outstanding_credit
+      return redirect_to_overview if orders.none?
+
+      require 'csv'
+
+      csv_string = CSV.generate do |csv|
+        orders.each do |order|
+          row = []
+          if order.is_a?(Web::Order)
+            if order.charge_payment?
+              row << order.bank_charge.name[0..69]
+              row << order.bank_charge.iban
+            else
+              row << "#{order.first_name} #{order.last_name}"
+              row << ''
+            end
+          else
+            row += [''] * 2
+          end
+          row << order.billing_account.balance
+          row << translate_submission(:transfer_remittance_information, number: order.number)
+          csv << row
+        end
+      end
+
+      send_data csv_string, filename: 'transfer.csv', type: 'text/csv'
     end
 
     private
@@ -92,11 +120,22 @@ module Ticketing
       klass.includes(:billing_account).unpaid.order(:number)
     end
 
+    def orders_with_outstanding_credit
+      Order.joins(:billing_account)
+           .where('ticketing_billing_accounts.balance > 0')
+           .order(:number)
+    end
+
     def redirect_to_overview(notice = nil)
       options = { scope: [:ticketing, :payments] }
       options[:count] = @orders.count if @orders
       flash[:notice] = t(notice, options) if notice
       redirect_to ticketing_payments_path
+    end
+
+    def translate_submission(key, options = {})
+      options[:scope] = %i[ticketing payments submissions]
+      t(key, options)
     end
   end
 end
