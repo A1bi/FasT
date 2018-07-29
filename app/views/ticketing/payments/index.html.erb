@@ -86,3 +86,6 @@
     <%= render "index_submit", text: "als bezahlt markieren", confirm: "Möchten Sie diese Bestellungen wirklich als bezahlt markieren?", orders: @orders[:unpaid] %>
   <% end %>
 <% end %>
+<% cache [:outstanding_credit, @orders[:outstanding_credit]] do %>
+  <%= render "application/ticketing/orders_table", table_title: "Bestellungen mit Guthaben", orders: @orders[:outstanding_credit], web: true, show_balance: true %>
+<% end %>

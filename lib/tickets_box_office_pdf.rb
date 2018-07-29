@@ -22,6 +22,6 @@ class TicketsBoxOfficePDF < TicketsPDF
   end
 
   def signed_info_medium
-    4
+    :box_office
   end
 end

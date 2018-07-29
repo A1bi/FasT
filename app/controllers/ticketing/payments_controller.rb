@@ -12,7 +12,10 @@ module Ticketing
           other: find_unpaid_orders(false)
             .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash, :box_office))
         },
-        unapproved: Web::Order.charges_to_submit(false)
+        unapproved: Web::Order.charges_to_submit(false),
+        outstanding_credit: Order.joins(:billing_account)
+                                 .where('ticketing_billing_accounts.balance > 0')
+                                 .order(:number)
       }
 
       @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
