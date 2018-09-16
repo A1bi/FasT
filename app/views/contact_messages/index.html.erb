@@ -15,20 +15,24 @@
   <%= form_for @message do |f| %>
     <%= render 'errors', errors: @message.errors %>
     <table>
-      <tr class="name">
+      <tr>
         <td>Ihr Name:</td>
         <td><%= f.text_field :name, required: true %></td>
       </tr>
-      <tr class="name">
+      <tr>
         <td>Ihre E-Mail-Adresse:</td>
         <td><%= f.email_field :email, required: true %></td>
       </tr>
-      <tr class="name">
+      <tr>
         <td>Ihre Telefonnummer:</td>
         <td><%= f.telephone_field :phone, placeholder: 'falls Sie einen Rückruf wünschen' %></td>
       </tr>
       <tr>
-        <td>Ihre Nachricht:</td>
+        <td>Betreff:</td>
+        <td><%= f.text_field :subject, required: true %></td>
+      </tr>
+      <tr>
+        <td>Nachricht:</td>
         <td><%= f.text_area :content, required: true %></td>
       </tr>
     </table>

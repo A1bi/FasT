@@ -1,17 +1,39 @@
 AllCops:
   TargetRubyVersion: 2.5
+  Exclude:
+  - 'bin/*'
+  - 'db/migrate/*'
+  - 'db/schema.rb'
 
-Metrics/ClassLength:
-  Enabled: false
-
-Metrics/LineLength:
-  Max: 120
-
-Metrics/MethodLength:
-  Enabled: false
+Rails:
+  Enabled: true
 
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*.rb'
+    - 'spec/**/*.rb'
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/RescueModifier:
+  Exclude:
+    - 'config/puma/*.rb'

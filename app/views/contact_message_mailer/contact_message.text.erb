@@ -1,5 +1,6 @@
-Absender: <%= @name %>
-E-Mail-Adresse: <%= @email %>
-<% if @phone.present? %>Telefonnummer: <%= @phone %><% end %>
+Diese Nachricht wurde über das Kontaktformular verschickt.
+
+<% if @phone.present? %>Telefonnummer des Absenders: <%= @phone %><% end %>
+_________________________________________________
 
 <%= @content %>

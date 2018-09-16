@@ -7,6 +7,7 @@ de:
     submit_save: "speichern"
     btn_delete: "löschen"
   contact_messages:
+    via: via Kontaktformular
     success: "Vielen Dank für Ihre Nachricht. Wir werden uns schnellstmöglich bei Ihnen melden."
   galleries:
     edit:
