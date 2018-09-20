@@ -1,3 +1,12 @@
+action_mailer:
+  defaults:
+    from: Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>
+    reply_to: Freilichtbühne am schiefen Turm <info@theater-kaisersesch.de>
+  mail_to_in_development: albo@a0s.de
+
+contact_messages:
+  mail_to: info@theater-kaisersesch.de
+
 apns:
   team_id: V48L6BF6M3
   topics:

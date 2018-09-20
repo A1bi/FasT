@@ -1,7 +1,7 @@
 class ContactMessageMailer < BaseMailer
-  default to: 'info@theater-kaisersesch.de',
+  default to: Settings.contact_messages.mail_to,
           reply_to: nil,
-          return_path: 'noreply@theater-kaisersesch.de'
+          return_path: default[:from]
 
   def contact_message(name, email, phone, subject, content)
     @name = name

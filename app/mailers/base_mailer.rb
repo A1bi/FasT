@@ -3,12 +3,14 @@ class BaseMailer < ActionMailer::Base
 
   helper :mailer
 
-  default I18n.t("action_mailer.defaults")
-
   def mail(options)
-    if Rails.env.development?
-      options[:to] = 'albo@a0s.de'
-    else
+    options[:to] = if Rails.env.development?
+                     Settings.action_mailer.mail_to_in_development
+                   else
+                     options[:to] || self.class.default[:to]
+                   end
+
+    if options[:to].present?
       parts = options[:to].split('@')
       unless parts[1].ascii_only?
         parts[1] = SimpleIDN.to_ascii(parts[1])
