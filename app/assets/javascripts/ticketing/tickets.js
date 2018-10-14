@@ -2,7 +2,7 @@
 //= require ./base
 
 function TicketTransfer(container) {
-  this.seatingId;
+  this.socketId;
   this.box = container;
   this.dateSelect = this.box.find("select");
   this.tickets = this.box.data("tickets");
@@ -27,7 +27,7 @@ function TicketTransfer(container) {
 
     $.post(this.box.find(".reservationGroups").data("enable-url"), {
       groups: groups,
-      seatingId: this.seatingId
+      socketId: this.socketId
     }).always(function (res) {
       _this.chooser.drawKey(res.seats);
     });
@@ -41,23 +41,20 @@ function TicketTransfer(container) {
       data: {
         ticket_ids: this.tickets,
         date_id: this.date(),
-        seatingId: this.seatingId
+        socketId: this.socketId
       },
       complete: callback
     });
   };
 
   this.seatChooserIsReady = function () {
+    this.socketId = this.chooser.socketId;
     this.updateDate();
     this.makeRequest("init", "post", function (res) {
       if (res.ok) {
 
       }
     });
-  };
-
-  this.seatChooserGotSeatingId = function (event) {
-    this.seatingId = this.chooser.seatingId;
   };
 
   this.seatChooserDisconnected = function () {

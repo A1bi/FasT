@@ -46,7 +46,7 @@ module Ticketing
       @tickets.each do |ticket|
         (seats[ticket.date.id] ||= []) << ticket.seat.id
       end
-      res = NodeApi.seating_request("setOriginalSeats", { seats: seats }, params[:seatingId])
+      res = NodeApi.seating_request("setOriginalSeats", { seats: seats }, params[:socketId])
       render json: { ok: res[:ok] }
     end
 
@@ -54,7 +54,7 @@ module Ticketing
       ok = true
       bound_to_seats = @event.seating.bound_to_seats?
 
-      chosen_seats = NodeApi.get_chosen_seats(params[:seatingId]) if bound_to_seats
+      chosen_seats = NodeApi.get_chosen_seats(params[:socketId]) if bound_to_seats
 
       if !bound_to_seats || (chosen_seats && @tickets.count == chosen_seats.count)
         date = Ticketing::EventDate.find(params[:date_id])

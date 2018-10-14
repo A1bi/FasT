@@ -199,14 +199,14 @@ module Ticketing
     end
 
     def update_exclusive_seats(action, groups)
-      return false if params[:seatingId].blank?
+      return false if params[:socketId].blank?
       seats = {}
       groups.each do |reservation_group|
         reservation_group.reservations.each do |reservation|
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:seatingId])
+      NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:socketId])
       seats.any?
     end
 

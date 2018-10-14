@@ -719,7 +719,7 @@ function SeatChooser(container, delegate) {
   this.numberOfSeats = 0;
   this.numberOfChosenSeats = 0;
   this.node = null;
-  this.seatingId;
+  this.socketId;
   this.errorBox = this.container.find(".error");
   this.delegate = delegate;
   this.noErrors = false;
@@ -847,9 +847,8 @@ function SeatChooser(container, delegate) {
       _this.noErrors = true;
     });
 
-    this.node.on("gotSeatingId", function (data) {
-      _this.seatingId = data.id;
-      _this.delegate.seatChooserGotSeatingId();
+    this.node.on("connect", function () {
+      _this.socketId = _this.node.id;
       _this.delegate.seatChooserIsReady();
     });
 

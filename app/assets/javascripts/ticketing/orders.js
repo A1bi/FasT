@@ -233,7 +233,7 @@ function TicketsStep(delegate) {
       this.delegate.toggleModalSpinner(true);
       $.post(this.couponBox.data("add-url"), {
         code: code,
-        seatingId: this.delegate.getStepInfo("seats").api.seatingId
+        socketId: this.delegate.getStepInfo("seats").api.socketId
       }).always(function (res) { _this.couponAdded(res); });
     }
   };
@@ -244,7 +244,7 @@ function TicketsStep(delegate) {
     this.delegate.toggleModalSpinner(true);
     $.post(this.couponBox.data("remove-url"), {
       code: code,
-      seatingId: this.delegate.getStepInfo("seats").api.seatingId
+      socketId: this.delegate.getStepInfo("seats").api.socketId
     }).always(function (res) {
       if (res.ok) {
         _this.info.internal.coupons.splice(index, 1);
@@ -455,7 +455,7 @@ function SeatsStep(delegate) {
     this.delegate.toggleModalSpinner(true);
     $.post(this.box.find(".reservationGroups").data("enable-url"), {
       groups: groups,
-      seatingId: this.delegate.getStepInfo("seats").api.seatingId
+      socketId: this.delegate.getStepInfo("seats").api.socketId
     }).always(function (res) {
       _this.delegate.toggleModalSpinner(false);
       _this.toggleExclusiveSeatsKey(res.seats);
@@ -468,11 +468,8 @@ function SeatsStep(delegate) {
   };
 
   this.seatChooserIsReady = function () {
+    this.info.api.socketId = this.chooser.socketId;
     this.delegate.toggleModalSpinner(false);
-  };
-
-  this.seatChooserGotSeatingId = function (event) {
-    this.info.api.seatingId = this.chooser.seatingId;
   };
 
   this.seatChooserDisconnected = function () {
@@ -667,7 +664,7 @@ function FinishStep(delegate) {
       date: apiInfo.seats.date,
       tickets: apiInfo.tickets.tickets,
       ignore_free_tickets: apiInfo.tickets.ignore_free_tickets,
-      seatingId: apiInfo.seats.seatingId,
+      socketId: apiInfo.seats.socketId,
       address: apiInfo.address,
       payment: apiInfo.payment,
       couponCodes: apiInfo.tickets.couponCodes

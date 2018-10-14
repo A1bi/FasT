@@ -3,7 +3,7 @@ require "uri"
 
 class NodeApi
   def self.make_request(name, data)
-    socket = Net::BufferedIO.new(UNIXSocket.new("/tmp/FasT-node-api.sock"))
+    socket = Net::BufferedIO.new(UNIXSocket.new("/tmp/FasT-node.sock"))
 
     path = "/" + name
 
@@ -23,14 +23,14 @@ class NodeApi
     response
   end
 
-  def self.seating_request(action, info, client_id = nil)
+  def self.seating_request(action, info, socket_id = nil)
     info[:action] = action
-    info[:clientId] = client_id if client_id
+    info[:socketId] = socket_id if socket_id
     make_request("seating", info)
   end
 
-  def self.get_chosen_seats(clientId)
-    body = seating_request("getChosenSeats", {}, clientId).body
+  def self.get_chosen_seats(socket_id)
+    body = seating_request("getChosenSeats", {}, socket_id).body
     if !body[:ok]
       nil
     else

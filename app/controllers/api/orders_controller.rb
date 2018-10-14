@@ -15,7 +15,7 @@ class Api::OrdersController < ApplicationController
 
     bound_to_seats = date.event.seating.bound_to_seats?
     if bound_to_seats
-      seats = NodeApi.get_chosen_seats(info[:seatingId])
+      seats = NodeApi.get_chosen_seats(info[:socketId])
       return render_error('Seating error') if !seats
     end
 
