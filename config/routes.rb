@@ -10,17 +10,7 @@ Rails.application.routes.draw do
   # theater
   scope controller: :theater, path: "theater", as: :theater do
     get "/", action: :index
-    get "montevideo"
-    get "hexenjagd"
-    get "medicus"
-    get "phantasus"
-    get "jedermann"
-    get "don-camillo-und-peppone", action: :don_camillo, as: :don_camillo
-    get "ladykillers"
-    get "die-drachenjungfrau", action: :drachenjungfrau, as: :drachenjungfrau
-    get "der-besuch-der-alten-dame", action: :alte_dame, as: :alte_dame
-    get "magdalena-himmelstürmerin", action: :magdalena, as: :magdalena
-    get "ein-sommernachtstraum", action: :sommernachtstraum, as: :sommernachtstraum
+    get ":slug", action: :show, as: :play
   end
 
   # info

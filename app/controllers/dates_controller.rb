@@ -1,23 +1,14 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  before_action :prepare_ticket_types
-  before_action :prepare_event
+  def teaser; end
 
-  def sommernachtstraum
-    @creative_work_url = "https://de.wikipedia.org/wiki/Ein_Sommernachtstraum"
+  def event
+    @event = Ticketing::Event.find_by!(identifier: params[:slug])
+    @ticket_types = Ticketing::TicketType.exclusive(false).order(price: :desc)
   end
 
   private
-
-  def prepare_ticket_types
-    @ticket_types = Ticketing::TicketType.exclusive(false).order(price: :desc)
-    puts Ticketing::TicketType.exclusive(false).count
-  end
-
-  def prepare_event
-    @event = Ticketing::Event.by_identifier(params[:action]) || Ticketing::Event.first
-  end
 
   def structured_data
     data = []

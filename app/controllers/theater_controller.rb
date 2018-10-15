@@ -1,10 +1,16 @@
 class TheaterController < ApplicationController
-  before_action :disable_member_controls, :except => [:index]
-  before_action :prepare_dates, only: [:jedermann, :don_camillo, :ladykillers, :alte_dame, :magdalena, :sommernachtstraum]
+  before_action :disable_member_controls, except: :index
 
-  private
+  def index; end
 
-  def prepare_dates
-    @dates = (Ticketing::Event.by_identifier(params[:action]) || Ticketing::Event.first).dates.order(:date)
+  def show
+    if params[:slug].in?(%w[phantasus medicus hexenjagd montevideo])
+      render params[:slug]
+
+    else
+      event = Ticketing::Event.find_by!(slug: params[:slug])
+      @dates = event.dates.order(:date)
+      render event.identifier
+    end
   end
 end

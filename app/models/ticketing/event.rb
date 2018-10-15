@@ -5,10 +5,6 @@ module Ticketing
     has_many :dates, -> { order(:date) }, class_name: 'EventDate'
     belongs_to :seating
 
-    def self.by_identifier(id)
-      where(identifier: id).first
-    end
-
     def self.current
       last
     end

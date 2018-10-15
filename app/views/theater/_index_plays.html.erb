@@ -1,3 +1,18 @@
-<% plays.each do |t| %>
-  <p><%= link_to_if t[2], image_tag("theater/#{t[0]}.jpg", alt: t[1], title: t[1]), { action: t[0] } %></p>
+<% plays.each do |play| %>
+  <%
+    if play.is_a? Symbol
+      event = Ticketing::Event.find_by(identifier: play)
+      next if event.nil?
+      slug = event.slug
+      identifier = event.identifier
+      title = event.name
+    else
+      slug = play[0]
+      identifier = slug
+      title = play[1]
+    end
+  %>
+  <p>
+    <%= link_to_if lookup_context.exists?(identifier, 'theater'), image_tag("theater/#{identifier}.jpg", alt: title, title: title), theater_play_path(slug) %>
+  </p>
 <% end %>

@@ -5,10 +5,10 @@
     <%= raw json_escape(structured_data.to_json) %>
   </script>
   <div class="sommernachtstraum">
-    Unser <b> Sommernachtstheater 2018 <%= link_to "„Ein Sommernachtstraum“", theater_sommernachtstraum_path %></b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+    Unser <b> Sommernachtstheater 2018 <%= link_to "„Ein Sommernachtstraum“", theater_play_path(@event.slug) %></b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
     <div class="container">
       <div class="title">
-        <%= link_to image_tag("theater/sommernachtstraum/title.svg", alt: "Ein Sommernachtstraum"), theater_sommernachtstraum_path %>
+        <%= link_to image_tag("theater/sommernachtstraum/title.svg", alt: "Ein Sommernachtstraum"), theater_play_path(@event.slug) %>
       </div>
       <div class="box dates">
         <div class="top">
@@ -50,7 +50,7 @@
       </table>
     </div>
     <% if @event.on_sale? %>
-      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path, class: "hl order" %>
+      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path(@event.slug), class: "hl order" %>
       <div class="stores">
         Alternativ erhalten Sie Ihre Tickets auch in folgenden <b>Vorverkaufsstellen</b>:
         <p>Sportstudio (Kaisersesch), Buchhandlung Walgenbach (Kaisersesch), Buchhandlung Layaa-Laulhé (Cochem)</p>

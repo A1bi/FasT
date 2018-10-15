@@ -23,4 +23,9 @@ module ApplicationHelper
   def nl2br(text)
     h(text).gsub(/\n/, "<br />").html_safe
   end
+
+  def theater_play_identifier_path(identifier)
+    event = Ticketing::Event.find_by(identifier: identifier)
+    event.present? ? theater_play_path(event.slug) : nil
+  end
 end

@@ -12,25 +12,25 @@
   <h2>Unsere Sommernachtstheater</h2>
   <div class="hcen">
     <%= render 'index_plays', plays: [
-      ["phantasus", "Der Riese Phantasus", true],
-      ["medicus", "Der Medicus vom Orient", true],
-      ["hexenjagd", "Hexenjagd", true],
-      ["montevideo", "Das Haus in Montevideo", true],
-      ["jedermann", "Jedermann", true],
-      ["don_camillo", "Don Camillo und Peppone", true],
-      ["ladykillers", "Ladykillers", true],
-      ["alte_dame", "Der Besuch der alten Dame", true],
-      ["magdalena", "Magdalena Himmelstürmerin", true]
+      [:phantasus, "Der Riese Phantasus"],
+      [:medicus, "Der Medicus vom Orient"],
+      [:hexenjagd, "Hexenjagd"],
+      [:montevideo, "Das Haus in Montevideo"],
+      :jedermann,
+      :don_camillo,
+      :ladykillers,
+      :alte_dame,
+      :magdalena
     ] %>
     Im Jahr <b>2018</b> folgt <b>„Ein Sommernachtstraum“</b>.
   </div>
 
   <h2>Unsere Kinder- und Jugendaufführungen im November</h2>
   <div class="hcen">
-    <%= render 'index_plays', plays: [
-      ["drachenjungfrau", "Die Drachenjungfrau", true],
-      ["alice_wunderland", "Alice im Wunderland", false],
-      ["willibald", "Der überaus starke Willibald", false]
+    <%= render 'index_plays', plays: %i[
+      drachenjungfrau
+      alice_wunderland
+      willibald
     ] %>
   </div>
 
