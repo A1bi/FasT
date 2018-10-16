@@ -50,7 +50,7 @@ module Ticketing
         BoxOffice::BoxOffice.all.each { |box_office| scopes << stats[:box_office][:box_offices][box_office.id] }
 
         scopes.each do |scope|
-          next if !scope
+          next unless scope && stats[:total].dig(:total, :total)
           calc_percentage_of_all_sales(scope, stats[:total][:total][:total])
         end
 

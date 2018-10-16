@@ -6,7 +6,11 @@ module Ticketing
     belongs_to :seating
 
     def self.current
-      last
+      archived(false)
+    end
+
+    def self.archived(archived = true)
+      where(archived: archived)
     end
 
     def sold_out?

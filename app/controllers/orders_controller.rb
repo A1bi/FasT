@@ -27,10 +27,10 @@ class OrdersController < ApplicationController
   def find_records
     info = Ticketing::SigningKey.verify_info(params[:signed_info])
 
-    if info.ticket?
+    if info.try(:ticket?)
       @ticket = Ticketing::Ticket.find(info.ticket.id)
       @order = @ticket.order
-    elsif info.order?
+    elsif info.try(:order?)
       @order = Ticketing::Order.find(info.order.id)
     else
       return redirect_to root_url

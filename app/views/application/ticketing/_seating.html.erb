@@ -3,6 +3,7 @@
   options ||= {}
   (options[:class] ||= []) << :seating
   (options[:data] ||= {})[:default_view] = default_view
+  options[:data][:event_id] = local_assigns[:event]&.id
 %>
 <%= content_tag :div, options do %>
   <%= content_tag :div, class: [:error, :plural_text] do %>

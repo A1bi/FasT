@@ -176,7 +176,7 @@ Rails.application.routes.draw do
 
       resource :order, path: "tickets", type: :web, only: [] do
         member do
-          get "bestellen", action: :new, as: :new
+          get "bestellen/(:event_slug)", action: :new, as: :new
         end
         collection do
           post :add_coupon
@@ -223,7 +223,7 @@ Rails.application.routes.draw do
       resources :orders, only: [:create]
       scope controller: :seats, path: :seats, as: :seats do
         get "availability", action: :availability
-        get "/", action: :index
+        get "/:event_id", action: :index
       end
       scope controller: :box_office, path: :box_office do
         get :search

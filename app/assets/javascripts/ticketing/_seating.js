@@ -238,6 +238,7 @@ function Seating(container) {
   this.gridCellSize;
   this.stage = null;
   this.layers = {};
+  this.eventId = this.container.data('event-id');
   this.seats = {};
   this.viewOptions = {
     numbers: false,
@@ -251,7 +252,7 @@ function Seating(container) {
   };
 
   this.initSeats = function (seatCallback, afterCallback) {
-    $.getJSON("/api/seats", function (data) {
+    $.getJSON("/api/seats/" + this.eventId, function (data) {
 
       for (var i = 0, bLength = data.blocks.length; i < bLength; i++) {
         var blockInfo = data.blocks[i];
@@ -878,8 +879,11 @@ function SeatChooser(container, delegate) {
   this.initSeats();
 
   this.node = io("/seating", {
-    "path": "/node",
-    "reconnection": false
+    path: "/node",
+    reconnection: false,
+    query: {
+      event_id: this.eventId
+    }
   });
 
   this.registerEvents();

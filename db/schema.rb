@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_15_153927) do
+ActiveRecord::Schema.define(version: 2018_10_16_195210) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2018_10_15_153927) do
     t.integer "seating_id", default: 1, null: false
     t.string "location"
     t.string "slug"
+    t.boolean "archived", default: false
     t.index ["identifier"], name: "index_ticketing_events_on_identifier"
     t.index ["slug"], name: "index_ticketing_events_on_slug"
   end

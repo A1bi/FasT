@@ -1,6 +1,6 @@
 class Api::SeatsController < ApplicationController
   def index
-    seating = Ticketing::Event.current.seating
+    seating = Ticketing::Event.find(params[:event_id]).seating
     render_cached_json [:api, :seats, :index, seating, seating.seats] do
       {
         underlay_path: "/uploads/#{seating.underlay_filename}",
@@ -22,9 +22,15 @@ class Api::SeatsController < ApplicationController
   end
 
   def availability
+    events = Ticketing::Event.current.includes(:dates)
+    dates = events.collect(&:dates).flatten
+
     render json: {
-      seats: Hash[Ticketing::Event.current.dates.map do |date|
-        [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map { |seat| seat.node_hash }]]
+      events: Hash[events.map do |event|
+        [event.id, { dates: event.dates.pluck(:id) }]
+      end],
+      seats: Hash[dates.map do |date|
+        [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map(&:node_hash)]]
       end]
     }
   end

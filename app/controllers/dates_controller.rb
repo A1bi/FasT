@@ -13,11 +13,13 @@ class DatesController < ApplicationController
   def structured_data
     data = []
 
+    # TODO: add availability state for 'not on sale anymore'
+
     @event.dates.each do |date|
       offers = []
       @ticket_types.each do |type|
         offers << {
-          url: new_ticketing_order_url,
+          url: new_ticketing_order_url(@event.slug),
           name: type.name,
           category: "primary",
           price: type.price,
