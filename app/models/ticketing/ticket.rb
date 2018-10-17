@@ -9,30 +9,18 @@ module Ticketing
     has_passbook_pass
     has_many :check_ins
 
-    validates_presence_of :seat, if: :seat_required?
-    validate :check_reserved, if: :seat_required?
+    validates :seat, presence: { if: :seat_required? },
+                     inclusion: { in: [nil], unless: :seat_required? }
+    validate :seat_available, if: :seat_required?
+    validate :seat_exists_for_event, if: :seat_required?
     validate :check_order_index, if: :order_index_changed?
 
     before_validation :update_invalidated
     before_save :update_passbook_pass
 
-    def seat=(seat)
-      @check_reserved = true
-      super seat
-    end
-
-    def date=(date)
-      @check_reserved = true
-      super date
-    end
-
     def type=(type)
       super
       self[:price] = type.price
-    end
-
-    def price
-      self[:price] || 0
     end
 
     def number
@@ -73,13 +61,18 @@ module Ticketing
     private
 
     def seat_required?
-      date&.event&.seating&.bound_to_seats?
+      seating&.bound_to_seats?
     end
 
-    def check_reserved
-      if @check_reserved && seat&.taken?(date)
-        errors.add :seat, "seat not available"
-      end
+    def seat_available
+      return if seat.nil? || !seat.taken?(date)
+      return unless will_save_change_to_attribute?(:seat) || will_save_change_to_attribute?(:date)
+      errors.add :seat, 'seat not available'
+    end
+
+    def seat_exists_for_event
+      return if seat.nil? || seating.nil? || seat.in?(seating.seats)
+      errors.add :seat, 'seat does not exist for this event'
     end
 
     def check_order_index
@@ -97,6 +90,10 @@ module Ticketing
         super(date.event.identifier, { ticket: self })
         passbook_pass.push
       end
+    end
+
+    def seating
+      date&.event&.seating
     end
   end
 end
