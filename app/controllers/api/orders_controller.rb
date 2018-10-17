@@ -20,7 +20,7 @@ class Api::OrdersController < ApplicationController
     end
 
     info[:tickets].each do |type_id, number|
-      ticket_type = Ticketing::TicketType.find_by_id(type_id)
+      ticket_type = date.event.ticket_types.find_by(id: type_id)
       next if !ticket_type || number < 1 || (ticket_type.exclusive && type != :admin)
 
       number.times do
@@ -33,7 +33,7 @@ class Api::OrdersController < ApplicationController
     end
 
     tickets_by_price = order.tickets.to_a.sort_by{ |x| x.price }
-    free_ticket_type = Ticketing::TicketType.where(price: 0).first
+    free_ticket_type = date.event.ticket_types.where(price: 0).first
     if info[:couponCodes].present? && info[:couponCodes].any?
       coupons = Ticketing::Coupon.where(code: info[:couponCodes])
       coupons.each do |coupon|

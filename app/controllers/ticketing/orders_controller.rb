@@ -193,8 +193,7 @@ module Ticketing
     def set_event_info
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.where("date > ?", Time.zone.now)
-      @seats = Ticketing::Seat.all
-      @ticket_types = Ticketing::TicketType.order(price: :desc)
+      @ticket_types = @event.ticket_types.order(price: :desc)
       @ticket_types = @ticket_types.exclusive(false) if !admin?
     end
 

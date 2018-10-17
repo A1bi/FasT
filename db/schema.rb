@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_195210) do
+ActiveRecord::Schema.define(version: 2018_10_17_201602) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -379,6 +379,8 @@ ActiveRecord::Schema.define(version: 2018_10_16_195210) do
     t.datetime "updated_at"
     t.string "info"
     t.boolean "exclusive", default: false
+    t.integer "event_id"
+    t.index ["event_id"], name: "index_ticketing_ticket_types_on_event_id"
   end
 
   create_table "ticketing_tickets", force: :cascade do |t|

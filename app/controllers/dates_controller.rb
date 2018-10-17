@@ -5,7 +5,7 @@ class DatesController < ApplicationController
 
   def event
     @event = Ticketing::Event.find_by!(identifier: params[:slug])
-    @ticket_types = Ticketing::TicketType.exclusive(false).order(price: :desc)
+    @ticket_types = @event.ticket_types.exclusive(false).order(price: :desc)
   end
 
   private

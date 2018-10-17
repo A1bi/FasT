@@ -24,7 +24,7 @@
         <% fields_for "ticketing_tickets[]", ticket do |f| %>
           <td class="number"><%= ticket.number %></td>
           <td class="name">
-            <%= f.collection_select :type_id, Ticketing::TicketType.all, :id, :name %>
+            <%= f.collection_select :type_id, ticket.event.ticket_types, :id, :name %>
           </td>
           <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
           <% if ticket.seat.present? %>

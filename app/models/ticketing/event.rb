@@ -3,6 +3,7 @@ module Ticketing
     include Statistics
 
     has_many :dates, -> { order(:date) }, class_name: 'EventDate'
+    has_many :ticket_types, dependent: :destroy
     belongs_to :seating
 
     def self.current
