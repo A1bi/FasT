@@ -137,31 +137,35 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_ticket_info(ticket)
-    info = []
     if ticket.seat.nil?
-      info << [""]
-      info << [t(:free_seating)]
+      labels = ['']
+      values = [t(:free_seating)]
+
     else
-      info << [t(:block), t(:seat)]
-      info << [ticket.seat.block.name, ticket.seat.number]
+      labels = [t(:block), t(:seat)]
+      values = [ticket.block.name, ticket.seat.number]
+
+      if ticket.block.entrance.present?
+        labels << t(:entrance)
+        values << ticket.block.entrance
+      end
     end
 
-    draw_info_table(info)
+    draw_info_table([labels, values])
 
-    info = []
     if ticket.price.zero?
-      info << [""]
-      info << [ticket.type.name]
+      labels = ['']
+      values = [ticket.type.name]
     else
-      info << [ticket.type.name]
-      info << [number_to_currency(ticket.price)]
+      labels = [ticket.type.name]
+      values = [number_to_currency(ticket.price)]
     end
 
-    info[0] << t(:ticket)
-    info[1] << ticket.number
+    labels << t(:ticket)
+    values << ticket.number
 
     start = cursor
-    table = draw_info_table(info)
+    table = draw_info_table([labels, values])
 
     float do
       move_up start - cursor - 12

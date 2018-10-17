@@ -20,6 +20,7 @@ module Ticketing
     before_save :update_passbook_pass
 
     delegate :event, to: :date, allow_nil: true
+    delegate :block, to: :seat, allow_nil: true
 
     def type=(type)
       super

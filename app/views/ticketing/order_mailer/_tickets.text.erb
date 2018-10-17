@@ -1,5 +1,5 @@
 <% @tickets.each do |ticket| %>
-      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | <% if ticket.seat.present? %>Block <%= ticket.seat.block.name %> | Sitz <%= ticket.seat.number %><% else %>Freie Platzwahl<% end %> | <%= number_to_currency(ticket.price) %>
+      <%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %> | <%= ticket.type.name %> | <% if ticket.seat.present? %>Block <%= ticket.block.name %> | Sitz <%= ticket.seat.number %><% else %>Freie Platzwahl<% end %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_17_201602) do
+ActiveRecord::Schema.define(version: 2018_10_17_205841) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2018_10_17_201602) do
     t.datetime "updated_at"
     t.string "color", default: "black"
     t.integer "seating_id", default: 1, null: false
+    t.string "entrance"
   end
 
   create_table "ticketing_box_office_box_offices", force: :cascade do |t|

@@ -94,10 +94,17 @@ _info = {
 
 if ticket.date.event.seating.bound_to_seats?
   _info[:eventTicket][:secondaryFields].unshift(
+    key: "entrance",
+    label: "Eingang",
+    value: ticket.block.entrance,
+    textAlignment: "PKTextAlignmentLeft",
+    changeMessage: "Der aktualisierte Eingang zu Ihrem Sitzplatz lautet %@."
+  ) if ticket.block.entrance.present?
+  _info[:eventTicket][:secondaryFields].unshift(
     {
       key: "block",
       label: "Block",
-      value: ticket.seat.block.name,
+      value: ticket.block.name,
       changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
     },
     {
