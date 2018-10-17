@@ -24,23 +24,23 @@ gem 'paperclip', '~> 6.0.0'
 
 gem 'bcrypt-ruby', '~> 3.1.5'
 
-gem 'icalendar', '~> 2.4.0'
+gem 'icalendar', '~> 2.5.0'
 
 gem 'prawn', '~> 2.2.2'
 gem 'prawn-table', '~> 0.2.1'
-gem 'prawn-svg', '~> 0.27.1'
+gem 'prawn-svg', '~> 0.28.0'
 gem 'prawn-qrcode', '~> 0.3.0'
 
 gem 'rubyzip', '~> 1.2.0'
 
-gem 'roadie', '~> 3.3.0'
+gem 'roadie', '~> 3.4.0'
 gem 'roadie-rails', '~> 1.3.0'
 
 gem 'sepa_king', '~> 0.11.0'
 
 gem 'dalli', '~> 2.7.8'
 
-gem 'sidekiq', '~> 5.1.3'
+gem 'sidekiq', '~> 5.2.2'
 
 gem 'groupdate', '~> 4.0.0'
 
@@ -60,10 +60,10 @@ gem 'config'
 
 gem 'bindata', '~> 2.4.3'
 
-gem 'apnotic', '~> 1.3.1'
+gem 'apnotic', '~> 1.4.1'
 gem 'connection_pool', '~> 2.2.2'
 
-gem 'simpleidn', '~> 0.0.9'
+gem 'simpleidn', '~> 0.1.1'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -75,14 +75,14 @@ gem 'simpleidn', '~> 0.0.9'
 gem 'unicorn', '~> 5.4.0'
 
 group :development do
-  gem 'capistrano', '~> 3.10.0'
+  gem 'capistrano', '~> 3.11.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
   gem 'capistrano-bundler', '~> 1.3.0', require: false
-  gem 'capistrano-rails', '~> 1.3.0', require: false
+  gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-sidekiq', '~> 1.0.2', require: false
   gem 'sqlite3', '~> 1.3.11'
-  gem 'ffaker', '~> 2.9.0'
+  gem 'ffaker', '~> 2.10.0'
   gem 'spring', '~> 2.0.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'byebug'
