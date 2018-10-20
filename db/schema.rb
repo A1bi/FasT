@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_17_205841) do
+ActiveRecord::Schema.define(version: 2018_10_20_134814) do
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -317,6 +317,8 @@ ActiveRecord::Schema.define(version: 2018_10_17_205841) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "box_office_id"
+    t.integer "date_id"
+    t.index ["date_id"], name: "index_ticketing_orders_on_date_id"
   end
 
   create_table "ticketing_push_notifications_devices", force: :cascade do |t|

@@ -6,16 +6,22 @@ module Ticketing
     NUMBER_MAX_DIGITS = Math.log10(NUMBER_MAX).ceil
     NUM_TICKETS_MAX = 2**8
 
+    attr_readonly :date
+
     has_many :tickets, dependent: :destroy, autosave: true
+    belongs_to :date, class_name: 'EventDate'
     has_random_unique_number :number, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
 
     validates_length_of :tickets, minimum: 1, maximum: NUM_TICKETS_MAX
+    validates :date, presence: true
 
+    before_validation :update_date
     before_validation :before_create_validation, on: :create
     before_create :before_create
 
+    delegate :event, to: :date, allow_nil: true
     delegate :balance, to: :billing_account
 
     def self.api_hash(details = [], ticket_details = [])
@@ -92,6 +98,10 @@ module Ticketing
     end
 
     private
+
+    def update_date
+      self[:date_id] = tickets.first&.date_id
+    end
 
     def before_create_validation
       update_total_and_billing(:order_created)
