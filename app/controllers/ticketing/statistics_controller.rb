@@ -2,7 +2,7 @@ module Ticketing
   class StatisticsController < BaseController
     include Statistics
 
-    before_action :prepare_vars
+    before_action :find_events, only: %i[index index_retail]
     ignore_restrictions only: [:index_retail]
 
     def index
@@ -75,15 +75,13 @@ module Ticketing
 
     private
 
-    def stats_for_current_event
-      ticket_stats_for_dates @dates
+    def stats_for_event(event)
+      ticket_stats_for_dates event.dates
     end
-    helper_method :stats_for_current_event
+    helper_method :stats_for_event
 
-    def prepare_vars
-      @event = Event.current
-      @dates = @event.dates
-      @ticket_types = TicketType.all
+    def find_events
+      @events = Event.current
     end
   end
 end

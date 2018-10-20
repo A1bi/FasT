@@ -2,11 +2,11 @@
   <% scopes.each do |scope| %>
     <thead>
       <tr>
-        <th colspan="<%= @ticket_types.count + 4 %>"><%= scope[:title] %></th>
+        <th colspan="<%= event.ticket_types.count + 4 %>"><%= scope[:title] %></th>
       </tr>
       <tr>
-        <th>Aufführung</th>
-        <% @ticket_types.each do |type| %>
+        <th>Termin</th>
+        <% event.ticket_types.each do |type| %>
           <th><%= type.name %></th>
         <% end %>
         <th colspan="2" class="total first">Gesamt</th>
@@ -14,10 +14,10 @@
       </tr>
     </thead>
     <tbody>
-      <% @dates.each do |date| %>
+      <% event.dates.each do |date| %>
         <tr>
-          <td><%= l date.date, format: "%a, %d. %B, %H:%M" %></td>
-          <% @ticket_types.each do |type| %>
+          <td><%= l date.date, format: '%a, %-d. %B' %></td>
+          <% event.ticket_types.each do |type| %>
             <td><%= ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0 %></td>
           <% end %>
           <td class="total first" colspan="<%= local_assigns[:total] ? 1 : 2 %>"><%= scope[:scope][date.id][:total] || 0 %></td>
@@ -29,7 +29,7 @@
       <% end %>
       <tr class="total">
         <td></td>
-        <% @ticket_types.each do |type| %>
+        <% event.ticket_types.each do |type| %>
           <td><%= (scope[:scope][:total] ||= {})[type.id] || 0 %></td>
         <% end %>
         <td class="total first" colspan="<%= local_assigns[:retail].blank? ? 1 : 2 %>"><%= scope[:scope][:total][:total] || 0 %></td>

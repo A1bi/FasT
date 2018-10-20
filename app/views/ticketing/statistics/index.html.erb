@@ -2,32 +2,36 @@
 <% include_css "ticketing/statistics" %>
 <% include_js "ticketing/statistics" %>
 <% cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all] do %>
-  <% stats = stats_for_current_event %>
   <div class="hl">Ticket-Statistik</div>
   <div class="stats">
     <div class="box chooser">
       <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span> | <span data-table="box_office">Abendkassen</span></div>
     </div>
-    <div class="total table">
-      <%= render "stats_table", scopes: [{ title: "Gesamt", scope: stats[:total] }], total: true %>
-    </div>
-    <div class="web table">
-      <%= render "stats_table", scopes: [{ title: "Online-Bestellungen", scope: stats[:web] }] %>
-    </div>
-    <div class="retail table">
-      <% (scopes ||= []) << { title: "Vorverkaufsstellen gesamt", scope: stats[:retail][:total] } %>
-      <% @stores.each do |store| %>
-        <% scopes << { title: store.name, scope: stats[:retail][:stores][store.id] } %>
-      <% end %>
-      <%= render "stats_table", scopes: scopes %>
-    </div>
-    <div class="box_office table">
-      <% (scopes = []) << { title: "Abendkassen gesamt", scope: stats[:box_office][:total] } %>
-      <% @box_offices.each do |box_office| %>
-        <% scopes << { title: box_office.name, scope: stats[:box_office][:box_offices][box_office.id] } %>
-      <% end %>
-      <%= render "stats_table", scopes: scopes %>
-    </div>
+    <% @events.each do |event| %>
+      <% stats = stats_for_event(event) %>
+      <h4 class="hcen"><%= event.name %></h4>
+      <div class="total table">
+        <%= render "stats_table", scopes: [{ title: "Gesamt", scope: stats[:total] }], event: event, total: true %>
+      </div>
+      <div class="web table">
+        <%= render "stats_table", scopes: [{ title: "Online-Bestellungen", scope: stats[:web] }], event: event %>
+      </div>
+      <div class="retail table">
+        <% (scopes ||= []) << { title: "Vorverkaufsstellen gesamt", scope: stats[:retail][:total] } %>
+        <% @stores.each do |store| %>
+          <% scopes << { title: store.name, scope: stats[:retail][:stores][store.id] } %>
+        <% end %>
+        <%= render "stats_table", scopes: scopes, event: event %>
+      </div>
+      <div class="box_office table">
+        <% (scopes = []) << { title: "Abendkassen gesamt", scope: stats[:box_office][:total] } %>
+        <% @box_offices.each do |box_office| %>
+          <% scopes << { title: box_office.name, scope: stats[:box_office][:box_offices][box_office.id] } %>
+        <% end %>
+        <%= render "stats_table", scopes: scopes, event: event %>
+      </div>
+    <% end %>
+    <div class="trenner"></div>
     <table class="rounded daily_stats">
       <thead>
         <tr>
@@ -54,4 +58,4 @@
       <%= render "application/ticketing/seating", options: { data: { date: date.id, additional_path: ticketing_statistics_seats_path } } %>
     </div>
   <% end %>
-<% end if @event.seating.bound_to_seats? %>
+<% end if false && @event.seating.bound_to_seats? %>
