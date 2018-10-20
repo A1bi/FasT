@@ -24,7 +24,7 @@
                   <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
                 </td>
                 <td class="date">
-                  <span class="line_through"><%= l date.date, format: "%e. %B" %></span>
+                  <span class="line_through"><%= l date.date, format: '%-d. %B' %></span>
                   <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
                 </td>
               <% end %>
@@ -37,7 +37,7 @@
     <div class="trenner"></div>
     <div class="hl">
       Ticketvorverkauf
-      <div class="small">ab <%= l @event.sale_start, format: "%e. %B" %></div>
+      <div class="small">ab <%= l @event.sale_start, format: '%-d. %B' %></div>
     </div>
     <div class="prices">
       <table class="rounded">

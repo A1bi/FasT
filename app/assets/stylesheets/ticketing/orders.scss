@@ -81,7 +81,6 @@ table.details {
     }
 
     &.number {
-      width: 15%;
       font-weight: bold;
 
       .small {
@@ -90,17 +89,9 @@ table.details {
       }
     }
 
-    &.tickets {
-      width: 5%;
-    }
-
     &.amount {
       text-align: right;
       width: 12%;
-    }
-
-    &.date {
-      width: 20%;
     }
 
     &.label {

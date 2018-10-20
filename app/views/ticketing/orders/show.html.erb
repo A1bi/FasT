@@ -112,7 +112,7 @@
           <th>Nummer</th>
           <th>Kategorie</th>
           <th>Preis</th>
-          <th>Aufführung</th>
+          <th>Termin</th>
           <th>Block</th>
           <th>Sitz</th>
           <% if @show_check_ins %>
@@ -136,7 +136,10 @@
             </td>
             <td class="name"><%= ticket.type.name %></td>
             <td class="amount"><%= number_to_currency ticket.price %></td>
-            <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
+            <td class="date">
+              <%= l ticket.date.date, format: '%-d. %B' %><br>
+              <%= content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small %>
+            </td>
             <% if ticket.seat.present? %>
               <td><%= ticket.block.name %></td>
               <td><%= ticket.seat.number %></td>

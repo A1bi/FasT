@@ -5,5 +5,5 @@
   <div class="hl">Suche</div>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
   <%= render "search_form" %>
-  <%= render "application/ticketing/orders_table", table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders, web: true %>
+  <%= render "application/ticketing/orders_table", table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders, web: true, additional_columns: %i[date] %>
 </div>

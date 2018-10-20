@@ -6,8 +6,8 @@
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
   <%= render "search_form" %>
   <% if admin? %>
-    <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web] %>
-    <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail] %>
+    <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web], additional_columns: %i[date] %>
+    <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail], additional_columns: %i[date] %>
   <% else %>
     <%= render "application/ticketing/orders_table", table_title: "Bisherige Bestellungen in Ihrer Vorverkaufsstelle", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
     <div class="hright">

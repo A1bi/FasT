@@ -1,21 +1,24 @@
 <table id="ticketsTable">
   <tr class="top">
-    <td>Aufführung</td>
-    <td>Kategorie</td>
+    <td>Veranstaltung</td>
     <td>Block</td>
     <td>Sitz</td>
+    <td>Kategorie</td>
     <td class="amount">Preis</td>
   </tr>
   <% @tickets.each do |ticket| %>
     <tr>
-      <td><%= l ticket.date.date, format: "%A, den %d. %B um %H.%M Uhr" %></td>
-      <td><%= ticket.type.name %></td>
+      <td>
+        „<%= ticket.event.name %>“<br>
+        <%= l ticket.date.date, format: '%A, den %-d. %B um %H.%M Uhr' %>
+      </td>
       <% if ticket.seat.present? %>
         <td><%= ticket.block.name %></td>
         <td><%= ticket.seat.number %></td>
       <% else %>
         <td colspan="2">Freie Platzwahl</td>
       <% end %>
+      <td><%= ticket.type.name %></td>
       <td class="amount"><%= number_to_currency(ticket.price) %></td>
     </tr>
   <% end %>

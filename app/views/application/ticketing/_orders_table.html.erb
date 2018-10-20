@@ -1,21 +1,31 @@
 <% cache_if (cache_key ||= nil).present?, [cache_key, orders, params[:type]] do %>
-  <% orders = orders.all %>
+  <%
+    additional_columns ||= []
+    number_of_columns = 4 + additional_columns.count
+  %>
   <table class="rounded entries details <%= local_assigns.fetch(:class, nil) %>">
     <thead>
       <% if defined? table_title %>
         <% Array(table_title).each do |title| %>
           <tr>
-            <th colspan="<%= local_assigns.fetch(:checkbox, false) ? 6 : 5 %>"><%= title %></th>
+            <th colspan="<%= number_of_columns %>"><%= title %></th>
           </tr>
         <% end %>
       <% end %>
       <% if orders.any? %>
         <tr>
-          <% if checkbox ||= false %><th class="checkbox"><%= check_box_tag "orders_all[]" %></th><% end %>
+          <% if :checkbox.in?(additional_columns) %>
+            <th class="checkbox"><%= check_box_tag "orders_all[]" %></th>
+          <% end %>
           <th>Nummer</th>
           <th><% if web ||= false %>Name<% else %>Vorverkaufsstelle<% end %></th>
           <th>Tickets</th>
-          <th><% if show_balance ||= false %>offen<% else %>Betrag<% end %></th>
+          <% if :date.in?(additional_columns) %>
+            <th>Termin</th>
+          <% end %>
+          <% if :balance.in?(additional_columns) %>
+            <th>offen</th>
+          <% end %>
           <th>Datum</th>
         </tr>
       <% end %>
@@ -24,7 +34,9 @@
       <% orders.each do |order| %>
         <% classes = :cancelled if order.cancelled? %>
         <%= content_tag :tr, class: classes, data: { path: orders_path(:ticketing_order, order) } do %>
-          <% if checkbox %><td class="checkbox"><%= check_box_tag "orders[]", order.id %></td><% end %>
+          <% if :checkbox.in?(additional_columns) %>
+            <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
+          <% end %>
           <td class="number"><%= link_to order.number, orders_path(:ticketing_order, order) %></td>
           <td class="name">
             <% if web %>
@@ -34,7 +46,15 @@
             <% end %>
           </td>
           <td class="tickets"><%= order.tickets.cancelled(false).size %></td>
-          <td class="amount"><%= number_to_currency(show_balance ? -order.balance : order.total) %></td>
+          <% if :date.in?(additional_columns) %>
+            <td>
+              <%= l order.date.date, format: '%-d. %B' %><br>
+              <%= content_tag :span, truncate(order.event.name, length: 12), title: order.event.name, class: :small %>
+            </td>
+          <% end %>
+          <% if :balance.in?(additional_columns) %>
+            <td class="amount"><%= number_to_currency(-order.balance) %></td>
+          <% end %>
           <td class="date"><%= l order.created_at, format: "%d.%m.%y, %H:%M" %></td>
         <% end %>
       <% end %>

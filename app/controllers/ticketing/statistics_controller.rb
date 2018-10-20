@@ -51,7 +51,7 @@ module Ticketing
       order_types = [Ticketing::Web::Order, Ticketing::Retail::Order]
 
       range.each_with_index do |date, i|
-        format = (i % 7 == 0) ? "%a %e. %B" : "%a %e."
+        format = (i % 7 == 0) ? "%a %-d. %B" : "%a %-d."
         labels << l(date, format: format)
         order_types.each_with_index do |_, j|
           ((datasets[j+1] ||= {})[:data] ||= {})[date.to_s] = 0
