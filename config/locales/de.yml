@@ -165,15 +165,17 @@ de:
         logout: "Sie wurden erfolgreich ausgeloggt."
     push_notifications:
       tickets_sold:
-        web:
-          one: "Es wurde ein Ticket online bestellt."
-          other: "Es wurden %{count} Tickets online bestellt."
-        retail:
-          one: "Es wurde ein Ticket in der Vorverkaufsstelle „%{store}“ verkauft."
-          other: "Es wurden %{count} Tickets in der Vorverkaufsstelle „%{store}“ verkauft."
-        admin:
-          one: "Es wurde ein Ticket telefonisch oder über andere Wege gebucht."
-          other: "Es wurden %{count} Tickets telefonisch oder über andere Wege gebucht."
+        title: "„%{event}”"
+        body:
+          web:
+            one: "Es wurde ein Ticket für den %{date} online bestellt."
+            other: "Es wurden %{count} Tickets für den %{date} online bestellt."
+          retail:
+            one: "Es wurde ein Ticket für den %{date} in der Vorverkaufsstelle „%{store}“ verkauft."
+            other: "Es wurden %{count} Tickets für den %{date} in der Vorverkaufsstelle „%{store}“ verkauft."
+          admin:
+            one: "Es wurde ein Ticket für den %{date} telefonisch oder über andere Wege gebucht."
+            other: "Es wurden %{count} Tickets für den %{date} telefonisch oder über andere Wege gebucht."
   orders:
     overview:
       wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."

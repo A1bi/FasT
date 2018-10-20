@@ -70,14 +70,7 @@ class Api::OrdersController < ApplicationController
             subscriber.send_confirmation_instructions(after_order: true, delay: 30.minutes)
           end
 
-          options = { scope: "ticketing.push_notifications.tickets_sold", count: order.tickets.count }
-          options[:store] = order.store.name if type == :retail
-          body = t(type, options)
-          badge = Ticketing::Ticket.where('created_at >= ?', Time.zone.now.beginning_of_day).count
-
-          Ticketing::PushNotifications::Device.where(app: :stats).find_each do |device|
-            device.push(body: body, badge: badge, sound: 'cash.aif')
-          end
+          Ticketing::OrderPushNotificationsJob.perform_later(order, type: type.to_s)
 
           NodeApi.update_seats_from_records(order.tickets) if bound_to_seats
 
@@ -97,7 +90,7 @@ class Api::OrdersController < ApplicationController
         rescue StandardError => exception
           Raven.capture_exception(exception)
           render json: { ok: false, error: 'Internal error' }
-          raise ActiveRecord::Rollback
+          raise Rails.env.development? ? exception : ActiveRecord::Rollback
         end
 
       else
