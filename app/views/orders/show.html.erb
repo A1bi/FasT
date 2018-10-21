@@ -25,7 +25,7 @@
           </td>
           <td class="date">
             „<%= ticket.event.name %>“<br>
-            <%= l ticket.date.date, format: '%-d. %B, %H.%M Uhr' %>
+            <%= l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr' %>
           </td>
           <td class="name"><%= ticket.type.name %> (<%= number_to_currency ticket.price %>)</td>
           <% if ticket.seat.present? %>

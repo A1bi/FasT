@@ -10,7 +10,7 @@
     <tr>
       <td>
         „<%= ticket.event.name %>“<br>
-        <%= l ticket.date.date, format: '%A, den %-d. %B um %H.%M Uhr' %>
+        <%= l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr' %>
       </td>
       <% if ticket.seat.present? %>
         <td><%= ticket.block.name %></td>
