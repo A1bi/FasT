@@ -101,7 +101,7 @@ Rails.application.routes.draw do
         scope path: "bestellungen", type: :admin do
           resource :order, path: "", only: [] do
             member do
-              get "neu", action: :new_admin, as: :new_admin
+              get "neu/(:event_slug)", action: :new_admin, as: :new_admin
             end
             collection do
               post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
@@ -153,7 +153,7 @@ Rails.application.routes.draw do
         scope path: "bestellungen" do
           resource :order, path: "", only: [] do
             member do
-              get "neu", action: :new_retail, as: :new
+              get "neu/(:event_slug)", action: :new_retail, as: :new
             end
           end
           resources :orders, path: "", only: [:index, :show], concerns: :ticketable do

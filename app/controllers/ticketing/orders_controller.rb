@@ -191,6 +191,13 @@ module Ticketing
     private
 
     def set_event_info
+      if params[:event_slug].blank?
+        @events = Event.current
+        @events = @events.select(&:on_sale?) if web? && !@_member.admin?
+        return redirect_to event_slug: @events.first.slug if @events.count == 1
+        return render 'new_choose_event'
+      end
+
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.where("date > ?", Time.zone.now)
       @ticket_types = @event.ticket_types.order(price: :desc)

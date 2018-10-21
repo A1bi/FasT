@@ -9,8 +9,8 @@
       </tr>
       <tr>
         <th>Nummer</th>
+        <th>Termin</th>
         <th>Kategorie</th>
-        <th>Aufführung</th>
         <th>Block</th>
         <th>Sitz</th>
         <% if @show_wallet %><th></th><% end %>
@@ -23,8 +23,11 @@
           <td class="number">
             <%= ticket.number %>
           </td>
+          <td class="date">
+            „<%= ticket.event.name %>“<br>
+            <%= l ticket.date.date, format: '%-d. %B, %H.%M Uhr' %>
+          </td>
           <td class="name"><%= ticket.type.name %> (<%= number_to_currency ticket.price %>)</td>
-          <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
           <% if ticket.seat.present? %>
             <td><%= ticket.block.name %></td>
             <td><%= ticket.seat.number %></td>

@@ -388,8 +388,10 @@ table.details {
   }
 
   &.tickets {
-    .hl {
-      font-size: 26px;
+    .event-header {
+      display: block;
+      width: 300px;
+      margin: 20px auto;
     }
 
     div.number {
@@ -627,6 +629,24 @@ table.details {
       td {
         border-top: 1px solid #cccccc;
       }
+    }
+  }
+}
+
+.choose-event {
+  text-align: center;
+
+  a {
+    display: block;
+  }
+
+  img {
+    margin-top: 40px;
+    width: 400px;
+    transition: transform .1s;
+
+    &:hover {
+      transform: scale(1.2);
     }
   }
 }

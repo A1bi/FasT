@@ -1,0 +1,14 @@
+<% title 'Tickets bestellen' %>
+<% include_css "ticketing/orders" %>
+
+<div class="hl">Tickets bestellen</div>
+
+<div class="hcen">Bitte wählen Sie eine Veranstaltung.</div>
+
+<div class="choose-event">
+  <% @events.each do |event| %>
+    <%= link_to event_slug: event.slug do %>
+      <%= image_tag "theater/#{event.identifier}/ticket_header.svg" %>
+    <% end %>
+  <% end %>
+</div>

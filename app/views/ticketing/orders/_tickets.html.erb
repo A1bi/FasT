@@ -1,12 +1,16 @@
 <div class="stepCon tickets">
+  <%= image_tag "theater/#{@event.identifier}/ticket_header.svg", class: 'event-header' %>
   <% if web? %>
     <div class="note">
-      Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets <% if @event.seating.bound_to_seats? %>und damit verbundene Sitzplatzreservierung <% end %>für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets später in digitaler Form per e-mail.
+      <p>
+        Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets <% if @event.seating.bound_to_seats? %>und damit verbundene Sitzplatzreservierung <% end %>für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
+      </p>
+      <p>
+        Weitere Informationen zu unserem Vorverkauf finden Sie in unseren <b><%= link_to '„häufig gestellten Fragen“', info_path %></b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+      </p>
       <div class="trenner"></div>
       <p>Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.</p>
     </div>
-  <% else %>
-    <div class="hl inner">„<%= @event.name %>“</div>
   <% end %>
   <div class="number inner">
     <table class="rounded">
@@ -69,10 +73,4 @@
       </tbody>
     <% end %>
   </div>
-  <% if web? %>
-    <div class="note">
-      <div class="trenner"></div>
-      Gibt es Schwierigkeiten bei Ihrer Bestellung? Rufen Sie uns gerne an: (02653) 28 27 09
-    </div>
-  <% end %>
 </div>
