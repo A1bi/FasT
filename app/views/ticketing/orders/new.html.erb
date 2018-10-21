@@ -5,7 +5,7 @@
   <div class="note">
     <p class="order-number">Ihre Bestellnummer lautet <b></b>.</p>
     <p>Innerhalb der nächsten fünf Minuten erhalten Sie eine e-mail mit <span class="tickets">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.<br />Sollten Sie keine Nachricht vorfinden, schauen Sie bitte auch in Ihren Spam-Ordner.</p>
-    <p>In unseren <%= link_to "FAQ", info_path %> finden Sie übrigens weitere hilfreiche Informationen zu den Aufführungen.</p>
+    <p>In unseren <%= link_to "FAQ", info_path(@event.slug) %> finden Sie übrigens weitere hilfreiche Informationen zu den Aufführungen.</p>
   </div>
   <div class="trenner"></div>
   <%= render "dates/restaurants" %>

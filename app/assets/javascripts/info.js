@@ -55,7 +55,7 @@ $(function () {
     $(this).toggleClass("disclosed").find("+ .answer").slideToggle();
   });
 
-  var path = "/faq/map" + ($("#map").is(".fall") ? "_fall" : "") + ".json";
+  var path = "/faq/map.json?event_identifier=" + ($("#map").data("event-identifier") || "");
 
   // init map data
   $.getJSON(path, function (data) {

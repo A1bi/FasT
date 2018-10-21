@@ -3,9 +3,21 @@ class InfoController < ApplicationController
   require 'open-uri'
 
   def index
+    if params[:event_slug].present?
+      event = Ticketing::Event.find_by!(slug: params[:event_slug])
+    else
+      event = Ticketing::Event.current.first
+      return redirect_to event_slug: event.slug
+    end
+
+    template = "index_#{event.identifier}"
+    render template if template_exists?("info/#{template}")
   end
 
   def map
+    return if params[:event_identifier].blank?
+    template = "map_#{params[:event_identifier]}"
+    render template if template_exists?("info/#{template}")
   end
 
   def weather

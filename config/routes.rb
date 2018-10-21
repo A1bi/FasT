@@ -15,10 +15,9 @@ Rails.application.routes.draw do
 
   # info
   scope controller: :info, path: "faq", as: :info do
-    get "/", action: :index
     get "map"
-    get "map_fall"
     get "weather"
+    get "/(:event_slug)", action: :index
   end
   get "info", to: redirect("faq")
 
