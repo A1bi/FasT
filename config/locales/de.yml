@@ -196,6 +196,7 @@ de:
     ticket: "Ticket"
     order: "Bestellung"
     block: "Block"
+    row: "Reihe"
     seat: "Sitz"
     entrance: "Eingang"
     website: "www.theater-kaisersesch.de"
@@ -203,7 +204,7 @@ de:
     date: "Datum"
     begins: "Beginn"
     opens: "Einlass"
-    location: "Aufführungsort"
+    location: "Veranstaltungsort"
     free_seating: "Freie Platzwahl"
     additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:\n<b>www.theater-kaisersesch.de</b> oder <b>(02653) 28 27 09</b>"
   member_mailer:

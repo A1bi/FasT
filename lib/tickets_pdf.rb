@@ -53,7 +53,7 @@ class TicketsPDF < Prawn::Document
     bounding_box([0, cursor - @ticket_margin], width: TICKET_WIDTH, height: @ticket_height - @ticket_margin * 2) do
       indent(10, 10) do
         draw_header 0.5
-        move_down 10
+        move_down 8
 
         bounding_box([0, cursor], width: bounds.width, height: cursor) do
           indent(20, 20) do
@@ -111,14 +111,23 @@ class TicketsPDF < Prawn::Document
 
   def draw_event_info_for_date(date)
     create_stamp(:events, date.event) do
-      event_image_path = Rails.root.join("app", "assets", "images", "theater", date.event.identifier, "ticket_header.svg")
-      svg File.read(event_image_path), width: bounds.width * 0.85
+      bounding_box([0, cursor], width: bounds.width * 0.96, height: bounds.height * 0.38) do
+        image_path = Rails.root.join("app/assets/images/theater/#{date.event.identifier}/ticket_header.svg")
+        svg = Prawn::SVG::Interface.new(File.read(image_path), self, vposition: :center)
+
+        svg.resize(width: bounds.width)
+        if svg.sizing.output_height > bounds.height
+          svg.resize(height: bounds.height)
+        end
+
+        svg.draw
+      end
     end
 
     draw_stamp(:dates, date, true) do
       draw_stamp(:events, date.event, false)
 
-      move_down 10
+      move_down 5
 
       draw_info_table([
         [t(:date), t(:begins), t(:opens)],
@@ -128,27 +137,33 @@ class TicketsPDF < Prawn::Document
           I18n.l(date.door_time, format: t(:time_format)),
         ]
       ])
-
-      draw_info_table([
-        [t(:location)],
-        [date.event.location]
-      ])
     end
   end
 
   def draw_ticket_info(ticket)
+    labels = [t(:location)]
+    values = [ticket.event.location]
+
     if ticket.seat.nil?
-      labels = ['']
-      values = [t(:free_seating)]
+      labels << ''
+      values << t(:free_seating)
 
     else
-      labels = [t(:block), t(:seat)]
-      values = [ticket.block.name, ticket.seat.number]
-
       if ticket.block.entrance.present?
         labels << t(:entrance)
         values << ticket.block.entrance
       end
+
+      labels << t(:block)
+      values << ticket.block.name
+
+      if ticket.seat.row.present?
+        labels << t(:row)
+        values << ticket.seat.row
+      end
+
+      labels << t(:seat)
+      values << ticket.seat.number
     end
 
     draw_info_table([labels, values])
@@ -181,12 +196,14 @@ class TicketsPDF < Prawn::Document
       cells.borders = []
       cells.padding = [2, 20, 0, 0]
       cells.size = normal_size
+      cells.single_line = true
+      cells.overflow = :shrink_to_fit
 
-      even_rows = (0..info.count-1).select { |i| i.even? }
-      row(even_rows).padding = [10, 25, 0, 0]
+      even_rows = (0..info.count - 1).select(&:even?)
+      row(even_rows).padding = [10, 20, 0, 0]
       row(even_rows).size = tiny_size
 
-      odd_rows = (0..info.count-1).select { |i| i.odd? }
+      odd_rows = (0..info.count - 1).select(&:odd?)
       row(odd_rows).font_style = :bold
 
       instance_eval(&block) if block_given?
