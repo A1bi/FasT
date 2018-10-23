@@ -30,32 +30,26 @@ _info = {
     primaryFields: [
       {
         key: "date",
-        label: "Datum",
+        label: "Beginn",
         value: date,
         dateStyle: "PKDateStyleFull",
+        timeStyle: "PKDateStyleShort",
         changeMessage: "Ihr Ticket wurde auf folgendes Datum umgebucht: %@"
       }
     ],
-    secondaryFields: [
+    secondaryFields: [],
+    auxiliaryFields: [
+      {
+        key: "location",
+        label: "Veranstaltungsort",
+        value: ticket.date.event.location,
+        changeMessage: "Der Veranstaltungsort wurde verlegt nach „%@“."
+      },
       {
         key: "opens",
         label: "Einlass",
         value: ticket.date.door_time.to_formatted_s(:w3c),
         timeStyle: "PKDateStyleShort"
-      },
-      {
-        key: "time",
-        label: "Beginn",
-        value: date,
-        timeStyle: "PKDateStyleShort",
-        changeMessage: "Der Beginn der Aufführung wurde geändert auf %@."
-      }
-    ],
-    auxiliaryFields: [
-      {
-        key: "location",
-        label: "Ort",
-        value: ticket.date.event.location
       },
       {
         key: "ticket_type",
@@ -65,11 +59,6 @@ _info = {
       },
     ],
     backFields: [
-      {
-        key: "locationAddress",
-        label: "Adresse der Spielstätte",
-        value: "Burgstraße, 56759 Kaisersesch\nEine Karte mit Parkmöglichkeiten finden Sie <a href=\"#{info_url}\">hier</a>."
-      },
       {
         key: "overviewUrl",
         label: "Ticket umbuchen oder stornieren",
@@ -93,34 +82,46 @@ _info = {
 }
 
 if ticket.date.event.seating.bound_to_seats?
-  _info[:eventTicket][:secondaryFields].unshift(
+  _info[:eventTicket][:secondaryFields] << {
     key: "entrance",
     label: "Eingang",
     value: ticket.block.entrance,
     textAlignment: "PKTextAlignmentLeft",
     changeMessage: "Der aktualisierte Eingang zu Ihrem Sitzplatz lautet %@."
-  ) if ticket.block.entrance.present?
-  _info[:eventTicket][:secondaryFields].unshift(
-    {
-      key: "block",
-      label: "Block",
-      value: ticket.block.name,
-      changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
-    },
-    {
-      key: "seat",
-      label: "Sitzplatz",
-      value: ticket.seat.number,
-      textAlignment: "PKTextAlignmentLeft",
-      changeMessage: "Ihre neue Sitznummer lautet %@."
-    }
-  )
+  } if ticket.block.entrance.present?
+
+  _info[:eventTicket][:secondaryFields] << {
+    key: "block",
+    label: "Block",
+    value: ticket.block.name,
+    changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
+  }
+
+  _info[:eventTicket][:secondaryFields] << {
+    key: "row",
+    label: "Reihe",
+    value: ticket.seat.row,
+    changeMessage: "Ihr Sitzplatz befindet sich nun in Reihe %@."
+  } if ticket.seat.row.present?
+
+  _info[:eventTicket][:secondaryFields] << {
+    key: "seat",
+    label: "Sitzplatz",
+    value: ticket.seat.number,
+    textAlignment: "PKTextAlignmentLeft",
+    changeMessage: "Ihre neue Sitznummer lautet %@."
+  }
+
 else
-  _info[:eventTicket][:secondaryFields].unshift({
+  _info[:eventTicket][:secondaryFields] << {
     key: "seat",
     label: "Sitzplatz",
     value: "Freie Platzwahl"
-  })
+  }
+end
+
+if info.dig(:eventTicket, :backFields)
+  info[:eventTicket][:backFields] += _info[:eventTicket][:backFields]
 end
 
 info = _info.deep_merge(info || {})

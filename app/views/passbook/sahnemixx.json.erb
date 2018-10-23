@@ -1,5 +1,14 @@
 <%= render "passbook/template", ticket: info[:ticket], info: {
   backgroundColor: "rgb(0, 0, 0)",
   foregroundColor: "rgb(255, 255, 255)",
-  labelColor: "rgb(33, 154, 213)"
+  labelColor: "rgb(33, 154, 213)",
+  eventTicket: {
+    backFields: [
+      {
+        key: "locationAddress",
+        label: "Adresse des Veranstaltungsortes",
+        value: "Schwalbenweg, 56759 Kaisersesch\nEine Karte mit Parkmöglichkeiten finden Sie <a href=\"#{info_url}\">hier</a>."
+      }
+    ]
+  }
 } %>
