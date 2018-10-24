@@ -15,6 +15,7 @@ Metrics/BlockLength:
   Exclude:
     - 'config/**/*.rb'
     - 'spec/**/*.rb'
+    - 'lib/tasks/*.rake'
 
 Metrics/LineLength:
   Enabled: false
