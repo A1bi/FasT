@@ -2,6 +2,7 @@ module Ticketing
   class Seating < BaseModel
     has_many :blocks, dependent: :destroy
     has_many :seats, through: :blocks
+    has_one_attached :plan
 
     def bound_to_seats?
       self[:number_of_seats] < 1

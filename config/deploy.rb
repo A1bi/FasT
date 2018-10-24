@@ -3,7 +3,7 @@ set :repo_url, 'git@gitea.dyn.a0s.de:Albrecht/FasT.git'
 set :deploy_to, '$HOME/FasT'
 
 append :linked_files, 'config/master.key'
-append :linked_dirs, 'public/system', 'public/uploads', 'tmp/cache'
+append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache'
 
 set :keep_releases, 3
 

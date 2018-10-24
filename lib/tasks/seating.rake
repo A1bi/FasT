@@ -149,6 +149,8 @@ namespace :seating do
           seat.destroy
         end
       end
+
+      seating.plan.attach(io: StringIO.new(svg.to_xml), filename: 'seating.svg')
     end
 
     write_svg_file(svg, args[:path])
