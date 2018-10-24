@@ -1,6 +1,6 @@
 module Ticketing
   class Seating < BaseModel
-    has_many :blocks
+    has_many :blocks, dependent: :destroy
     has_many :seats, through: :blocks
 
     def bound_to_seats?

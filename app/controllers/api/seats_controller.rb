@@ -30,7 +30,8 @@ class Api::SeatsController < ApplicationController
         [event.id, { dates: event.dates.pluck(:id) }]
       end],
       seats: Hash[dates.map do |date|
-        [date.id, Hash[Ticketing::Seat.with_availability_on_date(date).map(&:node_hash)]]
+        next if date.event.seating.nil?
+        [date.id, Hash[date.event.seating.seats.with_availability_on_date(date).map(&:node_hash)]]
       end]
     }
   end
