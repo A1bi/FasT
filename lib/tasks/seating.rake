@@ -20,6 +20,13 @@ namespace :seating do
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
   end
 
+  def confirm(message)
+    puts message + ' [yn]'
+    return true if STDIN.gets.strip == 'y'
+    raise ActiveRecord::Rollback
+    abort
+  end
+
   desc 'adds numbers in order of elements to seats'
   task :add_numbers, [:path] do |_task, args|
     svg = svg_file(args[:path])
@@ -27,6 +34,8 @@ namespace :seating do
     num_seats = 0
 
     svg.css('.block').each do |block|
+      block['fast:block'] = nil
+
       block.css('> g').each_with_index do |seat, i|
         num_seats += 1
         number = i + 1
@@ -69,6 +78,77 @@ namespace :seating do
 
       seat['fast:row'] = row
       seat.css('text').first.content = row
+    end
+
+    write_svg_file(svg, args[:path])
+  end
+
+  desc 'imports seating plan to create corresponding records'
+  task :import, [:path] => :environment do |_task, args|
+    svg = svg_file(args[:path])
+
+    ActiveRecord::Base.transaction do
+      if svg.xpath('//*[@fast:seating]').none?
+        confirm('Seating does not exist yet. Do you want to create it?')
+        seating = Ticketing::Seating.create
+        svg.root['fast:seating'] = nil
+        svg.root['fast:id'] = seating.id
+        puts "Seating with id=#{seating.id} created."
+
+      else
+        id = svg.root['fast:id']
+        seating = Ticketing::Seating.find_by(id: id)
+        abort "Seating with id=#{id} not found." unless seating
+      end
+
+      svg.xpath('//*[@fast:block]').each do |element|
+        id = element['fast:id']
+        title = element.css('title').first.content
+
+        if id.present?
+          block = Ticketing::Block.find_by(id: id)
+          abort "Block '#{title}' with id=#{id} not found." unless block
+          block.name = title
+          block.save
+          puts "Block '#{title}' changed: #{block.saved_changes}" if block.saved_changes?
+
+        else
+          confirm("Block '#{title}' does not exist yet. Do you want to create it?")
+          block = seating.blocks.create(name: title)
+          element['fast:id'] = block.id
+          puts "Block with id=#{block.id} created."
+        end
+
+        seats = []
+
+        element.xpath('*[@fast:seat]').each do |seat_element|
+          id = seat_element['fast:id']
+          number = seat_element['fast:number']
+          row = seat_element['fast:row']
+
+          if id.present?
+            seat = Ticketing::Seat.find_by(id: id)
+            abort "Seat '#{number}' in Block '#{block.name}' with id=#{id} not found." unless seat
+            seat.block = block
+            seat.row = row
+            seat.number = number
+            seat.save
+            seats << seat
+            puts "Seat '#{number}' in Block '#{block.name}' changed: #{seat.saved_changes}" if seat.saved_changes?
+
+          else
+            # confirm("Seat '#{number}' in Block '#{block.name}' does not exist yet. Do you want to create it?")
+            seat = block.seats.create(row: row, number: number)
+            seat_element['fast:id'] = seat.id
+            puts "Seat '#{number}' in Block '#{block.name}' with id=#{seat.id} created."
+          end
+        end
+
+        block.seats.where.not(id: seats.map(&:id)).each do |seat|
+          confirm("Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is missing. Do you want to remove it?")
+          seat.destroy
+        end
+      end
     end
 
     write_svg_file(svg, args[:path])
