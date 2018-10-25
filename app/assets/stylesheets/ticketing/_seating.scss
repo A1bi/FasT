@@ -16,9 +16,25 @@
   }
 
   .plan svg {
+    .shield {
+      opacity: 0;
+      transition: opacity .2s;
+      cursor: pointer;
+      display: none; // TODO: remove
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     .seat {
       &.status-available, &.status-chosen, &.status-exclusive {
         cursor: pointer;
+      }
+
+      &.status-chosen {
+        stroke: black;
+        stroke-width: 3px;
       }
 
       text {

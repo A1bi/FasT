@@ -11,6 +11,11 @@ function Seating(container) {
     this.container.find('.plan').load(this.container.data('plan-path'), function () {
 
       this.plan = this.container.find('svg');
+
+      this.plan.find('.block').click(function (event) {
+        this.clickedShield($(event.currentTarget));
+      }.bind(this));
+
       this.allSeats = this.plan.find('.seat')
         .each(function (_i, seat) {
           var $seat = $(seat);
@@ -24,6 +29,10 @@ function Seating(container) {
       if (callback) callback();
 
     }.bind(this));
+  };
+
+  this.clickedShield = function (shield) {
+
   };
 };
 

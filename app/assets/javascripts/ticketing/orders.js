@@ -388,6 +388,9 @@ function TicketsStep(delegate) {
     _this.info.api.ignore_free_tickets = $this.is(":checked");
     _this.updateDiscounts();
   });
+  this.box.find('.event-header').load(function () {
+    _this.resizeDelegateBox(true);
+  });
 }
 
 function SeatsStep(delegate) {
