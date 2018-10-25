@@ -12,11 +12,6 @@ namespace :seating do
     dup_path = File.dirname(path) + '/' + File.basename(path, ext) + '_original' + ext
     FileUtils.copy_file(path, dup_path)
 
-    # add namespace
-    if svg.namespaces['fast'].blank?
-      svg.root.add_namespace('fast', 'https://www.theater-kaisersesch.de')
-    end
-
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
   end
 
@@ -24,7 +19,6 @@ namespace :seating do
     puts message + ' [yn]'
     return true if STDIN.gets.strip == 'y'
     raise ActiveRecord::Rollback
-    abort
   end
 
   desc 'adds numbers in order of elements to seats'
@@ -34,13 +28,10 @@ namespace :seating do
     num_seats = 0
 
     svg.css('.block').each do |block|
-      block['fast:block'] = nil
-
-      block.css('> g').each_with_index do |seat, i|
+      block.css('> g').add_class('seat').each_with_index do |seat, i|
         num_seats += 1
         number = i + 1
-        seat['fast:seat'] = nil
-        seat['fast:number'] = number
+        seat['data-number'] = number
 
         seat.css('text').first.content = number
       end
@@ -64,19 +55,19 @@ namespace :seating do
     previous_row = 0
 
     block.css('g').each_with_index do |seat, i|
-      next if seat['fast:row'].present?
+      next if seat['data-row'].present?
 
       # is this the first seat without a row already set ?
       if first_seat_index.nil?
         first_seat_index = i
         # use its row as base row for the following rows
-        previous_row = seat.previous_element['fast:row'].to_i if seat.previous_element.present?
+        previous_row = seat.previous_element['data-row'].to_i if seat.previous_element.present?
       end
 
       row = previous_row + (i - first_seat_index) / seats_per_row + 1
       break if last_row > -1 && row > last_row
 
-      seat['fast:row'] = row
+      seat['data-row'] = row
       seat.css('text').first.content = row
     end
 
@@ -88,21 +79,20 @@ namespace :seating do
     svg = svg_file(args[:path])
 
     ActiveRecord::Base.transaction do
-      if svg.xpath('//*[@fast:seating]').none?
+      if svg.root['data-id'].blank?
         confirm('Seating does not exist yet. Do you want to create it?')
         seating = Ticketing::Seating.create
-        svg.root['fast:seating'] = nil
-        svg.root['fast:id'] = seating.id
+        svg.root['data-id'] = seating.id
         puts "Seating with id=#{seating.id} created."
 
       else
-        id = svg.root['fast:id']
+        id = svg.root['data-id']
         seating = Ticketing::Seating.find_by(id: id)
         abort "Seating with id=#{id} not found." unless seating
       end
 
-      svg.xpath('//*[@fast:block]').each do |element|
-        id = element['fast:id']
+      svg.css('.block').each do |element|
+        id = element['data-id']
         title = element.css('title').first.content
 
         if id.present?
@@ -115,16 +105,16 @@ namespace :seating do
         else
           confirm("Block '#{title}' does not exist yet. Do you want to create it?")
           block = seating.blocks.create(name: title)
-          element['fast:id'] = block.id
+          element['data-id'] = block.id
           puts "Block with id=#{block.id} created."
         end
 
         seats = []
 
-        element.xpath('*[@fast:seat]').each do |seat_element|
-          id = seat_element['fast:id']
-          number = seat_element['fast:number']
-          row = seat_element['fast:row']
+        element.css('.seat').each do |seat_element|
+          id = seat_element['data-id']
+          number = seat_element['data-number']
+          row = seat_element['data-row']
 
           if id.present?
             seat = Ticketing::Seat.find_by(id: id)
@@ -133,17 +123,19 @@ namespace :seating do
             seat.row = row
             seat.number = number
             seat.save
-            seats << seat
             puts "Seat '#{number}' in Block '#{block.name}' changed: #{seat.saved_changes}" if seat.saved_changes?
 
           else
             # confirm("Seat '#{number}' in Block '#{block.name}' does not exist yet. Do you want to create it?")
             seat = block.seats.create(row: row, number: number)
-            seat_element['fast:id'] = seat.id
+            seat_element['data-id'] = seat.id
             puts "Seat '#{number}' in Block '#{block.name}' with id=#{seat.id} created."
           end
+
+          seats << seat
         end
 
+        next if block.new_record?
         block.seats.where.not(id: seats.map(&:id)).each do |seat|
           confirm("Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is missing. Do you want to remove it?")
           seat.destroy
@@ -151,8 +143,8 @@ namespace :seating do
       end
 
       seating.plan.attach(io: StringIO.new(svg.to_xml), filename: 'seating.svg')
-    end
 
-    write_svg_file(svg, args[:path])
+      write_svg_file(svg, args[:path])
+    end
   end
 end

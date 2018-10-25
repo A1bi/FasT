@@ -11,10 +11,11 @@ function Seating(container) {
     this.container.find('.plan').load(this.container.data('plan-path'), function () {
 
       this.plan = this.container.find('svg');
-      this.allSeats = this.plan.find('[fast\\:seat]')
+      this.allSeats = this.plan.find('.seat')
         .each(function (_i, seat) {
           var $seat = $(seat);
-          this.seats[parseInt($seat.attr('fast:id'))] = $seat;
+          $seat.find('title').text('Reihe ' + $seat.data('row') + ' – Sitz ' + $seat.data('number'));
+          this.seats[$seat.data('id')] = $seat;
         }.bind(this))
         .click(function (event) {
           if (this.clickedSeat) this.clickedSeat($(event.currentTarget));
@@ -109,7 +110,7 @@ function SeatChooser(container, delegate) {
 
   this.updateSeatPlan = function (updatedSeats) {
     if (!this.date) return;
-    console.log("Updating seating plan");
+    console.log('Updating seating plan');
     updatedSeats = (updatedSeats || this.seatsInfo)[this.date];
 
     for (var seatId in updatedSeats) {
@@ -148,7 +149,7 @@ function SeatChooser(container, delegate) {
     var newStatus = (originalStatus == 'chosen') ? 'available' : 'chosen';
     this.setStatusForSeat(seat, newStatus);
 
-    this.node.emit('chooseSeat', { seatId: parseInt(seat.attr('fast:id')) }, function (res) {
+    this.node.emit('chooseSeat', { seatId: seat.data('id') }, function (res) {
       if (!res.ok) this.setStatusForSeat(seat, originalStatus);
       this.updateErrorBoxIfVisible();
     }.bind(this));
