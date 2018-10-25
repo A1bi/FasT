@@ -1,3 +1,5 @@
+@namespace fast "https://www.theater-kaisersesch.de";
+
 .seating {
   position: relative;
   width: 100%;
@@ -15,68 +17,21 @@
     }
   }
 
-  .viewChooser {
-    background: #4AB7E5;
-    font-size: 13px;
-    color: white;
-    padding: 5px 8px;
-    text-align: center;
-
-    a {
-      text-decoration: none;
-      color: white;
-      padding: 0px 5px;
-
-      &:hover:not(.selected) {
-        text-decoration: underline;
+  .plan {
+    [fast\:seat] {
+      &.status-available, &.status-chosen, &.status-exclusive {
+        cursor: pointer;
       }
 
-      &.selected {
-        font-weight: bold;
+      text {
+        display: none;
       }
     }
   }
 
-  .plan-wrapper {
-    width: 100%;
-    height: 280px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-
-    .hiddenscroll & {
-      -webkit-transform: translate3d(0, 0, 0);
-    }
-
-    .plan {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &.big {
-    .plan-wrapper {
-      height: 500px;
-
-      .plan {
-        width: 180%;
-      }
-    }
-  }
-
-  &.stage {
-    .plan-wrapper {
-      height: 220px;
-    }
-
-    &.big {
-      .plan-wrapper {
-        height: 580px;
-      }
-
-      &.key .plan-wrapper {
-        height: 630px;
-      }
+  &:not(.stage) {
+    .plan .stage {
+      display: none;
     }
   }
 }

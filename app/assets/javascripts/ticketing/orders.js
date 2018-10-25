@@ -429,9 +429,6 @@ function SeatsStep(delegate) {
       this.slideToggle(this.seatingBox, true);
 
       $('html, body').animate({ scrollTop: this.seatingBox.offset().top }, 500);
-      setTimeout(function () {
-        _this.chooser.wiggle();
-      }, 800);
 
     } else {
       this.delegate.updateNextBtn();
