@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_24_161610) do
+ActiveRecord::Schema.define(version: 2018_10_29_200609) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -208,7 +208,6 @@ ActiveRecord::Schema.define(version: 2018_10_24_161610) do
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "color", default: "black"
     t.integer "seating_id", default: 1, null: false
     t.string "entrance"
   end
@@ -376,7 +375,6 @@ ActiveRecord::Schema.define(version: 2018_10_24_161610) do
     t.integer "number_of_seats", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "underlay_filename"
   end
 
   create_table "ticketing_seats", force: :cascade do |t|
@@ -385,8 +383,6 @@ ActiveRecord::Schema.define(version: 2018_10_24_161610) do
     t.integer "block_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "position_x", default: 0
-    t.integer "position_y", default: 0
   end
 
   create_table "ticketing_signing_keys", force: :cascade do |t|

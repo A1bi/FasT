@@ -138,7 +138,6 @@ Rails.application.routes.draw do
           end
         end
         resources :reservation_groups, path: "vorreservierungen", only: [:index, :show, :create, :update, :destroy]
-        resources :blocks, path: "blöcke", except: [:index, :show]
         resources :coupons, path: "gutscheine" do
           member do
             post :mail
@@ -222,7 +221,6 @@ Rails.application.routes.draw do
       resources :orders, only: [:create]
       scope controller: :seats, path: :seats, as: :seats do
         get "availability", action: :availability
-        get "/:event_id", action: :index
       end
       scope controller: :box_office, path: :box_office do
         get :search

@@ -15,6 +15,5 @@
 //= require jquery-ui/core
 //= require jquery-ui/widget
 //= require jquery-ui/widgets/sortable
-//= require modernizr
 //= require raven-js
 //= require _main

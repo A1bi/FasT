@@ -50,30 +50,18 @@ end
 seating = event.create_seating(number_of_seats: 0)
 
 # seat blocks
-block_names = %w(rot grün blau)
-colors = %w(red green blue)
-x = 5
-y = 5
-3.times do |i|
-  block = seating.blocks.create(name: block_names[i], color: colors[i])
+%w[A B C D].each do |name|
+  block = seating.blocks.create(name: name)
 
   # seats
-  x2 = nil
   6.times do |row|
-    x2 = x
-    y2 = y + row * 5
     6.times do |number|
       seat = block.seats.new
       seat.number = number+1
       seat.row = row+1
-      seat.position_x = x2
-      seat.position_y = y2
       seat.save
-      x2 = x2 + 4
     end
   end
-
-  x = x2 + 6
 end
 
 # ticket types
