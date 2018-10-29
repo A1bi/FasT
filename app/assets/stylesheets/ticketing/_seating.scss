@@ -15,37 +15,92 @@
     }
   }
 
-  .plan svg {
-    .shield {
+  .plan {
+    .unzoom {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 14px;
+      font-weight: bold;
       opacity: 0;
-      transition: opacity .2s;
+      transition: opacity .3s;
+      pointer-events: none;
       cursor: pointer;
-      display: none; // TODO: remove
 
       &:hover {
-        opacity: 1;
+        text-decoration: underline;
       }
     }
 
-    .seat {
-      &.status-available, &.status-chosen, &.status-exclusive {
+    &.zoomed {
+      .unzoom {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .shield {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    svg {
+      g.global {
+        transform: scale(1);
+        transition: transform .3s ease-in-out, transform-origin .3s ease-in-out;
+      }
+
+      .shield {
+        opacity: 0;
+        transition: opacity .2s;
         cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
       }
 
-      &.status-chosen {
-        stroke: black;
-        stroke-width: 3px;
+      .block {
+        opacity: 1;
+        transition: opacity .3s;
+
+        &.disabled {
+          opacity: .4;
+          pointer-events: none;
+        }
       }
 
-      text {
+      .seat {
+        &.status-available, &.status-chosen, &.status-exclusive {
+          cursor: pointer;
+        }
+
+        &.status-chosen {
+          use {
+            stroke: black;
+            stroke-width: 2px;
+          }
+
+          text {
+            fill: black !important;
+          }
+        }
+
+        text {
+          display: none;
+          font-weight: bold;
+        }
+      }
+
+      &.numbers .seat text {
+        display: inline;
+      }
+    }
+
+    &:not(.stage) {
+      .plan svg .stage {
         display: none;
       }
-    }
-  }
-
-  &:not(.stage) {
-    .plan svg .stage {
-      display: none;
     }
   }
 }

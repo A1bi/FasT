@@ -8,23 +8,51 @@ function Seating(container) {
   var _this = this;
 
   this.initPlan = function (callback) {
-    this.container.find('.plan').load(this.container.data('plan-path'), function () {
+    this.plan = this.container.find('.plan');
 
-      this.plan = this.container.find('svg');
+    this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
+      this.svg = this.container.find('svg');
 
-      this.plan.find('.block').click(function (event) {
-        this.clickedShield($(event.currentTarget));
+      this.svg.find('title').remove();
+
+      var content = this.svg.find('> g, > rect, > line, > text');
+      var ns = 'http://www.w3.org/2000/svg';
+      this.globalGroup = document.createElementNS(ns, 'g');
+      this.globalGroup.classList.add('global');
+      this.svg[0].appendChild(this.globalGroup);
+
+      for (var i = 0; i < content.length; i++) {
+        this.globalGroup.appendChild(content[i]);
+      }
+
+      this.globalGroup.addEventListener('transitionend', function (event) {
+        if (event.propertyName === 'transform') {
+          this.svg.toggleClass('numbers', this.plan.is('.zoomed'));
+        }
       }.bind(this));
 
-      this.allSeats = this.plan.find('.seat')
+      this.svg.find('.shield').click(function (event) {
+        this.clickedShield(event.currentTarget);
+      }.bind(this));
+
+      this.allSeats = this.svg.find('.seat')
         .each(function (_i, seat) {
           var $seat = $(seat);
-          $seat.find('title').text('Reihe ' + $seat.data('row') + ' – Sitz ' + $seat.data('number'));
+          var text = '';
+          if ($seat.data('row')) {
+            text += 'Reihe ' + $seat.data('row') + ' – ';
+          }
+          text += 'Sitz ' + $seat.data('number');
+          var title = document.createElementNS(ns, 'title');
+          title.innerHTML = text;
+          $seat.find('text').append(title);
           this.seats[$seat.data('id')] = $seat;
         }.bind(this))
         .click(function (event) {
           if (this.clickedSeat) this.clickedSeat($(event.currentTarget));
-        }.bind(this))
+        }.bind(this));
+
+      this.container.find('.unzoom').click(this.unzoom.bind(this));
 
       if (callback) callback();
 
@@ -32,7 +60,44 @@ function Seating(container) {
   };
 
   this.clickedShield = function (shield) {
+    if (this.plan.is('.zoomed')) {
+      return;
+    }
 
+    $(shield).parent('.block').siblings('.block').addClass('disabled');
+
+    var shieldBox = shield.getBoundingClientRect();
+    var groupBox = this.globalGroup.getBoundingClientRect();
+
+    var scale = groupBox.height / shieldBox.height;
+    if (shieldBox.width * scale > groupBox.width) {
+      scale = groupBox.width / shieldBox.width;
+    }
+    scale *= .95;
+
+    var left = shieldBox.x + shieldBox.width / 2 - groupBox.x;
+    left = (left * 2 - groupBox.width / 2) * 2;
+
+    var top = shieldBox.y + shieldBox.height / 2 - groupBox.y;
+    top = (top * 2 - groupBox.height / 2) * 2;
+
+    var origin = left + 'px ' + top + 'px';
+
+    this.zoom(scale, origin);
+  };
+
+  this.zoom = function (scale, origin) {
+    var zoomed = scale !== 1;
+    if (!zoomed) {
+      this.svg.removeClass('numbers').find('.block').removeClass('disabled');
+    }
+    this.plan.toggleClass('zoomed', zoomed);
+    this.globalGroup.style.transform = 'scale(' + scale + ')';
+    this.globalGroup.style['transform-origin'] = origin;
+  };
+
+  this.unzoom = function () {
+    this.zoom(1, 'center center');
   };
 };
 
