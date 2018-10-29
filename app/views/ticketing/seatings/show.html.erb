@@ -1,0 +1,14 @@
+<% title "Sitzplan" %>
+<% include_js "ticketing/seats" %>
+<% include_css "ticketing/seats" %>
+<div class="hl">Sitzplan</div>
+
+<p>
+  Sitzplan wechseln: <% @seatings.each do |seating| %>
+    <%= link_to_if @seating != seating, "Sitzplan #{seating.id}", seating %>
+  <% end %>
+</p>
+
+<%= render "application/ticketing/seating", options: { class: [:stage, :standalone] }, seating: @seating %>
+
+<div class="hcen"><%= link_to "Als PDF herunterladen", format: :pdf %></div>

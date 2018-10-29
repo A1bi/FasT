@@ -1,5 +1,0 @@
-<% title "Sitzplan bearbeiten" %>
-<% include_js "ticketing/seats" %>
-<% include_css "ticketing/seats" %>
-<div class="hl">Sitzplan bearbeiten</div>
-<%= render "application/ticketing/seating", options: { data: { update_path: ticketing_seats_path }, class: [:stage, :editor, :background, :big] }, view_chooser: true %>

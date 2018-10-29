@@ -1,6 +1,0 @@
-<% title "Sitzplan" %>
-<% include_js "ticketing/seats" %>
-<% include_css "ticketing/seats" %>
-<div class="hl">Sitzplan <span class="actionBtns"><%= link_to "", { :action => :edit }, { :class => :edit, :title => "bearbeiten" } %></span></div>
-<%= render "application/ticketing/seating", options: { class: [:standalone, :background] } %>
-<div class="hcen"><%= link_to "Als PDF herunterladen", format: :pdf %></div>

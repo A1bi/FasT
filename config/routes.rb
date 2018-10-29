@@ -128,15 +128,7 @@ Rails.application.routes.draw do
           get :submission_file, path: "sepa-auftrag/:id"
           get :credit_transfer_file, path: "sepa-transfer"
         end
-        resources :seats, path: "sitzplan", only: [:index, :create] do
-          collection do
-            get :edit
-            scope constraints: { format: :json } do
-              put :update
-              delete :destroy
-            end
-          end
-        end
+        resources :seatings, path: "sitzpläne", only: %w[index show]
         resources :reservation_groups, path: "vorreservierungen", only: [:index, :show, :create, :update, :destroy]
         resources :coupons, path: "gutscheine" do
           member do

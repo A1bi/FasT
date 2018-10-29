@@ -39,5 +39,9 @@ module Ticketing
     def number_of_unreserved_seats_on_date(date)
       bound_to_seats? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
+
+    def plan_file_path
+      ActiveStorage::Blob.service.send(:path_for, plan.key)
+    end
   end
 end

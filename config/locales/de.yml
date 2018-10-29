@@ -39,7 +39,7 @@ de:
       members_members: "Mitgliederverwaltung"
       newsletters: "Newsletter"
     ticketing:
-      seats: "Sitzplan"
+      seatings: "Sitzpläne"
       statistics: "Statistik"
       orders: "Bestellungen"
       coupons: "Gutscheine"

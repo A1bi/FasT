@@ -103,6 +103,7 @@ function Seating(container) {
 
 function SeatingStandalone(container) {
   Seating.call(this, container);
+  this.initPlan();
 };
 
 function SeatSelector(container, delegate) {
