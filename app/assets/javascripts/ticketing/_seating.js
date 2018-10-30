@@ -18,7 +18,12 @@ function Seating(container) {
       var content = this.svg.find('> g, > rect, > line, > text');
       var ns = 'http://www.w3.org/2000/svg';
       this.globalGroup = document.createElementNS(ns, 'g');
-      this.globalGroup.classList.add('global');
+      if (this.globalGroup.classList) {
+        this.globalGroup.classList.add('global');
+      // IE workaround
+      } else {
+        this.globalGroup.className += ' global';
+      }
       this.svg[0].appendChild(this.globalGroup);
 
       for (var i = 0; i < content.length; i++) {
