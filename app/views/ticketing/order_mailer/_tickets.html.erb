@@ -1,7 +1,6 @@
 <table id="ticketsTable">
   <tr class="top">
     <td>Veranstaltung</td>
-    <td>Block</td>
     <td>Sitz</td>
     <td>Kategorie</td>
     <td class="amount">Preis</td>
@@ -13,17 +12,16 @@
         <%= l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr' %>
       </td>
       <% if ticket.seat.present? %>
-        <td><%= ticket.block.name %></td>
-        <td><%= ticket.seat.number %></td>
+        <td><%= ticket.seat.full_number %></td>
       <% else %>
-        <td colspan="2">Freie Platzwahl</td>
+        <td>Freie Platzwahl</td>
       <% end %>
       <td><%= ticket.type.name %></td>
       <td class="amount"><%= number_to_currency(ticket.price) %></td>
     </tr>
   <% end %>
   <tr class="total">
-    <td colspan="4">Gesamt</td>
+    <td colspan="3">Gesamt</td>
     <td colspan="1" class="amount"><%= number_to_currency(@order.total) %></td>
   </tr>
 </table>

@@ -6,6 +6,10 @@ module Ticketing
 
     validates_presence_of :number, on: :create
 
+    def full_number
+      "#{block.name}#{number}"
+    end
+
     def taken?(date = nil)
       return !taken.zero? if !date
       tickets.where(date_id: date, invalidated: false).any?

@@ -113,7 +113,6 @@
           <th>Kategorie</th>
           <th>Preis</th>
           <th>Termin</th>
-          <th>Block</th>
           <th>Sitz</th>
           <% if @show_check_ins %>
             <th>Einlass</th>
@@ -141,10 +140,9 @@
               <%= content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small %>
             </td>
             <% if ticket.seat.present? %>
-              <td><%= ticket.block.name %></td>
-              <td><%= ticket.seat.number %></td>
+              <td><%= ticket.seat.full_number %></td>
             <% else %>
-              <td colspan="2">Freie Platzwahl</td>
+              <td>Freie Platzwahl</td>
             <% end %>
             <% if @show_check_ins %>
               <td>
