@@ -428,8 +428,8 @@ function SeatsStep(delegate) {
     this.info.internal.localizedDate = $this.text();
 
     if (this.boundToSeats) {
-      this.updateSeatingPlan();
       this.slideToggle(this.seatingBox, true);
+      this.updateSeatingPlan();
 
       $('html, body').animate({ scrollTop: this.seatingBox.offset().top }, 500);
 
