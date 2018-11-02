@@ -95,7 +95,7 @@ if ticket.date.event.seating.bound_to_seats?
     label: "Block",
     value: ticket.block.name,
     changeMessage: "Ihr Sitzplatz befindet sich nun in Block %@."
-  }
+  } if ticket.block.name.present?
 
   _info[:eventTicket][:secondaryFields] << {
     key: "row",

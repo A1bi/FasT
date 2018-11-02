@@ -15,7 +15,6 @@
         <th>Nummer</th>
         <th>Kategorie</th>
         <th>Aufführung</th>
-        <th>Block</th>
         <th>Sitz</th>
       </tr>
     </thead>
@@ -28,10 +27,9 @@
           </td>
           <td class="date"><%= l ticket.date.date, format: "%d. %B" %></td>
           <% if ticket.seat.present? %>
-            <td><%= ticket.block.name %></td>
-            <td><%= ticket.seat.number %></td>
+            <td><%= ticket.seat.full_number %></td>
           <% else %>
-            <td colspan="2">Freie Platzwahl</td>
+            <td>Freie Platzwahl</td>
           <% end %>
         <% end %>
       <% end %>

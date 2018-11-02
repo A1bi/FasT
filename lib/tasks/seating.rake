@@ -21,6 +21,10 @@ namespace :seating do
     raise ActiveRecord::Rollback
   end
 
+  def remove_all_attributes(svg, attr_name)
+    svg.xpath("//*[@#{attr_name}]").remove_attr(attr_name)
+  end
+
   desc 'adds numbers in order of elements to seats'
   task :add_numbers, [:path] do |_task, args|
     svg = svg_file(args[:path])
@@ -74,6 +78,24 @@ namespace :seating do
     write_svg_file(svg, args[:path])
   end
 
+  desc 'remove all row information'
+  task :strip_rows, [:path] do |_task, args|
+    svg = svg_file(args[:path])
+
+    remove_all_attributes(svg, 'data-row')
+
+    write_svg_file(svg, args[:path])
+  end
+
+  desc 'remove all IDs of persisted records'
+  task :strip_ids, [:path] do |_task, args|
+    svg = svg_file(args[:path])
+
+    remove_all_attributes(svg, 'data-id')
+
+    write_svg_file(svg, args[:path])
+  end
+
   desc 'imports seating plan to create corresponding records'
   task :import, [:path] => :environment do |_task, args|
     svg = svg_file(args[:path])
@@ -93,14 +115,17 @@ namespace :seating do
 
       svg.css('.block').each do |element|
         id = element['data-id']
-        title = element.css('title').first.content
+        title = element.css('> title').first&.content
 
         if id.present?
           block = Ticketing::Block.find_by(id: id)
           abort "Block '#{title}' with id=#{id} not found." unless block
           block.name = title
           block.save
-          puts "Block '#{title}' changed: #{block.saved_changes}" if block.saved_changes?
+          if block.saved_changes?
+            saved_changes = block.saved_changes.except(:updated_at)
+            puts "Block '#{title}' changed: #{saved_changes}" if block.saved_changes?
+          end
 
         else
           confirm("Block '#{title}' does not exist yet. Do you want to create it?")
@@ -123,7 +148,10 @@ namespace :seating do
             seat.row = row
             seat.number = number
             seat.save
-            puts "Seat '#{number}' in Block '#{block.name}' changed: #{seat.saved_changes}" if seat.saved_changes?
+            if seat.saved_changes?
+              saved_changes = seat.saved_changes.except(:updated_at)
+              puts "Seat '#{number}' in Block '#{block.name}' changed: #{saved_changes}"
+            end
 
           else
             # confirm("Seat '#{number}' in Block '#{block.name}' does not exist yet. Do you want to create it?")

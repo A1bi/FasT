@@ -154,8 +154,10 @@ class TicketsPDF < Prawn::Document
         values << ticket.block.entrance
       end
 
-      labels << t(:block)
-      values << ticket.block.name
+      if ticket.block.name.present?
+        labels << t(:block)
+        values << ticket.block.name
+      end
 
       if ticket.seat.row.present?
         labels << t(:row)

@@ -36,9 +36,14 @@ function Seating(container) {
         }
       }.bind(this));
 
-      this.svg.find('.shield').click(function (event) {
-        this.clickedShield(event.currentTarget);
-      }.bind(this));
+      if (this.svg.find('.block').length === 1) {
+        this.svg.addClass('numbers');
+
+      } else {
+        this.svg.find('.shield').click(function (event) {
+          this.clickedShield(event.currentTarget);
+        }.bind(this));
+      }
 
       this.allSeats = this.svg.find('.seat')
         .each(function (_i, seat) {
