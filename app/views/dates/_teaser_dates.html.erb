@@ -1,6 +1,6 @@
 <div class="hcen teaser">
   <h3>Unser Kinder- und Jugendtheater 2018</h3>
-  <h1>„Hilfe, die Herdmanns kommen“</h1>
+  <%= image_tag 'theater/herdmanns/ticket_header.svg' %>
   <h4>von Barbara Robinson</h4>
   <ul>
     <li>Freitag, 30. November</li>
@@ -10,5 +10,9 @@
     <li>Samstag, 8. Dezember</li>
     <li>Sonntag, 9. Dezember</li>
   </ul>
-  <h4>Tickets ab 4. November</h4>
+  <% if @herdmanns.on_sale? %>
+    <p><b><%= link_to 'Tickets jetzt bestellen', new_ticketing_order_path(@herdmanns.slug) %></b></p>
+  <% else %>
+    <p>Tickets hier online bestellen ab <%= l @herdmanns.sale_start, format: '%-d. %B %Y, %H.%M Uhr' %>.</p>
+  <% end %>
 </div>

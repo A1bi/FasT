@@ -15,11 +15,11 @@
     <%= link_to 'Unsere Vorschau für 2019', dates_path %>
   </div>
   <div class="trenner"></div>
-  <div class="hcen">
-    <%= image_tag 'theater/sahnemixx/ticket_header.svg', width: 400 %>
+  <div class="teaser hcen">
+    <%= image_tag 'theater/sahnemixx/ticket_header.svg' %>
     <h3>19. Oktober 2019<br>in der Sporthalle Kaisersesch</h3>
     <% if @sahnemixx.on_sale? %>
-      <p><%= link_to 'Tickets jetzt bestellen', new_ticketing_order_path(@sahnemixx.slug) %></p>
+      <p><b><%= link_to 'Tickets jetzt bestellen', new_ticketing_order_path(@sahnemixx.slug) %></b></p>
     <% else %>
       <p>Tickets hier online bestellen ab <%= l @sahnemixx.sale_start, format: '%-d. %B %Y, %H.%M Uhr' %>.</p>
     <% end %>

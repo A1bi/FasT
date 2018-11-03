@@ -1,7 +1,9 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
-  def teaser; end
+  def teaser
+    @herdmanns = Ticketing::Event.find_by(identifier: 'herdmanns')
+  end
 
   def event
     @event = Ticketing::Event.find_by!(identifier: params[:slug])
