@@ -129,20 +129,32 @@ class TicketsPDF < Prawn::Document
 
       move_down 5
 
-      draw_info_table([
+      draw_info_table(
         [t(:date), t(:begins), t(:opens)],
         [
           I18n.l(date.date, format: t(:date_format)),
           I18n.l(date.date, format: t(:time_format)),
           I18n.l(date.door_time, format: t(:time_format)),
         ]
-      ])
+      )
     end
   end
 
   def draw_ticket_info(ticket)
-    labels = [t(:location)]
-    values = [ticket.event.location]
+    labels = []
+    values = []
+    additional = []
+
+    if ticket.event.location.present?
+      labels << t(:location)
+      ticket.event.location.split("\n").each_with_index do |part, i|
+        if i.zero?
+          values << part
+        else
+          additional << part
+        end
+      end
+    end
 
     if ticket.seat.nil?
       labels << ''
@@ -168,7 +180,7 @@ class TicketsPDF < Prawn::Document
       values << ticket.seat.number
     end
 
-    draw_info_table([labels, values])
+    draw_info_table(labels, values, additional)
 
     if ticket.price.zero?
       labels = ['']
@@ -182,7 +194,7 @@ class TicketsPDF < Prawn::Document
     values << ticket.number
 
     start = cursor
-    table = draw_info_table([labels, values])
+    table = draw_info_table(labels, values)
 
     float do
       move_up start - cursor - 12
@@ -190,25 +202,21 @@ class TicketsPDF < Prawn::Document
     end
   end
 
-  def draw_info_table(info, options = {}, &block)
+  def draw_info_table(labels, values, additional = [])
     tiny_size = @font_sizes[:tiny]
     normal_size = @font_sizes[:normal]
 
-    table(info, options) do
+    table([labels, values, additional]) do
       cells.borders = []
       cells.padding = [2, 20, 0, 0]
       cells.size = normal_size
       cells.single_line = true
       cells.overflow = :shrink_to_fit
 
-      even_rows = (0..info.count - 1).select(&:even?)
-      row(even_rows).padding = [10, 20, 0, 0]
-      row(even_rows).size = tiny_size
-
-      odd_rows = (0..info.count - 1).select(&:odd?)
-      row(odd_rows).font_style = :bold
-
-      instance_eval(&block) if block_given?
+      row(0).padding = [10, 20, 0, 0]
+      row(0).size = tiny_size
+      row(1).font_style = :bold
+      row(2).size = 9
     end
   end
 
