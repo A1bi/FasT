@@ -1,0 +1,20 @@
+<%= render "passbook/template", ticket: info[:ticket], info: {
+  backgroundColor: "rgb(255, 255, 255)",
+  foregroundColor: "rgb(0, 0, 0)",
+  labelColor: "rgb(227, 30, 35)",
+    locations: [
+    {
+      latitude: 50.2292,
+      longitude: 7.1265
+    }
+  ],
+  eventTicket: {
+    backFields: [
+      {
+        key: "locationAddress",
+        label: "Adresse des Veranstaltungsortes",
+        attributedValue: "<a href='http://maps.apple.com/?ll=50.2292,7.1265&q=Altes+Wasserwerk'>„Altes Wasserwerk“, Auf der Wacht 9, 56759 Kaisersesch</a>. Eine Karte mit Parkmöglichkeiten finden Sie <a href='#{info_url(info[:ticket].event.slug)}'>hier</a>."
+      }
+    ]
+  }
+} %>

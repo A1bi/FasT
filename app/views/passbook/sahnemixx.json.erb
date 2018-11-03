@@ -2,12 +2,18 @@
   backgroundColor: "rgb(0, 0, 0)",
   foregroundColor: "rgb(255, 255, 255)",
   labelColor: "rgb(33, 154, 213)",
+    locations: [
+    {
+      latitude: 50.23437,
+      longitude: 7.13699
+    }
+  ],
   eventTicket: {
     backFields: [
       {
         key: "locationAddress",
         label: "Adresse des Veranstaltungsortes",
-        value: "Schwalbenweg, 56759 Kaisersesch\nEine Karte mit Parkmöglichkeiten finden Sie <a href=\"#{info_url}\">hier</a>."
+        attributedValue: "<a href='http://maps.apple.com/?ll=50.23437,7.13699&q=Sporthalle+Kaisersesch'>Schwalbenweg, 56759 Kaisersesch</a>. Eine Karte mit Parkmöglichkeiten finden Sie <a href='#{info_url(info[:ticket].event.slug)}'>hier</a>."
       }
     ]
   }
