@@ -30,6 +30,6 @@ module ApplicationHelper
   end
 
   def asset_exists?(path)
-    Rails.application.assets.resolve(path).present?
+    (Rails.application.assets || Sprockets::Railtie.build_environment(Rails.application)).resolve(path).present?
   end
 end
