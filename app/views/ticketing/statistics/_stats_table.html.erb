@@ -10,7 +10,7 @@
           <th><%= type.name %></th>
         <% end %>
         <th colspan="2" class="total first">Gesamt</th>
-        <th>Umsatz</th>
+        <% if local_assigns[:retail].blank? %><th>Umsatz</th><% end %>
       </tr>
     </thead>
     <tbody>
@@ -24,7 +24,9 @@
           <% if local_assigns[:total] %>
             <td class="total" title="Auslastung der Aufführung (geblockte Plätze ausgenommen)"><%= scope[:scope][date.id][:percentage] || 0 %> %</td>
           <% end %>
-          <td class="total"><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
+          <% if local_assigns[:retail].blank? %>
+            <td class="total"><%= number_to_currency (scope[:scope][date.id][:revenue] || 0) %></td>
+          <% end %>
         </tr>
       <% end %>
       <tr class="total">
@@ -37,7 +39,9 @@
           <% title = local_assigns[:total] ? "Gesamtauslastung" : "Anteil an allen Verkäufen" %>
           <td class="total" title="<%= title %>"><%= scope[:scope][:total][:percentage] || 0 %> %</td>
         <% end %>
-        <td class="total"><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
+        <% if local_assigns[:retail].blank? %>
+          <td class="total"><%= number_to_currency (scope[:scope][:total][:revenue] || 0) %></td>
+        <% end %>
       </tr>
     </tbody>
   <% end %>

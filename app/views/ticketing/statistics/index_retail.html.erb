@@ -3,9 +3,13 @@
 <% cache [Ticketing::Ticket.all, @_retail_store, @transfers] do %>
   <div class="stats">
     <div class="hl">Ticket-Statistik</div>
-    <div class="table active">
-      <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: stats_for_current_event[:retail][:stores][@_retail_store.id] }], retail: true %>
-    </div>
+    <% @events.each do |event| %>
+      <% stats = stats_for_event(event) %>
+      <h4 class="hcen"><%= event.name %></h4>
+      <div class="table active">
+        <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: stats_for_event(event)[:retail][:stores][@_retail_store.id] }], event: event, retail: true %>
+      </div>
+    <% end %>
     <div class="hl">Kassenstand</div>
     <table class="rounded billing">
       <thead>
