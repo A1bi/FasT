@@ -1,5 +1,5 @@
 <div class="stepCon tickets">
-  <%= image_tag "theater/#{@event.identifier}/ticket_header.svg", class: 'event-header' %>
+  <%= event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen }) %>
   <% if web? %>
     <div class="note">
       <p>

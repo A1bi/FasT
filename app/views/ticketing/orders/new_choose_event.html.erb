@@ -8,7 +8,7 @@
 <div class="choose-event">
   <% @events.each do |event| %>
     <%= link_to event_slug: event.slug do %>
-      <%= image_tag "theater/#{event.identifier}/ticket_header.svg" %>
+      <%= event_logo(event) %>
     <% end %>
   <% end %>
 </div>

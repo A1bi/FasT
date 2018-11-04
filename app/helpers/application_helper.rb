@@ -28,4 +28,8 @@ module ApplicationHelper
     event = Ticketing::Event.find_by(identifier: identifier)
     event.present? ? theater_play_path(event.slug) : nil
   end
+
+  def asset_exists?(path)
+    Rails.application.assets.resolve(path).present?
+  end
 end
