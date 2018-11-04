@@ -109,11 +109,42 @@ function Seating(container) {
   this.unzoom = function () {
     this.zoom(1, 'center center');
   };
+
+  this.setStatusForSeat = function (seat, status) {
+    seat.removeClass('status-' + seat.data('status'));
+    seat.addClass('status-' + status);
+    seat.find('use').attr('xlink:href', '#seat-' + status);
+    seat.data('status', status);
+  };
 };
 
 function SeatingStandalone(container) {
   Seating.call(this, container);
-  this.initPlan();
+
+  this.initPlan(function () {
+    var path = this.container.data('seats-path');
+    if (path) {
+      $.getJSON(path, function (response) {
+        if (this.container.is('.chosen')) {
+          response.seats.forEach(function (id) {
+            var seat = this.seats[id];
+            if (seat) {
+              this.setStatusForSeat(seat, 'chosen');
+            }
+          }.bind(this));
+
+        } else {
+          var statuses = { 0: 'taken', 1: 'available', 2: 'exclusive' };
+          response.seats.forEach(function (seatInfo) {
+            var seat = this.seats[seatInfo[0]];
+            if (seat) {
+              this.setStatusForSeat(seat, statuses[seatInfo[1]]);
+            }
+          }.bind(this));
+        }
+      }.bind(this));
+    }
+  }.bind(this));
 };
 
 function SeatSelector(container, delegate) {
@@ -217,13 +248,6 @@ function SeatChooser(container, delegate) {
       }
       this.setStatusForSeat(seat, status);
     }
-  };
-
-  this.setStatusForSeat = function (seat, status) {
-    seat.removeClass('status-' + seat.data('status'));
-    seat.addClass('status-' + status);
-    seat.find('use').attr('xlink:href', '#seat-' + status);
-    seat.data('status', status);
   };
 
   this.chooseSeat = function (seat) {

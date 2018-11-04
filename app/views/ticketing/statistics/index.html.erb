@@ -51,11 +51,14 @@
 <% end %>
 <% cache Ticketing::Seat.all do %>
   <div class="hl">Sitzauslastung</div>
-  <% @dates.each do |date| %>
-    <% @date = date %>
-    <div class="box">
-      <div class="top"><%= l date.date, format: "%A, %d. %B, %H:%M" %></div>
-      <%= render "application/ticketing/seating", options: { data: { date: date.id, additional_path: ticketing_statistics_seats_path } } %>
-    </div>
+  <% @events.each do |event| %>
+    <% next unless event.seating.bound_to_seats? %>
+    <h4 class="hcen"><%= event.name %></h4>
+    <% event.dates.each do |date| %>
+      <div class="box">
+        <div class="top"><%= l date.date, format: "%A, %d. %B, %H:%M" %></div>
+        <%= render "application/ticketing/seating", event: event, seats_path: ticketing_statistics_seats_path(date), class: %i[standalone availability] %>
+      </div>
+    <% end %>
   <% end %>
-<% end if false && @event.seating.bound_to_seats? %>
+<% end %>

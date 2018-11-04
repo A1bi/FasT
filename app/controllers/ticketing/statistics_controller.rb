@@ -18,14 +18,22 @@ module Ticketing
     end
 
     def seats
-      render_cached_json [:ticketing, :statistics, :seats, @dates, Ticketing::Seat.all, Ticketing::Ticket.all] do
-        {
-          seats: Hash[@dates.map do |date|
-            [date.id, Hash[Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
-              [seat.id, !seat.taken? ? (seat.reserved? ? 2 : 1) : 0]
-            end]]
-          end]
-        }
+      date = Ticketing::EventDate.find params[:date_id]
+      seats = if date.event.seating.bound_to_seats?
+                Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
+                  status = if !seat.taken?
+                             seat.reserved? ? 2 : 1
+                           else
+                             0
+                           end
+                  [seat.id, status]
+                end
+              else
+                []
+              end
+
+      render_cached_json [:ticketing, :statistics, :seats, date, Ticketing::Seat.all, Ticketing::Ticket.all] do
+        { seats: seats }
       end
     end
 

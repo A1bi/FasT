@@ -1,8 +1,9 @@
 <%
   options ||= {}
-  (options[:class] ||= []) << :seating
+  options[:class] = local_assigns.fetch(:class, []) << :seating
   (options[:data] ||= {})[:event_id] = local_assigns[:event]&.id
   options[:data][:plan_path] = url_for((local_assigns[:event]&.seating || seating).plan)
+  options[:data][:seats_path] = seats_path if local_assigns[:seats_path]
 %>
 <%= content_tag :div, options do %>
   <%= content_tag :div, class: [:error, :plural_text] do %>

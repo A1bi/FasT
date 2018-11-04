@@ -172,7 +172,7 @@
           </td>
         </tr>
       </tbody>
-      <% if false && @order.tickets.first.seat.present? %>
+      <% if @order.tickets.first.seat.present? %>
         <thead>
           <tr>
             <th colspan="<%= tickets_colspan %>">Sitzplätze</th>
@@ -181,7 +181,7 @@
         <tbody>
           <tr>
             <td colspan="<%= tickets_colspan %>">
-              <%= render "application/ticketing/seating", options: { data: { additional_path: orders_path(:seats_ticketing_order, @order) } }, view_chooser: true, default_view: :numbers_and_underlay %>
+              <%= render "application/ticketing/seating", event: @order.event, seats_path: orders_path(:seats_ticketing_order, @order), class: %i[standalone chosen] %>
             </td>
           </tr>
         </tbody>
