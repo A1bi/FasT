@@ -4,6 +4,9 @@ module Ticketing
     has_many :seats, through: :blocks
     has_one_attached :plan
 
+    after_save :create_stripped_plan
+    after_destroy :remove_stripped_plan
+
     def bound_to_seats?
       self[:number_of_seats] < 1
     end
@@ -40,8 +43,44 @@ module Ticketing
       bound_to_seats? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
 
-    def plan_file_path
-      ActiveStorage::Blob.service.send(:path_for, plan.key)
+    def plan_path(stripped: true, absolute: false)
+      return unless plan.attached?
+      if stripped
+        path = Rails.root.join('public') if absolute
+        File.join(path || '', 'system', 'seatings', "#{id}.svg")
+      else
+        ActiveStorage::Blob.service.send(:path_for, plan.key)
+      end
+    end
+
+    private
+
+    def create_stripped_plan
+      path = plan_path(stripped: true, absolute: true)
+      return if !plan.attached? || (File.exist?(path) && !plan.changed?)
+
+      svg = File.open(plan_path(stripped: false)) { |f| Nokogiri::XML(f) }
+
+      svg.xpath('//bx:*').remove
+      svg.xpath('//*/@bx:*').remove
+      svg.xpath('//title').remove
+
+      xml = svg.to_xml
+      # remove namespace, nokogiri does not seem to support removal of namespaces
+      xml.sub!(/xmlns:bx=".+?"/, '')
+      # remove titles
+      xml.gsub!(%r{<title>.+?</title>}i, '')
+      # remove whitespace
+      xml.gsub!(/([>\n\r])\s+([<\n\r])/i, '\1\2')
+
+      FileUtils.mkdir_p(File.dirname(path))
+      File.open(path, 'w') { |f| f.write xml }
+      Zlib::GzipWriter.open("#{path}.gz") { |gz| gz.write xml }
+    end
+
+    def remove_stripped_plan
+      path = plan_path(stripped: true, absolute: true)
+      FileUtils.rm_f([path, "#{path}.gz"])
     end
   end
 end

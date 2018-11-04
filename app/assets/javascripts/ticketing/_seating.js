@@ -13,8 +13,6 @@ function Seating(container) {
     this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
       this.svg = this.container.find('svg');
 
-      this.svg.find('title').remove();
-
       var content = this.svg.find('> g, > rect, > line, > text');
       var ns = 'http://www.w3.org/2000/svg';
       this.globalGroup = document.createElementNS(ns, 'g');
