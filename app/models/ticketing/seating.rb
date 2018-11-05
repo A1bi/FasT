@@ -21,22 +21,22 @@ module Ticketing
       seats = Ticketing::Seat.arel_table
       reservations = Ticketing::Reservation.arel_table
       tickets = Ticketing::Ticket.arel_table
-      join = self.seats.arel
-                 .join(tickets, Arel::Nodes::OuterJoin)
-                 .on(
-                    tickets[:seat_id].eq(seats[:id])
-                    .and(tickets[:date_id].eq(date.id))
-                    .and(tickets[:cancellation_id].eq(nil))
-                  )
-                 .join(reservations, Arel::Nodes::OuterJoin)
-                 .on(
-                   reservations[:seat_id].eq(seats[:id])
-                   .and(reservations[:date_id].eq(date.id))
-                   .and(tickets[:id].eq(nil))
-                 )
-                 .join_sources
+      join = seats
+             .join(tickets, Arel::Nodes::OuterJoin)
+             .on(
+               tickets[:seat_id].eq(seats[:id])
+                 .and(tickets[:date_id].eq(date.id))
+                 .and(tickets[:cancellation_id].eq(nil))
+             )
+             .join(reservations, Arel::Nodes::OuterJoin)
+             .on(
+               reservations[:seat_id].eq(seats[:id])
+               .and(reservations[:date_id].eq(date.id))
+               .and(tickets[:id].eq(nil))
+             )
+             .join_sources
 
-      Ticketing::Seat.joins(join).where(reservations[:id].eq(nil))
+      self.seats.joins(join).where(reservations[:id].eq(nil)).distinct
     end
 
     def number_of_unreserved_seats_on_date(date)
