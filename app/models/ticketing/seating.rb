@@ -57,7 +57,7 @@ module Ticketing
 
     def create_stripped_plan
       path = plan_path(stripped: true, absolute: true)
-      return if !plan.attached? || (File.exist?(path) && !plan.changed?)
+      return if !plan.attached? || (File.exist?(path) && !plan.saved_changes?)
 
       svg = File.open(plan_path(stripped: false)) { |f| Nokogiri::XML(f) }
 

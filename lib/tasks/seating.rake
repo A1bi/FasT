@@ -174,6 +174,7 @@ namespace :seating do
       end
 
       seating.plan.attach(io: StringIO.new(svg.to_xml), filename: 'seating.svg')
+      seating.save
     end
   end
 end
