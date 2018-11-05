@@ -17,7 +17,8 @@ namespace :seating do
 
   def confirm(message)
     puts message + ' [yn]'
-    return true if STDIN.gets.strip == 'y'
+    return true if STDIN.gets.strip == 'Y'
+    return false if STDIN.gets.strip == 'y'
     raise ActiveRecord::Rollback
   end
 
@@ -164,15 +165,15 @@ namespace :seating do
         end
 
         next if block.new_record?
+        confirmed_all = false
         block.seats.where.not(id: seats.map(&:id)).each do |seat|
-          confirm("Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is missing. Do you want to remove it?")
+          confirmed_all ||= confirm("Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is missing. Do you want to remove it?")
+          abort 'This seat cannot be removed due to existing tickets.' if seat.tickets.any?
           seat.destroy
         end
       end
 
       seating.plan.attach(io: StringIO.new(svg.to_xml), filename: 'seating.svg')
-
-      write_svg_file(svg, args[:path])
     end
   end
 end

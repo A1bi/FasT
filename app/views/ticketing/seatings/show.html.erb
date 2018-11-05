@@ -11,4 +11,6 @@
 
 <%= render "application/ticketing/seating", class: [:stage, :standalone], seating: @seating %>
 
-<div class="hcen"><%= link_to "Als PDF herunterladen", format: :pdf %></div>
+<div class="hcen">
+  Download: <%= link_to 'PDF', format: :pdf %> | <%= link_to 'SVG', format: :svg %>
+</div>

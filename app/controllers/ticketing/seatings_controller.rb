@@ -14,6 +14,7 @@ module Ticketing
         format.pdf do
           send_data printable(@seating).render, type: 'application/pdf', disposition: 'inline'
         end
+        format.svg { redirect_to url_for(@seating.plan) }
       end
     end
 
