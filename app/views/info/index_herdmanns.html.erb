@@ -6,35 +6,35 @@
 </div>
 
 <div class="hcen">
-  <%= image_tag 'theater/sahnemixx/ticket_header.svg', width: 300 %>
+  <%= image_tag 'theater/herdmanns/title.jpg', width: 300 %>
 </div>
 
-<div class="other-events">Informationen zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_path('hilfe-die-herdmanns-kommen') %>.</div>
+<div class="other-events">Informationen zu <%= image_tag 'theater/sahnemixx/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_path('sahnemixx') %>.</div>
 
 <div class="section">
   <h2>Vorverkauf</h2>
 
   <div class="question">Wo erhalte ich Tickets?</div>
   <div class="answer">
-    Tickets lassen sich bequem von zu Hause aus <b><%= link_to "online", new_ticketing_order_path %></b> oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
+    Tickets lassen sich bequem von zu Hause aus <b><%= link_to "online", new_ticketing_order_path %></b>, in der Buchhandlung Walgenbach in Kaisersesch oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
   </div>
 
   <div class="question">Gibt es Platzreservierungen?</div>
   <div class="answer">Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung frei wählen können.</div>
 
   <div class="question">Sind die Sitzplätze barrierefrei erreichbar?</div>
-  <div class="answer">Alle Plätze auf dem Parkett sind barrierefrei zu erreichen. Plätze für Rollstuhlfahrer lassen sich über unsere Hotline buchen: <b>(02653) 28 27 09</b>.</div>
+  <div class="answer">Alle Plätze sind barrierefrei zu erreichen.</div>
 
   <div class="question">Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?</div>
   <div class="answer">
     Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
-    <p>Bei Bestellungen, die weniger als drei Tage vor dem Konzert aufgegeben werden, bieten wir Ihnen statt Überweisung auch die Zahlung an der Abendkasse an. Ihre Tickets können hierbei über Ihren Namen oder Ihre Bestellnummer an der Abendkasse abgeholt und bar oder per EC-Karte bezahlt werden.</p>
+    <p>Bei Bestellungen, die weniger als drei Tage vor der Aufführung aufgegeben werden, bieten wir Ihnen statt Überweisung auch die Zahlung an der Abendkasse an. Ihre Tickets können hierbei über Ihren Namen oder Ihre Bestellnummer an der Abendkasse abgeholt und bar oder per EC-Karte bezahlt werden.</p>
   </div>
 
   <div class="question">Wie erhalte ich meine Tickets, die ich online bestellt habe?</div>
   <div class="answer">
     Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
-    <p>Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend des Konzerts bei der Einlasskontrolle vorzuzeigen.</p>
+    <p>Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.</p>
   </div>
 
   <div class="question">Kann ich meine Tickets auch auf einem Handy vorzeigen?</div>
@@ -56,11 +56,11 @@
 <div class="section">
   <h2>Anfahrt</h2>
 
-  <div id="map" data-event-identifier="sahnemixx"></div>
+  <div id="map" data-event-identifier="<%= @event.identifier %>"></div>
 
-  <div class="question">Wo finde ich die Sporthalle?</div>
+  <div class="question">Wo finde ich das „alte Wasserwerk“?</div>
   <div class="answer">
-    Die Sporthalle in Kaisersesch ist über den Schwalbenweg zu erreichen. In dieser Straße befinden sich einige Parkmöglichkeiten.
+    Unsere kleine Bühne im „alten Wasserwerk“ finden Sie unter der Adresse „Auf der Wacht 9“ in Kaisersesch.
   </div>
 </div>
 
@@ -75,23 +75,23 @@
   <div class="question">Kann ich an der Abendkasse mit EC-Karte bezahlen?</div>
   <div class="answer">
     Ja, das ist möglich, gerne auch bei kleinen Beträgen.
-    <p>Bitte beachten Sie, dass die Snack- und Getränkestände hingegen nur Bargeld akzeptieren.</p>
+    <!-- <p>Bitte beachten Sie, dass die Snack- und Getränkestände hingegen nur Bargeld akzeptieren.</p> -->
   </div>
 
-  <div class="question">Werden vor Ort Speisen und Getränke angeboten?</div>
+  <!-- <div class="question">Werden vor Ort Speisen und Getränke angeboten?</div>
   <div class="answer">Ja, an unseren Ständen bieten wir gepflegte Getränke und leckere Kleinigkeiten an.</div>
 
   <div class="question">Wird es eine Pause geben?</div>
   <div class="answer">Ja, sie wird circa eine halbe Stunde dauern. In dieser Zeit sind unsere Snack- und Getränkestände für Sie geöffnet.</div>
 
-  <div class="question">Wie lange dauert das Konzert?</div>
-  <div class="answer">Inklusive Pause beträgt die Spielzeit etwa zweieinhalb Stunden.</div>
+  <div class="question">Wie lange dauert die Aufführung?</div>
+  <div class="answer">Inklusive Pause beträgt die Spielzeit etwa zweieinhalb Stunden.</div> -->
 
-  <div class="question">Darf ich während des Konzerts fotografieren oder filmen?</div>
+  <div class="question">Darf ich während der Aufführung fotografieren oder filmen?</div>
   <div class="answer">Leider können wir Ihnen dies nicht gestatten.</div>
 
   <div class="question">Gibt es ein Rauchverbot?</div>
-  <div class="answer">Rauchen innerhalb der Sporthalle können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.</div>
+  <div class="answer">Rauchen innerhalb des Gebäudes können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.</div>
 </div>
 
 <div class="trenner"></div>

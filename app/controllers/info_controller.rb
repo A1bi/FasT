@@ -4,14 +4,18 @@ class InfoController < ApplicationController
 
   def index
     if params[:event_slug].present?
-      event = Ticketing::Event.find_by!(slug: params[:event_slug])
+      @event = Ticketing::Event.find_by!(slug: params[:event_slug])
     else
-      event = Ticketing::Event.current.first
-      return redirect_to event_slug: event.slug
+      @event = Ticketing::Event.current.first
+      return redirect_to event_slug: @event.slug
     end
 
-    template = "index_#{event.identifier}"
-    render template if template_exists?("info/#{template}")
+    template = "index_#{@event.identifier}"
+    if template_exists?("info/#{template}")
+      render template
+    else
+      redirect_to action: :index
+    end
   end
 
   def map

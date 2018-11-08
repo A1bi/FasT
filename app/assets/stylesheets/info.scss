@@ -2,6 +2,16 @@
 
 @import "_mixins";
 
+.other-events {
+  margin-top: 30px;
+  font-size: 16px;
+  text-align: right;
+
+  img {
+    padding: 0 10px;
+  }
+}
+
 .section {
   margin: 30px 15px;
 
