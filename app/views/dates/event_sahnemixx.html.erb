@@ -1,17 +1,17 @@
-<% title 'Hilfe, die Herdmanns kommen – Termine' %>
+<% title 'SahneMixx – Termine' %>
 <% include_css 'dates' %>
 <% cache [@event, @ticket_types, @event.on_sale?, Ticketing::Ticket.all] do %>
   <script type="application/ld+json">
     <%= raw json_escape(structured_data(@event).to_json) %>
   </script>
   <div class="other-events">
-    Termine zu <%= image_tag 'theater/sahnemixx/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_path('sahnemixx') %>.
+    Termine zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_path('hilfe-die-herdmanns-kommen') %>.
   </div>
-  <div class="herdmanns">
-    Unser <b>Kinder- und Jugendtheater 2018 „Hilfe, die Herdmanns kommen“</b> wird auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen aufgeführt:
+  <div class="sahnemixx">
+    Die Freilichtbühne am schiefen Turm präsentiert <b><%= link_to_if false, '„SahneMixx – Das Beste von Udo Jürgens“', theater_play_path(@event.slug) %></b> in der Sporthalle Kaisersesch.
     <div class="container">
       <div class="title">
-        <%= image_tag('theater/herdmanns/title.jpg', alt: 'Hilfe, die Herdmanns kommen') %>
+        <%= link_to_if false, image_tag('theater/sahnemixx/ticket_header.svg', alt: 'SahneMixx – Das Beste von Udo Jürgens'), theater_play_path(@event.slug) %>
       </div>
       <div class="box dates">
         <div class="top">
@@ -27,13 +27,13 @@
                   <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
                 </td>
                 <td class="date">
-                  <span class="line_through"><%= l date.date, format: '%-d. %B' %></span>
+                  <span class="line_through"><%= l date.date, format: '%-d. %B %Y' %></span>
                   <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
                 </td>
               <% end %>
             <% end %>
           </table>
-          <p>Einlass jeweils eine Stunde vor Beginn.</p>
+          <p>Einlass eine Stunde vor Beginn.</p>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
     <% if @event.on_sale? %>
       <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path(@event.slug), class: "hl order" %>
       <div class="stores">
-        Alternativ erhalten Sie Ihre Tickets auch in der Buchhandlung Walgenbach in Kaisersesch oder über unsere Hotline (siehe weiter unten).
+        Alternativ erhalten Sie Ihre Tickets auch über unsere Hotline (siehe weiter unten).
       </div>
     <% end %>
     <div class="trenner"></div>

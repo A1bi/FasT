@@ -13,6 +13,26 @@
   }
 }
 
+.sahnemixx {
+  .hl, .hl .small, .prices table td.price, .dates td {
+    color: #219ad5;
+    text-shadow: none;
+  }
+
+  .title {
+    padding-top: 30px !important;
+
+    img {
+      width: 250px;
+    }
+  }
+}
+
+.other-events {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
 .container {
   overflow: auto;
   margin: 20px 0px;

@@ -1,6 +1,10 @@
 <% title "Häufig gestellte Fragen" %>
 <% include_css "info" %>
 <% include_js "info" %>
+<div class="other-events">
+  Informationen zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_path('hilfe-die-herdmanns-kommen') %>.
+</div>
+
 <div class="hl">
   Häufig gestellte Fragen
 </div>
@@ -9,14 +13,12 @@
   <%= image_tag 'theater/sahnemixx/ticket_header.svg', width: 300 %>
 </div>
 
-<div class="other-events">Informationen zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_path('hilfe-die-herdmanns-kommen') %>.</div>
-
 <div class="section">
   <h2>Vorverkauf</h2>
 
   <div class="question">Wo erhalte ich Tickets?</div>
   <div class="answer">
-    Tickets lassen sich bequem von zu Hause aus <b><%= link_to "online", new_ticketing_order_path %></b> oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
+    Tickets lassen sich bequem von zu Hause aus <b><%= link_to "online", new_ticketing_order_path(@event.slug) %></b> oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
   </div>
 
   <div class="question">Gibt es Platzreservierungen?</div>
