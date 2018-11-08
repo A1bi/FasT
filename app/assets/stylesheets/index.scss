@@ -23,14 +23,9 @@
   margin: 30px auto;
   text-align: center;
 
-  ul {
-    padding: 0;
-    list-style: none;
-  }
-
   img {
     margin: 20px;
-    width: 80%;
+    width: 70%;
   }
 
   .links {
@@ -53,6 +48,18 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  &.herdmanns {
+    .links {
+      color: #e31e24;
+    }
+  }
+
+  &.sahnemixx {
+    .links {
+      color: #219ad5;
     }
   }
 }

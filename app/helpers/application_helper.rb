@@ -25,11 +25,29 @@ module ApplicationHelper
   end
 
   def theater_play_identifier_path(identifier)
-    event = Ticketing::Event.find_by(identifier: identifier)
-    event.present? ? theater_play_path(event.slug) : nil
+    event_identifier_path(identifier, :theater_play_path)
+  end
+
+  def dates_event_identifier_path(identifier)
+    event_identifier_path(identifier, :dates_event_path)
+  end
+
+  def new_ticketing_order_identifier_path(identifier)
+    event_identifier_path(identifier, :new_ticketing_order_path)
+  end
+
+  def info_identifier_path(identifier)
+    event_identifier_path(identifier, :info_path)
   end
 
   def asset_exists?(path)
     (Rails.application.assets || Sprockets::Railtie.build_environment(Rails.application)).resolve(path).present?
+  end
+
+  private
+
+  def event_identifier_path(identifier, path_method)
+    event = Ticketing::Event.find_by(identifier: identifier)
+    event.present? ? method(path_method).call(event.slug) : nil
   end
 end

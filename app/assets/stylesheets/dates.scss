@@ -1,3 +1,12 @@
+.other-events {
+  margin-bottom: 20px;
+  text-align: right;
+
+  img {
+    padding: 0 10px;
+  }
+}
+
 .herdmanns {
   .hl, .hl .small, .prices table td.price, .dates td {
     color: #e31e24;
@@ -26,11 +35,6 @@
       width: 250px;
     }
   }
-}
-
-.other-events {
-  margin-bottom: 20px;
-  text-align: right;
 }
 
 .container {

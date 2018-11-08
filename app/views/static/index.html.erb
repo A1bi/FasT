@@ -10,19 +10,20 @@
       </div>
     <% end %>
   <% end %>
-  <%= render 'dates/teaser_dates' %>
-  <div class="hcen">
-    <%= link_to 'Unsere Vorschau für 2019', dates_path %>
+  <div class="teaser herdmanns">
+    <%= image_tag 'theater/herdmanns/title.jpg' %>
+    <div class="links">
+      <%= link_to 'Termine', dates_event_identifier_path(:herdmanns) %> |
+      <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(:herdmanns) %>
+    </div>
   </div>
   <div class="trenner"></div>
-  <div class="teaser hcen">
+  <div class="teaser sahnemixx">
     <%= image_tag 'theater/sahnemixx/ticket_header.svg' %>
-    <h3>19. Oktober 2019<br>in der Sporthalle Kaisersesch</h3>
-    <% if @sahnemixx.on_sale? %>
-      <p><b><%= link_to 'Tickets jetzt bestellen', new_ticketing_order_path(@sahnemixx.slug) %></b></p>
-    <% else %>
-      <p>Tickets hier online bestellen ab <%= l @sahnemixx.sale_start, format: '%-d. %B %Y, %H.%M Uhr' %>.</p>
-    <% end %>
+    <div class="links">
+      <%= link_to 'Termine', dates_event_identifier_path(:sahnemixx) %> |
+      <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(:sahnemixx) %>
+    </div>
   </div>
   <div class="trenner"></div>
   <%= render "newsletter/form" %>
