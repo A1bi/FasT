@@ -47,7 +47,7 @@ module Ticketing
       return unless plan.attached?
       if stripped
         path = Rails.root.join('public') if absolute
-        File.join(path || '', 'system', 'seatings', "#{id}.svg")
+        File.join(path || '', 'system', 'seatings', "#{id}-#{stripped_plan_digest}.svg")
       else
         ActiveStorage::Blob.service.send(:path_for, plan.key)
       end
@@ -56,8 +56,7 @@ module Ticketing
     private
 
     def create_stripped_plan
-      path = plan_path(stripped: true, absolute: true)
-      return if !plan.attached? || (File.exist?(path) && !plan.saved_changes?)
+      return if !plan.attached? || (stripped_plan_digest.present? && !plan.saved_changes?)
 
       svg = File.open(plan_path(stripped: false)) { |f| Nokogiri::XML(f) }
 
@@ -73,6 +72,13 @@ module Ticketing
       # remove whitespace
       xml.gsub!(/([>\n\r])\s+([<\n\r])/i, '\1\2')
 
+      # remove old plan
+      path = plan_path(stripped: true, absolute: true)
+      FileUtils.rm_f([path, "#{path}.gz"])
+
+      update_column(:stripped_plan_digest, Digest::MD5.hexdigest(xml)) # rubocop:disable Rails/SkipsModelValidations
+
+      path = plan_path(stripped: true, absolute: true)
       FileUtils.mkdir_p(File.dirname(path))
       File.open(path, 'w') { |f| f.write xml }
       Zlib::GzipWriter.open("#{path}.gz") { |gz| gz.write xml }
