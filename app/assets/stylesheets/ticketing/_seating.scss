@@ -71,10 +71,6 @@
       }
 
       .seat {
-        &.status-available, &.status-chosen, &.status-exclusive {
-          cursor: pointer;
-        }
-
         &.status-chosen {
           use {
             stroke: black;
@@ -100,6 +96,14 @@
     &:not(.stage) {
       .plan svg .stage {
         display: none;
+      }
+    }
+  }
+
+  &.chooser {
+    .seat {
+      &.status-available, &.status-chosen, &.status-exclusive {
+        cursor: pointer;
       }
     }
   }
