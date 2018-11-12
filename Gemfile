@@ -20,7 +20,7 @@ gem 'uglifier'
 gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 6.0.0'
 
-gem 'paperclip', '~> 6.0.0'
+gem 'paperclip', '~> 6.1.0'
 
 gem 'bcrypt-ruby', '~> 3.1.5'
 
@@ -42,7 +42,7 @@ gem 'dalli', '~> 2.7.8'
 
 gem 'sidekiq', '~> 5.2.2'
 
-gem 'groupdate', '~> 4.0.0'
+gem 'groupdate', '~> 4.1.0'
 
 gem 'auto_strip_attributes', '~> 2.0'
 
@@ -77,7 +77,7 @@ gem 'unicorn', '~> 5.4.0'
 group :development do
   gem 'capistrano', '~> 3.11.0'
   gem 'capistrano-rvm', '~> 0.1.1', require: false
-  gem 'capistrano-bundler', '~> 1.3.0', require: false
+  gem 'capistrano-bundler', '~> 1.4.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-sidekiq', '~> 1.0.2', require: false

@@ -70,7 +70,7 @@ module Ticketing
         )
       end
 
-      send_data debit.to_xml, filename: 'sepa-#{submission.id}.xml', type: 'application/xml'
+      send_data debit.to_xml, filename: "sepa-#{submission.id}.xml", type: 'application/xml'
     end
 
     def credit_transfer_file
