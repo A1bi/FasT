@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # dates
   scope controller: :dates, path: "termine", as: :dates do
     root action: :index, as: ''
+    get 'vorschau-2019', action: :preview_2019, as: :preview_2019
     get ':slug', action: :show_event, as: :event
   end
 
