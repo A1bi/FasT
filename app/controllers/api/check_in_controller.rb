@@ -9,7 +9,7 @@ class Api::CheckInController < ApplicationController
       { id: key.id, secret: key.secret }
     end
 
-    dates = Ticketing::Event.current.dates
+    dates = Ticketing::EventDate.where(event: Ticketing::Event.current)
     response[:dates] = dates.map do |date|
       { id: date.id, date: date.date.to_i }
     end
