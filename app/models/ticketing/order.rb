@@ -31,10 +31,11 @@ module Ticketing
     def api_hash(details = [], ticket_details = [])
       hash = {
         id: id.to_s,
+        event_id: event.id.to_s,
         number: number.to_s,
         total: total.to_f,
         paid: paid || false,
-        created: created_at.to_i,
+        created: created_at.to_i
       }
       hash[:tickets] = tickets.map { |ticket| ticket.api_hash(ticket_details) } if details.include? :tickets
       hash.merge(super(details))

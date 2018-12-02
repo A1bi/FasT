@@ -271,9 +271,5 @@ module Ticketing
         end
       end
     end
-
-    def order_search_hash(order)
-      order.api_hash([:personal, :log_events, :tickets, :status], [:status])
-    end
   end
 end

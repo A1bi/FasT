@@ -228,7 +228,7 @@ Rails.application.routes.draw do
         patch :enable_resale_for_tickets
         post :purchase
         post :unlock_seats
-        get :event
+        get :events
         get :products
         get :report
         post :bill

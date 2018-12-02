@@ -201,25 +201,39 @@ class Api::BoxOfficeController < ApplicationController
     head :ok
   end
 
-  def event
-    event = Ticketing::Event.current
+  def events
+    events = Ticketing::Event.current.map do |event|
+      {
+        id: event.id,
+        name: event.name,
+        dates: event.dates.map do |date|
+          {
+            id: date.id.to_s,
+            date: date.date.to_i
+          }
+        end,
+        ticket_types: event.ticket_types.map do |type|
+          {
+            id: type.id.to_s,
+            name: type.name,
+            info: type.info || '',
+            price: type.price || 0,
+            exclusive: type.exclusive
+          }
+        end,
+        bound_to_seats: event.seating.bound_to_seats?,
+        seats: event.seating.seats.map do |seat|
+          {
+            id: seat.id.to_s,
+            block_name: seat.block.name,
+            row: seat.row.to_s,
+            number: seat.number.to_s
+          }
+        end
+      }
+    end
 
-    response = {
-      name: event.name,
-      dates: event.dates.map { |date| { id: date.id.to_s, date: date.date.to_i } },
-      ticket_types: event.ticket_types.map do |type|
-        {
-          id: type.id.to_s,
-          name: type.name,
-          info: type.info || '',
-          price: type.price || 0,
-          exclusive: type.exclusive
-        }
-      end,
-      bound_to_seats: event.seating.bound_to_seats?
-    }
-
-    render :json => response
+    render json: { events: events }
   end
 
   def products
