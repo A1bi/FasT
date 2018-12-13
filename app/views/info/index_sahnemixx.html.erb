@@ -1,9 +1,8 @@
 <% title "Häufig gestellte Fragen" %>
 <% include_css "info" %>
 <% include_js "info" %>
-<div class="other-events">
-  Informationen zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_identifier_path(:herdmanns) %>.
-</div>
+
+<%= render 'other_events' %>
 
 <div class="hl">
   Häufig gestellte Fragen

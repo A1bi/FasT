@@ -4,9 +4,9 @@ class InfoController < ApplicationController
 
   def index
     if params[:event_slug].present?
-      @event = Ticketing::Event.find_by!(slug: params[:event_slug])
+      @event = Ticketing::Event.current.find_by!(slug: params[:event_slug])
     else
-      @event = Ticketing::Event.current.first
+      @event = Ticketing::Event.with_future_dates.first
       return redirect_to event_slug: @event.slug
     end
 

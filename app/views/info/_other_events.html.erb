@@ -1,0 +1,5 @@
+<div class="other-events">
+  <% if @event&.identifier != 'sahnemixx' %>
+    Informationen zu <%= image_tag 'theater/sahnemixx/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_identifier_path(:sahnemixx) %>.
+  <% end %>
+</div>
