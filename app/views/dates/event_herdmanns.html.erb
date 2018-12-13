@@ -4,10 +4,7 @@
   <script type="application/ld+json">
     <%= raw json_escape(structured_data(@event).to_json) %>
   </script>
-  <div class="other-events">
-    <p>Termine zu <%= image_tag 'theater/sahnemixx/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(:sahnemixx) %>.</p>
-    <p>Unsere <b>Vorschau für 2019</b> finden Sie <%= link_to 'hier', dates_preview_2019_path %>.</p>
-  </div>
+  <%= render 'other_events' %>
   <div class="herdmanns">
     Unser <b>Kinder- und Jugendtheater 2018 „Hilfe, die Herdmanns kommen“</b> wird auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen aufgeführt:
     <div class="container">

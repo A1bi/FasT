@@ -4,10 +4,7 @@
   <script type="application/ld+json">
     <%= raw json_escape(structured_data(@event).to_json) %>
   </script>
-  <div class="other-events">
-    <p>Termine zu <%= image_tag 'theater/herdmanns/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(:herdmanns) %>.</p>
-    <p>Unsere <b>Vorschau für 2019</b> finden Sie <%= link_to 'hier', dates_preview_2019_path %>.</p>
-  </div>
+  <%= render 'other_events' %>
   <div class="sahnemixx">
     Die Freilichtbühne am schiefen Turm präsentiert <b><%= link_to_if false, '„SahneMixx – Das Beste von Udo Jürgens“', theater_play_path(@event.slug) %></b> in der Sporthalle Kaisersesch.
     <div class="container">

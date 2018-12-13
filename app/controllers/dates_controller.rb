@@ -2,7 +2,7 @@ class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
   def index
-    event = Ticketing::Event.current.last
+    event = Ticketing::Event.with_future_dates.last
     redirect_to dates_event_path(event.slug)
   end
 
