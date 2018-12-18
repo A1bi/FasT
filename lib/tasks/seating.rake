@@ -15,10 +15,15 @@ namespace :seating do
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
   end
 
+  def prompt(message)
+    puts message
+    STDIN.gets
+  end
+
   def confirm(message)
-    puts message + ' [yn]'
-    return true if STDIN.gets.strip == 'Y'
-    return false if STDIN.gets.strip == 'y'
+    response = prompt(message + ' [yn]').strip
+    return true if response == 'Y'
+    return false if response == 'y'
     raise ActiveRecord::Rollback
   end
 
@@ -33,7 +38,7 @@ namespace :seating do
     num_seats = 0
 
     svg.css('.block').each do |block|
-      block.css('> g').add_class('seat').each_with_index do |seat, i|
+      block.css('> g:not(.shield)').add_class('seat').each_with_index do |seat, i|
         num_seats += 1
         number = i + 1
         seat['data-number'] = number
@@ -104,7 +109,8 @@ namespace :seating do
     ActiveRecord::Base.transaction do
       if svg.root['data-id'].blank?
         confirm('Seating does not exist yet. Do you want to create it?')
-        seating = Ticketing::Seating.create
+        name = prompt('Name for seating:')
+        seating = Ticketing::Seating.create(name: name)
         svg.root['data-id'] = seating.id
         puts "Seating with id=#{seating.id} created."
 

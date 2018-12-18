@@ -4,6 +4,8 @@ module Ticketing
     has_many :seats, through: :blocks
     has_one_attached :plan
 
+    validates :name, presence: true
+
     after_save :create_stripped_plan
     after_destroy :remove_stripped_plan
 

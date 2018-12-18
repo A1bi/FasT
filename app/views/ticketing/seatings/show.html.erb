@@ -4,9 +4,8 @@
 <div class="hl">Sitzplan</div>
 
 <p>
-  Sitzplan wechseln: <% @seatings.each do |seating| %>
-    <%= link_to_if @seating != seating, "Sitzplan #{seating.id}", seating %>
-  <% end %>
+  Sitzplan wechseln:
+  <%= @seatings.map { |seating| link_to_if @seating != seating, seating.name, seating }.join(', ').html_safe %>
 </p>
 
 <%= render "application/ticketing/seating", class: [:stage, :standalone], seating: @seating %>
