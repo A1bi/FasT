@@ -7,8 +7,17 @@ function Seating(container) {
   this.seats = {};
   var _this = this;
 
+  var isIE = navigator.appName == 'Microsoft Internet Explorer'
+           || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/))
+           || (typeof $.browser !== 'undefined' && $.browser.msie == 1);
+
+  var match = navigator.userAgent.match(/Edge\/(\d{1,3})\./);
+  var isLegacyEdge = match && match[1] < 17;
+
   this.initPlan = function (callback) {
     this.plan = this.container.find('.plan');
+
+    this.container.find('.unsupported-browser').toggle(isIE);
 
     this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
       this.svg = this.container.find('svg');
@@ -30,7 +39,7 @@ function Seating(container) {
 
       this.globalGroup.addEventListener('transitionend', function (event) {
         if (event.propertyName === 'transform') {
-          this.svg.toggleClass('numbers', this.plan.is('.zoomed'));
+          this.toggleNumbersAfterZoom();
         }
       }.bind(this));
 
@@ -83,29 +92,43 @@ function Seating(container) {
     }
     scale *= .95;
 
-    var left = shieldBox.x + shieldBox.width / 2 - groupBox.x;
+    // use left/top instead of x/y because the latter are missing in IE/Edge
+    var left = shieldBox.left + shieldBox.width / 2 - groupBox.left;
     left = (left * 2 - groupBox.width / 2) * 2;
 
-    var top = shieldBox.y + shieldBox.height / 2 - groupBox.y;
+    var top = shieldBox.top + shieldBox.height / 2 - groupBox.top;
     top = (top * 2 - groupBox.height / 2) * 2;
 
-    var origin = left + 'px ' + top + 'px';
-
-    this.zoom(scale, origin);
+    this.zoom(scale, left, top);
   };
 
-  this.zoom = function (scale, origin) {
+  this.zoom = function (scale, originX, originY) {
     var zoomed = scale !== 1;
     if (!zoomed) {
       this.svg.removeClass('numbers').find('.block').removeClass('disabled');
     }
     this.plan.toggleClass('zoomed', zoomed);
-    this.globalGroup.style.transform = 'scale(' + scale + ')';
-    this.globalGroup.style['transform-origin'] = origin;
+
+    var scaleTransform = 'scale(' + scale + ')';
+    if (isIE || isLegacyEdge) {
+      // IE/Edge workaround
+      var transform = 'translate(' + originX + ' ' + originY + ') '
+                      + scaleTransform
+                      + ' translate(' + -originX + ' ' + -originY + ')';
+      this.globalGroup.setAttribute('transform', transform);
+      this.toggleNumbersAfterZoom();
+    } else {
+      this.globalGroup.style.transform = scaleTransform;
+      this.globalGroup.style['transform-origin'] = originX + 'px ' + originY + 'px';
+    }
   };
 
   this.unzoom = function () {
     this.zoom(1, 'center center');
+  };
+
+  this.toggleNumbersAfterZoom = function () {
+    this.svg.toggleClass('numbers', this.plan.is('.zoomed'));
   };
 
   this.setStatusForSeat = function (seat, status) {

@@ -8,7 +8,7 @@ function togglePluralText(box, number) {
   box.find(".number span").text(number);
 }
 
-function dissmissCookieConsent() {
+function dismissCookieConsent() {
   document.cookie = 'cookie_consent_dismissed=1; expires=Sat, 22 May 2021 22:00:00 CEST +02:00; path=/';
   var box = $(this).parent();
   box.css('margin-top', -box.outerHeight());
@@ -17,9 +17,11 @@ function dissmissCookieConsent() {
 if (!window.console) window.console = { log: function () {} };
 
 var environment = 'production';
-if (location.href.indexOf('staging') > -1) {
+var host = location.hostname;
+if (host.indexOf('staging') > -1) {
   environment = 'staging';
-} else if (location.href.indexOf('localhost') > -1) {
+// either contains .local TLD (mDNS resolved) or no TLD
+} else if (host.indexOf('.local') > -1 || host.indexOf('.') < 0) {
   environment = 'development';
 }
 
@@ -33,6 +35,6 @@ Raven
   .install()
   .context(function () {
     $(function () {
-      $('#cookie-consent button').click(dissmissCookieConsent);
+      $('#cookie-consent button').click(dismissCookieConsent);
     });
   });
