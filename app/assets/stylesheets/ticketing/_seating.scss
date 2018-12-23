@@ -51,7 +51,7 @@
     svg {
       g.global {
         transform: scale(1);
-        transition: transform .3s ease-in-out, transform-origin .3s ease-in-out;
+        transition: transform .5s;
       }
 
       .shield {

@@ -12,7 +12,6 @@ function Seating(container) {
            || (typeof $.browser !== 'undefined' && $.browser.msie == 1);
 
   var match = navigator.userAgent.match(/Edge\/(\d{1,3})\./);
-  var isLegacyEdge = match && match[1] < 17;
 
   this.initPlan = function (callback) {
     this.plan = this.container.find('.plan');
@@ -84,47 +83,65 @@ function Seating(container) {
     $(shield).parent('.block').siblings('.block').addClass('disabled');
 
     var shieldBox = shield.getBoundingClientRect();
-    var groupBox = this.globalGroup.getBoundingClientRect();
+    var shieldBBox = shield.getBBox();
+    var globalBox = this.globalGroup.getBoundingClientRect();
+    var globalBBox = this.globalGroup.getBBox();
 
-    var scale = groupBox.height / shieldBox.height;
-    if (shieldBox.width * scale > groupBox.width) {
-      scale = groupBox.width / shieldBox.width;
+    var currentNode = shield.querySelector('rect, path');
+
+    var x = parseFloat(currentNode.getAttribute('x')) || 0;
+    var y = parseFloat(currentNode.getAttribute('y')) || 0;
+
+    // calculate offset of the element by summing up the offsets of parent nodes
+    while (currentNode.tagName != 'svg') {
+      var transform = currentNode.getAttribute('transform');
+      if (transform) {
+        var matrix = currentNode.transform.baseVal.consolidate().matrix;
+        x += matrix.e;
+        y += matrix.f;
+      }
+
+      // calculate minimum X and Y values for path to get the offset
+      if (currentNode.tagName == 'path') {
+        var path = currentNode.getAttribute('d');
+        var matches = path.match(/([\d\.-]+) ([\d\.-]+)/g);
+        var xx = [];
+        var yy = [];
+        matches.forEach(function (match) {
+          var coords = match.split(' ');
+          xx.push(parseFloat(coords[0]));
+          yy.push(parseFloat(coords[1]));
+        });
+        x += Math.min.apply(null, xx);
+        y += Math.min.apply(null, yy);
+      }
+      currentNode = currentNode.parentNode;
     }
-    scale *= .95;
 
-    // use left/top instead of x/y because the latter are missing in IE/Edge
-    var left = shieldBox.left + shieldBox.width / 2 - groupBox.left;
-    left = (left * 2 - groupBox.width / 2) * 2;
+    var margin = 5;
+    var scaleX = (globalBox.width - margin) / shieldBox.width;
+    var scaleY = (globalBox.height - margin) / shieldBox.height;
+    var scale = Math.min(scaleX, scaleY);
 
-    var top = shieldBox.top + shieldBox.height / 2 - groupBox.top;
-    top = (top * 2 - groupBox.height / 2) * 2;
+    var viewBox = this.svg[0].viewBox.baseVal;
+    var offsetX = viewBox.x + globalBBox.width / 2 - (x + shieldBBox.width / 2) * scale;
+    var offsetY = viewBox.y + globalBBox.height / 2 - (y + shieldBBox.height / 2) * scale;
 
-    this.zoom(scale, left, top);
+    this.zoom(scale, offsetX, offsetY);
   };
 
-  this.zoom = function (scale, originX, originY) {
+  this.zoom = function (scale, translateX, translateY) {
     var zoomed = scale !== 1;
     if (!zoomed) {
       this.svg.removeClass('numbers').find('.block').removeClass('disabled');
     }
     this.plan.toggleClass('zoomed', zoomed);
 
-    var scaleTransform = 'scale(' + scale + ')';
-    if (isIE || isLegacyEdge) {
-      // IE/Edge workaround
-      var transform = 'translate(' + originX + ' ' + originY + ') '
-                      + scaleTransform
-                      + ' translate(' + -originX + ' ' + -originY + ')';
-      this.globalGroup.setAttribute('transform', transform);
-      this.toggleNumbersAfterZoom();
-    } else {
-      this.globalGroup.style.transform = scaleTransform;
-      this.globalGroup.style['transform-origin'] = originX + 'px ' + originY + 'px';
-    }
+    this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
   };
 
   this.unzoom = function () {
-    this.zoom(1, 'center center');
+    this.zoom(1, 0, 0);
   };
 
   this.toggleNumbersAfterZoom = function () {
