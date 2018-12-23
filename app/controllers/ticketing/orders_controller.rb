@@ -14,6 +14,8 @@ module Ticketing
           redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
         elsif @event.sale_ended?
           redirect_to root_path, alert: t("ticketing.orders.sale_ended", event: @event.name)
+        elsif @event.sale_disabled?
+          redirect_to root_path, alert: @event.sale_disabled_message
         end
       end
       @max_tickets = 25

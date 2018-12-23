@@ -13,6 +13,8 @@ class Api::OrdersController < ApplicationController
     date = Ticketing::EventDate.find(info[:date])
     return render_error('Sold out') if date.sold_out?
 
+    return render_error('Ticket sale currently disabled') if !@_member.admin? && date.event.sale_disabled?
+
     bound_to_seats = date.event.seating.bound_to_seats?
     if bound_to_seats
       seats = NodeApi.get_chosen_seats(info[:socketId])

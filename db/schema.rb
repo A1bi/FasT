@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_18_184943) do
+ActiveRecord::Schema.define(version: 2018_12_23_214432) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(version: 2018_12_18_184943) do
     t.string "location"
     t.string "slug"
     t.boolean "archived", default: false
+    t.string "sale_disabled_message"
     t.index ["identifier"], name: "index_ticketing_events_on_identifier"
     t.index ["slug"], name: "index_ticketing_events_on_slug"
   end

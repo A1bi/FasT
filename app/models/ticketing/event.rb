@@ -33,5 +33,9 @@ module Ticketing
     def on_sale?
       sale_started? && !sale_ended?
     end
+
+    def sale_disabled?
+      sale_disabled_message.present?
+    end
   end
 end
