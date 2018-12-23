@@ -20,6 +20,8 @@ function Seating(container) {
 
     this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
       this.svg = this.container.find('svg');
+      this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin');
+      this.originalHeight = this.svg.height();
 
       var content = this.svg.find('> g, > rect, > line, > text');
       var ns = 'http://www.w3.org/2000/svg';
@@ -118,24 +120,34 @@ function Seating(container) {
       currentNode = currentNode.parentNode;
     }
 
-    var margin = 5;
-    var scaleX = (globalBox.width - margin) / shieldBox.width;
-    var scaleY = (globalBox.height - margin) / shieldBox.height;
-    var scale = Math.min(scaleX, scaleY);
+    var heightExtension = 1.5;
+    var scale = globalBox.width / shieldBox.width;
+    var scaleY = globalBox.height * heightExtension / shieldBox.height;
+    if (scale > scaleY) {
+      scale = scaleY;
+    } else {
+      heightExtension = 1.0;
+    }
 
     var viewBox = this.svg[0].viewBox.baseVal;
     var offsetX = viewBox.x + globalBBox.width / 2 - (x + shieldBBox.width / 2) * scale;
-    var offsetY = viewBox.y + globalBBox.height / 2 - (y + shieldBBox.height / 2) * scale;
+    var offsetY = viewBox.y + globalBBox.height * heightExtension / 2 - (y + shieldBBox.height / 2) * scale;
 
-    this.zoom(scale, offsetX, offsetY);
+    this.zoom(scale, offsetX, offsetY, shieldBox);
   };
 
-  this.zoom = function (scale, translateX, translateY) {
+  this.zoom = function (scale, translateX, translateY, shieldBox) {
     var zoomed = scale !== 1;
     if (!zoomed) {
       this.svg.removeClass('numbers').find('.block').removeClass('disabled');
     }
     this.plan.toggleClass('zoomed', zoomed);
+
+    var height = this.originalHeight;
+    if (zoomed) {
+      height = Math.max(this.originalHeight, shieldBox.height * scale);
+    }
+    this.svg.height(height);
 
     this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
   };
