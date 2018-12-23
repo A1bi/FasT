@@ -34,11 +34,6 @@
       .unzoom {
         opacity: 1;
       }
-
-      .shield {
-        opacity: 0;
-        pointer-events: none;
-      }
     }
 
     .canvas {
@@ -96,6 +91,11 @@
 
       &.numbers .seat text {
         display: inline;
+      }
+
+      &.zoomed-in .shield {
+        opacity: 0;
+        pointer-events: none;
       }
     }
 

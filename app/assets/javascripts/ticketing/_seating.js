@@ -21,7 +21,6 @@ function Seating(container) {
     this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
       this.svg = this.container.find('svg');
       this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin');
-      this.originalHeight = this.svg.height();
 
       var content = this.svg.find('> g, > rect, > line, > text');
       var ns = 'http://www.w3.org/2000/svg';
@@ -40,7 +39,7 @@ function Seating(container) {
 
       this.globalGroup.addEventListener('transitionend', function (event) {
         if (event.propertyName === 'transform') {
-          this.toggleNumbersAfterZoom();
+          this.toggleClassesAfterZoom();
         }
       }.bind(this));
 
@@ -137,18 +136,18 @@ function Seating(container) {
   };
 
   this.zoom = function (scale, translateX, translateY, shieldBox) {
-    var zoomed = scale !== 1;
-    if (!zoomed) {
-      this.svg.removeClass('numbers').find('.block').removeClass('disabled');
-    }
-    this.plan.toggleClass('zoomed', zoomed);
-
+    var zoom = scale !== 1;
     var height = this.originalHeight;
-    if (zoomed) {
-      height = Math.max(this.originalHeight, shieldBox.height * scale);
-    }
-    this.svg.height(height);
 
+    if (zoom) {
+      this.originalHeight = this.originalHeight || this.svg.height();
+      height = Math.max(this.originalHeight, shieldBox.height * scale);
+    } else {
+      this.svg.removeClass('numbers zoomed-in').find('.block').removeClass('disabled');
+    }
+
+    this.plan.toggleClass('zoomed', zoom);
+    this.svg.height(height);
     this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
   };
 
@@ -156,8 +155,8 @@ function Seating(container) {
     this.zoom(1, 0, 0);
   };
 
-  this.toggleNumbersAfterZoom = function () {
-    this.svg.toggleClass('numbers', this.plan.is('.zoomed'));
+  this.toggleClassesAfterZoom = function () {
+    this.svg.toggleClass('numbers zoomed-in', this.plan.is('.zoomed'));
   };
 
   this.setStatusForSeat = function (seat, status) {
