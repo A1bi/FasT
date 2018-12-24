@@ -149,6 +149,10 @@ function Seating(container) {
     this.plan.toggleClass('zoomed', zoom);
     this.svg.height(height);
     this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+
+    if (typeof(this.delegate.slideToggle) == 'function') {
+      this.delegate.resizeDelegateBox(false);
+    }
   };
 
   this.unzoom = function () {
