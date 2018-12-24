@@ -69,8 +69,14 @@ class TicketsPDF < Prawn::Document
               move_down 10
 
               draw_stamp(:logo, nil, true) do
+                width_scale = 0.55
+                y = cursor
+
                 event_image_path = Rails.root.join('app', 'assets', 'images', 'logo_ticket.svg')
-                svg File.read(event_image_path), width: bounds.width * 0.55, position: :center
+                svg File.read(event_image_path), width: bounds.width * width_scale, position: :center
+
+                margin = bounds.width * (0.5 - width_scale / 2)
+                link_annotate(root_url, [margin, -bounds.height + y, -margin, -bounds.height + cursor])
               end
             end
           end
@@ -84,7 +90,10 @@ class TicketsPDF < Prawn::Document
   end
 
   def draw_barcode_for_ticket(ticket)
-    print_qr_code(barcode_content_for_ticket(ticket), extent: bounds.width.to_f)
+    link = barcode_content_for_ticket(ticket)
+    print_qr_code(link, extent: bounds.width.to_f)
+    link = barcode_link_for_ticket(ticket, authenticated: true)
+    link_annotate(link, [0, -bounds.width, 0, 0])
   end
 
   def draw_header(line_width)
@@ -220,6 +229,21 @@ class TicketsPDF < Prawn::Document
     end
   end
 
+  def link_annotate(url, offsets)
+    link_annotation(
+      [
+        bounds.absolute_left + offsets[0],
+        bounds.absolute_top + offsets[1],
+        bounds.absolute_right + offsets[2],
+        bounds.absolute_top + offsets[3]
+      ],
+      A: {
+        Type: :Action, S: :URI,
+        URI: PDF::Core::LiteralString.new(url)
+      }
+    )
+  end
+
   def stamp_name(key, record)
     "#{key}_#{record ? record.id : 'default'}"
   end
@@ -280,9 +304,13 @@ class TicketsPDF < Prawn::Document
     I18n.t(key, options.merge({ scope: :tickets_pdf }))
   end
 
+  def barcode_link_for_ticket(ticket, medium: nil, authenticated: false)
+    Settings.ticket_barcode_base_url + ticket.signed_info(medium: medium, authenticated: authenticated)
+  end
+
   def barcode_content_for_ticket(ticket)
     medium = Ticketing::CheckIn.media[signed_info_medium]
-    Settings.ticket_barcode_base_url + ticket.signed_info(medium: medium)
+    barcode_link_for_ticket(ticket, medium: medium)
   end
 
   def signed_info_medium
