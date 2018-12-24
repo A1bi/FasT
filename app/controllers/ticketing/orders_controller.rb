@@ -143,10 +143,14 @@ module Ticketing
     end
 
     def seats
-      render_cached_json [:ticketing, :orders, :show, @order, @order.tickets] do
-        {
-          seats: @order.tickets.map { |t| t.seat.id if !t.cancelled? }.compact
-        }
+      render_cached_json [:ticketing, :orders, :show, @order, @order.date.tickets] do
+        seats = {}
+        [[:chosen, @order], [:taken, @order.date]].each do |type|
+          seats[type.first] = type.last.tickets.where(invalidated: false).map do |t|
+            t.seat&.id
+          end.compact
+        end
+        seats
       end
     end
 

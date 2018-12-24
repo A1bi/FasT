@@ -180,11 +180,14 @@ function SeatingStandalone(container) {
     if (path) {
       $.getJSON(path, function (response) {
         if (this.container.is('.chosen')) {
-          response.seats.forEach(function (id) {
-            var seat = this.seats[id];
-            if (seat) {
-              this.setStatusForSeat(seat, 'chosen');
-            }
+          ['taken', 'chosen'].forEach(function (type) {
+            if (!response[type]) return;
+            response[type].forEach(function (id) {
+              var seat = this.seats[id];
+              if (seat) {
+                this.setStatusForSeat(seat, type);
+              }
+            }.bind(this));
           }.bind(this));
 
         } else {

@@ -3,7 +3,8 @@ module Ticketing
     include Statistics
 
     belongs_to :event, touch: true
-    has_many :reservations, foreign_key: :date_id
+    has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
+    has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
     def self.upcoming
       where('ticketing_event_dates.date > ?', Time.current)
