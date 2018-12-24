@@ -1,7 +1,8 @@
 //= require socket.io-client/dist/socket.io.js
 
-function Seating(container) {
+function Seating(container, delegate) {
   this.container = container;
+  this.delegate = delegate;
   this.eventId = this.container.data('event-id');
   this.allSeats;
   this.seats = {};
@@ -150,7 +151,7 @@ function Seating(container) {
     this.svg.height(height);
     this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
 
-    if (typeof(this.delegate.slideToggle) == 'function') {
+    if (this.delegate && typeof(this.delegate.resizeDelegateBox) == 'function') {
       this.delegate.resizeDelegateBox(false);
     }
   };
@@ -201,8 +202,7 @@ function SeatingStandalone(container) {
 };
 
 function SeatSelector(container, delegate) {
-  Seating.call(this, container);
-  this.delegate = delegate;
+  Seating.call(this, container, delegate);
   var _this = this;
 
   this.selectedSeats = [];
@@ -249,7 +249,7 @@ function SeatSelector(container, delegate) {
 }
 
 function SeatChooser(container, delegate) {
-  Seating.call(this, container);
+  Seating.call(this, container, delegate);
 
   this.date = null;
   this.seatsInfo = {};
@@ -257,7 +257,6 @@ function SeatChooser(container, delegate) {
   this.node = null;
   this.socketId;
   this.errorBox = this.container.find(".error");
-  this.delegate = delegate;
   this.noErrors = false;
   var _this = this;
 
