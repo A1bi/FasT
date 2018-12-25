@@ -22,6 +22,18 @@ class OrdersController < ApplicationController
     end
   end
 
+  def seats
+    render_cached_json [:ticketing, :orders, :show, @order, @order.date.tickets] do
+      seats = {}
+      [[:chosen, @order], [:taken, @order.date]].each do |type|
+        seats[type.first] = type.last.tickets.where(invalidated: false).map do |t|
+          t.seat&.id
+        end.compact
+      end
+      seats
+    end
+  end
+
   private
 
   def find_records

@@ -1,5 +1,6 @@
 <% title "Ihre Bestellung ##{@order.number}" %>
 <% include_css "ticketing/orders" %>
+<% include_js "ticketing/seats" %>
 <div class="hl">Ihre Bestellung #<%= @order.number %></div>
 <% if @authenticated %>
   <table class="rounded entries details">
@@ -45,13 +46,26 @@
         <% end %>
       <% end %>
     </tbody>
+    <% if @order.tickets.first.seat.present? %>
+      <thead>
+        <tr>
+          <th colspan="<%= @show_wallet ? 5 : 4 %>">Sitzplätze</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="<%= @show_wallet ? 5 : 4 %>">
+            <%= render "application/ticketing/seating", event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen] %>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
   </table>
   <p class="hcen">
-    Leider können Sie derzeit noch nicht online umbuchen oder stornieren, wir arbeiten an einer Lösung.
-  </p>
-  <p class="hcen">
-    Gerne nehmen wir Ihre Änderungswünsche bis dahin telefonisch entgegen:<br>
-    <b>(02653) 28 27 09</b>
+    Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
+    <b>(02653) 28 27 09</b><br>
+    oder kontaktieren Sie uns per Mail:<br>
+    <a href="mailto:info@theater-kaisersesch.de">info@theater-kaisersesch.de</a>
   </p>
 <% else %>
   <p>

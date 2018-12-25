@@ -186,6 +186,7 @@ Rails.application.routes.draw do
         get "/", action: :show
         post "/", action: :check_email
         get "/wallet", action: :passbook_pass, as: :wallet
+        get "/seats", action: :seats
       end
     end
 
