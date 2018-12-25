@@ -234,6 +234,7 @@ function SeatSelector(container, delegate) {
 
     (seats || []).forEach(function (seatId) {
       var seat = this.seats[seatId];
+      if (!seat) return;
       this.selectedSeats.push(seatId);
       this.setStatusForSeat(seat, 'exclusive');
     }.bind(this));

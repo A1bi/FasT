@@ -77,7 +77,9 @@ Step.prototype = {
   },
 
   resizeDelegateBox: function (animated) {
-    this.delegate.resizeStepBox(this.box.outerHeight(true), animated);
+    if (this.box.is(':visible')) {
+      this.delegate.resizeStepBox(this.box.outerHeight(true), animated);
+    }
   },
 
   slideToggle: function (obj, toggle) {
