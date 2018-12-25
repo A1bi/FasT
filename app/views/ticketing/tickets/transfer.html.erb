@@ -3,7 +3,9 @@
 <% include_css "ticketing/tickets" %>
 <div class="hl">Tickets umbuchen</div>
 <%= content_tag :div, class: :transfer, data: { tickets: @tickets.map { |t| t.id }, init_path: orders_path(:init_transfer_ticketing_order_tickets, @order), update_path: orders_path(:finish_transfer_ticketing_order_tickets, @order), order_path: orders_path(:ticketing_order, @order) } do %>
-  <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date %>
+  <div class="date">
+    <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date %>
+  </div>
   <% if @event.seating.bound_to_seats? %>
     <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
       Vorreservierungen freischalten:

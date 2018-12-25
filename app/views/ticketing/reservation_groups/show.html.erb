@@ -6,8 +6,11 @@
   <div class="groups">
     Vorreservierungen: <%= select_tag :group, options_from_collection_for_select(@groups, :id, :name, @group.id) %> <%= link_to "Gruppe löschen", ticketing_reservation_group_path(@group), method: :delete, data: { confirm: "Möchten Sie diese Gruppe und alle damit verbundenen Sitzplatzvorreservierungen löschen?" } %>
   </div>
-  <%= render "application/ticketing/date_select", dates: @dates, preselected_date: @dates.first %>
-  <%= render "application/ticketing/seating", options: { class: [:stage, :reservator, :background, :big] }, view_chooser: true %>
+  <div class="date">
+    Veranstaltung: <%= select_tag :event, options_from_collection_for_select(@events, :id, :name, @event.id) %><br>
+    <%= render "application/ticketing/date_select", dates: @event.dates, preselected_date: @event.dates.first %>
+  </div>
+  <%= render "application/ticketing/seating", class: [:selector], event: @event %>
   <p class="hcen">
     <%= submit_tag "speichern", class: :save %>
   </p>

@@ -3,7 +3,8 @@
 
 function ReservationGroups(container) {
   this.box = container;
-  this.dateSelect = this.box.find(".date select");
+  this.eventSelect = this.box.find(".date select[name=event]");
+  this.dateSelect = this.box.find(".date select[name=date]");
   this.groupSelect = this.box.find(".groups select");
   this.seats = this.box.data("seats") || {};
   this.date;
@@ -11,6 +12,10 @@ function ReservationGroups(container) {
 
   this.getSelectedSeats = function () {
     this.seats[this.date] = this.selector.getSelectedSeatIds();
+  };
+
+  this.updateEvent = function () {
+    location.href = location.pathname + '?event_id=' + this.eventSelect.val();
   };
 
   this.updateDate = function () {
@@ -23,11 +28,15 @@ function ReservationGroups(container) {
 
   this.seatSelectorIsReady = function () {
     this.updateDate();
-  }
+  };
 
   var seatingBox = $(".seating");
   if (seatingBox.length) {
     this.selector = new SeatSelector(seatingBox, this);
+
+    this.eventSelect.change(function () {
+      _this.updateEvent();
+    });
 
     this.dateSelect.change(function () {
       _this.updateDate();
@@ -41,13 +50,15 @@ function ReservationGroups(container) {
       _this.getSelectedSeats();
       $.ajax({
         url: _this.box.data("update-path"),
-        dataType: "json",
         method: "PUT",
         data: {
           seats: _this.seats
         },
-        complete: function () {
+        success: function () {
           alert('Die Vorreservierungen wurden erfolgreich gespeichert.');
+        },
+        error: function () {
+          alert('Beim Speichern ist ein unbekannter Fehler aufgetreten.');
         }
       });
     });

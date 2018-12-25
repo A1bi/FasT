@@ -212,49 +212,46 @@ function SeatingStandalone(container) {
 
 function SeatSelector(container, delegate) {
   Seating.call(this, container, delegate);
-  var _this = this;
 
   this.selectedSeats = [];
 
   this.clickedSeat = function (seat) {
-    var selected = seat.status === Seat.Status.Exclusive;
+    var selected = seat.data('status') === 'exclusive';
+    var seatId = seat.data('id');
     if (selected) {
-      this.selectedSeats.splice(this.selectedSeats.indexOf(seat), 1);
+      this.selectedSeats.splice(this.selectedSeats.indexOf(seatId), 1);
     } else {
-      this.selectedSeats.push(seat);
+      this.selectedSeats.push(seatId);
     }
-    seat.setStatus(selected ? Seat.Status.Default : Seat.Status.Exclusive);
-    this.drawSeatsLayer();
+    this.setStatusForSeat(seat, selected ? 'available' : 'exclusive');
   };
 
   this.setSelectedSeats = function (seats) {
-    this.selectedSeats.forEach(function (seat) {
-      seat.setStatus(Seat.Status.Default);
-    });
+    this.selectedSeats.forEach(function (seatId) {
+      this.setStatusForSeat(this.seats[seatId], 'available');
+    }.bind(this));
     this.selectedSeats = [];
 
     (seats || []).forEach(function (seatId) {
-      var seat = _this.seats[seatId];
-      _this.selectedSeats.push(seat);
-      seat.setStatus(Seat.Status.Exclusive);
-    });
-    this.drawSeatsLayer();
+      var seat = this.seats[seatId];
+      this.selectedSeats.push(seatId);
+      this.setStatusForSeat(seat, 'exclusive');
+    }.bind(this));
   };
 
   this.getSelectedSeatIds = function () {
-    return this.selectedSeats.map(function (seat) {
-      return seat.id;
-    });
+    return this.selectedSeats;
   };
 
-  this.initSeats(function (seat) {
-    seat.toggleNumber(true);
-    seat.updateStatusShape();
-  }, function () {
-    if (_this.delegate.seatSelectorIsReady) {
-      _this.delegate.seatSelectorIsReady();
+  this.initPlan(function () {
+    for (var id in this.seats) {
+      this.setStatusForSeat(this.seats[id], 'available');
     }
-  });
+
+    if (this.delegate && typeof(this.delegate.seatSelectorIsReady) === 'function') {
+      this.delegate.seatSelectorIsReady();
+    }
+  }.bind(this));
 }
 
 function SeatChooser(container, delegate) {

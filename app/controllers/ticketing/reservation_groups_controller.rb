@@ -13,7 +13,8 @@ module Ticketing
       end
 
       @groups = Ticketing::ReservationGroup.order(:name)
-      @dates = Ticketing::Event.current.dates
+      @events = Ticketing::Event.current
+      @event = params[:event_id].present? ? @events.find(params[:event_id]) : @events.first
     end
 
     def create
@@ -28,23 +29,20 @@ module Ticketing
 
     def update
       reservations = []
-      ids = []
 
       ActiveRecord::Base.transaction do
         params.require(:seats).each do |date_id, seat_ids|
           seat_ids.each do |seat_id|
-            r = @group.reservations.where(date_id: date_id, seat_id: seat_id).first_or_create
-            reservations << r
-            ids << r.id
+            reservations << @group.reservations.where(date_id: date_id, seat_id: seat_id).first_or_create
           end
         end
 
-        removed = @group.reservations.where.not(id: ids)
+        removed = @group.reservations.where.not(id: reservations)
         reservations.concat(removed)
         removed.destroy_all
       end
 
-      NodeApi.update_seats_from_records(reservations)
+      update_node_with_reservations(reservations)
 
       head :ok
     end
@@ -53,7 +51,7 @@ module Ticketing
       reservations = @group.reservations.to_a
       @group.destroy
 
-      NodeApi.update_seats_from_records(reservations)
+      update_node_with_reservations(reservations)
 
       flash[:notice] = t("ticketing.reservation_groups.destroyed")
       redirect_to ticketing_reservation_groups_path
@@ -63,6 +61,11 @@ module Ticketing
 
     def find_group
       @group = Ticketing::ReservationGroup.find(params[:id])
+    end
+
+    def update_node_with_reservations(reservations)
+      NodeApi.update_seats_from_records(reservations)
+    rescue Errno::ENOENT # rubocop:disable Lint/HandleExceptions
     end
   end
 end

@@ -107,7 +107,7 @@
     }
   }
 
-  &.chooser {
+  &.chooser, &.selector {
     .seat {
       &.status-available, &.status-chosen, &.status-exclusive {
         cursor: pointer;
