@@ -38,6 +38,8 @@ module Ticketing
     def resend_tickets
     end
 
+    def seating_migration; end
+
     def find_tickets
       @tickets ||= @order.tickets.cancelled(false)
     end

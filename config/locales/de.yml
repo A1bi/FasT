@@ -228,6 +228,8 @@ de:
       subject: "Stornierung Ihrer Tickets"
     resend_tickets:
       subject: "Ihre Tickets"
+    seating_migration:
+      subject: "Änderung Ihrer Platznummern"
   newsletter_mailer:
     confirmation_instructions:
       subject: "Bitte bestätigen Sie Ihre Anmeldung zum Newsletter"

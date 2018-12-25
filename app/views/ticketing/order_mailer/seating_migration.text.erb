@@ -1,0 +1,13 @@
+es gibt Neuigkeiten zu Ihrer Ticketbestellung für „SahneMixx“ mit der Nummer <%= render_inline 'order_number' %> vom <%= l(@order.created_at, format: '%d. %B %Y') %>.
+
+Auf Anweisung der Stadt mussten wir Anpassungen am Sitzplan vornehmen. Dadurch haben sich die Platznummern Ihrer Tickets geändert.<% if @order.paid %> Im Anhang finden Sie Ihre Tickets mit den aktualisierten Nummern.<% end %> Wir möchten uns für die durch diese Änderungen entstandenen Unannehmlichkeiten entschuldigen.
+
+In wenigen Fällen mussten Plätze darüber hinaus in andere Reihen umgebucht werden. Bitte prüfen Sie daher die eventuell veränderte Lage Ihrer Sitzplätze in Ihrer Bestellübersicht, erreichbar über folgenden Link:
+
+<%= overview_url %>
+
+Sollten Sie mit den neuen Plätzen nicht einverstanden sein, rufen Sie uns gerne an (02653 28 27 09) oder schreiben Sie uns eine E-Mail, um eine Umbuchung oder Stornierung vorzunehmen.
+
+<%= render 'tickets_ordered' %>
+
+Wir danken Ihnen für Ihr Verständnis und wünschen Ihnen einen schönen Zweiten Weihnachtsfeiertag.
