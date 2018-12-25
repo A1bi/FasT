@@ -72,6 +72,8 @@ function Seating(container, delegate) {
 
       this.container.find('.unzoom').click(this.unzoom.bind(this));
 
+      this.unzoom();
+
       if (callback) callback();
 
     }.bind(this));
@@ -133,16 +135,19 @@ function Seating(container, delegate) {
     var offsetX = viewBox.x + globalBBox.width / 2 - (x + shieldBBox.width / 2) * scale;
     var offsetY = viewBox.y + globalBBox.height * heightExtension / 2 - (y + shieldBBox.height / 2) * scale;
 
-    this.zoom(scale, offsetX, offsetY, shieldBox);
+    this.zoom(scale, offsetX, offsetY, shield);
   };
 
-  this.zoom = function (scale, translateX, translateY, shieldBox) {
+  this.zoom = function (scale, translateX, translateY, shield) {
     var zoom = scale !== 1;
     var height = this.originalHeight;
+    var topBar = this.container.find('.top-bar');
+    var blockName = 'Übersicht';
 
     if (zoom) {
       this.originalHeight = this.originalHeight || this.svg.height();
-      height = Math.max(this.originalHeight, shieldBox.height * scale);
+      height = Math.max(this.originalHeight, shield.getBoundingClientRect().height * scale);
+      blockName = shield.querySelector('text').innerHTML;
     } else {
       this.svg.removeClass('numbers zoomed-in').find('.block').removeClass('disabled');
     }
@@ -150,6 +155,7 @@ function Seating(container, delegate) {
     this.plan.toggleClass('zoomed', zoom);
     this.svg.height(height);
     this.globalGroup.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+    topBar.find('.block-name').text(blockName);
 
     if (this.delegate && typeof(this.delegate.resizeDelegateBox) == 'function') {
       this.delegate.resizeDelegateBox(false);
