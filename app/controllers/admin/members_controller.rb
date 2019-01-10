@@ -4,9 +4,10 @@ module Admin
     before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
     before_action :prepare_new_member, :only => [:new, :create]
     before_action :update_member, :only => [:create, :update]
+    before_action :find_members_to_link, only: %w[new create edit update]
 
     def index
-      @members = Members::Member.order(:last_name).order(:first_name)
+      @members = Members::Member.alphabetically
     end
 
     def new
@@ -60,13 +61,21 @@ module Admin
       @member = Members::Member.find(params[:id])
     end
 
+    def find_members_to_link
+      @members = Members::Member.where.not(id: @member).alphabetically
+    end
+
     def prepare_new_member
       @member = Members::Member.new
     end
 
     def update_member
       @member.email_can_be_blank = true
-      @member.assign_attributes(params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday))
+      @member.assign_attributes(member_params)
+    end
+
+    def member_params
+      params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday, :related_to_id)
     end
 
     def send_activation_mail

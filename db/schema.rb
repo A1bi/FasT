@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_23_214432) do
+ActiveRecord::Schema.define(version: 2019_01_10_215510) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(version: 2018_12_23_214432) do
     t.string "activation_code"
     t.date "birthday"
     t.string "nickname"
+    t.integer "related_to_id"
+    t.index ["related_to_id"], name: "index_members_members_on_related_to_id"
   end
 
   create_table "newsletter_images", force: :cascade do |t|
