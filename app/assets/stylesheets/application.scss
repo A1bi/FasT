@@ -120,7 +120,8 @@ html {
 
 @mixin left-bg {
   background: {
-    image: url(asset_path('left.png')) no-repeat;
+    image: url(asset_path('left.png'));
+    repeat: no-repeat;
     size: 258px 659px;
   }
 
