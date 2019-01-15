@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_10_215510) do
+ActiveRecord::Schema.define(version: 2019_01_15_165147) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,6 +62,11 @@ ActiveRecord::Schema.define(version: 2019_01_10_215510) do
     t.string "title"
   end
 
+  create_table "members_families", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "members_members", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -74,8 +79,8 @@ ActiveRecord::Schema.define(version: 2019_01_10_215510) do
     t.string "activation_code"
     t.date "birthday"
     t.string "nickname"
-    t.integer "related_to_id"
-    t.index ["related_to_id"], name: "index_members_members_on_related_to_id"
+    t.integer "family_id"
+    t.index ["family_id"], name: "index_members_members_on_family_id"
   end
 
   create_table "newsletter_images", force: :cascade do |t|

@@ -4,7 +4,7 @@ module Admin
     before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
     before_action :prepare_new_member, :only => [:new, :create]
     before_action :update_member, :only => [:create, :update]
-    before_action :find_members_to_link, only: %w[new create edit update]
+    before_action :find_members_for_family, only: %w[new create edit update]
 
     def index
       @members = Members::Member.alphabetically
@@ -18,6 +18,7 @@ module Admin
       if @member.save
         send_activation_mail if params[:activation][:send] == "1"
 
+        flash.notice = t('admin.members.created')
         redirect_to :action => :index
       else
         render :action => :new
@@ -36,7 +37,7 @@ module Admin
     end
 
     def destroy
-      @member.destroy
+      flash.notice = t('admin.members.destroyed') if @member.destroy
       redirect_to :action => :index
     end
 
@@ -61,7 +62,7 @@ module Admin
       @member = Members::Member.find(params[:id])
     end
 
-    def find_members_to_link
+    def find_members_for_family
       @members = Members::Member.where.not(id: @member).alphabetically
     end
 
@@ -75,7 +76,7 @@ module Admin
     end
 
     def member_params
-      params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday, :related_to_id)
+      params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday, :family_member_id, :family_id)
     end
 
     def send_activation_mail

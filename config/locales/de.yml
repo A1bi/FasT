@@ -25,6 +25,8 @@ de:
       destroyed: "Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht."
   admin:
     members:
+      created: "Das Mitglied wurde erfolgreich angelegt."
+      destroyed: "Das Mitglied wurde erfolgreich gelöscht."
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
     newsletters:
       preview_sent: "Eine Vorschau wurde verschickt."

@@ -9,7 +9,7 @@
       <%= render "errors", errors: @member.errors %>
       <table>
         <tr>
-          <td>Vorname:</td>
+          <td width="40%">Vorname:</td>
           <td><%= f.text_field :first_name, required: true %></td>
         </tr>
         <tr>
@@ -32,10 +32,13 @@
           <td>Gruppe:</td>
           <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
         </tr>
-        <% if @member.related_members.none? %>
+        <% if !@member.in_family? %>
           <tr>
-            <td>Verknüpft mit:</td>
-            <td><%= f.collection_select(:related_to_id, @members, :id, :full_name, include_blank: true) %></td>
+            <td>
+              Zu Familie hinzufügen von:
+              <div class="small">Wählen Sie ein Familienmitglied, dessen Familie dieses Mitglied zugeordnet werden soll.</div>
+            </td>
+            <td><%= f.collection_select(:family_member_id, @members, :id, ->(member) { "#{member.last_name}, #{member.first_name}" }, include_blank: true) %></td>
           </tr>
         <% end %>
         <%= content_tag :tr do %>
@@ -54,20 +57,19 @@
       <%= content_tag :div, class: [:small, :hcen] do %>
         <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, method: :patch, data: { confirm: "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
       <% end if !@member.new_record? && @member.email.present? %>
-      <% if @member.persisted? && @member.related_to.blank? %>
-        <p>
-          <h3>Verknüpfte Mitglieder</h3>
-          <% if @member.related_members.any? %>
-            <ul>
-              <% @member.related_members.each do |member| %>
-                <li><%= link_to member.full_name, edit_admin_members_member_path(member) %></li>
-              <% end %>
-            </ul>
-          <% else %>
-            <em>Keine verknüpften Mitglieder.</em>
-          <% end %>
-        </p>
-      <% end %>
+      <p>
+        <h3>Familie</h3>
+        <% if @member.in_family? %>
+          <ul>
+            <% @member.family.members.alphabetically.each do |member| %>
+              <li><%= link_to member.full_name, edit_admin_members_member_path(member) %></li>
+            <% end %>
+            <p><small><%= link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'} %></small></p>
+          </ul>
+        <% else %>
+          <em>Dieses Mitglied ist keiner Familie zugeordnet.</em>
+        <% end %>
+      </p>
     </div>
   </div>
 <% end %>

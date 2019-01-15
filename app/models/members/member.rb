@@ -2,12 +2,9 @@ class Members::Member < BaseModel
   has_secure_password
 
   attr_accessor :email_can_be_blank
+  attr_reader :family_member_id
 
-  belongs_to :related_to, class_name: 'Members::Member', optional: true
-  has_many :related_members, class_name: 'Members::Member',
-                             foreign_key: :related_to_id,
-                             inverse_of: :related_to,
-                             dependent: :nullify
+  belongs_to :family, optional: true
 
   validates :email, :presence => true, :if => Proc.new { |member| !member.email_can_be_blank }
 
@@ -22,10 +19,9 @@ class Members::Member < BaseModel
 
   validates_presence_of :first_name, :last_name
 
-  validate :cannot_be_related_to_themselves
-  validate :either_related_members_or_related_to
-
   enum group: [:member, :admin]
+
+  after_save :destroy_family_if_empty
 
   def self.alphabetically
     order(:last_name, :first_name)
@@ -60,18 +56,32 @@ class Members::Member < BaseModel
     self.set_activation_code
   end
 
+  def in_family?
+    family.present?
+  end
+
+  def add_to_family_with_member(member)
+    if !member.in_family?
+      member.family = Members::Family.create
+      member.save
+    end
+    self.family = member.family
+  end
+
+  def family_member_id=(member_id)
+    return if member_id.blank?
+    add_to_family_with_member(self.class.find(member_id))
+  end
+
   private
 
   def self.random_hash
     SecureRandom.hex
   end
 
-  def either_related_members_or_related_to
-    return unless related_to.present? && related_members.any?
-    errors.add(:base, :either_related_members_or_related_to)
-  end
-
-  def cannot_be_related_to_themselves
-    errors.add(:related_to, :cannot_be_themselves) if related_to == self
+  def destroy_family_if_empty
+    return unless saved_change_to_family_id? && family_id_before_last_save.present?
+    old_fam = Members::Family.find(family_id_before_last_save)
+    old_fam.destroy_if_empty
   end
 end
