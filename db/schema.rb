@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_165147) do
+ActiveRecord::Schema.define(version: 2019_01_18_164859) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -60,6 +60,26 @@ ActiveRecord::Schema.define(version: 2019_01_15_165147) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
+  end
+
+  create_table "members_exclusive_ticket_type_credit_spendings", force: :cascade do |t|
+    t.integer "member_id"
+    t.integer "ticket_type_id"
+    t.integer "order_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_members_exclusive_ticket_type_credit_spndngs_on_member"
+    t.index ["order_id"], name: "index_members_exclusive_ticket_type_credit_spndngs_on_order"
+    t.index ["ticket_type_id"], name: "index_members_exclusive_ticket_type_credit_spndngs_on_type"
+  end
+
+  create_table "members_exclusive_ticket_type_credits", force: :cascade do |t|
+    t.integer "ticket_type_id"
+    t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_type_id"], name: "index_members_exclusive_ticket_type_credits_on_ticket_type_id"
   end
 
   create_table "members_families", force: :cascade do |t|

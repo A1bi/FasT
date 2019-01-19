@@ -23,7 +23,13 @@ class Api::OrdersController < ApplicationController
 
     info[:tickets].each do |type_id, number|
       ticket_type = date.event.ticket_types.find_by(id: type_id)
-      next if !ticket_type || number < 1 || (ticket_type.exclusive && type != :admin)
+      next if number < 1
+      return render_error('Invalid ticket type') if !ticket_type
+
+      credit_required = ticket_type.exclusive && type != :admin
+      if credit_required && ticket_type.credit_left_for_member(@_member) < number
+        return render_error('Not enough credit for exclusive ticket type')
+      end
 
       number.times do
         ticket = order.tickets.new({
@@ -32,6 +38,13 @@ class Api::OrdersController < ApplicationController
         })
         ticket.seat = Ticketing::Seat.find(seats.shift) if bound_to_seats
       end
+
+      next unless credit_required
+      order.exclusive_ticket_type_credit_spendings.build(
+        member: @_member,
+        ticket_type: ticket_type,
+        value: number
+      )
     end
 
     tickets_by_price = order.tickets.to_a.sort_by{ |x| x.price }

@@ -8,5 +8,10 @@ module Ticketing
     def tickets_colspan
       @show_check_ins ? 8 : 7
     end
+
+    def max_tickets_for_type(type)
+      return @max_tickets unless type.exclusive? && !admin?
+      type.credit_left_for_member(@_member)
+    end
   end
 end

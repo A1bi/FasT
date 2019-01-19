@@ -206,8 +206,7 @@ module Ticketing
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.where("date > ?", Time.zone.now)
-      @ticket_types = @event.ticket_types.order(price: :desc)
-      @ticket_types = @ticket_types.exclusive(false) if !admin?
+      @ticket_types = @event.ticket_types.order(exclusive: :desc, price: :desc)
     end
 
     def update_exclusive_seats(action, groups)

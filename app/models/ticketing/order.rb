@@ -13,6 +13,7 @@ module Ticketing
     has_random_unique_number :number, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
+    has_many :exclusive_ticket_type_credit_spendings, class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true
 
     validates_length_of :tickets, minimum: 1, maximum: NUM_TICKETS_MAX
     validates :date, presence: true
