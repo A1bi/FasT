@@ -19,8 +19,8 @@ class InfoController < ApplicationController
   end
 
   def map
-    return if params[:event_identifier].blank?
-    template = "map_#{params[:event_identifier]}"
+    return if params[:identifier].blank?
+    template = "map_#{params[:identifier]}"
     render template if template_exists?("info/#{template}")
   end
 
