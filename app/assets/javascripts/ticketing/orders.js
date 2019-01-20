@@ -63,9 +63,10 @@ Step.prototype = {
     this.box.show();
     var props = { left: "0%" };
     if (animate) {
-      this.box.animate(props);
+      this.box.animate(props, this.didMoveIn.bind(this));
     } else {
       this.box.css(props);
+      this.didMoveIn();
     }
     this.resizeDelegateBox(animate);
   },
@@ -147,6 +148,8 @@ Step.prototype = {
   },
 
   willMoveIn: function () {},
+
+  didMoveIn: function () {},
 
   shouldBeSkipped: function () {
     return false;
@@ -420,6 +423,12 @@ function SeatsStep(delegate) {
     this.toggleExclusiveSeatsKey(info.internal.exclusiveSeats);
   };
 
+  this.didMoveIn = function () {
+    if (this.skipDateSelection) {
+      this.choseDate(this.dates.first());
+    }
+  };
+
   this.choseDate = function ($this) {
     if ($this.is(".selected") || $this.is(".disabled")) return;
     $this.parents("table").find(".selected").removeClass("selected");
@@ -499,9 +508,12 @@ function SeatsStep(delegate) {
   }
   this.seatingBox.hide();
 
-  this.box.find(".date td").click(function () {
+  this.dates = this.box.find(".date td").click(function () {
     _this.choseDate($(this));
   });
+  this.skipDateSelection = this.dates.length < 2 && this.boundToSeats;
+  this.box.find(".note").first().toggle(!this.skipDateSelection);
+
   this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {
     _this.enableReservationGroups();
   });

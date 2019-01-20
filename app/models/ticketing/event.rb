@@ -15,7 +15,7 @@ module Ticketing
     end
 
     def self.with_future_dates
-      joins(:dates).merge(EventDate.upcoming).where.not(ticketing_event_dates: { id: nil })
+      joins(:dates).merge(EventDate.upcoming).where.not(ticketing_event_dates: { id: nil }).uniq
     end
 
     def sold_out?
