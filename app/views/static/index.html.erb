@@ -10,14 +10,18 @@
       </div>
     <% end %>
   <% end %>
-  <div class="teaser sahnemixx">
-    <%= image_tag 'theater/sahnemixx/ticket_header.svg' %>
-    <div class="links">
-      <%= link_to 'Termine', dates_event_identifier_path(:sahnemixx) %> |
-      <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(:sahnemixx) %>
+  <% @events.each do |event| %>
+    <div class="teaser <%= event.identifier %>">
+      <%= image_tag "theater/#{event.identifier}/title.svg", alt: event.name %>
+      <div class="links">
+        <%= link_to 'Termine', dates_event_identifier_path(event.identifier) %>
+        <% if event.on_sale? %>
+          | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
+        <% end %>
+      </div>
     </div>
-  </div>
-  <div class="trenner"></div>
+    <div class="trenner"></div>
+  <% end %>
   <div class="teaser">
     <h2><%= link_to 'Vorschau für 2019', dates_preview_2019_path %></h2>
   </div>

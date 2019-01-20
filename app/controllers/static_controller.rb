@@ -1,7 +1,6 @@
 class StaticController < ApplicationController
   def index
     @alert_file = Rails.root.join('public', 'uploads', 'index_alert.json')
-    @sahnemixx = Ticketing::Event.find_by(identifier: 'sahnemixx')
-    @herdmanns = Ticketing::Event.find_by(identifier: 'herdmanns')
+    @events = Ticketing::Event.where(identifier: %i[sahnemixx gemetzel])
   end
 end

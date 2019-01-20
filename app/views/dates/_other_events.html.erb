@@ -1,6 +1,8 @@
 <div class="other-events">
-  <% if @event&.identifier != 'sahnemixx' %>
-    <p>Termine zu <%= image_tag 'theater/sahnemixx/ticket_header.svg', height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(:sahnemixx) %>.</p>
+  <% %w[gemetzel sahnemixx].each do |identifier| %>
+    <% if @event&.identifier != identifier %>
+      <p>Termine zu <%= image_tag "theater/#{identifier}/ticket_header.svg", height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(identifier) %>.</p>
+    <% end %>
   <% end %>
   <% if action_name != 'preview_2019' %>
     <p>Unsere <b>Vorschau für 2019</b> finden Sie <%= link_to 'hier', dates_preview_2019_path %>.</p>
