@@ -23,6 +23,9 @@ de:
       created: "Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben."
       confirmed: "Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt."
       destroyed: "Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht."
+  documents:
+    created: "Das Dokument wurde erfolgreich hochgeladen."
+    destroyed: "Das Dokument wurde erfolgreich gelöscht."
   admin:
     members:
       created: "Das Mitglied wurde erfolgreich angelegt."
@@ -260,6 +263,10 @@ de:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
             image_content_type:
               invalid: "Es können nur JPG- und PNG-Dateien hochgeladen werden."
+        document:
+          attributes:
+            file_content_type:
+              invalid: "Dieses Dateiformat kann nicht hochgeladen werden."
         newsletter/subscriber:
           attributes:
             email:

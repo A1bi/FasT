@@ -15,12 +15,11 @@ module DocumentManagement
   end
 
   def create
-    puts members_group
     @document = Document.new(document_params)
     @document.members_group = members_group
 
     if @document.save
-      redirect_to redirect_path
+      redirect_to redirect_path, notice: t('documents.created')
     else
       render action: :new
     end
@@ -35,7 +34,7 @@ module DocumentManagement
   end
 
   def destroy
-    @document.destroy
+    flash.notice = t('documents.destroyed') if @document.destroy
 
     redirect_to redirect_path
   end

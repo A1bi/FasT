@@ -7,7 +7,10 @@
   <% if @documents.any? %>
     <table class="rounded files">
       <%= content_tag_for :tr, @documents do |doc| %>
-        <td><%= image_tag "misc/files/pdf.png", :alt => :pdf %></td>
+        <td>
+          <div><b><%= File.extname(doc.file.path).delete('.').upcase %></b></div>
+          <small><%= number_to_human_size(doc.file.size) %></small>
+        </td>
         <td>
           <%= doc.title %>
           <div class="small">
