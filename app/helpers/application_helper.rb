@@ -44,6 +44,10 @@ module ApplicationHelper
     (Rails.application.assets || Sprockets::Railtie.build_environment(Rails.application)).resolve(path).present?
   end
 
+  def uppercase_file_extension(path)
+    File.extname(path).delete('.').upcase
+  end
+
   private
 
   def event_identifier_path(identifier, path_method)

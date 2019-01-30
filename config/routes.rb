@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get "agb"
     get "widerrufsbelehrung", action: :widerruf, as: :widerruf
     get "datenschutz", action: :privacy, as: :privacy
+    get "pressematerial", action: :press_material, as: :press_material
 
     root action: :index
   end

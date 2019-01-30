@@ -40,7 +40,7 @@
   <table class="rounded files">
     <%= content_tag_for :tr, @files do |file| %>
       <td>
-        <div><b><%= File.extname(file.file.path).delete('.').upcase %></b></div>
+        <div><b><%= uppercase_file_extension(file.file.path) %></b></div>
         <small><%= number_to_human_size(file.file.size) %></small>
       </td>
       <td>
