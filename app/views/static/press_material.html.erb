@@ -3,10 +3,11 @@
 <div class="press_material">
   <div class="hl">Pressematerial</div>
 
-  <h3>Vereinslogo</h3>
+  <h3>Verein</h3>
   <ul>
     <%= render 'press_material_link', text: 'Logo', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo.zip' %>
     <%= render 'press_material_link', text: 'Logo für dunkle Hintergründe', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo-hell.zip' %>
+    <%= render 'press_material_link', text: 'Vereinschronik', filename: 'Vereinschronik.pdf' %>
   </ul>
 
   <h3>Veranstaltungen 2019</h3>
@@ -21,6 +22,11 @@
     <%= render 'press_material_link', text: 'Pressetext', filename: 'Gott-des-Gemetzels-Pressetext.pdf' %>
   </ul>
 
+  <h3>Gesucht! – Ein Blockflötenkrimi</h3>
+  <ul>
+    <%= render 'press_material_link', text: 'Pressetext', filename: 'Gesucht-Pressetext.pdf' %>
+  </ul>
+
   <h3>Der Glöckner von Notre Dame</h3>
   <ul>
     <%= render 'press_material_link', text: 'Pressetext', filename: 'Glöckner-von-Notre-Dame-Pressetext.pdf' %>
@@ -31,5 +37,10 @@
     <%= render 'press_material_link', text: 'Plakat', disclaimer: 'Urheber: SahneMixx', filename: 'SahneMixx-Plakat.pdf' %>
     <%= render 'press_material_link', text: 'Pressetext', filename: 'SahneMixx-Pressetext.pdf' %>
     <%= render 'press_material_link', text: 'Promofoto', disclaimer: 'Urheber: SahneMixx', filename: 'SahneMixx-Promofoto.jpg' %>
+  </ul>
+
+  <h3>Die Geschichte vom blauen Planeten</h3>
+  <ul>
+    <%= render 'press_material_link', text: 'Pressetext', filename: 'Blauer-Planet-Pressetext.pdf' %>
   </ul>
 </div>
