@@ -214,6 +214,7 @@ module Ticketing
       seats = {}
       groups.each do |reservation_group|
         reservation_group.reservations.each do |reservation|
+          next if reservation.date.blank? || reservation.seat.blank?
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
