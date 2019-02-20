@@ -66,7 +66,7 @@ class Api::OrdersController < ApplicationController
     end
 
     if type != :retail
-      order.attributes = info.require(:address).permit(:email, :first_name, :gender, :last_name, :phone, :plz)
+      order.attributes = info.require(:address).permit(:email, :first_name, :gender, :last_name, :affiliation, :phone, :plz)
 
       order.pay_method = (info[:payment] ||= {}).delete(:method)
       if order.charge_payment?

@@ -14,7 +14,18 @@
     <% coupons.each do |coupon| %>
       <% cache coupon do %>
         <tr data-path="<%= ticketing_coupon_path(coupon) %>">
-          <td><%= link_to coupon.recipient || "<em>niemand angegeben</em>".html_safe, coupon %></td>
+          <td>
+            <%= link_to coupon do %>
+              <% if coupon.recipient.present? %>
+                <%= coupon.recipient %>
+                <% if coupon.affiliation.present? %>(<%= coupon.affiliation %>)<% end %>
+              <% elsif coupon.affiliation.present? %>
+                <%= coupon.affiliation %>
+              <% else %>
+                <em>niemand angegeben</em>
+              <% end %>
+            <% end %>
+          </td>
           <td>
             <% if coupon.free_tickets > 0 %><div><%= t("ticketing.coupons.free_tickets", count: coupon.free_tickets) %></div><% end %>
             <%= content_tag :div do %>Zugang zu vorreservierten Plätzen<% end if !coupon.reservation_groups.empty? %>

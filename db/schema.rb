@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_18_164859) do
+ActiveRecord::Schema.define(version: 2019_02_20_181856) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -310,6 +310,7 @@ ActiveRecord::Schema.define(version: 2019_01_18_164859) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "free_tickets", default: 0
+    t.string "affiliation"
   end
 
   create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|
@@ -366,6 +367,7 @@ ActiveRecord::Schema.define(version: 2019_01_18_164859) do
     t.datetime "updated_at"
     t.integer "box_office_id"
     t.integer "date_id"
+    t.string "affiliation"
     t.index ["date_id"], name: "index_ticketing_orders_on_date_id"
   end
 

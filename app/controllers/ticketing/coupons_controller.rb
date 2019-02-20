@@ -72,7 +72,7 @@ module Ticketing
     end
 
     def coupon_params
-      params.require(:ticketing_coupon).permit(:expires, :recipient, :free_tickets, reservation_group_ids: [])
+      params.require(:ticketing_coupon).permit(:expires, :recipient, :affiliation, :free_tickets, reservation_group_ids: [])
     end
   end
 end

@@ -20,6 +20,16 @@
         <td><%= @coupon.recipient %></td>
       </tr>
       <tr>
+        <td>Zugehörigkeit:</td>
+        <td>
+          <% if @coupon.affiliation.present? %>
+            <%= @coupon.affiliation %>
+          <% else %>
+            <em>nicht angegeben</em>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
         <td>Freikarten:</td>
         <td>
           <% if @coupon.free_tickets > 0 %>

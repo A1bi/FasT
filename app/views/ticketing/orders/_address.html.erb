@@ -16,6 +16,9 @@
         <%= render layout: "field", locals: { name: "Nachname" } do %>
           <%= prepopulated_text_field(f, :last_name) %>
         <% end %>
+        <%= render layout: "field", locals: { name: "Firma / Gruppe / Zugehörigkeit" } do %>
+          <%= f.text_field :affiliation, class: "field" %>
+        <% end %>
         <%= render layout: "field", locals: { name: "PLZ" } do %>
           <%= f.text_field :plz, class: "field", maxlength: 5 %>
         <% end %>
