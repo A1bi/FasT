@@ -13,6 +13,9 @@
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.identifier}/title.svg", alt: event.name %>
       <div class="links">
+        <% if theater_play_path_exists?(event) %>
+          <%= link_to 'Über das Stück', theater_play_path(event.slug) %> |
+        <% end %>
         <%= link_to 'Termine', dates_event_identifier_path(event.identifier) %>
         <% if event.on_sale? %>
           | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>

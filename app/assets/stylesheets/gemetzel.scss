@@ -1,0 +1,93 @@
+@import "theater";
+
+$regularColor: white;
+$highlightColor: #fff102;
+
+#content {
+  > .top {
+    background: url(asset_path("theater/gemetzel/content_top.png")) no-repeat;
+    height: 323px;
+  }
+
+  > .content {
+    background: url(asset_path("theater/gemetzel/content_bg.png")) repeat-y;
+    padding: 1px 50px;
+    min-height: 0px;
+    color: white;
+  }
+
+  > .bottom {
+    background: url(asset_path("theater/gemetzel/content_bottom.png")) no-repeat;
+    height: 33px;
+  }
+}
+
+.info {
+  color: $regularColor;
+  line-height: 1.5em;
+  font: {
+    size: 17px;
+    family: 'Ovo', serif;
+  }
+  text-align: justify;
+
+  .title {
+    text-align: center;
+    padding-left: 150px;
+    padding-bottom: 30px;
+
+    .highlight {
+      font-size: 34px;
+    }
+  }
+
+  h2, a, .highlight {
+    color: $highlightColor;
+    font: {
+      variant: small-caps;
+      weight: bold;
+    }
+  }
+
+  a {
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: 35px 0px 15px -15px;
+    font: {
+      size: 26px;
+      weight: bold;
+    }
+  }
+}
+
+.cast {
+  .small {
+    color: #9AA5BF;
+  }
+
+  .alt {
+    box-shadow: none;
+    background: transparent;
+    border: $highlightColor solid {
+      width: 1px 0;
+    }
+
+    .row {
+      ul {
+        list-style-type: none;
+
+        li {
+          &:not(:first-child)::before {
+            content: '–';
+            padding-right: 6px;
+          }
+
+          padding-right: 6px;
+        }
+      }
+    }
+  }
+}

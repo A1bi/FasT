@@ -6,10 +6,10 @@
   </script>
   <%= render 'other_events' %>
   <div class="gemetzel">
-    Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen auf:
+    Unser Kammerensemble führt <b><%= link_to '„Der Gott des Gemetzels“', theater_play_path(@event.slug) %></b> auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen auf:
     <div class="container">
       <div class="title">
-        <%= image_tag('theater/gemetzel/title.svg', alt: 'Der Gott des Gemetzels') %>
+        <%= link_to image_tag('theater/gemetzel/title.svg', alt: 'Der Gott des Gemetzels'), theater_play_path(@event.slug) %>
       </div>
       <div class="box dates">
         <div class="top">
