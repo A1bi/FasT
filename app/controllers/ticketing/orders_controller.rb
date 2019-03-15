@@ -181,9 +181,11 @@ module Ticketing
           table = Ticketing::Order.arel_table
           if admin?
             matches = nil
-            (params[:q] + " " + ActiveSupport::Inflector.transliterate(params[:q])).split(" ").uniq.each do |term|
-              match = table[:first_name].matches("%#{term}%").or(table[:last_name].matches("%#{term}%"))
-              matches = matches ? matches.or(match) : match
+            (params[:q] + " " + ActiveSupport::Inflector.transliterate(params[:q])).split(" ").uniq.each do |word|
+              %i[first_name last_name affiliation].each do |column|
+                term = table[column].matches("%#{word}%")
+                matches = matches ? matches.or(term) : term
+              end
             end
             @orders = Ticketing::Order.where(matches)
           else
