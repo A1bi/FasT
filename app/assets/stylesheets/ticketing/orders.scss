@@ -484,6 +484,15 @@ table.details {
         color: red;
         font-style: italic;
       }
+
+      .seats_info {
+        font-style: italic;
+
+        span {
+          color: red;
+          font-weight: bold;
+        }
+      }
     }
 
     em.small {

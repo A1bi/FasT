@@ -11,7 +11,7 @@ class Api::OrdersController < ApplicationController
     order.admin_validations = true if type == :admin
 
     date = Ticketing::EventDate.find(info[:date])
-    return render_error('Sold out') if date.sold_out?
+    return render_error('Sold out') if date.sold_out? && type != :admin
 
     return render_error('Ticket sale currently disabled') if !@_member.admin? && date.event.sale_disabled?
 

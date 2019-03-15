@@ -12,9 +12,17 @@
       <tbody>
         <% @dates.each do |date| %>
           <tr>
-            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date }, class: [date.sold_out? ? :disabled: nil]) do %>
+            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date }, class: [date.sold_out? && !admin? ? :disabled: nil]) do %>
               <span class="line_through"><%= l date.date, format: "%A, den %d. %B %Y um %H.%M Uhr" %></span>
-              <% if date.sold_out? %><span class="sold_out">ausverkauft</span><% end %>
+              <% if date.sold_out? %>
+                <% if admin? %>
+                  <div class="seats_info">
+                    <span><%= date.number_of_booked_seats %></span> von <%= date.number_of_seats %> Plätzen gebucht
+                  </div>
+                <% else %>
+                  <span class="sold_out">ausverkauft</span>
+                <% end %>
+              <% end %>
             <% end %>
           </tr>
         <% end %>
