@@ -1,12 +1,12 @@
 module Ticketing
   class OrdersController < BaseController
+    ignore_restrictions
+    before_action :restrict_access
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
     before_action :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
     before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
-    ignore_restrictions
-    before_action :restrict_access
 
     def new
       if !@_member.admin?

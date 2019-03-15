@@ -654,7 +654,7 @@ function ConfirmStep(delegate) {
       if (!info) return;
       var box = _this.box.find("."+this);
       if (this == "payment" && !ticketsInfo.internal.zeroTotal) {
-        box.removeClass("transfer charge").addClass(info.api.method);
+        box.removeClass("transfer charge box_office").addClass(info.api.method);
       }
       $.each(info.api, function (key, value) {
         box.find("."+key).text(value);

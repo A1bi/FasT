@@ -546,11 +546,11 @@ table.details {
     .payment {
       margin-top: 10px;
 
-      .charge, .transfer {
+      .charge, .transfer, .box_office {
         display: none;
       }
 
-      &.charge .charge, &.transfer .transfer {
+      &.charge .charge, &.transfer .transfer, &.box_office .box_office {
         display: block;
       }
     }
