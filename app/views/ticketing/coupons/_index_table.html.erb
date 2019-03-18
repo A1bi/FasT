@@ -15,16 +15,7 @@
       <% cache coupon do %>
         <tr data-path="<%= ticketing_coupon_path(coupon) %>">
           <td>
-            <%= link_to coupon do %>
-              <% if coupon.recipient.present? %>
-                <%= coupon.recipient %>
-                <% if coupon.affiliation.present? %>(<%= coupon.affiliation %>)<% end %>
-              <% elsif coupon.affiliation.present? %>
-                <%= coupon.affiliation %>
-              <% else %>
-                <em>niemand angegeben</em>
-              <% end %>
-            <% end %>
+            <%= link_to name_and_affiliation(coupon.recipient, coupon.affiliation, 'niemand angegeben'), coupon %>
           </td>
           <td>
             <% if coupon.free_tickets > 0 %><div><%= t("ticketing.coupons.free_tickets", count: coupon.free_tickets) %></div><% end %>

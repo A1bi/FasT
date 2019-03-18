@@ -48,6 +48,27 @@ module ApplicationHelper
     File.extname(path).delete('.').upcase
   end
 
+  def sorted_name(record)
+    capture do
+      concat record.last_name.to_s
+      concat ', ' if record.last_name.present? && record.first_name.present?
+      concat record.first_name if record.first_name
+    end
+  end
+
+  def name_and_affiliation(name, affiliation, missing_notice)
+    if name.present?
+      capture do
+        concat name
+        concat content_tag(:em, " (#{affiliation})") if affiliation.present?
+      end
+    elsif affiliation.present?
+      affiliation
+    else
+      content_tag :em, missing_notice
+    end
+  end
+
   private
 
   def event_identifier_path(identifier, path_method)

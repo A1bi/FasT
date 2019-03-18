@@ -40,7 +40,7 @@
           <td class="number"><%= link_to order.number, orders_path(:ticketing_order, order) %></td>
           <td class="name">
             <% if web %>
-              <%= order.last_name.presence || content_tag(:em, "nicht angegeben") %>, <%= order.first_name.presence || content_tag(:em, "nicht angegeben") %>
+              <%= name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben') %>
             <% elsif order.is_a? Ticketing::Retail::Order %>
               <%= order.store.name %>
             <% end %>
