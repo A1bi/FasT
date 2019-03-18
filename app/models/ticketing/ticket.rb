@@ -31,7 +31,13 @@ module Ticketing
       "#{order.number}-#{self[:order_index]}"
     end
 
+    def resale=(value)
+      return unless seat.present?
+      super
+    end
+
     def resold?
+      return false unless seat.present?
       seat.taken?(date)
     end
 
