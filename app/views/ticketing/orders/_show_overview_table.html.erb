@@ -7,7 +7,7 @@
   <% overview.each do |row| %>
     <tr>
       <td class="label"><%= row[0] %>:</td>
-      <td><%= raw row[1].presence || content_tag(:em, "nicht angegeben", class: :small) %></td>
+      <td class="<%= row[2] %>"><%= row[1].presence || content_tag(:em, 'nicht angegeben', class: :small) %></td>
     </tr>
   <% end %>
 </tbody>

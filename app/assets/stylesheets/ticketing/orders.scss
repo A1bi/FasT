@@ -81,7 +81,11 @@ table.details {
     }
 
     &.number {
-      font-weight: bold;
+      font: {
+        weight: bold;
+        family: monospace;
+        size: 16px;
+      }
 
       .small {
         font-style: italic;

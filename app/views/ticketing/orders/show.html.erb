@@ -4,7 +4,7 @@
 <% scope = [:ticketing, :orders] %>
 <div class="hl">Bestellungsdetails</div>
 <% overview = [
-  ["Nummer", "<b>#{@order.number}</b>"],
+  ["Nummer", @order.number, :number],
   ["aufgegeben", l(@order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
   ["Tickets", @order.tickets.cancelled(false).count],
   ["Gesamtbetrag", number_to_currency(@order.total)],
