@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_20_181856) do
+ActiveRecord::Schema.define(version: 2019_03_21_134259) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -85,22 +85,6 @@ ActiveRecord::Schema.define(version: 2019_02_20_181856) do
   create_table "members_families", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "members_members", force: :cascade do |t|
-    t.string "email"
-    t.string "password_digest"
-    t.string "first_name"
-    t.string "last_name"
-    t.integer "group", default: 0
-    t.datetime "last_login"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "activation_code"
-    t.date "birthday"
-    t.string "nickname"
-    t.integer "family_id"
-    t.index ["family_id"], name: "index_members_members_on_family_id"
   end
 
   create_table "newsletter_images", force: :cascade do |t|
@@ -449,6 +433,23 @@ ActiveRecord::Schema.define(version: 2019_02_20_181856) do
     t.boolean "invalidated", default: false
     t.integer "order_index", default: 0, null: false
     t.index ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "group", default: 0
+    t.datetime "last_login"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "activation_code"
+    t.date "birthday"
+    t.string "nickname"
+    t.integer "family_id"
+    t.string "type"
+    t.index ["family_id"], name: "index_users_on_family_id"
   end
 
 end
