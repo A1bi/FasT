@@ -49,15 +49,15 @@
     <div id="right">
       <div id="content">
         <div class="top">
-          <%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !@_member.id %>
+          <%= link_to "Mitglieder-Login", members_login_path, class: :login if !@no_member_controls && !user_signed_in? %>
         </div>
         <div class="content">
           <% if !@no_member_controls %>
-            <% if @_member.id %>
+            <% if user_signed_in? %>
               <%= render "members_navi", title: "Mitgliederbereich", namespace: :members, actions:
                 [:root, %i(member edit), :logout]
               %>
-              <% if @_member.admin? %>
+              <% if current_user.admin? %>
                 <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions:
                   [:documents, :members_members, :newsletters]
                 %>

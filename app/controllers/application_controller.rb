@@ -1,53 +1,26 @@
 class ApplicationController < ActionController::Base
   attr_writer :restricted_to_group
 
-  before_action :authenticate_user
   before_action :set_raven_context
   prepend_before_action :reset_goto
 
-  protected
+  class << self
+    protected
 
-  def authenticate_user
-    begin
-      session[:user_id] ||= user_id_cookie if user_id_cookie.present?
-      @_member ||= Members::Member.find(session[:user_id]) if session[:user_id].present?
-    rescue
-      session[:user_id] = nil
+    def ignore_restrictions(options = {})
+      skip_before_action :restrict_access, options
     end
-    @_member ||= Members::Member.new
-    Ticketing::LogEvent.set_logging_member(@_member)
-  end
 
-  def set_raven_context
-    Raven.user_context(
-      id: @_member.id,
-      email: @_member.email
-    ) if @_member
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-  end
-
-  def restrict_access
-    if !@_member.id
-      session[:goto_after_login] = request.original_url
-      return redirect_to members_login_path, :flash => { :warning => t("application.login_required") }
-    elsif Members::Member.groups[@restricted_to_group] > Members::Member.groups[@_member.group]
-      return redirect_to members_root_path, :alert => t("application.access_denied")
+    def restrict_access_to_group(group, options = {})
+      before_action options do |c|
+        c.restricted_to_group = group
+      end
+      before_action :restrict_access, options
     end
-  end
 
-  def self.ignore_restrictions(options = {})
-    skip_before_action :restrict_access, options
-  end
-
-  def self.restrict_access_to_group(group, options = {})
-    before_action options do |c|
-      c.restricted_to_group = group
+    def ignore_authenticity_token
+      skip_before_action :verify_authenticity_token
     end
-    before_action :restrict_access, options
-  end
-
-  def self.ignore_authenticity_token
-    skip_before_action :verify_authenticity_token
   end
 
   def disable_slides
@@ -58,31 +31,78 @@ class ApplicationController < ActionController::Base
     @no_member_controls = true
   end
 
-  def user_id_cookie
-    cookies.signed[user_id_cookie_name]
-  end
-
-  def user_id_cookie=(value)
-    cookies.permanent.signed[user_id_cookie_name] = value
-  end
-
-  def delete_user_id_cookie
-    cookies.delete user_id_cookie_name
-  end
-
-  private
-
-  def user_id_cookie_name
-    "_#{Rails.application.class.parent_name}_user_id"
-  end
-
   def reset_goto
     session.delete(:goto_after_login)
   end
 
-  def render_cached_json(key, &block)
+  def render_cached_json(key)
     render json: (Rails.cache.fetch(key) do
       yield.to_json
     end)
+  end
+
+  protected
+
+  def current_user
+    @current_user ||= authenticate_user
+  end
+
+  def current_user=(user)
+    @current_user = user
+    session[:user_id] = user&.id
+  end
+
+  def user_signed_in?
+    current_user.present?
+  end
+
+  helper_method :current_user, :user_signed_in?
+
+  def permanently_authenticated_user_id
+    cookies.encrypted[permanent_user_id_cookie_name]
+  end
+
+  def permanently_authenticated_user=(user)
+    if user.present?
+      cookies.permanent.encrypted[permanent_user_id_cookie_name] = user.id
+    else
+      cookies.delete permanent_user_id_cookie_name
+    end
+  end
+
+  private
+
+  def authenticate_user
+    user_id = session[:user_id] ||= permanently_authenticated_user_id
+    return if user_id.nil?
+
+    user = Members::Member.find_by(id: user_id)
+    session[:user_id] = self.permanently_authenticated_user = nil if user.nil?
+
+    Ticketing::LogEvent.set_logging_member(user)
+    user
+  end
+
+  def set_raven_context
+    if user_signed_in?
+      Raven.user_context(
+        id: current_user.id,
+        email: current_user.email
+      )
+    end
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
+  def restrict_access
+    if !user_signed_in?
+      session[:goto_after_login] = request.original_url
+      redirect_to members_login_path, flash: { warning: t('application.login_required') }
+    elsif Members::Member.groups[@restricted_to_group] > Members::Member.groups[current_user.group]
+      redirect_to members_root_path, alert: t('application.access_denied')
+    end
+  end
+
+  def permanent_user_id_cookie_name
+    "_#{Rails.application.class.parent_name}_user_id"
   end
 end

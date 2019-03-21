@@ -1,9 +1,9 @@
 <% title "Mitgliederbereich – Hauptseite" %>
 <% include_css "members/main" %>
-<p><b>Hallo <%= @_member.nickname %>!</b></p>
+<p><b>Hallo <%= current_user.nickname %>!</b></p>
 <p>Auf dieser Seite findest du ab sofort alle vereinsinternen Informationen, zusätzlich zu den üblichen e-mails. Vorerst beschränkt sich dies auf unsere Probentermine und Downloads. In den kommenden Monaten werden wir diesen Bereich aber weiter ausbauen.</p>
 <div class="trenner"></div>
-<% cache [@dates, @_member.admin?] do %>
+<% cache [@dates, current_user.admin?] do %>
   <div class="hl">Termine</div>
   <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
   <table class="rounded dates">
@@ -12,7 +12,7 @@
       <th>Titel</th>
       <th>Infos</th>
       <th>Ort</th>
-      <% if @_member.admin? %><th></th><% end %>
+      <% if current_user.admin? %><th></th><% end %>
     </tr>
     <%= content_tag_for :tr, @dates do |date| %>
       <td>
@@ -24,7 +24,7 @@
       <td><%= date.location %></td>
       <%= content_tag :td, :class => :actionBtns do %>
         <%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
-      <% end if @_member.admin? %>
+      <% end if current_user.admin? %>
     <% end %>
   </table>
   <div class="export">
@@ -34,7 +34,7 @@
   </div>
   <div class="trenner"></div>
 <% end %>
-<% cache [@files, @_member.admin?] do %>
+<% cache [@files, current_user.admin?] do %>
   <div class="hl">Downloads</div>
   <%= render "new_button", :action => "Neues Dokument", :url => new_members_document_path, :admin_required => true %>
   <table class="rounded files">
@@ -52,7 +52,7 @@
       <td class="download"><%= link_to "download", file.file.url, :target => "_blank" %></td>
       <%= content_tag :td, :class => :actionBtns do %>
         <%= render "admin_actions", :obj => [:members, file], :delete_confirm => "diese Datei" %>
-      <% end if @_member.admin? %>
+      <% end if current_user.admin? %>
     <% end %>
   </table>
 <% end %>

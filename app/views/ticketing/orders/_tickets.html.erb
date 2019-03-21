@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <% @ticket_types.each do |type| %>
-          <% if !type.exclusive? || admin? || (@_member&.id.present? && type.exclusive_ticket_type_credit.present?) %>
+          <% if !type.exclusive? || admin? || (user_signed_in? && type.exclusive_ticket_type_credit.present?) %>
             <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }) do %>
               <td class="number">
                 <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(type)), id: nil) %>

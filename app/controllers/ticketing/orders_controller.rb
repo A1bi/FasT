@@ -9,7 +9,7 @@ module Ticketing
     before_action :prepare_billing_actions, only: [:show, :create_billing]
 
     def new
-      if !@_member.admin?
+      if !current_user&.admin?
         if !@event.sale_started?
           redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
         elsif @event.sale_ended?
@@ -201,7 +201,7 @@ module Ticketing
     def set_event_info
       if params[:event_slug].blank?
         @events = Event.with_future_dates
-        @events = @events.select(&:on_sale?) if web? && !@_member.admin?
+        @events = @events.select(&:on_sale?) if web? && !current_user&.admin?
         return redirect_to event_slug: @events.first.slug if @events.count == 1
         return render 'new_choose_event'
       end
@@ -262,12 +262,12 @@ module Ticketing
 
     def restrict_access
       actions = [:new, :add_coupon, :remove_coupon]
-      if (admin? && @_member.admin?) || (retail? && @_retail_store.id)
+      if (admin? && current_user&.admin?) || (retail? && @_retail_store.id)
         actions.push :index, :show, :cancel, :seats, :search, :create_billing
         if @_retail_store.id
           actions.push :new_retail
         end
-        if @_member.admin?
+        if current_user&.admin?
           actions.push :new_admin, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
         end
       end

@@ -50,7 +50,7 @@
             <td>Vorschau verschicken an:</td>
             <td>
               <%= check_box_tag :send_preview_email %>
-              <%= email_field_tag :preview_email, @_member&.email, placeholder: "e-mail-Adresse" %>
+              <%= email_field_tag :preview_email, current_user&.email, placeholder: "e-mail-Adresse" %>
             </td>
           </tr>
         <% end %>

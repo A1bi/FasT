@@ -1,8 +1,8 @@
 module Ticketing
   module OrdersHelper
-    def prepopulated_text_field(f, name, key = name, email = false)
-      value = (web? && @_member && @_member.respond_to?(key) ? @_member.send(key) : "")
-      f.send("#{email ? 'email' : 'text'}_field", name, class: "field", value: value)
+    def prepopulated_text_field(form, name, key = name, email = false)
+      value = web? ? current_user.try(key) : nil
+      form.send("#{email ? 'email' : 'text'}_field", name, class: 'field', value: value.to_s)
     end
 
     def tickets_colspan
@@ -11,7 +11,8 @@ module Ticketing
 
     def max_tickets_for_type(type)
       return @max_tickets unless type.exclusive? && !admin?
-      type.credit_left_for_member(@_member)
+
+      type.credit_left_for_member(current_user)
     end
   end
 end

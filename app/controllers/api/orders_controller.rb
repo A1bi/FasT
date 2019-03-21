@@ -3,7 +3,7 @@ class Api::OrdersController < ApplicationController
     info = params.require(:order)
     retailId = params[:retailId]
     type = (params[:type] || "").to_sym
-    if type != :web && !((type == :admin && @_member.admin?) || (type == :retail && cookies.signed["_#{Rails.application.class.parent_name}_retail_store_id"] == retailId))
+    if type != :web && !((type == :admin && current_user&.admin?) || (type == :retail && cookies.signed["_#{Rails.application.class.parent_name}_retail_store_id"] == retailId))
       type = :web
     end
 
@@ -13,7 +13,7 @@ class Api::OrdersController < ApplicationController
     date = Ticketing::EventDate.find(info[:date])
     return render_error('Sold out') if date.sold_out? && type != :admin
 
-    return render_error('Ticket sale currently disabled') if !@_member.admin? && date.event.sale_disabled?
+    return render_error('Ticket sale currently disabled') if !current_user&.admin? && date.event.sale_disabled?
 
     bound_to_seats = date.event.seating.bound_to_seats?
     if bound_to_seats
@@ -27,7 +27,7 @@ class Api::OrdersController < ApplicationController
       return render_error('Invalid ticket type') if !ticket_type
 
       credit_required = ticket_type.exclusive && type != :admin
-      if credit_required && ticket_type.credit_left_for_member(@_member) < number
+      if credit_required && ticket_type.credit_left_for_member(current_user) < number
         return render_error('Not enough credit for exclusive ticket type')
       end
 
@@ -41,7 +41,7 @@ class Api::OrdersController < ApplicationController
 
       next unless credit_required
       order.exclusive_ticket_type_credit_spendings.build(
-        member: @_member,
+        member: current_user,
         ticket_type: ticket_type,
         value: number
       )

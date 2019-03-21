@@ -14,9 +14,11 @@ class Ticketing::TicketType < BaseModel
   end
 
   def credit_left_for_member(member)
-    return 0 if member&.id.nil?
+    return 0 if member.blank?
+
     credit = exclusive_ticket_type_credit
     return 0 if credit.nil?
+
     credit.credit_left_for_member(member)
   end
 end

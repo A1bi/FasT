@@ -29,7 +29,7 @@ module Members
     end
 
     def update
-      if @_member.update_attributes(params.require(:members_member).permit(:email, :password, :password_confirmation))
+      if current_user.update_attributes(params.require(:members_member).permit(:email, :password, :password_confirmation))
         flash.notice = t("application.saved_changes")
         redirect_to :action => :edit
       else

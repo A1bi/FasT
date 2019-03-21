@@ -54,6 +54,6 @@ class Ticketing::BaseController < ApplicationController
   helper_method :orders_path
 
   def disable_member_controls_for_retail
-    disable_member_controls if retail? && !@_member.id
+    disable_member_controls if retail? && !user_signed_in?
   end
 end

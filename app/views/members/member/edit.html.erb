@@ -1,15 +1,15 @@
 <% title "Mitgliedskonto bearbeiten" %>
 <div class="hl">Mein Mitgliedskonto bearbeiten</div>
-<%= render "errors", :errors => @_member.errors %>
-<%= form_for @_member, :url => members_member_path do |f| %>
+<%= render "errors", :errors => current_user.errors %>
+<%= form_for current_user, :url => members_member_path do |f| %>
 <table class="rounded panel">
   <tr>
     <td>Vorname:</td>
-    <td><%= @_member.first_name %></td>
+    <td><%= current_user.first_name %></td>
   </tr>
   <tr>
     <td>Nachname:</td>
-    <td><%= @_member.last_name %></td>
+    <td><%= current_user.last_name %></td>
   </tr>
   <tr>
     <td>e-mail-Adresse:</td>
