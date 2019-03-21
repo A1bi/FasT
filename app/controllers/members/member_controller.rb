@@ -29,7 +29,8 @@ module Members
     end
 
     def update
-      if current_user.update_attributes(params.require(:members_member).permit(:email, :password, :password_confirmation))
+      current_user.assign_attributes(member_params)
+      if current_user.save(context: :user_update)
         flash.notice = t("application.saved_changes")
         redirect_to :action => :edit
       else
@@ -54,6 +55,10 @@ module Members
     end
 
     private
+
+    def member_params
+      params.require(:members_member).permit(:email, :password, :password_confirmation)
+    end
 
     def redirect_to_login
       redirect_to members_login_path

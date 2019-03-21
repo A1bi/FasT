@@ -44,7 +44,7 @@ module Ticketing
 
       if params.dig(:member, :id).present?
         member = Members::Member.find(params[:member][:id])
-        recipient = member.full_name
+        recipient = member.name.full
         email = member.email
         @coupon.update(recipient: recipient) if params[:member_is_recipient].present?
       end

@@ -71,7 +71,6 @@ module Admin
     end
 
     def update_member
-      @member.email_can_be_blank = true
       @member.assign_attributes(member_params)
     end
 

@@ -278,8 +278,9 @@ de:
             email:
               taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."
             password:
-              confirmation: "Die Passwörter stimmen nicht überein."
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
+            password_confirmation:
+              confirmation: "Die eingegebenen Passwörter stimmen nicht überein."
         members/file:
           attributes:
             file_content_type:

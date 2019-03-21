@@ -65,6 +65,8 @@ gem 'connection_pool', '~> 2.2.2'
 
 gem 'simpleidn', '~> 0.1.1'
 
+gem 'name_of_person'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

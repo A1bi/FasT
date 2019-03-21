@@ -167,6 +167,8 @@ GEM
     msgpack (1.2.9)
     multipart-post (2.0.0)
     mysql2 (0.5.2)
+    name_of_person (1.1.0)
+      activesupport (>= 5.2.0)
     net-http2 (0.18.2)
       http-2 (~> 0.10.1)
     net-scp (1.2.1)
@@ -341,6 +343,7 @@ DEPENDENCIES
   jquery-ui-rails (~> 6.0.0)
   listen (~> 3.0)
   mysql2 (~> 0.5.1)
+  name_of_person
   paperclip (~> 6.1.0)
   phony_rails (~> 0.14.2)
   prawn (~> 2.2.2)
@@ -372,4 +375,4 @@ DEPENDENCIES
   unicorn (~> 5.5.0)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2

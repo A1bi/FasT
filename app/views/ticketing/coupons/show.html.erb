@@ -85,7 +85,7 @@
       <tr>
         <td>Mitglied:</td>
         <td>
-          <%= collection_select(:member, :id, @members, :id, :full_name, prompt: "") %><br />
+          <%= collection_select(:member, :id, @members, :id, proc { |member| member.name.sorted }, prompt: "") %><br />
           <%= check_box_tag :member_is_recipient, true %>
           <%= label_tag :member_is_recipient, "Mitglied auch als Empfänger des Codes eintragen" %>
         </td>

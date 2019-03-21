@@ -1,9 +1,8 @@
 class User < BaseModel
   has_secure_password
+  has_person_name
 
-  attr_accessor :email_can_be_blank
-
-  validates :email, presence: true, if: proc { |member| !member.email_can_be_blank }
+  validates :email, presence: true, on: :user_update
 
   validates :email,
             allow_blank: true,
@@ -32,10 +31,6 @@ class User < BaseModel
 
   def nickname
     super.presence || first_name
-  end
-
-  def full_name
-    first_name + ' ' + last_name
   end
 
   def set_random_password

@@ -62,7 +62,7 @@
         <% if @member.in_family? %>
           <ul>
             <% @member.family.members.alphabetically.each do |member| %>
-              <li><%= link_to member.full_name, edit_admin_members_member_path(member) %></li>
+              <li><%= link_to member.name.full, edit_admin_members_member_path(member) %></li>
             <% end %>
             <p><small><%= link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'} %></small></p>
           </ul>
