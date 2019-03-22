@@ -2,15 +2,18 @@ module Ticketing
   class Order < BaseModel
     include Loggable, RandomUniqueAttribute, Billable
 
-    NUMBER_MAX = 2**20
-    NUMBER_MAX_DIGITS = Math.log10(NUMBER_MAX).ceil
+    # binary ticket info reserves 20 bits for number
+    NUMBER_DIGITS = Math.log10(2**20).floor
+    NUMBER_MIN = 10**(NUMBER_DIGITS - 1)
+    NUMBER_MAX = 10**NUMBER_DIGITS - 1
+    # binary ticket info reserves 8 bits for index
     NUM_TICKETS_MAX = 2**8
 
     attr_readonly :date
 
     has_many :tickets, dependent: :destroy, autosave: true
     belongs_to :date, class_name: 'EventDate'
-    has_random_unique_number :number, max: NUMBER_MAX
+    has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
     has_many :exclusive_ticket_type_credit_spendings, class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true

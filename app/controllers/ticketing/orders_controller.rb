@@ -158,7 +158,7 @@ module Ticketing
       @orders = Ticketing::Order.none
 
       if params[:q].present?
-        max_digits = Ticketing::Order::NUMBER_MAX_DIGITS
+        max_digits = Ticketing::Order::NUMBER_DIGITS
         ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
 
         if params[:q] =~ ticket_number_regex
