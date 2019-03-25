@@ -17,28 +17,16 @@ class User < BaseModel
 
   enum group: %i[member admin]
 
-  class << self
-    def alphabetically
-      order(:last_name, :first_name)
-    end
-
-    private
-
-    def random_hash
-      SecureRandom.hex
-    end
+  def self.alphabetically
+    order(:last_name, :first_name)
   end
 
   def nickname
     super.presence || first_name
   end
 
-  def set_random_password
-    self.password = self.class.random_hash
-  end
-
   def set_activation_code
-    self.activation_code = self.class.random_hash
+    self.activation_code = random_hash
   end
 
   def activate
@@ -46,11 +34,21 @@ class User < BaseModel
   end
 
   def logged_in
-    self.last_login = Time.zone.now
+    self.last_login = Time.current
   end
 
   def reset_password
     set_random_password
     set_activation_code
+  end
+
+  private
+
+  def set_random_password
+    self.password = random_hash
+  end
+
+  def random_hash
+    SecureRandom.hex
   end
 end
