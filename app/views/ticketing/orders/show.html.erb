@@ -52,7 +52,7 @@
           payment = [
             ["Zahlungsart", t(@order.pay_method, scope: (scope + [:pay_methods]))]
           ]
-          if @order.bank_charge
+          if @order.charge_payment? && @order.bank_charge
             payment.concat [
               ["Kontoinhaber", @order.bank_charge.name],
               ["IBAN", obfuscated_iban(@order.bank_charge.iban)],
@@ -75,6 +75,9 @@
       <tbody>
         <tr>
           <td>
+            <% if admin? && @order.is_a?(Ticketing::Web::Order) %>
+              <div><%= link_to "Daten bearbeiten", orders_path(:edit_ticketing_order, @order) %></div>
+            <% end %>
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if !@order.paid %>

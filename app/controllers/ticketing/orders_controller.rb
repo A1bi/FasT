@@ -3,10 +3,11 @@ module Ticketing
     ignore_restrictions
     before_action :restrict_access
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
-    before_action :find_order, only: [:show, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
+    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
     before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
+    before_action :redirect_if_no_web_order, only: [:edit, :update]
 
     def new
       if !current_user&.admin?
@@ -96,6 +97,24 @@ module Ticketing
       @show_check_ins = admin? && @order.tickets.any? { |t| t.check_ins.any? || t.date.date.past? }
       @billing_actions.map! do |transaction|
         [t("ticketing.orders.balancing." + transaction.to_s), transaction]
+      end
+    end
+
+    def edit
+      @pay_methods = Web::Order.pay_methods.keys
+      @pay_methods.reject! do |method|
+        method == 'charge' && !@order.charge_payment?
+      end
+      @pay_methods.map! do |method|
+        [t(method, scope: %i[ticketing orders pay_methods]), method]
+      end
+    end
+
+    def update
+      if @order.update(update_order_params)
+        redirect_to_order_details :updated
+      else
+        render :edit
       end
     end
 
@@ -268,7 +287,7 @@ module Ticketing
           actions.push :new_retail
         end
         if current_user&.admin?
-          actions.push :new_admin, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
+          actions.push :new_admin, :edit, :update, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
         end
       end
       if !actions.include? action_name.to_sym
@@ -278,6 +297,14 @@ module Ticketing
           return redirect_to root_path, alert: t("application.access_denied")
         end
       end
+    end
+
+    def redirect_if_no_web_order
+      redirect_to_order_details unless @order.is_a? Web::Order
+    end
+
+    def update_order_params
+      params.require(:ticketing_order).permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
     end
   end
 end

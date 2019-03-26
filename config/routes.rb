@@ -109,7 +109,7 @@ Rails.application.routes.draw do
               post "enable-reservation-groups", action: :enable_reservation_groups, as: :enable_reservation_groups
             end
           end
-          resources :orders, path: "", only: [:index, :show], concerns: :ticketable do
+          resources :orders, path: "", only: [:index, :show, :edit, :update], concerns: :ticketable do
             member do
               post :send_pay_reminder
               patch :mark_as_paid

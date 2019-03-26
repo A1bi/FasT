@@ -45,6 +45,11 @@ module Ticketing
       hash.merge(super(details))
     end
 
+    def update(attributes)
+      log(:updated)
+      super
+    end
+
     def mark_as_paid
       return if paid
       withdraw_from_account(billing_account.balance, :payment_received)

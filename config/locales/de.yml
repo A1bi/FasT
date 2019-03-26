@@ -73,6 +73,7 @@ de:
     orders:
       created: "Die Bestellung wurde erfolgreich aufgenommen."
       created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
+      updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
       resent_tickets: "Die Tickets wurden dem Käufer erneut zugesendet."
@@ -95,6 +96,7 @@ de:
           box_office: Abendkassen-Ticket
       log_events:
         created: "Bestellung aufgegeben"
+        updated: "Bestellung bearbeitet"
         sent_pay_reminder: "Zahlungserinnerung gesendet"
         marked_as_paid: "Bestellung als bezahlt markiert"
         approved: "Bestellung als geprüft markiert"
