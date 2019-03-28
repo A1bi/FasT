@@ -37,6 +37,38 @@
       }
     }
 
+    .key {
+      text-align: center;
+
+      > div {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 15px;
+        margin: 5px 0 10px 0;
+        background: #f4f8f8;
+        border-radius: 7px;
+
+        .icon {
+          padding-right: 7px;
+          box-sizing: border-box;
+
+          svg {
+            display: block;
+            width: auto;
+            height: 15px;
+          }
+
+          &:not(:first-child) {
+            padding-left: 19px;
+          }
+        }
+
+        .label {
+          font-size: 12px;
+        }
+      }
+    }
+
     .canvas {
       border-top: 1px solid #ccc;
     }

@@ -20,6 +20,20 @@
       <span class="block-name"></span>
       <span class="unzoom">– <a>zurück zur Übersicht</a></span>
     </div>
+    <% if local_assigns[:key] %>
+      <div class="key">
+        <div>
+          <div data-status="available" class="icon"></div>
+          <div data-status="available" class="label">Platz noch frei</div>
+          <div data-status="taken" class="icon"></div>
+          <div data-status="taken" class="label">Platz vergeben</div>
+          <div data-status="chosen" class="icon"></div>
+          <div data-status="chosen" class="label">Ihre Auswahl</div>
+          <div data-status="exclusive" class="icon"></div>
+          <div data-status="exclusive" class="label">exklusiv für Sie verfügbar</div>
+        </div>
+      </div>
+    <% end %>
     <div class="canvas"></div>
   </div>
 <% end %>

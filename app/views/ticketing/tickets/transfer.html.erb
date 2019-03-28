@@ -13,7 +13,7 @@
         <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
       <% end %>
     <% end if (@reservation_groups || []).any? %>
-    <%= render "application/ticketing/seating", class: [:chooser, :stage], event: @order.event, error_box: true %>
+    <%= render "application/ticketing/seating", class: [:chooser, :stage], event: @order.event, error_box: true, key: true %>
   <% end %>
   <div class="submit">
     <%= button_tag "abbrechen" %>

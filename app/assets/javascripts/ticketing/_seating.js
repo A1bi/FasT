@@ -6,6 +6,7 @@ function Seating(container, delegate) {
   this.eventId = this.container.data('event-id');
   this.allSeats;
   this.seats = {};
+  this.key = this.container.find('.key > div');
   var _this = this;
 
   var isIE = navigator.appName == 'Microsoft Internet Explorer'
@@ -73,6 +74,33 @@ function Seating(container, delegate) {
       this.container.find('.unzoom').click(this.unzoom.bind(this));
 
       this.unzoom();
+
+      if (this.key.length) {
+        this.key.find('div').each(function (box) {
+          var $this = $(this);
+          var status = $this.data('status');
+          if (status) {
+            $this.addClass('status-' + status);
+
+            if ($this.is('.icon')) {
+              var ns = 'http://www.w3.org/2000/svg';
+              var icon = document.createElementNS(ns, 'svg');
+              var seat = _this.svg.find('#seat-' + status + '> *')[0];
+              if (seat) {
+                var width = seat.getAttribute('width');
+                var height = seat.getAttribute('height');
+                icon.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+                icon.appendChild(seat.cloneNode());
+                $this.append(icon);
+              } else {
+                $this.hide();
+              }
+            }
+          }
+        });
+
+        this.toggleExclusiveSeatsKey(false);
+      }
 
       if (callback) callback();
 
@@ -175,6 +203,12 @@ function Seating(container, delegate) {
     seat.addClass('status-' + status);
     seat.find('use').attr('xlink:href', '#seat-' + status);
     seat.data('status', status);
+  };
+
+  this.toggleExclusiveSeatsKey = function (toggle) {
+    if (this.key.length < 1) return;
+
+    this.key.find('.status-exclusive').toggle(toggle);
   };
 };
 
@@ -366,10 +400,6 @@ function SeatChooser(container, delegate) {
 
   this.getSeatsYetToChoose = function () {
     return this.numberOfSeats - this.allSeats.filter('.status-chosen').length;
-  };
-
-  this.drawKey = function (toggle) {
-    // TODO
   };
 
   this.validate = function () {

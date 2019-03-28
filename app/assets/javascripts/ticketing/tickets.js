@@ -29,7 +29,7 @@ function TicketTransfer(container) {
       groups: groups,
       socketId: this.socketId
     }).always(function (res) {
-      _this.chooser.drawKey(res.seats);
+      _this.chooser.toggleExclusiveSeatsKey(res.seats);
     });
   };
 

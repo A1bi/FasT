@@ -475,7 +475,7 @@ function SeatsStep(delegate) {
   };
 
   this.toggleExclusiveSeatsKey = function (toggle) {
-    this.chooser.drawKey(toggle);
+    this.chooser.toggleExclusiveSeatsKey(toggle);
   };
 
   this.seatChooserIsReady = function () {
