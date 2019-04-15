@@ -36,9 +36,16 @@ class ApplicationController < ActionController::Base
   end
 
   def render_cached_json(key)
-    render json: (Rails.cache.fetch(key) do
-      yield.to_json
-    end)
+    render_cached_json_if(key, true)
+  end
+
+  def render_cached_json_if(key, condition)
+    json = if condition
+             Rails.cache.fetch(key) { yield.to_json }
+           else
+             yield.to_json
+           end
+    render json: json
   end
 
   protected

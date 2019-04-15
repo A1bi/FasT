@@ -3,18 +3,32 @@ module Api
     before_action :authenticate
 
     def index
-      members = Members::Member.alphabetically
+      searchable_columns = %w[first_name last_name email]
+      cache = (params.keys & searchable_columns).empty?
 
-      response = members.map do |member|
-        {
-          id: member.id,
-          email: member.email,
-          first_name: member.first_name,
-          last_name: member.last_name
-        }
+      render_cached_json_if [:api, :members, :index, Members::Member.all], cache do
+        table = Members::Member.arel_table
+        matches = nil
+
+        searchable_columns.each do |column|
+          next if params[column].blank?
+
+          value = ActiveSupport::Inflector.transliterate(params[column])
+          term = table[column].matches("%#{value}%")
+          matches = matches ? matches.or(term) : term
+        end
+
+        members = Members::Member.where(matches).alphabetically
+
+        members.map do |member|
+          {
+            id: member.id,
+            email: member.email,
+            first_name: member.first_name,
+            last_name: member.last_name
+          }
+        end
       end
-
-      render json: response
     end
 
     def show
