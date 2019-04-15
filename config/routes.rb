@@ -214,6 +214,7 @@ Rails.application.routes.draw do
 
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
+      resources :members, only: [:index, :show]
       resources :orders, only: [:create]
       scope controller: :seats, path: :seats, as: :seats do
         get "availability", action: :availability
