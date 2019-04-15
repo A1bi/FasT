@@ -32,6 +32,12 @@
           <td>Gruppe:</td>
           <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
         </tr>
+        <% if @member.persisted? %>
+          <tr>
+            <td>Beitrittsdatum:</td>
+            <td><%= member_joined_date @member %></td>
+          </tr>
+        <% end %>
         <% if !@member.in_family? %>
           <tr>
             <td>
