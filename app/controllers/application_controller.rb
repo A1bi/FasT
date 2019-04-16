@@ -35,8 +35,8 @@ class ApplicationController < ActionController::Base
     session.delete(:goto_after_login)
   end
 
-  def render_cached_json(key)
-    render_cached_json_if(key, true)
+  def render_cached_json(key, &block)
+    render_cached_json_if(key, true, &block)
   end
 
   def render_cached_json_if(key, condition)
