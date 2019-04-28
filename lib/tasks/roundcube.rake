@@ -1,8 +1,8 @@
-require 'mysql2'
-
 namespace :roundcube do
   desc 'migrate contacts data'
   task migrate_contacts: :environment do
+    require 'mysql2'
+
     puts 'Password for user \'roundcube\':'
     password = $stdin.gets.chomp
 

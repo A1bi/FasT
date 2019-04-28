@@ -67,6 +67,8 @@ gem 'simpleidn', '~> 0.1.1'
 
 gem 'name_of_person'
 
+gem 'request_store', '~> 1.2.0'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

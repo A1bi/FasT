@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
     user = Members::Member.find_by(id: user_id)
     session[:user_id] = self.permanently_authenticated_user = nil if user.nil?
 
-    Ticketing::LogEvent.set_logging_member(user)
+    Ticketing::LogEvent.user = user
     user
   end
 

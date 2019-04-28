@@ -1,14 +1,13 @@
 class Ticketing::LogEvent < BaseModel
   serialize :info
 
-  belongs_to :member, class_name: 'Members::Member', optional: true
+  belongs_to :user, optional: true
   belongs_to :loggable, polymorphic: true
 
-  before_create :update_member
-  @@member = nil
+  before_create :set_user
 
-  def self.set_logging_member(member)
-    @@member = member
+  def self.user=(user)
+    RequestStore.store[:ticketing_log_events_user] = user
   end
 
   def info
@@ -18,7 +17,7 @@ class Ticketing::LogEvent < BaseModel
 
   private
 
-  def update_member
-    self[:member_id] = @@member.id if @@member
+  def set_user
+    self.user = RequestStore.store[:ticketing_log_events_user]
   end
 end
