@@ -17,7 +17,9 @@
           <%= link_to 'Über das Stück', theater_play_path(event.slug) %> |
         <% end %>
         <%= link_to 'Termine', dates_event_identifier_path(event.identifier) %>
-        <% if event.on_sale? %>
+        <% if !event.sale_started? %>
+          | <span>Tickets ab <%= l event.sale_start, format: '%-d. %B' %></span>
+        <% elsif event.on_sale? %>
           | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
         <% end %>
       </div>
