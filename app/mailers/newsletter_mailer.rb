@@ -9,6 +9,9 @@ class NewsletterMailer < BaseMailer
   def newsletter(newsletter, subscriber)
     @subscriber = subscriber
     @newsletter = newsletter
+
+    headers['List-Unsubscribe'] = "<mailto:unsubscribe+#{@subscriber.token}@theater-kaisersesch.de>"
+
     mail to: subscriber.email, subject: newsletter.subject
   end
 end
