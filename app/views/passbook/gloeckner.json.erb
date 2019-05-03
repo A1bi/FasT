@@ -1,0 +1,14 @@
+<%= render "passbook/template", ticket: info[:ticket], info: {
+  backgroundColor: "rgb(0, 0, 0)",
+  foregroundColor: "rgb(255, 255, 255)",
+  labelColor: "rgb(255, 247, 178)",
+  eventTicket: {
+    backFields: [
+      {
+        key: "locationAddress",
+        label: "Adresse des Veranstaltungsortes",
+        attributedValue: "<a href='http://maps.apple.com/?ll=50.23089,7.141626&q=Historischer+Ortskern'>Historischer Ortskern, Burgstraße, 56759 Kaisersesch</a>."
+      }
+    ]
+  }
+} %>
