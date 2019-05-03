@@ -23,10 +23,12 @@
             <div><b>Gesamt <%= number_with_delimiter letter.subscribers.count %> Empfänger</b></div>
           </td>
           <td>
-            <% if letter.sent.present? %>
-              <%= l letter.sent, format: "%d. %B %Y, %H:%M Uhr" %>
+            <% if letter.sent? %>
+              <%= l letter.sent_at, format: "%d. %B %Y, %H:%M Uhr" %>
+            <% elsif letter.review? %>
+              <em>Newsletter wird geprüft und in Kürze gesendet.</em>
             <% else %>
-              <%= link_to "senden", deliver_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
+              <%= link_to "senden", finish_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
             <% end %>
           </td>
           <td class="actionBtns">

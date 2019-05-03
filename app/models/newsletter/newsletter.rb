@@ -7,12 +7,31 @@ class Newsletter::Newsletter < BaseModel
   has_many :subscribers, ->{ confirmed }, through: :subscriber_lists
   has_many :images
 
+  enum status: %i[draft review sent]
+
   alias_attribute :recipients, :subscribers
 
   validates :subject, presence: true
   validates :body_text, presence: true
 
   IMAGE_REGEXP = /%%bild_(\d+)%%/
+
+  def review!
+    return unless draft?
+
+    super
+
+    BaseMailer.mail(to: Settings.newsletters.review_email, subject: Settings.newsletters.review_subject, body: '').deliver
+  end
+
+  def sent!
+    return unless review?
+
+    super
+    self.sent_at = Time.current
+
+    NewsletterMailingJob.perform_later(id)
+  end
 
   def body_text_final
     body_text.gsub(IMAGE_REGEXP, '')
@@ -34,9 +53,5 @@ class Newsletter::Newsletter < BaseModel
       end
       html
     end
-  end
-
-  def sent?
-    sent.present?
   end
 end

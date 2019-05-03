@@ -66,7 +66,7 @@ Rails.application.routes.draw do
       resources :documents, path: "dokumente", except: [:show]
       resources :newsletters do
         member do
-          post :deliver
+          post :finish
         end
         resources :images, controller: :newsletter_images, only: [:create, :destroy]
       end

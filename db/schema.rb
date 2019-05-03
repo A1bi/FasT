@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_28_010037) do
+ActiveRecord::Schema.define(version: 2019_05_03_125200) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -102,9 +102,10 @@ ActiveRecord::Schema.define(version: 2019_04_28_010037) do
     t.string "subject"
     t.text "body_html"
     t.text "body_text"
-    t.datetime "sent"
+    t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
   end
 
   create_table "newsletter_newsletters_subscriber_lists", id: false, force: :cascade do |t|

@@ -1,9 +1,9 @@
 module Admin
   class NewslettersController < BaseController
-    before_action :find_newsletter, only: [:show, :edit, :update, :destroy, :deliver]
+    before_action :find_newsletter, only: [:show, :edit, :update, :destroy, :finish]
     before_action :prepare_new_newsletter, :only => [:new, :create]
     before_action :prepare_subscriber_lists, :only => [:new, :edit, :show]
-    before_action :redirect_if_sent, only: [:edit, :update, :deliver, :destroy]
+    before_action :redirect_if_sent, only: [:edit, :update, :finish, :destroy]
     before_action :update_newsletter, only: [:create, :update]
 
     def index
@@ -27,11 +27,10 @@ module Admin
       redirect_to :action => :index
     end
 
-    def deliver
-      NewsletterMailingJob.perform_later(@newsletter.id)
-      @newsletter.update(sent: Time.now)
+    def finish
+      @newsletter.review!
 
-      flash.notice = t("admin.newsletters.sent")
+      flash.notice = t("admin.newsletters.finished")
       redirect_to :action => :index
     end
 
