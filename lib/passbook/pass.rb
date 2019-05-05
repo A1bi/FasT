@@ -5,8 +5,10 @@ module Passbook
     include AbstractController::Rendering
     include AbstractController::Translation
     include ActionView::Layouts
+    include AbstractController::Helpers
     include Rails.application.routes.url_helpers
 
+    helper :passbook
     append_view_path ApplicationController.view_paths
 
     def initialize(type_id, serial, auth_token, ressources_identifier, template_locals)

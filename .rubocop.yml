@@ -16,6 +16,7 @@ Metrics/BlockLength:
     - 'config/**/*.rb'
     - 'spec/**/*.rb'
     - 'lib/tasks/*.rake'
+    - 'app/views/**/*.jbuilder'
 
 Metrics/LineLength:
   Enabled: false

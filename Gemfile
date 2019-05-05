@@ -73,7 +73,7 @@ gem 'request_store', '~> 1.2.0'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 gem 'unicorn', '~> 5.5.0'
