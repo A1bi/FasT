@@ -2,41 +2,29 @@ module Passbook
   module HasPassbookPass
     extend ActiveSupport::Concern
 
-    module ClassMethods
-      def has_passbook_pass(options = {})
+    class_methods do
+      def has_passbook_pass(options = {}) # rubocop:disable Style/PredicateName
         has_one (options[:attribute] || :passbook_pass),
                 class_name: 'Passbook::Models::Pass',
                 as: :assignable, dependent: :destroy
 
-        after_save :save_passbook_pass
+        before_save :update_passbook_pass, on: :update
 
         include LocalInstanceMethods
       end
     end
 
     module LocalInstanceMethods
-      def update_passbook_pass(identifier, info)
-        @passbook_pass_file = Passbook::Pass.new(identifier, info)
-
-        if passbook_pass.nil?
-          build_passbook_pass({ type_id: @passbook_pass_file.info[:passTypeIdentifier] })
+      def passbook_pass(create: false)
+        if super().blank? && create
+          type_id = Settings.passbook.pass_type_ids[model_name.i18n_key]
+          create_passbook_pass(type_id: type_id)
         end
-
-        passbook_pass.touch if passbook_pass.persisted?
+        super()
       end
-    end
 
-    private
-
-    def save_passbook_pass
-      if @passbook_pass_file.present?
-        if passbook_pass.save
-          @passbook_pass_file.info[:serialNumber] = passbook_pass.serial_number
-          @passbook_pass_file.info[:authenticationToken] = passbook_pass.auth_token
-          @passbook_pass_file.save passbook_pass.filename
-        else
-          return false
-        end
+      def update_passbook_pass
+        passbook_pass.touch if passbook_pass.present?
       end
     end
   end

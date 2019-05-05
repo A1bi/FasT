@@ -26,6 +26,9 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+Rails/SkipsModelValidations:
+  Whitelist: ['touch']
+
 Style/BlockComments:
   Enabled: false
 

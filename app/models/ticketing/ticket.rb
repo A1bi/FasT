@@ -17,7 +17,6 @@ module Ticketing
     validate :check_order_index, if: :order_index_changed?
 
     before_validation :update_invalidated
-    before_save :update_passbook_pass
 
     delegate :event, to: :date, allow_nil: true
     delegate :block, to: :seat, allow_nil: true
@@ -61,11 +60,12 @@ module Ticketing
       hash.merge(super)
     end
 
-    def create_passbook_pass
-      if passbook_pass.nil?
-        update_passbook_pass(true)
-        save
-      end
+    def passbook_file_identifier
+      event.identifier
+    end
+
+    def passbook_file_info
+      { ticket: self }
     end
 
     private
@@ -98,13 +98,6 @@ module Ticketing
 
     def update_invalidated
       self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
-    end
-
-    def update_passbook_pass(create = false)
-      if passbook_pass.present? || create
-        super(event.identifier, { ticket: self })
-        passbook_pass.push
-      end
     end
 
     def seating

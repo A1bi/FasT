@@ -49,9 +49,9 @@ Config.setup do |config|
 
     required(:passbook).schema do
       required(:path).filled
-      required(:full_path).filled
       required(:wwdr_ca_path).filled
-      required(:developer_cert_path).filled
+      required(:certificate_paths).filled
+      required(:pass_type_ids).filled
     end
 
     required(:apns).schema do

@@ -14,12 +14,9 @@ class OrdersController < ApplicationController
   end
 
   def passbook_pass
-    if @ticket
-      @ticket.create_passbook_pass
-      send_file @ticket.passbook_pass.path(true), type: "application/vnd.apple.pkpass"
-    else
-      head 403
-    end
+    return head 403 if @ticket.blank?
+
+    send_file @ticket.passbook_pass(create: true).file_path, type: 'application/vnd.apple.pkpass'
   end
 
   def seats

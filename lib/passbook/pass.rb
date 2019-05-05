@@ -9,15 +9,16 @@ module Passbook
 
     append_view_path ApplicationController.view_paths
 
-    attr_reader :identifier, :info
+    attr_reader :type_id, :identifier, :info
 
-    def initialize(identifier, info)
+    def initialize(type_id, identifier, info)
+      @type_id = type_id
       @identifier = identifier
       @info = JSON.parse(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
     end
 
     def save(filename)
-      path = Passbook.options[:full_path]
+      path = Passbook.options[:path]
       FileUtils.mkdir_p(path)
       path = File.join(path, filename)
 
@@ -59,7 +60,7 @@ module Passbook
     end
 
     def sign
-      p12 = OpenSSL::PKCS12.new File.read(Passbook.options[:developer_cert_path][@info[:passTypeIdentifier].to_sym])
+      p12 = OpenSSL::PKCS12.new File.read(Passbook.options[:certificate_paths][@type_id])
       wwdr  = OpenSSL::X509::Certificate.new File.read(Passbook.options[:wwdr_ca_path])
 
       signature = OpenSSL::PKCS7.sign(p12.certificate, p12.key, File.read(path_in_working_dir("manifest.json")), [wwdr], OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED)

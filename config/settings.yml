@@ -17,8 +17,9 @@ apns:
     stats: 'de.theater-kaisersesch.stats'
 
 passbook:
-  path: '<%= File.join(%w[system passbook]) %>'
-  full_path: '<%= File.join(Rails.public_path, %w[system passbook]) %>'
-  wwdr_ca_path: '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'
-  developer_cert_path:
+  path: '<%= File.join(Rails.public_path, %w[system passbook]) %>'
+  pass_type_ids:
+    ticketing/ticket: pass.de.theater-kaisersesch.FasT
+  certificate_paths:
     pass.de.theater-kaisersesch.FasT: '/usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12'
+  wwdr_ca_path: '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'

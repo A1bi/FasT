@@ -12,7 +12,7 @@ _info = {
   formatVersion: 1,
   description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
   organizationName: "Freilichtbühne am schiefen Turm",
-  passTypeIdentifier: "pass.de.theater-kaisersesch.FasT",
+  passTypeIdentifier: @type_id,
   groupingIdentifier: ticket.order.number.to_s,
   voided: ticket.cancelled?,
   teamIdentifier: "V48L6BF6M3",

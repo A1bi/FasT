@@ -44,7 +44,7 @@ module Passbook
       end
 
       def show_pass
-        send_file @pass.path(true) if stale? @pass
+        send_file @pass.file_path if stale? @pass
       end
 
       def log
@@ -58,13 +58,10 @@ module Passbook
       private
 
       def prepare_pass
-        auth_token = request.headers['Authorization'].gsub(/^ApplePass /, "")
+        auth_token = request.headers.fetch('Authorization', '').gsub(/^ApplePass /, '')
+        @pass = Passbook::Models::Pass.find_by(type_id: params[:pass_type_id], serial_number: params[:serial_number])
 
-        @pass = Passbook::Models::Pass.where(type_id: params[:pass_type_id], serial_number: params[:serial_number]).first
-
-        if @pass.nil? || @pass.auth_token != auth_token
-          return head 401
-        end
+        head 401 if @pass.nil? || @pass.auth_token != auth_token
       end
 
       def prepare_device
