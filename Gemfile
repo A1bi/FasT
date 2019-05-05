@@ -12,8 +12,8 @@ gem 'sprockets-rails',    '~> 3.2.0'
 gem 'sass-rails',   '~> 5.0.5'
 #gem 'coffee-rails', '~> 3.2.1'
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'mini_racer', platforms: :ruby
 
 gem 'uglifier'
 
