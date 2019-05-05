@@ -13,6 +13,8 @@ _info = {
   description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
   organizationName: "Freilichtbühne am schiefen Turm",
   passTypeIdentifier: @type_id,
+  serialNumber: @serial,
+  authenticationToken: @auth_token,
   groupingIdentifier: ticket.order.number.to_s,
   voided: ticket.cancelled?,
   teamIdentifier: "V48L6BF6M3",

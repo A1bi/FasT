@@ -9,12 +9,12 @@ module Passbook
 
     append_view_path ApplicationController.view_paths
 
-    attr_reader :type_id, :identifier, :info
-
-    def initialize(type_id, identifier, info)
+    def initialize(type_id, serial, auth_token, ressources_identifier, template_locals)
       @type_id = type_id
-      @identifier = identifier
-      @info = JSON.parse(render_to_string(template: "passbook/#{@identifier}", format: :json, locals: { info: info }), symbolize_names: true)
+      @serial = serial
+      @auth_token = auth_token
+      @ressources_identifier = ressources_identifier
+      @info = render_to_string(template: "passbook/#{@ressources_identifier}", format: :json, locals: template_locals)
     end
 
     def save(filename)
@@ -23,7 +23,7 @@ module Passbook
       path = File.join(path, filename)
 
       create_working_dir
-      create_pass_info(@info)
+      create_pass_info
       copy_images
       create_manifest
       sign
@@ -37,12 +37,12 @@ module Passbook
       FileUtils.mkdir_p @working_dir
     end
 
-    def create_pass_info(info)
+    def create_pass_info
       write_json_file(@info, "pass.json")
     end
 
     def copy_images
-      iterate_dir(File.join(Rails.root, "app", "assets", "images", "passbook", @identifier)) do |file|
+      iterate_dir(File.join(Rails.root, "app", "assets", "images", "passbook", @ressources_identifier)) do |file|
         FileUtils.cp file, path_in_working_dir(File.basename(file))
       end
     end
@@ -96,9 +96,9 @@ module Passbook
       File.join(@working_dir, file)
     end
 
-    def write_json_file(hash, file)
-      File.open(path_in_working_dir(file), "w") do |file|
-        file.write(hash.to_json)
+    def write_json_file(content, file)
+      File.open(path_in_working_dir(file), 'w') do |f|
+        f.write(content.is_a?(Hash) ? content.to_json : content)
       end
     end
   end

@@ -47,9 +47,7 @@ module Passbook
       private
 
       def save_pass_file
-        pass_file = Passbook::Pass.new(type_id, file_identifier, file_info)
-        pass_file.info[:serialNumber] = serial_number
-        pass_file.info[:authenticationToken] = auth_token
+        pass_file = Passbook::Pass.new(type_id, serial_number, auth_token, file_identifier, file_info)
         pass_file.save filename
       end
 
