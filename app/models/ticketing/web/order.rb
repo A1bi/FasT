@@ -14,7 +14,7 @@ module Ticketing
     validates :email, allow_blank: true, email_format: true
     validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
 
-    after_create :send_confirmation
+    after_create { send_confirmation(after_commit: true) }
     after_commit :send_queued_mails
 
     def self.charges_to_submit(approved)
@@ -34,8 +34,9 @@ module Ticketing
       log(:resent_tickets)
     end
 
-    def send_confirmation
-      enqueue_mailing(:confirmation, depends_on_commit: true)
+    def send_confirmation(after_commit: false, log: false)
+      enqueue_mailing(:confirmation, depends_on_commit: after_commit)
+      self.log(:resent_confirmation) if log
     end
 
     def cancel_tickets(tickets, reason, send_mail = true)

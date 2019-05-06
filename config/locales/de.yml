@@ -78,6 +78,7 @@ de:
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
       resent_tickets: "Die Tickets wurden dem Käufer erneut zugesendet."
+      resent_confirmation: "Die Bestellbestätigung wurde dem Käufer erneut zugesendet."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
       created_billing: "Die Zahlung wurde verbucht."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
@@ -115,6 +116,7 @@ de:
         ticket_types_edited:
           one: "Ticketkategorie eines Tickets umgebucht"
           other: "Ticketkategorien von %{count} Tickets umgebucht"
+        resent_confirmation: "Bestellbestätigung erneut zugesendet"
         resent_tickets: "Tickets erneut zugesendet"
       balancing:
         order_created: "Bestellung aufgegeben"

@@ -112,6 +112,7 @@ Rails.application.routes.draw do
           resources :orders, path: "", only: [:index, :show, :edit, :update], concerns: :ticketable do
             member do
               post :send_pay_reminder
+              post :resend_confirmation
               patch :mark_as_paid
               patch :approve
               post :resend_tickets

@@ -3,7 +3,7 @@ module Ticketing
     ignore_restrictions
     before_action :restrict_access
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
-    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_tickets, :approve, :cancel, :create_billing, :seats]
+    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :cancel, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
     before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
@@ -138,6 +138,14 @@ module Ticketing
         @order.save
       end
       redirect_to_order_details :sent_pay_reminder
+    end
+
+    def resend_confirmation
+      if @order.is_a? Ticketing::Web::Order
+        @order.send_confirmation(log: true)
+        @order.save
+      end
+      redirect_to_order_details :resent_confirmation
     end
 
     def resend_tickets
@@ -287,7 +295,7 @@ module Ticketing
           actions.push :new_retail
         end
         if current_user&.admin?
-          actions.push :new_admin, :edit, :update, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_tickets
+          actions.push :new_admin, :edit, :update, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_confirmation, :resend_tickets
         end
       end
       if !actions.include? action_name.to_sym
