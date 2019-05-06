@@ -11,9 +11,11 @@ module Api
         matches = nil
 
         searchable_columns.each do |column|
-          next if params[column].blank?
+          value = params[column]
+          next if value.blank?
 
-          value = ActiveSupport::Inflector.transliterate(params[column])
+          value = value['0'] if value.is_a?(ActionController::Parameters)
+          value = ActiveSupport::Inflector.transliterate(value)
           term = table[column].matches("%#{value}%")
           matches = matches ? matches.or(term) : term
         end
