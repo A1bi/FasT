@@ -24,7 +24,7 @@ function Seating(container, delegate) {
       this.svg = this.container.find('svg');
       this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin');
 
-      var content = this.svg.find('> g, > rect, > line, > text');
+      var content = this.svg.find('> g, > rect, > line, > path, > text');
       var ns = 'http://www.w3.org/2000/svg';
       this.globalGroup = document.createElementNS(ns, 'g');
       if (this.globalGroup.classList) {
@@ -152,11 +152,11 @@ function Seating(container, delegate) {
 
     var heightExtension = 1.5;
     var scale = globalBox.width / shieldBox.width;
-    var scaleY = globalBox.height * heightExtension / shieldBox.height;
-    if (scale > scaleY) {
-      scale = scaleY;
+    var scaledHeight = shieldBox.height * scale;
+    if (scaledHeight > globalBox.height * heightExtension) {
+      scale = globalBox.height * heightExtension / shieldBox.height;
     } else {
-      heightExtension = 1.0;
+      heightExtension = Math.max(1, scaledHeight / globalBox.height);
     }
 
     var viewBox = this.svg[0].viewBox.baseVal;
