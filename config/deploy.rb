@@ -1,5 +1,5 @@
 set :application, 'FasT'
-set :repo_url, 'git@gitea.dyn.a0s.de:Albrecht/FasT.git'
+set :repo_url, 'git@gitlab.a0s.de:FasT/FasT.git'
 set :deploy_to, '$HOME/FasT'
 
 append :linked_files, 'config/master.key'

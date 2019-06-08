@@ -87,6 +87,8 @@ module Ticketing
     end
 
     def remove_stripped_plan
+      return unless plan.attached?
+
       path = plan_path(stripped: true, absolute: true)
       FileUtils.rm_f([path, "#{path}.gz"])
     end
