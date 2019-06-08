@@ -9,7 +9,7 @@
 </div>
 
 <div class="hcen">
-  <%= image_tag 'theater/sahnemixx/ticket_header.svg', width: 300 %>
+  <%= image_tag "theater/#{@event.identifier}/ticket_header.svg", width: 300 %>
 </div>
 
 <div class="section">
@@ -41,7 +41,7 @@
   <div class="question">Kann ich meine Tickets auch auf einem Handy vorzeigen?</div>
   <div class="answer">
     Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
-    <p>Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie mit der genannten App den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „<%= link_to "Wallet Passes", "https://play.google.com/store/apps/details?id=io.walletpasses.android", target: "_blank" %>“ möglich.</p>
+    <p>Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „<%= link_to "Wallet Passes", "https://play.google.com/store/apps/details?id=io.walletpasses.android", target: "_blank" %>“ möglich.</p>
   </div>
 
   <div class="question">Lassen sich Tickets umbuchen oder stornieren?</div>

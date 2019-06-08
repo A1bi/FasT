@@ -1,5 +1,5 @@
 <div class="other-events">
-  <% %w[gemetzel sahnemixx].each do |identifier| %>
+  <% %w[gloeckner sahnemixx].each do |identifier| %>
     <% if @event&.identifier != identifier %>
       Informationen zu <%= image_tag "theater/#{identifier}/ticket_header.svg", height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', info_identifier_path(identifier) %>.
     <% end %>
