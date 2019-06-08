@@ -22,8 +22,7 @@ gem 'jquery-ui-rails', '~> 6.0.0'
 
 gem 'paperclip', '~> 6.1.0'
 
-# unreleased FreeBSD fix
-gem 'bcrypt', git: 'git@gitea.dyn.a0s.de:Albrecht/bcrypt-ruby.git', ref: '7644e36'
+gem 'bcrypt', '~> 3.1.13'
 
 gem 'icalendar', '~> 2.5.0'
 
