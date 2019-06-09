@@ -44,11 +44,8 @@
   }
 }
 
-#map, #wu {
-  margin-bottom: 30px;
-}
-
 #map {
+  margin-bottom: 30px;
   height: 270px;
 
   .popup {
@@ -56,61 +53,5 @@
     border-radius: 4px;
     padding: 6px;
     opacity: .9;
-  }
-}
-
-#wu {
-  position: relative;
-
-  .loader {
-    width: 100%;
-    opacity: 1;
-    transition: opacity .3s;
-
-    &.out {
-      opacity: 0;
-    }
-  }
-
-  .fadeIn {
-    opacity: 0;
-    transition: opacity 1s;
-
-    &.in {
-      opacity: 1;
-    }
-  }
-
-  .source, .info {
-    clear: both;
-  }
-
-  .source {
-    font-size: 12px;
-    text-align: center;
-
-    img {
-      height: 25px;
-      vertical-align: bottom;
-    }
-  }
-
-  .info {
-    width: 65%;
-    margin: auto;
-
-    .icon {
-      float: left;
-      font-size: 30px;
-
-      img {
-        vertical-align: middle;
-      }
-    }
-
-    .data {
-      padding-top: 7px;
-      float: right;
-    }
   }
 }
