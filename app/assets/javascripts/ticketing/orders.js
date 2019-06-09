@@ -732,6 +732,10 @@ function FinishStep(delegate) {
           }, 2000);
 
         } else if (this.delegate.web) {
+          var email = this.delegate.getApiInfo().address.email;
+          var isGmail = /@(gmail|googlemail)\./.test(email);
+          this.box.find(".gmail-warning").toggle(isGmail);
+
           this.box.find('.order-number b').text(orderInfo.number);
           this.trackPiwikGoal(1, orderInfo.total);
         }

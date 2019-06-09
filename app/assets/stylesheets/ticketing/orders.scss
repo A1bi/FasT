@@ -614,7 +614,7 @@ table.details {
       }
 
       .note {
-        p {
+        .order-number {
           margin-top: 30px;
           margin-bottom: 30px;
         }
@@ -622,6 +622,35 @@ table.details {
         .order-number {
           font-size: 16px;
         }
+      }
+    }
+
+    .gmail-warning {
+      display: none;
+
+      .content:after {
+        content: ".";
+        clear: both;
+        display: block;
+        visibility: hidden;
+        height: 0px;
+      }
+
+      .icon {
+        float: left;
+        width: 30%;
+
+        img {
+          width: 60%;
+        }
+      }
+
+      .note {
+        width: 70%;
+        text-align: left;
+        float: right;
+        margin: 0;
+        padding-right: 20px;
       }
     }
   }
