@@ -467,11 +467,11 @@ function SeatChooser(container, delegate) {
       _this.delegate.seatChooserCouldNotConnect();
     });
 
-    this.node.on("reconnecting", () => {
+    this.node.on("reconnecting", function () {
       _this.delegate.seatChooserIsReconnecting();
     });
 
-    this.node.on("reconnect_failed", () => {
+    this.node.on("reconnect_failed", function () {
       _this.connectionFailed();
       _this.delegate.seatChooserDisconnected();
     });
