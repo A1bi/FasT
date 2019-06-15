@@ -176,8 +176,16 @@ function Seating(container, delegate) {
       this.originalHeight = this.originalHeight || this.svg.height();
       height = Math.max(this.originalHeight, shield.getBoundingClientRect().height * scale);
       blockName = shield.querySelector('text').innerHTML;
+
+      this.addBreadcrumb('zoomed to block', {
+        name: blockName
+      });
     } else {
       this.svg.removeClass('numbers zoomed-in').find('.block').removeClass('disabled');
+
+      if (this.plan.is('.zoomed')) {
+        this.addBreadcrumb('returned to overview');
+      }
     }
 
     this.plan.toggleClass('zoomed', zoom);
@@ -209,6 +217,15 @@ function Seating(container, delegate) {
     if (this.key.length < 1) return;
 
     this.key.find('.status-exclusive').toggle(toggle);
+  };
+
+  this.addBreadcrumb = function (message, data, level) {
+    Raven.captureBreadcrumb({
+      category: 'seating',
+      message: message,
+      data: data,
+      level: level
+    });
   };
 };
 
@@ -344,6 +361,7 @@ function SeatChooser(container, delegate) {
   };
 
   this.chooseSeat = function (seat) {
+    var id = seat.data('id');
     var originalStatus = seat.data('status');
     var allowedStatuses = ['available', 'exclusive', 'chosen'];
     if (allowedStatuses.indexOf(originalStatus) == -1) return;
@@ -351,9 +369,16 @@ function SeatChooser(container, delegate) {
     var newStatus = (originalStatus == 'chosen') ? 'available' : 'chosen';
     this.setStatusForSeat(seat, newStatus);
 
-    this.node.emit('chooseSeat', { seatId: seat.data('id') }, function (res) {
+    this.node.emit('chooseSeat', { seatId: id }, function (res) {
       if (!res.ok) this.setStatusForSeat(seat, originalStatus);
       this.updateErrorBoxIfVisible();
+
+      this.addBreadcrumb('chose seat', {
+        id: id,
+        previous_status: originalStatus,
+        new_status: newStatus,
+        success: res.ok ? 'true' : 'false'
+      });
     }.bind(this));
   };
 
@@ -415,6 +440,11 @@ function SeatChooser(container, delegate) {
     this.node.disconnect();
   };
 
+  this.connectionFailed = function () {
+    this.node.io.skipReconnect = true;
+    Raven.captureMessage('Seating connection failed');
+  };
+
   this.registerEvents = function () {
     $(window).on("beforeunload", function () {
       _this.noErrors = true;
@@ -433,7 +463,7 @@ function SeatChooser(container, delegate) {
 
     this.node.on("connect_error", function () {
       if (_this.socketId) return;
-      _this.node.io.skipReconnect = true;
+      _this.connectionFailed();
       _this.delegate.seatChooserCouldNotConnect();
     });
 
@@ -442,6 +472,7 @@ function SeatChooser(container, delegate) {
     });
 
     this.node.on("reconnect_failed", () => {
+      _this.connectionFailed();
       _this.delegate.seatChooserDisconnected();
     });
 
@@ -452,7 +483,7 @@ function SeatChooser(container, delegate) {
 
     this.node.on("error", function (error) {
       if (!(error instanceof Object)) {
-        _this.node.io.skipReconnect = true;
+        _this.connectionFailed();
         if (_this.socketId) {
           _this.delegate.seatChooserCouldNotReconnect();
         } else {
@@ -463,6 +494,16 @@ function SeatChooser(container, delegate) {
 
     this.node.on("expired", function () {
       _this.delegate.seatChooserExpired();
+    });
+
+    var events = ['connect', 'connect_error', 'reconnecting', 'reconnect_failed', 'error'];
+    events.forEach(function (name) {
+      _this.node.on(name, function () {
+        var isError = name.indexOf('error') > -1 || name.indexOf('fail') > -1;
+        _this.addBreadcrumb('node connection event', {
+          event: name
+        }, isError ? 'error' : 'info');
+      });
     });
   };
 

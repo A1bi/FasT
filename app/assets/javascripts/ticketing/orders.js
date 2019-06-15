@@ -142,9 +142,16 @@ Step.prototype = {
   },
 
   showErrorOnField: function (key, msg) {
-    var field = this.getFieldWithKey(key).parents("tr").addClass("error");
+    var input = this.getFieldWithKey(key);
+    var field = input.parents("tr").addClass("error");
     if (msg) field.find(".msg").html(msg);
     this.foundErrors = true;
+
+    this.addBreadcrumb('form error', {
+      field: key,
+      value: input.val(),
+      message: msg
+    }, 'warn');
   },
 
   willMoveIn: function () {},
@@ -167,6 +174,15 @@ Step.prototype = {
     try {
       _paq.push(['trackGoal', id, revenue]);
     } catch (e) {}
+  },
+
+  addBreadcrumb: function (message, data, level) {
+    Raven.captureBreadcrumb({
+      category: 'ordering.' + this.name,
+      message: message,
+      data: data,
+      level: level
+    });
   },
 
   registerEventAndInitiate: function (elements, event, proc) {
@@ -227,6 +243,10 @@ function TicketsStep(delegate) {
     this.info.api.tickets[typeId] = parseInt($this.val());
     this.info.internal.ticketTotals[typeId] = total;
     this.updateSubtotal();
+
+    this.addBreadcrumb('set ticket number', {
+      tickets: this.info.api.tickets
+    });
   };
 
   this.addCoupon = function () {
@@ -291,6 +311,12 @@ function TicketsStep(delegate) {
     this.delegate.toggleModalSpinner(false);
     this.updateCouponResult(msg, !res.ok);
     this.resizeDelegateBox();
+
+    this.addBreadcrumb('entered coupon code', {
+      code: res.coupon,
+      success: res.ok ? 'true' : 'false',
+      error: res.error
+    });
   };
 
   this.updateCouponResult = function (msg, error) {
@@ -447,6 +473,10 @@ function SeatsStep(delegate) {
     } else {
       this.delegate.updateNextBtn();
     }
+
+    this.addBreadcrumb('set date', {
+      date: this.info.api.date
+    });
   };
 
   this.updateSeatingPlan = function () {
@@ -478,6 +508,11 @@ function SeatsStep(delegate) {
     this.chooser.toggleExclusiveSeatsKey(toggle);
   };
 
+  this.expire = function () {
+    this.delegate.expire();
+    this.addBreadcrumb('session expired');
+  };
+
   this.seatChooserIsReady = function () {
     this.info.api.socketId = this.chooser.socketId;
     this.delegate.toggleModalSpinner(false);
@@ -496,11 +531,11 @@ function SeatsStep(delegate) {
   };
 
   this.seatChooserCouldNotReconnect = function () {
-    this.delegate.expire();
+    this.expire();
   };
 
   this.seatChooserExpired = function () {
-    this.delegate.expire();
+    this.expire();
   };
 
   Step.call(this, "seats", delegate);
