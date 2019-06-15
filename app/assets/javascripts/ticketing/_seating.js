@@ -417,8 +417,28 @@ function SeatChooser(container, delegate) {
     });
 
     this.node.on("connect", function () {
-      _this.socketId = _this.node.id;
+      if (!_this.socketId) {
+        _this.socketId = _this.node.id;
+
+        _this.node.io.opts.query = {
+          restore_id: _this.socketId
+        };
+      }
       _this.delegate.seatChooserIsReady();
+    });
+
+    this.node.on("connect_error", function () {
+      if (_this.socketId) return;
+      _this.node.io.skipReconnect = true;
+      _this.delegate.seatChooserCouldNotConnect();
+    });
+
+    this.node.on("reconnecting", () => {
+      _this.delegate.seatChooserIsReconnecting();
+    });
+
+    this.node.on("reconnect_failed", () => {
+      _this.delegate.seatChooserDisconnected();
     });
 
     this.node.on("updateSeats", function (res) {
@@ -428,18 +448,17 @@ function SeatChooser(container, delegate) {
 
     this.node.on("error", function (error) {
       if (!(error instanceof Object)) {
-        _this.delegate.seatChooserCouldNotConnect();
+        _this.node.io.skipReconnect = true;
+        if (_this.socketId) {
+          _this.delegate.seatChooserCouldNotReconnect();
+        } else {
+          _this.delegate.seatChooserCouldNotConnect();
+        }
       }
     });
 
-    var eventMappings = [["expired", "Expired"], ["connect_error", "CouldNotConnect"], ["disconnect", "Disconnected"]];
-    eventMappings.forEach(function (mapping) {
-      _this.node.on(mapping[0], function () {
-        if (!_this.noErrors) {
-          _this.delegate['seatChooser' + mapping[1]]();
-          Raven.captureMessage('Seating UI event: ' + mapping[0]);
-        }
-      });
+    this.node.on("expired", function () {
+      _this.delegate.seatChooserExpired();
     });
   };
 
@@ -447,7 +466,7 @@ function SeatChooser(container, delegate) {
   this.initPlan(function () {
     this.node = io('/seating', {
       path: '/node',
-      reconnection: false,
+      reconnectionAttempts: 6,
       query: {
         event_id: this.eventId
       }

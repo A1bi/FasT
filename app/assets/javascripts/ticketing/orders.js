@@ -483,12 +483,20 @@ function SeatsStep(delegate) {
     this.delegate.toggleModalSpinner(false);
   };
 
+  this.seatChooserIsReconnecting = function () {
+    this.delegate.toggleModalSpinner(true, true);
+  };
+
   this.seatChooserDisconnected = function () {
     this.delegate.showModalAlert("Die Verbindung zum Server wurde unterbrochen.<br />Bitte geben Sie Ihre Bestellung erneut auf.<br />Wir entschuldigen uns für diesen Vorfall.");
   };
 
   this.seatChooserCouldNotConnect = function () {
     this.delegate.showModalAlert("Derzeit ist keine Buchung möglich.<br />Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut.");
+  };
+
+  this.seatChooserCouldNotReconnect = function () {
+    this.delegate.expire();
   };
 
   this.seatChooserExpired = function () {
