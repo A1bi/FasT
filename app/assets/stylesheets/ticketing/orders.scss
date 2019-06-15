@@ -181,6 +181,10 @@ table.details {
   margin-top: 10px;
   height: 50px;
 
+  &.disabled {
+    display: none;
+  }
+
   .btn {
     padding: 5px 20px;
     border-radius: 20px;
@@ -235,6 +239,14 @@ table.details {
 }
 
 .progress {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+
+  &.disabled .step {
+    opacity: 0;
+  }
+
   .step {
     position: relative;
     float: left;
@@ -244,7 +256,7 @@ table.details {
     color: #cccccc;
     z-index: 2;
     display: none;
-    @include transition(color, .5s, ease-in-out);
+    transition: color .5s ease-in-out, opacity .5s;
 
     &.current {
       color: #ffffff;
@@ -278,8 +290,9 @@ table.details {
 }
 
 .stepBox {
-  margin-top: 30px;
   min-height: 250px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 
   .modalAlert {
     position: absolute;

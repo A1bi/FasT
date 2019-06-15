@@ -411,6 +411,10 @@ function SeatChooser(container, delegate) {
     if (seat) this.chooseSeat(seat);
   };
 
+  this.disconnect = function () {
+    this.node.disconnect();
+  };
+
   this.registerEvents = function () {
     $(window).on("beforeunload", function () {
       _this.noErrors = true;

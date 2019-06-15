@@ -714,6 +714,7 @@ function FinishStep(delegate) {
 
   this.orderPlaced = function (res) {
     this.delegate.toggleModalSpinner(false);
+    this.delegate.getStep("seats").chooser.disconnect();
 
     if (!res.ok) {
       this.error();
@@ -809,7 +810,7 @@ function Ordering() {
   };
 
   this.hideOrderControls = function () {
-    $(".progress, .btns").slideUp();
+    $(".progress, .btns").addClass('disabled');
   };
 
   this.goNext = function ($this) {
@@ -910,15 +911,22 @@ function Ordering() {
     }
   };
 
-  this.getStepInfo = function (stepName) {
-    var info;
-    $.each(this.steps, function () {
-      if (this.name == stepName) {
-        info = this.info;
+  this.getStep = function (stepName) {
+    var step;
+    this.steps.forEach(function (s) {
+      if (s.name == stepName) {
+        step = s;
         return;
       }
     });
-    return info;
+    return step;
+  };
+
+  this.getStepInfo = function (stepName) {
+    var step = this.getStep(stepName);
+    if (step) {
+      return step.info;
+    }
   };
 
   this.getApiInfo = function () {
