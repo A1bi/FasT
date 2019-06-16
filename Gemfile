@@ -33,8 +33,8 @@ gem 'prawn-qrcode', '~> 0.3.0'
 
 gem 'rubyzip', '~> 1.2.0'
 
-gem 'roadie', '~> 3.4.0'
-gem 'roadie-rails', '~> 2.0.0'
+gem 'roadie', '~> 3.5.0'
+gem 'roadie-rails', '~> 2.1.0'
 
 gem 'sepa_king', '~> 0.11.0'
 
@@ -67,7 +67,7 @@ gem 'simpleidn', '~> 0.1.1'
 
 gem 'name_of_person'
 
-gem 'request_store', '~> 1.2.0'
+gem 'request_store', '~> 1.4.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -85,9 +85,9 @@ group :development do
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-sidekiq', '~> 1.0.2', require: false
-  gem 'sqlite3', '~> 1.3.0'
-  gem 'ffaker', '~> 2.10.0'
-  gem 'spring', '~> 2.0.0'
+  gem 'sqlite3', '~> 1.4.0'
+  gem 'ffaker', '~> 2.11.0'
+  gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'byebug'
 end
