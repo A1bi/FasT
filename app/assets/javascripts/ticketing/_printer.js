@@ -1,5 +1,3 @@
-//= require spinjs
-
 function TicketPrinter() {
   var _this = this;
 
@@ -24,15 +22,7 @@ function TicketPrinter() {
         _this.notification.fadeOut();
         e.preventDefault();
       });
-      this.spinnerBox = this.notification.find(".spinner");
-      var opts = {
-        lines: 13,
-        length: 8,
-        width: 3,
-        radius: 9,
-        color: "white"
-      };
-      this.spinner = new Spinner(opts);
+      this.spinner = this.notification.find(".spinner");
     }
 
     this.notification.find("a.restart").off().click(function (e) {
@@ -49,13 +39,10 @@ function TicketPrinter() {
   };
 
   this.showSpinner = function (fadeIn) {
-    this.spinner.spin(this.spinnerBox.get(0));
-    this.spinnerBox.fadeIn();
+    this.spinner.fadeIn();
 
     setTimeout(function () {
-      _this.spinnerBox.fadeOut(function () {
-        _this.spinner.stop();
-      });
+      _this.spinner.fadeOut();
     }, 5000);
   };
 

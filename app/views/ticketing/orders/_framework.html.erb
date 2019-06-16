@@ -27,6 +27,7 @@
         <li><%= link_to "Bestellvorgang neu starten", request.path, class: :btn %></li>
       </ul>
     </div>
+    <%= render 'application/spinner' %>
   </div>
   <%= yield :steps %>
 <% end %>

@@ -1,7 +1,6 @@
 //= require ./_seating
 //= require ./base
 //= require validator-js/validator
-//= require spinjs
 //= require ./_printer
 
 function Step(name, delegate) {
@@ -817,7 +816,6 @@ function Ordering() {
   this.btns;
   this.progressBox;
   this.modalBox;
-  this.modalSpinner;
   this.noFurtherErrors = false;
   var _this = this;
 
@@ -882,33 +880,29 @@ function Ordering() {
     this.moveInCurrentStep();
   };
 
-  this.toggleModalBox = function (toggle, callback, stop, instant) {
+  this.toggleModalBox = function (toggle, stop, instant) {
     if (stop) this.modalBox.stop();
     if (instant) {
       this.modalBox.show();
-      if (callback) callback();
       return this.modalBox;
     }
-    return this.modalBox["fade" + (toggle ? "In" : "Out")](callback);
+    return this.modalBox["fade" + (toggle ? "In" : "Out")]();
   };
 
   this.toggleModalSpinner = function (toggle, instant) {
     if (toggle) {
       this.toggleNextBtn(false);
       this.toggleBtn("prev", false);
-      this.toggleModalBox(true, null, true, instant).append(this.modalSpinner.spin().el);
     } else {
       this.updateBtns();
-      this.toggleModalBox(false, function () {
-        _this.modalSpinner.stop();
-      }, true);
     }
+    this.toggleModalBox(toggle, true, instant);
   };
 
   this.showModalAlert = function (msg) {
     if (this.noFurtherErrors) return;
     this.noFurtherErrors = true;
-    this.modalSpinner.stop();
+    this.modalBox.find('.spinner').hide();
     this.killExpirationTimer();
     this.toggleModalBox(true).find(".messages").show().find("li").first().html(msg);
     this.hideOrderControls();
@@ -1036,18 +1030,6 @@ function Ordering() {
   _this.retail = _this.type == "retail";
   _this.admin = _this.type == "admin";
   _this.web = !_this.retail && !_this.admin;
-
-  var opts = {
-    lines: 13,
-    length: 20,
-    width: 10,
-    radius: 30,
-    trail: 60,
-    shadow: true,
-    top: 0,
-    color: "white"
-  };
-  _this.modalSpinner = new Spinner(opts);
 
   var steps;
   if (_this.retail) {
