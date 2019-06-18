@@ -716,13 +716,17 @@ function ConfirmStep(delegate) {
       this.info.api.newsletter = this.info.api.newsletter == "1";
     });
   };
-}
 
-function FinishStep(delegate) {
-  var _this = this;
+  this.validateAsync = function (callback) {
+    this.delegate.toggleModalSpinner(true);
+    this.placeOrder(callback);
+  };
 
-  this.placeOrder = function () {
+  this.placeOrder = function (successCallback) {
+    this.delegate.hideOrderControls();
+
     var apiInfo = this.delegate.getApiInfo();
+
     var orderInfo = {
       date: apiInfo.seats.date,
       tickets: apiInfo.tickets.tickets,
@@ -732,6 +736,7 @@ function FinishStep(delegate) {
       payment: apiInfo.payment,
       couponCodes: apiInfo.tickets.couponCodes
     };
+
     var info = {
       order: orderInfo,
       type: this.delegate.type,
@@ -744,70 +749,72 @@ function FinishStep(delegate) {
       type: "POST",
       data: JSON.stringify(info),
       contentType: "application/json",
-      success: function (res) {
-        _this.orderPlaced(res);
+      success: function (response) {
+        _this.orderPlaced(response, successCallback);
       },
-      error: function () {
-        _this.error();
-      }
+      error: this.orderFailed.bind(this)
     });
   };
 
-  this.orderPlaced = function (res) {
-    this.delegate.toggleModalSpinner(false);
-    this.delegate.getStep("seats").chooser.disconnect();
-
-    if (!res.ok) {
-      this.error();
-      return;
-
-    } else {
-      var orderInfo = res.order;
-      var detailsPath = this.delegate.stepBox.data("order-path").replace(":id", orderInfo.id);
-
-      if (this.delegate.admin) {
-        window.location = detailsPath;
-
-      } else {
-        this.box.find(".success").show();
-        if (this.delegate.retail) {
-          var infoBox = this.box.find(".info");
-          infoBox.find(".total span").text(this.formatCurrency(orderInfo.total));
-          infoBox.find(".number").text(orderInfo.tickets.length);
-          infoBox.find("a.details").prop("href", detailsPath);
-
-          var printer = new TicketPrinter();
-          setTimeout(function () {
-            printer.printTicketsWithNotification(orderInfo.printable_path);
-          }, 2000);
-
-        } else if (this.delegate.web) {
-          var email = this.delegate.getApiInfo().address.email;
-          var isGmail = /@(gmail|googlemail)\./.test(email);
-          this.box.find(".gmail-warning").toggle(isGmail);
-
-          this.box.find('.order-number b').text(orderInfo.number);
-          this.trackPiwikGoal(1, orderInfo.total);
-        }
-
-        this.resizeDelegateBox(true);
-        this.delegate.noFurtherErrors = true;
-        this.delegate.killExpirationTimer();
-      }
-    }
+  this.disconnect = function () {
+    var chooser = this.delegate.getStep("seats").chooser;
+    if (chooser) chooser.disconnect();
+    this.delegate.killExpirationTimer();
   };
 
-  this.error = function () {
+  this.orderFailed = function () {
+    this.disconnect();
     this.delegate.showModalAlert("Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.");
   };
 
+  this.orderPlaced = function (response, callback) {
+    this.disconnect();
+    this.delegate.toggleModalSpinner(false);
+
+    this.info.internal.order = response.order;
+    this.info.internal.detailsPath = this.delegate.stepBox.data("order-path").replace(":id", this.info.internal.order.id);
+
+    if (this.delegate.admin) {
+      window.location = this.info.internal.detailsPath;
+      return;
+    }
+
+    callback();
+  };
+}
+
+function FinishStep(delegate) {
+  var _this = this;
+
   this.willMoveIn = function () {
     var payInfo = this.delegate.getStepInfo("payment");
-    if (payInfo) this.box.find(".tickets").toggle(payInfo.api.method == "charge");
-    this.delegate.hideOrderControls();
-    this.delegate.toggleModalSpinner(true);
+    if (payInfo) {
+      var immediateTickets = ["charge", "credit_card"].indexOf(payInfo.api.method) > -1;
+      this.box.find(".tickets").toggle(immediateTickets);
+    }
 
-    this.placeOrder();
+    var confirmInfo = this.delegate.getStepInfo("confirm");
+    var orderInfo = confirmInfo.internal.order;
+
+    if (this.delegate.retail) {
+      var infoBox = this.box.find(".info");
+      infoBox.find(".total span").text(this.formatCurrency(orderInfo.total));
+      infoBox.find(".number").text(orderInfo.tickets.length);
+      infoBox.find("a.details").prop("href", confirmInfo.internal.detailsPath);
+
+      var printer = new TicketPrinter();
+      setTimeout(function () {
+        printer.printTicketsWithNotification(orderInfo.printable_path);
+      }, 2000);
+
+    } else {
+      var email = this.delegate.getApiInfo().address.email;
+      var isGmail = /@(gmail|googlemail)\./.test(email);
+      this.box.find(".gmail-warning").toggle(isGmail);
+
+      this.box.find('.order-number b').text(orderInfo.number);
+      this.trackPiwikGoal(1, orderInfo.total);
+    }
   };
 
   Step.call(this, "finish", delegate);

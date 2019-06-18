@@ -78,39 +78,26 @@ class Api::OrdersController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
-      if order.save
-        begin
-          if type == :web && params[:newsletter].present?
-            subscriber = Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name, privacy_terms: true)
-            subscriber.send_confirmation_instructions(after_order: true, delay: 30.minutes)
-          end
+      return render_error('Invalid order', errors: order.errors.messages) unless order.save
 
-          Ticketing::OrderPushNotificationsJob.perform_later(order, type: type.to_s)
-
-          NodeApi.update_seats_from_records(order.tickets) if bound_to_seats
-
-          if type == :admin
-            key = "ticketing.orders.created"
-            if order.email.present?
-              key = key + "_email"
-            end
-            flash[:notice] = t(key)
-          end
-
-          render json: {
-            ok: true,
-            order: order.api_hash(%i[tickets printable])
-          }
-
-        rescue StandardError => exception
-          Raven.capture_exception(exception)
-          render json: { ok: false, error: 'Internal error' }
-          raise Rails.env.development? ? exception : ActiveRecord::Rollback
-        end
-
-      else
-        render_error('Invalid order', errors: order.errors.messages)
+      if type == :web && params[:newsletter].present?
+        subscriber = Newsletter::Subscriber.create(email: order.email, gender: order.gender, last_name: order.last_name, privacy_terms: true)
+        subscriber.send_confirmation_instructions(after_order: true, delay: 30.minutes)
       end
+
+      Ticketing::OrderPushNotificationsJob.perform_later(order, type: type.to_s)
+
+      NodeApi.update_seats_from_records(order.tickets) if bound_to_seats
+
+      if type == :admin
+        key = "ticketing.orders.created"
+        if order.email.present?
+          key = key + "_email"
+        end
+        flash[:notice] = t(key)
+      end
+
+      render json: { order: order.api_hash(%i[tickets printable]) }
     end
   end
 
@@ -118,6 +105,6 @@ class Api::OrdersController < ApplicationController
 
   def render_error(error, extra = nil)
     Raven.capture_message(error, extra: extra)
-    render json: { ok: false, error: error }
+    render status: :unprocessable_entity, json: { error: error }
   end
 end
