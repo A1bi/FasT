@@ -637,6 +637,13 @@ function PaymentStep(delegate) {
 
   Step.call(this, "payment", delegate);
 
+  this.updateMethods = function () {
+    if (this.methodIsCharge()) {
+      setTimeout(function () {
+        _this.getFieldWithKey('name').focus();
+      }, 750);
+    }
+  };
 
   this.registerEventAndInitiate(this.box.find("[name=method]"), "click", function ($this) {
     if (!$this.is(":checked")) return;
@@ -775,7 +782,7 @@ function ConfirmStep(delegate) {
     this.disconnect();
     this.delegate.toggleModalSpinner(false);
 
-    this.info.internal.order = response.order;
+    this.info.internal.order = response;
     this.info.internal.detailsPath = this.delegate.stepBox.data("order-path").replace(":id", this.info.internal.order.id);
 
     if (this.delegate.admin) {
@@ -799,6 +806,7 @@ function FinishStep(delegate) {
 
     var confirmInfo = this.delegate.getStepInfo("confirm");
     var orderInfo = confirmInfo.internal.order;
+    orderInfo.total = Number.parseFloat(orderInfo.total);
 
     if (this.delegate.retail) {
       var infoBox = this.box.find(".info");

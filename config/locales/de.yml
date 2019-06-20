@@ -72,8 +72,6 @@ de:
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
   ticketing:
     orders:
-      created: "Die Bestellung wurde erfolgreich aufgenommen."
-      created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
       updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
@@ -197,6 +195,11 @@ de:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
       seat_taken: "Ihr gewählter Sitzplatz wurde in der Zwischenzeit von jemand anderem reserviert. Bitte wählen Sie einen anderen Platz."
       date_not_found: "Das gewählte Datum wurde nicht gefunden."
+  api:
+    ticketing:
+      orders:
+        created: "Die Bestellung wurde erfolgreich aufgenommen."
+        created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
   tickets_pdf:
     title: "Tickets"
     author: "Freilichtbühne am schiefen Turm e.V."

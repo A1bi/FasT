@@ -3,31 +3,21 @@ module Api
     class OrdersController < ApplicationController
       include ::Ticketing::OrderingType
 
-      def create
-        unless authorized?
-          return render_error('Unauthorized', status: :forbidden)
-        end
+      helper_method :web?, :retail?, :admin?
 
-        return render_error('Unknown type') unless type.in? %w[web admin retail]
+      def create
+        return head :not_found unless type.in? %w[web admin retail]
+        return head :forbidden unless authorized?
 
         @order = create_order
 
-        if @order.persisted?
-          suppress_in_production(StandardError) do
-            create_newsletter_subscriber
-          end
+        return report_invalid_order unless @order.persisted?
 
-          if admin?
-            flash[:notice] = t(
-              "ticketing.orders.created#{@order.email.present? ? '_email' : nil}"
-            )
-          end
-
-          render json: { order: @order.api_hash(%i[tickets printable]) }
-
-        else
-          render_error('Invalid order', info: { errors: @order.errors.messages })
+        suppress_in_production(StandardError) do
+          create_newsletter_subscriber
         end
+
+        set_flash_notice
       end
 
       private
@@ -70,9 +60,20 @@ module Api
           retail? && cookies.signed[cookie_name] == params[:retail_store_id]
       end
 
-      def render_error(error, info: nil, status: :unprocessable_entity)
-        Raven.capture_message(error, extra: info)
-        render status: status, json: { error: error }
+      def report_invalid_order
+        Raven.capture_message(
+          'invalid order', extra: {
+            errors: @order.errors.messages
+          }
+        )
+      end
+
+      def set_flash_notice
+        return unless admin?
+
+        key = '.created'
+        key += '_email' if @order.email.present?
+        flash[:notice] = t(key)
       end
     end
   end
