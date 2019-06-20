@@ -128,6 +128,10 @@ Step.prototype = {
     return true;
   },
 
+  validateAsync: function (callback) {
+    callback();
+  },
+
   validateFields: function (beforeProc, afterProc) {
     this.box.find("tr").removeClass("error");
     this.foundErrors = false;
@@ -731,21 +735,21 @@ function ConfirmStep(delegate) {
       date: apiInfo.seats.date,
       tickets: apiInfo.tickets.tickets,
       ignore_free_tickets: apiInfo.tickets.ignore_free_tickets,
-      socketId: apiInfo.seats.socketId,
       address: apiInfo.address,
       payment: apiInfo.payment,
-      couponCodes: apiInfo.tickets.couponCodes
+      coupon_codes: apiInfo.tickets.couponCodes
     };
 
     var info = {
       order: orderInfo,
       type: this.delegate.type,
-      retailId: this.delegate.retailId,
+      socket_id: apiInfo.seats.socketId,
+      retail_store_id: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
     };
 
     $.ajax({
-      url: "/api/orders",
+      url: "/api/ticketing/orders",
       type: "POST",
       data: JSON.stringify(info),
       contentType: "application/json",
@@ -869,7 +873,9 @@ function Ordering() {
     } else {
       var scrollPos = this.stepBox;
       if (this.currentStep.validate()) {
-        this.showNext(true);
+        this.currentStep.validateAsync(function () {
+          _this.showNext(true);
+        });
       } else {
         var error = this.stepBox.find(".error:first-child");
         if (error.length) {

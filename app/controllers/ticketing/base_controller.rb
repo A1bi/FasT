@@ -5,7 +5,7 @@ class Ticketing::BaseController < ApplicationController
   before_action :authenticate_retail_store
   before_action :disable_member_controls_for_retail
 
-  helper TicketingHelper
+  helper Ticketing::TicketingHelper
 
   protected
 
