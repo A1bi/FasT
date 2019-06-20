@@ -83,7 +83,10 @@ module Ticketing
     end
 
     def send_push_notifications
-      Ticketing::OrderPushNotificationsJob.perform_later(@order, type: type)
+      # TODO: change remove cast to string in Rails 6
+      Ticketing::OrderPushNotificationsJob.perform_later(
+        @order, type: type.to_s
+      )
     end
 
     def update_node_seats

@@ -3,8 +3,6 @@ module Api
     class OrdersController < ApplicationController
       include ::Ticketing::OrderingType
 
-      helper_method :web?, :retail?, :admin?
-
       def create
         return head :not_found unless type.in? %w[web admin retail]
         return head :forbidden unless authorized?
