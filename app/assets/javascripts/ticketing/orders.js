@@ -28,26 +28,33 @@ function Step(name, delegate) {
   this.validator.isIBAN = function () {
     var parts = this.upperStrip().match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
     var ok = true;
+
     if (parts) {
-      if (parts[1] == "DE") {
-        $.each(parts, function (i, part) {
-          parts[i] = part.replace(/\D/g, function (char) {
-            return char.charCodeAt(0) - 64 + 9;
-          });
-        });
-        var bban = parts[3] + parts[1] + parts[2];
-        var remainder = 0;
-        for (var i = 0; i < bban.length; i++) {
-          remainder = (remainder + bban.charAt(i)) % 97;
-        }
-        if (remainder != 1) {
-          ok = false;
-        }
+      var country = parts[1];
+      var check = parts[2];
+      var bban = parts[3];
+      var number = bban + country + check;
+
+      number = number.replace(/\D/g, function (char) {
+        return char.charCodeAt(0) - 64 + 9;
+      });
+
+      var remainder = 0;
+      for (var i = 0; i < number.length; i++) {
+        remainder = (remainder + number.charAt(i)) % 97;
       }
+
+      if (country == "DE" && bban.length != 18 ||
+          remainder != 1) {
+        ok = false;
+      }
+
     } else {
       ok = false;
     }
+
     if (!ok) return this.error(this.msg || 'Invalid IBAN');
+
     return this;
   };
 }
