@@ -45,6 +45,8 @@ module Passbook
 
       def show_pass
         send_file @pass.file_path if stale? @pass
+      rescue Passbook::PassFileCreationError
+        head :not_found
       end
 
       def log

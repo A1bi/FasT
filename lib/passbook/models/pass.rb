@@ -1,4 +1,6 @@
 module Passbook
+  class PassFileCreationError < StandardError; end
+
   module Models
     class Pass < BaseModel
       attr_readonly :serial_number, :auth_token, :filename
@@ -21,9 +23,12 @@ module Passbook
       end
 
       def file_path
-        path = File.join(Passbook.options[:path], filename)
-        save_pass_file unless File.exist?(path)
-        path
+        save_pass_file unless File.exist?(file_storage_path)
+        file_storage_path
+      end
+
+      def file_storage_path
+        @file_storage_path ||= File.join(Passbook.options[:path], filename)
       end
 
       def touch
@@ -37,22 +42,24 @@ module Passbook
       end
 
       def file_identifier
-        self[:file_identifier] || assignable.passbook_file_identifier
+        self[:file_identifier] || assignable&.passbook_file_identifier
       end
 
       def file_info
-        self[:file_info] || assignable.passbook_file_info
+        self[:file_info] || assignable&.passbook_file_info
       end
 
       private
 
       def save_pass_file
+        raise PassFileCreationError unless file_identifier && file_info
+
         pass_file = Passbook::Pass.new(type_id, serial_number, auth_token, file_identifier, file_info)
         pass_file.save filename
       end
 
       def delete_file
-        FileUtils.rm(path(true), force: true)
+        FileUtils.rm(file_storage_path, force: true)
       end
     end
   end
