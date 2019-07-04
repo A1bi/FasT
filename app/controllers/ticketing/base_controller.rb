@@ -1,4 +1,6 @@
 class Ticketing::BaseController < ApplicationController
+  include Ticketing::OrderingType
+
   restrict_access_to_group :admin
 
   before_action :disable_slides

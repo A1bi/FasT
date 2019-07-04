@@ -3,11 +3,13 @@ module Ticketing
     extend ActiveSupport::Concern
 
     included do
-      helper_method :web?, :retail?, :admin?
+      if self < ActionController::Base && respond_to?(:helper_method)
+        helper_method :web?, :retail?, :admin?
+      end
     end
 
     def type
-      params[:type].to_sym
+      params[:type]&.to_sym
     end
 
     %i[admin retail].each do |t|

@@ -1,5 +1,7 @@
 module Ticketing
   class OrderCreateService < BaseService
+    class FreeTicketTypeMissingError < StandardError; end
+
     include OrderingType
 
     def initialize(params, current_user)
@@ -48,6 +50,7 @@ module Ticketing
 
       tickets_by_price = @order.tickets.to_a.sort_by(&:price)
       free_ticket_type = date.event.ticket_types.find_by(price: 0)
+      raise FreeTicketTypeMissingError if free_ticket_type.nil?
 
       Ticketing::Coupon.where(code: codes).each do |coupon|
         next if coupon.expired?

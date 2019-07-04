@@ -4,12 +4,15 @@ module Api
       include ::Ticketing::OrderingType
 
       def create
-        return head :not_found unless type.in? %w[web admin retail]
+        return head :not_found unless type.in? %i[web admin retail]
         return head :forbidden unless authorized?
 
         @order = create_order
 
-        return report_invalid_order unless @order.persisted?
+        unless @order.persisted?
+          report_invalid_order
+          return head :bad_request
+        end
 
         suppress_in_production(StandardError) do
           create_newsletter_subscriber

@@ -1,7 +1,5 @@
 module Ticketing
   class TicketsController < BaseController
-    include Ticketing::OrderingType
-
     before_action :find_tickets_with_order, except: [:printable, :mark]
     before_action :find_tickets, only: [:printable, :mark]
     before_action :find_event, only: [:transfer, :finish_transfer]

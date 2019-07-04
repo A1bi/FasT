@@ -1,7 +1,5 @@
 module Ticketing
   class OrdersController < BaseController
-    include Ticketing::OrderingType
-
     ignore_restrictions
     before_action :restrict_access
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
