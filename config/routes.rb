@@ -214,8 +214,15 @@ Rails.application.routes.draw do
 
   scope path: :api, as: :api, constraints: { format: :json } do
     scope module: :api do
+      namespace :ticketing do
+        resources :orders, only: [:create]
+
+        namespace :box_office do
+          resources :orders, only: [:create]
+        end
+      end
+
       resources :members, only: [:index, :show]
-      resources :orders, only: [:create]
       scope controller: :seats, path: :seats, as: :seats do
         get "availability", action: :availability
       end
@@ -225,7 +232,6 @@ Rails.application.routes.draw do
         get :todays
         get :ticket_printable
         patch :pick_up_tickets
-        post :place_order
         patch :cancel_order
         patch :cancel_tickets
         patch :enable_resale_for_tickets

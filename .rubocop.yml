@@ -18,14 +18,8 @@ Metrics/BlockLength:
     - 'lib/tasks/*.rake'
     - 'app/views/**/*.jbuilder'
 
-Metrics/LineLength:
-  Enabled: false
-
 Metrics/MethodLength:
   Max: 25
-
-Metrics/PerceivedComplexity:
-  Enabled: false
 
 Rails/SkipsModelValidations:
   Whitelist: ['touch']

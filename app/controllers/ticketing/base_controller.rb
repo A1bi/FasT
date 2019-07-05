@@ -1,11 +1,13 @@
 class Ticketing::BaseController < ApplicationController
+  include Ticketing::OrderingType
+
   restrict_access_to_group :admin
 
   before_action :disable_slides
   before_action :authenticate_retail_store
   before_action :disable_member_controls_for_retail
 
-  helper TicketingHelper
+  helper Ticketing::TicketingHelper
 
   protected
 
@@ -35,17 +37,6 @@ class Ticketing::BaseController < ApplicationController
   def retail_store_id_cookie_name
     "_#{Rails.application.class.parent_name}_retail_store_id"
   end
-
-  def admin?
-    params[:type] == :admin
-  end
-  def retail?
-    params[:type] == :retail
-  end
-  def web?
-    !admin? && !retail?
-  end
-  helper_method :admin?, :retail?, :web?
 
   def orders_path(action, params = nil)
     action = action.to_s.sub("ticketing", "ticketing_retail") if retail?
