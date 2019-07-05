@@ -2,9 +2,11 @@ module Ticketing
   module OrderingType
     extend ActiveSupport::Concern
 
+    TYPES = %i[web admin retail box_office].freeze
+
     included do
       if self < ActionController::Base && respond_to?(:helper_method)
-        helper_method :web?, :retail?, :admin?
+        helper_method(TYPES.map { |t| "#{t}?" })
       end
     end
 
@@ -12,12 +14,8 @@ module Ticketing
       params[:type]&.to_sym
     end
 
-    %i[admin retail].each do |t|
+    TYPES.each do |t|
       define_method("#{t}?") { type == t }
-    end
-
-    def web?
-      !admin? && !retail?
     end
   end
 end

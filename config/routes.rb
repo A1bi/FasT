@@ -216,6 +216,10 @@ Rails.application.routes.draw do
     scope module: :api do
       namespace :ticketing do
         resources :orders, only: [:create]
+
+        namespace :box_office do
+          resources :orders, only: [:create]
+        end
       end
 
       resources :members, only: [:index, :show]
@@ -228,7 +232,6 @@ Rails.application.routes.draw do
         get :todays
         get :ticket_printable
         patch :pick_up_tickets
-        post :place_order
         patch :cancel_order
         patch :cancel_tickets
         patch :enable_resale_for_tickets

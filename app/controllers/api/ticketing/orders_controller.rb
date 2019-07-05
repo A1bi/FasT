@@ -1,6 +1,7 @@
 module Api
   module Ticketing
     class OrdersController < ApplicationController
+      include OrderCreation
       include ::Ticketing::OrderingType
 
       def create
@@ -22,10 +23,6 @@ module Api
       end
 
       private
-
-      def create_order
-        ::Ticketing::OrderCreateService.new(order_params, current_user).execute
-      end
 
       def order_params
         params.permit(
@@ -59,14 +56,6 @@ module Api
         web? ||
           admin? && current_user&.admin? ||
           retail? && cookies.signed[cookie_name] == params[:retail_store_id]
-      end
-
-      def report_invalid_order
-        Raven.capture_message(
-          'invalid order', extra: {
-            errors: @order.errors.messages
-          }
-        )
       end
 
       def set_flash_notice

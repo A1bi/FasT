@@ -10,11 +10,16 @@ module Ticketing
     end
 
     def execute
-      @order = (retail? ? Ticketing::Retail::Order : Ticketing::Web::Order).new
+      @order = order_class.new
 
       if retail?
         store = Ticketing::Retail::Store.find_by(id: params[:retail_store_id])
         @order.store = store
+
+      elsif box_office?
+        box_office = Ticketing::BoxOffice::BoxOffice
+                     .find_by(id: params[:box_office_id])
+        @order.box_office = box_office
 
       else
         @order.admin_validations = admin?
@@ -96,6 +101,16 @@ module Ticketing
       return unless date.event.seating.bound_to_seats?
 
       NodeApi.update_seats_from_records(@order.tickets)
+    end
+
+    def order_class
+      if retail?
+        Ticketing::Retail::Order
+      elsif box_office?
+        Ticketing::BoxOffice::Order
+      else
+        Ticketing::Web::Order
+      end
     end
 
     def order_params

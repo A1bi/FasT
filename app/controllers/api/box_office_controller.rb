@@ -3,65 +3,7 @@ class Api::BoxOfficeController < ApplicationController
 
   before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
-  before_action :find_box_office, only: [:place_order, :purchase, :report, :bill]
-
-  def place_order
-    response = {
-      ok: false,
-      errors: []
-    }
-
-    info = params.require(:order)
-    order = Ticketing::BoxOffice::Order.new
-    order.box_office = @box_office
-
-    date = Ticketing::EventDate.find(info[:date])
-
-    bound_to_seats = date.event.seating.bound_to_seats?
-    if bound_to_seats
-      seats = NodeApi.get_chosen_seats(info[:seatingId])
-      if !seats
-        response[:errors] << "Seating error"
-        return render json: response
-      end
-    end
-
-    info[:tickets].each do |type_id, number|
-      ticket_type = Ticketing::TicketType.find_by_id(type_id)
-      next if !ticket_type || number < 1
-
-      number.times do
-        ticket = order.tickets.new({
-          type: ticket_type,
-          date: date,
-          picked_up: true
-        })
-        ticket.seat = date.event.seating.seats.find(seats.shift) if bound_to_seats
-      end
-    end
-
-    ActiveRecord::Base.transaction do
-      if order.save
-        begin
-          if date.event.seating.bound_to_seats?
-            NodeApi.update_seats_from_records(order.tickets)
-          end
-
-          response[:ok] = true
-          response[:order] = info_for_order(order)
-
-        rescue
-          response[:errors] << "Internal error"
-          raise ActiveRecord::Rollback
-        end
-      else
-        puts order.errors.messages
-        response[:errors] << "Invalid order"
-      end
-    end
-
-    render json: response
-  end
+  before_action :find_box_office, only: [:purchase, :report, :bill]
 
   def cancel_order
     order = Ticketing::BoxOffice::Order.find_by_id(params[:id])
