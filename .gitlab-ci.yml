@@ -13,11 +13,16 @@ rubocop:
     - rubocop
   allow_failure: true
 
-rails tests:
+specs:
   script:
     - rails db:drop db:create db:schema:load
     - rails test
   allow_failure: true
+
+audit:
+  script:
+    - gem install bundler-audit
+    - bundler-audit
 
 deploy:
   stage: deploy
