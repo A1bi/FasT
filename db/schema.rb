@@ -290,7 +290,7 @@ ActiveRecord::Schema.define(version: 2019_05_03_125200) do
 
   create_table "ticketing_coupons", force: :cascade do |t|
     t.string "code"
-    t.datetime "expires", precision: 255
+    t.datetime "expires"
     t.string "recipient"
     t.datetime "created_at"
     t.datetime "updated_at"

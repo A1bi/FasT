@@ -23,3 +23,6 @@ passbook:
   certificate_paths:
     pass.de.theater-kaisersesch.FasT: '/usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12'
   wwdr_ca_path: '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'
+
+sentry:
+  enabled: false

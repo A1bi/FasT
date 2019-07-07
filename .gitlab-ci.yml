@@ -5,6 +5,7 @@ before_script:
   - ruby -v
   - sudo pkg install -y v8 mysql57-client
   - bundle install -j $(sysctl -n hw.ncpu)
+  - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
 
 rubocop:
   script:
@@ -16,7 +17,7 @@ specs:
   script:
     - rails db:drop db:create db:schema:load
     - rails test
-  allow_failure: true
+    - spring stop
 
 audit:
   script:
