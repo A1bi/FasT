@@ -8,7 +8,7 @@ module Newsletter
     end
 
     def execute
-      subscriber = Newsletter::Subscriber.create(params)
+      subscriber = Subscriber.create(params)
 
       if subscriber.persisted?
         subscriber.send_confirmation_instructions(
