@@ -14,13 +14,6 @@ http {
       proxy_pass http://localhost:3000;
     }
 
-    location /assets/info/weather/ {
-      rewrite /assets/info/weather/([a-z]+).gif /i/c/k/$1.gif break;
-      proxy_pass http://icons-ak.wxug.com;
-      proxy_pass_request_headers off;
-      proxy_redirect off;
-    }
-
     location /system/seatings/ {
       gzip on;
       gzip_static on;

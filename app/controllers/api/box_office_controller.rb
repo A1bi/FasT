@@ -135,7 +135,7 @@ class Api::BoxOfficeController < ApplicationController
   def events
     events = Ticketing::Event.current.map do |event|
       {
-        id: event.id,
+        id: event.id.to_s,
         name: event.name,
         dates: event.dates.map do |date|
           {
