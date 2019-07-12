@@ -310,7 +310,7 @@ function SeatSelector(container, delegate, zoomable) {
   }.bind(this));
 }
 
-function SeatChooser(container, delegate, zoomable) {
+function SeatChooser(container, delegate, zoomable, privileged) {
   Seating.call(this, container, delegate, zoomable);
 
   this.date = null;
@@ -320,6 +320,7 @@ function SeatChooser(container, delegate, zoomable) {
   this.socketId;
   this.errorBox = this.container.find(".error");
   this.noErrors = false;
+  this.privileged = privileged;
   var _this = this;
 
   this.updateSeats = function (seats) {
@@ -521,7 +522,8 @@ function SeatChooser(container, delegate, zoomable) {
       path: '/node',
       reconnectionAttempts: 6,
       query: {
-        event_id: this.eventId
+        event_id: this.eventId,
+        privileged: this.privileged
       }
     });
 

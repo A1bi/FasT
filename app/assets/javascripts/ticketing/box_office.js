@@ -35,7 +35,7 @@ function BoxOfficeSeating() {
   this.seatChooserIsReconnecting = function () {};
 
   this.init = function () {
-    this.chooser = new SeatChooser(seatingBox, this, false);
+    this.chooser = new SeatChooser(seatingBox, this, false, true);
   };
 
   this.reinit = function () {
