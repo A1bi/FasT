@@ -184,6 +184,9 @@ de:
           admin:
             one: "Es wurde ein Ticket für den %{date} telefonisch oder über andere Wege gebucht."
             other: "Es wurden %{count} Tickets für den %{date} telefonisch oder über andere Wege gebucht."
+          box_office:
+            one: "Es wurde ein Ticket für den %{date} an der Abendkasse verkauft."
+            other: "Es wurden %{count} Tickets für den %{date} an der Abendkasse verkauft."
   orders:
     overview:
       wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."

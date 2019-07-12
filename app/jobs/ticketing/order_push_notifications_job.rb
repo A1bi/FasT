@@ -2,28 +2,64 @@ module Ticketing
   class OrderPushNotificationsJob < ApplicationJob
     queue_as :default
 
-    def perform(order, type:)
-      scope = 'ticketing.push_notifications.tickets_sold'
+    def perform(order, admin: false)
+      @order = order
+      @admin = admin
 
-      title = I18n.translate(
-        :title,
-        scope: scope,
-        event: order.event.name
-      )
-
-      body = I18n.translate(
-        type,
-        scope: scope + '.body',
-        count: order.tickets.count,
-        store: order.try(:store)&.name,
-        date: I18n.localize(order.date.date, format: '%-d. %B')
-      )
-
-      badge = Ticketing::Ticket.where('created_at >= ?', Time.zone.now.beginning_of_day).count
-
-      Ticketing::PushNotifications::Device.where(app: :stats).find_each do |device|
-        device.push(title: title, body: body, badge: badge, sound: 'cash.aif')
+      devices.find_each do |device|
+        device.push(notification_data)
       end
+    end
+
+    private
+
+    def devices
+      Ticketing::PushNotifications::Device.where(app: :stats)
+    end
+
+    def notification_data
+      {
+        title: title,
+        body: body,
+        badge: badge_number,
+        sound: 'cash.aif'
+      }
+    end
+
+    def title
+      I18n.translate(
+        :title,
+        scope: i18n_scope,
+        event: @order.event.name
+      )
+    end
+
+    def body
+      I18n.translate(
+        type,
+        scope: i18n_scope + '.body',
+        count: @order.tickets.count,
+        store: @order.try(:store)&.name,
+        box_office: @order.try(:box_office)&.name,
+        date: I18n.localize(@order.date.date, format: '%-d. %B')
+      )
+    end
+
+    def badge_number
+      Ticketing::Ticket.where(
+        'created_at >= ?', Time.current.beginning_of_day
+      ).count
+    end
+
+    def type
+      return :admin if @admin
+      return :web if @order.is_a? Web::Order
+      return :retail if @order.is_a? Retail::Order
+      return :box_office if @order.is_a? BoxOffice::Order
+    end
+
+    def i18n_scope
+      'ticketing.push_notifications.tickets_sold'
     end
   end
 end

@@ -85,16 +85,16 @@ module Ticketing
       ActiveRecord::Base.transaction do
         return unless @order.save
 
-        send_push_notifications
         update_node_seats
+      end
+
+      suppress_in_production(StandardError) do
+        send_push_notifications
       end
     end
 
     def send_push_notifications
-      # TODO: change remove cast to string in Rails 6
-      Ticketing::OrderPushNotificationsJob.perform_later(
-        @order, type: type.to_s
-      )
+      Ticketing::OrderPushNotificationsJob.perform_later(@order, admin: admin?)
     end
 
     def update_node_seats
