@@ -219,6 +219,7 @@ Rails.application.routes.draw do
 
         namespace :box_office do
           resources :orders, only: [:create]
+          resource :seating, only: :show
         end
       end
 
@@ -236,7 +237,6 @@ Rails.application.routes.draw do
         patch :cancel_tickets
         patch :enable_resale_for_tickets
         post :purchase
-        post :unlock_seats
         get :events
         get :products
         get :report

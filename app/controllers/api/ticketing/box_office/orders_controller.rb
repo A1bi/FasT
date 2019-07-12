@@ -1,28 +1,30 @@
 module Api
   module Ticketing
-    class OrdersController < ApplicationController
-      include OrderCreation
+    module BoxOffice
+      class OrdersController < ApplicationController
+        include OrderCreation
 
-      def create
-        @order = create_order
+        def create
+          @order = create_order
 
-        return if @order.persisted?
+          return if @order.persisted?
 
-        report_invalid_order
-        head :bad_request
-      end
+          report_invalid_order
+          head :bad_request
+        end
 
-      private
+        private
 
-      def order_params
-        params.permit(
-          :box_office_id, :socket_id,
-          order: [
-            :date,
-            tickets: {}
-          ]
-        )
-        params[:type] = :box_office
+        def order_params
+          params.permit(
+            :box_office_id, :socket_id,
+            order: [
+              :date,
+              tickets: {}
+            ]
+          )
+          params[:type] = :box_office
+        end
       end
     end
   end

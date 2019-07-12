@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Freilichtbühne am schiefen Turm e. V.</title>
+
+  <%= csrf_meta_tag %>
+
+  <%= stylesheet_link_tag "api", media: "all" %>
+  <%= javascript_include_tag "application" %>
+
+  <%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
+  <%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
+
+  <%= yield(:head) %>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

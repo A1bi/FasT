@@ -132,17 +132,6 @@ class Api::BoxOfficeController < ApplicationController
     render json: { order: info_for_order(@order) }
   end
 
-  def unlock_seats
-    seats = {}
-    Ticketing::ReservationGroup.where.not(id: 8).each do |reservation_group|
-      reservation_group.reservations.each do |reservation|
-        (seats[reservation.date.id] ||= []) << reservation.seat.id
-      end
-    end
-    NodeApi.seating_request("setExclusiveSeats", { seats: seats }, params[:seating_id]) if seats.any?
-    head :ok
-  end
-
   def events
     events = Ticketing::Event.current.map do |event|
       {

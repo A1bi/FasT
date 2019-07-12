@@ -1,0 +1,6 @@
+<% include_js "ticketing/box_office" %>
+<% include_css "ticketing/box_office" %>
+
+<div class="seat_chooser">
+  <%= render "application/ticketing/seating", class: %i[chooser stage], error_box: true, key: true, event: @event %>
+</div>

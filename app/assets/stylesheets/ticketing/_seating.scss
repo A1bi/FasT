@@ -87,13 +87,7 @@
       }
 
       .shield {
-        opacity: 0;
-        transition: opacity .2s;
-        cursor: pointer;
-
-        &:hover {
-          opacity: 1;
-        }
+        display: none;
       }
 
       .block {
@@ -117,19 +111,32 @@
             fill: black !important;
           }
         }
+      }
 
-        text {
+      &.zoomable {
+        .shield {
+          display: block;
+          opacity: 0;
+          transition: opacity .2s;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .seat text {
           display: none;
+        }
+
+        &.zoomed-in .shield {
+          opacity: 0;
+          pointer-events: none;
         }
       }
 
       &.numbers .seat text {
         display: inline;
-      }
-
-      &.zoomed-in .shield {
-        opacity: 0;
-        pointer-events: none;
       }
     }
 

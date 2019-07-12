@@ -1,0 +1,26 @@
+body {
+  margin: 0px;
+  font: {
+    family: "Arial", "DejaVu Sans";
+    size: 15px;
+  }
+}
+
+a {
+  text-decoration: underline;
+  color: #0064ec;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.plural_text {
+  .singular, .plural {
+    display: none;
+  }
+
+  &.singular .singular, &.plural .plural {
+    display: inline;
+  }
+}

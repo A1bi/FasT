@@ -1,8 +1,9 @@
 //= require socket.io-client/dist/socket.io.js
 
-function Seating(container, delegate) {
+function Seating(container, delegate, zoomable) {
   this.container = container;
   this.delegate = delegate;
+  this.zoomable = zoomable !== false;
   this.eventId = this.container.data('event-id');
   this.allSeats;
   this.seats = {};
@@ -24,34 +25,37 @@ function Seating(container, delegate) {
       this.svg = this.container.find('svg');
       this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin');
 
-      var content = this.svg.find('> g, > rect, > line, > path, > text');
-      var ns = 'http://www.w3.org/2000/svg';
-      this.globalGroup = document.createElementNS(ns, 'g');
-      if (this.globalGroup.classList) {
-        this.globalGroup.classList.add('global');
-      // IE workaround
-      } else {
-        this.globalGroup.className += ' global';
-      }
-      this.svg[0].appendChild(this.globalGroup);
-
-      for (var i = 0; i < content.length; i++) {
-        this.globalGroup.appendChild(content[i]);
-      }
-
-      this.globalGroup.addEventListener('transitionend', function (event) {
-        if (event.propertyName === 'transform') {
-          this.toggleClassesAfterZoom();
+      if (this.zoomable && this.svg.find('.block').length > 1) {
+        var content = this.svg.find('> g, > rect, > line, > path, > text');
+        var ns = 'http://www.w3.org/2000/svg';
+        this.globalGroup = document.createElementNS(ns, 'g');
+        if (this.globalGroup.classList) {
+          this.globalGroup.classList.add('global');
+        // IE workaround
+        } else {
+          this.globalGroup.className += ' global';
         }
-      }.bind(this));
+        this.svg[0].appendChild(this.globalGroup);
 
-      if (this.svg.find('.block').length === 1) {
-        this.svg.addClass('numbers');
+        for (var i = 0; i < content.length; i++) {
+          this.globalGroup.appendChild(content[i]);
+        }
 
-      } else {
+        this.globalGroup.addEventListener('transitionend', function (event) {
+          if (event.propertyName === 'transform') {
+            this.toggleClassesAfterZoom();
+          }
+        }.bind(this));
+
+        this.svg.addClass('zoomable');
+
         this.svg.find('.shield').click(function (event) {
           this.clickedShield(event.currentTarget);
         }.bind(this));
+
+        this.container.find('.unzoom').click(this.unzoom.bind(this));
+
+        this.unzoom();
       }
 
       this.allSeats = this.svg.find('.seat')
@@ -71,15 +75,15 @@ function Seating(container, delegate) {
           if (this.clickedSeat) this.clickedSeat($(event.currentTarget));
         }.bind(this));
 
-      this.container.find('.unzoom').click(this.unzoom.bind(this));
-
-      this.unzoom();
-
       if (this.key.length) {
         this.key.find('div').each(function (box) {
           var $this = $(this);
           var status = $this.data('status');
-          if (status) {
+
+          // if the status class is present, this key has already been
+          // created before (e.g. after a reinit of the seating)
+          // so in this case don't create it again
+          if (status && !$this.is('.status-' + status)) {
             $this.addClass('status-' + status);
 
             if ($this.is('.icon')) {
@@ -229,8 +233,8 @@ function Seating(container, delegate) {
   };
 };
 
-function SeatingStandalone(container) {
-  Seating.call(this, container);
+function SeatingStandalone(container, zoomable) {
+  Seating.call(this, container, zoomable);
 
   this.initPlan(function () {
     var path = this.container.data('seats-path');
@@ -261,8 +265,8 @@ function SeatingStandalone(container) {
   }.bind(this));
 };
 
-function SeatSelector(container, delegate) {
-  Seating.call(this, container, delegate);
+function SeatSelector(container, delegate, zoomable) {
+  Seating.call(this, container, delegate, zoomable);
 
   this.selectedSeats = [];
 
@@ -306,8 +310,8 @@ function SeatSelector(container, delegate) {
   }.bind(this));
 }
 
-function SeatChooser(container, delegate) {
-  Seating.call(this, container, delegate);
+function SeatChooser(container, delegate, zoomable) {
+  Seating.call(this, container, delegate, zoomable);
 
   this.date = null;
   this.seatsInfo = {};
@@ -394,6 +398,10 @@ function SeatChooser(container, delegate) {
       date: this.date,
       numberOfSeats: this.numberOfSeats
     }, callback);
+  };
+
+  this.reset = function () {
+    this.node.emit("reset");
   };
 
   this.updateErrorBox = function () {
