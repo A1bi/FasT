@@ -4,10 +4,18 @@ module Api
       class OrdersController < ApplicationController
         include OrderCreation
 
+        skip_before_action :verify_authenticity_token
+
         def create
           @order = create_order
 
-          return if @order.persisted?
+          if @order.persisted?
+            return render json: {
+              order: @order.api_hash(
+                %i[personal log_events tickets status billing], %i[status]
+              )
+            }
+          end
 
           report_invalid_order
           head :bad_request
@@ -16,14 +24,14 @@ module Api
         private
 
         def order_params
+          params[:type] = :box_office
           params.permit(
-            :box_office_id, :socket_id,
+            :type, :box_office_id, :socket_id,
             order: [
               :date,
               tickets: {}
             ]
           )
-          params[:type] = :box_office
         end
       end
     end
