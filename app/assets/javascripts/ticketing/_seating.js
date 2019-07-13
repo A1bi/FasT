@@ -520,10 +520,10 @@ function SeatChooser(container, delegate, zoomable, privileged) {
   this.initPlan(function () {
     this.node = io('/seating', {
       path: '/node',
-      reconnectionAttempts: 6,
+      reconnectionAttempts: this.privileged ? null : 6,
       query: {
         event_id: this.eventId,
-        privileged: this.privileged
+        privileged: !!this.privileged
       }
     });
 
