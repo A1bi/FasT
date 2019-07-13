@@ -16,7 +16,7 @@ module Ticketing
         outstanding_credit: orders_with_outstanding_credit
       }
 
-      @submissions = BankSubmission.where('created_at > ?', Time.now - 6.months).order(created_at: :desc)
+      @submissions = BankSubmission.last(10)
     end
 
     def mark_as_paid
