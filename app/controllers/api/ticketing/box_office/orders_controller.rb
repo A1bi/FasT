@@ -7,12 +7,15 @@ module Api
         skip_before_action :verify_authenticity_token
 
         def index
-          orders, ticket = search_orders
+          @orders, @ticket = search_orders
 
-          render json: {
-            ticket_id: ticket&.id.to_s,
-            orders: orders.map { |o| info_for_order(o) }
-          }
+          render_orders
+        end
+
+        def show
+          @order = ::Ticketing::Order.find(params[:id])
+
+          render_order
         end
 
         def create
@@ -23,9 +26,7 @@ module Api
             return head :bad_request
           end
 
-          render json: {
-            order: info_for_order(@order)
-          }
+          render_order
         end
 
         private
@@ -43,6 +44,19 @@ module Api
               tickets: {}
             ]
           )
+        end
+
+        def render_orders
+          render json: {
+            ticket_id: @ticket&.id.to_s,
+            orders: @orders.map { |o| info_for_order(o) }
+          }
+        end
+
+        def render_order
+          render json: {
+            order: info_for_order(@order)
+          }
         end
 
         def info_for_order(order)

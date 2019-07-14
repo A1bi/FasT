@@ -212,7 +212,7 @@ Rails.application.routes.draw do
         resources :orders, only: [:create]
 
         namespace :box_office do
-          resources :orders, only: %i[index create]
+          resources :orders, only: %i[index show create]
           resource :seating, only: :show
         end
       end
@@ -222,7 +222,6 @@ Rails.application.routes.draw do
         get "availability", action: :availability
       end
       scope controller: :box_office, path: :box_office do
-        get 'orders/:id', action: :order_show
         get :todays
         get :ticket_printable
         patch :pick_up_tickets

@@ -64,13 +64,6 @@ class Api::BoxOfficeController < ApplicationController
     render json: { ok: ok }
   end
 
-  def order_show
-    order = Ticketing::Order.find(params[:id])
-    render json: {
-      order: info_for_order(order)
-    }
-  end
-
   def todays
     orders = Ticketing::Order
              .unpaid
