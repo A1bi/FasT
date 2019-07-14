@@ -5,7 +5,9 @@
   <div class="hl">Bestellungen</div>
   <%= render "new_button", action: "neue Bestellung aufnehmen", url: orders_path(admin? ? :new_admin_ticketing_order : :new_ticketing_order) %>
   <%= render "search_form" %>
-  <% if admin? %>
+  <% if @orders[:search] %>
+    <%= render "application/ticketing/orders_table", table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders[:search], web: true, additional_columns: %i[date] %>
+  <% elsif admin? %>
     <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web], additional_columns: %i[date] %>
     <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail], additional_columns: %i[date] %>
   <% else %>

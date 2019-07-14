@@ -1,7 +1,8 @@
 module Ticketing
   class OrderSearchService < BaseService
-    def initialize(query)
+    def initialize(query, retail_store: nil)
       @query = query
+      @retail_store = retail_store
     end
 
     def execute
@@ -24,26 +25,25 @@ module Ticketing
       order_number, ticket_index = match_number_parts
       return nil if order_number.blank?
 
-      order = Ticketing::Order.find_by(number: order_number)
+      order = search_base.find_by(number: order_number)
       return order if ticket_index.blank?
 
-      ticket = order.tickets.find_by(order_index: ticket_index)
+      ticket = order.tickets.find_by(order_index: ticket_index) if order
       [order, ticket]
     end
 
     def orders_by_full_text_search
-      table = Ticketing::Order.arel_table
+      table = Order.arel_table
       matches = nil
 
-      search_terms.each do |term|
-        match = table[:first_name]
-                .matches("%#{term}%").or(
-                  table[:last_name].matches("%#{term}%")
-                )
-        matches = matches ? matches.or(match) : match
+      search_words.each do |word|
+        %i[first_name last_name affiliation].each do |column|
+          term = table[column].matches("%#{word}%")
+          matches = matches ? matches.or(term) : term
+        end
       end
 
-      Ticketing::Order.where(matches).order(:last_name, :first_name)
+      search_base.where(matches).order(:last_name, :first_name)
     end
 
     def match_number_parts
@@ -53,12 +53,16 @@ module Ticketing
     end
 
     def ticket_number_regex
-      max_digits = Ticketing::Order::NUMBER_DIGITS
+      max_digits = Order::NUMBER_DIGITS
       Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
     end
 
-    def search_terms
+    def search_words
       ActiveSupport::Inflector.transliterate(@query).split(' ').uniq << @query
+    end
+
+    def search_base
+      @retail_store ? @retail_store.orders : Order
     end
   end
 end

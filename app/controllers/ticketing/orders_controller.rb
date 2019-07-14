@@ -79,17 +79,28 @@ module Ticketing
 
     def index
       @orders = {}
-      @orders[:web] = Ticketing::Web::Order.all if admin?
-      @orders[:retail] = Ticketing::Retail::Order.includes(:store)
-      @orders[:retail].where!(store: @_retail_store) if retail?
 
-      @orders.each do |type, orders|
-        table = orders.arel_table
+      if params[:q].present?
+        found_orders, ticket = search_orders
+        return if redirect_order_number_match(found_orders, ticket)
+
+        @orders[:search] = found_orders
+
+      else
+        @orders[:web] = Ticketing::Web::Order.all if admin?
+        @orders[:retail] = Ticketing::Retail::Order.includes(:store)
+        @orders[:retail].where!(store: @_retail_store) if retail?
+        @orders.values.each do |orders|
+          orders
+            .where!('created_at > ?', 1.month.ago)
+            .limit!(20)
+        end
+      end
+
+      @orders.values.each do |orders|
         orders
           .includes!(:tickets)
-          .where!(table[:created_at].gt(Time.now - 1.month))
           .order!(created_at: :desc)
-          .limit!(20)
       end
     end
 
@@ -181,48 +192,6 @@ module Ticketing
       end
     end
 
-    def search
-      @orders = Ticketing::Order.none
-
-      if params[:q].present?
-        max_digits = Ticketing::Order::NUMBER_DIGITS
-        ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
-
-        if params[:q] =~ ticket_number_regex
-          order = Ticketing::Order.where(number: $1).first
-          if $3.present?
-            ticket_index = $3
-          end
-          if order
-            if retail? && (!order.is_a?(Ticketing::Retail::Order) || order.store != @_retail_store)
-              flash[:alert] = t("ticketing.orders.retail_access_denied")
-              return redirect_to orders_path(:ticketing_orders)
-            end
-
-            prms = { id: order.id }
-            prms.merge!({ ticket: ticket_index, anchor: :tickets }) if ticket_index
-            return redirect_to orders_path(:ticketing_order, prms)
-          end
-
-        else
-          table = Ticketing::Order.arel_table
-          if admin?
-            matches = nil
-            (params[:q] + " " + ActiveSupport::Inflector.transliterate(params[:q])).split(" ").uniq.each do |word|
-              %i[first_name last_name affiliation].each do |column|
-                term = table[column].matches("%#{word}%")
-                matches = matches ? matches.or(term) : term
-              end
-            end
-            @orders = Ticketing::Order.where(matches)
-          else
-            @orders = Ticketing::Retail::Order.where(store: @_retail_store).none
-          end
-          @orders.order!(:last_name, :first_name)
-        end
-      end
-    end
-
     private
 
     def set_event_info
@@ -236,6 +205,25 @@ module Ticketing
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.where("date > ?", Time.zone.now)
       @ticket_types = @event.ticket_types.order(exclusive: :desc, price: :desc)
+    end
+
+    def search_orders
+      Ticketing::OrderSearchService.new(
+        params[:q],
+        retail_store: retail_store
+      ).execute
+    end
+
+    def redirect_order_number_match(orders, ticket)
+      return false unless orders.count == 1
+
+      prms = { id: orders.first }
+      if ticket.present?
+        prms[:ticket] = ticket.order_index
+        prms[:anchor] = :tickets
+      end
+
+      redirect_to orders_path(:ticketing_order, prms)
     end
 
     def update_exclusive_seats(action, groups)
@@ -313,6 +301,10 @@ module Ticketing
 
     def update_order_params
       params.require(:ticketing_order).permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
+    end
+
+    def retail_store
+      retail? && @_retail_store.id ? @_retail_store : nil
     end
   end
 end

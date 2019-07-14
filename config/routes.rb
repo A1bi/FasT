@@ -118,9 +118,6 @@ Rails.application.routes.draw do
               get :seats
               post :create_billing
             end
-            collection do
-              get :search, path: "suche"
-            end
           end
         end
         scope controller: :payments, path: "zahlungen", as: :payments do
@@ -154,9 +151,6 @@ Rails.application.routes.draw do
               post :cancel
               get :seats
               post :create_billing
-            end
-            collection do
-              get :search, path: "suche"
             end
           end
         end
