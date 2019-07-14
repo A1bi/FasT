@@ -64,24 +64,6 @@ class Api::BoxOfficeController < ApplicationController
     render json: { ok: ok }
   end
 
-  def todays
-    orders = Ticketing::Order
-             .unpaid
-             .joins(tickets: :date)
-             .where(
-               ticketing_tickets: {
-                 cancellation_id: nil
-               },
-               ticketing_event_dates: {
-                 date: Date.today.all_day
-               }
-             )
-             .order(:last_name, :first_name)
-             .distinct
-
-    render_orders(orders)
-  end
-
   def ticket_printable
     pdf = TicketsBoxOfficePDF.new
     pdf.add_tickets(@tickets)
@@ -216,12 +198,5 @@ class Api::BoxOfficeController < ApplicationController
 
   def info_for_order(order)
     order.api_hash([:personal, :log_events, :tickets, :status, :billing], [:status])
-  end
-
-  def render_orders(orders, ticket = nil)
-    render json: {
-      ticket_id: ticket&.id&.to_s,
-      orders: orders.map { |o| info_for_order(o) }
-    }
   end
 end

@@ -87,6 +87,19 @@ module Ticketing
       where(paid: false)
     end
 
+    def self.event_today
+      joins(tickets: :date)
+        .where(
+          ticketing_tickets: {
+            cancellation_id: nil
+          },
+          ticketing_event_dates: {
+            date: Time.zone.today.all_day
+          }
+        )
+        .distinct
+    end
+
     def cancelled?
       tickets.cancelled(false).empty?
     end

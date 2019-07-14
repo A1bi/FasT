@@ -222,7 +222,6 @@ Rails.application.routes.draw do
         get "availability", action: :availability
       end
       scope controller: :box_office, path: :box_office do
-        get :todays
         get :ticket_printable
         patch :pick_up_tickets
         patch :cancel_order

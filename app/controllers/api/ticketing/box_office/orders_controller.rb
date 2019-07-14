@@ -7,7 +7,10 @@ module Api
         skip_before_action :verify_authenticity_token
 
         def index
-          @orders, @ticket = search_orders
+          @orders = ::Ticketing::Order
+          @orders = @orders.event_today if params[:event_today].present?
+          @orders = @orders.unpaid if params[:unpaid].present?
+          @orders, @ticket = search_orders if params[:q].present?
 
           render_orders
         end
@@ -32,7 +35,10 @@ module Api
         private
 
         def search_orders
-          ::Ticketing::OrderSearchService.new(params[:q]).execute
+          ::Ticketing::OrderSearchService.new(
+            params[:q],
+            search_base: @orders
+          ).execute
         end
 
         def order_params

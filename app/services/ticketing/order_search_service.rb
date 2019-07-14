@@ -1,8 +1,9 @@
 module Ticketing
   class OrderSearchService < BaseService
-    def initialize(query, retail_store: nil)
+    def initialize(query, retail_store: nil, search_base: nil)
       @query = query
       @retail_store = retail_store
+      @search_base = search_base
     end
 
     def execute
@@ -62,6 +63,8 @@ module Ticketing
     end
 
     def search_base
+      return @search_base if @search_base
+
       @retail_store ? @retail_store.orders : Order
     end
   end
