@@ -64,32 +64,6 @@ class Api::BoxOfficeController < ApplicationController
     render json: { ok: ok }
   end
 
-  def search
-    ticket = nil
-    orders = nil
-    if params[:q].present?
-      max_digits = Ticketing::Order::NUMBER_DIGITS
-      ticket_number_regex = Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
-      if params[:q] =~ ticket_number_regex
-        orders = Ticketing::Order.where(number: Regexp.last_match(1))
-        if orders.any? && Regexp.last_match(3).present?
-          ticket = orders.first.tickets.find_by_order_index(Regexp.last_match(3))
-        end
-
-      else
-        table = Ticketing::Order.arel_table
-        matches = nil
-        (params[:q] + " " + ActiveSupport::Inflector.transliterate(params[:q])).split(" ").uniq.each do |term|
-          match = table[:first_name].matches("%#{term}%").or(table[:last_name].matches("%#{term}%"))
-          matches = matches ? matches.or(match) : match
-        end
-        orders = Ticketing::Order.where(matches).order(:last_name, :first_name)
-      end
-    end
-
-    render_orders(orders, ticket)
-  end
-
   def order_show
     order = Ticketing::Order.find(params[:id])
     render json: {

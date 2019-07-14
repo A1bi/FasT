@@ -6,22 +6,33 @@ module Api
 
         skip_before_action :verify_authenticity_token
 
+        def index
+          orders, ticket = search_orders
+
+          render json: {
+            ticket_id: ticket&.id.to_s,
+            orders: orders.map { |o| info_for_order(o) }
+          }
+        end
+
         def create
           @order = create_order
 
-          if @order.persisted?
-            return render json: {
-              order: @order.api_hash(
-                %i[personal log_events tickets status billing], %i[status]
-              )
-            }
+          unless @order.persisted?
+            report_invalid_order
+            return head :bad_request
           end
 
-          report_invalid_order
-          head :bad_request
+          render json: {
+            order: info_for_order(@order)
+          }
         end
 
         private
+
+        def search_orders
+          ::Ticketing::OrderSearchService.new(params[:q]).execute
+        end
 
         def order_params
           params[:type] = :box_office
@@ -31,6 +42,12 @@ module Api
               :date,
               tickets: {}
             ]
+          )
+        end
+
+        def info_for_order(order)
+          order.api_hash(
+            %i[personal log_events tickets status billing], %i[status]
           )
         end
       end
