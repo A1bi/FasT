@@ -213,6 +213,12 @@ Rails.application.routes.draw do
 
         namespace :box_office do
           resources :orders, only: %i[index show create]
+          resources :tickets, only: [] do
+            collection do
+              get :show, constraints: { format: :pdf }
+              patch :update
+            end
+          end
           resource :seating, only: :show
         end
       end
@@ -222,8 +228,6 @@ Rails.application.routes.draw do
         get "availability", action: :availability
       end
       scope controller: :box_office, path: :box_office do
-        get :ticket_printable
-        patch :pick_up_tickets
         patch :cancel_order
         patch :cancel_tickets
         patch :enable_resale_for_tickets

@@ -1,7 +1,6 @@
 class Api::BoxOfficeController < ApplicationController
   ignore_authenticity_token
 
-  before_action :find_tickets, only: [:ticket_printable, :pick_up_tickets]
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
   before_action :find_box_office, only: [:purchase, :report, :bill]
 
@@ -62,17 +61,6 @@ class Api::BoxOfficeController < ApplicationController
     end
 
     render json: { ok: ok }
-  end
-
-  def ticket_printable
-    pdf = TicketsBoxOfficePDF.new
-    pdf.add_tickets(@tickets)
-    send_data pdf.render, type: "application/pdf", disposition: "inline"
-  end
-
-  def pick_up_tickets
-    @tickets.update_all(picked_up: true)
-    render json: {}
   end
 
   def enable_resale_for_tickets
@@ -171,10 +159,6 @@ class Api::BoxOfficeController < ApplicationController
   end
 
   private
-
-  def find_tickets
-    @tickets = Ticketing::Ticket.where(id: params[:ticket_ids])
-  end
 
   def find_tickets_with_order
     @order = Ticketing::Ticket.find(params[:ticket_ids].first).order
