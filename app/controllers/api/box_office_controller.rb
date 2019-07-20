@@ -4,16 +4,6 @@ class Api::BoxOfficeController < ApplicationController
   before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
   before_action :find_box_office, only: [:purchase, :report, :bill]
 
-  def cancel_order
-    order = Ticketing::BoxOffice::Order.find_by_id(params[:id])
-    if order
-      tickets = order.tickets.to_a
-      order.destroy
-      NodeApi.update_seats_from_records(tickets)
-    end
-    render json: {}
-  end
-
   def cancel_tickets
     @order.cancel_tickets(@tickets, :cancellation_at_box_office, false)
     save_order_and_update_node_with_tickets(@order, @tickets)

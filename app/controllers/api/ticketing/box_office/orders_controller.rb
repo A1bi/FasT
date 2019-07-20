@@ -6,8 +6,10 @@ module Api
 
         skip_before_action :verify_authenticity_token
 
+        before_action :find_order, only: :destroy
+
         def index
-          @orders = ::Ticketing::Order
+          @orders = ::Ticketing::Order.all
           @orders = @orders.event_today if params[:event_today].present?
           @orders = @orders.unpaid if params[:unpaid].present?
           @orders, @ticket = search_orders if params[:q].present?
@@ -32,7 +34,20 @@ module Api
           render_order
         end
 
+        def destroy
+          unless @order.is_a? ::Ticketing::BoxOffice::Order
+            return head :forbidden
+          end
+
+          ::Ticketing::OrderDestroyService.new(@order).execute
+          head :no_content
+        end
+
         private
+
+        def find_order
+          @order = ::Ticketing::Order.find(params[:id])
+        end
 
         def search_orders
           ::Ticketing::OrderSearchService.new(
