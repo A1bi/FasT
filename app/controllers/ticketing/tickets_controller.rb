@@ -18,9 +18,8 @@ module Ticketing
     end
 
     def enable_resale
-      @order.enable_resale_for_tickets(@tickets)
-
-      save_order_and_update_node_with_tickets(@order, @tickets)
+      @tickets = ::Ticketing::TicketUpdateService.new(@tickets, resale: true)
+                                                 .execute
 
       redirect_to_order_details :enabled_resale
     end
@@ -116,12 +115,6 @@ module Ticketing
 
     def find_event
       @event = @tickets.first.date.event
-    end
-
-    def save_order_and_update_node_with_tickets(order, tickets)
-      if order.save
-        NodeApi.update_seats_from_records(tickets)
-      end
     end
 
     def restrict_access

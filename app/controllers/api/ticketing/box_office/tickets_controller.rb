@@ -12,10 +12,7 @@ module Api
 
         def update
           cancel_tickets if params.dig(:ticket, :cancelled)
-
-          @tickets.each do |ticket|
-            ticket.update(ticket_params)
-          end
+          update_tickets
 
           head :ok
         end
@@ -33,7 +30,11 @@ module Api
         end
 
         def ticket_params
-          params.require(:ticket).permit(:picked_up)
+          params.require(:ticket).permit(:picked_up, :resale)
+        end
+
+        def update_tickets
+          ::Ticketing::TicketUpdateService.new(@tickets, ticket_params).execute
         end
 
         def cancel_tickets

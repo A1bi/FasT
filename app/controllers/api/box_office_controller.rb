@@ -1,7 +1,6 @@
 class Api::BoxOfficeController < ApplicationController
   ignore_authenticity_token
 
-  before_action :find_tickets_with_order, only: [:enable_resale_for_tickets]
   before_action :find_box_office, only: [:purchase, :report, :bill]
 
   def purchase
@@ -45,12 +44,6 @@ class Api::BoxOfficeController < ApplicationController
     end
 
     render json: { ok: ok }
-  end
-
-  def enable_resale_for_tickets
-    @order.enable_resale_for_tickets(@tickets)
-    save_order_and_update_node_with_tickets(@order, @tickets)
-    render json: { order: info_for_order(@order) }
   end
 
   def events
@@ -143,16 +136,6 @@ class Api::BoxOfficeController < ApplicationController
   end
 
   private
-
-  def find_tickets_with_order
-    @order = Ticketing::Ticket.find(params[:ticket_ids].first).order
-
-    # @tickets = order.tickets.cancelled(false).find(params[:ticket_ids])
-    # workaround: autosave is not triggered when fetching the tickets like shown above
-    @tickets = @order.tickets.select do |ticket|
-      params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
-    end
-  end
 
   def find_box_office
     @box_office = Ticketing::BoxOffice::BoxOffice.first

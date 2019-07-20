@@ -228,7 +228,6 @@ Rails.application.routes.draw do
         get "availability", action: :availability
       end
       scope controller: :box_office, path: :box_office do
-        patch :enable_resale_for_tickets
         post :purchase
         get :events
         get :products
