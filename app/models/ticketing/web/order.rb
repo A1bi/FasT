@@ -39,11 +39,6 @@ module Ticketing
       self.log(:resent_confirmation) if log
     end
 
-    def cancel_tickets(tickets, reason, send_mail = true)
-      super
-      enqueue_mailing(:cancellation, depends_on_commit: true, reason: reason.to_s) if send_mail
-    end
-
     def approve
       return if !bank_charge
       bank_charge.approved = true
@@ -70,8 +65,6 @@ module Ticketing
       log(:charge_submitted)
     end
 
-    private
-
     def enqueue_mailing(action, options = nil)
       return if email.blank?
 
@@ -84,17 +77,19 @@ module Ticketing
       end
     end
 
-    def send_queued_mails
-      @queued_mails&.each do |mail|
-        mail.deliver_later
-      end
-    end
-
     def update_total_and_billing(billing_note)
       old_total = total
       super
       # set default pay method when a free order (without a pay method set) turns into a non-free order
       self.pay_method = :cash if pay_method.blank? && old_total.zero? && total.positive?
+    end
+
+    private
+
+    def send_queued_mails
+      @queued_mails&.each do |mail|
+        mail.deliver_later
+      end
     end
 
     def update_paid

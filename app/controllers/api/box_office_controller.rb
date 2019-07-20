@@ -1,14 +1,8 @@
 class Api::BoxOfficeController < ApplicationController
   ignore_authenticity_token
 
-  before_action :find_tickets_with_order, only: [:cancel_tickets, :enable_resale_for_tickets]
+  before_action :find_tickets_with_order, only: [:enable_resale_for_tickets]
   before_action :find_box_office, only: [:purchase, :report, :bill]
-
-  def cancel_tickets
-    @order.cancel_tickets(@tickets, :cancellation_at_box_office, false)
-    save_order_and_update_node_with_tickets(@order, @tickets)
-    render json: { order: info_for_order(@order) }
-  end
 
   def purchase
     purchase = Ticketing::BoxOffice::Purchase.new

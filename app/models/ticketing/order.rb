@@ -56,16 +56,6 @@ module Ticketing
       log(:marked_as_paid)
     end
 
-    def cancel_tickets(tickets, reason, send_mail = true)
-      tickets.reject! { |t| t.cancelled? }
-      cancellation = nil
-      tickets.each do |ticket|
-        cancellation = ticket.cancel(cancellation || reason)
-      end
-      update_total_and_billing(:cancellation)
-      log(:tickets_cancelled, { count: tickets.count, reason: reason })
-    end
-
     def enable_resale_for_tickets(tickets)
       tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|
@@ -120,6 +110,18 @@ module Ticketing
       update_paid
     end
 
+    def update_total_and_billing(billing_note)
+      old_total = self.total
+
+      self.total = 0
+      tickets.each do |ticket|
+        self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
+      end
+
+      diff = old_total - self.total
+      deposit_into_account(diff, billing_note)
+    end
+
     private
 
     def update_date
@@ -136,18 +138,6 @@ module Ticketing
 
     def before_create
       log(:created)
-    end
-
-    def update_total_and_billing(billing_note)
-      old_total = self.total
-
-      self.total = 0
-      tickets.each do |ticket|
-        self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
-      end
-
-      diff = old_total - self.total
-      deposit_into_account(diff, billing_note)
     end
 
     def update_paid

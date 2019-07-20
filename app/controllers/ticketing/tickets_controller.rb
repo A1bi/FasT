@@ -7,12 +7,12 @@ module Ticketing
     before_action :restrict_access
 
     def cancel
-      @order.cancel_tickets(@tickets, params[:reason])
+      @tickets = ::Ticketing::TicketCancelService.new(@tickets, params[:reason])
+                                                 .execute
+
       if retail? && params[:refund]
         @order.cash_refund_in_store
       end
-
-      save_order_and_update_node_with_tickets(@order, @tickets)
 
       redirect_to_order_details :cancelled
     end
@@ -111,11 +111,7 @@ module Ticketing
       deny_access if retail? && !@order.is_a?(Ticketing::Retail::Order)
       @order.admin_validations = true if admin? && @order.is_a?(Ticketing::Web::Order)
 
-      # @tickets = @order.tickets.cancelled(false).find(params[:ticket_ids])
-      # workaround: autosave is not triggered when fetching the tickets like shown above
-      @tickets = @order.tickets.select do |ticket|
-        params[:ticket_ids].include?(ticket.id.to_s) && !ticket.cancelled?
-      end
+      @tickets = @order.tickets.cancelled(false).where(id: params[:ticket_ids])
     end
 
     def find_event

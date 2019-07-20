@@ -11,6 +11,8 @@ module Api
         end
 
         def update
+          cancel_tickets if params.dig(:ticket, :cancelled)
+
           @tickets.each do |ticket|
             ticket.update(ticket_params)
           end
@@ -32,6 +34,12 @@ module Api
 
         def ticket_params
           params.require(:ticket).permit(:picked_up)
+        end
+
+        def cancel_tickets
+          ::Ticketing::TicketCancelService.new(
+            @tickets, :cancellation_at_box_office
+          ).execute(send_customer_email: false)
         end
       end
     end
