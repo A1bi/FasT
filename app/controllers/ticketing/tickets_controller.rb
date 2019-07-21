@@ -1,7 +1,7 @@
 module Ticketing
   class TicketsController < BaseController
-    before_action :find_tickets_with_order, except: [:printable, :mark]
-    before_action :find_tickets, only: [:printable, :mark]
+    before_action :find_tickets_with_order, except: :printable
+    before_action :find_tickets, only: :printable
     before_action :find_event, only: [:transfer, :finish_transfer]
     ignore_restrictions
     before_action :restrict_access
@@ -50,43 +50,47 @@ module Ticketing
     end
 
     def finish_transfer
-      ok = true
-      bound_to_seats = @event.seating.bound_to_seats?
+      if (bound_to_seats = @event.seating.bound_to_seats?)
+        chosen_seats = NodeApi.get_chosen_seats(params[:socketId])
+      end
+      date = Ticketing::EventDate.find(params[:date_id])
+      updated_seats = {}
 
-      chosen_seats = NodeApi.get_chosen_seats(params[:socketId]) if bound_to_seats
+      @tickets.map! do |ticket|
+        ticket.date = date
+        ticket.seat = Ticketing::Seat.find(chosen_seats.shift) if bound_to_seats
 
-      if !bound_to_seats || (chosen_seats && @tickets.count == chosen_seats.count)
-        date = Ticketing::EventDate.find(params[:date_id])
+        next unless ticket.save && ticket.saved_changes?
 
         if bound_to_seats
-          updated_seats = {}
+          old_date_id = ticket.attribute_before_last_save(:date_id)
+          old_seat = Ticketing::Seat.find(
+            ticket.attribute_before_last_save(:seat_id)
+          )
 
-          @tickets.reject! do |ticket|
-            ticket.date == date && chosen_seats.delete(ticket.seat.id.to_s).present?
-          end
+          (updated_seats[ticket.date_id] || {})
+
+          updated_seats.deep_merge!(
+            old_date_id => Hash[[old_seat.node_hash(old_date_id, true)]]
+          )
+          updated_seats.deep_merge!(
+            ticket.date.id => Hash[[ticket.seat.node_hash(ticket.date.id,
+                                                          false)]]
+          )
         end
 
-        @tickets.each do |ticket|
-          if bound_to_seats
-            seat = Ticketing::Seat.find(chosen_seats.shift)
-            tmp = { ticket.date_id => Hash[[ticket.seat.node_hash(ticket.date_id, true)]] }
-            tmp.deep_merge!({ date.id => Hash[[seat.node_hash(date.id, false)]] })
-            updated_seats.deep_merge!(tmp)
-            ticket.seat = seat
-          end
-          ticket.date = date
-        end
-
-        @order.log(:tickets_transferred, { count: @tickets.count })
-        if @order.save && bound_to_seats
-          NodeApi.update_seats(updated_seats)
-        end
-
-        flash[:notice] = t("ticketing.tickets.edited", count: @tickets.count)
-      else
-        ok = false
+        ticket
       end
-      render json: { ok: ok }
+
+      @tickets.compact!
+      if @tickets.any?
+        @order.log(:tickets_transferred, count: @tickets.count)
+        @order.save
+        NodeApi.update_seats(updated_seats) if bound_to_seats
+      end
+
+      flash[:notice] = t('ticketing.tickets.edited', count: @tickets.count)
+      render json: { ok: true }
     end
 
     def printable
@@ -110,7 +114,8 @@ module Ticketing
       deny_access if retail? && !@order.is_a?(Ticketing::Retail::Order)
       @order.admin_validations = true if admin? && @order.is_a?(Ticketing::Web::Order)
 
-      @tickets = @order.tickets.cancelled(false).where(id: params[:ticket_ids])
+      @tickets = @order.tickets
+                       .cancelled(false).where(id: params[:ticket_ids]).to_a
     end
 
     def find_event

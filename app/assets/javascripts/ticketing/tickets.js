@@ -93,13 +93,11 @@ function TicketTransfer(container) {
 
   buttons.last().click(function () {
     if (!_this.chooser || _this.chooser.validate()) {
-      if (confirm($(this).data("confirm"))) {
-        _this.makeRequest("update", "patch", function (data) {
-          if (data.responseJSON.ok) {
-            _this.returnToOrder();
-          }
-        });
-      }
+      _this.makeRequest("update", "patch", function (data) {
+        if (data.responseJSON.ok) {
+          _this.returnToOrder();
+        }
+      });
     } else {
       $("body").animate({ scrollTop: _this.box.position().top });
     }

@@ -57,9 +57,8 @@ module Ticketing
     end
 
     def edit_ticket_types(tickets, types)
-      tickets.reject! { |t| t.cancelled? }
       tickets.each do |ticket|
-        ticket.type = TicketType.find(types[ticket.id])
+        ticket.update(type: TicketType.find(types[ticket.id]))
       end
       update_total_and_billing(:ticket_types_edited)
       log(:ticket_types_edited, { count: tickets.count })
