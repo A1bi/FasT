@@ -5,8 +5,12 @@ module Api
 
       private
 
-      def create_order
-        ::Ticketing::OrderCreateService.new(order_params, nil).execute
+      def create_order(box_office: nil)
+        ::Ticketing::OrderCreateService.new(
+          order_params,
+          current_user: current_user,
+          current_box_office: box_office
+        ).execute
       end
 
       def report_invalid_order

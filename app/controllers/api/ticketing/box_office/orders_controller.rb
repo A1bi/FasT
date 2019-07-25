@@ -1,10 +1,8 @@
 module Api
   module Ticketing
     module BoxOffice
-      class OrdersController < ApplicationController
+      class OrdersController < BaseController
         include OrderCreation
-
-        skip_before_action :verify_authenticity_token
 
         before_action :find_order, only: :destroy
 
@@ -24,7 +22,7 @@ module Api
         end
 
         def create
-          @order = create_order
+          @order = create_order(box_office: current_box_office)
 
           unless @order.persisted?
             report_invalid_order

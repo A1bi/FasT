@@ -4,9 +4,11 @@ module Ticketing
 
     include OrderingType
 
-    def initialize(params, current_user)
-      @params = params
-      @current_user = current_user
+    attr_accessor :current_box_office
+
+    def initialize(params, current_user: nil, current_box_office: nil)
+      super(current_user, params)
+      @current_box_office = current_box_office
     end
 
     def execute
@@ -17,9 +19,7 @@ module Ticketing
         @order.store = store
 
       elsif box_office?
-        box_office = Ticketing::BoxOffice::BoxOffice
-                     .find_by(id: params[:box_office_id])
-        @order.box_office = box_office
+        @order.box_office = current_box_office
 
       else
         @order.admin_validations = admin?

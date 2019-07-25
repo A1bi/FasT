@@ -1,7 +1,7 @@
 module Api
   module Ticketing
     module BoxOffice
-      class SeatingsController < ApplicationController
+      class SeatingsController < BaseController
         before_action :find_event
 
         def show
