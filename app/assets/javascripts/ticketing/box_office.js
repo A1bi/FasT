@@ -32,15 +32,23 @@ function BoxOfficeSeating() {
     this.reinit();
   };
 
-  this.seatChooserIsReconnecting = function () {};
+  this.seatChooserIsReconnecting = function () {
+    this.connecting();
+  };
 
   this.init = function () {
     this.chooser = new SeatChooser(seatingBox, this, false, true);
   };
 
   this.reinit = function () {
+    this.connecting();
+
     clearTimeout(this.reinitTimeout);
     this.reinitTimeout = setTimeout(this.init.bind(this), 1000);
+  };
+
+  this.connecting = function () {
+    this.postMessage({ event: 'connecting' });
   };
 
   this.postMessage = function (data) {
