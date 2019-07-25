@@ -220,6 +220,7 @@ Rails.application.routes.draw do
             end
           end
           resource :seating, only: :show
+          resources :transactions, only: %i[index create]
         end
       end
 
@@ -231,8 +232,6 @@ Rails.application.routes.draw do
         post :purchase
         get :events
         get :products
-        get :report
-        post :bill
       end
       scope controller: :check_in, path: :check_in do
         get "/", action: :index
