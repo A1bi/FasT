@@ -1,6 +1,6 @@
 <div class="restaurants hcen">
   <div class="hl">
-    <div class="small">Vor dem Theater noch den Gaumen verwöhnen</div>
+    <div class="small">Vor dem <%= local_assigns.fetch(:event_type, 'Theater') %> noch den Gaumen verwöhnen</div>
   </div>
   <ul>
     <li>Deutsch-Französisch im <%= link_to "Waldhotel Kurfürst", "http://www.waldhotel-kurfuerst.de/", target: :_blank %></li>
