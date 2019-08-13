@@ -35,6 +35,15 @@
       width: 250px;
     }
   }
+
+  .video {
+    box-sizing: border-box;
+    margin: 30px 100px;
+
+    video {
+      width: 100%;
+    }
+  }
 }
 
 .container {

@@ -23,6 +23,7 @@
           | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
         <% end %>
       </div>
+      <%= render 'dates/sahnemixx_video' if event.identifier == 'sahnemixx' %>
     </div>
     <div class="trenner"></div>
   <% end %>
