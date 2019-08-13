@@ -211,6 +211,7 @@ Rails.application.routes.draw do
         resources :orders, only: [:create]
 
         namespace :box_office do
+          resources :events, only: :index
           resources :orders, only: %i[index show create destroy]
           resources :tickets, only: [] do
             collection do
@@ -230,7 +231,6 @@ Rails.application.routes.draw do
       resources :members, only: [:index, :show]
       scope controller: :box_office, path: :box_office do
         post :purchase
-        get :events
         get :products
       end
       scope controller: :check_in, path: :check_in do
