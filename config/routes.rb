@@ -221,12 +221,13 @@ Rails.application.routes.draw do
           resource :seating, only: :show
           resources :transactions, only: %i[index create]
         end
+
+        namespace :node do
+          resources :events, only: :index
+        end
       end
 
       resources :members, only: [:index, :show]
-      scope controller: :seats, path: :seats, as: :seats do
-        get "availability", action: :availability
-      end
       scope controller: :box_office, path: :box_office do
         post :purchase
         get :events
