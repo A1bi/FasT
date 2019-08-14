@@ -220,6 +220,7 @@ Rails.application.routes.draw do
               patch :update
             end
           end
+          resources :purchases, only: :create
           resource :seating, only: :show
           resources :transactions, only: %i[index create]
         end
@@ -230,9 +231,6 @@ Rails.application.routes.draw do
       end
 
       resources :members, only: [:index, :show]
-      scope controller: :box_office, path: :box_office do
-        post :purchase
-      end
       scope controller: :check_in, path: :check_in do
         get "/", action: :index
         post "/", action: :create
