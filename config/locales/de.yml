@@ -32,6 +32,7 @@ de:
       destroyed: "Das Mitglied wurde erfolgreich gelöscht."
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
       joined_date_unknown: vor 2013, genaues Datum unbekannt
+      never_logged_in: noch nie
     newsletters:
       preview_sent: "Eine Vorschau wurde verschickt."
       finished: "Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt."
