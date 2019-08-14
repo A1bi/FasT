@@ -81,6 +81,7 @@ de:
       created_billing: "Die Zahlung wurde verbucht."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       sale_ended: "Tickets zu „%{event}“ sind nicht mehr erhältlich."
+      sale_disabled_for_store: Der Ticketverkauf ist für diese Vorverkaufsstelle derzeit nicht freigeschaltet.
       retail_access_denied: "Die angegebene Bestellung wurde nicht von dieser Vorverkaufsstelle aufgegeben und kann deshalb nicht eingesehen werden."
       pay_methods:
         charge: "SEPA-Lastschrift"

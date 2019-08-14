@@ -18,6 +18,9 @@ Metrics/BlockLength:
     - 'lib/tasks/*.rake'
     - 'app/views/**/*.jbuilder'
 
+Metrics/ClassLength:
+  Enabled: false
+
 Metrics/MethodLength:
   Max: 25
 

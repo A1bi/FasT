@@ -7,7 +7,7 @@ module Ticketing
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
     def self.upcoming
-      where('ticketing_event_dates.date > ?', Time.current)
+      where('date > ?', Time.current)
     end
 
     def sold_out?

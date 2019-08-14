@@ -39,11 +39,15 @@ module Ticketing
     private
 
     def validate_event
-      if date.event.sale_disabled? && !current_user&.admin?
+      if sale_disabled?
         @order.errors.add(:event, 'Ticket sale currently disabled')
       end
 
-      @order.errors.add(:event, 'Sold out') if date.sold_out? && !admin?
+      if sale_disabled_for_store?
+        @order.errors.add(:store, 'Ticket sale disabled for this retail store')
+      end
+
+      @order.errors.add(:event, 'Sold out') if sold_out?
     end
 
     def create_tickets
@@ -119,6 +123,18 @@ module Ticketing
 
     def date
       @date ||= Ticketing::EventDate.find(order_params[:date])
+    end
+
+    def sale_disabled?
+      date.event.sale_disabled? && !current_user&.admin?
+    end
+
+    def sale_disabled_for_store?
+      retail? && !@order.store&.sale_enabled?
+    end
+
+    def sold_out?
+      date.sold_out? && !admin?
     end
   end
 end

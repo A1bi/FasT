@@ -2,6 +2,7 @@ module Ticketing
   class OrdersController < BaseController
     ignore_restrictions
     before_action :restrict_access
+    before_action :check_retail_sale_enabled, only: :new_retail
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
     before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :cancel, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
@@ -203,7 +204,7 @@ module Ticketing
       end
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
-      @dates = @event.dates.where("date > ?", Time.zone.now)
+      @dates = @event.dates.upcoming
       @ticket_types = @event.ticket_types.order(exclusive: :desc, price: :desc)
     end
 
@@ -293,6 +294,13 @@ module Ticketing
           return redirect_to root_path, alert: t("application.access_denied")
         end
       end
+    end
+
+    def check_retail_sale_enabled
+      return if @_retail_store.sale_enabled
+
+      redirect_to ticketing_retail_orders_path,
+                  alert: t('.sale_disabled_for_store')
     end
 
     def redirect_if_no_web_order

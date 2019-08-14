@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_03_125200) do
+ActiveRecord::Schema.define(version: 2019_08_14_122151) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -384,6 +384,7 @@ ActiveRecord::Schema.define(version: 2019_05_03_125200) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "password_digest"
+    t.boolean "sale_enabled", default: false, null: false
   end
 
   create_table "ticketing_seatings", force: :cascade do |t|
