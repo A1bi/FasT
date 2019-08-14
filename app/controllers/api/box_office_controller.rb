@@ -46,18 +46,6 @@ class Api::BoxOfficeController < ApplicationController
     render json: { ok: ok }
   end
 
-  def products
-    render json: {
-      products: Ticketing::BoxOffice::Product.all.map do |product|
-        {
-          id: product.id,
-          name: product.name,
-          price: product.price
-        }
-      end
-    }
-  end
-
   private
 
   def find_box_office
