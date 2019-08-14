@@ -5,7 +5,7 @@ module Admin
         return content_tag(:em, t('admin.members.joined_date_unknown'))
       end
 
-      l member.created_at.to_date, format: '%-d. %B %Y'
+      l member.created_at, format: '%-d. %B %Y'
     end
 
     def last_login_time(member)
@@ -13,7 +13,7 @@ module Admin
         return content_tag :em, t('admin.members.never_logged_in')
       end
 
-      l member.created_at.to_date, format: '%-d. %B %Y, %H:%M Uhr'
+      l member.last_login, format: '%-d. %B %Y, %H:%M Uhr'
     end
   end
 end

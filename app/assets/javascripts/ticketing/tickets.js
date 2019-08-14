@@ -57,9 +57,13 @@ function TicketTransfer(container) {
     });
   };
 
+  this.seatChooserIsReconnecting = function () {};
+
   this.seatChooserDisconnected = function () {
     alert("Die Verbindung zum Server wurde unterbrochen.");
   };
+
+  this.seatChooserCouldNotReconnect = this.seatChooserDisconnected;
 
   this.seatChooserCouldNotConnect = function () {
     alert("Derzeit ist keine Umbuchung möglich.");
