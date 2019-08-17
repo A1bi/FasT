@@ -10,12 +10,16 @@ module Ticketing
 
     after_initialize :after_initialize
 
+    def self.active
+      where(active: true)
+    end
+
     def self.random_active
       (@@minimum_number_of_keys - count).times do
         create
       end
 
-      where(active: true).offset(rand(count)).first
+      active.offset(rand(count)).first
     end
 
     def sign_ticket(ticket, params = {})

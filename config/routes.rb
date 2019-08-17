@@ -225,16 +225,14 @@ Rails.application.routes.draw do
           resources :transactions, only: %i[index create]
         end
 
+        resources :check_ins, only: %i[index create]
+
         namespace :node do
           resources :events, only: :index
         end
       end
 
       resources :members, only: [:index, :show]
-      scope controller: :check_in, path: :check_in do
-        get "/", action: :index
-        post "/", action: :create
-      end
       post "push_notifications" => "push_notifications#register"
     end
 
