@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   host: localhost
   database: fast_development
-  user: fast_development
+  user: postgres
   pool: 5
   timeout: 5000
 
@@ -13,7 +13,7 @@ test:
   adapter: postgresql
   host: localhost
   database: fast_test
-  username: fast_test
+  username: postgres
   pool: 5
   timeout: 5000
 
