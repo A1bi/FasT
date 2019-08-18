@@ -2,7 +2,8 @@ module Ticketing
   class Event < BaseModel
     include Statistics
 
-    has_many :dates, -> { order(:date) }, class_name: 'EventDate'
+    has_many :dates, -> { order(:date) }, class_name: 'EventDate',
+                                          inverse_of: :event
     has_many :ticket_types, dependent: :destroy
     belongs_to :seating
 
