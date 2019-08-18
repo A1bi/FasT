@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 2019_08_14_170321) do
   end
 
   create_table "passbook_logs", force: :cascade do |t|
-    t.text "message", limit: 500
+    t.text "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -345,7 +345,7 @@ ActiveRecord::Schema.define(version: 2019_08_14_170321) do
     t.integer "gender"
     t.string "phone"
     t.string "plz"
-    t.integer "pay_method", limit: 255
+    t.integer "pay_method"
     t.integer "store_id"
     t.string "type"
     t.datetime "created_at"

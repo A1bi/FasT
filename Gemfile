@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2.2'
 
+gem 'pg'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -85,15 +87,10 @@ group :development do
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-sidekiq', '~> 1.0.2', require: false
-  gem 'sqlite3', '~> 1.4.0'
   gem 'ffaker', '~> 2.11.0'
   gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'byebug'
-end
-
-group :staging, :production do
-  gem 'mysql2', '~> 0.5.1'
 end
 
 # To use debugger
