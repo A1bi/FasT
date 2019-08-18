@@ -48,11 +48,7 @@ module Ticketing
 
       tickets = Ticketing::Ticket.where("ticketing_tickets.created_at > ?", range.min)
       stats = Rails.cache.fetch [:ticketing, :statistics, :daily, tickets] do
-        if ActiveRecord::Base.connection.adapter_name == "SQLite"
-          t = tickets.group("DATE(ticketing_tickets.created_at)")
-        else
-          t = tickets.group_by_day("ticketing_tickets.created_at")
-        end
+        t = tickets.group_by_day("ticketing_tickets.created_at")
         t.includes(:order).group("ticketing_orders.type").count(:id)
       end
 
