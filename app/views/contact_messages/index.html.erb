@@ -33,7 +33,10 @@
       </tr>
       <tr>
         <td>Nachricht:</td>
-        <td><%= f.text_area :content, required: true %></td>
+        <td>
+          <%= f.text_area :content, required: true %>
+          <%= text_area_tag :comment, nil, 'aria-hidden': true, tabindex: -1 %>
+        </td>
       </tr>
     </table>
     <div class="submit">

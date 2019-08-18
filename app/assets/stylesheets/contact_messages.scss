@@ -17,3 +17,13 @@ textarea {
 input[type='text'], input[type='email'], input[type='tel'], textarea {
   width: 90%;
 }
+
+[name='comment'] {
+  padding: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute;
+  white-space: nowrap;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
