@@ -11,12 +11,14 @@ module Ticketing
     end
 
     def taken?(date = nil)
-      return !taken.zero? if !date
+      return taken unless date
+
       tickets.where(date_id: date, invalidated: false).any?
     end
 
     def reserved?(date = nil)
-      return !reserved.zero? if !date
+      return reserved unless date
+
       reservations.where(date_id: date).any?
     end
 
