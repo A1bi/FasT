@@ -29,6 +29,21 @@
       }
     }
   }
+
+  table.plays {
+    text-align: left;
+    font-size: 25px;
+    padding-top: 10px;
+
+    tr td {
+      padding-left: 20px;
+      padding-bottom: 20px;
+
+      div {
+        padding-top: 10px;
+      }
+    }
+  }
 }
 
 .cast {
