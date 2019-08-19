@@ -1,7 +1,7 @@
 module Ticketing
   class SigningKey < BaseModel
-    @@minimum_number_of_keys = 5
-    @@secret_length = 32
+    MINIMUM_NUMBER_OF_KEYS = 5
+    SECRET_LENGTH = 32
 
     attr_readonly :secret
 
@@ -15,7 +15,7 @@ module Ticketing
     end
 
     def self.random_active
-      (@@minimum_number_of_keys - count).times do
+      (MINIMUM_NUMBER_OF_KEYS - count).times do
         create
       end
 
@@ -66,7 +66,7 @@ module Ticketing
     def after_initialize
       if new_record?
         self[:active] = true
-        self[:secret] = SecureRandom.hex(@@secret_length)
+        self[:secret] = SecureRandom.hex(SECRET_LENGTH / 2)
       end
     end
 
