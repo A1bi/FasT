@@ -44,8 +44,6 @@ gem 'dalli', '~> 2.7.8'
 
 gem 'sidekiq', '~> 5.2.2'
 
-gem 'groupdate', '~> 4.1.0'
-
 gem 'auto_strip_attributes', '~> 2.0'
 
 gem 'phony_rails', '~> 0.14.2'
