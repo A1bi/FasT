@@ -16,28 +16,32 @@ module Ticketing
     end
 
     def index_retail
-      if !@_retail_store.id
-        return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
+      unless @_retail_store.id
+        return redirect_to ticketing_retail_login_path, flash: {
+          warning: t('application.login_required')
+        }
       end
+
       @transfers = @_retail_store.billing_account.transfers.order(:created_at)
     end
 
     def seats
       date = Ticketing::EventDate.find params[:date_id]
-      seats = if date.event.seating.bound_to_seats?
-                Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
-                  status = if !seat.taken?
-                             seat.reserved? ? 2 : 1
-                           else
-                             0
-                           end
-                  [seat.id, status]
-                end
-              else
-                []
-              end
 
-      render_cached_json [:ticketing, :statistics, :seats, date, Ticketing::Seat.all, Ticketing::Ticket.all] do
+      render_cached_json seats_cache_key(date) do
+        seats = if date.event.seating.bound_to_seats?
+                  Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
+                    status = if !seat.taken?
+                               seat.reserved? ? 2 : 1
+                             else
+                               0
+                             end
+                    [seat.id, status]
+                  end
+                else
+                  []
+                end
+
         { seats: seats }
       end
     end
@@ -98,6 +102,13 @@ module Ticketing
 
     def daily_stats_range
       18.days.ago.to_date..Time.zone.today
+    end
+
+    def seats_cache_key(date)
+      [
+        :ticketing, :statistics, :seats,
+        date, Ticketing::Seat.all, Ticketing::Ticket.all
+      ]
     end
   end
 end
