@@ -14,6 +14,8 @@ $(function () {
   var seatingBoxes = $(".seating");
   if (seatingBoxes.length) {
     $.getJSON(seatingBoxes.first().data("additional-path"), function (data) {
+      if (!data) return;
+
       seatingBoxes.each(function () {
         var $this = $(this);
         var dateSeats = data.seats[$this.data("date")];

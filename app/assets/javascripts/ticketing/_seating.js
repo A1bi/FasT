@@ -21,8 +21,20 @@ function Seating(container, delegate, zoomable) {
 
     this.container.find('.unsupported-browser').toggle(isIE);
 
-    this.plan.find('.canvas').load(this.container.data('plan-path'), function () {
+    this.plan.find('.canvas').load(this.container.data('plan-path'), function (response, _status, xhr) {
       this.svg = this.container.find('svg');
+
+      if (!_res || !this.svg.length) {
+        Raven.captureMessage('Failed to load seating SVG', {
+          extra: {
+            xhr_response: response,
+            xhr_status: xhr.status,
+            xhr_status_text: xhr.statusText
+          }
+        });
+        return;
+      }
+
       this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin');
 
       if (this.zoomable && this.svg.find('.block').length > 1) {
@@ -240,6 +252,8 @@ function SeatingStandalone(container, zoomable) {
     var path = this.container.data('seats-path');
     if (path) {
       $.getJSON(path, function (response) {
+        if (!response) return;
+
         if (this.container.is('.chosen')) {
           ['taken', 'chosen'].forEach(function (type) {
             if (!response[type]) return;
