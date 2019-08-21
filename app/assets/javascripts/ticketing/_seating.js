@@ -24,7 +24,7 @@ function Seating(container, delegate, zoomable) {
     this.plan.find('.canvas').load(this.container.data('plan-path'), function (response, _status, xhr) {
       this.svg = this.container.find('svg');
 
-      if (!_res || !this.svg.length) {
+      if (!response || !this.svg.length) {
         Raven.captureMessage('Failed to load seating SVG', {
           extra: {
             xhr_response: response,
