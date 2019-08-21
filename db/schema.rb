@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_21_201505) do
+ActiveRecord::Schema.define(version: 2019_08_21_221505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -66,9 +66,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "members_exclusive_ticket_type_credit_spendings", force: :cascade do |t|
-    t.integer "member_id"
-    t.integer "ticket_type_id"
-    t.integer "order_id"
+    t.bigint "member_id"
+    t.bigint "ticket_type_id"
+    t.bigint "order_id"
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "members_exclusive_ticket_type_credits", force: :cascade do |t|
-    t.integer "ticket_type_id"
+    t.bigint "ticket_type_id"
     t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.integer "newsletter_id", null: false
+    t.bigint "newsletter_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["newsletter_id"], name: "index_newsletter_images_on_newsletter_id"
@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "newsletter_newsletters_subscriber_lists", id: false, force: :cascade do |t|
-    t.integer "newsletter_id"
-    t.integer "subscriber_list_id"
+    t.bigint "newsletter_id"
+    t.bigint "subscriber_list_id"
     t.index ["newsletter_id"], name: "index_newsletter_newsletters_subscriber_lists_on_letter_id"
     t.index ["subscriber_list_id"], name: "index_newsletter_newsletters_subscriber_lists_on_list_id"
   end
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.datetime "updated_at"
     t.integer "gender"
     t.string "last_name"
-    t.integer "subscriber_list_id", default: 1, null: false
+    t.bigint "subscriber_list_id", default: 1, null: false
     t.datetime "confirmed_at"
     t.index ["subscriber_list_id"], name: "index_newsletter_subscribers_on_subscriber_list_id"
   end
@@ -157,13 +157,13 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "filename"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "assignable_id"
+    t.bigint "assignable_id"
     t.string "assignable_type"
   end
 
   create_table "passbook_registrations", force: :cascade do |t|
-    t.integer "pass_id"
-    t.integer "device_id"
+    t.bigint "pass_id"
+    t.bigint "device_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -171,7 +171,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   create_table "photos", force: :cascade do |t|
     t.text "text"
     t.integer "position"
-    t.integer "gallery_id"
+    t.bigint "gallery_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "image_file_name"
@@ -185,11 +185,11 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "name"
     t.string "iban"
     t.string "chargeable_type"
-    t.integer "chargeable_id"
+    t.bigint "chargeable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "approved", default: false
-    t.integer "submission_id"
+    t.bigint "submission_id"
     t.decimal "amount", default: "0.0", null: false
   end
 
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
 
   create_table "ticketing_billing_accounts", force: :cascade do |t|
     t.decimal "balance", default: "0.0", null: false
-    t.integer "billable_id", null: false
+    t.bigint "billable_id", null: false
     t.string "billable_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -210,9 +210,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   create_table "ticketing_billing_transfers", force: :cascade do |t|
     t.decimal "amount", default: "0.0", null: false
     t.string "note_key"
-    t.integer "account_id", null: false
-    t.integer "participant_id"
-    t.integer "reverse_transfer_id"
+    t.bigint "account_id", null: false
+    t.bigint "participant_id"
+    t.bigint "reverse_transfer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_ticketing_billing_transfers_on_account_id"
@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "seating_id", default: 1, null: false
+    t.bigint "seating_id", default: 1, null: false
     t.string "entrance"
   end
 
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
 
   create_table "ticketing_box_office_order_payments", force: :cascade do |t|
     t.decimal "amount", default: "0.0", null: false
-    t.integer "order_id"
+    t.bigint "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "ticketing_box_office_purchase_items", force: :cascade do |t|
-    t.integer "purchase_id"
-    t.integer "purchasable_id"
+    t.bigint "purchase_id"
+    t.bigint "purchasable_id"
     t.string "purchasable_type"
     t.float "total"
     t.integer "number"
@@ -264,7 +264,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "ticketing_box_office_purchases", force: :cascade do |t|
-    t.integer "box_office_id"
+    t.bigint "box_office_id"
     t.float "total"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -278,15 +278,15 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "ticketing_check_ins", force: :cascade do |t|
-    t.integer "ticket_id"
-    t.integer "checkpoint_id"
+    t.bigint "ticket_id"
+    t.bigint "checkpoint_id"
     t.integer "medium"
     t.datetime "date"
   end
 
   create_table "ticketing_coupon_redemptions", force: :cascade do |t|
-    t.integer "coupon_id", null: false
-    t.integer "order_id", null: false
+    t.bigint "coupon_id", null: false
+    t.bigint "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -302,13 +302,13 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   end
 
   create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|
-    t.integer "coupon_id"
-    t.integer "reservation_group_id"
+    t.bigint "coupon_id"
+    t.bigint "reservation_group_id"
   end
 
   create_table "ticketing_event_dates", force: :cascade do |t|
     t.datetime "date"
-    t.integer "event_id"
+    t.bigint "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.datetime "updated_at"
     t.string "identifier"
     t.datetime "sale_start"
-    t.integer "seating_id", default: 1, null: false
+    t.bigint "seating_id", default: 1, null: false
     t.string "location"
     t.string "slug"
     t.boolean "archived", default: false
@@ -331,9 +331,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   create_table "ticketing_log_events", force: :cascade do |t|
     t.string "name"
     t.string "info"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "loggable_type"
-    t.integer "loggable_id"
+    t.bigint "loggable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -349,12 +349,12 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "phone"
     t.string "plz"
     t.integer "pay_method"
-    t.integer "store_id"
+    t.bigint "store_id"
     t.string "type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "box_office_id"
-    t.integer "date_id"
+    t.bigint "box_office_id"
+    t.bigint "date_id"
     t.string "affiliation"
     t.index ["date_id"], name: "index_ticketing_orders_on_date_id"
   end
@@ -375,11 +375,11 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
 
   create_table "ticketing_reservations", force: :cascade do |t|
     t.datetime "expires"
-    t.integer "date_id"
-    t.integer "seat_id"
+    t.bigint "date_id"
+    t.bigint "seat_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "group_id"
+    t.bigint "group_id"
   end
 
   create_table "ticketing_retail_stores", force: :cascade do |t|
@@ -401,7 +401,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
   create_table "ticketing_seats", force: :cascade do |t|
     t.integer "number"
     t.integer "row"
-    t.integer "block_id"
+    t.bigint "block_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -420,19 +420,19 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.datetime "updated_at"
     t.string "info"
     t.boolean "exclusive", default: false
-    t.integer "event_id"
+    t.bigint "event_id"
     t.index ["event_id"], name: "index_ticketing_ticket_types_on_event_id"
   end
 
   create_table "ticketing_tickets", force: :cascade do |t|
     t.decimal "price", default: "0.0", null: false
-    t.integer "order_id"
-    t.integer "cancellation_id"
-    t.integer "type_id"
+    t.bigint "order_id"
+    t.bigint "cancellation_id"
+    t.bigint "type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "seat_id"
-    t.integer "date_id"
+    t.bigint "seat_id"
+    t.bigint "date_id"
     t.boolean "picked_up", default: false
     t.boolean "resale", default: false
     t.boolean "invalidated", default: false
@@ -452,11 +452,12 @@ ActiveRecord::Schema.define(version: 2019_08_21_201505) do
     t.string "activation_code"
     t.date "birthday"
     t.string "nickname"
-    t.integer "family_id"
+    t.bigint "family_id"
     t.string "type"
     t.index ["family_id"], name: "index_users_on_family_id"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "members_exclusive_ticket_type_credit_spendings", "ticketing_orders", column: "order_id"
   add_foreign_key "members_exclusive_ticket_type_credit_spendings", "ticketing_ticket_types", column: "ticket_type_id"
   add_foreign_key "members_exclusive_ticket_type_credit_spendings", "users", column: "member_id"

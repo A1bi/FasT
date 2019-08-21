@@ -1,5 +1,7 @@
 class AddForeignKeys < ActiveRecord::Migration[5.2]
   def change
+    add_foreign_key :active_storage_attachments, :active_storage_blobs, column: :blob_id
+
     add_foreign_key :members_exclusive_ticket_type_credit_spendings, :users, column: :member_id
     add_foreign_key :members_exclusive_ticket_type_credit_spendings, :ticketing_ticket_types, column: :ticket_type_id
     add_foreign_key :members_exclusive_ticket_type_credit_spendings, :ticketing_orders, column: :order_id
