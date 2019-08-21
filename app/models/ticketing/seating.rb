@@ -2,6 +2,7 @@ module Ticketing
   class Seating < BaseModel
     has_many :blocks, dependent: :destroy
     has_many :seats, through: :blocks
+    has_many :events, dependent: :nullify
     has_one_attached :plan
 
     validates :name, presence: true

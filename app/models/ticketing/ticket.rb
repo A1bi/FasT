@@ -7,7 +7,7 @@ module Ticketing
     belongs_to :seat, optional: true
     belongs_to :date, class_name: 'EventDate'
     has_passbook_pass
-    has_many :check_ins
+    has_many :check_ins, dependent: :nullify
 
     validates :seat, presence: { if: :seat_required? },
                      inclusion: { in: [nil], unless: :seat_required? }

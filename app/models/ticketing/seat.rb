@@ -2,7 +2,7 @@ module Ticketing
   class Seat < BaseModel
     belongs_to :block, touch: true
     has_many :reservations, dependent: :destroy
-    has_many :tickets
+    has_many :tickets, dependent: :nullify
 
     validates_presence_of :number, on: :create
 
