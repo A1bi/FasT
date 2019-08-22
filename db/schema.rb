@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_21_221505) do
+ActiveRecord::Schema.define(version: 2019_08_21_231434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.integer "file_file_size"
     t.datetime "file_updated_at"
     t.integer "members_group", default: 0
+    t.index ["members_group"], name: "index_documents_on_members_group"
   end
 
   create_table "galleries", force: :cascade do |t|
@@ -133,7 +134,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.string "last_name"
     t.bigint "subscriber_list_id", default: 1, null: false
     t.datetime "confirmed_at"
+    t.index ["email"], name: "index_newsletter_subscribers_on_email", unique: true
     t.index ["subscriber_list_id"], name: "index_newsletter_subscribers_on_subscriber_list_id"
+    t.index ["token"], name: "index_newsletter_subscribers_on_token", unique: true
   end
 
   create_table "passbook_devices", force: :cascade do |t|
@@ -159,6 +162,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.datetime "updated_at"
     t.bigint "assignable_id"
     t.string "assignable_type"
+    t.index ["assignable_id", "assignable_type"], name: "index_passbook_passes_on_assignable_id_and_assignable_type"
+    t.index ["type_id", "serial_number"], name: "index_passbook_passes_on_type_id_and_serial_number", unique: true
   end
 
   create_table "passbook_registrations", force: :cascade do |t|
@@ -166,6 +171,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "device_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["device_id"], name: "index_passbook_registrations_on_device_id"
+    t.index ["pass_id"], name: "index_passbook_registrations_on_pass_id"
   end
 
   create_table "photos", force: :cascade do |t|
@@ -179,6 +186,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.integer "image_file_size"
     t.datetime "image_updated_at"
     t.boolean "is_slide", default: false
+    t.index ["gallery_id"], name: "index_photos_on_gallery_id"
   end
 
   create_table "ticketing_bank_charges", force: :cascade do |t|
@@ -191,6 +199,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.boolean "approved", default: false
     t.bigint "submission_id"
     t.decimal "amount", default: "0.0", null: false
+    t.index ["approved"], name: "index_ticketing_bank_charges_on_approved"
+    t.index ["chargeable_id", "chargeable_type"], name: "index_ticketing_bank_charges_on_chargeable"
+    t.index ["submission_id"], name: "index_ticketing_bank_charges_on_submission_id"
   end
 
   create_table "ticketing_bank_submissions", force: :cascade do |t|
@@ -225,6 +236,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.datetime "updated_at"
     t.bigint "seating_id", default: 1, null: false
     t.string "entrance"
+    t.index ["seating_id"], name: "index_ticketing_blocks_on_seating_id"
   end
 
   create_table "ticketing_box_office_box_offices", force: :cascade do |t|
@@ -261,6 +273,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.integer "number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["purchasable_id", "purchasable_type"], name: "index_ticketing_box_office_purchase_items_on_purchasable"
+    t.index ["purchase_id"], name: "index_ticketing_box_office_purchase_items_on_purchase_id"
   end
 
   create_table "ticketing_box_office_purchases", force: :cascade do |t|
@@ -269,6 +283,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "pay_method"
+    t.index ["box_office_id"], name: "index_ticketing_box_office_purchases_on_box_office_id"
   end
 
   create_table "ticketing_cancellations", force: :cascade do |t|
@@ -282,6 +297,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "checkpoint_id"
     t.integer "medium"
     t.datetime "date"
+    t.index ["checkpoint_id"], name: "index_ticketing_check_ins_on_checkpoint_id"
+    t.index ["medium"], name: "index_ticketing_check_ins_on_medium"
+    t.index ["ticket_id"], name: "index_ticketing_check_ins_on_ticket_id"
   end
 
   create_table "ticketing_coupon_redemptions", force: :cascade do |t|
@@ -289,6 +307,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "order_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["coupon_id"], name: "index_ticketing_coupon_redemptions_on_coupon_id"
+    t.index ["order_id"], name: "index_ticketing_coupon_redemptions_on_order_id"
   end
 
   create_table "ticketing_coupons", force: :cascade do |t|
@@ -304,6 +324,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
   create_table "ticketing_coupons_reservation_groups", id: false, force: :cascade do |t|
     t.bigint "coupon_id"
     t.bigint "reservation_group_id"
+    t.index ["coupon_id"], name: "index_ticketing_coupons_reservation_groups_on_coupon_id"
+    t.index ["reservation_group_id"], name: "index_ticketing_coupons_reservation_groups_on_group_id"
   end
 
   create_table "ticketing_event_dates", force: :cascade do |t|
@@ -311,6 +333,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["event_id"], name: "index_ticketing_event_dates_on_event_id"
   end
 
   create_table "ticketing_events", force: :cascade do |t|
@@ -324,7 +347,9 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.string "slug"
     t.boolean "archived", default: false
     t.string "sale_disabled_message"
+    t.index ["archived"], name: "index_ticketing_events_on_archived"
     t.index ["identifier"], name: "index_ticketing_events_on_identifier"
+    t.index ["seating_id"], name: "index_ticketing_events_on_seating_id"
     t.index ["slug"], name: "index_ticketing_events_on_slug"
   end
 
@@ -336,6 +361,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "loggable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["loggable_id", "loggable_type"], name: "index_ticketing_log_events_on_loggable_id_and_loggable_type"
+    t.index ["user_id"], name: "index_ticketing_log_events_on_user_id"
   end
 
   create_table "ticketing_orders", force: :cascade do |t|
@@ -356,7 +383,12 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "box_office_id"
     t.bigint "date_id"
     t.string "affiliation"
+    t.index ["box_office_id"], name: "index_ticketing_orders_on_box_office_id"
     t.index ["date_id"], name: "index_ticketing_orders_on_date_id"
+    t.index ["number"], name: "index_ticketing_orders_on_number", unique: true
+    t.index ["paid"], name: "index_ticketing_orders_on_paid"
+    t.index ["store_id"], name: "index_ticketing_orders_on_store_id"
+    t.index ["type"], name: "index_ticketing_orders_on_type"
   end
 
   create_table "ticketing_push_notifications_devices", force: :cascade do |t|
@@ -365,6 +397,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "settings"
+    t.index ["app", "token"], name: "index_ticketing_push_notifications_devices_on_app_and_token", unique: true
   end
 
   create_table "ticketing_reservation_groups", force: :cascade do |t|
@@ -380,6 +413,11 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.bigint "group_id"
+    t.index ["date_id", "seat_id", "group_id"], name: "index_ticketing_reservations_on_date_seat_group_id", unique: true
+    t.index ["date_id", "seat_id"], name: "index_ticketing_reservations_on_date_id_and_seat_id"
+    t.index ["date_id"], name: "index_ticketing_reservations_on_date_id"
+    t.index ["group_id"], name: "index_ticketing_reservations_on_group_id"
+    t.index ["seat_id"], name: "index_ticketing_reservations_on_seat_id"
   end
 
   create_table "ticketing_retail_stores", force: :cascade do |t|
@@ -404,6 +442,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.bigint "block_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["block_id", "number"], name: "index_ticketing_seats_on_block_id_and_number", unique: true
+    t.index ["block_id"], name: "index_ticketing_seats_on_block_id"
   end
 
   create_table "ticketing_signing_keys", force: :cascade do |t|
@@ -411,6 +451,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["active"], name: "index_ticketing_signing_keys_on_active"
   end
 
   create_table "ticketing_ticket_types", force: :cascade do |t|
@@ -422,6 +463,8 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.boolean "exclusive", default: false
     t.bigint "event_id"
     t.index ["event_id"], name: "index_ticketing_ticket_types_on_event_id"
+    t.index ["exclusive", "event_id"], name: "index_ticketing_ticket_types_on_exclusive_and_event_id"
+    t.index ["exclusive"], name: "index_ticketing_ticket_types_on_exclusive"
   end
 
   create_table "ticketing_tickets", force: :cascade do |t|
@@ -437,7 +480,13 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.boolean "resale", default: false
     t.boolean "invalidated", default: false
     t.integer "order_index", default: 0, null: false
+    t.index ["date_id"], name: "index_ticketing_tickets_on_date_id"
     t.index ["order_id", "order_index"], name: "index_ticketing_tickets_on_order_id_and_order_index", unique: true
+    t.index ["order_id"], name: "index_ticketing_tickets_on_order_id"
+    t.index ["seat_id", "date_id"], name: "index_ticketing_tickets_on_seat_id_and_date_id"
+    t.index ["seat_id", "date_id"], name: "index_ticketing_tickets_on_seat_id_and_date_id_unique", unique: true, where: "(NOT invalidated)"
+    t.index ["seat_id"], name: "index_ticketing_tickets_on_seat_id"
+    t.index ["type_id"], name: "index_ticketing_tickets_on_type_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -454,7 +503,10 @@ ActiveRecord::Schema.define(version: 2019_08_21_221505) do
     t.string "nickname"
     t.bigint "family_id"
     t.string "type"
+    t.index ["activation_code"], name: "index_users_on_activation_code", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["family_id"], name: "index_users_on_family_id"
+    t.index ["type"], name: "index_users_on_type"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

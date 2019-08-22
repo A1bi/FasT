@@ -76,7 +76,10 @@ module Ticketing
 
     def seat_available
       return if seat.nil? || !seat.taken?(date)
-      return unless will_save_change_to_attribute?(:seat) || will_save_change_to_attribute?(:date)
+
+      return unless will_save_change_to_attribute?(:seat_id) ||
+                    will_save_change_to_attribute?(:date_id)
+
       errors.add :seat, 'seat not available'
     end
 
