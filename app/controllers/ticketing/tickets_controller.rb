@@ -123,7 +123,8 @@ module Ticketing
     end
 
     def restrict_access
-      if (admin? && !current_user&.admin?) || (retail? && !@_retail_store.id)
+      if (admin? && !current_user&.admin?) ||
+         (retail? && !retail_store_signed_in?)
         deny_access
       end
     end

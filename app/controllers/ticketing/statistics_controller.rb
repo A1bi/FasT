@@ -16,13 +16,14 @@ module Ticketing
     end
 
     def index_retail
-      unless @_retail_store.id
+      unless retail_store_signed_in?
         return redirect_to ticketing_retail_login_path, flash: {
           warning: t('application.login_required')
         }
       end
 
-      @transfers = @_retail_store.billing_account.transfers.order(:created_at)
+      @transfers = current_retail_store.billing_account
+                                       .transfers.order(:created_at)
     end
 
     def seats

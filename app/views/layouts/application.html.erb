@@ -67,7 +67,7 @@
               <% end %>
             <% end %>
           <% end %>
-          <% if @_retail_store && @_retail_store.id %>
+          <% if try(:retail_store_signed_in?) %>
             <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing_retail, css_class: :ticketing_retail, actions:
               [:orders, :statistics, [:logout, nil, { data: { confirm: "Möchten Sie sich wirklich ausloggen?\nEine Buchung ist danach erst wieder durch einen erneuten Login möglich." } }]]
             %>

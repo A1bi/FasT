@@ -4,7 +4,7 @@
   <table class="rounded panel">
     <tr>
       <td>Vorverkaufsstelle:</td>
-      <td><%= select_tag :store_id, options_from_collection_for_select(@stores, :id, :name, cookies.permanent[selected_retail_store_id_cookie_name]) %></td>
+      <td><%= select_tag :store_id, options_from_collection_for_select(@stores, :id, :name, selected_retail_store_id) %></td>
     </tr>
     <tr>
       <td>Passwort:</td>

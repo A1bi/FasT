@@ -18,7 +18,7 @@
     <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
   </ul>
 </div>
-<%= content_tag :div, class: [:stepBox, @type], data: { type: @type, order_path: orders_path(:ticketing_order, ":id"), retail_id: @_retail_store.id } do %>
+<%= content_tag :div, class: [:stepBox, @type], data: { type: @type, order_path: orders_path(:ticketing_order, ":id"), retail_id: current_retail_store&.id } do %>
   <div class="modalAlert">
     <div class="messages alert">
       <div class="icon"></div>

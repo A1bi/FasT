@@ -90,7 +90,7 @@ module Ticketing
       else
         @orders[:web] = Ticketing::Web::Order.all if admin?
         @orders[:retail] = Ticketing::Retail::Order.includes(:store)
-        @orders[:retail].where!(store: @_retail_store) if retail?
+        @orders[:retail].where!(store: current_retail_store) if retail?
         @orders.values.each do |orders|
           orders
             .where!('created_at > ?', 1.month.ago)
@@ -211,7 +211,7 @@ module Ticketing
     def search_orders
       Ticketing::OrderSearchService.new(
         params[:q],
-        retail_store: retail_store
+        retail_store: current_retail_store
       ).execute
     end
 
@@ -247,7 +247,7 @@ module Ticketing
 
     def find_order
       if retail?
-        orders = Ticketing::Retail::Order.where(store: @_retail_store)
+        orders = Ticketing::Retail::Order.where(store: current_retail_store)
       else
         orders = Ticketing::Order.all
       end
@@ -278,9 +278,9 @@ module Ticketing
 
     def restrict_access
       actions = [:new, :add_coupon, :remove_coupon]
-      if (admin? && current_user&.admin?) || (retail? && @_retail_store.id)
+      if (admin? && current_user&.admin?) || (retail? && retail_store_signed_in?)
         actions.push :index, :show, :cancel, :seats, :search, :create_billing
-        if @_retail_store.id
+        if retail_store_signed_in?
           actions.push :new_retail
         end
         if current_user&.admin?
@@ -297,7 +297,7 @@ module Ticketing
     end
 
     def check_retail_sale_enabled
-      return if @_retail_store.sale_enabled
+      return if current_retail_store.sale_enabled
 
       redirect_to ticketing_retail_orders_path,
                   alert: t('.sale_disabled_for_store')
@@ -309,10 +309,6 @@ module Ticketing
 
     def update_order_params
       params.require(:ticketing_order).permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
-    end
-
-    def retail_store
-      retail? && @_retail_store.id ? @_retail_store : nil
     end
   end
 end

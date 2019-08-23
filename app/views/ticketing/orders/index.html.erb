@@ -11,7 +11,7 @@
     <%= render "application/ticketing/orders_table", table_title: "Online-Bestellungen", orders: @orders[:web], web: true, cache_key: [:orders, :web], additional_columns: %i[date] %>
     <%= render "application/ticketing/orders_table", table_title: "Vorverkaufsstellen", orders: @orders[:retail], web: false, cache_key: [:orders, :retail], additional_columns: %i[date] %>
   <% else %>
-    <%= render "application/ticketing/orders_table", table_title: "Bisherige Bestellungen in Ihrer Vorverkaufsstelle", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, @_retail_store] %>
+    <%= render "application/ticketing/orders_table", table_title: "Bisherige Bestellungen in Ihrer Vorverkaufsstelle", orders: @orders[:retail], web: false, cache_key: [:orders, :retail, current_retail_store] %>
     <div class="hright">
       <a href="#" id="print-test" data-confirm="Möchten Sie wirklich einen Testdruck ausführen?">Testdruck</a> – <a href="#" id="print-settings">Druckeinstellungen</a>
     </div>
