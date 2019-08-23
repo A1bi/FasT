@@ -16,7 +16,7 @@ specs:
   tags:
     - postgres
   script:
-    - rails db:drop db:create db:schema:load
+    - rails db:drop db:create db:structure:load
     - rails test
     - spring stop
 
