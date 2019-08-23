@@ -5,5 +5,5 @@ class Document < BaseModel
     content_type: %r{\A(image\/(jpe?g|png)|application\/(x-)?pdf|audio\/(mpeg|mp3))\z}
   }
 
-  enum members_group: Members::Member.groups
+  enum members_group: Members::Member.groups, integer_column: true
 end

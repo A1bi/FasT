@@ -9,6 +9,63 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: newsletter_newsletter_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.newsletter_newsletter_status AS ENUM (
+    'draft',
+    'review',
+    'sent'
+);
+
+
+--
+-- Name: ticketing_check_in_medium; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_check_in_medium AS ENUM (
+    'unknown',
+    'web',
+    'retail',
+    'passbook',
+    'box_office'
+);
+
+
+--
+-- Name: ticketing_order_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_order_type AS ENUM (
+    'Ticketing::Web::Order',
+    'Ticketing::Retail::Order',
+    'Ticketing::BoxOffice::Order'
+);
+
+
+--
+-- Name: ticketing_pay_method; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_pay_method AS ENUM (
+    'charge',
+    'transfer',
+    'cash',
+    'box_office'
+);
+
+
+--
+-- Name: user_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.user_type AS ENUM (
+    'User',
+    'Members::Member'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -340,7 +397,7 @@ CREATE TABLE public.newsletter_newsletters (
     sent_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status integer DEFAULT 0
+    status public.newsletter_newsletter_status DEFAULT 'draft'::public.newsletter_newsletter_status
 );
 
 
@@ -1019,7 +1076,7 @@ CREATE TABLE public.ticketing_check_ins (
     id bigint NOT NULL,
     ticket_id bigint,
     checkpoint_id bigint,
-    medium integer,
+    medium public.ticketing_check_in_medium,
     date timestamp without time zone
 );
 
@@ -1240,9 +1297,9 @@ CREATE TABLE public.ticketing_orders (
     gender integer,
     phone character varying,
     plz character varying,
-    pay_method integer,
+    pay_method public.ticketing_pay_method,
     store_id bigint,
-    type character varying,
+    type public.ticketing_order_type,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     box_office_id bigint,
@@ -1592,7 +1649,7 @@ CREATE TABLE public.users (
     birthday date,
     nickname character varying,
     family_id bigint,
-    type character varying
+    type public.user_type
 );
 
 
@@ -3288,6 +3345,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814170321'),
 ('20190821201506'),
 ('20190821221505'),
-('20190821231434');
+('20190821231434'),
+('20190823175242');
 
 
