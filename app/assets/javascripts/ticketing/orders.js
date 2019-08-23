@@ -751,7 +751,6 @@ function ConfirmStep(delegate) {
       order: orderInfo,
       type: this.delegate.type,
       socket_id: apiInfo.seats.socketId,
-      retail_store_id: this.delegate.retailId,
       newsletter: apiInfo.confirm.newsletter
     };
 
@@ -1053,7 +1052,6 @@ function Ordering() {
   _this.progressBox = $(".progress");
   _this.modalBox = _this.stepBox.find(".modalAlert");
 
-  _this.retailId = _this.stepBox.data("retail-id");
   _this.type = _this.stepBox.data("type");
   _this.retail = _this.type == "retail";
   _this.admin = _this.type == "admin";

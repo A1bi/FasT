@@ -6,10 +6,6 @@ module Ticketing
     after_save :check_printable
     after_commit :delete_printable, on: :destroy
 
-    def self.by_store(retail_id)
-      where(:store_id => retail_id)
-    end
-
     def printable_path(full = false)
       File.join(printable_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
     end

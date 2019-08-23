@@ -2,6 +2,7 @@ module Api
   module Ticketing
     class OrdersController < ApplicationController
       include OrderCreation
+      include ::Ticketing::RetailStoreAuthenticatable
       include ::Ticketing::OrderingType
 
       def create
@@ -26,7 +27,7 @@ module Api
 
       def order_params
         params.permit(
-          :type, :retail_store_id, :newsletter, :socket_id,
+          :type, :newsletter, :socket_id,
           order: [
             %i[date ignore_free_tickets],
             tickets: {},
@@ -52,10 +53,9 @@ module Api
       end
 
       def authorized?
-        cookie_name = "_#{Rails.application.class.parent_name}_retail_store_id"
         web? ||
           admin? && current_user&.admin? ||
-          retail? && cookies.signed[cookie_name] == params[:retail_store_id]
+          retail? && retail_store_signed_in?
       end
 
       def set_flash_notice

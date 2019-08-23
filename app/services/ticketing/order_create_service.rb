@@ -4,10 +4,12 @@ module Ticketing
 
     include OrderingType
 
-    attr_accessor :current_box_office
+    attr_accessor :current_retail_store, :current_box_office
 
-    def initialize(params, current_user: nil, current_box_office: nil)
+    def initialize(params, current_user: nil, current_retail_store: nil,
+                   current_box_office: nil)
       super(current_user, params)
+      @current_retail_store = current_retail_store
       @current_box_office = current_box_office
     end
 
@@ -15,8 +17,7 @@ module Ticketing
       @order = order_class.new
 
       if retail?
-        store = Ticketing::Retail::Store.find_by(id: params[:retail_store_id])
-        @order.store = store
+        @order.store = current_retail_store
 
       elsif box_office?
         @order.box_office = current_box_office
