@@ -1,6 +1,6 @@
 barcode = {
   format: 'PKBarcodeFormatQR',
-  message: ticket.signed_info(medium: Ticketing::CheckIn.media[:passbook]),
+  message: ticket.signed_info(medium: :passbook),
   messageEncoding: 'utf-8',
   altText: ticket.number
 }

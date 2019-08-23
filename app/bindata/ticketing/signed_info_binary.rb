@@ -27,6 +27,7 @@ module Ticketing
         )
       end
 
+      params[:medium] = Ticketing::CheckIn.medium_index(params[:medium])
       params[:authenticated] = params[:authenticated].present? ? 1 : 0
 
       new(params)
