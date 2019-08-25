@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 6.0.0'
 
 gem 'pg'
 
@@ -44,11 +44,12 @@ gem 'dalli', '~> 2.7.8'
 
 gem 'sidekiq', '~> 5.2.2'
 
-gem 'auto_strip_attributes', '~> 2.0'
+gem 'auto_strip_attributes', '~> 2.5.0'
 
 gem 'phony_rails', '~> 0.14.2'
 
-gem 'record_tag_helper', '~> 1.0'
+gem 'record_tag_helper', git: 'https://github.com/rails/record_tag_helper.git',
+                         ref: '128cc1a'
 
 gem 'sentry-raven'
 
