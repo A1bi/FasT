@@ -10,8 +10,6 @@ module Members
       respond_to do |format|
         format.ics do
           render plain: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
-            require 'icalendar'
-
             cal = Icalendar::Calendar.new
             scope = [:members, :dates, :ics]
             cal.x_wr_calname = t(:calname, scope: scope)

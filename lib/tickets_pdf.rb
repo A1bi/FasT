@@ -1,7 +1,3 @@
-require "prawn"
-require "prawn/table"
-require "prawn/qrcode"
-
 class TicketsPdf < Prawn::Document
   include ActionView::Helpers::NumberHelper
   include Rails.application.routes.url_helpers

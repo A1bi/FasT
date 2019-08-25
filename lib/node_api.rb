@@ -1,6 +1,3 @@
-require "net/http"
-require "uri"
-
 class NodeApi
   def self.make_request(name, data)
     socket = Net::BufferedIO.new(UNIXSocket.new("/tmp/FasT-node.sock"))
