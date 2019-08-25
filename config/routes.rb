@@ -221,7 +221,7 @@ Rails.application.routes.draw do
             end
           end
           resources :purchases, only: :create
-          resource :seating, only: :show
+          resource :seating, only: :show, defaults: { format: :html }
           resources :transactions, only: %i[index create]
         end
 

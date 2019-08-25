@@ -84,5 +84,7 @@ event.save
   )
 end
 
+Ticketing::BoxOffice::BoxOffice.create(name: 'Testkasse')
+
 # clear cache
 Rails.cache.clear

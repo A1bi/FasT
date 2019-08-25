@@ -9,7 +9,7 @@ module Api
         ::Ticketing::OrderCreateService.new(
           order_params,
           current_user: current_user,
-          current_retail_store: current_retail_store,
+          current_retail_store: try(:current_retail_store),
           current_box_office: box_office
         ).execute
       end
