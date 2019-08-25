@@ -40,7 +40,7 @@ module Ticketing
     end
 
     def retail_store_id_cookie_name
-      "_#{Rails.application.class.parent_name}_retail_store_id"
+      "_#{Rails.application.class.module_parent_name}_retail_store_id"
     end
   end
 end

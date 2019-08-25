@@ -49,5 +49,7 @@ module FasT
     Paperclip.options[:command_path] = Settings.imagemagick_path
 
     config.active_storage.service = :local
+
+    config.hosts.clear
   end
 end

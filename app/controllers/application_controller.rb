@@ -106,6 +106,6 @@ class ApplicationController < ActionController::Base
   end
 
   def permanent_user_id_cookie_name
-    "_#{Rails.application.class.parent_name}_user_id"
+    "_#{Rails.application.class.module_parent_name}_user_id"
   end
 end
