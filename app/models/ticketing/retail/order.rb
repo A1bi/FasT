@@ -10,14 +10,6 @@ module Ticketing
       File.join(printable_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
     end
 
-    def api_hash(details = [], ticket_details = [])
-      hash = super
-      hash.merge!({
-        printable_path: printable_path
-      }) if details.include? :printable
-      hash
-    end
-
     def cash_refund_in_store
       transfer_balance_to_store(:cash_refund_in_store)
     end

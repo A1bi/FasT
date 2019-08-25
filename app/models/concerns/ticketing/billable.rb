@@ -12,14 +12,6 @@ module Ticketing
       super || build_billing_account
     end
 
-    def api_hash(details = [])
-      hash = defined?(super) ? super : {}
-      hash.merge!({
-        balance: billing_account.balance
-      }) if details.include? :billing
-      hash
-    end
-
     def after_account_transfer
     end
 

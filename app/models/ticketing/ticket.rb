@@ -44,22 +44,6 @@ module Ticketing
       SigningKey.random_active.sign_ticket(self, params)
     end
 
-    def api_hash(details = [])
-      hash = {
-        id: id.to_s,
-        number: number.to_s,
-        date_id: date.id.to_s,
-        type_id: type_id.to_s,
-        price: price,
-        seat_id: seat ? seat.id.to_s : nil
-      }
-      hash.merge!({
-        picked_up: picked_up,
-        resale: resale
-      }) if details.include? :status
-      hash.merge(super)
-    end
-
     def passbook_file_identifier
       event.identifier
     end

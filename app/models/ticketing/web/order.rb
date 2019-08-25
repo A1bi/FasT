@@ -50,15 +50,6 @@ module Ticketing
       enqueue_mailing(:payment_received, depends_on_commit: true)
     end
 
-    def api_hash(details = [], ticket_details = [])
-      hash = super
-      hash.merge!({
-        first_name: first_name,
-        last_name: last_name
-      }) if details.include? :personal
-      hash
-    end
-
     def bank_charge_submitted
       bank_charge.amount = -billing_account.balance
       withdraw_from_account(billing_account.balance, :bank_charge_submitted)

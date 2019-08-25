@@ -11,25 +11,18 @@ module Api
           @orders = @orders.event_today if params[:event_today].present?
           @orders = @orders.unpaid if params[:unpaid].present?
           @orders, @ticket = search_orders if params[:q].present?
-
-          render_orders
         end
 
         def show
           @order = ::Ticketing::Order.find(params[:id])
-
-          render_order
         end
 
         def create
           @order = create_order(box_office: current_box_office)
+          return if @order.persisted?
 
-          unless @order.persisted?
-            report_invalid_order
-            return head :bad_request
-          end
-
-          render_order
+          report_invalid_order
+          head :bad_request
         end
 
         def destroy
@@ -62,25 +55,6 @@ module Api
               :date,
               tickets: {}
             ]
-          )
-        end
-
-        def render_orders
-          render json: {
-            ticket_id: @ticket&.id.to_s,
-            orders: @orders.map { |o| info_for_order(o) }
-          }
-        end
-
-        def render_order
-          render json: {
-            order: info_for_order(@order)
-          }
-        end
-
-        def info_for_order(order)
-          order.api_hash(
-            %i[personal log_events tickets status billing], %i[status]
           )
         end
       end
