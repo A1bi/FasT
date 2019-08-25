@@ -23,10 +23,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def disable_slides
-    @no_slides = true
-  end
-
   def disable_member_controls
     @no_member_controls = true
   end

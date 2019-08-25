@@ -1,7 +1,6 @@
 class GalleriesController < ApplicationController
   restrict_access_to_group :admin, :except => [:index, :show]
 
-  before_action :disable_slides, :except => [:index]
   before_action :find_gallery, :only => [:show, :edit, :update, :destroy]
 
   def index
