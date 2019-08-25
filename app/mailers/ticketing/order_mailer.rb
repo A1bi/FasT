@@ -45,7 +45,7 @@ module Ticketing
     end
 
     def attach_tickets
-      pdf = TicketsWebPDF.new
+      pdf = TicketsWebPdf.new
       pdf.add_tickets @order.tickets
       attachments['tickets.pdf'] = pdf.render
     end

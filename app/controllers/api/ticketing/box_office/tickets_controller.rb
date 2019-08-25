@@ -22,7 +22,7 @@ module Api
         end
 
         def printable_data
-          pdf = TicketsBoxOfficePDF.new
+          pdf = TicketsBoxOfficePdf.new
           pdf.add_tickets(@tickets)
           pdf.render
         end

@@ -42,7 +42,7 @@ module Ticketing
     def update_printable
       FileUtils.mkdir_p(printable_dir_path(true))
 
-      pdf = TicketsRetailPDF.new
+      pdf = TicketsRetailPdf.new
       pdf.add_tickets tickets
       pdf.render_file(printable_path(true))
     end

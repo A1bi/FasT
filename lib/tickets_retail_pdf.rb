@@ -1,4 +1,4 @@
-class TicketsRetailPDF < TicketsPDF
+class TicketsRetailPdf < TicketsPdf
   def initialize
     margin = [0]
     page_size = [TICKET_WIDTH, TICKET_HEIGHT]

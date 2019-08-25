@@ -8,7 +8,7 @@ module Passbook
                 class_name: 'Passbook::Models::Pass',
                 as: :assignable, dependent: :destroy
 
-        before_save :update_passbook_pass, on: :update
+        before_update :update_passbook_pass
 
         include LocalInstanceMethods
       end

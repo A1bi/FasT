@@ -1,4 +1,4 @@
-class TicketsWebPDF < TicketsPDF
+class TicketsWebPdf < TicketsPdf
   private
 
   def draw_ticket(ticket)

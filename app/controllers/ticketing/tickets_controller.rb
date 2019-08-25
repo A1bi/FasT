@@ -94,7 +94,7 @@ module Ticketing
     end
 
     def printable
-      pdf = TicketsWebPDF.new
+      pdf = TicketsWebPdf.new
       pdf.add_tickets(@tickets)
       send_data pdf.render, type: "application/pdf", disposition: "inline"
     end
