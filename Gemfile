@@ -90,6 +90,8 @@ group :development do
   gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'byebug'
+  gem 'rubocop', '~> 0.74.0'
+  gem 'rubocop-rails', '~> 2.3.0'
 end
 
 # To use debugger

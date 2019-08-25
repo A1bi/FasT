@@ -8,7 +8,6 @@ before_script:
 
 rubocop:
   script:
-    - gem install rubocop
     - rubocop
   allow_failure: true
 
