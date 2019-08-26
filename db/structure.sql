@@ -1649,7 +1649,12 @@ CREATE TABLE public.users (
     birthday date,
     nickname character varying,
     family_id bigint,
-    type public.user_type
+    type public.user_type,
+    street character varying,
+    plz integer,
+    city character varying,
+    phone character varying,
+    joined_at date
 );
 
 
@@ -3346,6 +3351,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190821201506'),
 ('20190821221505'),
 ('20190821231434'),
-('20190823175242');
+('20190823175242'),
+('20190826203751');
 
 

@@ -75,7 +75,10 @@ module Admin
     end
 
     def member_params
-      params.require(:members_member).permit(:email, :first_name, :last_name, :nickname, :group, :birthday, :family_member_id, :family_id)
+      params.require(:members_member)
+            .permit(:email, :first_name, :last_name, :nickname, :street, :plz,
+                    :city, :phone, :birthday, :family_member_id, :family_id,
+                    :joined_at, :group)
     end
 
     def send_activation_mail

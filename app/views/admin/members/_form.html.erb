@@ -1,3 +1,4 @@
+<% include_css 'members/main' %>
 <% title "Mitgliederverwaltung – #{title}" %>
 <div class="hl">Mitgliederverwaltung</div>
 <%= form_for [:admin, @member] do |f| %>
@@ -17,31 +18,46 @@
           <td><%= f.text_field :last_name, required: true %></td>
         </tr>
         <tr>
-          <td>Spitzname:</td>
-          <td><%= f.text_field :nickname %></td>
+          <td>Vorname in Anrede:
+            <div class="small">
+              Zum Beispiel Uli statt Ulrich. Ansonsten freilassen.
+            </div>
+          </td>
+          <td>
+            <%= f.text_field :nickname, value: @member[:nickname] %>
+          </td>
+        </tr>
+
+        <tr class="space-up">
+          <td>Straße und Hausnummer:</td>
+          <td><%= f.text_field :street %></td>
         </tr>
         <tr>
+          <td>PLZ:</td>
+          <td><%= f.number_field :plz, limit: 5 %></td>
+        </tr>
+        <tr>
+          <td>Stadt:</td>
+          <td><%= f.text_field :city %></td>
+        </tr>
+
+        <tr class="space-up">
           <td>e-mail-Adresse:</td>
-          <td><%= f.text_field :email %></td>
+          <td><%= f.email_field :email %></td>
         </tr>
         <tr>
+          <td>Telefonnummer:</td>
+          <td><%= f.text_field :phone %></td>
+        </tr>
+
+        <tr class="space-up">
           <td>Geburtstag:</td>
           <td><%= f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year %></td>
         </tr>
         <tr>
-          <td>Gruppe:</td>
-          <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
+          <td>Beitrittsdatum:</td>
+          <td><%= f.date_select :joined_at, start_year: 2009, end_year: Date.today.year, default: Date.today %></td>
         </tr>
-        <% if @member.persisted? %>
-          <tr>
-            <td>Beitrittsdatum:</td>
-            <td><%= member_joined_date @member %></td>
-          </tr>
-          <tr>
-            <td>Letzter Login:</td>
-            <td><%= last_login_time @member %></td>
-          </tr>
-        <% end %>
         <% if !@member.in_family? %>
           <tr>
             <td>
@@ -49,6 +65,17 @@
               <div class="small">Wählen Sie ein Familienmitglied, dessen Familie dieses Mitglied zugeordnet werden soll.</div>
             </td>
             <td><%= f.collection_select(:family_member_id, @members, :id, ->(member) { "#{member.last_name}, #{member.first_name}" }, include_blank: true) %></td>
+          </tr>
+        <% end %>
+
+        <tr class="space-up">
+          <td>Gruppe:</td>
+          <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
+        </tr>
+        <% if @member.persisted? %>
+          <tr>
+            <td>Letzter Login:</td>
+            <td><%= last_login_time @member %></td>
           </tr>
         <% end %>
         <%= content_tag :tr do %>

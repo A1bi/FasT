@@ -294,6 +294,8 @@ de:
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
             password_confirmation:
               confirmation: "Die eingegebenen Passwörter stimmen nicht überein."
+            plz:
+              less_than: Die eingegebene Postzeitzahl ist ungültig.
         members/file:
           attributes:
             file_content_type:

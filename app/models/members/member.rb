@@ -12,7 +12,17 @@ module Members
 
     belongs_to :family, optional: true
 
+    phony_normalize :phone, default_country_code: 'DE'
+
+    validates :joined_at, presence: true
+    validates :plz, numericality: { only_integer: true, less_than: 100_000 },
+                    allow_blank: true
+
     after_save :destroy_family_if_empty
+
+    def plz
+      super.to_s.rjust(5, '0')
+    end
 
     def in_family?
       family.present?
