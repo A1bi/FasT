@@ -15,7 +15,7 @@ class User < BaseModel
 
   validates :first_name, :last_name, presence: true
 
-  enum group: %i[member admin], integer_column: true
+  enum group: { member: 0, admin: 1 }, integer_column: true
 
   def self.alphabetically
     order(:last_name, :first_name)

@@ -22,6 +22,10 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 25
 
+# disable this because we mostly use native enums in Postgres
+Rails/EnumHash:
+  Enabled: false
+
 Rails/SkipsModelValidations:
   Whitelist: ['touch']
 
