@@ -21,7 +21,7 @@ module Members
     after_save :destroy_family_if_empty
 
     def plz
-      super.to_s.rjust(5, '0')
+      super.to_s.rjust(5, '0') if super.present?
     end
 
     def in_family?

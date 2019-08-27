@@ -25,6 +25,11 @@ class User < BaseModel
     super.presence || first_name
   end
 
+  def email=(email)
+    # nillify empty emails so database doesn't complain about uniqueness
+    super email.presence
+  end
+
   def set_activation_code
     self.activation_code = random_hash
   end
