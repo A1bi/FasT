@@ -9,6 +9,8 @@ module Admin
     end
 
     def obfuscated_mandate_iban(mandate)
+      return nil if mandate&.iban.blank?
+
       # do not obfuscate if the user has just entered this IBAN and it
       # was not saved yet, so the user is able to see his invalid input
       return mandate.iban if mandate.will_save_change_to_iban?

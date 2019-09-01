@@ -25,7 +25,7 @@ module Members
     private
 
     def set_default_number
-      self.number = self.class.maximum(:number) + 1 if number.blank?
+      self.number = self.class.maximum(:number) || 0 + 1 if number.blank?
     end
   end
 end
