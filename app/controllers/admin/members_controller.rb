@@ -77,15 +77,20 @@ module Admin
 
     def prepare_new_member
       @member = Members::Member.new
+      @member.build_sepa_mandate
+      @member
     end
 
     def update_member
       @member.assign_attributes(member_params)
 
       if @member.will_save_change_to_sepa_mandate_id?
-        return unless @member.sepa_mandate_id.zero?
+        if @member.sepa_mandate_id.zero?
+          @member.sepa_mandate = nil
+          return if sepa_mandate_params[:iban].blank?
 
-        @member.build_sepa_mandate(sepa_mandate_params)
+          @member.build_sepa_mandate(sepa_mandate_params)
+        end
 
       else
         # do not change the IBAN if it is still obfuscated and therefore

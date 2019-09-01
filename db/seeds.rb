@@ -24,6 +24,7 @@ end
             }
           end
   attrs[:password] = '123456'
+  attrs[:joined_at] = FFaker::Time.date
   member = Members::Member.new(attrs)
   member.save(valide: false)
 end

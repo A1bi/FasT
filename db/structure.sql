@@ -1688,7 +1688,8 @@ CREATE TABLE public.users (
     city character varying,
     phone character varying,
     joined_at date,
-    sepa_mandate_id bigint
+    sepa_mandate_id bigint,
+    number integer
 );
 
 
@@ -2937,6 +2938,13 @@ CREATE INDEX index_users_on_family_id ON public.users USING btree (family_id);
 
 
 --
+-- Name: index_users_on_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_number ON public.users USING btree (number);
+
+
+--
 -- Name: index_users_on_sepa_mandate_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3417,6 +3425,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190821231434'),
 ('20190823175242'),
 ('20190826203751'),
-('20190828194326');
+('20190828194326'),
+('20190901143224');
 
 

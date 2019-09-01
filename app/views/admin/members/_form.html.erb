@@ -102,6 +102,12 @@
         <tr>
           <td colspan="2"><h3>Weitere Angaben</h3></td>
         </tr>
+        <% if @member.persisted? %>
+          <tr>
+            <td width="40%">Mitgliedsnummer:</td>
+            <td class="monospace"><%= @member.number %></td>
+          </tr>
+        <% end %>
         <% if !@member.in_family? %>
           <tr>
             <td>

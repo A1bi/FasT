@@ -602,6 +602,10 @@ input.btn {
   }
 }
 
+.monospace {
+  font-family: monospace;
+}
+
 table.rounded {
   $border-radius: 10px;
   $border-inner: 1px $faint-blue solid;

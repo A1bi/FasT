@@ -9,7 +9,7 @@ module Members
     validates_with SEPA::IBANValidator
     validates :number, uniqueness: true
 
-    after_initialize :set_default_number
+    after_initialize :set_number
 
     def number(prefixed: false)
       return super() unless prefixed
@@ -24,8 +24,8 @@ module Members
 
     private
 
-    def set_default_number
-      self.number = self.class.maximum(:number) || 0 + 1 if number.blank?
+    def set_number
+      self.number = (self.class.maximum(:number) || 0) + 1 if number.blank?
     end
   end
 end

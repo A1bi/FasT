@@ -12,6 +12,14 @@
     <td><%= current_user.last_name %></td>
   </tr>
   <tr>
+    <td>Mitgliedsnummer:</td>
+    <td class="monospace"><%= current_user.number %></td>
+  </tr>
+  <tr>
+    <td>Beitrittsdatum:</td>
+    <td><%= l current_user.joined_at, format: '%-d. %B %Y' %></td>
+  </tr>
+  <tr>
     <td>e-mail-Adresse:</td>
     <td><%= f.text_field :email %></td>
   </tr>
