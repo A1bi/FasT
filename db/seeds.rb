@@ -43,6 +43,8 @@ titles = ['Dies', 'Das', 'Irgendwas', 'Tolle Sachen', 'Treffen XY']
 end
 
 ## newsletters
+Newsletter::SubscriberList.create(name: 'Kunden')
+
 3.times do
   Newsletter::Subscriber.create(email: FFaker::Internet.free_email)
 end

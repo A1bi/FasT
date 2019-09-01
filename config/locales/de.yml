@@ -9,11 +9,10 @@ de:
   contact_messages:
     via: via Kontaktformular
     success: "Vielen Dank für Ihre Nachricht. Wir werden uns schnellstmöglich bei Ihnen melden."
-  newsletter:
-    subscriber:
-      created: "Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben."
-      confirmed: "Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt."
-      destroyed: "Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht."
+  newsletter_subscribers:
+    created: Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben.
+    confirmed: Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt.
+    destroyed: Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht.
   documents:
     created: "Das Dokument wurde erfolgreich hochgeladen."
     destroyed: "Das Dokument wurde erfolgreich gelöscht."

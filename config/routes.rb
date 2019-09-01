@@ -49,7 +49,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resource :newsletter_subscriber, controller: :newsletter, path: :newsletter, only: [:create, :edit, :update, :destroy] do
+    resource :newsletter_subscriber, path: :newsletter, only: [:create, :edit, :update, :destroy] do
       get :confirm
     end
 
