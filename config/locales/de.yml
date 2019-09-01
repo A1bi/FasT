@@ -37,8 +37,10 @@ de:
           all: Alle Mandate
           family: Mandate aus der Familie dieses Mitglieds
     newsletters:
-      preview_sent: "Eine Vorschau wurde verschickt."
-      finished: "Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt."
+      saved: Der Newsletter wurde gespeichert.
+      destroyed: Der Newsletter wurde gelöscht.
+      preview_sent: Der Newsletter wurde gespeichert und eine Vorschau verschickt.
+      finished: Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt.
   navi:
     members:
       root: "Hauptseite"

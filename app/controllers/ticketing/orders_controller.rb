@@ -211,7 +211,7 @@ module Ticketing
     def search_orders
       Ticketing::OrderSearchService.new(
         params[:q],
-        retail_store: current_retail_store
+        retail_store: retail? ? current_retail_store : nil
       ).execute
     end
 

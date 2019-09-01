@@ -1,37 +1,33 @@
 module Admin
   class NewslettersController < BaseController
-    before_action :find_newsletter, only: [:show, :edit, :update, :destroy, :finish]
-    before_action :prepare_new_newsletter, :only => [:new, :create]
-    before_action :prepare_subscriber_lists, :only => [:new, :edit, :show]
-    before_action :redirect_if_sent, only: [:edit, :update, :finish, :destroy]
-    before_action :update_newsletter, only: [:create, :update]
+    before_action :find_newsletter, only: %i[show edit update destroy finish]
+    before_action :prepare_new_newsletter, only: %i[new create]
+    before_action :prepare_subscriber_lists, only: %i[new edit show]
+    before_action :redirect_if_sent, only: %i[edit update finish destroy]
+    before_action :update_newsletter, only: %i[create update]
 
     def index
       @newsletters = Newsletter::Newsletter.all
     end
 
-    def new
-    end
+    def new; end
 
-    def create
-    end
+    def create; end
 
-    def edit
-    end
+    def show; end
 
-    def update
-    end
+    def edit; end
+
+    def update; end
 
     def destroy
-      @newsletter.destroy
-      redirect_to :action => :index
+      flash.notice = t('.destroyed') if @newsletter.destroy
+      redirect_to_index
     end
 
     def finish
-      @newsletter.review!
-
-      flash.notice = t("admin.newsletters.finished")
-      redirect_to :action => :index
+      flash.notice = t('.finished') if @newsletter.review!
+      redirect_to_index
     end
 
     private
@@ -49,23 +45,34 @@ module Admin
     end
 
     def redirect_if_sent
-      if @newsletter.sent?
-        redirect_to action: :index
-        return false
-      end
+      redirect_to_index if @newsletter.sent?
     end
 
     def update_newsletter
-      @newsletter.assign_attributes(params.require(:newsletter_newsletter).permit(:subject, :body_html, :body_text, subscriber_list_ids: []))
-      @newsletter.save
+      render request.action unless @newsletter.update(newsletter_params)
 
-      if params[:send_preview_email].present? && params[:preview_email].present?
-        NewsletterMailingJob.perform_later(@newsletter.id, params[:preview_email])
-
-        flash.notice = t("admin.newsletters.preview_sent")
+      if send_preview?
+        NewsletterMailingJob.perform_later(@newsletter.id,
+                                           params[:preview_email])
+        flash.notice = t('.preview_sent')
+      else
+        flash.notice = t('.saved')
       end
 
       redirect_to edit_admin_newsletter_path(@newsletter)
+    end
+
+    def send_preview?
+      params[:send_preview_email].present? && params[:preview_email].present?
+    end
+
+    def newsletter_params
+      params.require(:newsletter_newsletter)
+            .permit(:subject, :body_html, :body_text, subscriber_list_ids: [])
+    end
+
+    def redirect_to_index
+      redirect_to action: :index
     end
   end
 end

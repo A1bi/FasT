@@ -19,16 +19,13 @@ class Newsletter::Newsletter < BaseModel
   def review!
     return unless draft?
 
-    super
-
-    BaseMailer.mail(to: Settings.newsletters.review_email, subject: Settings.newsletters.review_subject, body: '').deliver
+    send_review_notification if super
   end
 
   def sent!
     return unless review?
 
-    super
-    self.sent_at = Time.current
+    update(status: :sent, sent_at: Time.current)
 
     NewsletterMailingJob.perform_later(id)
   end
@@ -53,5 +50,14 @@ class Newsletter::Newsletter < BaseModel
       end
       html
     end
+  end
+
+  private
+
+  def send_review_notification
+    BaseMailer.mail(to: Settings.newsletters.review_email,
+                    subject: Settings.newsletters.review_subject,
+                    body: "Newsletter: #{subject}")
+              .deliver_later
   end
 end
