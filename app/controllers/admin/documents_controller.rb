@@ -1,9 +1,9 @@
 module Admin
-  class DocumentsController < AdminController
+  class DocumentsController < ApplicationController
     include DocumentManagement
 
     def index
-      @documents = authorize Document.admin.all
+      @documents = authorize Document.admin
     end
 
     protected

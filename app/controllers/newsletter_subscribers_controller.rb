@@ -1,9 +1,9 @@
 class NewsletterSubscribersController < ApplicationController
-  skip_authorization
-
   before_action :find_subscriber, except: :create
 
   def create
+    authorize Newsletter::Subscriber
+
     @subscriber = create_subscriber
     if @subscriber.persisted?
       flash.notice = t('.created')
@@ -36,8 +36,8 @@ class NewsletterSubscribersController < ApplicationController
   private
 
   def find_subscriber
-    @subscriber = Newsletter::Subscriber.find_by(token: params[:token])
-    return redirect_to root_path if @subscriber.nil?
+    @subscriber = authorize Newsletter::Subscriber
+                  .find_by!(token: params[:token])
   end
 
   def create_subscriber

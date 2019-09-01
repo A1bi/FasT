@@ -1,6 +1,6 @@
 module Ticketing::Retail
   class SessionsController < Ticketing::BaseController
-    ignore_restrictions
+    skip_authorization
     skip_before_action :reset_goto
 
     def new

@@ -1,4 +1,4 @@
-module Admin
+module Newsletter
   class NewsletterPolicy < ApplicationPolicy
     def index?
       current_user_admin?

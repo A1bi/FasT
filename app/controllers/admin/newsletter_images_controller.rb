@@ -1,5 +1,5 @@
 module Admin
-  class NewsletterImagesController < AdminController
+  class NewsletterImagesController < ApplicationController
     def create
       @newsletter = authorize Newsletter::Newsletter.find(params[:newsletter_id])
       if @newsletter && !@newsletter.sent?
@@ -20,11 +20,6 @@ module Admin
 
     def redirect_to_newsletter
       redirect_to edit_admin_newsletter_path(params[:newsletter_id], anchor: :images)
-    end
-
-    def authorize(record, query = {})
-      query[:policy_class] = Admin::NewsletterImagePolicy
-      super
     end
   end
 end

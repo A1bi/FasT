@@ -1,4 +1,4 @@
-module Admin
+module Newsletter
   class NewsletterImagePolicy < ApplicationPolicy
     def create?
       current_user_admin?

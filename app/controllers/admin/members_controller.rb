@@ -1,5 +1,5 @@
 module Admin
-  class MembersController < AdminController
+  class MembersController < ApplicationController
     before_action :find_groups, :only => [:new, :edit, :create, :update]
     before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
     before_action :prepare_new_member, :only => [:new, :create]
@@ -119,13 +119,6 @@ module Admin
 
     def send_activation_mail
       MemberMailer.activation(@member).deliver_later
-    end
-
-    private
-
-    def authorize(record, query = {})
-      query[:policy_class] = Admin::MemberPolicy
-      super
     end
   end
 end
