@@ -675,8 +675,7 @@ CREATE TABLE public.photos (
     image_file_name character varying,
     image_content_type character varying,
     image_file_size integer,
-    image_updated_at timestamp without time zone,
-    is_slide boolean DEFAULT false
+    image_updated_at timestamp without time zone
 );
 
 
@@ -3426,6 +3425,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190823175242'),
 ('20190826203751'),
 ('20190828194326'),
-('20190901143224');
+('20190901143224'),
+('20190901170312');
 
 

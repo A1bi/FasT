@@ -40,7 +40,7 @@
   </div>
   <% if user_signed_in? %>
     <div id="download-link">
-      <%= link_to "Foto herunterladen", download_gallery_photo_path(gallery_id: @gallery.id, id: "-id-") %>
+      <%= link_to "Foto herunterladen", gallery_photo_path(gallery_id: @gallery.id, id: "-id-") %>
     </div>
   <% end %>
 </div>

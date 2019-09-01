@@ -1,8 +1,8 @@
 class PhotosController < ApplicationController
-  restrict_access_to_group :admin, :except => [:download]
-  restrict_access_to_group :member, :only => [:download]
+  restrict_access_to_group :admin, :except => [:show]
+  restrict_access_to_group :member, :only => [:show]
 
-  before_action :find_photo, :only => [:edit, :update, :destroy, :toggle_slide, :download]
+  before_action :find_photo, :only => [:edit, :update, :destroy, :show]
   before_action :find_gallery, :only => [:new, :edit, :create]
 
   def new
@@ -17,6 +17,10 @@ class PhotosController < ApplicationController
     else
       redirect_to edit_gallery_path(@gallery)
     end
+  end
+
+  def show
+    send_file @photo.image.path
   end
 
   def edit
@@ -44,17 +48,6 @@ class PhotosController < ApplicationController
     photo.gallery.update_attribute(:updated_at, Time.now)
 
     head :ok
-  end
-
-  def toggle_slide
-    @photo.toggle_slide
-    expire_fragment "photos_slides"
-
-    redirect_to edit_gallery_path(params[:gallery_id]), :notice => t("photos.toggle_slide")[@photo.slide?]
-  end
-
-  def download
-    send_file @photo.image.path
   end
 
   private

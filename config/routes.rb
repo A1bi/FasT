@@ -42,17 +42,10 @@ Rails.application.routes.draw do
 
     # galleries
     resources :galleries, path: "galerie" do
-      collection do
-        post "sort"
-      end
+      post 'sort', on: :collection
+
       resources :photos, path: "fotos", except: [:index] do
-        collection do
-          post "sort"
-        end
-        member do
-          get "download"
-          patch "toggle_slide"
-        end
+        post 'sort', on: :collection
       end
     end
 

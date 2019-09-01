@@ -178,26 +178,6 @@
           bottom: 5px;
           left: 5px;
         }
-
-        &.slide {
-          top: 5px;
-          right: 5px;
-          opacity: .3;
-
-          &.isSlide {
-            opacity: 1;
-            font-weight: bold;
-
-            a {
-              color: $light-blue;
-            }
-          }
-
-          a {
-            color: white;
-            text-decoration: none;
-          }
-        }
       }
 
       .actionBtns {

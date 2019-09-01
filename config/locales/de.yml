@@ -9,15 +9,6 @@ de:
   contact_messages:
     via: via Kontaktformular
     success: "Vielen Dank für Ihre Nachricht. Wir werden uns schnellstmöglich bei Ihnen melden."
-  galleries:
-    edit:
-      is_slide:
-        false: "Dieses Foto ist nicht Teil der Diashow."
-        true: "Dieses Foto ist Teil der Diashow."
-  photos:
-    toggle_slide:
-      false: "Das Foto wurde aus der Diashow entfernt."
-      true: "Das Foto wurde zur Diashow hinzugefügt."
   newsletter:
     subscriber:
       created: "Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben."
