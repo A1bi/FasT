@@ -35,5 +35,14 @@ module Members
     def reset_password?
       true
     end
+
+    def permitted_attributes
+      if current_user_admin?
+        %i[email first_name last_name nickname street plz city phone birthday
+           family_member_id family_id joined_at group sepa_mandate_id]
+      else
+        %i[email password password_confirmation]
+      end
+    end
   end
 end

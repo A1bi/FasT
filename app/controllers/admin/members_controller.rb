@@ -82,7 +82,7 @@ module Admin
     end
 
     def update_member
-      @member.assign_attributes(member_params)
+      @member.assign_attributes(permitted_attributes(@member))
 
       if @member.will_save_change_to_sepa_mandate_id?
         if @member.sepa_mandate_id.zero?
@@ -101,14 +101,6 @@ module Admin
 
         @member.sepa_mandate.update(sepa_mandate_params)
       end
-    end
-
-    def member_params
-      params.require(:members_member).permit(
-        :email, :first_name, :last_name, :nickname, :street,
-        :plz, :city, :phone, :birthday, :family_member_id,
-        :family_id, :joined_at, :group, :sepa_mandate_id
-      )
     end
 
     def sepa_mandate_params
