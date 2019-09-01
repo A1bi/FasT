@@ -3,19 +3,17 @@ module DocumentManagement
 
   included do
     before_action :find_document, :only => [:edit, :update, :destroy]
-
-    restrict_access_to_group :admin
   end
 
   def new
-    @document = Document.new
+    @document = authorize Document.new
   end
 
   def edit
   end
 
   def create
-    @document = Document.new(document_params)
+    @document = authorize Document.new(document_params)
     @document.members_group = members_group
 
     if @document.save
@@ -42,7 +40,8 @@ module DocumentManagement
   private
 
   def find_document
-    @document = Document.where(members_group: members_group).find(params[:id])
+    @document = authorize Document.where(members_group: members_group)
+                                  .find(params[:id])
   end
 
   def document_params

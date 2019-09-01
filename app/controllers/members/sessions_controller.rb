@@ -1,6 +1,6 @@
 module Members
-  class SessionsController < BaseController
-    ignore_restrictions
+  class SessionsController < ApplicationController
+    skip_authorization
     skip_before_action :reset_goto
 
     def create

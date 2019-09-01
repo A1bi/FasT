@@ -1,5 +1,5 @@
 class StaticController < ApplicationController
-  skip_verify_authorized
+  skip_authorization
 
   def index
     @alert_file = Rails.root.join('public', 'uploads', 'index_alert.json')

@@ -1,12 +1,9 @@
 module Members
-  class DatesController < BaseController
+  class DatesController < ApplicationController
     before_action :find_date, only: [:edit, :update, :destroy]
 
-    restrict_access_to_group :admin
-    ignore_restrictions only: [:index]
-
     def index
-      @dates = Members::Date.all
+      @dates = authorize Members::Date.all
       respond_to do |format|
         format.ics do
           render plain: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
@@ -45,14 +42,14 @@ module Members
     end
 
     def new
-      @date = Date.new
+      @date = authorize Date.new
     end
 
     def edit
     end
 
     def create
-      @date = Date.new(date_params)
+      @date = authorize Date.new(date_params)
 
       if @date.save
         redirect_to members_root_path
@@ -78,7 +75,7 @@ module Members
     private
 
     def find_date
-      @date = Date.find(params[:id])
+      @date = authorize Date.find(params[:id])
     end
 
     def date_params

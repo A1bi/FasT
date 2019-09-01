@@ -1,5 +1,5 @@
 module Members
-  class DocumentsController < BaseController
+  class DocumentsController < ApplicationController
     include DocumentManagement
 
     protected

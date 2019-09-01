@@ -1,8 +1,4 @@
-class PhotoPolicy < ApplicationPolicy
-  def show?
-    current_user_member?
-  end
-
+class DocumentPolicy < ApplicationPolicy
   def create?
     current_user_admin?
   end
@@ -12,10 +8,6 @@ class PhotoPolicy < ApplicationPolicy
   end
 
   def destroy?
-    current_user_admin?
-  end
-
-  def sort?
     current_user_admin?
   end
 end

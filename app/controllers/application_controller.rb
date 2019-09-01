@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
   class << self
     protected
 
-    def skip_verify_authorized
-      skip_after_action :verify_authorized
+    def skip_authorization
+      before_action :skip_authorization
     end
 
     def ignore_restrictions(options = {})

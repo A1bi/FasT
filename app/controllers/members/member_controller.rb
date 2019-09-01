@@ -1,14 +1,12 @@
 module Members
-  class MemberController < BaseController
-    ignore_restrictions :only => [:activate, :finish_activation, :forgot_password, :reset_password]
-
+  class MemberController < ApplicationController
     def activate
-      @member = Member.where(:activation_code => params[:code]).first
-      redirect_to_login if !params[:code].present? || @member.nil?
+      @member = authorize Member.find_by(activation_code: params[:code])
+      redirect_to_login if params[:code].blank? || @member.nil?
     end
 
     def finish_activation
-      @member = Member.find(params[:members_member][:id])
+      @member = authorize Member.find(params[:members_member][:id])
       return redirect_to_login if @member.activation_code != params[:members_member][:activation_code]
 
       @member.password = params[:members_member][:password]
@@ -28,8 +26,12 @@ module Members
       end
     end
 
+    def edit
+      authorize current_user
+    end
+
     def update
-      current_user.assign_attributes(member_params)
+      authorize(current_user).assign_attributes(member_params)
       if current_user.save(context: :user_update)
         flash.notice = t("application.saved_changes")
         redirect_to :action => :edit
@@ -39,7 +41,7 @@ module Members
     end
 
     def reset_password
-      member = Member.where(email: params[:members_member][:email]).first
+      member = authorize Member.find_by(email: params[:members_member][:email])
       if !member
         flash.alert = t("members.member.email_not_found")
         redirect_to :action => :forgot_password

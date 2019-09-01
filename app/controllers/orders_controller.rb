@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  skip_verify_authorized
+  skip_authorization
 
   before_action :find_records
 

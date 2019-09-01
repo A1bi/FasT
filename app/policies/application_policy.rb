@@ -53,7 +53,7 @@ class ApplicationPolicy
     user.try(:admin?)
   end
 
-  def user_signed_in?
-    user.present?
+  def current_user_member?
+    user.try(:member?)
   end
 end

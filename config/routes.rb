@@ -193,7 +193,7 @@ Rails.application.routes.draw do
       post "login" => "sessions#create"
       get "logout" => "sessions#destroy", as: :logout
 
-      root to: "main#index", as: :root
+      root to: 'dashboard#index', as: :root
     end
 
   end

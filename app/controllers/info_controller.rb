@@ -1,5 +1,5 @@
 class InfoController < ApplicationController
-  skip_verify_authorized
+  skip_authorization
 
   def index
     if params[:event_slug].present?

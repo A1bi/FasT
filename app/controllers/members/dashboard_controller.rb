@@ -1,6 +1,8 @@
 module Members
-  class MainController < BaseController
+  class DashboardController < ApplicationController
     def index
+      authorize %i[members dashboard]
+
       @dates = Members::Date.not_expired.order(:datetime)
       @files = Document.member
     end
