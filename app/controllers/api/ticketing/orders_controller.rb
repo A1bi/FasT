@@ -1,6 +1,6 @@
 module Api
   module Ticketing
-    class OrdersController < ApplicationController
+    class OrdersController < ApiController
       include OrderCreation
       include ::Ticketing::RetailStoreAuthenticatable
       include ::Ticketing::OrderingType

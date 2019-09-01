@@ -1,5 +1,5 @@
 module Api
-  class MembersController < ApplicationController
+  class MembersController < ApiController
     before_action :authenticate
 
     def index

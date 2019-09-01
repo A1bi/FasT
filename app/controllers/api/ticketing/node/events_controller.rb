@@ -1,7 +1,7 @@
 module Api
   module Ticketing
     module Node
-      class EventsController < ApplicationController
+      class EventsController < ApiController
         def index
           events = ::Ticketing::Event.current.includes(:dates)
           dates = events.collect(&:dates).flatten

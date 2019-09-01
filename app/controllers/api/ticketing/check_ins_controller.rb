@@ -1,8 +1,6 @@
 module Api
   module Ticketing
-    class CheckInsController < ApplicationController
-      ignore_authenticity_token
-
+    class CheckInsController < ApiController
       def index
         @signing_keys = ::Ticketing::SigningKey.active
         @dates = ::Ticketing::EventDate.where(event: events)

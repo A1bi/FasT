@@ -1,9 +1,7 @@
 module Api
   module Ticketing
     module BoxOffice
-      class BaseController < ApplicationController
-        ignore_authenticity_token
-
+      class BaseController < ApiController
         private
 
         def current_box_office
