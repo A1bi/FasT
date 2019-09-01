@@ -1,5 +1,5 @@
 module Admin
-  class MembersController < BaseController
+  class MembersController < AdminController
     before_action :find_groups, :only => [:new, :edit, :create, :update]
     before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
     before_action :prepare_new_member, :only => [:new, :create]
@@ -8,7 +8,7 @@ module Admin
     before_action :find_sepa_mandates, only: %i[new create edit update]
 
     def index
-      @members = Members::Member.alphabetically
+      @members = authorize Members::Member.alphabetically
     end
 
     def new
@@ -60,7 +60,7 @@ module Admin
     end
 
     def find_member
-      @member = Members::Member.find(params[:id])
+      @member = authorize Members::Member.find(params[:id])
       @member.build_sepa_mandate if @member.sepa_mandate.blank?
     end
 
@@ -76,7 +76,7 @@ module Admin
     end
 
     def prepare_new_member
-      @member = Members::Member.new
+      @member = authorize Members::Member.new
       @member.build_sepa_mandate
       @member
     end
@@ -119,6 +119,13 @@ module Admin
 
     def send_activation_mail
       MemberMailer.activation(@member).deliver_later
+    end
+
+    private
+
+    def authorize(record, query = {})
+      query[:policy_class] = Admin::MemberPolicy
+      super
     end
   end
 end

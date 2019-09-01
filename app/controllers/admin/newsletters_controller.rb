@@ -1,5 +1,5 @@
 module Admin
-  class NewslettersController < BaseController
+  class NewslettersController < AdminController
     before_action :find_newsletter, only: %i[show edit update destroy finish]
     before_action :prepare_new_newsletter, only: %i[new create]
     before_action :prepare_subscriber_lists, only: %i[new edit show]
@@ -7,7 +7,7 @@ module Admin
     before_action :update_newsletter, only: %i[create update]
 
     def index
-      @newsletters = Newsletter::Newsletter.all
+      @newsletters = authorize Newsletter::Newsletter.all
     end
 
     def new; end
@@ -33,11 +33,11 @@ module Admin
     private
 
     def find_newsletter
-      @newsletter = Newsletter::Newsletter.find(params[:id])
+      @newsletter = authorize Newsletter::Newsletter.find(params[:id])
     end
 
     def prepare_new_newsletter
-      @newsletter = Newsletter::Newsletter.new
+      @newsletter = authorize Newsletter::Newsletter.new
     end
 
     def prepare_subscriber_lists
@@ -73,6 +73,11 @@ module Admin
 
     def redirect_to_index
       redirect_to action: :index
+    end
+
+    def authorize(record, query = {})
+      query[:policy_class] = Admin::NewsletterPolicy
+      super
     end
   end
 end
