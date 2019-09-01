@@ -1,4 +1,6 @@
 class TheaterController < ApplicationController
+  skip_verify_authorized
+
   before_action :disable_member_controls, except: :index
 
   def index; end

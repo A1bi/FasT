@@ -1,4 +1,6 @@
 class StaticController < ApplicationController
+  skip_verify_authorized
+
   def index
     @alert_file = Rails.root.join('public', 'uploads', 'index_alert.json')
     @events = Ticketing::Event.where(identifier: %i[sahnemixx blauer_planet])

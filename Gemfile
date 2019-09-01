@@ -4,6 +4,8 @@ gem 'rails', '~> 6.0.0'
 
 gem 'pg'
 
+gem 'pundit', '~> 2.1.0'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

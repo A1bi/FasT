@@ -38,7 +38,7 @@
   <div class="disclaimer small">
     <%= @gallery.disclaimer %>
   </div>
-  <% if user_signed_in? %>
+  <% if policy(Photo).show? %>
     <div id="download-link">
       <%= link_to "Foto herunterladen", gallery_photo_path(gallery_id: @gallery.id, id: "-id-") %>
     </div>

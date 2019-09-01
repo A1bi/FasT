@@ -1,4 +1,6 @@
 class InfoController < ApplicationController
+  skip_verify_authorized
+
   def index
     if params[:event_slug].present?
       @event = Ticketing::Event.current.find_by!(slug: params[:event_slug])

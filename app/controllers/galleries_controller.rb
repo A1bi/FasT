@@ -1,10 +1,8 @@
 class GalleriesController < ApplicationController
-  restrict_access_to_group :admin, :except => [:index, :show]
-
   before_action :find_gallery, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @galleries = Gallery.order(:position)
+    @galleries = authorize(Gallery.order(:position))
   end
 
   def show
@@ -12,11 +10,11 @@ class GalleriesController < ApplicationController
   end
 
   def new
-    @gallery = Gallery.new
+    @gallery = authorize(Gallery.new)
   end
 
   def create
-    @gallery = Gallery.new(gallery_params)
+    @gallery = authorize(Gallery.new(gallery_params))
 
     if !@gallery.save
       render :action => :new
@@ -53,7 +51,7 @@ class GalleriesController < ApplicationController
   private
 
   def find_gallery
-    @gallery = Gallery.find(params[:id])
+    @gallery = authorize(Gallery.find(params[:id]))
   end
 
   def gallery_params

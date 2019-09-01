@@ -1,11 +1,20 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   attr_writer :restricted_to_group
 
   before_action :set_raven_context
   prepend_before_action :reset_goto
+  after_action :verify_authorized
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   class << self
     protected
+
+    def skip_verify_authorized
+      skip_after_action :verify_authorized
+    end
 
     def ignore_restrictions(options = {})
       skip_before_action :restrict_access, options
@@ -102,6 +111,16 @@ class ApplicationController < ActionController::Base
       redirect_to members_login_path, flash: { warning: t('application.login_required') }
     elsif Members::Member.groups[@restricted_to_group] > Members::Member.groups[current_user.group]
       redirect_to members_root_path, alert: t('application.access_denied')
+    end
+  end
+
+  def user_not_authorized
+    if user_signed_in?
+      flash[:alert] = t('application.access_denied')
+      redirect_to members_root_path
+    else
+      flash[:warning] = t('application.login_required')
+      redirect_to members_login_path
     end
   end
 

@@ -1,16 +1,13 @@
 class PhotosController < ApplicationController
-  restrict_access_to_group :admin, :except => [:show]
-  restrict_access_to_group :member, :only => [:show]
-
   before_action :find_photo, :only => [:edit, :update, :destroy, :show]
   before_action :find_gallery, :only => [:new, :edit, :create]
 
   def new
-    @photo = @gallery.photos.new
+    @photo = authorize(@gallery.photos.new)
   end
 
   def create
-    @photo = @gallery.photos.new(photo_params)
+    @photo = authorize(@gallery.photos.new(photo_params))
 
     if !@photo.save
       render :action => "new"
@@ -42,10 +39,10 @@ class PhotosController < ApplicationController
   def sort
     photo = nil
     params[:photo].each_with_index do |id, index|
-      photo = Photo.find(id)
+      photo = authorize(Photo.find(id))
       photo.update_column(:position, index+1)
     end
-    photo.gallery.update_attribute(:updated_at, Time.now)
+    authorize(photo.gallery).touch
 
     head :ok
   end
@@ -53,11 +50,11 @@ class PhotosController < ApplicationController
   private
 
   def find_photo
-    @photo = Photo.find(params[:id])
+    @photo = authorize(Photo.find(params[:id]))
   end
 
   def find_gallery
-    @gallery = Gallery.find(params[:gallery_id])
+    @gallery = authorize(Gallery.find(params[:gallery_id]))
   end
 
   def photo_params

@@ -1,6 +1,8 @@
 class DatesController < ApplicationController
   include ActionView::Helpers::AssetUrlHelper
 
+  skip_verify_authorized
+
   def index
     event = Ticketing::Event.with_future_dates.last
     redirect_to dates_event_path(event.slug)

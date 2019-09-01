@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  skip_verify_authorized
+
   before_action :find_records
 
   def show

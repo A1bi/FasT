@@ -1,4 +1,6 @@
 class ContactMessagesController < ApplicationController
+  skip_verify_authorized
+
   before_action :filter_spam, only: :create
 
   def index

@@ -1,4 +1,6 @@
 class NewsletterSubscribersController < ApplicationController
+  skip_verify_authorized
+
   before_action :find_subscriber, except: :create
 
   def create
