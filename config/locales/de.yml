@@ -32,6 +32,10 @@ de:
       destroyed: "Das Mitglied wurde erfolgreich gelöscht."
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
       never_logged_in: noch nie
+      form:
+        sepa_mandates:
+          all: Alle Mandate
+          family: Mandate aus der Familie dieses Mitglieds
     newsletters:
       preview_sent: "Eine Vorschau wurde verschickt."
       finished: "Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt."
@@ -295,10 +299,23 @@ de:
               confirmation: "Die eingegebenen Passwörter stimmen nicht überein."
             plz:
               less_than: Die eingegebene Postzeitzahl ist ungültig.
+            sepa_mandate:
+              invalid: SEPA-Mandat ungültig.
+        members/sepa_mandate:
+          attributes:
+            iban:
+              invalid: IBAN ungültig.
+            number:
+              taken: Diese Mandatsnummer ist bereits vergeben.
         members/file:
           attributes:
             file_content_type:
               invalid: "Es können nur JPG-, PNG-, und PDF-Dateien hochgeladen werden."
+    attributes:
+      members/sepa_mandate:
+        debtor_name: Kontoinhaber
+        iban: IBAN
+        number: Mandatsnummer
   attributes:
     title: "Titel"
     email: "e-mail-Adresse"

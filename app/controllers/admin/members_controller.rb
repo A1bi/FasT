@@ -5,6 +5,7 @@ module Admin
     before_action :prepare_new_member, :only => [:new, :create]
     before_action :update_member, :only => [:create, :update]
     before_action :find_members_for_family, only: %w[new create edit update]
+    before_action :find_sepa_mandates, only: %i[new create edit update]
 
     def index
       @members = Members::Member.alphabetically
@@ -60,10 +61,18 @@ module Admin
 
     def find_member
       @member = Members::Member.find(params[:id])
+      @member.build_sepa_mandate if @member.sepa_mandate.blank?
     end
 
     def find_members_for_family
       @members = Members::Member.where.not(id: @member).alphabetically
+    end
+
+    def find_sepa_mandates
+      @sepa_mandates = {
+        family: @member.family&.sepa_mandates,
+        all: Members::SepaMandate.order(:number)
+      }.compact
     end
 
     def prepare_new_member
@@ -72,13 +81,35 @@ module Admin
 
     def update_member
       @member.assign_attributes(member_params)
+
+      if @member.will_save_change_to_sepa_mandate_id?
+        return unless @member.sepa_mandate_id.zero?
+
+        @member.build_sepa_mandate(sepa_mandate_params)
+
+      else
+        # do not change the IBAN if it is still obfuscated and therefore
+        # has not been changed by the user
+        if sepa_mandate_params[:iban].include? 'XXX'
+          sepa_mandate_params.delete(:iban)
+        end
+
+        @member.sepa_mandate.update(sepa_mandate_params)
+      end
     end
 
     def member_params
-      params.require(:members_member)
-            .permit(:email, :first_name, :last_name, :nickname, :street, :plz,
-                    :city, :phone, :birthday, :family_member_id, :family_id,
-                    :joined_at, :group)
+      params.require(:members_member).permit(
+        :email, :first_name, :last_name, :nickname, :street,
+        :plz, :city, :phone, :birthday, :family_member_id,
+        :family_id, :joined_at, :group, :sepa_mandate_id
+      )
+    end
+
+    def sepa_mandate_params
+      @sepa_mandate_params ||= params.require(:members_member)
+                                     .require(:members_sepa_mandate)
+                                     .permit(:debtor_name, :iban, :number)
     end
 
     def send_activation_mail

@@ -351,6 +351,39 @@ ALTER SEQUENCE public.members_families_id_seq OWNED BY public.members_families.i
 
 
 --
+-- Name: members_sepa_mandates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.members_sepa_mandates (
+    id bigint NOT NULL,
+    debtor_name character varying,
+    iban character varying(34),
+    number integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: members_sepa_mandates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.members_sepa_mandates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: members_sepa_mandates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.members_sepa_mandates_id_seq OWNED BY public.members_sepa_mandates.id;
+
+
+--
 -- Name: newsletter_images; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1654,7 +1687,8 @@ CREATE TABLE public.users (
     plz integer,
     city character varying,
     phone character varying,
-    joined_at date
+    joined_at date,
+    sepa_mandate_id bigint
 );
 
 
@@ -1731,6 +1765,13 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits ALTER COLUMN id SE
 --
 
 ALTER TABLE ONLY public.members_families ALTER COLUMN id SET DEFAULT nextval('public.members_families_id_seq'::regclass);
+
+
+--
+-- Name: members_sepa_mandates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_sepa_mandates ALTER COLUMN id SET DEFAULT nextval('public.members_sepa_mandates_id_seq'::regclass);
 
 
 --
@@ -2069,6 +2110,14 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits
 
 ALTER TABLE ONLY public.members_families
     ADD CONSTRAINT members_families_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_sepa_mandates members_sepa_mandates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_sepa_mandates
+    ADD CONSTRAINT members_sepa_mandates_pkey PRIMARY KEY (id);
 
 
 --
@@ -2888,6 +2937,13 @@ CREATE INDEX index_users_on_family_id ON public.users USING btree (family_id);
 
 
 --
+-- Name: index_users_on_sepa_mandate_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_sepa_mandate_id ON public.users USING btree (sepa_mandate_id);
+
+
+--
 -- Name: index_users_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2948,6 +3004,14 @@ ALTER TABLE ONLY public.ticketing_box_office_order_payments
 
 ALTER TABLE ONLY public.ticketing_billing_transfers
     ADD CONSTRAINT fk_rails_17a5504e18 FOREIGN KEY (account_id) REFERENCES public.ticketing_billing_accounts(id);
+
+
+--
+-- Name: users fk_rails_19e933b1d8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_19e933b1d8 FOREIGN KEY (sepa_mandate_id) REFERENCES public.members_sepa_mandates(id);
 
 
 --
@@ -3352,6 +3416,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190821221505'),
 ('20190821231434'),
 ('20190823175242'),
-('20190826203751');
+('20190826203751'),
+('20190828194326');
 
 

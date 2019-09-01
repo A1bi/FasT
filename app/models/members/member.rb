@@ -11,7 +11,9 @@ module Members
     attr_reader :family_member_id
 
     belongs_to :family, optional: true
+    belongs_to :sepa_mandate, optional: true, validate: true
 
+    auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
     phony_normalize :phone, default_country_code: 'DE'
 
     validates :joined_at, presence: true
