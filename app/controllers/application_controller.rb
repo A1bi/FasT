@@ -82,6 +82,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def pundit_user
+    @pundit_user ||= UserContext.new(user: current_user)
+  end
+
   private
 
   def authenticate_user

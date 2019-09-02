@@ -7,8 +7,8 @@ module Ticketing
       Ticketing::Retail::Order
     ].freeze
 
+    before_action :authorize
     before_action :find_events, only: %i[index index_retail]
-    ignore_restrictions only: [:index_retail]
 
     def index
       @stores = Retail::Store.all
@@ -110,6 +110,10 @@ module Ticketing
         :ticketing, :statistics, :seats,
         date, Ticketing::Seat.all, Ticketing::Ticket.all
       ]
+    end
+
+    def authorize
+      super %i[ticketing statistics]
     end
   end
 end

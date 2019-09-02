@@ -1,8 +1,18 @@
-class ApplicationPolicy
-  attr_reader :user, :record
+class UserContext
+  attr_reader :user, :retail_store
 
-  def initialize(user, record)
+  def initialize(user:, retail_store: nil)
     @user = user
+    @retail_store = retail_store
+  end
+end
+
+class ApplicationPolicy
+  attr_reader :user, :retail_store, :record
+
+  def initialize(user_context, record)
+    @user = user_context.user
+    @retail_store = user_context.retail_store
     @record = record
   end
 
@@ -35,10 +45,11 @@ class ApplicationPolicy
   end
 
   class Scope
-    attr_reader :user, :scope
+    attr_reader :user, :retail_store, :scope
 
-    def initialize(user, scope)
-      @user = user
+    def initialize(user_context, scope)
+      @user = user_context.user
+      @retail_store = user_context.retail_store
       @scope = scope
     end
 
