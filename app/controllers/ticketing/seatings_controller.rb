@@ -3,11 +3,11 @@ module Ticketing
     before_action :find_seatings, only: %w[index show]
 
     def index
-      redirect_to @seatings.first
+      redirect_to authorize(@seatings.first)
     end
 
     def show
-      @seating = @seatings.find(params[:id])
+      @seating = authorize @seatings.find(params[:id])
 
       respond_to do |format|
         format.html

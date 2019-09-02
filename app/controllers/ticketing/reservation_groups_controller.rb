@@ -3,7 +3,8 @@ module Ticketing
     before_action :find_group, only: [:show, :update, :destroy]
 
     def index
-      redirect_to ticketing_reservation_group_path(Ticketing::ReservationGroup.first)
+      group = authorize Ticketing::ReservationGroup.first
+      redirect_to ticketing_reservation_group_path(group)
     end
 
     def show
@@ -18,7 +19,7 @@ module Ticketing
     end
 
     def create
-      group = Ticketing::ReservationGroup.new(params.require(:ticketing_reservation_group).permit(:name))
+      group = authorize Ticketing::ReservationGroup.new(group_params)
       if group.save
         flash[:notice] = t("ticketing.reservation_groups.created")
         redirect_to ticketing_reservation_group_path(group.id)
@@ -60,12 +61,16 @@ module Ticketing
     private
 
     def find_group
-      @group = Ticketing::ReservationGroup.find(params[:id])
+      @group = authorize Ticketing::ReservationGroup.find(params[:id])
     end
 
     def update_node_with_reservations(reservations)
       NodeApi.update_seats_from_records(reservations)
     rescue Errno::ENOENT # rubocop:disable Lint/HandleExceptions
+    end
+
+    def group_params
+      params.require(:ticketing_reservation_group).permit(:name)
     end
   end
 end

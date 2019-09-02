@@ -3,8 +3,6 @@ module Ticketing
     include RetailStoreAuthenticatable
     include OrderingType
 
-    restrict_access_to_group :admin
-
     before_action :disable_member_controls_for_retail
 
     helper TicketingHelper

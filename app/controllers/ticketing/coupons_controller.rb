@@ -4,7 +4,7 @@ module Ticketing
     before_action :prepare_vars, only: [:edit, :new, :update, :create]
 
     def index
-      @coupons = Coupon.expired(false).order(:recipient)
+      @coupons = authorize Coupon.expired(false).order(:recipient)
       @coupons_expired = Coupon.expired(true).order(:recipient)
     end
 
@@ -13,11 +13,12 @@ module Ticketing
     end
 
     def new
-      @coupon = Coupon.new
+      @coupon = authorize Coupon.new
     end
 
     def create
-      @coupon = Coupon.create(coupon_params)
+      @coupon = authorize Coupon.new(coupon_params)
+      @coupon.save
       redirect_to @coupon
     end
 
@@ -64,7 +65,7 @@ module Ticketing
     private
 
     def find_coupon
-      @coupon = Coupon.find(params[:id])
+      @coupon = authorize Coupon.find(params[:id])
     end
 
     def prepare_vars

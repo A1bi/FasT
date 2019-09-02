@@ -4,6 +4,8 @@ module Ticketing
     before_action :find_charges_to_submit, only: [:index, :submit]
 
     def index
+      authorize Ticketing::Order, :mark_as_paid?
+
       @orders = {
         unpaid: {
           transfer: find_unpaid_orders.transfer_payment,
@@ -20,6 +22,8 @@ module Ticketing
     end
 
     def mark_as_paid
+      authorize Ticketing::Order
+
       @orders.each do |order|
         order.mark_as_paid
         order.save
@@ -28,6 +32,8 @@ module Ticketing
     end
 
     def approve
+      authorize Ticketing::BankCharge
+
       @orders.each do |order|
         order.approve
         order.save
@@ -36,6 +42,8 @@ module Ticketing
     end
 
     def submit
+      authorize Ticketing::BankCharge
+
       return redirect_to_overview if @unsubmitted_charges.empty?
 
       submission = BankSubmission.new
@@ -46,6 +54,8 @@ module Ticketing
     end
 
     def submission_file
+      authorize Ticketing::BankCharge
+
       submission = BankSubmission.find(params[:id])
 
       info_keys = %i[name iban creditor_identifier]
@@ -74,6 +84,8 @@ module Ticketing
     end
 
     def credit_transfer_file
+      authorize Ticketing::Order
+
       orders = orders_with_outstanding_credit
       return redirect_to_overview if orders.none?
 
