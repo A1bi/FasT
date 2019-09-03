@@ -1,26 +1,27 @@
 module Ticketing
   class OrdersController < BaseController
-    ignore_restrictions
-    before_action :restrict_access
-    before_action :check_retail_sale_enabled, only: :new_retail
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
-    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :cancel, :create_billing, :seats]
+    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
     before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
     before_action :redirect_if_no_web_order, only: [:edit, :update]
 
     def new
-      if !current_user&.admin?
-        if !@event.sale_started?
-          redirect_to root_path, alert: t("ticketing.orders.not_yet_available", event: @event.name, start: l(@event.sale_start, format: :long))
-        elsif @event.sale_ended?
-          redirect_to root_path, alert: t("ticketing.orders.sale_ended", event: @event.name)
-        elsif @event.sale_disabled?
-          redirect_to root_path, alert: @event.sale_disabled_message
-        end
-      end
       @max_tickets = 25
+
+      return if current_user&.admin?
+
+      if !@event.sale_started?
+        alert = t('.not_yet_available', event: @event.name, start:
+                  l(@event.sale_start, format: :long))
+      elsif @event.sale_ended?
+        alert = t('.sale_ended', event: @event.name)
+      elsif @event.sale_disabled?
+        alert = @event.sale_disabled_message
+      end
+
+      redirect_to root_path, alert: alert if alert
     end
 
     def new_admin
@@ -30,9 +31,16 @@ module Ticketing
 
     def new_retail
       @max_tickets = 35
+
+      return if current_retail_store.sale_enabled
+
+      redirect_to ticketing_retail_orders_path,
+                  alert: t('.sale_disabled_for_store')
     end
 
     def add_coupon
+      authorize Order
+
       response = { ok: false }
 
       if !@coupon
@@ -54,6 +62,8 @@ module Ticketing
     end
 
     def remove_coupon
+      authorize Order
+
       response = { ok: false }
 
       if @coupon
@@ -67,6 +77,8 @@ module Ticketing
     end
 
     def enable_reservation_groups
+      authorize Order
+
       groups = []
       (params[:groups] ||= []).each do |group_id|
         groups << Ticketing::ReservationGroup.find(group_id)
@@ -79,6 +91,8 @@ module Ticketing
     end
 
     def index
+      authorize Ticketing::Order
+
       @orders = {}
 
       if params[:q].present?
@@ -106,6 +120,8 @@ module Ticketing
     end
 
     def show
+      authorize @order
+
       @show_check_ins = admin? && @order.tickets.any? { |t| t.check_ins.any? || t.date.date.past? }
       @billing_actions.map! do |transaction|
         [t("ticketing.orders.balancing." + transaction.to_s), transaction]
@@ -113,6 +129,8 @@ module Ticketing
     end
 
     def edit
+      authorize @order
+
       @pay_methods = Web::Order.pay_methods.keys
       @pay_methods.reject! do |method|
         method == 'charge' && !@order.charge_payment?
@@ -123,7 +141,7 @@ module Ticketing
     end
 
     def update
-      if @order.update(update_order_params)
+      if authorize(@order).update(update_order_params)
         redirect_to_order_details :updated
       else
         render :edit
@@ -131,7 +149,7 @@ module Ticketing
     end
 
     def mark_as_paid
-      if !@order.cancelled? && @order.billing_account.outstanding?
+      if !authorize(@order).cancelled? && @order.billing_account.outstanding?
         @order.mark_as_paid
         @order.save
       end
@@ -139,13 +157,15 @@ module Ticketing
     end
 
     def approve
+      authorize BankCharge
+
       @order.approve
       @order.save
       redirect_to_order_details :approved
     end
 
     def send_pay_reminder
-      if @order.is_a?(Ticketing::Web::Order) && @order.billing_account.outstanding?
+      if authorize(@order).is_a?(Ticketing::Web::Order) && @order.billing_account.outstanding?
         @order.send_pay_reminder
         @order.save
       end
@@ -153,7 +173,7 @@ module Ticketing
     end
 
     def resend_confirmation
-      if @order.is_a? Ticketing::Web::Order
+      if authorize(@order).is_a? Ticketing::Web::Order
         @order.send_confirmation(log: true)
         @order.save
       end
@@ -161,7 +181,7 @@ module Ticketing
     end
 
     def resend_tickets
-      if @order.is_a? Ticketing::Web::Order
+      if authorize(@order).is_a? Ticketing::Web::Order
         @order.resend_tickets
         @order.save
       end
@@ -169,19 +189,26 @@ module Ticketing
     end
 
     def create_billing
-      if @billing_actions.include? params[:note].to_sym
-        if [:cash_refund_in_store, :transfer_refund].include? params[:note].to_sym
-          @order.send(params[:note])
-        else
-          amount = params[:amount].gsub(",", ".").to_f
-          @order.correct_balance(amount) if amount != 0
-        end
-        @order.save
+      type = params[:note].to_sym
+
+      if type.in? %i[cash_refund_in_store transfer_refund]
+        authorize @order, "#{type}?"
+        @order.send(params[:note])
+
+      elsif type == :correction
+        authorize @order, :correct_balance?
+        amount = params[:amount].gsub(',', '.').to_f
+        @order.correct_balance(amount) if amount.nonzero?
       end
+
+      @order.save
+
       redirect_to_order_details :created_billing
     end
 
     def seats
+      authorize @order
+
       render_cached_json [:ticketing, :orders, :show, @order, @order.date.tickets] do
         seats = {}
         [[:chosen, @order], [:taken, @order.date]].each do |type|
@@ -246,12 +273,7 @@ module Ticketing
     end
 
     def find_order
-      if retail?
-        orders = Ticketing::Retail::Order.where(store: current_retail_store)
-      else
-        orders = Ticketing::Order.all
-      end
-      @order = orders.find(params[:id])
+      @order = policy_scope(Order).find(params[:id])
     end
 
     def find_coupon
@@ -259,7 +281,7 @@ module Ticketing
     end
 
     def prepare_new
-      @order = Order.new
+      @order = authorize Order.new
       @type = admin? ? :admin : retail? ? :retail : :web
     end
 
@@ -274,33 +296,6 @@ module Ticketing
         end
       end
       @billing_actions << :correction if admin?
-    end
-
-    def restrict_access
-      actions = [:new, :add_coupon, :remove_coupon]
-      if (admin? && current_user&.admin?) || (retail? && retail_store_signed_in?)
-        actions.push :index, :show, :cancel, :seats, :search, :create_billing
-        if retail_store_signed_in?
-          actions.push :new_retail
-        end
-        if current_user&.admin?
-          actions.push :new_admin, :edit, :update, :enable_reservation_groups, :mark_as_paid, :approve, :send_pay_reminder, :resend_confirmation, :resend_tickets
-        end
-      end
-      if !actions.include? action_name.to_sym
-        if retail?
-          return redirect_to ticketing_retail_login_path, flash: { warning: t("application.login_required") }
-        else
-          return redirect_to root_path, alert: t("application.access_denied")
-        end
-      end
-    end
-
-    def check_retail_sale_enabled
-      return if current_retail_store.sale_enabled
-
-      redirect_to ticketing_retail_orders_path,
-                  alert: t('.sale_disabled_for_store')
     end
 
     def redirect_if_no_web_order

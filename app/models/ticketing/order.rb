@@ -31,6 +31,12 @@ module Ticketing
     delegate :event, to: :date, allow_nil: true
     delegate :balance, to: :billing_account
 
+    class << self
+      def policy_class
+        OrderPolicy
+      end
+    end
+
     def update(attributes)
       log(:updated)
       super

@@ -56,6 +56,12 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
+
+    private
+
+    def current_user_admin?
+      user.try(:admin?)
+    end
   end
 
   private
