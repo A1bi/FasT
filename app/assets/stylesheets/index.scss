@@ -71,6 +71,17 @@
       color: black;
     }
   }
+
+  &.gemetzel {
+    .links {
+      color: black;
+      font-size: 20px;
+
+      div {
+        font-size: 24px;
+      }
+    }
+  }
 }
 
 .partner {
