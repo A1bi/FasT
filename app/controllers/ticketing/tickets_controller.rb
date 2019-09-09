@@ -3,8 +3,6 @@ module Ticketing
     before_action :find_tickets_with_order, except: :printable
     before_action :find_tickets, only: :printable
     before_action :find_event, only: [:transfer, :finish_transfer]
-    ignore_restrictions
-    before_action :restrict_access
 
     def cancel
       ::Ticketing::TicketCancelService.new(@tickets, params[:reason]).execute
@@ -105,31 +103,19 @@ module Ticketing
     end
 
     def find_tickets
-      @tickets = Ticketing::Ticket.find(params[:ticket_ids])
+      @tickets = authorize Ticketing::Ticket.find(params[:ticket_ids])
     end
 
     def find_tickets_with_order
       @order = Ticketing::Order.find(params[:order_id])
-      deny_access if retail? && !@order.is_a?(Ticketing::Retail::Order)
       @order.admin_validations = true if admin? && @order.is_a?(Ticketing::Web::Order)
 
-      @tickets = @order.tickets
-                       .cancelled(false).where(id: params[:ticket_ids]).to_a
+      @tickets = authorize @order.tickets.cancelled(false)
+                                 .where(id: params[:ticket_ids]).to_a
     end
 
     def find_event
       @event = @tickets.first.date.event
-    end
-
-    def restrict_access
-      if (admin? && !current_user&.admin?) ||
-         (retail? && !retail_store_signed_in?)
-        deny_access
-      end
-    end
-
-    def deny_access
-      return redirect_to root_path, alert: t("application.access_denied")
     end
   end
 end

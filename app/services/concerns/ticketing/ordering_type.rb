@@ -5,8 +5,20 @@ module Ticketing
     TYPES = %i[web admin retail box_office].freeze
 
     included do
-      if self < ActionController::Base && respond_to?(:helper_method)
-        helper_method(TYPES.map { |t| "#{t}?" })
+      next unless self < ActionController::Base
+
+      helper_method(TYPES.map { |t| "#{t}?" }) if respond_to?(:helper_method)
+
+      prepend_before_action :authorize_type
+    end
+
+    class_methods do
+      protected
+
+      def skip_authorization
+        super
+
+        skip_before_action :authorize_type
       end
     end
 
@@ -16,6 +28,15 @@ module Ticketing
 
     TYPES.each do |t|
       define_method("#{t}?") { type == t }
+    end
+
+    private
+
+    def authorize_type
+      return if type && (admin? && current_user&.admin? ||
+                         retail? && retail_store_signed_in?)
+
+      redirect_to root_path, alert: t('application.access_denied')
     end
   end
 end

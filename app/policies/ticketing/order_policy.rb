@@ -6,6 +6,8 @@ module Ticketing
           scope.all
         elsif retail_store
           retail_store.orders
+        else
+          scope.none
         end
       end
     end
@@ -89,7 +91,7 @@ module Ticketing
     private
 
     def retail_order?
-      record.try(:store) == retail_store
+      record.try(:store) && record.store == retail_store
     end
   end
 end

@@ -1,11 +1,10 @@
 module Ticketing
   class OrdersController < BaseController
+    before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :set_event_info, only: [:new, :new_retail, :new_admin]
     before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
-    before_action :prepare_new, only: [:new, :new_admin, :new_retail]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
-    before_action :redirect_if_no_web_order, only: [:edit, :update]
 
     def new
       @max_tickets = 25
@@ -298,8 +297,15 @@ module Ticketing
       @billing_actions << :correction if admin?
     end
 
-    def redirect_if_no_web_order
-      redirect_to_order_details unless @order.is_a? Web::Order
+    def user_not_authorized
+      return super if admin?
+
+      if retail_store_signed_in?
+        redirect_to root_path, alert: t('application.access_denied')
+      else
+        flash[:warning] = t('application.login_required')
+        redirect_to ticketing_retail_login_path
+      end
     end
 
     def update_order_params
