@@ -98,12 +98,16 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     if user_signed_in?
-      flash[:alert] = t('application.access_denied')
-      redirect_to members_root_path
+      deny_access members_root_path
     else
       flash[:warning] = t('application.login_required')
       redirect_to members_login_path
     end
+  end
+
+  def deny_access(redirect_path)
+    Raven.capture_message('Permission denied', backtrace: caller)
+    redirect_to redirect_path, alert: t('application.access_denied')
   end
 
   def permanent_user_id_cookie_name

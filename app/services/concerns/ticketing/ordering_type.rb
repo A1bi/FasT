@@ -36,7 +36,7 @@ module Ticketing
       return if web? || admin? && current_user&.admin? ||
                 retail? && retail_store_signed_in?
 
-      redirect_to root_path, alert: t('application.access_denied')
+      deny_access root_path
     end
   end
 end

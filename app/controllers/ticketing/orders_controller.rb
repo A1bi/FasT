@@ -301,7 +301,7 @@ module Ticketing
       return super if admin?
 
       if retail_store_signed_in?
-        redirect_to root_path, alert: t('application.access_denied')
+        deny_access root_path
       else
         flash[:warning] = t('application.login_required')
         redirect_to ticketing_retail_login_path
