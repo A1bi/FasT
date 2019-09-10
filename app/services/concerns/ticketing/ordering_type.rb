@@ -33,8 +33,8 @@ module Ticketing
     private
 
     def authorize_type
-      return if type && (admin? && current_user&.admin? ||
-                         retail? && retail_store_signed_in?)
+      return if web? || admin? && current_user&.admin? ||
+                retail? && retail_store_signed_in?
 
       redirect_to root_path, alert: t('application.access_denied')
     end

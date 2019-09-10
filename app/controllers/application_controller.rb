@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pundit
 
-  attr_writer :restricted_to_group
-
   before_action :set_raven_context
   prepend_before_action :reset_goto
   after_action :verify_authorized
@@ -14,17 +12,6 @@ class ApplicationController < ActionController::Base
 
     def skip_authorization
       before_action :skip_authorization
-    end
-
-    def ignore_restrictions(options = {})
-      skip_before_action :restrict_access, options
-    end
-
-    def restrict_access_to_group(group, options = {})
-      before_action options do |c|
-        c.restricted_to_group = group
-      end
-      before_action :restrict_access, options
     end
 
     def ignore_authenticity_token
@@ -107,15 +94,6 @@ class ApplicationController < ActionController::Base
       )
     end
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-  end
-
-  def restrict_access
-    if !user_signed_in?
-      session[:goto_after_login] = request.original_url
-      redirect_to members_login_path, flash: { warning: t('application.login_required') }
-    elsif Members::Member.groups[@restricted_to_group] > Members::Member.groups[current_user.group]
-      redirect_to members_root_path, alert: t('application.access_denied')
-    end
   end
 
   def user_not_authorized
