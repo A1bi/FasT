@@ -33,6 +33,8 @@ module Ticketing
     end
 
     def send_email(order)
+      return unless order.respond_to? :enqueue_mailing
+
       order.enqueue_mailing(:cancellation,
                             depends_on_commit: true, reason: @reason.to_s)
     end

@@ -9,7 +9,7 @@ module Api
         return head :not_found unless type.in? %i[web admin retail]
         return head :forbidden unless authorized?
 
-        @order = create_order
+        @order = create_order(retail_store: current_retail_store)
 
         unless @order.persisted?
           report_invalid_order

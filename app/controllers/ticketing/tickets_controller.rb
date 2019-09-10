@@ -7,19 +7,18 @@ module Ticketing
     before_action :restrict_access
 
     def cancel
-      @tickets = ::Ticketing::TicketCancelService.new(@tickets, params[:reason])
-                                                 .execute
+      ::Ticketing::TicketCancelService.new(@tickets, params[:reason]).execute
 
       if retail? && params[:refund]
         @order.cash_refund_in_store
+        @order.save
       end
 
       redirect_to_order_details :cancelled
     end
 
     def enable_resale
-      @tickets = ::Ticketing::TicketUpdateService.new(@tickets, resale: true)
-                                                 .execute
+      ::Ticketing::TicketUpdateService.new(@tickets, resale: true).execute
 
       redirect_to_order_details :enabled_resale
     end
