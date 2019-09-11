@@ -33,10 +33,18 @@ module Ticketing
     private
 
     def authorize_type
-      return if web? || admin? && current_user&.admin? ||
-                retail? && retail_store_signed_in?
+      return if type.blank? || web? || admin_action_authorized? ||
+                retail_action_authorized?
 
       deny_access root_path
+    end
+
+    def admin_action_authorized?
+      admin? && current_user&.admin?
+    end
+
+    def retail_action_authorized?
+      retail? && retail_store_signed_in?
     end
   end
 end
