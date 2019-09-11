@@ -465,7 +465,6 @@ function SeatChooser(container, delegate, zoomable, privileged) {
 
   this.connectionFailed = function () {
     this.node.io.skipReconnect = true;
-    Raven.captureMessage('Seating connection failed');
   };
 
   this.registerEvents = function () {

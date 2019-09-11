@@ -22,7 +22,6 @@ class ContactMessagesController < ApplicationController
   def filter_spam
     return if params[:comment].blank?
 
-    Raven.capture_message('rejected spam message')
     redirect_to contact_messages_path
   end
 
