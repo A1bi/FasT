@@ -111,6 +111,9 @@ Step.prototype = {
     $.each(this.box.find("form").serializeArray(), function () {
       var name = this.name.match(/\[([a-z_]+)\]/);
       if (!!name && !/_confirmation$/.test(name[1])) {
+        if (name[1] == 'affiliation' && ['Herr', 'Frau'].indexOf(this.value) > -1) {
+          this.value = '';
+        }
         _this.info.api[name[1]] = this.value;
       }
     });
