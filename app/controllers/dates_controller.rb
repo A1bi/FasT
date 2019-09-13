@@ -6,8 +6,6 @@ class DatesController < ApplicationController
     redirect_to dates_event_path(event.slug)
   end
 
-  def teaser; end
-
   def show_event
     @event = Ticketing::Event.current.find_by!(slug: params[:slug])
     @ticket_types = @event.ticket_types.exclusive(false).order(price: :desc)
