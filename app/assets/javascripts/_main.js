@@ -1,7 +1,3 @@
-function deobfuscate(text) {
-  return text.replace(/z|q|w|u/g, "");
-}
-
 function togglePluralText(box, number) {
   var plural = number != 1;
   box.toggleClass("plural", plural).toggleClass("singular", !plural);
