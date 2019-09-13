@@ -12,7 +12,7 @@ module Newsletter
       true
     end
 
-    def finish?
+    def confirm?
       true
     end
   end
