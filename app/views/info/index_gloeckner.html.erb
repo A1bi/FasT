@@ -1,16 +1,4 @@
-<% title "Häufig gestellte Fragen" %>
-<% include_css "info" %>
-<% include_js "info" %>
-
-<%= render 'other_events' %>
-
-<div class="hl">
-  Häufig gestellte Fragen
-</div>
-
-<div class="hcen">
-  <%= image_tag "theater/#{@event.identifier}/ticket_header.svg", width: 300 %>
-</div>
+<%= render 'top' %>
 
 <div class="section">
   <h2>Vorverkauf</h2>
@@ -130,15 +118,4 @@
   <div class="answer">Während der Aufführung ja, gerne können Sie aber unsere Pause für die ein oder andere Zigarette nutzen.</div>
 </div>
 
-<div class="trenner"></div>
-
-<div class="section">
-  <h2>Meine Frage wurde nicht beantwortet</h2>
-  <p>
-    Kein Problem! Rufen Sie uns gerne an oder schreiben Sie uns:
-  </p>
-  <p>
-    Telefon: <b>(02653) 28 27 09</b><br />
-    e-mail: <script>document.write(deobfuscate("wiuznfuquow@tzqhqeaqtuuer-zkqawisqeuwrusuesczh.wqqduze"));</script>
-  </p>
-</div>
+<%= render 'questions' %>

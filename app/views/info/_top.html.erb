@@ -1,0 +1,13 @@
+<% title "#{@event.name} – Häufig gestellte Fragen" %>
+<% include_css "info" %>
+<% include_js "info" %>
+
+<%= render 'other_events' %>
+
+<div class="hl">
+  Häufig gestellte Fragen
+</div>
+
+<div class="hcen">
+  <%= image_tag "theater/#{@event.identifier}/title.svg", width: 300 %>
+</div>
