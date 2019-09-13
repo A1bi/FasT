@@ -2,73 +2,26 @@
 <% include_css "dates" %>
 <% cache [@event, @ticket_types, @event.on_sale?, Ticketing::Ticket.all] do %>
   <script type="application/ld+json">
-    <%= raw render('structured_data.json', event: @event,
-                                           ticket_types: @ticket_types,
-                                           image: 'theater/gloeckner/title.svg') %>
+    <%= raw render('structured_data.json', image: 'theater/gloeckner/title.svg') %>
   </script>
 
   <%= render 'other_events' %>
 
   <div class="gloeckner">
-    Unser <b> Sommernachtstheater 2019 <%= link_to_if false, "„Der Glöckner von Notre Dame“", theater_play_path(@event.slug) %></b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
-    <div class="container">
-      <div class="title">
-        <%= link_to_if false, image_tag("theater/gloeckner/title.svg", alt: "Der Glöckner von Notre Dame"), theater_play_path(@event.slug) %>
-      </div>
-      <div class="box dates">
-        <div class="top">
-          Termine
-        </div>
-        <div class="con">
-          <table>
-            <% @event.dates.each do |date| %>
-              <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
-                <td class="point"></td>
-                <td class="day">
-                  <span class="line_through"><%= l date.date, format: "%A" %></span>
-                  <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
-                </td>
-                <td class="date">
-                  <span class="line_through"><%= l date.date, format: '%-d. %B' %></span>
-                  <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
-                </td>
-              <% end %>
-            <% end %>
-          </table>
-          <p>Einlass jeweils eine Stunde vor Beginn.</p>
-        </div>
-      </div>
-    </div>
-    <div class="trenner"></div>
-    <div class="hl">
-      Ticketvorverkauf
-      <div class="small">ab <%= l @event.sale_start, format: '%-d. %B' %></div>
-    </div>
-    <div class="prices">
-      <table class="rounded">
-        <% @ticket_types.each do |type| %>
-          <tr>
-            <td class="price"><%= number_to_currency(type.price) %></td>
-            <td><%= type.name %><div class="small"><%= type.info %></div></td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+    Unser <b>Sommernachtstheater 2019 „Der Glöckner von Notre Dame“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+
+    <%= render 'dates' %>
+    <%= render 'prices' %>
+
     <% if @event.on_sale? %>
-      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path(@event.slug), class: "hl order" %>
+      <%= render 'order_link' %>
       <div class="stores">
         Alternativ erhalten Sie Ihre Tickets auch in folgenden <b>Vorverkaufsstellen</b>:
         <p>Sportstudio (Kaisersesch), Buchhandlung Walgenbach (Kaisersesch), Buchhandlung Layaa-Laulhé (Cochem)</p>
       </div>
     <% end %>
-    <div class="trenner"></div>
-    <div class="hcen hotline">
-      <div class="hl">Sie haben Fragen?</div>
-      <br />Schauen Sie in unsere <%= link_to "häufig gestellten Fragen", info_path(@event.slug) %> oder rufen Sie uns an:
-      <a name="hotline"></a>
-      <p>Info-Hotline: <b>(02653) 28 27 09</b> <em class="small">(zum Ortstarif)</em></p>
-    </div>
-    <div class="trenner"></div>
-    <%= render "restaurants" %>
+
+    <%= render 'questions' %>
+    <%= render 'restaurants' %>
   </div>
 <% end %>

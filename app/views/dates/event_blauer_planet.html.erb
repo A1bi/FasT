@@ -2,9 +2,7 @@
 <% include_css 'dates' %>
 <% cache [@event, @ticket_types, @event.on_sale?, Ticketing::Ticket.all] do %>
   <script type="application/ld+json">
-    <%= raw render('structured_data.json', event: @event,
-                                           ticket_types: @ticket_types,
-                                           image: 'theater/blauer_planet/title.svg',
+    <%= raw render('structured_data.json', image: 'theater/blauer_planet/title.svg',
                                            location_type: 'EventVenue',
                                            location_name: 'Altes Wasserwerk',
                                            location_address: 'Auf der Wacht 9, 56759 Kaisersesch') %>
@@ -14,63 +12,18 @@
 
   <div class="blauer_planet">
     Unser <b>Kinder- und Jugendtheater 2019 „<%= @event.name %>“</b> wird auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen aufgeführt:
-    <div class="container">
-      <div class="title">
-        <%= image_tag('theater/blauer_planet/title.svg', alt: @event.name) %>
-      </div>
-      <div class="box dates">
-        <div class="top">
-          Termine
-        </div>
-        <div class="con">
-          <table>
-            <% @event.dates.each do |date| %>
-              <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
-                <td class="point"></td>
-                <td class="day">
-                  <span class="line_through"><%= l date.date, format: "%A" %></span>
-                  <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
-                </td>
-                <td class="date">
-                  <span class="line_through"><%= l date.date, format: '%-d. %B' %></span>
-                  <div class="line_through time"><%= l date.date, format: "%H.%M Uhr" %></div>
-                </td>
-              <% end %>
-            <% end %>
-          </table>
-          <p>Einlass jeweils eine Stunde vor Beginn.</p>
-        </div>
-      </div>
-    </div>
-    <div class="trenner"></div>
-    <div class="hl">
-      Ticketvorverkauf
-      <div class="small">ab <%= l @event.sale_start, format: '%-d. %B' %></div>
-    </div>
-    <div class="prices">
-      <table class="rounded">
-        <% @ticket_types.each do |type| %>
-          <tr>
-            <td class="price"><%= number_to_currency(type.price) %></td>
-            <td><%= type.name %><div class="small"><%= type.info %></div></td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+
+    <%= render 'dates' %>
+    <%= render 'prices' %>
+
     <% if @event.on_sale? %>
-      <%= link_to "Tickets jetzt online bestellen", new_ticketing_order_path(@event.slug), class: "hl order" %>
+      <%= render 'order_link' %>
       <div class="stores">
         Alternativ erhalten Sie Ihre Tickets auch in der Buchhandlung Walgenbach in Kaisersesch oder über unsere Hotline (siehe weiter unten).
       </div>
     <% end %>
-    <div class="trenner"></div>
-    <div class="hcen hotline">
-      <div class="hl">Sie haben Fragen?</div>
-      <br />Schauen Sie in unsere <%= link_to "häufig gestellten Fragen", info_path(@event.slug) %> oder rufen Sie uns an:
-      <a name="hotline"></a>
-      <p>Info-Hotline: <b>(02653) 28 27 09</b> <em class="small">(zum Ortstarif)</em></p>
-    </div>
-    <div class="trenner"></div>
-    <%= render "restaurants" %>
+
+    <%= render 'questions' %>
+    <%= render 'restaurants' %>
   </div>
 <% end %>

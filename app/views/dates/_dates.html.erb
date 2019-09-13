@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="title">
+    <%= image_tag("theater/#{@event.identifier}/title.svg", alt: @event.name) %>
+  </div>
+  <div class="box dates">
+    <div class="top">
+      Termine
+    </div>
+    <div class="con">
+      <table>
+        <% @event.dates.each do |date| %>
+          <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
+            <td class="point"></td>
+            <td class="day">
+              <span class="line_through"><%= l date.date, format: "%A" %></span>
+              <% if date.sold_out? %><div class="sold_out">ausverkauft</div><% end %>
+            </td>
+            <td class="date">
+              <span class="line_through">
+                <%= l date.date, format: '%-d. %B ' + (date.date > Time.current.end_of_year ? '%Y' : '')%>
+              </span>
+              <div class="line_through time"><%= l date.date, format: '%H.%M Uhr' %></div>
+            </td>
+          <% end %>
+        <% end %>
+      </table>
+      <p>Einlass eine Stunde vor Beginn.</p>
+    </div>
+  </div>
+</div>
