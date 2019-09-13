@@ -13,7 +13,7 @@
         <th>Termin</th>
         <th>Kategorie</th>
         <th>Sitz</th>
-        <% if @show_wallet %><th></th><% end %>
+        <% if show_wallet? %><th></th><% end %>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@
           <% else %>
             <td>Freie Platzwahl</td>
           <% end %>
-          <% if @show_wallet %>
+          <% if show_wallet? %>
             <td class="wallet">
               <%= link_to order_overview_wallet_path(ticket.signed_info) do %>
                 <%= image_tag("passbook/add_to_wallet.png") %>
@@ -49,12 +49,12 @@
     <% if @order.tickets.first.seat.present? %>
       <thead>
         <tr>
-          <th colspan="<%= @show_wallet ? 5 : 4 %>">Sitzplätze</th>
+          <th colspan="<%= show_wallet? ? 5 : 4 %>">Sitzplätze</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td colspan="<%= @show_wallet ? 5 : 4 %>">
+          <td colspan="<%= show_wallet? ? 5 : 4 %>">
             <%= render "application/ticketing/seating", event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen] %>
           </td>
         </tr>

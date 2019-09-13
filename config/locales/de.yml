@@ -185,11 +185,7 @@ de:
             one: "Es wurde ein Ticket für den %{date} an der Abendkasse verkauft."
             other: "Es wurden %{count} Tickets für den %{date} an der Abendkasse verkauft."
   orders:
-    overview:
-      wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."
-    retail_login:
-      required: "Bitte loggen Sie sich ein."
-      auth_error: "Das eingegebene Passwort ist nicht korrekt."
+    wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."
   tickets:
     errors:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
