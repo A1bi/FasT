@@ -1,34 +1,29 @@
 class PhotosController < ApplicationController
-  before_action :find_photo, :only => [:edit, :update, :destroy, :show]
-  before_action :find_gallery, :only => [:new, :edit, :create]
+  before_action :find_photo, only: %i[edit update destroy show]
+  before_action :find_gallery, only: %i[new edit create]
 
   def new
-    @photo = authorize(@gallery.photos.new)
+    @photo = authorize @gallery.photos.new
   end
 
   def create
-    @photo = authorize(@gallery.photos.new(photo_params))
+    @photo = authorize @gallery.photos.new(photo_params)
 
-    if !@photo.save
-      render :action => "new"
-    else
-      redirect_to edit_gallery_path(@gallery)
-    end
+    return render :new unless @photo.save
+
+    redirect_to edit_gallery_path(@gallery)
   end
 
   def show
     send_file @photo.image.path
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    if @photo.update_attributes(photo_params)
-      redirect_to edit_gallery_path(params[:gallery_id])
-    else
-      render :action => "edit"
-    end
+    return render :edit unless @photo.update(photo_params)
+
+    redirect_to edit_gallery_path(params[:gallery_id])
   end
 
   def destroy
@@ -37,12 +32,9 @@ class PhotosController < ApplicationController
   end
 
   def sort
-    photo = nil
-    params[:photo].each_with_index do |id, index|
-      photo = authorize(Photo.find(id))
-      photo.update_column(:position, index+1)
+    params[:photo].each.with_index(1) do |id, i|
+      authorize(Photo.find(id)).update(position: i)
     end
-    authorize(photo.gallery).touch
 
     head :ok
   end

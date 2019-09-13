@@ -10,15 +10,14 @@ class InfoController < ApplicationController
     end
 
     template = "index_#{@event.identifier}"
-    if template_exists?("info/#{template}")
-      render template
-    else
-      redirect_to action: :index
-    end
+    return render template if template_exists?("info/#{template}")
+
+    redirect_to action: :index
   end
 
   def map
     return if params[:identifier].blank?
+
     template = "map_#{params[:identifier]}"
     render template if template_exists?("info/#{template}")
   end

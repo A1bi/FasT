@@ -1,8 +1,8 @@
 class GalleriesController < ApplicationController
-  before_action :find_gallery, :only => [:show, :edit, :update, :destroy]
+  before_action :find_gallery, only: %i[show edit update destroy]
 
   def index
-    @galleries = authorize(Gallery.order(:position))
+    @galleries = authorize Gallery.order(:position)
   end
 
   def show
@@ -16,23 +16,19 @@ class GalleriesController < ApplicationController
   def create
     @gallery = authorize(Gallery.new(gallery_params))
 
-    if !@gallery.save
-      render :action => :new
-    else
+    if @gallery.save
       redirect_to edit_gallery_path(@gallery)
+    else
+      render :new
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    if @gallery.update_attributes(gallery_params)
-      flash.notice = t("application.saved_changes")
-    else
-      return render :action => :edit
-    end
+    return render :edit unless @gallery.update(gallery_params)
 
+    flash.notice = t('application.saved_changes')
     redirect_to edit_gallery_path(@gallery)
   end
 
@@ -42,16 +38,17 @@ class GalleriesController < ApplicationController
   end
 
   def sort
-    params[:gallery].each_with_index do |id, index|
-      Gallery.find(id).update_attribute(:position, index+1)
+    params[:gallery].each.with_index(1) do |id, i|
+      authorize(Gallery.find(id)).update(position: i)
     end
+
     head :ok
   end
 
   private
 
   def find_gallery
-    @gallery = authorize(Gallery.find(params[:id]))
+    @gallery = authorize Gallery.find(params[:id])
   end
 
   def gallery_params
