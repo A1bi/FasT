@@ -1,15 +1,12 @@
 class TicketsRetailPdf < TicketsPdf
   def initialize
-    margin = [0]
-    page_size = [TICKET_WIDTH, TICKET_HEIGHT]
-
-    super(margin, page_size)
+    super(margin: [0], page_size: [TICKET_WIDTH, TICKET_HEIGHT])
   end
 
   private
 
   def draw_ticket(ticket)
-    if @tickets_drawn > 0
+    if @tickets_drawn.positive?
       start_new_page
       fill_background
     end

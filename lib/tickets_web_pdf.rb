@@ -2,17 +2,17 @@ class TicketsWebPdf < TicketsPdf
   private
 
   def draw_ticket(ticket)
-    if cursor - @ticket_height < 0
+    if (cursor - @ticket_height).negative?
       start_new_page
       fill_background
     end
 
     super
 
-    if cursor > bounds.height / 3
-      move_down @ticket_margin
-      draw_cut_line
-    end
+    return if cursor < bounds.height / 3
+
+    move_down TICKET_MARGIN
+    draw_cut_line
   end
 
   def signed_info_medium

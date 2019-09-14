@@ -1,23 +1,21 @@
 class TicketsBoxOfficePdf < TicketsPdf
   def initialize
-    margin = [0]
-    page_size = "A4"
-
-    super(margin, page_size, :landscape)
+    super(margin: [0], page_size: 'A4', page_layout: :landscape)
   end
 
   private
 
   def draw_ticket(ticket)
-    bounding_box([bounds.width - TICKET_WIDTH, bounds.height - (bounds.height - TICKET_HEIGHT) / 2], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
+    x = bounds.width - TICKET_WIDTH
+    y = bounds.height - (bounds.height - TICKET_HEIGHT) / 2
 
-      if @tickets_drawn > 0
+    bounding_box([x, y], width: TICKET_WIDTH, height: TICKET_HEIGHT) do
+      if @tickets_drawn.positive?
         start_new_page
         fill_background
       end
 
       super
-
     end
   end
 
