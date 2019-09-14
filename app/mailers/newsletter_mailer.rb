@@ -10,8 +10,17 @@ class NewsletterMailer < BaseMailer
     @subscriber = subscriber
     @newsletter = newsletter
 
-    headers['List-Unsubscribe'] = "<mailto:unsubscribe+#{@subscriber.token}@theater-kaisersesch.de>"
+    headers['List-Unsubscribe'] = unsubscribe_address
 
-    mail to: subscriber.email, subject: newsletter.subject
+    mail to: subscriber.email, subject: newsletter.subject do |format|
+      format.text { @newsletter.body_text_final }
+      format.html { @newsletter.body_html_final }
+    end
+  end
+
+  private
+
+  def unsubscribe_address
+    "<mailto:unsubscribe+#{@subscriber.token}@theater-kaisersesch.de>"
   end
 end
