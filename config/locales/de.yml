@@ -3,8 +3,9 @@ de:
     login_required: "Bitte loggen Sie sich ein, um diese Aktion auszuführen."
     access_denied: "Sie haben nicht die erforderlichen Rechte für diese Aktion."
     saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert."
-    submit_create: "erstellen"
-    submit_save: "speichern"
+    submit:
+      create: erstellen
+      save: speichern
     btn_delete: "löschen"
   contact_messages:
     via: via Kontaktformular

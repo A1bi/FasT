@@ -24,14 +24,14 @@
           <% if !type.exclusive? || admin? || (user_signed_in? && type.exclusive_ticket_type_credit.present?) %>
             <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }) do %>
               <td class="number">
-                <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(type)), id: nil) %>
+                <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(@max_tickets, type)), id: nil) %>
               </td>
               <td class="type">
                 <%= type.name %>
                 <div class="small"><%= type.info %></div>
                 <% if type.exclusive_ticket_type_credit.present? %>
                   <div class="small">
-                    <% if max_tickets_for_type(type).zero? %>
+                    <% if max_tickets_for_type(@max_tickets, type).zero? %>
                       Das Kontingent für dieses Mitgliedskonto und verknüpfte Familienmitglieder ist bereits aufgebraucht.
                     <% end %>
                   </div>

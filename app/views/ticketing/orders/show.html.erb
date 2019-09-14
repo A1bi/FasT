@@ -109,7 +109,7 @@
     <table class="rounded entries details">
       <thead>
         <tr>
-          <th colspan="<%= tickets_colspan %>">In der Bestellung enthaltene Tickets</th>
+          <th colspan="<%= tickets_colspan(@show_check_ins) %>">In der Bestellung enthaltene Tickets</th>
         </tr>
         <tr>
           <th class="checkbox"><%= check_box_tag "tickets_all[]" %></th>
@@ -162,7 +162,7 @@
       </tbody>
       <tbody>
         <tr>
-          <td colspan="<%= tickets_colspan %>" class="actions">
+          <td colspan="<%= tickets_colspan(@show_check_ins) %>" class="actions">
             <% options = [
               ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
               ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
@@ -179,12 +179,12 @@
       <% if @order.tickets.first.seat.present? %>
         <thead>
           <tr>
-            <th colspan="<%= tickets_colspan %>">Sitzplätze</th>
+            <th colspan="<%= tickets_colspan(@show_check_ins) %>">Sitzplätze</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colspan="<%= tickets_colspan %>">
+            <td colspan="<%= tickets_colspan(@show_check_ins) %>">
               <%= render "application/ticketing/seating", event: @order.event, seats_path: orders_path(:seats_ticketing_order, @order), class: %i[standalone chosen] %>
             </td>
           </tr>

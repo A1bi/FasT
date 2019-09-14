@@ -12,16 +12,8 @@ module ApplicationHelper
   end
 
   def cond_submit(form)
-    if params[:action] == :new
-      value = t("application.submit_create")
-    else
-      value = t("application.submit_save")
-    end
-    form.submit :value => value
-  end
-
-  def nl2br(text)
-    h(text).gsub(/\n/, "<br />").html_safe
+    action = params[:action] == :new ? :create : :save
+    form.submit value: t("application.submit.#{action}")
   end
 
   def theater_play_identifier_path(identifier)
@@ -41,7 +33,10 @@ module ApplicationHelper
   end
 
   def asset_exists?(path)
-    (Rails.application.assets || Sprockets::Railtie.build_environment(Rails.application)).resolve(path).present?
+    (
+      Rails.application.assets ||
+      Sprockets::Railtie.build_environment(Rails.application)
+    ).resolve(path).present?
   end
 
   def uppercase_file_extension(path)

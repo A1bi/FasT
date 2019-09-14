@@ -4,6 +4,7 @@ module Ticketing
       body = insert_recipient(body, recipient)
       body = insert_code(body, coupon, html: html)
       return body unless html
+
       simple_format(body)
     end
 

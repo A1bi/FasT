@@ -20,7 +20,7 @@
         <br /><%= date.datetime.strftime("%H.%M") %> Uhr
       </td>
       <td><%= date.title %></td>
-      <td><%= nl2br date.info %></td>
+      <td><%= simple_format date.info %></td>
       <td><%= date.location %></td>
       <%= content_tag :td, :class => :actionBtns do %>
         <%= render "admin_actions", :obj => date, :delete_confirm => "diesen Termin" %>
