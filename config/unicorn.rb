@@ -1,6 +1,5 @@
-app_path = "#{ENV['HOME']}/FasT"
-current_path = "#{app_path}/current"
-shared_path = "#{app_path}/shared"
+current_path = '../../current'
+shared_path = '../../shared'
 
 working_directory current_path
 pid "#{shared_path}/tmp/pids/unicorn.pid"
@@ -31,7 +30,7 @@ before_fork do |server, _worker|
   if File.exist?(old_pid) && server.pid != old_pid
     begin
       Process.kill('QUIT', File.read(old_pid).to_i)
-    rescue Errno::ENOENT, Errno::ESRCH
+    rescue Errno::ENOENT, Errno::ESRCH # rubocop:disable Lint/HandleExceptions
       # someone else did our job for us
     end
   end

@@ -71,9 +71,6 @@ group :development do
   gem 'capistrano', '~> 3.11.0'
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
-  gem 'capistrano-rvm', '~> 0.1.1', require: false
-  gem 'capistrano-sidekiq', '~> 1.0.2', require: false
-  gem 'capistrano3-unicorn', require: false
   gem 'ffaker', '~> 2.12.0'
   gem 'rubocop', '~> 0.74.0'
   gem 'rubocop-rails', '~> 2.3.0'
