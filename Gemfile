@@ -6,18 +6,8 @@ gem 'pg'
 
 gem 'pundit', '~> 2.1.0'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-# Gems used only for assets and not required
-# in production environments by default.
-
-gem 'sprockets-rails',    '~> 3.2.0'
-gem 'sass-rails',   '~> 5.0.5'
-#gem 'coffee-rails', '~> 3.2.1'
-
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
+gem 'sass-rails', '~> 6.0.0'
+gem 'sprockets-rails', '~> 3.2.0'
 
 gem 'uglifier'
 
@@ -31,16 +21,16 @@ gem 'bcrypt', '~> 3.1.13'
 gem 'icalendar', '~> 2.5.0'
 
 gem 'prawn', '~> 2.2.2'
-gem 'prawn-table', '~> 0.2.1'
-gem 'prawn-svg', '~> 0.29.0'
 gem 'prawn-qrcode', '~> 0.3.0'
+gem 'prawn-svg', '~> 0.29.0'
+gem 'prawn-table', '~> 0.2.1'
 
 gem 'rubyzip', '~> 1.2.0'
 
 gem 'roadie', '~> 3.5.0'
 gem 'roadie-rails', '~> 2.1.0'
 
-gem 'sepa_king', '~> 0.11.0'
+gem 'sepa_king', '~> 0.12.0'
 
 gem 'dalli', '~> 2.7.8'
 
@@ -53,13 +43,13 @@ gem 'phony_rails', '~> 0.14.2'
 gem 'record_tag_helper', git: 'https://github.com/rails/record_tag_helper.git',
                          ref: '128cc1a'
 
-gem 'sentry-raven'
+gem 'sentry-raven', '~> 2.11.0'
 
 gem 'bootsnap', require: false
 
 gem 'listen', '~> 3.0'
 
-gem 'config'
+gem 'config', '~> 2.0.0'
 
 gem 'bindata', '~> 2.4.3'
 
@@ -72,37 +62,29 @@ gem 'name_of_person'
 
 gem 'request_store', '~> 1.4.0'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'jbuilder', '~> 2.9.0'
 
-# To use Jbuilder templates for JSON
-gem 'jbuilder'
-
-# Use unicorn as the app server
 gem 'unicorn', '~> 5.5.0'
 
 group :development do
-  gem 'capistrano', '~> 3.11.0'
-  gem 'capistrano-rvm', '~> 0.1.1', require: false
-  gem 'capistrano-bundler', '~> 1.5.0', require: false
-  gem 'capistrano-rails', '~> 1.4.0', require: false
-  gem 'capistrano3-unicorn', require: false
-  gem 'capistrano-sidekiq', '~> 1.0.2', require: false
-  gem 'ffaker', '~> 2.11.0'
-  gem 'spring', '~> 2.1.0'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'byebug'
+  gem 'capistrano', '~> 3.11.0'
+  gem 'capistrano-bundler', '~> 1.6.0', require: false
+  gem 'capistrano-rails', '~> 1.4.0', require: false
+  gem 'capistrano-rvm', '~> 0.1.1', require: false
+  gem 'capistrano-sidekiq', '~> 1.0.2', require: false
+  gem 'capistrano3-unicorn', require: false
+  gem 'ffaker', '~> 2.12.0'
   gem 'rubocop', '~> 0.74.0'
   gem 'rubocop-rails', '~> 2.3.0'
+  gem 'spring', '~> 2.1.0'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
-# To use debugger
-# gem 'debugger'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartjs', '~> 1.0.2'
-  gem 'rails-assets-validator-js', '~> 1.3.0'
-  gem 'rails-assets-socket.io-client', '~> 2.1.0'
   gem 'rails-assets-ol3-bower', '~> 3.18.2'
-  gem 'rails-assets-raven-js'
+  gem 'rails-assets-raven-js', '~> 3.27.0'
+  gem 'rails-assets-socket.io-client', '~> 2.1.0'
+  gem 'rails-assets-validator-js', '~> 1.3.0'
 end
