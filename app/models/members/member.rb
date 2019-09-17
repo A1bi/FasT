@@ -49,14 +49,14 @@ module Members
     private
 
     def set_number
-      self.number = self.class.maximum(:number) || 0 + 1 unless persisted?
+      self.number = (self.class.maximum(:number) || 0) + 1 unless persisted?
     end
 
     def destroy_family_if_empty
-      return unless saved_change_to_family_id? && family_id_before_last_save.present?
+      return unless saved_change_to_family_id? &&
+                    family_id_before_last_save.present?
 
-      old_fam = Members::Family.find(family_id_before_last_save)
-      old_fam.destroy_if_empty
+      Members::Family.find(family_id_before_last_save).destroy_if_empty
     end
   end
 end

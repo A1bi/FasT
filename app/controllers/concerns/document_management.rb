@@ -2,15 +2,14 @@ module DocumentManagement
   extend ActiveSupport::Concern
 
   included do
-    before_action :find_document, :only => [:edit, :update, :destroy]
+    before_action :find_document, only: %i[edit update destroy]
   end
 
   def new
     @document = authorize Document.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @document = authorize Document.new(document_params)
@@ -19,15 +18,15 @@ module DocumentManagement
     if @document.save
       redirect_to redirect_path, notice: t('documents.created')
     else
-      render action: :new
+      render :new
     end
   end
 
   def update
-    if @document.update_attributes(document_params)
-      redirect_to redirect_path, notice: t("application.saved_changes")
+    if @document.update(document_params)
+      redirect_to redirect_path, notice: t('application.saved_changes')
     else
-      render action: :edit
+      render :edit
     end
   end
 

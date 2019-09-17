@@ -1,45 +1,39 @@
 module Admin
   class MembersController < ApplicationController
-    before_action :find_groups, :only => [:new, :edit, :create, :update]
-    before_action :find_member, :only => [:edit, :update, :destroy, :reactivate]
-    before_action :prepare_new_member, :only => [:new, :create]
-    before_action :update_member, :only => [:create, :update]
-    before_action :find_members_for_family, only: %w[new create edit update]
+    before_action :find_groups, only: %i[new edit create update]
+    before_action :find_member, only: %i[edit update destroy reactivate]
+    before_action :prepare_new_member, only: %i[new create]
+    before_action :update_member, only: %i[create update]
+    before_action :find_members_for_family, only: %i[new create edit update]
     before_action :find_sepa_mandates, only: %i[new create edit update]
 
     def index
       @members = authorize Members::Member.alphabetically
     end
 
-    def new
-    end
+    def new; end
 
     def create
       @member.reset_password
-      if @member.save
-        send_activation_mail if params[:activation][:send] == "1"
+      return render :new unless @member.save
 
-        flash.notice = t('admin.members.created')
-        redirect_to :action => :index
-      else
-        render :action => :new
-      end
+      send_activation_mail if params[:activation][:send] == '1'
+
+      redirect_to action: :index, notice: t('.created')
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
-      if @member.save
-        redirect_to edit_admin_members_member_path(@member), notice: t("application.saved_changes")
-      else
-        render :action => :edit
-      end
+      render :edit unless @member.save
+
+      redirect_to edit_admin_members_member_path(@member),
+                  notice: t('application.saved_changes')
     end
 
     def destroy
-      flash.notice = t('admin.members.destroyed') if @member.destroy
-      redirect_to :action => :index
+      flash.notice = t('.destroyed') if @member.destroy
+      redirect_to action: :index
     end
 
     def reactivate
@@ -47,15 +41,15 @@ module Admin
       @member.reset_password
       send_activation_mail if @member.save
 
-      redirect_to edit_admin_members_member_path(@member), notice: t("admin.members.sent_activation_mail")
+      redirect_to edit_admin_members_member_path(@member),
+                  notice: t('.sent_activation_mail')
     end
 
     protected
 
     def find_groups
-      @groups = [];
-      Members::Member.groups.keys.each do |group|
-        @groups << [t("members.groups." + group), group]
+      @groups = Members::Member.groups.keys.map do |group|
+        [t("members.groups.#{group}"), group]
       end
     end
 
@@ -87,7 +81,7 @@ module Admin
       if @member.will_save_change_to_sepa_mandate_id?
         if @member.sepa_mandate_id.zero?
           @member.sepa_mandate = nil
-          return if sepa_mandate_params[:iban].blank?
+          return if @member.persisted? && sepa_mandate_params[:iban].blank?
 
           @member.build_sepa_mandate(sepa_mandate_params)
         end

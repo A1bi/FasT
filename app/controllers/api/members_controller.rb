@@ -1,16 +1,15 @@
 module Api
   class MembersController < ApiController
+    SEARCHABLE_COLUMNS = %w[first_name last_name email].freeze
+
     before_action :authenticate
 
     def index
-      searchable_columns = %w[first_name last_name email]
-      cache = (params.keys & searchable_columns).empty?
-
-      render_cached_json_if [:api, :members, :index, Members::Member.all], cache do
+      render_cached_json_if cache_key, cache? do
         table = Members::Member.arel_table
         matches = nil
 
-        searchable_columns.each do |column|
+        SEARCHABLE_COLUMNS.each do |column|
           value = params[column]
           next if value.blank?
 
@@ -52,6 +51,14 @@ module Api
       token = Rails.application.credentials.members_api_token
       header_token = request.headers['X-Authorization']
       head :unauthorized if !token || token != header_token
+    end
+
+    def cache_key
+      [:api, :members, :index, Members::Member.all]
+    end
+
+    def cache?
+      (params.keys & SEARCHABLE_COLUMNS).empty?
     end
   end
 end
