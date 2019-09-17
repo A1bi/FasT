@@ -33,26 +33,26 @@ function TicketTransfer(container) {
     });
   };
 
-  this.makeRequest = function (action, method, callback) {
+  this.makeRequest = function (action, method, callbacks) {
     $.ajax({
       url: this.box.data(action + "-path"),
-      dataType: "json",
       method: method,
       data: {
         ticket_ids: this.tickets,
         date_id: this.date(),
         socketId: this.socketId
       },
-      complete: callback
+      success: callbacks.success,
+      error: callbacks.error
     });
   };
 
   this.seatChooserIsReady = function () {
     this.socketId = this.chooser.socketId;
     this.updateDate();
-    this.makeRequest("init", "post", function (res) {
-      if (res.ok) {
-
+    this.makeRequest("init", "post", {
+      error: function () {
+        alert("Leider ist bei der Initialisierung ein Fehler aufgetreten.");
       }
     });
   };
@@ -97,9 +97,12 @@ function TicketTransfer(container) {
 
   buttons.last().click(function () {
     if (!_this.chooser || _this.chooser.validate()) {
-      _this.makeRequest("update", "patch", function (data) {
-        if (data.responseJSON.ok) {
+      _this.makeRequest("update", "patch", {
+        success: function () {
           _this.returnToOrder();
+        },
+        error: function () {
+          alert("Leider ist bei der Umbuchung ein Fehler aufgetreten.");
         }
       });
     } else {

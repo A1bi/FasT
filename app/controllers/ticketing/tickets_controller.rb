@@ -1,7 +1,7 @@
 module Ticketing
   class TicketsController < BaseController
     before_action :find_tickets_with_order
-    before_action :find_event, only: [:transfer, :finish_transfer]
+    before_action :find_event, only: %i[transfer finish_transfer]
 
     def cancel
       ::Ticketing::TicketCancelService.new(@tickets, params[:reason]).execute
@@ -24,25 +24,20 @@ module Ticketing
       @reservation_groups = Ticketing::ReservationGroup.all if admin?
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
-      types = {}
-      params[:ticketing_tickets].each { |id, val| types[id.to_i] = val[:type_id].to_i }
-      @order.edit_ticket_types(@tickets, types)
+      @order.edit_ticket_types(@tickets, tickets_with_type)
       @order.save
 
       redirect_to_order_details :edited
     end
 
     def init_transfer
-      seats = {}
-      @tickets.each do |ticket|
-        (seats[ticket.date.id] ||= []) << ticket.seat.id
-      end
-      res = NodeApi.seating_request("setOriginalSeats", { seats: seats }, params[:socketId])
-      render json: { ok: res[:ok] }
+      res = NodeApi.seating_request('setOriginalSeats', { seats: node_seats },
+                                    params[:socketId])
+
+      head res.read_body[:ok] ? :ok : :unprocessable_entity
     end
 
     def finish_transfer
@@ -85,20 +80,21 @@ module Ticketing
         NodeApi.update_seats(updated_seats) if bound_to_seats
       end
 
-      flash[:notice] = t('ticketing.tickets.edited', count: @tickets.count)
-      render json: { ok: true }
+      flash[:notice] = t('.edited', count: @tickets.count)
+      head :ok
     end
 
     def printable
       pdf = TicketsWebPdf.new
       pdf.add_tickets(@tickets)
-      send_data pdf.render, type: "application/pdf", disposition: "inline"
+      send_data pdf.render, type: 'application/pdf', disposition: 'inline'
     end
 
     private
 
     def redirect_to_order_details(notice)
-      redirect_to orders_path(:ticketing_order, params[:order_id]), notice: t("ticketing.tickets.#{notice}", count: @tickets.count)
+      redirect_to orders_path(:ticketing_order, params[:order_id]),
+                  notice: t(".#{notice}", count: @tickets.count)
     end
 
     def find_tickets_with_order
@@ -115,6 +111,7 @@ module Ticketing
       end
 
       @tickets = ticket_scope.cancelled(false).where(id: params[:ticket_ids])
+                             .to_a
 
       authorize_tickets
     end
@@ -125,6 +122,19 @@ module Ticketing
 
     def find_event
       @event = @tickets.first.date.event
+    end
+
+    def tickets_with_type
+      params[:ticketing_tickets].permit!.to_h
+                                .each_with_object({}) do |(id, val), types|
+        types[id.to_i] = val[:type_id].to_i
+      end
+    end
+
+    def node_seats
+      @tickets.each_with_object({}) do |ticket, seats|
+        (seats[ticket.date.id] ||= []) << ticket.seat.id
+      end
     end
   end
 end
