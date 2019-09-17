@@ -1,7 +1,6 @@
 module Ticketing
   class TicketsController < BaseController
-    before_action :find_tickets_with_order, except: :printable
-    before_action :find_tickets, only: :printable
+    before_action :find_tickets_with_order
     before_action :find_event, only: [:transfer, :finish_transfer]
 
     def cancel
@@ -102,16 +101,26 @@ module Ticketing
       redirect_to orders_path(:ticketing_order, params[:order_id]), notice: t("ticketing.tickets.#{notice}", count: @tickets.count)
     end
 
-    def find_tickets
-      @tickets = authorize Ticketing::Ticket.find(params[:ticket_ids])
+    def find_tickets_with_order
+      if action_name == 'printable'
+        ticket_scope = Ticket
+
+      else
+        @order = Ticketing::Order.find(params[:order_id])
+        if admin? && @order.is_a?(Ticketing::Web::Order)
+          @order.admin_validations = true
+        end
+
+        ticket_scope = @order.tickets
+      end
+
+      @tickets = ticket_scope.cancelled(false).where(id: params[:ticket_ids])
+
+      authorize_tickets
     end
 
-    def find_tickets_with_order
-      @order = Ticketing::Order.find(params[:order_id])
-      @order.admin_validations = true if admin? && @order.is_a?(Ticketing::Web::Order)
-
-      @tickets = authorize @order.tickets.cancelled(false)
-                                 .where(id: params[:ticket_ids]).to_a
+    def authorize_tickets
+      @tickets.each { |ticket| authorize ticket }
     end
 
     def find_event
