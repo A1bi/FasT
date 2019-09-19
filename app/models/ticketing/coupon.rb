@@ -1,35 +1,46 @@
-class Ticketing::Coupon < BaseModel
-  include RandomUniqueAttribute, Ticketing::Loggable
+module Ticketing
+  class Coupon < BaseModel
+    include RandomUniqueAttribute
+    include Loggable
 
-  has_random_unique_token :code, 6
-  has_and_belongs_to_many :reservation_groups, join_table: :ticketing_coupons_reservation_groups
-  has_many :redemptions, class_name: 'Ticketing::CouponRedemption', dependent: :destroy
-  has_many :orders, through: :redemptions
+    has_random_unique_token :code, 6
+    has_and_belongs_to_many :reservation_groups,
+                            join_table: :ticketing_coupons_reservation_groups
+    has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
+                           dependent: :destroy
+    has_many :orders, through: :redemptions
 
-  before_create :before_create
+    before_create :before_create
 
-  def expired?
-    return true if free_tickets < 1 && reservation_groups.count.zero?
-    return false if expires.nil?
-    expires < Time.now
-  end
+    class << self
+      def valid
+        where('free_tickets > 0')
+          .where('expires IS NULL OR expires > ?', Time.current)
+      end
 
-  def self.expired(e = true)
-    if e
-      where.not(expires: nil).where("expires < ?", Time.now)
-    else
-      table = self.arel_table
-      where(table[:expires].eq(nil).or(table[:expires].gteq(Time.now)))
+      def expired
+        where('expires < ?', Time.current).or(where('free_tickets < 1'))
+      end
+
+      def within_18_months
+        where('created_at > ?', 18.months.ago)
+      end
     end
-  end
 
-  def redeem
-    log(:redeemed)
-  end
+    def expired?
+      return true if free_tickets < 1 && reservation_groups.count.zero?
 
-  private
+      expires&.past?
+    end
 
-  def before_create
-    log(:created)
+    def redeem
+      log(:redeemed)
+    end
+
+    private
+
+    def before_create
+      log(:created)
+    end
   end
 end
