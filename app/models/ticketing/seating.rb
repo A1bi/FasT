@@ -7,7 +7,7 @@ module Ticketing
 
     validates :name, presence: true
 
-    after_save :create_stripped_plan
+    after_commit :create_stripped_plan, on: %i[create update]
     after_destroy :remove_stripped_plan
 
     def bound_to_seats?
@@ -46,14 +46,16 @@ module Ticketing
       bound_to_seats? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
 
-    def plan_path(stripped: true, absolute: false)
+    def stripped_plan_url
       return unless plan.attached?
-      if stripped
-        path = Rails.root.join('public') if absolute
-        File.join(path || '', 'system', 'seatings', "#{id}-#{stripped_plan_digest}.svg")
-      else
-        ActiveStorage::Blob.service.send(:path_for, plan.key)
-      end
+
+      "/system/seatings/#{stripped_plan_filename}"
+    end
+
+    def stripped_plan_path
+      return unless plan.attached?
+
+      Rails.root.join('public', 'system', 'seatings', stripped_plan_filename)
     end
 
     private
@@ -61,7 +63,7 @@ module Ticketing
     def create_stripped_plan
       return if !plan.attached? || (stripped_plan_digest.present? && !plan.saved_changes?)
 
-      svg = File.open(plan_path(stripped: false)) { |f| Nokogiri::XML(f) }
+      svg = Nokogiri::XML(plan_content)
 
       svg.xpath('//bx:*').remove
       svg.xpath('//*/@bx:*').remove
@@ -76,12 +78,12 @@ module Ticketing
       xml.gsub!(/([>\n\r])\s+([<\n\r])/i, '\1\2')
 
       # remove old plan
-      path = plan_path(stripped: true, absolute: true)
+      path = stripped_plan_path
       FileUtils.rm_f([path, "#{path}.gz"])
 
       update_column(:stripped_plan_digest, Digest::MD5.hexdigest(xml)) # rubocop:disable Rails/SkipsModelValidations
 
-      path = plan_path(stripped: true, absolute: true)
+      path = stripped_plan_path
       FileUtils.mkdir_p(File.dirname(path))
       File.open(path, 'w') { |f| f.write xml }
       Zlib::GzipWriter.open("#{path}.gz") { |gz| gz.write xml }
@@ -90,8 +92,19 @@ module Ticketing
     def remove_stripped_plan
       return unless plan.attached?
 
-      path = plan_path(stripped: true, absolute: true)
+      path = stripped_plan_path
       FileUtils.rm_f([path, "#{path}.gz"])
+    end
+
+    def stripped_plan_filename
+      "#{id}-#{stripped_plan_digest}.svg"
+    end
+
+    def plan_content
+      plan.download
+    rescue ActiveStorage::FileNotFoundError
+      # see https://github.com/rails/rails/pull/37005
+      attachment_changes['plan'].attachable[:io].string
     end
   end
 end

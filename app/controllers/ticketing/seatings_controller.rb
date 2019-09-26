@@ -32,7 +32,7 @@ module Ticketing
       }
 
       Prawn::Document.new(pdf_config) do
-        plan = Nokogiri::XML(File.read(seating.plan_path(absolute: true)))
+        plan = Nokogiri::XML(File.read(seating.stripped_plan_path))
         plan.css('.shield').remove
         plan.root << '<style>.seat text { font-weight: bold; }</style>'
         svg plan.to_xml
