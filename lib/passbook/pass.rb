@@ -8,6 +8,8 @@ module Passbook
     include AbstractController::Helpers
     include Rails.application.routes.url_helpers
 
+    IMAGES_BASE_PATH = Rails.root.join('app', 'assets', 'images', 'passbook')
+
     helper :passbook
     append_view_path ApplicationController.view_paths
 
@@ -44,8 +46,10 @@ module Passbook
     end
 
     def copy_images
-      iterate_dir(File.join(Rails.root, "app", "assets", "images", "passbook", @ressources_identifier)) do |file|
-        FileUtils.cp file, path_in_working_dir(File.basename(file))
+      ['_common', @ressources_identifier].each do |directory|
+        iterate_dir(IMAGES_BASE_PATH.join(directory)) do |file|
+          FileUtils.cp file, path_in_working_dir(File.basename(file))
+        end
       end
     end
 
