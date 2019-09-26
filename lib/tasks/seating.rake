@@ -9,7 +9,8 @@ namespace :seating do
   def write_svg_file(svg, path)
     # create a backup
     ext = File.extname(path)
-    dup_path = File.dirname(path) + '/' + File.basename(path, ext) + '_original' + ext
+    dup_path = File.dirname(path) + '/' + File.basename(path, ext) +
+               '_original' + ext
     FileUtils.copy_file(path, dup_path)
 
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
@@ -24,6 +25,7 @@ namespace :seating do
     response = prompt(message + ' [yn]').strip
     return true if response == 'Y'
     return false if response == 'y'
+
     raise ActiveRecord::Rollback
   end
 
@@ -35,15 +37,12 @@ namespace :seating do
   task :add_numbers, [:path] do |_task, args|
     svg = svg_file(args[:path])
 
-    num_seats = 0
+    num_seats = svg.css('.block').inject(0) do |i, block|
+      i + block.css('> g:not(.shield)').inject(0) do |j, seat|
+        next j unless (text = seat.css('text').first)
 
-    svg.css('.block').each do |block|
-      block.css('> g:not(.shield)').add_class('seat').each_with_index do |seat, i|
-        num_seats += 1
-        number = i + 1
-        seat['data-number'] = number
-
-        seat.css('text').first.content = number
+        seat.add_class('seat')
+        seat['data-number'] = text.content = j + 1
       end
     end
 
@@ -52,8 +51,9 @@ namespace :seating do
     write_svg_file(svg, args[:path])
   end
 
-  desc 'adds rows to seats, starts with the last seat without a row until the specified last row'
-  task :add_rows, [:path, :block_index, :seats_per_row, :last_row] do |_task, args|
+  desc 'adds rows to seats, starts with the last seat without a row until ' \
+       'the specified last row'
+  task :add_rows, %i[path block_index seats_per_row last_row] do |_task, args|
     svg = svg_file(args[:path])
 
     block = svg.css('.block')[args[:block_index].to_i]
@@ -71,7 +71,9 @@ namespace :seating do
       if first_seat_index.nil?
         first_seat_index = i
         # use its row as base row for the following rows
-        previous_row = seat.previous_element['data-row'].to_i if seat.previous_element.present?
+        if seat.previous_element.present?
+          previous_row = seat.previous_element['data-row'].to_i
+        end
       end
 
       row = previous_row + (i - first_seat_index) / seats_per_row + 1
@@ -127,15 +129,19 @@ namespace :seating do
         if id.present?
           block = Ticketing::Block.find_by(id: id)
           abort "Block '#{title}' with id=#{id} not found." unless block
+
           block.name = title
           block.save
           if block.saved_changes?
             saved_changes = block.saved_changes.except(:updated_at)
-            puts "Block '#{title}' changed: #{saved_changes}" if block.saved_changes?
+            if block.saved_changes?
+              puts "Block '#{title}' changed: #{saved_changes}"
+            end
           end
 
         else
-          confirm("Block '#{title}' does not exist yet. Do you want to create it?")
+          confirm("Block '#{title}' does not exist yet. " \
+                  'Do you want to create it?')
           block = seating.blocks.create(name: title)
           element['data-id'] = block.id
           puts "Block with id=#{block.id} created."
@@ -150,31 +156,44 @@ namespace :seating do
 
           if id.present?
             seat = Ticketing::Seat.find_by(id: id)
-            abort "Seat '#{number}' in Block '#{block.name}' with id=#{id} not found." unless seat
+            unless seat
+              abort "Seat '#{number}' in Block '#{block.name}' " \
+                    "with id=#{id} not found."
+            end
+
             seat.block = block
             seat.row = row
             seat.number = number
             seat.save
+
             if seat.saved_changes?
               saved_changes = seat.saved_changes.except(:updated_at)
-              puts "Seat '#{number}' in Block '#{block.name}' changed: #{saved_changes}"
+              puts "Seat '#{number}' in Block '#{block.name}' " \
+                   "changed: #{saved_changes}"
             end
 
           else
-            # confirm("Seat '#{number}' in Block '#{block.name}' does not exist yet. Do you want to create it?")
             seat = block.seats.create(row: row, number: number)
             seat_element['data-id'] = seat.id
-            puts "Seat '#{number}' in Block '#{block.name}' with id=#{seat.id} created."
+            puts "Seat '#{number}' in Block '#{block.name}' " \
+                 "with id=#{seat.id} created."
           end
 
           seats << seat
         end
 
         next if block.new_record?
+
         confirmed_all = false
         block.seats.where.not(id: seats.map(&:id)).each do |seat|
-          confirmed_all ||= confirm("Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is missing. Do you want to remove it?")
-          abort 'This seat cannot be removed due to existing tickets.' if seat.tickets.any?
+          confirmed_all ||=
+            confirm("Seat '#{seat.number}' in Block '#{block.name}' with " \
+                    "id=#{seat.id} is missing. Do you want to remove it?")
+
+          if seat.tickets.any?
+            abort 'This seat cannot be removed due to existing tickets.'
+          end
+
           seat.destroy
         end
       end
