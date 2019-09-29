@@ -9,6 +9,7 @@
       </div>
     <% end %>
   <% end %>
+
   <% @events.each do |event| %>
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.identifier}/title.svg", alt: event.name %>
@@ -28,16 +29,8 @@
     <div class="trenner"></div>
   <% end %>
 
-  <div class="teaser gemetzel">
-    <%= image_tag 'theater/gemetzel/title.svg', alt: 'Der Gott des Gemetzels' %>
-    <div class="links">
-      <div>Gastspiel in der Ehemaligen Synagoge Bruttig</div>
-      <p><span>21. / 22. September 2019</span> | <a href="/uploads/presse/Gott-des-Gemetzels-Gastspiel-Plakat.pdf">Weitere Informationen</a></p>
-    </div>
-  </div>
-  <div class="trenner"></div>
-
   <%= render "newsletter_subscribers/form" %>
+
   <div class="partner">
     <span class="disclaimer">Mit freundlicher Unterstützung durch</span>
     <ul>
