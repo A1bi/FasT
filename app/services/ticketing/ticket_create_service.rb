@@ -20,23 +20,34 @@ module Ticketing
         next unless number.positive?
 
         ticket_type = date.event.ticket_types.find_by(id: type_id)
-
-        if ticket_type_credit_required?(ticket_type)
-          unless ticket_type_credit_sufficient?(ticket_type, number)
-            next order.errors.add(
-              :tickets,
-              'Remaining credit for exclusive ticket type not sufficient'
-            )
-          end
-
-          build_exclusive_ticket_type_credit_spending(ticket_type, number)
-        end
+        next unless validate_ticket_type(ticket_type, number)
 
         build_tickets_for_type(ticket_type, number)
       end
     end
 
     private
+
+    def validate_ticket_type(ticket_type, number)
+      if ticket_type.box_office? && !order.is_a?(BoxOffice::Order)
+        order.errors.add(:tickets,
+                         'Ticket type unavailable for this type of order')
+        return
+
+      elsif ticket_type_credit_required?(ticket_type)
+        unless ticket_type_credit_sufficient?(ticket_type, number)
+          order.errors.add(
+            :tickets,
+            'Remaining credit for exclusive ticket type not sufficient'
+          )
+          return
+        end
+
+        build_exclusive_ticket_type_credit_spending(ticket_type, number)
+      end
+
+      true
+    end
 
     def build_tickets_for_type(ticket_type, number)
       number.times do
@@ -51,7 +62,7 @@ module Ticketing
     end
 
     def ticket_type_credit_required?(ticket_type)
-      ticket_type.exclusive && !admin?
+      ticket_type.exclusive? && !admin?
     end
 
     def ticket_type_credit_sufficient?(ticket_type, number)

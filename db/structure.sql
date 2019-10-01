@@ -57,6 +57,17 @@ CREATE TYPE public.ticketing_pay_method AS ENUM (
 
 
 --
+-- Name: ticketing_ticket_type_availability; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_ticket_type_availability AS ENUM (
+    'universal',
+    'exclusive',
+    'box_office'
+);
+
+
+--
 -- Name: user_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1599,7 +1610,7 @@ CREATE TABLE public.ticketing_ticket_types (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     info character varying,
-    exclusive boolean DEFAULT false,
+    availability public.ticketing_ticket_type_availability,
     event_id bigint
 );
 
@@ -2846,24 +2857,24 @@ CREATE INDEX index_ticketing_signing_keys_on_active ON public.ticketing_signing_
 
 
 --
+-- Name: index_ticketing_ticket_types_on_availability; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_ticket_types_on_availability ON public.ticketing_ticket_types USING btree (availability);
+
+
+--
+-- Name: index_ticketing_ticket_types_on_availability_and_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_ticket_types_on_availability_and_event_id ON public.ticketing_ticket_types USING btree (availability, event_id);
+
+
+--
 -- Name: index_ticketing_ticket_types_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_ticketing_ticket_types_on_event_id ON public.ticketing_ticket_types USING btree (event_id);
-
-
---
--- Name: index_ticketing_ticket_types_on_exclusive; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_ticket_types_on_exclusive ON public.ticketing_ticket_types USING btree (exclusive);
-
-
---
--- Name: index_ticketing_ticket_types_on_exclusive_and_event_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_ticket_types_on_exclusive_and_event_id ON public.ticketing_ticket_types USING btree (exclusive, event_id);
 
 
 --
@@ -3426,6 +3437,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190826203751'),
 ('20190828194326'),
 ('20190901143224'),
-('20190901170312');
+('20190901170312'),
+('20190930212209');
 
 

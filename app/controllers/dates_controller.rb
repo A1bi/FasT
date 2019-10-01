@@ -8,7 +8,8 @@ class DatesController < ApplicationController
 
   def show_event
     @event = Ticketing::Event.current.find_by!(slug: params[:slug])
-    @ticket_types = @event.ticket_types.exclusive(false).order(price: :desc)
+    @ticket_types = @event.ticket_types.except_exclusive
+                          .ordered_by_availability_and_price
     render "event_#{@event.identifier}"
   end
 end

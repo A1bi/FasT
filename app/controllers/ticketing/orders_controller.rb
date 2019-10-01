@@ -231,7 +231,8 @@ module Ticketing
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.upcoming
-      @ticket_types = @event.ticket_types.order(exclusive: :desc, price: :desc)
+      @ticket_types = @event.ticket_types.except_box_office
+                            .ordered_by_availability_and_price
     end
 
     def search_orders

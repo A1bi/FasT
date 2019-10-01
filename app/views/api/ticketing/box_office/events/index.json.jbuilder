@@ -9,10 +9,9 @@ json.events @events do |event|
 
   json.ticket_types event.ticket_types do |type|
     json.id type.id.to_s
-    json.name type.name
     json.info type.info || ''
     json.price type.price || 0
-    json.exclusive type.exclusive
+    json.call(type, :name, :availability)
   end
 
   json.bound_to_seats event.seating.bound_to_seats?

@@ -28,7 +28,7 @@
         <% @box_offices.each do |box_office| %>
           <% scopes << { title: box_office.name, scope: stats[:box_office][:box_offices][box_office.id] } %>
         <% end %>
-        <%= render "stats_table", scopes: scopes, event: event %>
+        <%= render "stats_table", scopes: scopes, event: event, box_office: true %>
       </div>
     <% end %>
     <div class="trenner"></div>
