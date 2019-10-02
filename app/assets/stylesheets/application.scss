@@ -58,36 +58,6 @@ h3 {
 
 @include font-face(qlassik);
 @include font-face(ovo);
-@font-face {
-  font-family: "Open Sans";
-  src: url(asset_path("OpenSans-Regular.woff"));
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Open Sans";
-  src: url(asset_path("OpenSans-Bold.woff"));
-  font-weight: bold;
-  font-style: normal;
-}
-
-html {
-  #jr_inner {
-    font-size: 0.9em;
-    min-width: 600px;
-    max-width: 600px;
-
-    ul {
-      text-align: center;
-      display: inline-block;
-      margin: 20px auto;
-    }
-
-    #jr_close {
-      font-size: 0.8em;
-    }
-  }
-}
 
 #wrapper {
   position: relative;

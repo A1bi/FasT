@@ -4,8 +4,6 @@ function togglePluralText(box, number) {
   box.find(".number span").text(number);
 }
 
-if (!window.console) window.console = { log: function () {} };
-
 var environment = 'production';
 var host = location.hostname;
 if (host.indexOf('staging') > -1) {

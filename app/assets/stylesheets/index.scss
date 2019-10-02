@@ -1,8 +1,5 @@
 @import "_mixins";
 
-@include font-face(adlib);
-@include font-face(ovo);
-
 .index .alert {
   border: 2px solid red;
   border-radius: 10px;

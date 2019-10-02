@@ -3,6 +3,19 @@
 $regularColor: black;
 $highlightColor: #e6007e;
 
+@font-face {
+  font-family: "Open Sans";
+  src: url(asset_path("OpenSans-Regular.woff"));
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url(asset_path("OpenSans-Bold.woff"));
+  font-weight: bold;
+  font-style: normal;
+}
+
 #content {
   > .top {
     background: url(asset_path("theater/alte_dame/content_top.png")) no-repeat;
