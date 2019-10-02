@@ -4,12 +4,6 @@ function togglePluralText(box, number) {
   box.find(".number span").text(number);
 }
 
-function dismissCookieConsent() {
-  document.cookie = 'cookie_consent_dismissed=1; expires=Sat, 22 May 2021 22:00:00 CEST +02:00; path=/';
-  var box = $(this).parent();
-  box.css('margin-top', -box.outerHeight());
-}
-
 if (!window.console) window.console = { log: function () {} };
 
 var environment = 'production';
@@ -28,9 +22,4 @@ Raven
       return environment !== 'development';
     }
   })
-  .install()
-  .context(function () {
-    $(function () {
-      $('#cookie-consent button').click(dismissCookieConsent);
-    });
-  });
+  .install();

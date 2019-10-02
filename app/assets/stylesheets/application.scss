@@ -350,41 +350,6 @@ html {
   }
 }
 
-#cookie-consent {
-  position: relative;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 15px;
-  background: white;
-  z-index: 99;
-  font-size: 13px;
-  overflow: auto;
-  transition: margin-top .3s;
-  transition-timing-function: ease-out;
-
-  .note {
-    width: 82%;
-    float: left;
-  }
-
-  button {
-    display: block;
-    width: 16%;
-    padding: 8px 0;
-    float: right;
-    background: #0064ec;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    border: 0;
-    cursor: pointer;
-
-    &:hover {
-      background: lighten(#0064ec, 10%);
-    }
-  }
-}
-
 
 // common classes
 .hcen {
