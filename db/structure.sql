@@ -1610,7 +1610,7 @@ CREATE TABLE public.ticketing_ticket_types (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     info character varying,
-    availability public.ticketing_ticket_type_availability,
+    availability public.ticketing_ticket_type_availability DEFAULT 'universal'::public.ticketing_ticket_type_availability,
     event_id bigint
 );
 
@@ -3438,6 +3438,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190828194326'),
 ('20190901143224'),
 ('20190901170312'),
-('20190930212209');
+('20190930212209'),
+('20191002095906');
 
 
