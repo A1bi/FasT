@@ -169,7 +169,7 @@
               ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
               ["Kategorie umbuchen", :transfer, data: { path: orders_path(:edit_ticketing_order_tickets, @order), method: :get }],
               ["herunterladen", :transfer, data: { path: orders_path(:printable_ticketing_order_tickets, @order), method: :get }]
-            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.bound_to_seats? && admin?) } %>
+            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && admin?) } %>
             <%= select_tag :edit_action, options_for_select(options), disabled: true, name: nil %>
             <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
             <%= submit_tag :ok, name: nil, disabled: true %>

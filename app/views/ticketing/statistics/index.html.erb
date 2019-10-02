@@ -52,7 +52,7 @@
 <% cache Ticketing::Seat.all do %>
   <div class="hl">Sitzauslastung</div>
   <% @events.each do |event| %>
-    <% next unless event.seating.bound_to_seats? %>
+    <% next unless event.seating.plan? %>
     <h4 class="hcen"><%= event.name %></h4>
     <% event.dates.each do |date| %>
       <div class="box">

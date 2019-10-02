@@ -14,7 +14,7 @@ json.events @events do |event|
     json.call(type, :name, :availability)
   end
 
-  json.bound_to_seats event.seating.bound_to_seats?
+  json.has_seating_plan event.seating.plan?
 
   json.seats event.seating.seats do |seat|
     json.id seat.id.to_s

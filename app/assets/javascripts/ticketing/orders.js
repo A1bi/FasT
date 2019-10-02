@@ -442,7 +442,7 @@ function SeatsStep(delegate) {
   var _this = this;
 
   this.validate = function () {
-    return !this.boundToSeats || this.chooser.validate();
+    return !this.hasSeatingPlan || this.chooser.validate();
   };
 
   this.nextBtnEnabled = function () {
@@ -450,7 +450,7 @@ function SeatsStep(delegate) {
   };
 
   this.willMoveIn = function () {
-    if (!this.boundToSeats) return;
+    if (!this.hasSeatingPlan) return;
 
     var info = this.delegate.getStepInfo("tickets");
     if (this.numberOfSeats != info.internal.numberOfTickets) {
@@ -477,7 +477,7 @@ function SeatsStep(delegate) {
     this.info.internal.boxOfficePayment = $this.data("box-office-payment");
     this.info.internal.localizedDate = $this.text();
 
-    if (this.boundToSeats) {
+    if (this.hasSeatingPlan) {
       this.slideToggle(this.seatingBox, true);
       this.updateSeatingPlan();
 
@@ -554,9 +554,9 @@ function SeatsStep(delegate) {
   Step.call(this, "seats", delegate);
 
 
-  this.boundToSeats = this.box.data("boundToSeats");
+  this.hasSeatingPlan = this.box.data("hasSeatingPlan");
   this.seatingBox = this.box.find(".seat_chooser");
-  if (this.boundToSeats) {
+  if (this.hasSeatingPlan) {
     this.delegate.toggleModalSpinner(true, true);
     this.box.show();
     this.chooser = new SeatChooser(this.seatingBox.find(".seating"), this);
@@ -567,7 +567,7 @@ function SeatsStep(delegate) {
   this.dates = this.box.find(".date td").click(function () {
     _this.choseDate($(this));
   });
-  this.skipDateSelection = this.dates.length < 2 && this.boundToSeats;
+  this.skipDateSelection = this.dates.length < 2 && this.hasSeatingPlan;
   this.box.find(".note").first().toggle(!this.skipDateSelection);
 
   this.box.find(".reservationGroups :checkbox").prop("checked", false).click(function () {

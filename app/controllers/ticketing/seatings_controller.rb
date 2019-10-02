@@ -12,7 +12,8 @@ module Ticketing
       respond_to do |format|
         format.html
         format.pdf do
-          send_data printable(@seating).render, type: 'application/pdf', disposition: 'inline'
+          send_data printable(@seating).render, type: 'application/pdf',
+                                                disposition: 'inline'
         end
         format.svg { redirect_to url_for(@seating.plan) }
       end
@@ -21,7 +22,7 @@ module Ticketing
     private
 
     def find_seatings
-      @seatings = Seating.where(number_of_seats: 0)
+      @seatings = Seating.with_plan
     end
 
     def printable(seating)

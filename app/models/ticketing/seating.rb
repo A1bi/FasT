@@ -10,16 +10,23 @@ module Ticketing
     after_commit :create_stripped_plan, on: %i[create update]
     after_destroy :remove_stripped_plan
 
-    def bound_to_seats?
-      self[:number_of_seats] < 1
+    class << self
+      def with_plan
+        includes(:plan_attachment)
+          .where.not(active_storage_attachments: { id: nil })
+      end
+    end
+
+    def plan?
+      plan.attached?
     end
 
     def number_of_seats
-      bound_to_seats? ? seats.count : self[:number_of_seats]
+      plan? ? seats.count : self[:number_of_seats]
     end
 
     def unreserved_seats_on_date(date)
-      return seats unless bound_to_seats?
+      return seats unless plan?
 
       seats = Ticketing::Seat.arel_table
       reservations = Ticketing::Reservation.arel_table
@@ -43,7 +50,7 @@ module Ticketing
     end
 
     def number_of_unreserved_seats_on_date(date)
-      bound_to_seats? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
+      plan? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
 
     def stripped_plan_url

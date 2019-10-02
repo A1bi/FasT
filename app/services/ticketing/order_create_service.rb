@@ -103,7 +103,7 @@ module Ticketing
     end
 
     def update_node_seats
-      return unless date.event.seating.bound_to_seats?
+      return unless date.event.seating.plan?
 
       NodeApi.update_seats_from_records(@order.tickets)
     end

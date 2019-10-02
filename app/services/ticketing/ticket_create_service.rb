@@ -12,7 +12,7 @@ module Ticketing
     end
 
     def execute
-      if bound_to_seats? && seats.nil?
+      if seating_plan? && seats.nil?
         order.errors.add(:base, 'Unknown socket id')
       end
 
@@ -55,7 +55,7 @@ module Ticketing
           type: ticket_type,
           date: date
         )
-        if bound_to_seats?
+        if seating_plan?
           ticket.seat = Ticketing::Seat.find(Array(seats).shift)
         end
       end
@@ -81,8 +81,8 @@ module Ticketing
       @seats ||= NodeApi.get_chosen_seats(params[:socket_id])
     end
 
-    def bound_to_seats?
-      date.event.seating.bound_to_seats?
+    def seating_plan?
+      date.event.seating.plan?
     end
   end
 end

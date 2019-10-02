@@ -41,7 +41,7 @@ module Ticketing
     end
 
     def finish_transfer
-      if (bound_to_seats = @event.seating.bound_to_seats?)
+      if (with_plan = @event.seating.plan?)
         chosen_seats = NodeApi.get_chosen_seats(params[:socketId])
       end
       date = Ticketing::EventDate.find(params[:date_id])
@@ -49,11 +49,11 @@ module Ticketing
 
       @tickets.map! do |ticket|
         ticket.date = date
-        ticket.seat = Ticketing::Seat.find(chosen_seats.shift) if bound_to_seats
+        ticket.seat = Ticketing::Seat.find(chosen_seats.shift) if with_plan
 
         next unless ticket.save && ticket.saved_changes?
 
-        if bound_to_seats
+        if with_plan
           old_date_id = ticket.attribute_before_last_save(:date_id)
           old_seat = Ticketing::Seat.find(
             ticket.attribute_before_last_save(:seat_id)
@@ -77,7 +77,7 @@ module Ticketing
       if @tickets.any?
         @order.log(:tickets_transferred, count: @tickets.count)
         @order.save
-        NodeApi.update_seats(updated_seats) if bound_to_seats
+        NodeApi.update_seats(updated_seats) if with_plan
       end
 
       flash[:notice] = t('.edited', count: @tickets.count)

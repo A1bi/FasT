@@ -6,7 +6,7 @@
   <div class="date">
     <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date %>
   </div>
-  <% if @event.seating.bound_to_seats? %>
+  <% if @event.seating.plan? %>
     <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
       Vorreservierungen freischalten:
       <% @reservation_groups.each do |group| %>
