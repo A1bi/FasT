@@ -1,5 +1,5 @@
 namespace :deploy do
-  after :published, 'unicorn:restart'
+  after :published, 'unicorn:reload'
 end
 
 namespace :unicorn do
