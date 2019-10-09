@@ -29,7 +29,7 @@ module Ticketing
     private
 
     def validate_ticket_type(ticket_type, number)
-      if ticket_type.box_office? && !order.is_a?(BoxOffice::Order)
+      if ticket_type.box_office? && !box_office?
         order.errors.add(:tickets,
                          'Ticket type unavailable for this type of order')
         return
@@ -55,14 +55,12 @@ module Ticketing
           type: ticket_type,
           date: date
         )
-        if seating_plan?
-          ticket.seat = Ticketing::Seat.find(Array(seats).shift)
-        end
+        ticket.seat = Ticketing::Seat.find(Array(seats).shift) if seating_plan?
       end
     end
 
     def ticket_type_credit_required?(ticket_type)
-      ticket_type.exclusive? && !admin?
+      ticket_type.exclusive? && !admin? && !box_office?
     end
 
     def ticket_type_credit_sufficient?(ticket_type, number)
@@ -83,6 +81,10 @@ module Ticketing
 
     def seating_plan?
       date.event.seating.plan?
+    end
+
+    def box_office?
+      order.is_a? BoxOffice::Order
     end
   end
 end
