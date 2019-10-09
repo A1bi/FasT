@@ -22,10 +22,11 @@ passbook:
     ticketing/ticket: pass.de.theater-kaisersesch.FasT
   certificate_paths:
     pass.de.theater-kaisersesch.FasT: '/usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12'
-  wwdr_ca_path: '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'
+  wwdr_ca_path: &wwdr_ca_path '/usr/local/etc/ssl/chain/AppleWWDRCA.cer'
 
 mobile_devices:
   certificate_path: '/usr/local/etc/ssl/private/mobile_devices.p12'
+  wwdr_ca_path: *wwdr_ca_path
 
 sentry:
   enabled: false

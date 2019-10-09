@@ -20,18 +20,15 @@ module Api
     private
 
     def signed_profile_data
-      p12 = OpenSSL::PKCS12.new(File.read(certificate_path))
-      OpenSSL::PKCS7.sign(p12.certificate, p12.key, profile_data, [],
+      cert = OpenSSL::PKCS12.new(File.read(certificate_path))
+      wwdr = OpenSSL::X509::Certificate.new(File.read(wwdr_ca_path))
+      OpenSSL::PKCS7.sign(cert.certificate, cert.key, profile_data, [wwdr],
                           OpenSSL::PKCS7::BINARY)
                     .to_der
     end
 
     def profile_data
       render_to_string :profile, layout: false, formats: :plist
-    end
-
-    def certificate_path
-      Settings.mobile_devices.certificate_path
     end
 
     def device_identifier
@@ -42,11 +39,17 @@ module Api
 
     def device_attributes
       @device_attributes ||= begin
-        p7sign = OpenSSL::PKCS7.new(request.body.string)
+        p7sign = OpenSSL::PKCS7.new(request.body.read)
         store = OpenSSL::X509::Store.new
         p7sign.verify(nil, store, nil, OpenSSL::PKCS7::NOVERIFY)
         Plist.parse_xml(p7sign.data)
       end
     end
+
+    def config
+      Settings.mobile_devices
+    end
+
+    delegate :certificate_path, :wwdr_ca_path, to: :config
   end
 end
