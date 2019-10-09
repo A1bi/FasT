@@ -395,6 +395,40 @@ ALTER SEQUENCE public.members_sepa_mandates_id_seq OWNED BY public.members_sepa_
 
 
 --
+-- Name: mobile_devices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.mobile_devices (
+    id bigint NOT NULL,
+    identifier character varying,
+    udid uuid NOT NULL,
+    product character varying,
+    version character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: mobile_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.mobile_devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: mobile_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.mobile_devices_id_seq OWNED BY public.mobile_devices.id;
+
+
+--
 -- Name: newsletter_images; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1786,6 +1820,13 @@ ALTER TABLE ONLY public.members_sepa_mandates ALTER COLUMN id SET DEFAULT nextva
 
 
 --
+-- Name: mobile_devices id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mobile_devices ALTER COLUMN id SET DEFAULT nextval('public.mobile_devices_id_seq'::regclass);
+
+
+--
 -- Name: newsletter_images id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2129,6 +2170,14 @@ ALTER TABLE ONLY public.members_families
 
 ALTER TABLE ONLY public.members_sepa_mandates
     ADD CONSTRAINT members_sepa_mandates_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: mobile_devices mobile_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.mobile_devices
+    ADD CONSTRAINT mobile_devices_pkey PRIMARY KEY (id);
 
 
 --
@@ -3439,6 +3488,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190901143224'),
 ('20190901170312'),
 ('20190930212209'),
-('20191002095906');
+('20191002095906'),
+('20191009195115');
 
 

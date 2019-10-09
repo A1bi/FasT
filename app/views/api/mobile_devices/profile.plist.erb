@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>PayloadContent</key>
+    <dict>
+      <key>URL</key>
+      <string><%= api_enroll_mobile_device_url(id: params[:id]) %></string>
+      <key>DeviceAttributes</key>
+      <array>
+        <string>UDID</string>
+        <string>PRODUCT</string>
+        <string>VERSION</string>
+      </array>
+    </dict>
+    <key>PayloadOrganization</key>
+    <string>Freilichtbühne am schiefen Turm e. V.</string>
+    <key>PayloadDisplayName</key>
+    <string>Registrierung für Einlasskontrolle</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadUUID</key>
+    <string>3ef4203b-f9e3-4e07-9665-d21702b529d8</string>
+    <key>PayloadIdentifier</key>
+    <string>de.theater-kaisersesch.mobile-device-registration</string>
+    <key>PayloadDescription</key>
+    <string>Dies dient lediglich zur Registrierung deines Gerätes, um später an der Einlasskontrolle teilnehmen zu können. Die eigentliche App dafür werden wir erst am Abend der Veranstaltung zusammen installieren.</string>
+    <key>PayloadType</key>
+    <string>Profile Service</string>
+  </dict>
+</plist>

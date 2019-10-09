@@ -224,6 +224,11 @@ Rails.application.routes.draw do
 
       resources :members, only: %i[index show]
       post 'push_notifications' => 'push_notifications#register'
+
+      scope path: :mobile_devices, controller: :mobile_devices do
+        get :profile, as: :mobile_device_profile
+        post :enroll, as: :enroll_mobile_device
+      end
     end
 
     passbook_routes

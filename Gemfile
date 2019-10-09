@@ -66,6 +66,8 @@ gem 'jbuilder', '~> 2.9.0'
 
 gem 'unicorn', '~> 5.5.0'
 
+gem 'plist'
+
 group :development do
   gem 'byebug'
   gem 'capistrano', '~> 3.11.0'
