@@ -31,7 +31,7 @@ gem 'prawn-table', '~> 0.2.1'
 gem 'prawn-svg', '~> 0.29.0'
 gem 'prawn-qrcode', '~> 0.3.0'
 
-gem 'rubyzip', '~> 1.2.0'
+gem 'rubyzip', '~> 1.3.0'
 
 gem 'roadie', '~> 3.5.0'
 gem 'roadie-rails', '~> 2.1.0'
