@@ -7,6 +7,8 @@ module Api
         @ticket_types = ::Ticketing::TicketType.where(event: events)
         @changed_tickets = ::Ticketing::Ticket.where(date: @dates)
                                               .where('created_at != updated_at')
+        @blocks = ::Ticketing::Block.where(seating: seatings)
+        @seats = ::Ticketing::Seat.where(block: @blocks)
       end
 
       def create
@@ -28,6 +30,10 @@ module Api
 
       def events
         @events ||= ::Ticketing::Event.current
+      end
+
+      def seatings
+        @seatings ||= ::Ticketing::Seating.find(events.pluck(:seating_id))
       end
     end
   end
