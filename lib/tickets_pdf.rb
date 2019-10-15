@@ -84,6 +84,8 @@ class TicketsPdf < Prawn::Document
     link = barcode_content_for_ticket(ticket)
     print_qr_code(link, extent: bounds.width.to_f, foreground_color: FG_COLOR)
 
+    return unless includes_links?
+
     link = barcode_link_for_ticket(ticket, authenticated: true)
     link_annotate(link, [0, -bounds.width, 0, 0])
   end
@@ -234,6 +236,8 @@ class TicketsPdf < Prawn::Document
       svg File.read(event_image_path),
           width: bounds.width * width_scale, position: :center
 
+      next unless includes_links?
+
       margin = bounds.width * (0.5 - width_scale / 2)
       link_annotate(root_url, [margin, -bounds.height + cursor,
                                -margin, -bounds.height + cursor])
@@ -326,5 +330,9 @@ class TicketsPdf < Prawn::Document
 
   def signed_info_medium
     :unknown
+  end
+
+  def includes_links?
+    false
   end
 end

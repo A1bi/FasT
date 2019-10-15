@@ -18,4 +18,8 @@ class TicketsWebPdf < TicketsPdf
   def signed_info_medium
     :web
   end
+
+  def includes_links?
+    true
+  end
 end
