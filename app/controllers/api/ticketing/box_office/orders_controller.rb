@@ -7,7 +7,7 @@ module Api
         before_action :find_order, only: :destroy
 
         def index
-          @orders = ::Ticketing::Order.all
+          @orders = ::Ticketing::Order.order(:last_name, :first_name)
           @orders = @orders.event_today if params[:event_today].present?
           @orders = @orders.unpaid if params[:unpaid].present?
           @orders, @ticket = search_orders if params[:q].present?
