@@ -21,10 +21,13 @@
         <% if !event.sale_started? %>
           | <span>Tickets ab <%= l event.sale_start, format: '%-d. %B' %></span>
         <% elsif event.on_sale? %>
-          | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
+          <% if event.sold_out? %>
+            | <span>Derzeit ausverkauft!</span>
+          <% else %>
+            | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
+          <% end %>
         <% end %>
       </div>
-      <%= render 'dates/sahnemixx_video' if event.identifier == 'sahnemixx' %>
     </div>
     <div class="trenner"></div>
   <% end %>
