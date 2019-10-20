@@ -5,7 +5,7 @@ class Newsletter::Newsletter < BaseModel
 
   has_and_belongs_to_many :subscriber_lists
   has_many :subscribers, ->{ confirmed }, through: :subscriber_lists
-  has_many :images
+  has_many :images, dependent: :destroy
 
   enum status: %i[draft review sent]
 

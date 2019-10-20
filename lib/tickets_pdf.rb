@@ -192,7 +192,7 @@ class TicketsPdf < Prawn::Document
 
     if ticket.seat.nil?
       labels << ''
-      values << :free_seating
+      values << t(:free_seating)
     else
       labels += %i[entrance block row seat]
       values += [ticket.block.entrance, ticket.block.name, ticket.seat.row,
