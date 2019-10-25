@@ -11,7 +11,8 @@ module Ticketing
 
     attr_readonly :date
 
-    has_many :tickets, dependent: :destroy, autosave: true
+    has_many :tickets, -> { order(:order_index) },
+             inverse_of: :order, dependent: :destroy, autosave: true
     belongs_to :date, class_name: 'EventDate'
     has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy

@@ -1,7 +1,8 @@
 module Ticketing::Billing
   class Account < BaseModel
     belongs_to :billable, polymorphic: true, inverse_of: :billing_account
-    has_many :transfers, autosave: true, dependent: :destroy
+    has_many :transfers, -> { order(created_at: :desc) },
+             inverse_of: :account, autosave: true, dependent: :destroy
 
     validates_numericality_of :balance
 

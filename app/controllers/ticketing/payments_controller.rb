@@ -11,14 +11,15 @@ module Ticketing
           transfer: find_unpaid_orders.transfer_payment,
           cash: find_unpaid_orders.cash_payment,
           box_office: find_unpaid_orders.box_office_payment,
-          other: find_unpaid_orders(false)
-            .where.not(pay_method: Ticketing::Web::Order.pay_methods.values_at(:transfer, :cash, :box_office))
+          other: find_unpaid_orders(false).where.not(
+            pay_method: %i[transfer cash box_office]
+          )
         },
         unapproved: Web::Order.charges_to_submit(false),
         outstanding_credit: orders_with_outstanding_credit
       }
 
-      @submissions = BankSubmission.last(10)
+      @submissions = BankSubmission.order(created_at: :desc).limit(10)
     end
 
     def mark_as_paid
