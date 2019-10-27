@@ -5,7 +5,7 @@ class InfoController < ApplicationController
     if params[:event_slug].present?
       @event = Ticketing::Event.current.find_by!(slug: params[:event_slug])
     else
-      @event = Ticketing::Event.with_future_dates.first
+      @event = Ticketing::Event.with_future_dates.last || Ticketing::Event.last
       return redirect_to event_slug: @event.slug
     end
 
