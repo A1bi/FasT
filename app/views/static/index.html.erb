@@ -10,6 +10,8 @@
     <% end %>
   <% end %>
 
+  <%= render "dates/teaser_dates" %>
+
   <% @events.each do |event| %>
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.identifier}/title.svg", alt: event.name %>

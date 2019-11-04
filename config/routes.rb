@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # dates
   scope controller: :dates, path: 'termine', as: :dates do
-    root action: :index, as: ''
+    root action: :teaser, as: ''
     get ':slug', action: :show_event, as: :event
   end
 
