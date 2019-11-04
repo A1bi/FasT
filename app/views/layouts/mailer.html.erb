@@ -105,33 +105,7 @@
     </div>
   <% end %>
   <div class="imprint">
-    <h2>Freilichtbühne am schiefen Turm e. V.</h2>
-    Mausbachstraße 11<br>
-    56759 Kaisersesch
-
-    <p>
-      Telefon: +49 2653 282709<br>
-      E-Mail: info@theater-kaisersesch.de
-    </p>
-
-    <p>
-      Registergericht: Amtsgericht Koblenz<br>
-      Registernummer: VR 20526
-    </p>
-
-    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE295892528</p>
-
-    <h2>Vertretungsberechtigter Vorstand:</h2>
-    <p>
-      1. Vorsitzender: Helmut Mattern<br>
-      2. Vorsitzender: Stefan Gasser
-    </p>
-
-    <p>
-      Plattform der EU-Kommission zur Online-Streitbeilegung: <%= link_to eu_dispute_resolution_url, eu_dispute_resolution_url %>
-    </p>
-
-    <p>Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.</p>
+    <%= render 'application/imprint' %>
 
     <p>
       <%= link_to 'Impressum', impressum_url %> –
