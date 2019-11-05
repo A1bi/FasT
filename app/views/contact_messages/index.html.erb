@@ -3,14 +3,14 @@
 <div class="impressum">
   <div class="hl">Kontakt</div>
 
-  <%= render 'static/main_address' %>
+  <%= render 'application/main_address' %>
+
+  <div class="trenner"></div>
 
   <h2>Kontaktformular</h2>
 
   Sie haben eine Frage zu unserem Verein, den Theaterstücken oder Ihren gebuchten Tickets? Möchten Sie uns Feedback zu unseren Aufführungen geben?
   <p>Teilen Sie uns Ihr Anliegen gerne über folgendes Kontaktformular mit und wir werden uns schnellstmöglich bei Ihnen melden.</p>
-
-  <div class="trenner"></div>
 
   <%= form_for @message do |f| %>
     <%= render 'errors', errors: @message.errors %>
