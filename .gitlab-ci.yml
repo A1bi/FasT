@@ -22,7 +22,7 @@ specs:
 audit:
   script:
     - gem install bundler-audit
-    - bundler-audit
+    - bundle audit check --update
 
 deploy:
   stage: deploy

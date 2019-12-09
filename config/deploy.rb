@@ -3,7 +3,8 @@ set :repo_url, 'git@gitlab.a0s.de:FasT/FasT.git'
 set :deploy_to, '~/FasT'
 
 append :linked_files, 'config/master.key'
-append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache'
+append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache',
+       'log', 'tmp/cache', '.bundle'
 
 set :keep_releases, 3
 
