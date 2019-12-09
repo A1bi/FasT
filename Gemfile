@@ -18,14 +18,14 @@ gem 'paperclip', '~> 6.1.0'
 
 gem 'bcrypt', '~> 3.1.13'
 
-gem 'icalendar', '~> 2.5.0'
+gem 'icalendar', '~> 2.6.1'
 
 gem 'prawn', '~> 2.2.2'
-gem 'prawn-qrcode', '~> 0.3.0'
-gem 'prawn-svg', '~> 0.29.0'
+gem 'prawn-qrcode', '~> 0.5.1'
+gem 'prawn-svg', '~> 0.30.0'
 gem 'prawn-table', '~> 0.2.1'
 
-gem 'rubyzip', '~> 1.2.0'
+gem 'rubyzip', '~> 2.0.0'
 
 gem 'roadie', '~> 3.5.0'
 gem 'roadie-rails', '~> 2.1.0'
@@ -41,9 +41,9 @@ gem 'auto_strip_attributes', '~> 2.5.0'
 gem 'phony_rails', '~> 0.14.2'
 
 gem 'record_tag_helper', git: 'https://github.com/rails/record_tag_helper.git',
-                         ref: '128cc1a'
+                         ref: '34ef6de7a'
 
-gem 'sentry-raven', '~> 2.11.0'
+gem 'sentry-raven', '~> 2.12.3'
 
 gem 'bootsnap', require: false
 
@@ -73,7 +73,7 @@ group :development do
   gem 'capistrano', '~> 3.11.0'
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
-  gem 'ffaker', '~> 2.12.0'
+  gem 'ffaker', '~> 2.13.0'
   gem 'rubocop', '~> 0.74.0'
   gem 'rubocop-rails', '~> 2.3.0'
   gem 'spring', '~> 2.1.0'
