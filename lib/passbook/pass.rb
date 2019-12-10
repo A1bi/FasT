@@ -8,7 +8,7 @@ module Passbook
     include AbstractController::Helpers
     include Rails.application.routes.url_helpers
 
-    IMAGES_BASE_PATH = Rails.root.join('app', 'assets', 'images', 'passbook')
+    IMAGES_BASE_PATH = Rails.root.join('app', 'assets', 'passbook')
 
     helper :passbook
     append_view_path ApplicationController.view_paths

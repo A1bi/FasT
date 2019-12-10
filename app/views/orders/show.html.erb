@@ -39,7 +39,7 @@
           <% if show_wallet? %>
             <td class="wallet">
               <%= link_to order_overview_wallet_path(ticket.signed_info) do %>
-                <%= image_tag("passbook/add_to_wallet.png") %>
+                <%= image_tag("add_to_wallet.png") %>
               <% end if !ticket.cancelled? %>
             </td>
           <% end %>

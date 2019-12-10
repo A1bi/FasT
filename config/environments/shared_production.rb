@@ -11,9 +11,6 @@ Rails.application.configure do
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.public_file_server.enabled = false
 
-  # Compress JavaScripts and CSS
-  config.assets.js_compressor = Uglifier.new(output: { comments: :copyright })
-
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
 
@@ -41,15 +38,6 @@ Rails.application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
-
-  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile << Proc.new { |path, full_path|
-    if !full_path.include?(Rails.root.join("app").to_s) || (path =~ /\.(css|js)\z/ && File.basename(path).starts_with?("_"))
-      false
-    else
-      true
-    end
-  }
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
