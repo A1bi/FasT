@@ -1,32 +1,49 @@
+.default-tags:
+  tags: [ruby-2.6]
+
+.postgres:
+  tags:
+    - ruby-2.6
+    - postgres
+
+.bundle: &bundle
+  - bundle install -j $(sysctl -n hw.ncpu)
+
+.copy_master_key: &copy_master_key
+  - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
+
 variables:
   RAILS_ENV: test
 
-before_script:
-  - ruby -v
-  - bundle install -j $(sysctl -n hw.ncpu)
-  - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
-
 rubocop:
+  extends: .default-tags
+  before_script:
+    - *bundle
   script:
     - rubocop
   allow_failure: true
 
 specs:
-  tags:
-    - postgres
+  extends: .postgres
+  before_script:
+    - *bundle
+    - *copy_master_key
   script:
     - rails db:drop db:create db:structure:load
     - rails test
     - spring stop
 
 audit:
+  extends: .default-tags
   script:
     - gem install bundler-audit
     - bundle audit check --update
 
 deploy:
+  extends: .default-tags
   stage: deploy
   before_script:
+    - *bundle
     - eval $(ssh-agent -s)
     - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   script:
