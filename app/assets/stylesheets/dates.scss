@@ -7,6 +7,21 @@
   }
 }
 
+.gemetzel {
+  .hl, .hl .small, .prices table td.price, .dates td {
+    color: black;
+    text-shadow: none;
+  }
+
+  .title {
+    padding-top: 30px !important;
+
+    img {
+      width: 275px;
+    }
+  }
+}
+
 .blauer_planet {
   .hl, .hl .small, .prices table td.price, .dates td {
     color: #bfd66a;

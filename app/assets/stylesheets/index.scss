@@ -25,6 +25,20 @@
     width: 70%;
   }
 
+  h3, .links {
+    font: {
+      family: 'Ovo', serif;
+      size: 22px;
+      weight: bold;
+    }
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 24px;
+  }
+
   ul {
     padding: 0;
     list-style-type: none;
@@ -32,12 +46,6 @@
 
   .links {
     text-align: center;
-    color: #B1CB22;
-    font: {
-      family: 'Ovo', serif;
-      size: 22px;
-      weight: bold;
-    }
 
     a, span {
       padding: 0px 7px;
@@ -53,8 +61,8 @@
     }
   }
 
-  &.blauer_planet {
-    .links {
+  &.gemetzel {
+    h3, .links {
       color: black;
     }
   }

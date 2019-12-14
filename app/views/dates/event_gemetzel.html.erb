@@ -11,7 +11,7 @@
   <%= render 'other_events' %>
 
   <div class="gemetzel">
-    Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen auf:
+    Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> als Gastspiel im <b>Kulturzentrum Kapuzinerkloster Cochem</b> an folgendem Tag auf:
 
     <%= render 'dates' %>
     <%= render 'prices' %>
@@ -19,11 +19,10 @@
     <% if @event.on_sale? %>
       <%= render 'order_link' %>
       <div class="stores">
-        Alternativ erhalten Sie Ihre Tickets auch in der Buchhandlung Walgenbach in Kaisersesch oder über unsere Hotline (siehe weiter unten).
+        Alternativ erhalten Sie Ihre Tickets auch in der Buchhandlung Layaa-Laulhé in Cochem oder über unsere Hotline (siehe weiter unten).
       </div>
     <% end %>
 
     <%= render 'questions' %>
-    <%= render 'restaurants' %>
   </div>
 <% end %>

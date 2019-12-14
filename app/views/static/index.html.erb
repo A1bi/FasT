@@ -10,11 +10,10 @@
     <% end %>
   <% end %>
 
-  <%= render "dates/teaser_dates" %>
-
   <% @events.each do |event| %>
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.identifier}/title.svg", alt: event.name %>
+      <h3>Gastspiel in Cochem</h3>
       <div class="links">
         <% if theater_play_path_exists?(event) %>
           <%= link_to 'Über das Stück', theater_play_path(event.slug) %> |
@@ -33,6 +32,9 @@
     </div>
     <div class="trenner"></div>
   <% end %>
+
+  <%= render "dates/teaser_dates" %>
+  <div class="trenner"></div>
 
   <%= render "newsletter_subscribers/form" %>
 
