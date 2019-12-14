@@ -8,7 +8,7 @@ class TicketsPdf < Prawn::Document
 
   FONT_NAME = 'OpenSans'.freeze
   FONT_STYLES = %i[normal bold].freeze
-  FONT_SIZES = { normal: 15, small: 13, tiny: 11 }.freeze
+  FONT_SIZES = { normal: 14, small: 11, tiny: 8 }.freeze
 
   FG_COLOR = '000000'.freeze
   BG_COLOR = 'ffffff'.freeze
@@ -52,24 +52,22 @@ class TicketsPdf < Prawn::Document
     y = cursor - TICKET_MARGIN
     height = @ticket_height - TICKET_MARGIN * 2
     bounding_box([0, y], width: TICKET_WIDTH, height: height) do
-      indent(10, 10) do
+      indent(25, 25) do
         draw_header
-        move_down 8
+        move_down 15
 
         bounding_box([0, cursor], width: bounds.width, height: cursor) do
-          indent(20, 20) do
-            indent(0, 140) do
-              draw_event_info_for_date ticket.date
-              draw_location_info ticket
-              draw_ticket_info ticket
-            end
+          indent(0, 140) do
+            draw_event_info_for_date ticket.date
+            draw_location_info ticket
+            draw_ticket_info ticket
+          end
 
-            move_cursor_to bounds.top
-            indent(bounds.right - 135, 0) do
-              draw_barcode_for_ticket(ticket)
-              move_down 10
-              draw_logo
-            end
+          move_cursor_to bounds.top
+          indent(bounds.right - 135, 0) do
+            draw_barcode_for_ticket(ticket)
+            move_down 10
+            draw_logo
           end
         end
       end
@@ -96,7 +94,7 @@ class TicketsPdf < Prawn::Document
       box_height = height_of header
       bounding_box([0, cursor], width: bounds.width, height: box_height) do
         text_width = 0
-        character_spacing 1.2 do
+        character_spacing 2 do
           text_width = width_of header
           text header, align: :center
         end
@@ -116,7 +114,14 @@ class TicketsPdf < Prawn::Document
   def create_event_info_stamp(event)
     create_stamp(:events, event) do
       width = bounds.width * 0.96
-      height = bounds.height * 0.38
+      height = bounds.height * (event.subtitle.present? ? 0.28 : 0.35)
+
+      if event.subtitle.present?
+        font_size_name :small do
+          text event.subtitle
+        end
+        move_down 10
+      end
 
       bounding_box([0, cursor], width: width, height: height) do
         image = File.read(images_path.join('theater', event.identifier,
@@ -169,7 +174,8 @@ class TicketsPdf < Prawn::Document
 
     float do
       move_up start - cursor - 12
-      text_box t(:additional_info), size: 8, inline_format: true,
+      text_box t(:additional_info), size: FONT_SIZES[:tiny],
+                                    inline_format: true,
                                     at: [table.width, cursor]
     end
   end
@@ -203,7 +209,7 @@ class TicketsPdf < Prawn::Document
   end
 
   def draw_info_table(labels, values, additional = [])
-    tiny_size = FONT_SIZES[:tiny]
+    small_size = FONT_SIZES[:small]
     normal_size = FONT_SIZES[:normal]
 
     values.each.with_index do |val, i|
@@ -222,7 +228,7 @@ class TicketsPdf < Prawn::Document
       cells.overflow = :shrink_to_fit
 
       row(0).padding = [10, 20, 0, 0]
-      row(0).size = tiny_size
+      row(0).size = small_size
       row(1).font_style = :bold
       row(2).size = 9
     end

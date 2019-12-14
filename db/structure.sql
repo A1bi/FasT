@@ -1301,7 +1301,8 @@ CREATE TABLE public.ticketing_events (
     location character varying,
     slug character varying,
     archived boolean DEFAULT false,
-    sale_disabled_message character varying
+    sale_disabled_message character varying,
+    subtitle character varying
 );
 
 
@@ -3489,6 +3490,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190901170312'),
 ('20190930212209'),
 ('20191002095906'),
-('20191009195115');
+('20191009195115'),
+('20191214215830');
 
 
