@@ -10,7 +10,7 @@
     <% end %>
   <% end %>
 
-  <% @events.last(1).each do |event| %>
+  <% @events.each do |event| %>
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name %>
       <h3>Gastspiel in Cochem</h3>
