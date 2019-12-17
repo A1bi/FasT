@@ -7,8 +7,12 @@ $(function () {
 
   var path = "/faq/map.json?identifier=" + ($("#map").data("identifier") || "");
 
+  if (!$('#map').length) return;
+
   // init map data
   $.getJSON(path, function (data) {
+    if (!data) return;
+
     var map = new Map("map", data.center, data.zoom);
 
     map.registerIcons(data.icons);
