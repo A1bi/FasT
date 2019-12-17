@@ -1295,14 +1295,15 @@ CREATE TABLE public.ticketing_events (
     name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    identifier character varying,
+    identifier character varying NOT NULL,
     sale_start timestamp without time zone,
     seating_id bigint DEFAULT 1 NOT NULL,
     location character varying,
-    slug character varying,
+    slug character varying NOT NULL,
     archived boolean DEFAULT false,
     sale_disabled_message character varying,
-    subtitle character varying
+    subtitle character varying,
+    assets_identifier character varying NOT NULL
 );
 
 
@@ -2770,7 +2771,7 @@ CREATE INDEX index_ticketing_events_on_archived ON public.ticketing_events USING
 -- Name: index_ticketing_events_on_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ticketing_events_on_identifier ON public.ticketing_events USING btree (identifier);
+CREATE UNIQUE INDEX index_ticketing_events_on_identifier ON public.ticketing_events USING btree (identifier);
 
 
 --
@@ -2784,7 +2785,7 @@ CREATE INDEX index_ticketing_events_on_seating_id ON public.ticketing_events USI
 -- Name: index_ticketing_events_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ticketing_events_on_slug ON public.ticketing_events USING btree (slug);
+CREATE UNIQUE INDEX index_ticketing_events_on_slug ON public.ticketing_events USING btree (slug);
 
 
 --
@@ -3491,6 +3492,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190930212209'),
 ('20191002095906'),
 ('20191009195115'),
-('20191214215830');
+('20191214215830'),
+('20191217195300');
 
 

@@ -7,6 +7,11 @@ module Ticketing
     has_many :ticket_types, dependent: :destroy
     belongs_to :seating
 
+    validates :identifier, :assets_identifier, :slug, presence: true
+    validates :identifier, :slug, uniqueness: true
+
+    before_validation :set_assets_identifier, on: :create
+
     def self.current
       archived(false)
     end
@@ -38,6 +43,12 @@ module Ticketing
 
     def sale_disabled?
       sale_disabled_message.present?
+    end
+
+    private
+
+    def set_assets_identifier
+      self.assets_identifier ||= identifier
     end
   end
 end
