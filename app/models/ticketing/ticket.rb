@@ -48,6 +48,10 @@ module Ticketing
       event.identifier
     end
 
+    def passbook_assets_identifier
+      event.assets_identifier
+    end
+
     def passbook_file_info
       { ticket: self }
     end

@@ -45,6 +45,10 @@ module Passbook
         self[:file_identifier] || assignable&.passbook_file_identifier
       end
 
+      def assets_identifier
+        self[:assets_identifier] || assignable&.passbook_assets_identifier
+      end
+
       def file_info
         self[:file_info] || assignable&.passbook_file_info
       end
@@ -54,7 +58,12 @@ module Passbook
       def save_pass_file
         raise PassFileCreationError unless file_identifier && file_info
 
-        pass_file = Passbook::Pass.new(type_id, serial_number, auth_token, file_identifier, file_info)
+        pass_file = Passbook::Pass.new(type_id: type_id,
+                                       serial: serial_number,
+                                       auth_token: auth_token,
+                                       ressources_identifier: file_identifier,
+                                       assets_identifier: assets_identifier,
+                                       template_locals: file_info)
         pass_file.save filename
       end
 

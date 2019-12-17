@@ -13,12 +13,14 @@ module Passbook
     helper :passbook
     append_view_path ApplicationController.view_paths
 
-    def initialize(type_id, serial, auth_token, ressources_identifier, template_locals)
+    def initialize(type_id:, serial:, auth_token:,
+                   ressources_identifier:, assets_identifier:, template_locals:)
       @type_id = type_id
       @serial = serial
       @auth_token = auth_token
       @ressources_identifier = ressources_identifier
-      @info = render_to_string(template: "passbook/#{@ressources_identifier}", format: :json, locals: template_locals)
+      @assets_identifier = assets_identifier
+      @template_locals = template_locals
     end
 
     def save(filename)
@@ -42,11 +44,13 @@ module Passbook
     end
 
     def create_pass_info
-      write_json_file(@info, "pass.json")
+      info = render_to_string(template: "passbook/#{@ressources_identifier}",
+                              format: :json, locals: @template_locals)
+      write_json_file(info, "pass.json")
     end
 
     def copy_images
-      ['_common', @ressources_identifier].each do |directory|
+      ['_common', @assets_identifier].each do |directory|
         iterate_dir(IMAGES_BASE_PATH.join(directory)) do |file|
           FileUtils.cp file, path_in_working_dir(File.basename(file))
         end

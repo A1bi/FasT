@@ -124,7 +124,7 @@ class TicketsPdf < Prawn::Document
       end
 
       bounding_box([0, cursor], width: width, height: height) do
-        image = File.read(images_path.join('theater', event.identifier,
+        image = File.read(images_path.join('theater', event.assets_identifier,
                                            'ticket_header.svg'))
         svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
 
