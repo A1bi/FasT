@@ -17,6 +17,8 @@ variables:
 
 rubocop:
   extends: .default-tags
+  except:
+    - schedules
   before_script:
     - *bundle
   script:
@@ -25,6 +27,8 @@ rubocop:
 
 specs:
   extends: .postgres
+  except:
+    - schedules
   before_script:
     - *bundle
     - *copy_master_key
@@ -41,6 +45,8 @@ audit:
 
 deploy:
   extends: .default-tags
+  except:
+    - schedules
   stage: deploy
   before_script:
     - *bundle
