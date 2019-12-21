@@ -43,7 +43,7 @@ gem 'phony_rails', '~> 0.14.2'
 gem 'record_tag_helper', git: 'https://github.com/rails/record_tag_helper.git',
                          ref: '34ef6de7a'
 
-gem 'sentry-raven', '~> 2.12.3'
+gem 'sentry-raven', '~> 2.13.0'
 
 gem 'bootsnap', require: false
 
@@ -60,7 +60,7 @@ gem 'simpleidn', '~> 0.1.1'
 
 gem 'name_of_person'
 
-gem 'request_store', '~> 1.4.0'
+gem 'request_store', '~> 1.5.0'
 
 gem 'jbuilder', '~> 2.9.0'
 
