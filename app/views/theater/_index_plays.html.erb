@@ -13,6 +13,10 @@
     end
   %>
   <p>
-    <%= link_to_if lookup_context.exists?(identifier, 'theater'), image_tag("theater/#{identifier}.jpg", alt: title, title: title), theater_play_path(slug) %>
+    <%= link_to_if lookup_context.exists?(identifier, 'theater'),
+                   image_tag("theater/#{identifier}.jpg",
+                             srcset: [["theater/#{identifier}@2x.jpg", '2x']],
+                             alt: title, title: title),
+                   theater_play_path(slug) %>
   </p>
 <% end %>
