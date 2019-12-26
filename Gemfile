@@ -40,8 +40,7 @@ gem 'auto_strip_attributes', '~> 2.5.0'
 
 gem 'phony_rails', '~> 0.14.2'
 
-gem 'record_tag_helper', git: 'https://github.com/rails/record_tag_helper.git',
-                         ref: '34ef6de7a'
+gem 'record_tag_helper', '~> 1.0.1'
 
 gem 'sentry-raven', '~> 2.13.0'
 
