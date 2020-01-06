@@ -196,7 +196,6 @@ GEM
     phony_rails (0.14.13)
       activesupport (>= 3.0)
       phony (> 2.15)
-    plist (3.5.0)
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
@@ -365,7 +364,6 @@ DEPENDENCIES
   paperclip (~> 6.1.0)
   pg
   phony_rails (~> 0.14.2)
-  plist
   prawn (~> 2.2.2)
   prawn-qrcode (~> 0.5.1)
   prawn-svg (~> 0.30.0)
