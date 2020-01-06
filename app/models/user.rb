@@ -2,6 +2,8 @@ class User < BaseModel
   has_secure_password
   has_person_name
 
+  has_many :log_events, class_name: 'Ticketing::LogEvent', dependent: :nullify
+
   validates :email, presence: true, on: :user_update
 
   validates :email,
