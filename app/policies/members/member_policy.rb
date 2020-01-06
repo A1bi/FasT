@@ -9,7 +9,7 @@ module Members
     end
 
     def update?
-      record == user || current_user_admin?
+      user.present? && record == user || current_user_admin?
     end
 
     def destroy?

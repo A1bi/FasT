@@ -28,11 +28,11 @@ module Members
     end
 
     def edit
-      authorize current_user
+      authorize current_user, policy_class: MemberPolicy
     end
 
     def update
-      authorize(current_user)
+      authorize(current_user, policy_class: MemberPolicy)
         .assign_attributes(permitted_attributes(current_user))
       if current_user.save(context: :user_update)
         flash.notice = t("application.saved_changes")
