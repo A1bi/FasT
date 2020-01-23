@@ -1,6 +1,8 @@
 module Api
   module Ticketing
     class CheckInsController < ApiController
+      include Authenticatable
+
       def index
         @signing_keys = ::Ticketing::SigningKey.active
         @dates = ::Ticketing::EventDate.where(event: events)
