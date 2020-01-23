@@ -4,21 +4,16 @@
   <script type="application/ld+json">
     <%= raw render('structured_data.json', image: 'theater/gemetzel/title.svg',
                                            location_type: 'EventVenue',
-                                           location_name: 'Kulturzentrum Kapuzinerkloster',
-                                           location_address: 'Klosterberg 5, 56812 Cochem') %>
+                                           location_name: 'Altes Wasserwerk',
+                                           location_address: 'Auf der Wacht 9, 56759 Kaisersesch') %>
   </script>
 
   <%= render 'other_events' %>
 
   <div class="gemetzel">
-    Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> als Gastspiel im <b>Kulturzentrum Kapuzinerkloster Cochem</b> an folgendem Tag auf:
+    Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> zum vorerst letzten Mal auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen auf:
 
     <%= render 'dates' %>
-
-    <div class="hcen">
-      <%= link_to 'Weitere Aufführungen in Kaisersesch im März', dates_event_identifier_path(:gemetzel_2020) %>
-    </div>
-
     <%= render 'prices' %>
 
     <% if @event.on_sale? %>

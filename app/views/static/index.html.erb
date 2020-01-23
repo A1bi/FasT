@@ -23,11 +23,14 @@
           | <span>Tickets ab <%= l event.sale_start, format: '%-d. %B' %></span>
         <% elsif event.on_sale? %>
           <% if event.sold_out? %>
-            | <span>Derzeit ausverkauft</span>
+            <!-- | <span>Derzeit ausverkauft</span> -->
           <% else %>
             | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
           <% end %>
         <% end %>
+      </div>
+      <div class="links">
+        <%= link_to 'Weitere Aufführungen in Kaisersesch im März', dates_event_identifier_path(:gemetzel_2020) %>
       </div>
     </div>
     <div class="trenner"></div>

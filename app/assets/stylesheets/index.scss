@@ -61,9 +61,13 @@
     }
   }
 
-  &.gemetzel {
+  &.gemetzel_cochem {
     h3, .links {
       color: black;
+    }
+
+    .links:last-child {
+      margin-top: 10px;
     }
   }
 }
