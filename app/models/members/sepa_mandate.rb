@@ -5,11 +5,12 @@ module Members
     auto_strip_attributes :debtor_name, squish: true
     auto_strip_attributes :iban, delete_whitespaces: true
 
-    validates :debtor_name, :iban, :number, presence: true
+    validates :debtor_name, :iban, :number, :issued_on, presence: true
     validates_with SEPA::IBANValidator
     validates :number, uniqueness: true
 
     after_initialize :set_number
+    before_validation :set_issued_on, on: :create
 
     def number(prefixed: false)
       return super() unless prefixed
@@ -26,6 +27,10 @@ module Members
 
     def set_number
       self.number = (self.class.maximum(:number) || 0) + 1 if number.blank?
+    end
+
+    def set_issued_on
+      self.issued_on ||= ::Date.today
     end
   end
 end

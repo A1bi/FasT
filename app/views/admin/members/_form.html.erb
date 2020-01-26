@@ -95,6 +95,10 @@
             <td><%= ff.text_field :number, value: @member.sepa_mandate&.number(prefixed: true) %></td>
           </tr>
           <tr>
+            <td>Mandatsdatum:</td>
+            <td><%= ff.date_select :issued_on, start_year: 2009, end_year: Date.today.year, default: Date.today %></td>
+          </tr>
+          <tr>
             <td colspan="2" class="small">Änderungen an diesem Mandat werden automatisch auch für andere Mitglieder übernommen, die ebenfalls das Mandat mit dieser Nummer nutzen.</td>
           </tr>
         <% end %>

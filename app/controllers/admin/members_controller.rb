@@ -100,7 +100,8 @@ module Admin
     def sepa_mandate_params
       @sepa_mandate_params ||= params.require(:members_member)
                                      .require(:members_sepa_mandate)
-                                     .permit(:debtor_name, :iban, :number)
+                                     .permit(:debtor_name, :iban, :number,
+                                             :issued_on)
     end
 
     def send_activation_mail

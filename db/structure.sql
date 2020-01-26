@@ -371,7 +371,8 @@ CREATE TABLE public.members_sepa_mandates (
     iban character varying(34),
     number integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    issued_on date NOT NULL
 );
 
 
@@ -3445,6 +3446,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191009195115'),
 ('20191214215830'),
 ('20191217195300'),
-('20200106104452');
+('20200106104452'),
+('20200126224058');
 
 
