@@ -1,6 +1,6 @@
 namespace :members do
-  desc 'update member information from CSV file'
-  task :update_from_csv, [:path] => [:environment] do |_, args|
+  desc 'import sepa mandates from CSV file'
+  task :import_mandates_from_csv, [:path] => [:environment] do |_, args|
     require 'csv'
 
     ActiveRecord::Base.transaction do
@@ -8,27 +8,39 @@ namespace :members do
          .with_index(1) do |row, i|
         attrs = row.to_hash.symbolize_keys
 
-        members = Members::Member.where(attrs.slice(:first_name, :last_name))
+        debtor = attrs[:debtor_name]
+        names = debtor.split(', ')
+        members = Members::Member.where(last_name: names[0], first_name: names[1])
         if members.count > 1
-          puts "Multiple members found for row #{i}"
+          puts "⚠️ Multiple members found for #{debtor}"
           next
         end
 
         member = members.first
         if member.blank?
-          puts "No member found for row #{i}"
+          puts "❌ No member found for #{debtor}"
           next
         end
 
-        member.assign_attributes(attrs.slice(:street, :plz, :city, :phone))
-
-        %i[birthday joined_at].each do |attr_name|
-          next if attrs[attr_name].blank?
-
-          member[attr_name] = Date.strptime(attrs[attr_name], '%m/%d/%y')
+        if member.sepa_mandate.present?
+          puts "⚠️ SEPA mandate already exists for #{debtor}"
+          next
         end
 
-        puts "Member #{member.name.sorted} updated." if member.save
+        mandate = Members::SepaMandate.find_by(attrs.slice(:iban))
+        if mandate.present?
+          puts "✅ Using existing SEPA mandate #{mandate.number} for #{debtor}"
+
+        else
+          puts "✅ Creating new SEPA mandate for #{debtor}"
+          mandate = member.build_sepa_mandate(
+            attrs.slice(:number, :issued_on, :debtor_name, :iban)
+          )
+        end
+
+        unless member.update(sepa_mandate: mandate)
+          puts "❌ SEPA mandate could not be set for #{debtor}"
+        end
       end
     end
   end
