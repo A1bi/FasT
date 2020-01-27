@@ -8,6 +8,10 @@ module Members
       current_user_admin?
     end
 
+    def show?
+      current_user_admin?
+    end
+
     def update?
       user.present? && record == user || current_user_admin?
     end

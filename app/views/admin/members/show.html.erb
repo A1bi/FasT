@@ -1,0 +1,115 @@
+<% include_css 'members/main' %>
+<% title "Mitgliederverwaltung – #{@member.name.full}" %>
+<div class="hl">Mitgliederverwaltung</div>
+<div class="box">
+  <div class="top">
+    <%= @member.name.full %>
+  </div>
+  <div class="con">
+    <div class="actionBtns hright">
+      <%= render "admin_actions", :obj => [:admin, @member], :delete_confirm => "dieses Mitglied" %>
+    </div>
+    <table>
+      <tr>
+        <td width="40%">Mitgliedsnummer:</td>
+        <td class="monospace"><%= @member.number %></td>
+      </tr>
+      <tr>
+        <td width="40%">Vorname:</td>
+        <td>
+          <%= @member.first_name %>
+          <% if @member.nickname != @member.first_name %>
+            <em>(<%= @member.nickname %>)</em>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>Nachname:</td>
+        <td><%= @member.last_name %></td>
+      </tr>
+      <tr>
+        <td>Geburtstag:</td>
+        <td><%= l @member.birthday, format: :long if @member.birthday %></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><h3>Kontaktdaten</h3></td>
+      </tr>
+      <tr>
+        <td>Adresse:</td>
+        <td>
+          <%= @member.street %><br>
+          <%= @member.plz %> <%= @member.city %>
+        </td>
+      </tr>
+      <tr>
+        <td>E-Mail-Adresse:</td>
+        <td><%= mail_to @member.email %></td>
+      </tr>
+      <tr>
+        <td>Telefonnummer:</td>
+        <td><%= @member.phone %></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><h3>Bankverbindung</h3></td>
+      </tr>
+      <% if @member.sepa_mandate.present? %>
+        <tr>
+          <td>Kontoinhaber:</td>
+          <td><%= @member.sepa_mandate.debtor_name %></td>
+        </tr>
+        <tr>
+          <td>IBAN:</td>
+          <td class="monospace">
+            <%= obfuscated_mandate_iban(@member.sepa_mandate) %>
+          </td>
+        </tr>
+        <tr>
+          <td>Mandat:</td>
+          <td>
+            <span class="monospace">
+              <%= @member.sepa_mandate.number(prefixed: true) %>
+            </span>
+            (vom <%= l @member.sepa_mandate.issued_on %>)
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Jahresbeitrag:</td>
+        <td><%= number_to_currency(@member.membership_fee) %></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><h3>Weitere Angaben</h3></td>
+      </tr>
+      <tr>
+        <td>Beitrittsdatum:</td>
+        <td><%= l @member.joined_at, format: :long %></td>
+      </tr>
+      <tr>
+        <td>Im Vorstand:</td>
+        <td><% if @member.admin? %>Ja<% else %>Nein<% end %></td>
+      </tr>
+      <tr>
+        <td>Letzter Login:</td>
+        <td><%= last_login_time @member %></td>
+      </tr>
+      <tr>
+        <td>Familie:</td>
+        <td>
+          <% if @member.in_family? %>
+            <ul>
+              <% @member.family.members.alphabetically.each do |member| %>
+                <li><%= link_to member.name.full, admin_members_member_path(member) %></li>
+              <% end %>
+              <p><small><%= link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'} %></small></p>
+            </ul>
+          <% else %>
+            <em>Dieses Mitglied ist keiner Familie zugeordnet.</em>
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

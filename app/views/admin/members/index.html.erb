@@ -17,8 +17,8 @@
       <% @members.each do |member| %>
         <tr>
           <td width="25"><%= image_tag "group.svg", width: 25, title: "Dieses Mitglied ist Teil einer Familie." if member.in_family? %></td>
-          <td><%= member.last_name %></td>
-          <td><%= member.first_name %></td>
+          <td><%= link_to member.last_name, [:admin, member] %></td>
+          <td><%= link_to member.first_name, [:admin, member] %></td>
           <td class="hcen"><% if member.admin? %><b>ja</b><% end %></td>
           <td class="actionBtns">
             <%= render "admin_actions", :obj => [:admin, member], :delete_confirm => "dieses Mitglied" %>

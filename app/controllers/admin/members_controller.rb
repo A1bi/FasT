@@ -1,7 +1,8 @@
 module Admin
   class MembersController < ApplicationController
     before_action :find_groups, only: %i[new edit create update]
-    before_action :find_member, only: %i[edit update destroy reactivate]
+    before_action :find_member, only: %i[show edit update destroy reactivate]
+    before_action :build_sepa_mandate, only: %i[edit update]
     before_action :prepare_new_member, only: %i[new create]
     before_action :update_member, only: %i[create update]
     before_action :find_members_for_family, only: %i[new create edit update]
@@ -19,15 +20,17 @@ module Admin
 
       send_activation_mail if params[:activation][:send] == '1'
 
-      redirect_to action: :index, notice: t('.created')
+      redirect_to admin_members_member_path(@member), notice: t('.created')
     end
+
+    def show; end
 
     def edit; end
 
     def update
       render :edit unless @member.save
 
-      redirect_to edit_admin_members_member_path(@member),
+      redirect_to admin_members_member_path(@member),
                   notice: t('application.saved_changes')
     end
 
@@ -41,7 +44,7 @@ module Admin
       @member.reset_password
       send_activation_mail if @member.save
 
-      redirect_to edit_admin_members_member_path(@member),
+      redirect_to admin_members_member_path(@member),
                   notice: t('.sent_activation_mail')
     end
 
@@ -55,7 +58,6 @@ module Admin
 
     def find_member
       @member = authorize Members::Member.find(params[:id])
-      @member.build_sepa_mandate if @member.sepa_mandate.blank?
     end
 
     def find_members_for_family
@@ -78,6 +80,17 @@ module Admin
     def update_member
       @member.assign_attributes(permitted_attributes(@member))
 
+      # skip mandate update if only the family needs to be removed
+      return if params[:members_member] == { 'family_id' => '' }
+
+      update_sepa_mandate
+    end
+
+    def build_sepa_mandate
+      @member.build_sepa_mandate if @member.sepa_mandate.blank?
+    end
+
+    def update_sepa_mandate
       if @member.will_save_change_to_sepa_mandate_id?
         if @member.sepa_mandate_id.zero?
           @member.sepa_mandate = nil

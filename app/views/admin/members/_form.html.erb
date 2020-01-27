@@ -110,12 +110,6 @@
         <tr>
           <td colspan="2"><h3>Weitere Angaben</h3></td>
         </tr>
-        <% if @member.persisted? %>
-          <tr>
-            <td width="40%">Mitgliedsnummer:</td>
-            <td class="monospace"><%= @member.number %></td>
-          </tr>
-        <% end %>
         <% if !@member.in_family? %>
           <tr>
             <td>
@@ -133,12 +127,6 @@
           <td>Gruppe:</td>
           <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
         </tr>
-        <% if @member.persisted? %>
-          <tr>
-            <td>Letzter Login:</td>
-            <td><%= last_login_time @member %></td>
-          </tr>
-        <% end %>
         <%= content_tag :tr do %>
           <td>
             Aktivierungsmail zusenden:
@@ -161,7 +149,7 @@
           <% if @member.in_family? %>
             <ul>
               <% @member.family.members.alphabetically.each do |member| %>
-                <li><%= link_to member.name.full, edit_admin_members_member_path(member) %></li>
+                <li><%= link_to member.name.full, admin_members_member_path(member) %></li>
               <% end %>
               <p><small><%= link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'} %></small></p>
             </ul>
