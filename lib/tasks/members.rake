@@ -1,47 +1,35 @@
 namespace :members do
-  desc 'import sepa mandates from CSV file'
-  task :import_mandates_from_csv, [:path] => [:environment] do |_, args|
-    require 'csv'
+  desc 'generate membership fee debit SEPA xml file'
+  task :generate_fee_debit_file, [:path] => [:environment] do
+    include ActionView::Helpers::TranslationHelper
 
-    ActiveRecord::Base.transaction do
-      CSV.foreach(args[:path], col_sep: ';', headers: true)
-         .with_index(1) do |row, i|
-        attrs = row.to_hash.symbolize_keys
-
-        debtor = attrs[:debtor_name]
-        names = debtor.split(', ')
-        members = Members::Member.where(last_name: names[0], first_name: names[1])
-        if members.count > 1
-          puts "⚠️ Multiple members found for #{debtor}"
-          next
-        end
-
-        member = members.first
-        if member.blank?
-          puts "❌ No member found for #{debtor}"
-          next
-        end
-
-        if member.sepa_mandate.present?
-          puts "⚠️ SEPA mandate already exists for #{debtor}"
-          next
-        end
-
-        mandate = Members::SepaMandate.find_by(attrs.slice(:iban))
-        if mandate.present?
-          puts "✅ Using existing SEPA mandate #{mandate.number} for #{debtor}"
-
-        else
-          puts "✅ Creating new SEPA mandate for #{debtor}"
-          mandate = member.build_sepa_mandate(
-            attrs.slice(:number, :issued_on, :debtor_name, :iban)
-          )
-        end
-
-        unless member.update(sepa_mandate: mandate)
-          puts "❌ SEPA mandate could not be set for #{debtor}"
-        end
-      end
+    info_keys = %i[name iban creditor_identifier]
+    debit_info = info_keys.each_with_object({}) do |key, obj|
+      obj[key] = t(key, scope: %i[ticketing payments submissions])
     end
+
+    debit = SEPA::DirectDebit.new(debit_info)
+    debit.message_identification = 'FasT/membership-fee/1'
+
+    Members::Member.all.each do |member|
+      mandate = member.sepa_mandate
+      next if mandate.nil?
+
+      debit.add_transaction(
+        name: mandate.debtor_name[0..69],
+        iban: mandate.iban,
+        amount: member.membership_fee,
+        remittance_information: 'Jahresmitgliedsbeitrag für ' + \
+                                member.name.full,
+        mandate_id: mandate.number(prefixed: true),
+        mandate_date_of_signature: mandate.issued_on,
+        local_instrument: 'CORE',
+        sequence_type: 'RCUR',
+        batch_booking: true,
+        requested_date: Date.tomorrow
+      )
+    end
+
+    File.write('/tmp/sepa-membership-fee-inital.xml', debit.to_xml)
   end
 end
