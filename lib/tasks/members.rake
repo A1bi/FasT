@@ -15,6 +15,8 @@ namespace :members do
       mandate = member.sepa_mandate
       next if mandate.nil?
 
+      recurring = mandate.issued_on < Date.parse('2019-10-30')
+
       debit.add_transaction(
         name: mandate.debtor_name[0..69],
         iban: mandate.iban,
@@ -24,7 +26,7 @@ namespace :members do
         mandate_id: mandate.number(prefixed: true),
         mandate_date_of_signature: mandate.issued_on,
         local_instrument: 'CORE',
-        sequence_type: 'RCUR',
+        sequence_type: recurring ? 'RCUR' : 'FRST',
         batch_booking: true,
         requested_date: Date.tomorrow
       )
