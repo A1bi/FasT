@@ -19,10 +19,12 @@ module Members
 
     validates :number, :joined_at, presence: true
     validates :number, uniqueness: true
+    validates :membership_fee, numericality: { greater_than_or_equal_to: 0 }
     validates :plz, numericality: { only_integer: true, less_than: 100_000 },
                     allow_blank: true
 
     after_initialize :set_number
+    before_validation :set_default_membership_fee, on: :create
     after_save :destroy_family_if_empty
 
     def plz
@@ -51,6 +53,10 @@ module Members
 
     def set_number
       self.number = (self.class.maximum(:number) || 0) + 1 unless persisted?
+    end
+
+    def set_default_membership_fee
+      self.membership_fee ||= Settings.members.default_membership_fee
     end
 
     def destroy_family_if_empty

@@ -1702,7 +1702,8 @@ CREATE TABLE public.users (
     phone character varying,
     joined_at date,
     sepa_mandate_id bigint,
-    number integer
+    number integer,
+    membership_fee numeric NOT NULL
 );
 
 
@@ -3447,6 +3448,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191214215830'),
 ('20191217195300'),
 ('20200106104452'),
-('20200126224058');
+('20200126224058'),
+('20200127111237');
 
 

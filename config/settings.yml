@@ -7,6 +7,9 @@ action_mailer:
 contact_messages:
   mail_to: info@theater-kaisersesch.de
 
+members:
+  default_membership_fee: 12
+
 newsletters:
   review_email: albrecht@oster.online
   review_subject: Newsletter ready for review
