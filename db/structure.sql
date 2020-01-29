@@ -1703,7 +1703,8 @@ CREATE TABLE public.users (
     joined_at date,
     sepa_mandate_id bigint,
     number integer,
-    membership_fee numeric NOT NULL
+    membership_fee numeric NOT NULL,
+    title character varying
 );
 
 
@@ -3449,6 +3450,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191217195300'),
 ('20200106104452'),
 ('20200126224058'),
-('20200127111237');
+('20200127111237'),
+('20200129150306');
 
 

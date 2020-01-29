@@ -4,12 +4,8 @@
 <%= form_for current_user, :url => members_member_path do |f| %>
 <table class="rounded panel">
   <tr>
-    <td>Vorname:</td>
-    <td><%= current_user.first_name %></td>
-  </tr>
-  <tr>
-    <td>Nachname:</td>
-    <td><%= current_user.last_name %></td>
+    <td>Name:</td>
+    <td><%= current_user.name.full %></td>
   </tr>
   <tr>
     <td>Mitgliedsnummer:</td>
@@ -26,7 +22,7 @@
   <tr>
     <td>
       Neues Passwort:
-      <div class="small">Frei lassen, wenn du dein Passwort nicht ändern möchtest.</div>
+      <div class="small">Freilassen, wenn du dein Passwort nicht ändern möchtest.</div>
     </td>
     <td><%= f.password_field :password %></td>
   </tr>

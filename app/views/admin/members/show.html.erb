@@ -15,17 +15,13 @@
         <td class="monospace"><%= @member.number %></td>
       </tr>
       <tr>
-        <td width="40%">Vorname:</td>
+        <td>Name:</td>
         <td>
-          <%= @member.first_name %>
+          <%= @member.name.full %>
           <% if @member.nickname != @member.first_name %>
             <em>(<%= @member.nickname %>)</em>
           <% end %>
         </td>
-      </tr>
-      <tr>
-        <td>Nachname:</td>
-        <td><%= @member.last_name %></td>
       </tr>
       <tr>
         <td>Geburtstag:</td>

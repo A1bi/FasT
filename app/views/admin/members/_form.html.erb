@@ -19,6 +19,15 @@
           <td><%= f.text_field :last_name, required: true %></td>
         </tr>
         <tr>
+          <td>
+            Titel:
+            <div class="small">
+              Zum Beispiel <em>Dr. med.</em>
+            </div>
+          </td>
+          <td><%= f.text_field :title %></td>
+        </tr>
+        <tr>
           <td>Vorname in Anrede:
             <div class="small">
               Zum Beispiel Uli statt Ulrich. Ansonsten freilassen.
