@@ -5,11 +5,18 @@
 
   <div class="question">Wo erhalte ich Tickets?</div>
   <div class="answer">
-    Tickets lassen sich bequem von zu Hause aus <b><%= link_to 'online', new_ticketing_order_path(@event.slug) %></b>, in der Buchhandlung Layaa-Laulhé in Cochem oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
+    Tickets können Sie bequem von zu Hause aus <%= link_to "online", new_ticketing_order_path %> bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
+    <ul>
+      <li>Buchhandlung Walgenbach, Kaisersesch</li>
+      <li>Buchhandlung Layaa-Laulhé, Cochem</li>
+    </ul>
   </div>
 
   <div class="question">Gibt es Platzreservierungen?</div>
   <div class="answer">Bei diesem Stück wird es keine Platzreservierung geben.</div>
+
+  <div class="question">Sind die Sitzplätze barrierefrei erreichbar?</div>
+  <div class="answer">Alle Plätze sind barrierefrei zu erreichen.</div>
 
   <div class="question">Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?</div>
   <div class="answer">
@@ -40,9 +47,11 @@
 <div class="section">
   <h2>Anfahrt</h2>
 
-  <div class="question">Wo findet die Aufführung statt?</div>
+  <div id="map" data-identifier="wasserwerk"></div>
+
+  <div class="question">Wo finde ich das „Alte Wasserwerk“?</div>
   <div class="answer">
-    Unser Gastspiel findet im Kulturzentrum Kapuzinerkloster in Cochem (Klosterberg 5) statt.
+    Unsere kleine Bühne im „Alten Wasserwerk“ finden Sie unter der Adresse „Auf der Wacht 9“ in Kaisersesch.
   </div>
 </div>
 
@@ -58,7 +67,7 @@
   <div class="answer">Nein, das Stück wird nicht durch eine Pause unterbrochen.</div>
 
   <div class="question">Wie lange dauert die Aufführung?</div>
-  <div class="answer">Die Spielzeit beträgt etwa zwei Stunden.</div>
+  <div class="answer">Die Spielzeit beträgt etwa 90 Minuten.</div>
 
   <div class="question">Gibt es ein Rauchverbot?</div>
   <div class="answer">Rauchen innerhalb des Gebäudes können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.</div>

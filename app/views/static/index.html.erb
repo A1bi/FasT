@@ -13,7 +13,6 @@
   <% @events.each do |event| %>
     <div class="teaser <%= event.identifier %>">
       <%= image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name %>
-      <h3>Gastspiel in Cochem</h3>
       <div class="links">
         <% if theater_play_path_exists?(event) %>
           <%= link_to 'Über das Stück', theater_play_path(event.slug) %> |
@@ -23,14 +22,11 @@
           | <span>Tickets ab <%= l event.sale_start, format: '%-d. %B' %></span>
         <% elsif event.on_sale? %>
           <% if event.sold_out? %>
-            <!-- | <span>Derzeit ausverkauft</span> -->
+            | <span>Derzeit ausverkauft</span>
           <% else %>
             | <%= link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier) %>
           <% end %>
         <% end %>
-      </div>
-      <div class="links">
-        <%= link_to 'Weitere Aufführungen in Kaisersesch im März', dates_event_identifier_path(:gemetzel_2020) %>
       </div>
     </div>
     <div class="trenner"></div>
