@@ -29,7 +29,8 @@ CREATE TYPE public.ticketing_check_in_medium AS ENUM (
     'web',
     'retail',
     'passbook',
-    'box_office'
+    'box_office',
+    'box_office_direct'
 );
 
 
@@ -3451,6 +3452,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200106104452'),
 ('20200126224058'),
 ('20200127111237'),
-('20200129150306');
+('20200129150306'),
+('20200131193946');
 
 

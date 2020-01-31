@@ -92,6 +92,7 @@ de:
           retail: Vorverkaufsstellen-Ticket
           passbook: Apple Wallet
           box_office: Abendkassen-Ticket
+          box_office_direct: Abendkasse direkt
       log_events:
         created: "Bestellung aufgegeben"
         updated: "Bestellung bearbeitet"
