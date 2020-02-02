@@ -8,8 +8,12 @@ class DatesController < ApplicationController
 
   def show_event
     @event = Ticketing::Event.current.find_by!(slug: params[:slug])
+
+    template = "event_#{@event.identifier}"
+    return head :not_found unless template_exists?("dates/#{template}")
+
     @ticket_types = @event.ticket_types.except_exclusive
                           .ordered_by_availability_and_price
-    render "event_#{@event.identifier}"
+    render template
   end
 end

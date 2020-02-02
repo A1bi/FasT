@@ -10,9 +10,9 @@ class InfoController < ApplicationController
     end
 
     template = "index_#{@event.identifier}"
-    return render template if template_exists?("info/#{template}")
+    return head :not_found unless template_exists?("info/#{template}")
 
-    redirect_to action: :index
+    render template
   end
 
   def map
