@@ -13,6 +13,7 @@ module Members
     belongs_to :family, optional: true
     belongs_to :sepa_mandate, optional: true, validate: true
     has_many :exclusive_ticket_type_credit_spendings, dependent: :destroy
+    has_many :membership_fee_payments, dependent: :destroy
 
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
     phony_normalize :phone, default_country_code: 'DE'
@@ -49,6 +50,21 @@ module Members
       add_to_family_with_member(self.class.find(member_id))
     end
 
+    def membership_fee_paid?
+      membership_fee_paid_until.present? && !membership_fee_paid_until.past?
+    end
+
+    def renew_membership!
+      return if membership_fee_paid?
+
+      payment = membership_fee_payments.create(
+        amount: membership_fee,
+        paid_until: next_membership_fee_paid_until
+      )
+
+      update(membership_fee_paid_until: payment.paid_until)
+    end
+
     private
 
     def set_number
@@ -64,6 +80,11 @@ module Members
                     family_id_before_last_save.present?
 
       Members::Family.find(family_id_before_last_save).destroy_if_empty
+    end
+
+    def next_membership_fee_paid_until
+      (membership_fee_paid_until || Time.zone.today) +
+        Settings.members.membership_renewal_after_months.months - 1.day
     end
   end
 end

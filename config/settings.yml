@@ -9,6 +9,7 @@ contact_messages:
 
 members:
   default_membership_fee: 12
+  membership_renewal_after_months: 12
 
 newsletters:
   review_email: albrecht@oster.online

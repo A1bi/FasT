@@ -47,6 +47,11 @@ Config.setup do |config|
       required(:protocol) { filled? & included_in?(%w[http https]) }
     end
 
+    required(:members).schema do
+      required(:default_membership_fee).filled(:integer)
+      required(:membership_renewal_after_months).filled(:integer)
+    end
+
     required(:passbook).schema do
       required(:path).filled
       required(:wwdr_ca_path).filled

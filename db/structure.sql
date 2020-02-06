@@ -363,6 +363,70 @@ ALTER SEQUENCE public.members_families_id_seq OWNED BY public.members_families.i
 
 
 --
+-- Name: members_membership_fee_debit_submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.members_membership_fee_debit_submissions (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: members_membership_fee_debit_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.members_membership_fee_debit_submissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: members_membership_fee_debit_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.members_membership_fee_debit_submissions_id_seq OWNED BY public.members_membership_fee_debit_submissions.id;
+
+
+--
+-- Name: members_membership_fee_payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.members_membership_fee_payments (
+    id bigint NOT NULL,
+    member_id bigint NOT NULL,
+    amount numeric NOT NULL,
+    paid_until date NOT NULL,
+    debit_submission_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: members_membership_fee_payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.members_membership_fee_payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: members_membership_fee_payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.members_membership_fee_payments_id_seq OWNED BY public.members_membership_fee_payments.id;
+
+
+--
 -- Name: members_sepa_mandates; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1705,7 +1769,8 @@ CREATE TABLE public.users (
     sepa_mandate_id bigint,
     number integer,
     membership_fee numeric NOT NULL,
-    title character varying
+    title character varying,
+    membership_fee_paid_until date
 );
 
 
@@ -1782,6 +1847,20 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits ALTER COLUMN id SE
 --
 
 ALTER TABLE ONLY public.members_families ALTER COLUMN id SET DEFAULT nextval('public.members_families_id_seq'::regclass);
+
+
+--
+-- Name: members_membership_fee_debit_submissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_debit_submissions ALTER COLUMN id SET DEFAULT nextval('public.members_membership_fee_debit_submissions_id_seq'::regclass);
+
+
+--
+-- Name: members_membership_fee_payments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_payments ALTER COLUMN id SET DEFAULT nextval('public.members_membership_fee_payments_id_seq'::regclass);
 
 
 --
@@ -2127,6 +2206,22 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits
 
 ALTER TABLE ONLY public.members_families
     ADD CONSTRAINT members_families_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_membership_fee_debit_submissions members_membership_fee_debit_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_debit_submissions
+    ADD CONSTRAINT members_membership_fee_debit_submissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_membership_fee_payments members_membership_fee_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_payments
+    ADD CONSTRAINT members_membership_fee_payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -2510,6 +2605,20 @@ CREATE INDEX index_members_exclusive_ticket_type_credit_spndngs_on_type ON publi
 --
 
 CREATE INDEX index_members_exclusive_ticket_type_credits_on_ticket_type_id ON public.members_exclusive_ticket_type_credits USING btree (ticket_type_id);
+
+
+--
+-- Name: index_members_membership_fee_payments_on_debit_submission_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_members_membership_fee_payments_on_debit_submission_id ON public.members_membership_fee_payments USING btree (debit_submission_id);
+
+
+--
+-- Name: index_members_membership_fee_payments_on_member_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_members_membership_fee_payments_on_member_id ON public.members_membership_fee_payments USING btree (member_id);
 
 
 --
@@ -3119,6 +3228,14 @@ ALTER TABLE ONLY public.ticketing_billing_transfers
 
 
 --
+-- Name: members_membership_fee_payments fk_rails_55946908e0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_payments
+    ADD CONSTRAINT fk_rails_55946908e0 FOREIGN KEY (member_id) REFERENCES public.users(id);
+
+
+--
 -- Name: ticketing_reservations fk_rails_5bb0448e6a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3260,6 +3377,14 @@ ALTER TABLE ONLY public.ticketing_box_office_purchases
 
 ALTER TABLE ONLY public.ticketing_check_ins
     ADD CONSTRAINT fk_rails_b90de633b4 FOREIGN KEY (checkpoint_id) REFERENCES public.ticketing_box_office_checkpoints(id);
+
+
+--
+-- Name: members_membership_fee_payments fk_rails_c286dafae5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_fee_payments
+    ADD CONSTRAINT fk_rails_c286dafae5 FOREIGN KEY (debit_submission_id) REFERENCES public.members_membership_fee_debit_submissions(id);
 
 
 --
@@ -3453,6 +3578,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200126224058'),
 ('20200127111237'),
 ('20200129150306'),
-('20200131193946');
+('20200131193946'),
+('20200206143022');
 
 
