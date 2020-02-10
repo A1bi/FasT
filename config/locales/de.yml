@@ -164,10 +164,6 @@ de:
     reservation_groups:
       created: "Die Vorreservierungsgruppe wurde erfolgreich erstellt."
       destroyed: "Die Vorreservierungsgruppe wurde gelöscht."
-    retail:
-      sessions:
-        auth_error: "Das eingegebene Passwort ist nicht korrekt."
-        logout: "Sie wurden erfolgreich ausgeloggt."
     push_notifications:
       tickets_sold:
         title: "„%{event}”"
