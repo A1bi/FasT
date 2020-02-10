@@ -87,6 +87,11 @@ event.save
   )
 end
 
+Ticketing::Retail::Store.last.users.create(
+  email: 'store@example.com',
+  password: '123456'
+)
+
 Ticketing::BoxOffice::BoxOffice.create(name: 'Testkasse')
 
 # clear cache

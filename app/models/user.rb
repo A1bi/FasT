@@ -15,8 +15,6 @@ class User < BaseModel
             length: { minimum: 6 },
             if: :password_digest_changed?
 
-  validates :first_name, :last_name, presence: true
-
   enum group: { member: 0, admin: 1 }, integer_column: true
 
   def self.alphabetically

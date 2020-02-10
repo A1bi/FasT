@@ -1,8 +1,12 @@
-class Ticketing::Retail::Store < BaseModel
-  include Ticketing::Billable
+module Ticketing
+  module Retail
+    class Store < BaseModel
+      include Ticketing::Billable
 
-  has_many :orders
-  has_secure_password
-
-  validates_length_of :password, minimum: 6, if: :password_digest_changed?
+      has_many :orders, dependent: :nullify
+      has_many :users, dependent: :destroy,
+                       foreign_key: :ticketing_retail_store_id,
+                       inverse_of: :store
+    end
+  end
 end

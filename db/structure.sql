@@ -74,7 +74,8 @@ CREATE TYPE public.ticketing_ticket_type_availability AS ENUM (
 
 CREATE TYPE public.user_type AS ENUM (
     'User',
-    'Members::Member'
+    'Members::Member',
+    'Ticketing::Retail::User'
 );
 
 
@@ -1545,7 +1546,6 @@ CREATE TABLE public.ticketing_retail_stores (
     name character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    password_digest character varying,
     sale_enabled boolean DEFAULT false NOT NULL
 );
 
@@ -1768,9 +1768,10 @@ CREATE TABLE public.users (
     joined_at date,
     sepa_mandate_id bigint,
     number integer,
-    membership_fee numeric NOT NULL,
+    membership_fee numeric,
     title character varying,
-    membership_fee_paid_until date
+    membership_fee_paid_until date,
+    ticketing_retail_store_id bigint
 );
 
 
@@ -3077,6 +3078,13 @@ CREATE INDEX index_users_on_sepa_mandate_id ON public.users USING btree (sepa_ma
 
 
 --
+-- Name: index_users_on_ticketing_retail_store_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_ticketing_retail_store_id ON public.users USING btree (ticketing_retail_store_id);
+
+
+--
 -- Name: index_users_on_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3217,6 +3225,14 @@ ALTER TABLE ONLY public.ticketing_tickets
 
 ALTER TABLE ONLY public.members_exclusive_ticket_type_credits
     ADD CONSTRAINT fk_rails_3e7429e082 FOREIGN KEY (ticket_type_id) REFERENCES public.ticketing_ticket_types(id);
+
+
+--
+-- Name: users fk_rails_3f109a998e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_3f109a998e FOREIGN KEY (ticketing_retail_store_id) REFERENCES public.ticketing_retail_stores(id);
 
 
 --
@@ -3579,6 +3595,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200127111237'),
 ('20200129150306'),
 ('20200131193946'),
-('20200206143022');
+('20200206143022'),
+('20200210184433'),
+('20200210221526');
 
 
