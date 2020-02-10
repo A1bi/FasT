@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     user_id = session[:user_id] ||= permanently_authenticated_user_id
     return if user_id.nil?
 
-    user = Members::Member.find_by(id: user_id)
+    user = User.find_by(id: user_id)
     session[:user_id] = self.permanently_authenticated_user = nil if user.nil?
 
     Ticketing::LogEvent.user = user
@@ -98,10 +98,10 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     if user_signed_in?
-      deny_access members_root_path
+      deny_access root_path
     else
       flash[:warning] = t('application.login_required')
-      redirect_to members_login_path
+      redirect_to login_path
     end
   end
 

@@ -66,7 +66,7 @@ module Members
     private
 
     def redirect_to_login
-      redirect_to members_login_path
+      redirect_to login_path
     end
   end
 end

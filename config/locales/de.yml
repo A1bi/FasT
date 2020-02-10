@@ -14,6 +14,9 @@ de:
     created: Bitte bestätigen Sie Ihre Anmeldung nun noch mit einem Klick auf den Link, den wir Ihnen soeben per E-Mail zugesendet haben.
     confirmed: Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt.
     destroyed: Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht.
+  sessions:
+    auth_error: E-Mail-Adresse oder Passwort falsch.
+    logout: Sie wurden erfolgreich ausgeloggt.
   documents:
     created: "Das Dokument wurde erfolgreich hochgeladen."
     destroyed: "Das Dokument wurde erfolgreich gelöscht."
@@ -36,7 +39,6 @@ de:
     members:
       root: "Hauptseite"
       member: "Mein Mitgliedskonto"
-      logout: "Logout"
     admin:
       documents: "Dokumente"
       members_members: "Mitgliederverwaltung"
@@ -50,14 +52,10 @@ de:
     ticketing_retail:
       orders: "Bestellungen"
       statistics: "Statistik"
-      logout: "Logout"
   members:
     groups:
       admin: "Vorstand"
       member: "Mitglied"
-    sessions:
-      auth_error: "E-mail-Adresse oder Passwort falsch."
-      logout: "Sie wurden erfolgreich ausgeloggt."
     member:
       activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
       email_not_found: "Ein Konto mit dieser e-mail-Adresse wurde nicht gefunden."

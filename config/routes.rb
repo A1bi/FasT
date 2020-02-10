@@ -30,6 +30,12 @@ Rails.application.routes.draw do
     root action: :index
   end
 
+  scope controller: :sessions do
+    get 'login', action: :new, as: :login
+    post 'login', action: :create
+    get 'logout', action: :destroy, as: :logout
+  end
+
   direct(:eu_dispute_resolution) { 'https://ec.europa.eu/consumers/odr' }
 
   # resources
@@ -185,10 +191,6 @@ Rails.application.routes.draw do
       end
       resources :dates, path: 'termine', except: :show
       resources :documents, path: 'dokumente', except: %i[index show]
-
-      get 'login' => 'sessions#new', as: :login
-      post 'login' => 'sessions#create'
-      get 'logout' => 'sessions#destroy', as: :logout
 
       root to: 'dashboard#index', as: :root
     end

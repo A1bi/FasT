@@ -163,25 +163,46 @@ h3 {
   width: 100%;
 
   > .top {
-     background: url(asset_path("content_top.png")) no-repeat;
-     height: 49px;
-     width: 100%;
-     margin-top: 20px;
+    background: url(asset_path("content_top.png")) no-repeat;
+    height: 49px;
+    width: 100%;
+    margin-top: 20px;
 
-    .login {
+    .user-info {
       position: absolute;
       top: 23px;
       right: 40px;
-      padding: 3px 9px;
-      border-radius: 0 0 9px 9px;
-      color: white;
       font-size: 13px;
-      display: block;
-      text-decoration: none;
-      @include background-gradient(top, (#ff5451 0%, #db0303 70%), #db0303);
+      display: flex;
 
-      &:hover {
-        @include background-gradient(top, (#ff5451 0%, red 70%), red);
+      .login, .logout, .name {
+        display: inline-block;
+        padding: 3px 9px;
+        color: white;
+        text-decoration: none;
+      }
+
+      .login {
+        background: #db0303;
+        border-radius: 0 0 9px 9px;
+
+        &:hover {
+          background: red;
+        }
+      }
+
+      .name {
+        background: #2839E0;
+        border-radius: 0 0 0 9px;
+      }
+
+      .logout {
+        background: #db0303;
+        border-radius: 0 0 9px 0;
+
+        &:hover {
+          background: red;
+        }
       }
     }
   }
@@ -229,14 +250,14 @@ h3 {
         display: table-cell;
         text-align: center;
         color: white;
-        @include background-gradient(top, (#ff5451 0%, #db0303 70%), #db0303);
+        background: #db0303;
         border: {
-          right: 1px solid #c99c9c;
-          bottom: 2px solid #cccccc;
+          right: 1px solid white;
+          bottom: 1px solid white;
         }
 
         &:hover:not(:first-child) {
-          @include background-gradient(top, (#ff5451 0%, red 70%), red);
+          background: red;
         }
 
         &:first-child {
@@ -262,22 +283,24 @@ h3 {
         }
       }
 
-      @mixin navi-gradient($first, $second, $third) {
+      @mixin navi-bg($first, $second) {
         li {
-          @include background-gradient(top, ($first 0%, $second 70%), $first);
+          background: $first;
 
           &:hover:not(:first-child) {
-            @include background-gradient(top, ($first 0%, $third 70%), $third);
-          }
-
-          &.selected {
-            border-bottom-color: #64410d;
+            background: $second;
           }
         }
       }
 
+      &.admin, &.ticketing, &.ticketing_retail {
+        &.selected {
+          border-bottom-color: #64410d;
+        }
+      }
+
       &.admin, &.ticketing {
-        @include navi-gradient(#ffdf38, #e2c939, #e0d702);
+        @include navi-bg(#FFD109, #ffdf38);
 
         &.ticketing {
           li:not(:first-child) {
@@ -287,7 +310,7 @@ h3 {
       }
 
       &.ticketing_retail {
-        @include navi-gradient(#539DF7, #3971CA, #2F9BF0);
+        @include navi-bg(#539DF7, #2F9BF0);
       }
     }
   }
