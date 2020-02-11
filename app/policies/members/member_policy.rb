@@ -1,27 +1,27 @@
 module Members
   class MemberPolicy < ApplicationPolicy
     def index?
-      current_user_admin?
+      user_admin?
     end
 
     def create?
-      current_user_admin?
+      user_admin?
     end
 
     def show?
-      current_user_admin?
+      user_admin?
     end
 
     def update?
-      user.present? && record == user || current_user_admin?
+      user.present? && record == user || user_admin?
     end
 
     def destroy?
-      current_user_admin?
+      user_admin?
     end
 
     def reactivate?
-      current_user_admin?
+      user_admin?
     end
 
     def activate?
@@ -41,7 +41,7 @@ module Members
     end
 
     def permitted_attributes
-      if current_user_admin?
+      if user_admin?
         %i[email first_name last_name nickname title street plz city phone
            birthday family_member_id family_id joined_at group sepa_mandate_id
            membership_fee]

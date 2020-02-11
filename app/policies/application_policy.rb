@@ -1,9 +1,8 @@
 class ApplicationPolicy
-  attr_reader :user, :retail_store, :record
+  attr_reader :user, :record
 
-  def initialize(user_context, record)
-    @user = user_context.user
-    @retail_store = user_context.retail_store
+  def initialize(user, record)
+    @user = user
     @record = record
   end
 
@@ -36,11 +35,10 @@ class ApplicationPolicy
   end
 
   class Scope
-    attr_reader :user, :retail_store, :scope
+    attr_reader :user, :scope
 
-    def initialize(user_context, scope)
-      @user = user_context.user
-      @retail_store = user_context.retail_store
+    def initialize(user, scope)
+      @user = user
       @scope = scope
     end
 
@@ -50,18 +48,30 @@ class ApplicationPolicy
 
     private
 
-    def current_user_admin?
+    def user_admin?
       user.try(:admin?)
+    end
+
+    def user_retail?
+      user.try(:retail?)
     end
   end
 
   private
 
-  def current_user_admin?
+  def user_admin?
     user.try(:admin?)
   end
 
-  def current_user_member?
+  def user_member?
     user.try(:member?)
+  end
+
+  def user_retail?
+    user.try(:retail?)
+  end
+
+  def user_retail_store
+    user.try(:store)
   end
 end

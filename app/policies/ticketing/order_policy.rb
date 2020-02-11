@@ -2,10 +2,10 @@ module Ticketing
   class OrderPolicy < ApplicationPolicy
     class Scope < Scope
       def resolve
-        if current_user_admin?
+        if user_admin?
           scope.all
-        elsif retail_store
-          retail_store.orders
+        elsif user_retail?
+          user.store.orders
         else
           scope.none
         end
@@ -13,7 +13,7 @@ module Ticketing
     end
 
     def index?
-      current_user_admin? || retail_store
+      user_admin? || user_retail?
     end
 
     def new?
@@ -21,11 +21,11 @@ module Ticketing
     end
 
     def new_admin?
-      current_user_admin?
+      user_admin?
     end
 
     def new_retail?
-      retail_store
+      user_retail?
     end
 
     def add_coupon?
@@ -37,11 +37,11 @@ module Ticketing
     end
 
     def enable_reservation_groups?
-      current_user_admin?
+      user_admin?
     end
 
     def show?
-      current_user_admin? || retail_order?
+      user_admin? || retail_order?
     end
 
     def seats?
@@ -49,7 +49,7 @@ module Ticketing
     end
 
     def update?
-      current_user_admin?
+      user_admin?
     end
 
     def edit?
@@ -61,37 +61,37 @@ module Ticketing
     end
 
     def credit_transfer_file?
-      current_user_admin?
+      user_admin?
     end
 
     def send_pay_reminder?
-      current_user_admin?
+      user_admin?
     end
 
     def resend_confirmation?
-      current_user_admin?
+      user_admin?
     end
 
     def resend_tickets?
-      current_user_admin?
+      user_admin?
     end
 
     def cash_refund_in_store?
-      current_user_admin? || retail_order?
+      user_admin? || retail_order?
     end
 
     def transfer_refund?
-      current_user_admin?
+      user_admin?
     end
 
     def correct_balance?
-      current_user_admin?
+      user_admin?
     end
 
     private
 
     def retail_order?
-      record.try(:store) && record.store == retail_store
+      record.try(:store) && record.store == user_retail_store
     end
   end
 end

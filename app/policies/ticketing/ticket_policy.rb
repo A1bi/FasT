@@ -5,7 +5,7 @@ module Ticketing
     end
 
     def enable_resale?
-      current_user_admin?
+      user_admin?
     end
 
     def transfer?
@@ -13,7 +13,7 @@ module Ticketing
     end
 
     def update?
-      current_user_admin?
+      user_admin?
     end
 
     def edit?
@@ -35,7 +35,7 @@ module Ticketing
     private
 
     def admin_or_retail?
-      current_user_admin? || retail_order?
+      user_admin? || retail_order?
     end
 
     def retail_order?
@@ -45,7 +45,7 @@ module Ticketing
       else
         # order or ticket.order
         order = record.is_a?(Order) ? record : record.order
-        order.try(:store) && order.store == retail_store
+        order.try(:store) && order.store == user_retail_store
       end
     end
   end

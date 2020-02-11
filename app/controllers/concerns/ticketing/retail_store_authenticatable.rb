@@ -21,11 +21,6 @@ module Ticketing
       current_retail_store.present?
     end
 
-    def pundit_user
-      @pundit_user ||= UserContext.new(user: current_user,
-                                       retail_store: current_retail_store)
-    end
-
     private
 
     def authenticate_retail_store

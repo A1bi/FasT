@@ -1,7 +1,7 @@
 module Members
-  DashboardPolicy = Struct.new(:user_context, :dashboard) do
+  DashboardPolicy = Struct.new(:user, :dashboard) do
     def index?
-      user_context.user.is_a? Member
+      user.try(:member?)
     end
   end
 end

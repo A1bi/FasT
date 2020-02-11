@@ -47,6 +47,14 @@ class User < BaseModel
     set_activation_code
   end
 
+  def member?
+    is_a? Members::Member
+  end
+
+  def retail?
+    is_a? Ticketing::Retail::User
+  end
+
   private
 
   def set_random_password

@@ -1,11 +1,3 @@
-module UserExtensions
-  def retail_store?
-    is_a? Ticketing::Retail::User
-  end
-end
-
-User.send(:include, UserExtensions)
-
 module Ticketing
   module Retail
     class User < ::User

@@ -1,7 +1,7 @@
 module Ticketing
   class CouponPolicy < ApplicationPolicy
     def index?
-      current_user_member?
+      user_member?
     end
 
     def show?
@@ -9,11 +9,11 @@ module Ticketing
     end
 
     def create?
-      current_user_admin?
+      user_admin?
     end
 
     def update?
-      current_user_admin?
+      user_admin?
     end
 
     def destroy?

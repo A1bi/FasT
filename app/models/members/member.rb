@@ -1,11 +1,3 @@
-module UserExtensions
-  def member?
-    is_a? Members::Member
-  end
-end
-
-User.send(:include, UserExtensions)
-
 module Members
   class Member < User
     attr_reader :family_member_id
