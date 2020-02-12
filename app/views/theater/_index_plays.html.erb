@@ -2,10 +2,15 @@
   <%
     if play.is_a? Symbol
       event = Ticketing::Event.find_by(identifier: play)
-      next if event.nil?
-      slug = event.slug
-      identifier = event.identifier
-      title = event.name
+      if event.present?
+        slug = event.slug
+        identifier = event.identifier
+        title = event.name
+      elsif Rails.env.development?
+        slug = identifier = title = play
+      else
+        next
+      end
     else
       slug = play[0]
       identifier = slug
