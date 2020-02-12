@@ -5,11 +5,10 @@ module Api
 
       private
 
-      def create_order(retail_store: nil, box_office: nil)
+      def create_order(box_office: nil)
         ::Ticketing::OrderCreateService.new(
           order_params,
           current_user: current_user,
-          current_retail_store: retail_store,
           current_box_office: box_office
         ).execute
       end

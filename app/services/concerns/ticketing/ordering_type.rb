@@ -44,7 +44,7 @@ module Ticketing
     end
 
     def retail_action_authorized?
-      retail? && retail_store_signed_in?
+      retail? && current_user&.retail?
     end
   end
 end

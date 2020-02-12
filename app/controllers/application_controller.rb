@@ -103,7 +103,15 @@ class ApplicationController < ActionController::Base
 
   def deny_access(redirect_path)
     Raven.capture_message('Permission denied', backtrace: caller)
-    redirect_to redirect_path, alert: t('application.access_denied')
+
+    respond_to do |format|
+      format.html do
+        redirect_to redirect_path, alert: t('application.access_denied')
+      end
+      format.json do
+        head :forbidden
+      end
+    end
   end
 
   def permanent_user_id_cookie_name

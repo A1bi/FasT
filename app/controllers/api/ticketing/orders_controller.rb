@@ -2,14 +2,12 @@ module Api
   module Ticketing
     class OrdersController < ApiController
       include OrderCreation
-      include ::Ticketing::RetailStoreAuthenticatable
       include ::Ticketing::OrderingType
 
       def create
         return head :not_found unless type.in? %i[web admin retail]
-        return head :forbidden unless authorized?
 
-        @order = create_order(retail_store: current_retail_store)
+        @order = create_order
 
         unless @order.persisted?
           report_invalid_order
@@ -50,12 +48,6 @@ module Api
         subscriber_params = @order.slice(:email, :gender, :last_name)
         subscriber_params[:privacy_terms] = true
         subscriber_params
-      end
-
-      def authorized?
-        web? ||
-          admin? && current_user&.admin? ||
-          retail? && retail_store_signed_in?
       end
 
       def set_flash_notice
