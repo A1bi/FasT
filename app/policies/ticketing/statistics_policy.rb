@@ -1,11 +1,7 @@
 module Ticketing
   class StatisticsPolicy < ApplicationPolicy
     def index?
-      user_admin?
-    end
-
-    def index_retail?
-      user_retail?
+      user_admin? || user_retail?
     end
 
     def seats?

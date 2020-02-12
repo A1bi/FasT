@@ -1,7 +1,5 @@
 module Ticketing
   class StatisticsController < BaseController
-    include RetailStoreAuthenticatable
-    include OrderingType
     include Statistics
 
     ORDER_TYPES_FOR_CHART = [
@@ -10,22 +8,19 @@ module Ticketing
     ].freeze
 
     before_action :authorize
-    before_action :find_events, only: %i[index index_retail]
+    before_action :find_events, only: :index
 
     def index
-      @stores = Retail::Store.all
-      @box_offices = BoxOffice::BoxOffice.all
-    end
+      if current_user.admin?
+        @stores = Retail::Store.all
+        @box_offices = BoxOffice::BoxOffice.all
+        render :index_admin
 
-    def index_retail
-      unless retail_store_signed_in?
-        return redirect_to ticketing_retail_login_path, flash: {
-          warning: t('application.login_required')
-        }
+      elsif current_user.retail?
+        @transfers = current_user.store.billing_account
+                                 .transfers.order(:created_at)
+        render :index_retail
       end
-
-      @transfers = current_retail_store.billing_account
-                                       .transfers.order(:created_at)
     end
 
     def seats
@@ -117,11 +112,5 @@ module Ticketing
     def authorize
       super %i[ticketing statistics]
     end
-
-    def orders_path(action, params = nil)
-      action = action.to_s.sub('ticketing', 'ticketing_retail') if retail?
-      send("#{action}_path", params)
-    end
-    helper_method :orders_path
   end
 end

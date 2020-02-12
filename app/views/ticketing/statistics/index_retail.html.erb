@@ -1,13 +1,13 @@
 <% title "Statistik" %>
 <% include_css "ticketing/statistics" %>
-<% cache [Ticketing::Ticket.all, current_retail_store, @transfers] do %>
+<% cache [Ticketing::Ticket.all, current_user.store, @transfers] do %>
   <div class="stats">
     <div class="hl">Ticket-Statistik</div>
     <% @events.each do |event| %>
       <% stats = stats_for_event(event) %>
       <h4 class="hcen"><%= event.name %></h4>
       <div class="table active">
-        <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: stats_for_event(event)[:retail][:stores][current_retail_store.id] }], event: event, retail: true %>
+        <%= render "stats_table", scopes: [{ title: "Statistik für Ihre Vorverkaufsstelle", scope: stats_for_event(event)[:retail][:stores][current_user.store.id] }], event: event, retail: true %>
       </div>
     <% end %>
     <div class="hl">Kassenstand</div>
@@ -28,7 +28,7 @@
             <td>
               <% participant = transfer.participant ? transfer.participant.billable : nil %>
               <% if participant.is_a?(Ticketing::Order) %>
-                <%= link_to "##{participant.number}", orders_path(:ticketing_order, participant) %>
+                <%= link_to "##{participant.number}", ticketing_order_path(participant) %>
               <% end %>
             </td>
             <td class="amount <%= -transfer.amount < 0 ? "negative" : "positive" %>"><%= format_billing_amount(-transfer.amount) %></td>
@@ -36,8 +36,8 @@
         <% end %>
         <tr class="total">
           <td colspan="3">Saldo</td>
-          <td class="amount <%= !current_retail_store.billing_account.outstanding? ? "negative" : "positive" %>">
-            <%= format_billing_amount(-current_retail_store.billing_account.balance) %>
+          <td class="amount <%= !current_user.store.billing_account.outstanding? ? "negative" : "positive" %>">
+            <%= format_billing_amount(-current_user.store.billing_account.balance) %>
           </td>
         </tr>
       </tbody>

@@ -4,6 +4,8 @@ module Api
       include OrderCreation
       include ::Ticketing::OrderingType
 
+      prepend_before_action :authorize_type
+
       def create
         return head :not_found unless type.in? %i[web admin retail]
 
@@ -56,6 +58,21 @@ module Api
         key = '.created'
         key += '_email' if @order.email.present?
         flash[:notice] = t(key)
+      end
+
+      def authorize_type
+        return if type.blank? || web? || admin_action_authorized? ||
+                  retail_action_authorized?
+
+        deny_access root_path
+      end
+
+      def admin_action_authorized?
+        admin? && current_user&.admin?
+      end
+
+      def retail_action_authorized?
+        retail? && current_user&.retail?
       end
     end
   end

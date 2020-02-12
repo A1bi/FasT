@@ -132,10 +132,6 @@ Rails.application.routes.draw do
         end
       end
 
-      scope as: :retail, path: 'vorverkaufsstelle', type: :retail do
-        get 'statistik' => 'statistics#index_retail', as: :statistics
-      end
-
       resource :order, path: 'tickets', type: :web, only: [] do
         get 'bestellen/(:event_slug)', action: :new, as: :new, on: :member
         collection do
