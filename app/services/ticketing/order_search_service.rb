@@ -1,9 +1,8 @@
 module Ticketing
   class OrderSearchService < BaseService
-    def initialize(query, retail_store: nil, search_base: nil)
+    def initialize(query, scope: nil)
       @query = query
-      @retail_store = retail_store
-      @search_base = search_base
+      @scope = scope
     end
 
     def execute
@@ -26,7 +25,7 @@ module Ticketing
       order_number, ticket_index = match_number_parts
       return nil if order_number.blank?
 
-      order = search_base.find_by(number: order_number)
+      order = scope.find_by(number: order_number)
       return order if ticket_index.blank?
 
       ticket = order.tickets.find_by(order_index: ticket_index) if order
@@ -44,7 +43,7 @@ module Ticketing
         end
       end
 
-      search_base.where(matches).order(:last_name, :first_name)
+      scope.where(matches).order(:last_name, :first_name)
     end
 
     def match_number_parts
@@ -62,10 +61,8 @@ module Ticketing
       ActiveSupport::Inflector.transliterate(@query).split(' ').uniq << @query
     end
 
-    def search_base
-      return @search_base if @search_base
-
-      @retail_store ? @retail_store.orders : Order
+    def scope
+      @scope ||= Order
     end
   end
 end

@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
 
   def goto_path
     return session[:goto_after_login] if session[:goto_after_login].present?
-    return new_ticketing_retail_order_path if user.retail?
+    return new_privileged_ticketing_order_path if user.retail?
     return members_root_path if user.member?
 
     root_path

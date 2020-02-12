@@ -20,12 +20,8 @@ module Ticketing
       true
     end
 
-    def new_admin?
-      user_admin?
-    end
-
-    def new_retail?
-      user_retail?
+    def new_privileged?
+      user_admin? || user_retail?
     end
 
     def add_coupon?

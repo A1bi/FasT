@@ -70,7 +70,7 @@
             <% end %>
           <% end %>
           <% if current_user&.retail? %>
-            <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing_retail, css_class: :ticketing_retail, actions:
+            <%= render "members_navi", title: "Vorverkaufsstelle", namespace: :ticketing, css_class: :ticketing_retail, actions:
               [:orders, :statistics]
             %>
           <% end %>

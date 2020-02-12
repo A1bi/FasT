@@ -1,4 +1,4 @@
-<%= content_tag :ul, class: [:navi, namespace] do %>
+<%= content_tag :ul, class: [:navi, local_assigns[:css_class] || namespace] do %>
   <li><%= title %></li>
   <% actions.each do |action| %>
     <% action = Array(action) %>

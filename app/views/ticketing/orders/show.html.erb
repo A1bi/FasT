@@ -75,25 +75,25 @@
       <tbody>
         <tr>
           <td>
-            <% if admin? && @order.is_a?(Ticketing::Web::Order) %>
-              <div><%= link_to "Daten bearbeiten", orders_path(:edit_ticketing_order, @order) %></div>
+            <% if policy(@order).update? %>
+              <div><%= link_to "Daten bearbeiten", action: :edit %></div>
             <% end %>
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if @order.paid %>
-                  <div><%= link_to "Tickets erneut zusenden", orders_path(:resend_tickets_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } if @order.email.present? %></div>
+                  <div><%= link_to "Tickets erneut zusenden", { action: :resend_tickets }, method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } if @order.email.present? %></div>
                 <% else %>
-                  <div><%= link_to "als bezahlt markieren", orders_path(:mark_as_paid_ticketing_order, @order), method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
-                  <div><%= link_to "Bestellbestätigung erneut senden", orders_path(:resend_confirmation_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie die Bestellbestätigung wirklich erneut senden?" } %></div>
+                  <div><%= link_to "als bezahlt markieren", { action: :mark_as_paid }, method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
+                  <div><%= link_to "Bestellbestätigung erneut senden", { action: :resend_confirmation }, method: :post, data: { confirm: "Möchten Sie die Bestellbestätigung wirklich erneut senden?" } %></div>
                   <% if @order.transfer_payment? && @order.email.present? %>
-                    <div><%= link_to "Zahlungserinnerung senden", orders_path(:send_pay_reminder_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
+                    <div><%= link_to "Zahlungserinnerung senden", { action: :send_pay_reminder }, method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
                   <% end %>
                 <% end %>
                 <% if @order.bank_charge && !@order.bank_charge.approved %>
-                  <div><%= link_to "als geprüft markieren", orders_path(:approve_ticketing_order, @order), method: :patch %></div>
+                  <div><%= link_to "als geprüft markieren", { action: :approve }, method: :patch %></div>
                 <% end %>
               <% end %>
-              <% if retail? %>
+              <% if current_user.retail? %>
                 <div><%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { printable_path: @order.printable_path } %></div>
               <% end %>
             <% end %>
@@ -164,14 +164,14 @@
         <tr>
           <td colspan="<%= tickets_colspan(@show_check_ins) %>" class="actions">
             <% options = [
-              ["stornieren", :cancel, data: { path: orders_path(:cancel_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
-              ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: orders_path(:enable_resale_ticketing_order_tickets, @order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
-              ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: orders_path(:transfer_ticketing_order_tickets, @order), method: :get }],
-              ["Kategorie umbuchen", :transfer, data: { path: orders_path(:edit_ticketing_order_tickets, @order), method: :get }],
-              ["herunterladen", :transfer, data: { path: orders_path(:printable_ticketing_order_tickets, @order), method: :get }]
-            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && admin?) } %>
+              ["stornieren", :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
+              ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: enable_resale_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
+              ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
+              ["Kategorie umbuchen", :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
+              ["herunterladen", :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
+            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) } %>
             <%= select_tag :edit_action, options_for_select(options), disabled: true, name: nil %>
-            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
+            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional", disabled: true %><% if current_user.retail? %> <%= check_box_tag :refund, nil, true, disabled: true %> Rückzahlung direkt in Bar<% end %></span>
             <%= submit_tag :ok, name: nil, disabled: true %>
           </td>
         </tr>
@@ -185,7 +185,7 @@
         <tbody>
           <tr>
             <td colspan="<%= tickets_colspan(@show_check_ins) %>">
-              <%= render "application/ticketing/seating", event: @order.event, seats_path: orders_path(:seats_ticketing_order, @order), class: %i[standalone chosen] %>
+              <%= render "application/ticketing/seating", event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen] %>
             </td>
           </tr>
         </tbody>
@@ -235,7 +235,7 @@
           <% if @billing_actions.empty? %>
             Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
           <% else %>
-            <%= form_tag orders_path(:create_billing_ticketing_order, @order), method: :post, data: { confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
+            <%= form_tag create_billing_ticketing_order_path(@order), method: :post, data: { confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
               <%= select_tag :note, options_for_select(@billing_actions) %>
               <span>Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %></span>
               <%= submit_tag "buchen" %>

@@ -21,7 +21,7 @@
         <tr>
           <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           <td><%= t event.name, { scope: scope }.merge(event.info) %></td>
-          <td><%= event.user.name.full if event.user.present? %></td>
+          <td><%= event.user.name&.full if event.user.present? %></td>
         </tr>
       <% end %>
     <% end %>

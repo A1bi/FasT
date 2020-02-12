@@ -93,7 +93,7 @@ module Ticketing
     private
 
     def redirect_to_order_details(notice)
-      redirect_to orders_path(:ticketing_order, params[:order_id]),
+      redirect_to ticketing_order_path(params[:order_id]),
                   notice: t(".#{notice}", count: @tickets.count)
     end
 

@@ -1,5 +1,7 @@
 module Ticketing
   class StatisticsController < BaseController
+    include RetailStoreAuthenticatable
+    include OrderingType
     include Statistics
 
     ORDER_TYPES_FOR_CHART = [
@@ -115,5 +117,11 @@ module Ticketing
     def authorize
       super %i[ticketing statistics]
     end
+
+    def orders_path(action, params = nil)
+      action = action.to_s.sub('ticketing', 'ticketing_retail') if retail?
+      send("#{action}_path", params)
+    end
+    helper_method :orders_path
   end
 end

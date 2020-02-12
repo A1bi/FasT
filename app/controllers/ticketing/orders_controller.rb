@@ -1,12 +1,13 @@
 module Ticketing
   class OrdersController < BaseController
-    before_action :prepare_new, only: [:new, :new_admin, :new_retail]
-    before_action :set_event_info, only: [:new, :new_retail, :new_admin]
+    before_action :prepare_new, only: %i[new new_privileged]
+    before_action :set_event_info, only: %i[new new_privileged]
     before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :create_billing, :seats]
     before_action :find_coupon, only: [:add_coupon, :remove_coupon]
     before_action :prepare_billing_actions, only: [:show, :create_billing]
 
     def new
+      @type = :web
       @max_tickets = 25
 
       return if current_user&.admin?
@@ -23,18 +24,12 @@ module Ticketing
       redirect_to root_path, alert: alert if alert
     end
 
-    def new_admin
-      @reservation_groups = Ticketing::ReservationGroup.all
-      @max_tickets = 50
-    end
-
-    def new_retail
-      @max_tickets = 35
-
-      return if current_retail_store.sale_enabled
-
-      redirect_to ticketing_retail_orders_path,
-                  alert: t('.sale_disabled_for_store')
+    def new_privileged
+      if current_user.admin?
+        new_admin
+      else
+        new_retail
+      end
     end
 
     def add_coupon
@@ -101,9 +96,12 @@ module Ticketing
         @orders[:search] = found_orders
 
       else
-        @orders[:web] = Ticketing::Web::Order.all if admin?
-        @orders[:retail] = Ticketing::Retail::Order.includes(:store)
-        @orders[:retail].where!(store: current_retail_store) if retail?
+        @orders[:web] = Ticketing::Web::Order.all if current_user.admin?
+        @orders[:retail] = if current_user.admin?
+                             Ticketing::Retail::Order.all
+                           else
+                             order_scope.includes(:store)
+                           end
         @orders.values.each do |orders|
           orders
             .where!('created_at > ?', 1.month.ago)
@@ -121,7 +119,10 @@ module Ticketing
     def show
       authorize @order
 
-      @show_check_ins = admin? && @order.tickets.any? { |t| t.check_ins.any? || t.date.date.past? }
+      @show_check_ins = current_user.admin? && @order.tickets.any? do |t|
+        t.check_ins.any? || t.date.date.past?
+      end
+
       @billing_actions.map! do |transaction|
         [t("ticketing.orders.balancing." + transaction.to_s), transaction]
       end
@@ -221,10 +222,30 @@ module Ticketing
 
     private
 
+    def new_admin
+      @type = :admin
+      @max_tickets = 50
+      @reservation_groups = Ticketing::ReservationGroup.all
+
+      render :new_admin
+    end
+
+    def new_retail
+      @type = :retail
+      @max_tickets = 35
+
+      return render :new_retail if current_user.store.sale_enabled
+
+      redirect_to ticketing_orders_path,
+                  alert: t('.sale_disabled_for_store')
+    end
+
     def set_event_info
       if params[:event_slug].blank?
         @events = Event.with_future_dates
-        @events = @events.select(&:on_sale?) if web? && !current_user&.admin?
+        if action_name == 'new' && !current_user&.admin?
+          @events = @events.select(&:on_sale?)
+        end
         return redirect_to event_slug: @events.first.slug if @events.count == 1
         return render 'new_choose_event'
       end
@@ -238,7 +259,7 @@ module Ticketing
     def search_orders
       Ticketing::OrderSearchService.new(
         params[:q],
-        retail_store: retail? ? current_retail_store : nil
+        scope: order_scope
       ).execute
     end
 
@@ -251,7 +272,7 @@ module Ticketing
         prms[:anchor] = :tickets
       end
 
-      redirect_to orders_path(:ticketing_order, prms)
+      redirect_to ticketing_order_path(prms)
     end
 
     def update_exclusive_seats(action, groups)
@@ -269,11 +290,11 @@ module Ticketing
 
     def redirect_to_order_details(notice = nil)
       flash[:notice] = t(notice, scope: [:ticketing, :orders]) if notice
-      redirect_to orders_path(:ticketing_order, @order)
+      redirect_to ticketing_order_path(@order)
     end
 
     def find_order
-      @order = policy_scope(Order).find(params[:id])
+      @order = order_scope.find(params[:id])
     end
 
     def find_coupon
@@ -281,32 +302,24 @@ module Ticketing
     end
 
     def prepare_new
-      @order = authorize Order.new
-      @type = admin? ? :admin : retail? ? :retail : :web
+      @order = authorize order_scope.new
     end
 
     def prepare_billing_actions
       @billing_actions = []
       if @order.billing_account.balance > 0
-        if admin?
+        if current_user.admin?
           @billing_actions << :transfer_refund
         end
         if @order.is_a? Ticketing::Retail::Order
           @billing_actions << :cash_refund_in_store
         end
       end
-      @billing_actions << :correction if admin?
+      @billing_actions << :correction if current_user.admin?
     end
 
-    def user_not_authorized
-      return super if admin?
-
-      if retail_store_signed_in?
-        deny_access root_path
-      else
-        flash[:warning] = t('application.login_required')
-        redirect_to ticketing_retail_login_path
-      end
+    def order_scope
+      policy_scope(Order)
     end
 
     def update_order_params

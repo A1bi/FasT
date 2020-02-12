@@ -1,6 +1,6 @@
 <div class="stepCon tickets">
   <%= event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen }) %>
-  <% if web? %>
+  <% if action_name == 'new' %>
     <div class="note">
       <p>
         Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets <% if @event.seating.plan? %>und damit verbundene Sitzplatzreservierung <% end %>für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
@@ -21,7 +21,7 @@
       </thead>
       <tbody>
         <% @ticket_types.each do |type| %>
-          <% if !type.exclusive? || admin? || (user_signed_in? && type.exclusive_ticket_type_credit.present?) %>
+          <% if !type.exclusive? || @type == :admin || (user_signed_in? && type.exclusive_ticket_type_credit.present?) %>
             <%= content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price }) do %>
               <td class="number">
                 <%= select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(@max_tickets, type)), id: nil) %>

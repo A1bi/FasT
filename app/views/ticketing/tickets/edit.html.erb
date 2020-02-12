@@ -1,7 +1,7 @@
 <% title "Ticketkategorie umbuchen" %>
 <% include_css "ticketing/orders" %>
 <div class="hl">Ticketkategorie umbuchen</div>
-<%= form_for @tickets, url: orders_path(:ticketing_order_tickets, @order), method: :patch do |f| %>
+<%= form_for @tickets, action: :update, method: :patch do |f| %>
   <% params[:ticket_ids].each do |id| %>
     <%= hidden_field_tag "ticket_ids[]", id %>
   <% end %>

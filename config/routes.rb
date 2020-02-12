@@ -90,10 +90,11 @@ Rails.application.routes.draw do
           get 'seats/:date_id', action: :seats, as: :seats
           get 'chart_data', action: :chart_data, as: :chart_data
         end
-        scope path: 'bestellungen', type: :admin do
+        scope path: 'bestellungen' do
           resource :order, path: '', only: [] do
             member do
-              get 'neu/(:event_slug)', action: :new_admin, as: :new_admin
+              get 'neu/(:event_slug)', action: :new_privileged,
+                                       as: :new_privileged
             end
             collection do
               post 'enable-reservation-groups',
@@ -132,21 +133,7 @@ Rails.application.routes.draw do
       end
 
       scope as: :retail, path: 'vorverkaufsstelle', type: :retail do
-        root to: redirect('/vorverkaufsstelle/bestellungen/neu'), type: ''
         get 'statistik' => 'statistics#index_retail', as: :statistics
-        scope path: 'bestellungen' do
-          resource :order, path: '', only: [] do
-            get 'neu/(:event_slug)', action: :new_retail, as: :new, on: :member
-          end
-          resources :orders, path: '', only: %i[index show],
-                             concerns: :ticketable do
-            member do
-              post :cancel
-              get :seats
-              post :create_billing
-            end
-          end
-        end
       end
 
       resource :order, path: 'tickets', type: :web, only: [] do

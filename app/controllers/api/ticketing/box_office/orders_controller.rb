@@ -47,7 +47,7 @@ module Api
         def search_orders
           ::Ticketing::OrderSearchService.new(
             params[:q],
-            search_base: @orders
+            scope: @orders
           ).execute
         end
 

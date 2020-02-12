@@ -31,7 +31,7 @@
         <%= render layout: "field", locals: { name: "e-mail-Adresse Bestätigung" } do %>
           <%= prepopulated_text_field(f, :email_confirmation, :email, true) %>
           <div class="small">Noch einmal zur Sicherheit, um Tippfehler auszuschließen.</div>
-        <% end if @type == :web %>
+        <% end if action_name == 'new' %>
       </tbody>
     </table>
   <% end %>

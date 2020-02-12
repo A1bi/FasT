@@ -1,7 +1,7 @@
 module Ticketing
   module OrdersHelper
     def prepopulated_text_field(form, name, key = name, email = false)
-      value = web? ? current_user.try(key) : nil
+      value = action_name == 'new' ? current_user.try(key) : nil
       form.send("#{email ? 'email' : 'text'}_field", name,
                 class: 'field', value: value.to_s)
     end
