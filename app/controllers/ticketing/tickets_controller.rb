@@ -6,7 +6,7 @@ module Ticketing
     def cancel
       ::Ticketing::TicketCancelService.new(@tickets, params[:reason]).execute
 
-      if retail? && params[:refund]
+      if @order.is_a?(Retail::Order) && params[:refund]
         @order.cash_refund_in_store
         @order.save
       end
@@ -21,7 +21,9 @@ module Ticketing
     end
 
     def transfer
-      @reservation_groups = Ticketing::ReservationGroup.all if admin?
+      return unless current_user.admin?
+
+      @reservation_groups = Ticketing::ReservationGroup.all
     end
 
     def edit; end
@@ -103,7 +105,7 @@ module Ticketing
 
       else
         @order = Ticketing::Order.find(params[:order_id])
-        if admin? && @order.is_a?(Ticketing::Web::Order)
+        if current_user.admin? && @order.is_a?(Web::Order)
           @order.admin_validations = true
         end
 

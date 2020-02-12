@@ -2,7 +2,7 @@
 <% include_js "ticketing/tickets" %>
 <% include_css "ticketing/tickets" %>
 <div class="hl">Tickets umbuchen</div>
-<%= content_tag :div, class: :transfer, data: { tickets: @tickets.map { |t| t.id }, init_path: orders_path(:init_transfer_ticketing_order_tickets, @order), update_path: orders_path(:finish_transfer_ticketing_order_tickets, @order), order_path: orders_path(:ticketing_order, @order) } do %>
+<%= content_tag :div, class: :transfer, data: { tickets: @tickets.map { |t| t.id }, init_path: init_transfer_ticketing_order_tickets_path(@order), update_path: finish_transfer_ticketing_order_tickets_path(@order), order_path: ticketing_order_path(@order) } do %>
   <div class="date">
     <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date %>
   </div>
