@@ -1360,6 +1360,40 @@ ALTER SEQUENCE public.ticketing_events_id_seq OWNED BY public.ticketing_events.i
 
 
 --
+-- Name: ticketing_geolocations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_geolocations (
+    id bigint NOT NULL,
+    coordinates point NOT NULL,
+    postcode character varying NOT NULL,
+    cities character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    districts character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_geolocations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_geolocations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_geolocations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_geolocations_id_seq OWNED BY public.ticketing_geolocations.id;
+
+
+--
 -- Name: ticketing_log_events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2054,6 +2088,13 @@ ALTER TABLE ONLY public.ticketing_events ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: ticketing_geolocations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_geolocations ALTER COLUMN id SET DEFAULT nextval('public.ticketing_geolocations_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_log_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2447,6 +2488,14 @@ ALTER TABLE ONLY public.ticketing_event_dates
 
 ALTER TABLE ONLY public.ticketing_events
     ADD CONSTRAINT ticketing_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ticketing_geolocations ticketing_geolocations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_geolocations
+    ADD CONSTRAINT ticketing_geolocations_pkey PRIMARY KEY (id);
 
 
 --
@@ -2851,6 +2900,13 @@ CREATE INDEX index_ticketing_events_on_seating_id ON public.ticketing_events USI
 --
 
 CREATE UNIQUE INDEX index_ticketing_events_on_slug ON public.ticketing_events USING btree (slug);
+
+
+--
+-- Name: index_ticketing_geolocations_on_postcode; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_geolocations_on_postcode ON public.ticketing_geolocations USING btree (postcode);
 
 
 --
@@ -3597,6 +3653,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200131193946'),
 ('20200206143022'),
 ('20200210184433'),
-('20200210221526');
+('20200210221526'),
+('20200213133157');
 
 

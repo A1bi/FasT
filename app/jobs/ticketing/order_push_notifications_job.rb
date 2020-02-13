@@ -1,7 +1,5 @@
 module Ticketing
   class OrderPushNotificationsJob < ApplicationJob
-    queue_as :default
-
     def perform(order, admin: false)
       @order = order
       @admin = admin

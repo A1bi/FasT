@@ -1,7 +1,5 @@
 module Ticketing
   class PushNotificationsJob < ApplicationJob
-    queue_as :default
-
     def self.create_pool(size:, force_production: false)
       ConnectionPool.new(size: size) do
         development = Rails.env.development? && !force_production
