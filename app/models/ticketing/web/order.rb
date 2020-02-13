@@ -2,8 +2,10 @@ module Ticketing
   class Web::Order < Order
     attr_accessor :admin_validations
 
-    has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
     enum pay_method: [:charge, :transfer, :cash, :box_office], _suffix: :payment
+    has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
+    belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
+                             inverse_of: false, optional: true
 
     auto_strip_attributes :first_name, :last_name, squish: true
     phony_normalize :phone, default_country_code: 'DE'
@@ -16,6 +18,7 @@ module Ticketing
 
     after_create { send_confirmation(after_commit: true) }
     after_commit :send_queued_mails
+    after_save :schedule_geolocation
 
     def self.charges_to_submit(approved)
       charge_payment
@@ -76,6 +79,12 @@ module Ticketing
     end
 
     private
+
+    def schedule_geolocation
+      return unless saved_change_to_plz? && geolocation.blank?
+
+      Ticketing::GeolocatePostcodeJob.perform_later(plz)
+    end
 
     def send_queued_mails
       @queued_mails&.each do |mail|
