@@ -19,7 +19,7 @@
         <td>
           <% if @order.coupons.any? %>
             <% @order.coupons.each do |coupon| %>
-              <div><%= link_to_if(admin?, coupon.recipient, coupon) %></div>
+              <div><%= link_to_if(policy(coupon).show?, coupon.recipient, coupon) %></div>
             <% end %>
           <% else %>
             <em class="small">keiner</em>

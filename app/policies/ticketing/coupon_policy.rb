@@ -1,7 +1,7 @@
 module Ticketing
   class CouponPolicy < ApplicationPolicy
     def index?
-      user_member?
+      user_admin?
     end
 
     def show?

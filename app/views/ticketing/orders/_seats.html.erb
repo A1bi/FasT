@@ -12,10 +12,10 @@
       <tbody>
         <% @dates.each do |date| %>
           <tr>
-            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date }, class: [date.sold_out? && !admin? ? :disabled: nil]) do %>
+            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date }, class: [date.sold_out? && !current_user.admin? ? :disabled: nil]) do %>
               <span class="line_through"><%= l date.date, format: "%A, den %d. %B %Y um %H.%M Uhr" %></span>
               <% if date.sold_out? %>
-                <% if admin? %>
+                <% if current_user.admin? %>
                   <div class="seats_info">
                     <span><%= date.number_of_booked_seats %></span> von <%= date.number_of_seats %> Plätzen gebucht
                   </div>
@@ -36,7 +36,7 @@
         Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
         <p><em>Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.</em></p>
       </div>
-      <% if admin? && @reservation_groups.any? %>
+      <% if current_user.admin? && @reservation_groups.any? %>
         <div class="note">
           <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
             Vorreservierungen freischalten:
