@@ -12,6 +12,23 @@
 .copy_master_key: &copy_master_key
   - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
 
+.prepare_ssh_agent: &prepare_ssh_agent
+  - eval $(ssh-agent -s)
+  - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+
+.kill_ssh_agent: &kill_ssh_agent
+  # needs to be run here (not in after_script) or the job will get stuck
+  - ssh-agent -k
+
+.production_env: &production_env
+  name: production
+  url: https://www.theater-kaisersesch.de
+
+stages:
+  - test
+  - deploy
+  - post_deploy
+
 variables:
   RAILS_ENV: test
 
@@ -50,15 +67,30 @@ deploy:
   stage: deploy
   before_script:
     - *bundle
-    - eval $(ssh-agent -s)
-    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - *prepare_ssh_agent
   script:
     - cap production deploy
-    # needs to be run here (not in after_script) or the job will get stuck
-    - ssh-agent -k
+    - *kill_ssh_agent
   environment:
-    name: production
-    url: https://www.theater-kaisersesch.de
+    <<: *production_env
+  only:
+    refs:
+      - master
+  when: manual
+
+run_one_off_task:
+  extends: .default-tags
+  except:
+    - schedules
+  stage: post_deploy
+  before_script:
+    - *bundle
+    - *prepare_ssh_agent
+  script:
+    - cap production one_off:run
+    - *kill_ssh_agent
+  environment:
+    <<: *production_env
   only:
     refs:
       - master
