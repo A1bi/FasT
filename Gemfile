@@ -79,6 +79,13 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
+group :test do
+  require 'rbconfig'
+  if RbConfig::CONFIG['target_os'] =~ /(?i-mx:bsd|dragonfly)/
+    gem 'rb-kqueue', '>= 0.2'
+  end
+end
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartjs', '~> 1.0.2'
   gem 'rails-assets-ol3-bower', '~> 3.18.2'
