@@ -45,7 +45,7 @@ module Ticketing
     end
 
     def update?
-      user_admin?
+      user_admin? && record.is_a?(Web::Order)
     end
 
     def edit?
