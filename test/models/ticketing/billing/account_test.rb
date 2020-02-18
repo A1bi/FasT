@@ -1,4 +1,6 @@
-class ArticleTest < ActiveSupport::TestCase
+require 'test_helper'
+
+class AccountTest < ActiveSupport::TestCase
   stores = []
   2.times do
     store = Ticketing::Retail::Store.new

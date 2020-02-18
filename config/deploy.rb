@@ -8,5 +8,7 @@ append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache',
 
 set :keep_releases, 3
 
+set :bundle_without, 'development test ci'
+
 set :unicorn_service_name, 'fast_web'
 set :sidekiq_service_name, 'fast_worker'

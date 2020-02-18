@@ -69,21 +69,17 @@ gem 'httparty', '~> 0.17.3'
 
 group :development do
   gem 'byebug'
+  gem 'spring', '~> 2.1.0'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :development, :ci do
   gem 'capistrano', '~> 3.11.0'
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'ffaker', '~> 2.13.0'
   gem 'rubocop', '~> 0.74.0'
   gem 'rubocop-rails', '~> 2.3.0'
-  gem 'spring', '~> 2.1.0'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-end
-
-group :test do
-  require 'rbconfig'
-  if RbConfig::CONFIG['target_os'] =~ /(?i-mx:bsd|dragonfly)/
-    gem 'rb-kqueue', '>= 0.2'
-  end
 end
 
 source 'https://rails-assets.org' do

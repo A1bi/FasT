@@ -7,7 +7,7 @@
     - postgres
 
 .bundle: &bundle
-  - bundle install -j $(sysctl -n hw.ncpu)
+  - bundle install -j $(sysctl -n hw.ncpu) --without development
 
 .copy_master_key: &copy_master_key
   - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
@@ -52,7 +52,6 @@ specs:
   script:
     - rails db:drop db:create db:structure:load
     - rails test
-    - spring stop
 
 audit:
   extends: .default-tags
@@ -77,6 +76,7 @@ deploy:
     refs:
       - master
   when: manual
+  allow_failure: false
 
 run_one_off_task:
   extends: .default-tags
