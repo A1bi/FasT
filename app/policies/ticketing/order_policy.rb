@@ -53,7 +53,7 @@ module Ticketing
     end
 
     def mark_as_paid?
-      update?
+      user_admin?
     end
 
     def credit_transfer_file?

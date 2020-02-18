@@ -20,6 +20,12 @@ module Ticketing
         next unless number.positive?
 
         ticket_type = date.event.ticket_types.find_by(id: type_id)
+
+        if ticket_type.blank?
+          order.errors.add(:tickets, 'Ticket type not found')
+          next
+        end
+
         next unless validate_ticket_type(ticket_type, number)
 
         build_tickets_for_type(ticket_type, number)
