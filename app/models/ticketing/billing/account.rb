@@ -1,56 +1,59 @@
-module Ticketing::Billing
-  class Account < BaseModel
-    belongs_to :billable, polymorphic: true, inverse_of: :billing_account
-    has_many :transfers, -> { order(created_at: :desc) },
-             inverse_of: :account, autosave: true, dependent: :destroy
+module Ticketing
+  module Billing
+    class Account < BaseModel
+      belongs_to :billable, polymorphic: true, inverse_of: :billing_account
+      has_many :transfers, -> { order(created_at: :desc) },
+               inverse_of: :account, autosave: true, dependent: :destroy
 
-    validates_numericality_of :balance
+      validates :balance, numericality: true
 
-    def deposit(amount, note_key)
-      return if amount.zero?
+      def deposit(amount, note_key)
+        return if amount.zero?
 
-      update_balance(amount)
+        update_balance(amount)
 
-      t = transfers.new
-      t.amount = amount
-      t.note_key = note_key
-    end
-
-    def withdraw(amount, note_key)
-      deposit(-amount, note_key)
-    end
-
-    def transfer(participant, amount, note_key, reverse_transfer = nil)
-      return nil if amount.zero? || participant == self
-
-      update_balance(-amount)
-
-      t = transfers.new
-      t.participant = participant
-      t.amount = -amount
-      t.note_key = note_key
-
-      if reverse_transfer.nil?
-        t.reverse_transfer = participant.transfer(self, -amount, note_key, t)
-      else
-        t.reverse_transfer = reverse_transfer
+        t = transfers.new
+        t.amount = amount
+        t.note_key = note_key
+        t
       end
 
-      return t
-    end
+      def withdraw(amount, note_key)
+        deposit(-amount, note_key)
+      end
 
-    def outstanding?
-      balance < 0
-    end
+      def transfer(participant, amount, note_key, reverse_transfer = nil)
+        return nil if amount.zero? || participant == self
 
-    private
+        update_balance(-amount)
 
-    def update_balance(amount)
-      self[:balance] = self[:balance] + amount
-    end
+        t = transfers.new
+        t.participant = participant
+        t.amount = -amount
+        t.note_key = note_key
 
-    def balance=(val)
-      self[:balance] = val
+        t.reverse_transfer = if reverse_transfer.nil?
+                               participant.transfer(self, -amount, note_key, t)
+                             else
+                               reverse_transfer
+                             end
+
+        t
+      end
+
+      def outstanding?
+        balance.negative?
+      end
+
+      private
+
+      def update_balance(amount)
+        self[:balance] = self[:balance] + amount
+      end
+
+      def balance=(val)
+        self[:balance] = val
+      end
     end
   end
 end

@@ -1,5 +1,7 @@
-module Ticketing::BoxOffice
-  def self.table_name_prefix
-    'ticketing_box_office_'
+module Ticketing
+  module BoxOffice
+    def self.table_name_prefix
+      'ticketing_box_office_'
+    end
   end
 end

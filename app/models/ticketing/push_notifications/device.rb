@@ -1,15 +1,21 @@
-class Ticketing::PushNotifications::Device < BaseModel
-  serialize :settings
+module Ticketing
+  module PushNotifications
+    class Device < BaseModel
+      serialize :settings
 
-  validates_presence_of :token, :app
-  validates_uniqueness_of :token, scope: :app
+      validates :token, :app, presence: true
+      validates :token, uniqueness: { scope: :app }
 
-  def push(body: nil, title: nil, badge: nil, sound: nil)
-    sound = nil if settings[:sound_enabled].blank?
-    Ticketing::PushNotificationsJob.perform_later(self, body: body, title: title, badge: badge, sound: sound)
-  end
+      def push(body: nil, title: nil, badge: nil, sound: nil)
+        sound = nil if settings[:sound_enabled].blank?
+        Ticketing::PushNotificationsJob.perform_later(
+          self, body: body, title: title, badge: badge, sound: sound
+        )
+      end
 
-  def topic
-    Settings.apns.topics[app]
+      def topic
+        Settings.apns.topics[app]
+      end
+    end
   end
 end

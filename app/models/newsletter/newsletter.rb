@@ -1,63 +1,68 @@
-class Newsletter::Newsletter < BaseModel
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::UrlHelper
-  include ActionView::Helpers::AssetTagHelper
+module Newsletter
+  class Newsletter < BaseModel
+    include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::UrlHelper
+    include ActionView::Helpers::AssetTagHelper
 
-  has_and_belongs_to_many :subscriber_lists
-  has_many :subscribers, ->{ confirmed }, through: :subscriber_lists
-  has_many :images, dependent: :destroy
+    has_and_belongs_to_many :subscriber_lists
+    has_many :subscribers, -> { confirmed }, through: :subscriber_lists
+    has_many :images, dependent: :destroy
 
-  enum status: %i[draft review sent]
+    enum status: %i[draft review sent]
 
-  alias_attribute :recipients, :subscribers
+    alias_attribute :recipients, :subscribers
 
-  validates :subject, presence: true
-  validates :body_text, presence: true
+    validates :subject, presence: true
+    validates :body_text, presence: true
 
-  IMAGE_REGEXP = /%%bild_(\d+)%%/
+    IMAGE_REGEXP = /%%bild_(\d+)%%/.freeze
 
-  def review!
-    return unless draft?
+    def review!
+      return unless draft?
 
-    send_review_notification if super
-  end
-
-  def sent!
-    return unless review?
-
-    update(status: :sent, sent_at: Time.current)
-
-    NewsletterMailingJob.perform_later(id)
-  end
-
-  def body_text_final
-    body_text.gsub(IMAGE_REGEXP, '')
-  end
-
-  def body_html_final
-    if body_html.present? && body_html.length > 5
-      body_html
-    else
-      html = simple_format(body_text)
-      html.gsub!(/<p>((%%bild_\d+%%)+)<\/p>/, '<p style="text-align: center;">\1</p>')
-      html.gsub!(IMAGE_REGEXP) do |match|
-        image = images.find_by_id(match.match(/\d+/).to_s)
-        if image.present?
-          link_to(image_tag(image.image.url(:mail), alt: ''), image.image.url(:big))
-        else
-          ''
-        end
-      end
-      html
+      send_review_notification if super
     end
-  end
 
-  private
+    def sent!
+      return unless review?
 
-  def send_review_notification
-    BaseMailer.mail(to: Settings.newsletters.review_email,
-                    subject: Settings.newsletters.review_subject,
-                    body: "Newsletter: #{subject}")
-              .deliver_later
+      update(status: :sent, sent_at: Time.current)
+
+      NewsletterMailingJob.perform_later(id)
+    end
+
+    def body_text_final
+      body_text.gsub(IMAGE_REGEXP, '')
+    end
+
+    def body_html_final
+      if body_html.present? && body_html.length > 5
+        body_html
+      else
+        html = simple_format(body_text)
+        html.gsub!(
+          %r{<p>((%%bild_\d+%%)+)</p>}, '<p style="text-align: center;">\1</p>'
+        )
+        html.gsub!(IMAGE_REGEXP) do |match|
+          image = images.find_by(id: match.match(/\d+/).to_s)
+          if image.present?
+            link_to(image_tag(image.image.url(:mail), alt: ''),
+                    image.image.url(:big))
+          else
+            ''
+          end
+        end
+        html
+      end
+    end
+
+    private
+
+    def send_review_notification
+      BaseMailer.mail(to: Settings.newsletters.review_email,
+                      subject: Settings.newsletters.review_subject,
+                      body: "Newsletter: #{subject}")
+                .deliver_later
+    end
   end
 end

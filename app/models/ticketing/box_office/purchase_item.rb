@@ -1,27 +1,31 @@
-module Ticketing::BoxOffice
-  class PurchaseItem < BaseModel
-    belongs_to :purchase
-    belongs_to :purchasable, polymorphic: true, autosave: true
+module Ticketing
+  module BoxOffice
+    class PurchaseItem < BaseModel
+      belongs_to :purchase
+      belongs_to :purchasable, polymorphic: true, autosave: true
 
-    def number
-      self[:number] || 0
-    end
+      def number
+        self[:number] || 0
+      end
 
-    def purchasable=(p)
-      super p
-      update_total
-    end
+      def purchasable=(record)
+        super
+        update_total
+      end
 
-    def number=(n)
-      super n
-      update_total
-    end
+      def number=(value)
+        super
+        update_total
+      end
 
-    private
+      private
 
-    def update_total
-      return if !number || !purchasable
-      self[:total] = number * (purchasable.respond_to?(:price) ? purchasable.price : purchasable.total).to_f
+      def update_total
+        return if !number || !purchasable
+
+        single = (purchasable.try(:price) || purchasable.total).to_f
+        self[:total] = number * single
+      end
     end
   end
 end

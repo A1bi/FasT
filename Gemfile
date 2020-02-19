@@ -78,8 +78,8 @@ group :development, :ci do
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'ffaker', '~> 2.13.0'
-  gem 'rubocop', '~> 0.74.0'
-  gem 'rubocop-rails', '~> 2.3.0'
+  gem 'rubocop', '~> 0.80.0'
+  gem 'rubocop-rails', '~> 2.4.2'
 end
 
 source 'https://rails-assets.org' do
