@@ -8,9 +8,9 @@ module Newsletter
     auto_strip_attributes :last_name, squish: true
 
     validates :email,
-              :presence => true,
-              :uniqueness => { :case_sensitive => false },
-              :email_format => true
+              presence: true,
+              uniqueness: { case_sensitive: false },
+              email_format: true
 
     validates :privacy_terms, acceptance: true
 
@@ -29,6 +29,7 @@ module Newsletter
 
     def send_confirmation_instructions(after_order: false, delay: nil)
       return if new_record?
+
       NewsletterMailer.confirmation_instructions(self, after_order: after_order).deliver_later(wait: delay)
     end
   end

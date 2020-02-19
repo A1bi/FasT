@@ -66,5 +66,4 @@ Config.setup do |config|
 
     required(:ticket_barcode_base_url).filled
   end
-
 end

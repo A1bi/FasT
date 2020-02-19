@@ -51,6 +51,7 @@ module Ticketing
 
         scopes.each do |scope|
           next unless scope && stats[:total].dig(:total, :total)
+
           calc_percentage_of_all_sales(scope, stats[:total][:total][:total])
         end
 
@@ -61,13 +62,15 @@ module Ticketing
     private
 
     def calc_percentage_of_booked_seats(scope, dates)
-      return unless scope.present?
+      return if scope.blank?
+
       number_of_seats = dates.sum { |date| date.event.seating.number_of_unreserved_seats_on_date(date) }
       scope[:percentage] = (scope[:total] / number_of_seats.to_f * 100).floor
     end
 
     def calc_percentage_of_all_sales(scope, total_number_of_tickets)
-      return unless scope.present?
+      return if scope.blank?
+
       scope[:total][:percentage] = (scope[:total][:total] / total_number_of_tickets.to_f * 100).floor
     end
 

@@ -27,7 +27,7 @@ module Members
         @member.logged_in
         @member.save
       else
-        render :action => :activate
+        render action: :activate
       end
     end
 
@@ -40,9 +40,9 @@ module Members
         .assign_attributes(permitted_attributes(current_user))
       if current_user.save(context: :user_update)
         flash.notice = t('application.saved_changes')
-        redirect_to :action => :edit
+        redirect_to action: :edit
       else
-        render :action => :edit
+        render action: :edit
       end
     end
 
@@ -55,7 +55,7 @@ module Members
       member = Member.find_by_email(params[:members_member][:email])
       if !member
         flash.alert = t('.email_not_found')
-        redirect_to :action => :forgot_password
+        redirect_to action: :forgot_password
       else
         member.set_activation_code
         member.save

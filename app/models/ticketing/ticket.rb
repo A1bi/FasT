@@ -31,12 +31,14 @@ module Ticketing
     end
 
     def resale=(value)
-      return unless seat.present?
+      return if seat.blank?
+
       super
     end
 
     def resold?
-      return false unless seat.present?
+      return false if seat.blank?
+
       seat.taken?(date)
     end
 
@@ -73,11 +75,13 @@ module Ticketing
 
     def seat_exists_for_event
       return if seat.nil? || seating.nil? || seat.in?(seating.seats)
+
       errors.add :seat, 'seat does not exist for this event'
     end
 
     def type_exists_for_event
       return if type.nil? || event.nil? || type.in?(event.ticket_types)
+
       errors.add :type, 'ticket type does not exist for this event'
     end
 

@@ -18,7 +18,7 @@ module Ticketing
         order_index: ticket.order_index,
         date_id: ticket.date_id,
         type_id: ticket.type_id,
-        seat_id: ticket.seat_id,
+        seat_id: ticket.seat_id
       )
     end
   end

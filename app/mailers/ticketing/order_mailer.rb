@@ -11,6 +11,7 @@ module Ticketing
       should_mail = options&.any? ? send(action, options.symbolize_keys) : send(action)
 
       return if should_mail == false || @order.email.nil?
+
       mail  to: @order.email,
             subject: t(:subject, scope: [mailer_name, action]),
             template_name: action
@@ -18,14 +19,11 @@ module Ticketing
 
     private
 
-    def confirmation
-    end
+    def confirmation; end
 
-    def payment_received
-    end
+    def payment_received; end
 
-    def overview
-    end
+    def overview; end
 
     def pay_reminder
       @order.transfer_payment? && !@order.paid
@@ -35,8 +33,7 @@ module Ticketing
       @reason = reason
     end
 
-    def resend_tickets
-    end
+    def resend_tickets; end
 
     def seating_migration; end
 

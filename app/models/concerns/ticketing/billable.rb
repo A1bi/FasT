@@ -12,8 +12,7 @@ module Ticketing
       super || build_billing_account
     end
 
-    def after_account_transfer
-    end
+    def after_account_transfer; end
 
     private
 

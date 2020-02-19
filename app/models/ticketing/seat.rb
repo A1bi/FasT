@@ -4,7 +4,7 @@ module Ticketing
     has_many :reservations, dependent: :destroy
     has_many :tickets, dependent: :nullify
 
-    validates_presence_of :number, on: :create
+    validates :number, presence: true
 
     def full_number
       "#{block.name}#{number}"

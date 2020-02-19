@@ -1,6 +1,6 @@
 module Ticketing
   class ReservationGroupsController < BaseController
-    before_action :find_group, only: [:show, :update, :destroy]
+    before_action :find_group, only: %i[show update destroy]
 
     def index
       group = authorize Ticketing::ReservationGroup.first

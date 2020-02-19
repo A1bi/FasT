@@ -22,7 +22,7 @@ module Ticketing
              class_name: 'Ticketing::BoxOffice::OrderPayment',
              dependent: :nullify
 
-    validates_length_of :tickets, minimum: 1, maximum: NUM_TICKETS_MAX
+    validates :tickets, length: { in: 1..NUM_TICKETS_MAX }
     validates :date, presence: true
 
     before_validation :update_date
@@ -45,6 +45,7 @@ module Ticketing
 
     def mark_as_paid
       return if paid
+
       withdraw_from_account(billing_account.balance, :payment_received)
       log(:marked_as_paid)
     end

@@ -5,7 +5,7 @@ module Ticketing
 
     attr_readonly :secret
 
-    validates_presence_of :secret
+    validates :secret, presence: true
     validates :active, inclusion: [true, false]
 
     after_initialize :after_initialize

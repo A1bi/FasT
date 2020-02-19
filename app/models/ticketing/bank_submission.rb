@@ -4,7 +4,7 @@ module Ticketing
             class_name: 'BankCharge', foreign_key: :submission_id,
             dependent: :nullify, autosave: true, after_add: :propagate_submission
 
-    validates_length_of :charges, minimum: 1
+    validates :charges, length: { minimum: 1 }
 
     private
 

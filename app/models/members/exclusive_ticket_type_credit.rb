@@ -10,6 +10,7 @@ module Members
 
     def credit_left_for_member(member)
       return 0 if value.zero? || member&.id.nil?
+
       members = member.in_family? ? member.family.members : [member]
       remaining = value * members.count
       spent = spendings.where(member: members).sum(:value)

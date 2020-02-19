@@ -3,7 +3,7 @@ module Ticketing
     class Order < Order
       attr_accessor :admin_validations
 
-      enum pay_method: [:charge, :transfer, :cash, :box_office], _suffix: :payment
+      enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
                                inverse_of: false, optional: true
@@ -11,11 +11,11 @@ module Ticketing
       auto_strip_attributes :first_name, :last_name, squish: true
       phony_normalize :phone, default_country_code: 'DE'
 
-      validates_presence_of :email, :first_name, :last_name, :plz, if: Proc.new { |order| !order.admin_validations }, on: :create
-      validates_inclusion_of :gender, in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create
-      validates_format_of :plz, with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create
+      validates :email, :first_name, :last_name, :plz, presence: { if: Proc.new { |order| !order.admin_validations }, on: :create }
+      validates :gender, inclusion: { in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create }
+      validates :plz, format: { with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create }
       validates :email, allow_blank: true, email_format: true
-      validates_presence_of :pay_method, if: Proc.new { |order| !order.paid }
+      validates :pay_method, presence: { if: Proc.new { |order| !order.paid } }
 
       after_create { send_confirmation(after_commit: true) }
       after_commit :send_queued_mails
@@ -45,6 +45,7 @@ module Ticketing
 
       def approve
         return if !bank_charge
+
         bank_charge.approved = true
         log(:approved)
       end

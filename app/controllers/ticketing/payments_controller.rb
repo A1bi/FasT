@@ -1,7 +1,7 @@
 module Ticketing
   class PaymentsController < BaseController
-    before_action :find_orders, only: [:mark_as_paid, :approve]
-    before_action :find_charges_to_submit, only: [:index, :submit]
+    before_action :find_orders, only: %i[mark_as_paid approve]
+    before_action :find_charges_to_submit, only: %i[index submit]
 
     def index
       authorize Ticketing::Order, :mark_as_paid?
@@ -140,7 +140,7 @@ module Ticketing
     end
 
     def redirect_to_overview(notice = nil)
-      options = { scope: [:ticketing, :payments] }
+      options = { scope: %i[ticketing payments] }
       options[:count] = @orders.count if @orders
       flash[:notice] = t(notice, options) if notice
       redirect_to ticketing_payments_path

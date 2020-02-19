@@ -71,7 +71,7 @@ module Passbook
 
     def sign
       p12 = OpenSSL::PKCS12.new File.read(Passbook.options[:certificate_paths][@type_id])
-      wwdr  = OpenSSL::X509::Certificate.new File.read(Passbook.options[:wwdr_ca_path])
+      wwdr = OpenSSL::X509::Certificate.new File.read(Passbook.options[:wwdr_ca_path])
 
       manifest = File.read(path_in_working_dir('manifest.json'))
       signature = OpenSSL::PKCS7.sign(

@@ -18,6 +18,7 @@ class ContactMessageMailer < BaseMailer
 
   def log_spam_rejection(exception)
     raise unless exception.message.downcase.include? 'spam'
+
     Rails.logger.info "Message with subject '#{message.subject}' rejected as spam by MTA"
   end
 end

@@ -1,6 +1,6 @@
 module Members
   class DatesController < ApplicationController
-    before_action :find_date, only: [:edit, :update, :destroy]
+    before_action :find_date, only: %i[edit update destroy]
 
     def index
       @dates = authorize Members::Date.all
@@ -8,7 +8,7 @@ module Members
         format.ics do
           render plain: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
             cal = Icalendar::Calendar.new
-            scope = [:members, :dates, :ics]
+            scope = %i[members dates ics]
             cal.x_wr_calname = t(:calname, scope: scope)
             cal.x_wr_caldesc = t(:caldesc, scope: scope)
             cal.x_published_ttl = 'PT1D'
@@ -19,7 +19,7 @@ module Members
 
             @dates.each do |date|
               cal.event do |e|
-                e.uid             =  "FASTEVENT-#{date.id}"
+                e.uid             = "FASTEVENT-#{date.id}"
                 e.dtstart         = date.datetime.to_datetime
                 e.dtend           = (date.datetime + 90.minutes).to_datetime
                 e.summary         = date.title
@@ -45,8 +45,7 @@ module Members
       @date = authorize Date.new
     end
 
-    def edit
-    end
+    def edit; end
 
     def create
       @date = authorize Date.new(date_params)

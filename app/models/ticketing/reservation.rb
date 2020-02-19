@@ -6,6 +6,7 @@ module Ticketing
 
     def expired?
       return false if self.expires.nil?
+
       self.expires < Time.now
     end
   end

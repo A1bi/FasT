@@ -2,9 +2,9 @@ module Ticketing
   class OrdersController < BaseController
     before_action :prepare_new, only: %i[new new_privileged]
     before_action :set_event_info, only: %i[new new_privileged]
-    before_action :find_order, only: [:show, :edit, :update, :mark_as_paid, :send_pay_reminder, :resend_confirmation, :resend_tickets, :approve, :create_billing, :seats]
-    before_action :find_coupon, only: [:add_coupon, :remove_coupon]
-    before_action :prepare_billing_actions, only: [:show, :create_billing]
+    before_action :find_order, only: %i[show edit update mark_as_paid send_pay_reminder resend_confirmation resend_tickets approve create_billing seats]
+    before_action :find_coupon, only: %i[add_coupon remove_coupon]
+    before_action :prepare_billing_actions, only: %i[show create_billing]
 
     def new
       @type = :web
@@ -247,6 +247,7 @@ module Ticketing
           @events = @events.select(&:on_sale?)
         end
         return redirect_to event_slug: @events.first.slug if @events.count == 1
+
         return render 'new_choose_event'
       end
 
@@ -277,10 +278,12 @@ module Ticketing
 
     def update_exclusive_seats(action, groups)
       return false if params[:socketId].blank?
+
       seats = {}
       groups.each do |reservation_group|
         reservation_group.reservations.each do |reservation|
           next if reservation.date.blank? || reservation.seat.blank?
+
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
@@ -290,7 +293,7 @@ module Ticketing
     end
 
     def redirect_to_order_details(notice = nil)
-      flash[:notice] = t(notice, scope: [:ticketing, :orders]) if notice
+      flash[:notice] = t(notice, scope: %i[ticketing orders]) if notice
       redirect_to ticketing_order_path(@order)
     end
 

@@ -6,7 +6,7 @@ module Ticketing
     auto_strip_attributes :name, squish: true
     auto_strip_attributes :iban, delete_whitespaces: true
 
-    validates_presence_of :name
+    validates :name, presence: true
     validates :amount, numericality: { greater_than: 0 }, if: Proc.new { |c| c.submission.present? }
     validates_with SEPA::IBANValidator
 
@@ -16,6 +16,7 @@ module Ticketing
 
     def amount=(val)
       return if submission.present?
+
       super
     end
 
