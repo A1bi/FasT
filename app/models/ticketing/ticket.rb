@@ -11,10 +11,10 @@ module Ticketing
 
     validates :seat, presence: { if: :seat_required? },
                      inclusion: { in: [nil], unless: :seat_required? }
+    validates :order_index, uniqueness: { scope: :order_id }
     validate :seat_available, if: :seat_required?
     validate :seat_exists_for_event, if: :seat_required?
     validate :type_exists_for_event
-    validate :check_order_index, if: :order_index_changed?
 
     before_validation :update_invalidated
 
@@ -79,12 +79,6 @@ module Ticketing
     def type_exists_for_event
       return if type.nil? || event.nil? || type.in?(event.ticket_types)
       errors.add :type, 'ticket type does not exist for this event'
-    end
-
-    def check_order_index
-      if self.class.where(order_id: order_id, order_index: order_index).any?
-        errors.add :order_index, "duplicate order index"
-      end
     end
 
     def update_invalidated

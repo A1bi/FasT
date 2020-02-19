@@ -16,7 +16,7 @@ json.merge!(
   voided: ticket.cancelled?,
   teamIdentifier: 'V48L6BF6M3',
   webServiceURL: api_passbook_root_url,
-  relevantDate: w3c_date(ticket.date.date),
+  relevantDate: ticket.date.date.iso8601,
   backgroundColor: rgb_color(colors[:background]),
   foregroundColor: rgb_color(colors[:foreground]),
   labelColor: rgb_color(colors[:label]),
@@ -36,7 +36,7 @@ json.eventTicket do
       {
         key: 'date',
         label: 'Beginn',
-        value: w3c_date(ticket.date.date),
+        value: ticket.date.date.iso8601,
         dateStyle: 'PKDateStyleFull',
         timeStyle: 'PKDateStyleShort',
         changeMessage: 'Ihr Ticket wurde auf folgendes Datum umgebucht: %@'
@@ -52,7 +52,7 @@ json.eventTicket do
       {
         key: 'opens',
         label: 'Einlass',
-        value: w3c_date(ticket.date.door_time),
+        value: ticket.date.door_time.iso8601,
         timeStyle: 'PKDateStyleShort'
       },
       {
