@@ -37,10 +37,15 @@ module Ticketing
     private
 
     def self.with_availability_on_date_and_join(date, join)
-      select("ticketing_seats.*, COUNT(ticketing_tickets.id) > 0 AS taken, COUNT(ticketing_reservations.id) > 0 AS reserved")
-      .joins("LEFT JOIN ticketing_tickets ON ticketing_tickets.seat_id = ticketing_seats.id AND ticketing_tickets.date_id = #{date.id} AND #{join.to_sql}")
-      .joins("LEFT JOIN ticketing_reservations ON ticketing_reservations.seat_id = ticketing_seats.id AND ticketing_reservations.date_id = #{date.id}")
-      .group("ticketing_seats.id")
+      select('ticketing_seats.*, COUNT(ticketing_tickets.id) > 0 AS taken,' \
+             'COUNT(ticketing_reservations.id) > 0 AS reserved')
+        .joins('LEFT JOIN ticketing_tickets' \
+               'ON ticketing_tickets.seat_id = ticketing_seats.id' \
+               "AND ticketing_tickets.date_id = #{date.id} AND #{join.to_sql}")
+        .joins('LEFT JOIN ticketing_reservations' \
+               'ON ticketing_reservations.seat_id = ticketing_seats.id' \
+               "AND ticketing_reservations.date_id = #{date.id}")
+        .group('ticketing_seats.id')
     end
   end
 end

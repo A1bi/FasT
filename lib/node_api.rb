@@ -1,14 +1,14 @@
 class NodeApi
   def self.make_request(name, data)
-    socket = Net::BufferedIO.new(UNIXSocket.new("/tmp/FasT-node.sock"))
+    socket = Net::BufferedIO.new(UNIXSocket.new('/tmp/FasT-node.sock'))
 
-    path = "/" + name
+    path = '/' + name
 
     request = Net::HTTP::Post.new(path)
     request.body = data.to_json
     request.content_type = 'application/json'
 
-    request.exec(socket, "1.1", path)
+    request.exec(socket, '1.1', path)
 
     begin
       response = Net::HTTPResponse.read_new(socket)
@@ -23,11 +23,11 @@ class NodeApi
   def self.seating_request(action, info, socket_id = nil)
     info[:action] = action
     info[:socketId] = socket_id if socket_id
-    make_request("seating", info)
+    make_request('seating', info)
   end
 
   def self.get_chosen_seats(socket_id)
-    body = seating_request("getChosenSeats", {}, socket_id).body
+    body = seating_request('getChosenSeats', {}, socket_id).body
     if !body[:ok]
       nil
     else
@@ -36,7 +36,7 @@ class NodeApi
   end
 
   def self.update_seats(seats)
-    seating_request("updateSeats", { seats: seats })
+    seating_request('updateSeats', seats: seats)
   end
 
   def self.update_seats_from_records(records)

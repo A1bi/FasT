@@ -46,7 +46,7 @@ module Passbook
     def create_pass_info
       info = render_to_string(template: "passbook/#{@ressources_identifier}",
                               format: :json, locals: @template_locals)
-      write_json_file(info, "pass.json")
+      write_json_file(info, 'pass.json')
     end
 
     def copy_images
@@ -66,16 +66,20 @@ module Passbook
         manifest[path] = Digest::SHA1.hexdigest(File.read(file));
       end
 
-      write_json_file(manifest, "manifest.json")
+      write_json_file(manifest, 'manifest.json')
     end
 
     def sign
       p12 = OpenSSL::PKCS12.new File.read(Passbook.options[:certificate_paths][@type_id])
       wwdr  = OpenSSL::X509::Certificate.new File.read(Passbook.options[:wwdr_ca_path])
 
-      signature = OpenSSL::PKCS7.sign(p12.certificate, p12.key, File.read(path_in_working_dir("manifest.json")), [wwdr], OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED)
+      manifest = File.read(path_in_working_dir('manifest.json'))
+      signature = OpenSSL::PKCS7.sign(
+        p12.certificate, p12.key, manifest, [wwdr],
+        OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED
+      )
 
-      File.open(path_in_working_dir("signature"), "wb") do |file|
+      File.open(path_in_working_dir('signature'), 'wb') do |file|
         file.write(signature.to_der)
       end
     end
@@ -88,7 +92,7 @@ module Passbook
         end
       end
 
-      FileUtils.chmod("a+r", path)
+      FileUtils.chmod('a+r', path)
       FileUtils.rm_r(@working_dir)
     end
 

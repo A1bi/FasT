@@ -23,7 +23,7 @@ module Ticketing
     def self.charges_to_submit(approved)
       charge_payment
         .includes(:billing_account, :bank_charge)
-        .where("ticketing_billing_accounts.balance < 0")
+        .where('ticketing_billing_accounts.balance < 0')
         .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
     end
 

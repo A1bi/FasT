@@ -18,10 +18,10 @@ module Ticketing::BoxOffice
 
     def bill
       case pay_method
-      when "cash"
+      when 'cash'
         order_payment_note = :cash_at_box_office
         transfer_to_account(box_office, -total, order_payment_note)
-      when "electronic_cash"
+      when 'electronic_cash'
         order_payment_note = :electronic_cash_at_box_office
         deposit_into_account(total, order_payment_note)
       end

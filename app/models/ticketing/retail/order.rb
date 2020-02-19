@@ -7,7 +7,8 @@ module Ticketing
     after_commit :delete_printable, on: :destroy
 
     def printable_path(full = false)
-      File.join(printable_dir_path(full), "tickets-" + Digest::SHA1.hexdigest(number.to_s) + ".pdf")
+      number_hash = Digest::SHA1.hexdigest(number.to_s)
+      File.join(printable_dir_path(full), "tickets-#{number_hash}.pdf")
     end
 
     def cash_refund_in_store
@@ -36,7 +37,7 @@ module Ticketing
 
     def printable_dir_path(full = false)
       path = Rails.public_path if full
-      File.join(path || "", "/system/tickets")
+      File.join(path || '', '/system/tickets')
     end
 
     def update_printable

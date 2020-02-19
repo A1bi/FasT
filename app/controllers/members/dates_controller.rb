@@ -11,10 +11,10 @@ module Members
             scope = [:members, :dates, :ics]
             cal.x_wr_calname = t(:calname, scope: scope)
             cal.x_wr_caldesc = t(:caldesc, scope: scope)
-            cal.x_published_ttl = "PT1D"
+            cal.x_published_ttl = 'PT1D'
             cal.publish
             cal.timezone do |t|
-              t.tzid = "Europe/Berlin"
+              t.tzid = 'Europe/Berlin'
             end
 
             @dates.each do |date|
@@ -25,12 +25,12 @@ module Members
                 e.summary         = date.title
                 e.description     = date.info
                 e.location        = date.location
-                e.ip_class        = "PUBLIC"
+                e.ip_class        = 'PUBLIC'
                 e.last_modified   = date.updated_at.to_datetime
 
                 e.alarm do |a|
-                  a.action        = "AUDIO"
-                  a.trigger       = "-P0DT0H45M0S"
+                  a.action        = 'AUDIO'
+                  a.trigger       = '-P0DT0H45M0S'
                 end
               end
             end
@@ -60,7 +60,7 @@ module Members
 
     def update
       if @date.update_attributes(date_params)
-        redirect_to members_root_path, notice: t("application.saved_changes")
+        redirect_to members_root_path, notice: t('application.saved_changes')
       else
         render action: :edit
       end

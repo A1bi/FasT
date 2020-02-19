@@ -21,7 +21,7 @@ module Ticketing
     def create
       group = authorize Ticketing::ReservationGroup.new(group_params)
       if group.save
-        flash[:notice] = t("ticketing.reservation_groups.created")
+        flash[:notice] = t('.created')
         redirect_to ticketing_reservation_group_path(group.id)
       else
         redirect_to ticketing_reservation_groups_path
@@ -54,7 +54,7 @@ module Ticketing
 
       update_node_with_reservations(reservations)
 
-      flash[:notice] = t("ticketing.reservation_groups.destroyed")
+      flash[:notice] = t('.destroyed')
       redirect_to ticketing_reservation_groups_path
     end
 

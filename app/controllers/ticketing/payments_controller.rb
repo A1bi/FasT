@@ -74,8 +74,8 @@ module Ticketing
           remittance_information: translate_submission(:debit_remittance_information, number: charge.chargeable.number),
           mandate_id: charge.mandate_id,
           mandate_date_of_signature: charge.created_at.to_date,
-          local_instrument: "COR1",
-          sequence_type: "OOFF",
+          local_instrument: 'COR1',
+          sequence_type: 'OOFF',
           batch_booking: true,
           requested_date: Date.today + 2
         )

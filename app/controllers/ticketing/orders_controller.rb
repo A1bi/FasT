@@ -38,9 +38,9 @@ module Ticketing
       response = { ok: false }
 
       if !@coupon
-        response[:error] = "not found"
+        response[:error] = 'not found'
       elsif @coupon.expired?
-        response[:error] = "expired"
+        response[:error] = 'expired'
       else
         response = {
           ok: true,
@@ -124,7 +124,7 @@ module Ticketing
       end
 
       @billing_actions.map! do |transaction|
-        [t("ticketing.orders.balancing." + transaction.to_s), transaction]
+        [t("ticketing.orders.balancing.#{transaction}"), transaction]
       end
     end
 
@@ -284,7 +284,8 @@ module Ticketing
           (seats[reservation.date.id] ||= []) << reservation.seat.id
         end
       end
-      NodeApi.seating_request(action.to_s + "ExclusiveSeats", { seats: seats }, params[:socketId])
+      NodeApi.seating_request("#{action}ExclusiveSeats",
+                              { seats: seats }, params[:socketId])
       seats.any?
     end
 

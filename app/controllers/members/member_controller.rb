@@ -17,7 +17,11 @@ module Members
 
         session[:user_id] = @member.id
 
-        flash.notice = (@member.last_login) ? t("members.member.password_changed") : t("members.member.activated")
+        flash.notice = if @member.last_login
+                         t('.password_changed')
+                       else
+                         t('.activated')
+                       end
         redirect_to members_root_path
 
         @member.logged_in
@@ -35,7 +39,7 @@ module Members
       authorize(current_user, policy_class: MemberPolicy)
         .assign_attributes(permitted_attributes(current_user))
       if current_user.save(context: :user_update)
-        flash.notice = t("application.saved_changes")
+        flash.notice = t('application.saved_changes')
         redirect_to :action => :edit
       else
         render :action => :edit
@@ -50,7 +54,7 @@ module Members
       authorize Member
       member = Member.find_by_email(params[:members_member][:email])
       if !member
-        flash.alert = t("members.member.email_not_found")
+        flash.alert = t('.email_not_found')
         redirect_to :action => :forgot_password
       else
         member.set_activation_code
@@ -58,7 +62,7 @@ module Members
 
         MemberMailer.reset_password(member).deliver_later
 
-        flash.notice = t("members.member.password_reset")
+        flash.notice = t('.password_reset')
         redirect_to_login
       end
     end
