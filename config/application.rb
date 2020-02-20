@@ -12,7 +12,7 @@ module FasT
     # Activate observers that should always be running.
     # config.active_record.observers = ""
 
-    config.time_zone = 'Berlin'
+    config.time_zone = 'Europe/Berlin'
 
     config.i18n.default_locale = :de
 

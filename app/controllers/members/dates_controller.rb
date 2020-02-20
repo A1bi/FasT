@@ -3,41 +3,11 @@ module Members
     before_action :find_date, only: %i[edit update destroy]
 
     def index
-      @dates = authorize Members::Date.all
+      authorize dates_ical_service.dates
+      return unless stale? dates_ical_service.dates
+
       respond_to do |format|
-        format.ics do
-          render plain: (Rails.cache.fetch([:members, :dates, :ics, @dates]) do
-            cal = Icalendar::Calendar.new
-            scope = %i[members dates ics]
-            cal.x_wr_calname = t(:calname, scope: scope)
-            cal.x_wr_caldesc = t(:caldesc, scope: scope)
-            cal.x_published_ttl = 'PT1D'
-            cal.publish
-            cal.timezone do |t|
-              t.tzid = 'Europe/Berlin'
-            end
-
-            @dates.each do |date|
-              cal.event do |e|
-                e.uid             = "FASTEVENT-#{date.id}"
-                e.dtstart         = date.datetime.to_datetime
-                e.dtend           = (date.datetime + 90.minutes).to_datetime
-                e.summary         = date.title
-                e.description     = date.info
-                e.location        = date.location
-                e.ip_class        = 'PUBLIC'
-                e.last_modified   = date.updated_at.to_datetime
-
-                e.alarm do |a|
-                  a.action        = 'AUDIO'
-                  a.trigger       = '-P0DT0H45M0S'
-                end
-              end
-            end
-
-            cal.to_ical
-          end)
-        end
+        format.ics { render body: dates_ical_service.ics }
       end
     end
 
@@ -75,6 +45,10 @@ module Members
 
     def find_date
       @date = authorize Date.find(params[:id])
+    end
+
+    def dates_ical_service
+      @dates_ical_service ||= DatesIcalService.new
     end
 
     def date_params

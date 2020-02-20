@@ -167,7 +167,9 @@ Rails.application.routes.draw do
           post 'reset_password'
         end
       end
-      resources :dates, path: 'termine', except: :show
+      resources :dates, path: 'termine', except: %i[index show] do
+        get :index, constraints: { format: :ics }, on: :collection
+      end
       resources :documents, path: 'dokumente', except: %i[index show]
 
       root to: 'dashboard#index', as: :root
