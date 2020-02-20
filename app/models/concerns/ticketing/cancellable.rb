@@ -24,7 +24,9 @@ module Ticketing
 
     module ClassMethods
       def cancelled(cancelled = true)
-        where(arel_table[:cancellation_id].send((cancelled ? :not_eq : :eq), nil))
+        return where.not(cancellation_id: nil) if cancelled
+
+        where(cancellation_id: nil)
       end
     end
   end

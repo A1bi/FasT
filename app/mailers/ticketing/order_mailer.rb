@@ -2,13 +2,18 @@ module Ticketing
   class OrderMailer < BaseMailer
     helper TicketingHelper
 
+    # TODO: rewrite this with prepared params
     def order_action(action, order, options = nil)
       @order = order
 
-      find_tickets
+      @tickets ||= @order.tickets.cancelled(false)
       attach_tickets if should_attach_tickets?
 
-      should_mail = options&.any? ? send(action, options.symbolize_keys) : send(action)
+      should_mail = if options&.any?
+                      send(action, options.symbolize_keys)
+                    else
+                      send(action)
+                    end
 
       return if should_mail == false || @order.email.nil?
 
@@ -37,10 +42,6 @@ module Ticketing
 
     def seating_migration; end
 
-    def find_tickets
-      @tickets ||= @order.tickets.cancelled(false)
-    end
-
     def attach_tickets
       pdf = TicketsWebPdf.new
       pdf.add_tickets @order.tickets
@@ -53,7 +54,9 @@ module Ticketing
     helper_method :should_attach_tickets?
 
     def overview_url
-      @overview_url ||= order_overview_url(@order.signed_info(authenticated: true))
+      @overview_url ||= order_overview_url(
+        @order.signed_info(authenticated: true)
+      )
     end
     helper_method :overview_url
   end

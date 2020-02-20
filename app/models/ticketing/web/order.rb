@@ -4,18 +4,28 @@ module Ticketing
       attr_accessor :admin_validations
 
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
-      has_one :bank_charge, class_name: 'Ticketing::BankCharge', as: :chargeable, validate: true, dependent: :destroy, autosave: true
+      has_one :bank_charge, class_name: 'Ticketing::BankCharge',
+                            as: :chargeable, validate: true,
+                            dependent: :destroy, autosave: true
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
                                inverse_of: false, optional: true
 
       auto_strip_attributes :first_name, :last_name, squish: true
       phony_normalize :phone, default_country_code: 'DE'
 
-      validates :email, :first_name, :last_name, :plz, presence: { if: Proc.new { |order| !order.admin_validations }, on: :create }
-      validates :gender, inclusion: { in: 0..1, if: Proc.new { |order| !order.admin_validations }, on: :create }
-      validates :plz, format: { with: /\A\d{5}\z/, if: Proc.new { |order| !order.admin_validations }, on: :create }
+      validates :email, :first_name, :last_name, :plz, presence: {
+        if: proc { |order| !order.admin_validations }, on: :create
+      }
+      validates :gender, inclusion: {
+        in: 0..1,
+        if: proc { |order| !order.admin_validations },
+        on: :create
+      }
+      validates :plz, format: { with: /\A\d{5}\z/,
+                                if: proc { |order| !order.admin_validations },
+                                on: :create }
       validates :email, allow_blank: true, email_format: true
-      validates :pay_method, presence: { if: Proc.new { |order| !order.paid } }
+      validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
       after_create { send_confirmation(after_commit: true) }
       after_commit :send_queued_mails
@@ -25,7 +35,8 @@ module Ticketing
         charge_payment
           .includes(:billing_account, :bank_charge)
           .where('ticketing_billing_accounts.balance < 0')
-          .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
+          .where(ticketing_bank_charges: { approved: approved,
+                                           submission_id: nil })
       end
 
       def send_pay_reminder
@@ -76,8 +87,11 @@ module Ticketing
       def update_total_and_billing(billing_note)
         old_total = total
         super
-        # set default pay method when a free order (without a pay method set) turns into a non-free order
-        self.pay_method = :cash if pay_method.blank? && old_total.zero? && total.positive?
+        return unless pay_method.blank? && old_total.zero? && total.positive?
+
+        # set default pay method when a free order (without a pay method set)
+        # turns into a non-free order
+        self.pay_method = :cash
       end
 
       private
@@ -96,7 +110,7 @@ module Ticketing
 
       def update_paid
         super
-        self.paid = self.paid || (bank_charge.present? && !bank_charge.submitted?)
+        self.paid ||= bank_charge.present? && !bank_charge.submitted?
       end
     end
   end

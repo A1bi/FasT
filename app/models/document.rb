@@ -1,9 +1,16 @@
 class Document < BaseModel
   has_attached_file :file
 
-  validates_attachment :file, presence: true, content_type: {
-    content_type: %r{\A(image\/(jpe?g|png)|application\/(x-)?pdf|audio\/(mpeg|mp3))\z}
-  }
+  validates_attachment :file, presence: true,
+                              content_type: {
+                                content_type: %w[image/jpg
+                                                 image/jpeg
+                                                 image/png
+                                                 application/pdf
+                                                 application/x-pdf
+                                                 audio/mpeg
+                                                 audio/mp3]
+                              }
 
   enum members_group: Members::Member.groups, integer_column: true
 end

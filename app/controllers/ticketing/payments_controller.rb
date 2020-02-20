@@ -60,7 +60,9 @@ module Ticketing
       submission = BankSubmission.find(params[:id])
 
       info_keys = %i[name iban creditor_identifier]
-      debit_info = Hash[info_keys.map { |key| [key, translate_submission(key)] }]
+      debit_info = Hash[info_keys.map do |key|
+        [key, translate_submission(key)]
+      end]
 
       debit = SEPA::DirectDebit.new(debit_info)
       debit.message_identification = "FasT/#{submission.id}"
@@ -71,7 +73,9 @@ module Ticketing
           iban: charge.iban,
           amount: charge.amount,
           instruction: charge.id,
-          remittance_information: translate_submission(:debit_remittance_information, number: charge.chargeable.number),
+          remittance_information: translate_submission(
+            :debit_remittance_information, number: charge.chargeable.number
+          ),
           mandate_id: charge.mandate_id,
           mandate_date_of_signature: charge.created_at.to_date,
           local_instrument: 'COR1',
@@ -81,7 +85,8 @@ module Ticketing
         )
       end
 
-      send_data debit.to_xml, filename: "sepa-#{submission.id}.xml", type: 'application/xml'
+      send_data debit.to_xml, filename: "sepa-#{submission.id}.xml",
+                              type: 'application/xml'
     end
 
     def credit_transfer_file
@@ -107,7 +112,8 @@ module Ticketing
             row += [''] * 2
           end
           row << order.billing_account.balance
-          row << translate_submission(:transfer_remittance_information, number: order.number)
+          row << translate_submission(:transfer_remittance_information,
+                                      number: order.number)
           csv << row
         end
       end

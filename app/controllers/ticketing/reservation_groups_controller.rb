@@ -15,7 +15,11 @@ module Ticketing
 
       @groups = Ticketing::ReservationGroup.order(:name)
       @events = Ticketing::Event.current
-      @event = params[:event_id].present? ? @events.find(params[:event_id]) : @events.first
+      @event = if params[:event_id].present?
+                 @events.find(params[:event_id])
+               else
+                 @events.first
+               end
     end
 
     def create
@@ -34,7 +38,9 @@ module Ticketing
       ActiveRecord::Base.transaction do
         params.fetch(:seats, {}).each do |date_id, seat_ids|
           seat_ids.each do |seat_id|
-            reservations << @group.reservations.where(date_id: date_id, seat_id: seat_id).first_or_create
+            reservations << @group.reservations
+                                  .where(date_id: date_id, seat_id: seat_id)
+                                  .first_or_create
           end
         end
 

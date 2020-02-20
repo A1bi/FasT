@@ -6,7 +6,8 @@ class EmailFormatValidator < ActiveModel::EachValidator
     message = options[:message] ||
               I18n.t(
                 :invalid,
-                scope: scope + [:models, object.model_name.i18n_key, :attributes, :email],
+                scope: scope + [:models, object.model_name.i18n_key,
+                                :attributes, :email],
                 default: I18n.t(:invalid, scope: scope + %i[attributes email])
               )
     object.errors[attribute] << message

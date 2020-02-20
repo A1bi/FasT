@@ -23,15 +23,22 @@ module Ticketing
     end
 
     def node_hash(date = nil, avail = nil, res = nil)
-      [id, { available: avail.nil? ? !taken?(date) : avail, reserved: res.nil? ? reserved?(date) : res }]
+      [id, {
+        available: avail.nil? ? !taken?(date) : avail,
+        reserved: res.nil? ? reserved?(date) : res
+      }]
     end
 
     def self.with_availability_on_date(date)
-      with_availability_on_date_and_join(date, Ticket.arel_table[:invalidated].eq(false))
+      with_availability_on_date_and_join(
+        date, Ticket.arel_table[:invalidated].eq(false)
+      )
     end
 
     def self.with_booked_status_on_date(date)
-      with_availability_on_date_and_join(date, Ticket.arel_table[:cancellation_id].eq(nil))
+      with_availability_on_date_and_join(
+        date, Ticket.arel_table[:cancellation_id].eq(nil)
+      )
     end
 
     private

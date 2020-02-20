@@ -76,7 +76,9 @@ module Ticketing
     end
 
     def sign_record(params)
-      info = Ticketing::SignedInfoBinary.from_record(params.merge(signing_key_id: id))
+      info = Ticketing::SignedInfoBinary.from_record(
+        params.merge(signing_key_id: id)
+      )
       info.sign { |data| generate_digest(data) }
       self.class.encode_data(info.to_binary_s)
     end

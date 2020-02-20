@@ -41,7 +41,8 @@ namespace :roundcube do
         SQL
 
         statement = client.prepare(query)
-        memberships = statement.execute(contact[:contact_id], symbolize_keys: true)
+        memberships = statement.execute(contact[:contact_id],
+                                        symbolize_keys: true)
 
         memberships.each do |membership|
           # replace all references in groups with a fast_* id
@@ -53,7 +54,8 @@ namespace :roundcube do
           SQL
 
           statement = client.prepare(query)
-          statement.execute("fast_#{member.id}", contact[:contact_id].to_s, membership[:contactgroup_id])
+          statement.execute("fast_#{member.id}", contact[:contact_id].to_s,
+                            membership[:contactgroup_id])
 
         rescue Mysql2::Error
           # remove if this results in doubles
@@ -66,7 +68,8 @@ namespace :roundcube do
           SQL
 
           statement = client.prepare(query)
-          statement.execute(contact[:contact_id].to_s, membership[:contactgroup_id])
+          statement.execute(contact[:contact_id].to_s,
+                            membership[:contactgroup_id])
         end
 
         puts 'Removing existing contact.'

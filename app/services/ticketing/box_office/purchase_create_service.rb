@@ -39,7 +39,7 @@ module Ticketing
       private
 
       def add_ticket(item_info, item)
-        ticket = Ticketing::Ticket.find(item_info[:id].to_i)
+        ticket = Ticketing::Ticket.find(item_info[:id])
         ticket.update(picked_up: true)
         item.purchasable = ticket
         item.number = 1
@@ -47,7 +47,7 @@ module Ticketing
       end
 
       def add_product(item_info, item)
-        item.purchasable = Ticketing::BoxOffice::Product.find(item_info[:id].to_i)
+        item.purchasable = Ticketing::BoxOffice::Product.find(item_info[:id])
         item.number = item_info[:number]
       end
 

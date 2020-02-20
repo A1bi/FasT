@@ -1,17 +1,19 @@
 module Members
   class MemberController < ApplicationController
     def activate
-      authorize Member
-      @member = Member.find_by(activation_code: params[:code])
-      redirect_to_login if params[:code].blank? || @member.nil?
+      @member = authorize Member.find_by!(
+        activation_code: params.require(:code)
+      )
     end
 
     def finish_activation
-      @member = authorize Member.find(params[:members_member][:id])
-      return redirect_to_login if @member.activation_code != params[:members_member][:activation_code]
+      @member = authorize Member.find_by!(member_params
+                                          .permit(:id, :activation_code))
 
-      @member.password = params[:members_member][:password]
-      @member.password_confirmation = params[:members_member][:password_confirmation]
+      @member.assign_attributes(
+        member_params.permit(:password, :password_confirmation)
+      )
+
       if @member.valid?
         @member.activate
 
@@ -52,7 +54,7 @@ module Members
 
     def reset_password
       authorize Member
-      member = Member.find_by_email(params[:members_member][:email])
+      member = Member.find_by_email(member_params[:email])
       if !member
         flash.alert = t('.email_not_found')
         redirect_to action: :forgot_password
@@ -68,6 +70,10 @@ module Members
     end
 
     private
+
+    def member_params
+      params.require(:members_member)
+    end
 
     def redirect_to_login
       redirect_to login_path

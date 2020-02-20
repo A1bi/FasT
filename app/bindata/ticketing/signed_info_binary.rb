@@ -21,7 +21,8 @@ module Ticketing
       INFO_TYPES.each do |type, index|
         next if params[type].blank?
 
-        info = "Ticketing::#{type.capitalize}Binary".constantize.send("from_#{type}", params[type])
+        info = "Ticketing::#{type.capitalize}Binary"
+               .constantize.send("from_#{type}", params[type])
         params.merge!(
           info_type: index,
           type => info

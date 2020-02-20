@@ -11,7 +11,8 @@ class ContactMessageMailer < BaseMailer
     @phone = phone
     @content = content
 
-    mail from: "#{name}<#{email}>", subject: "#{subject} (#{t('contact_messages.via')})"
+    mail from: "#{name}<#{email}>",
+         subject: "#{subject} (#{t('contact_messages.via')})"
   end
 
   private
@@ -19,6 +20,7 @@ class ContactMessageMailer < BaseMailer
   def log_spam_rejection(exception)
     raise unless exception.message.downcase.include? 'spam'
 
-    Rails.logger.info "Message with subject '#{message.subject}' rejected as spam by MTA"
+    Rails.logger.info "Message with subject '#{message.subject}'" \
+                      'rejected as spam by MTA'
   end
 end

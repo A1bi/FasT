@@ -19,7 +19,10 @@ module Passbook
       def init
         self.serial_number ||= SecureRandom.hex(10)
         self.auth_token ||= SecureRandom.hex
-        self.filename ||= "pass-#{Digest::SHA1.hexdigest(serial_number + auth_token)}.pkpass"
+        self.filename ||= begin
+          digest = Digest::SHA1.hexdigest(serial_number + auth_token)
+          "pass-#{digest}.pkpass"
+        end
       end
 
       def file_path

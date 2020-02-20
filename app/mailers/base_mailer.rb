@@ -23,7 +23,8 @@ class BaseMailer < ActionMailer::Base
     fix_mixed_attachments
   end
 
-  # fix regular attachments not showing up in some clients when sending inline attachments
+  # fix regular attachments not showing up in some clients when
+  # sending inline attachments
   # source: https://github.com/rails/rails/issues/2686#issuecomment-20186734
   def fix_mixed_attachments
     # do nothing if we have no actual attachments
@@ -33,12 +34,14 @@ class BaseMailer < ActionMailer::Base
 
     related = Mail::Part.new
     related.content_type = @_message.content_type
-    @_message.parts.select { |p| !p.attachment? || p.inline? }.each { |p| related.add_part(p) }
+    @_message.parts.select { |p| !p.attachment? || p.inline? }
+             .each { |p| related.add_part(p) }
     mail.add_part related
 
     mail.header = @_message.header.to_s
     mail.content_type = nil
-    @_message.parts.select { |p| p.attachment? && !p.inline? }.each { |p| mail.add_part(p) }
+    @_message.parts.select { |p| p.attachment? && !p.inline? }
+             .each { |p| mail.add_part(p) }
 
     @_message = mail
     wrap_delivery_behavior!(delivery_method.to_sym)

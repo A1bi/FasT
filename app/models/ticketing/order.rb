@@ -17,7 +17,9 @@ module Ticketing
     has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :coupons, through: :coupon_redemptions
-    has_many :exclusive_ticket_type_credit_spendings, class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true
+    has_many :exclusive_ticket_type_credit_spendings,
+             class_name: 'Members::ExclusiveTicketTypeCreditSpending',
+             dependent: :destroy, autosave: true
     has_many :box_office_payments,
              class_name: 'Ticketing::BoxOffice::OrderPayment',
              dependent: :nullify

@@ -68,7 +68,8 @@ module Ticketing
     private
 
     def create_stripped_plan
-      return if !plan.attached? || (stripped_plan_digest.present? && !plan.saved_changes?)
+      return if !plan.attached? ||
+                (stripped_plan_digest.present? && !plan.saved_changes?)
 
       svg = Nokogiri::XML(plan_content)
 
@@ -77,7 +78,7 @@ module Ticketing
       svg.xpath('//title').remove
 
       xml = svg.to_xml
-      # remove namespace, nokogiri does not seem to support removal of namespaces
+      # nokogiri does not seem to support removal of namespaces
       xml.sub!(/xmlns:bx=".+?"/, '')
       # remove titles
       xml.gsub!(%r{<title>.+?</title>}i, '')

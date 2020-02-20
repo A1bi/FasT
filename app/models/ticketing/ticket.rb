@@ -86,7 +86,8 @@ module Ticketing
     end
 
     def update_invalidated
-      self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
+      self[:invalidated] = cancellation.present? || cancellation_id.present? ||
+                           resale
     end
 
     def seating

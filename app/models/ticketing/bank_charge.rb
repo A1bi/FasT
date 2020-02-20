@@ -7,7 +7,8 @@ module Ticketing
     auto_strip_attributes :iban, delete_whitespaces: true
 
     validates :name, presence: true
-    validates :amount, numericality: { greater_than: 0 }, if: Proc.new { |c| c.submission.present? }
+    validates :amount, numericality: { greater_than: 0 },
+                       if: proc { |c| c.submission.present? }
     validates_with SEPA::IBANValidator
 
     def mandate_id

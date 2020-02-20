@@ -113,11 +113,14 @@ json.eventTicket do
 
   json.merge!(secondaryFields: secondary_fields)
 
+  signed_info = ticket.order.signed_info(authenticated: true)
   back_fields = [
     {
       key: 'overviewUrl',
       label: 'Ticket umbuchen oder stornieren',
-      value: "Auf unserer <a href=\"#{order_overview_url(ticket.order.signed_info(authenticated: true))}\">Website</a> haben Sie die Möglichkeit, Ihre Tickets umzubuchen oder zu stornieren."
+      value: "Auf unserer <a href=\"#{order_overview_url(signed_info)}\">" \
+             'Website</a> haben Sie die Möglichkeit, Ihre Tickets ' \
+             'umzubuchen oder zu stornieren.'
     },
     {
       key: 'hotline',
@@ -132,10 +135,14 @@ json.eventTicket do
   ]
 
   if location_address.present?
+    maps_url = "http://maps.apple.com/?ll=#{location[0]},#{location[1]}" \
+               "&q=#{url_encode(local_assigns[:location_label])}"
     back_fields << {
       key: 'locationAddress',
       label: 'Adresse des Veranstaltungsortes',
-      attributedValue: "<a href=\"http://maps.apple.com/?ll=#{location[0]},#{location[1]}&q=#{url_encode(local_assigns[:location_label])}\">#{location_address}</a>. Eine Karte mit Parkmöglichkeiten finden Sie <a href=\"#{info_url(ticket.event.slug)}\">hier</a>.",
+      attributedValue: "<a href=\"#{maps_url}\">#{location_address}</a>. " \
+                       'Eine Karte mit Parkmöglichkeiten finden Sie ' \
+                       "<a href=\"#{info_url(ticket.event.slug)}\">hier</a>.",
       value: location_address
     }
   end

@@ -2,7 +2,9 @@ module NameOfPerson
   module AssignableName
     def name
       title = try(:title)
-      NameOfPerson::PersonNameWithTitle.new(first_name, last_name, title) if first_name
+      return if first_name.blank?
+
+      NameOfPerson::PersonNameWithTitle.new(first_name, last_name, title)
     end
   end
 end

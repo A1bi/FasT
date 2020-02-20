@@ -2,7 +2,10 @@ module Ticketing
   class OrdersController < BaseController
     before_action :prepare_new, only: %i[new new_privileged]
     before_action :set_event_info, only: %i[new new_privileged]
-    before_action :find_order, only: %i[show edit update mark_as_paid send_pay_reminder resend_confirmation resend_tickets approve create_billing seats]
+    before_action :find_order, only: %i[show edit update mark_as_paid
+                                        send_pay_reminder resend_confirmation
+                                        resend_tickets approve create_billing
+                                        seats]
     before_action :find_coupon, only: %i[add_coupon remove_coupon]
     before_action :prepare_billing_actions, only: %i[show create_billing]
 
@@ -165,7 +168,8 @@ module Ticketing
     end
 
     def send_pay_reminder
-      if authorize(@order).is_a?(Ticketing::Web::Order) && @order.billing_account.outstanding?
+      if authorize(@order).is_a?(Ticketing::Web::Order) &&
+         @order.billing_account.outstanding?
         @order.send_pay_reminder
         @order.save
       end
@@ -209,10 +213,12 @@ module Ticketing
     def seats
       authorize @order
 
-      render_cached_json [:ticketing, :orders, :show, @order, @order.date.tickets] do
+      render_cached_json [:ticketing, :orders, :show, @order,
+                          @order.date.tickets] do
         seats = {}
         [[:chosen, @order], [:taken, @order.date]].each do |type|
-          seats[type.first] = type.last.tickets.where(invalidated: false).map do |t|
+          seats[type.first] = type.last.tickets
+                                  .where(invalidated: false).map do |t|
             t.seat&.id
           end.compact
         end
@@ -327,7 +333,9 @@ module Ticketing
     end
 
     def update_order_params
-      params.require(:ticketing_order).permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
+      params.require(:ticketing_order)
+            .permit(:gender, :first_name, :last_name, :affiliation, :email,
+                    :phone, :plz, :pay_method)
     end
   end
 end

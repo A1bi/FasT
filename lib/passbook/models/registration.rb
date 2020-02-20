@@ -13,7 +13,9 @@ module Passbook
       end
 
       def push
-        Ticketing::PushNotificationsJob.perform_later(self, force_production_gateway: true)
+        Ticketing::PushNotificationsJob.perform_later(
+          self, force_production_gateway: true
+        )
       end
     end
   end

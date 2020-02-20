@@ -42,7 +42,8 @@ module Ticketing
                    end
             transfer_to_account(purchasable.order, purchasable.amount, note)
           when Ticketing::Ticket
-            ticket_totals[purchasable.order] = (ticket_totals[purchasable.order] || 0) + purchasable.price
+            ticket_totals[purchasable.order] =
+              (ticket_totals[purchasable.order] || 0) + purchasable.price
           end
         end
 
