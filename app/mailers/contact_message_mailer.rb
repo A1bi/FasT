@@ -1,4 +1,4 @@
-class ContactMessageMailer < BaseMailer
+class ContactMessageMailer < ApplicationMailer
   default to: Settings.contact_messages.mail_to,
           reply_to: nil,
           return_path: default[:from]

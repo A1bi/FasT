@@ -1,4 +1,4 @@
-class MemberMailer < BaseMailer
+class MemberMailer < ApplicationMailer
   def activation(member)
     @member = member
     mail_to_member

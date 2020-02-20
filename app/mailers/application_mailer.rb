@@ -1,4 +1,4 @@
-class BaseMailer < ActionMailer::Base
+class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
   helper :mailer

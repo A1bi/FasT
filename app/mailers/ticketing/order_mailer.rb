@@ -1,5 +1,5 @@
 module Ticketing
-  class OrderMailer < BaseMailer
+  class OrderMailer < ApplicationMailer
     helper TicketingHelper
 
     # TODO: rewrite this with prepared params

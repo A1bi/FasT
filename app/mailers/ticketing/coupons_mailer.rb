@@ -1,5 +1,5 @@
 module Ticketing
-  class CouponsMailer < BaseMailer
+  class CouponsMailer < ApplicationMailer
     layout 'mailer'
 
     def coupon(coupon, email:, subject:, body:, recipient:)

@@ -59,10 +59,10 @@ module Newsletter
     private
 
     def send_review_notification
-      BaseMailer.mail(to: Settings.newsletters.review_email,
-                      subject: Settings.newsletters.review_subject,
-                      body: "Newsletter: #{subject}")
-                .deliver_later
+      ApplicationMailer.mail(to: Settings.newsletters.review_email,
+                             subject: Settings.newsletters.review_subject,
+                             body: "Newsletter: #{subject}")
+                       .deliver_later
     end
   end
 end

@@ -1,4 +1,4 @@
-class NewsletterMailer < BaseMailer
+class NewsletterMailer < ApplicationMailer
   def confirmation_instructions(subscriber, after_order: false)
     @subscriber = subscriber
     @after_order = after_order
