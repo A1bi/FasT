@@ -1,5 +1,5 @@
 module Members
-  class Family < BaseModel
+  class Family < ApplicationRecord
     has_many :members, dependent: :nullify
     has_many :sepa_mandates, through: :members
 

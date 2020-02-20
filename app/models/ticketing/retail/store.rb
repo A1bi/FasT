@@ -1,6 +1,6 @@
 module Ticketing
   module Retail
-    class Store < BaseModel
+    class Store < ApplicationRecord
       include Ticketing::Billable
 
       has_many :orders, dependent: :nullify

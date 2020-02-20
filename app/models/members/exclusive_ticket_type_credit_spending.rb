@@ -1,5 +1,5 @@
 module Members
-  class ExclusiveTicketTypeCreditSpending < BaseModel
+  class ExclusiveTicketTypeCreditSpending < ApplicationRecord
     belongs_to :member
     belongs_to :ticket_type, class_name: 'Ticketing::TicketType'
     belongs_to :order, class_name: 'Ticketing::Order'

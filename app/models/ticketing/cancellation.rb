@@ -1,5 +1,5 @@
 module Ticketing
-  class Cancellation < BaseModel
+  class Cancellation < ApplicationRecord
     has_many :tickets, dependent: :nullify
   end
 end

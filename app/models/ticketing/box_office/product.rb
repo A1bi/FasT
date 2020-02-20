@@ -1,6 +1,6 @@
 module Ticketing
   module BoxOffice
-    class Product < BaseModel
+    class Product < ApplicationRecord
     end
   end
 end

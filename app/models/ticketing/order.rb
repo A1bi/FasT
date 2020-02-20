@@ -1,5 +1,5 @@
 module Ticketing
-  class Order < BaseModel
+  class Order < ApplicationRecord
     include Billable
     include RandomUniqueAttribute
     include Loggable

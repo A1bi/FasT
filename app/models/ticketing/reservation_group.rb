@@ -1,5 +1,5 @@
 module Ticketing
-  class ReservationGroup < BaseModel
+  class ReservationGroup < ApplicationRecord
     has_many :reservations, foreign_key: :group_id, dependent: :destroy,
                             inverse_of: :group
 

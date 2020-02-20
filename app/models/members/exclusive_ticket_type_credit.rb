@@ -1,5 +1,5 @@
 module Members
-  class ExclusiveTicketTypeCredit < BaseModel
+  class ExclusiveTicketTypeCredit < ApplicationRecord
     belongs_to :ticket_type, class_name: 'Ticketing::TicketType'
 
     validates :ticket_type, uniqueness: true

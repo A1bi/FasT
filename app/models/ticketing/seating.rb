@@ -1,5 +1,5 @@
 module Ticketing
-  class Seating < BaseModel
+  class Seating < ApplicationRecord
     has_many :blocks, dependent: :destroy
     has_many :seats, through: :blocks
     has_many :events, dependent: :nullify

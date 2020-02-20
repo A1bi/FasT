@@ -2,7 +2,7 @@ module Passbook
   class PassFileCreationError < StandardError; end
 
   module Models
-    class Pass < BaseModel
+    class Pass < ApplicationRecord
       attr_readonly :serial_number, :auth_token, :filename
       attr_writer :file_identifier, :file_info
 

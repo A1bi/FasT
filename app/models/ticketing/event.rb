@@ -1,5 +1,5 @@
 module Ticketing
-  class Event < BaseModel
+  class Event < ApplicationRecord
     include Statistics
 
     has_many :dates, -> { order(:date) }, class_name: 'EventDate',

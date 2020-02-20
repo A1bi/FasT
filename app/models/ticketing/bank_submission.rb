@@ -1,5 +1,5 @@
 module Ticketing
-  class BankSubmission < BaseModel
+  class BankSubmission < ApplicationRecord
     has_many :charges,
              class_name: 'BankCharge', foreign_key: :submission_id,
              dependent: :nullify, inverse_of: :submission, autosave: true,

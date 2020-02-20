@@ -1,5 +1,5 @@
 module Ticketing
-  class TicketType < BaseModel
+  class TicketType < ApplicationRecord
     has_many :tickets, foreign_key: :type_id, inverse_of: :type,
                        dependent: :nullify
     belongs_to :event

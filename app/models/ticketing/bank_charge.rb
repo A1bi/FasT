@@ -1,5 +1,5 @@
 module Ticketing
-  class BankCharge < BaseModel
+  class BankCharge < ApplicationRecord
     belongs_to :submission, class_name: 'BankSubmission', optional: true
     belongs_to :chargeable, polymorphic: true, autosave: true
 

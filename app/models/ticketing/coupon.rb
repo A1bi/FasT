@@ -1,5 +1,5 @@
 module Ticketing
-  class Coupon < BaseModel
+  class Coupon < ApplicationRecord
     include RandomUniqueAttribute
     include Loggable
 

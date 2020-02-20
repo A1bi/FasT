@@ -1,4 +1,4 @@
-class Document < BaseModel
+class Document < ApplicationRecord
   has_attached_file :file
 
   validates_attachment :file, presence: true,

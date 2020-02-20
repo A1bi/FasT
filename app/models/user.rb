@@ -1,4 +1,4 @@
-class User < BaseModel
+class User < ApplicationRecord
   has_secure_password
   has_person_name
 

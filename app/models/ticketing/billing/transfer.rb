@@ -1,6 +1,6 @@
 module Ticketing
   module Billing
-    class Transfer < BaseModel
+    class Transfer < ApplicationRecord
       belongs_to :account
       belongs_to :participant, class_name: 'Account', optional: true,
                                autosave: true

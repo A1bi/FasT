@@ -1,5 +1,5 @@
 module Members
-  class SepaMandate < BaseModel
+  class SepaMandate < ApplicationRecord
     has_many :members, dependent: :nullify
 
     auto_strip_attributes :debtor_name, squish: true

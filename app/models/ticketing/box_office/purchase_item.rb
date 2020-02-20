@@ -1,6 +1,6 @@
 module Ticketing
   module BoxOffice
-    class PurchaseItem < BaseModel
+    class PurchaseItem < ApplicationRecord
       belongs_to :purchase
       belongs_to :purchasable, polymorphic: true, autosave: true
 

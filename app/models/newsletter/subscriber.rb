@@ -1,5 +1,5 @@
 module Newsletter
-  class Subscriber < BaseModel
+  class Subscriber < ApplicationRecord
     include RandomUniqueAttribute
 
     has_random_unique_token :token

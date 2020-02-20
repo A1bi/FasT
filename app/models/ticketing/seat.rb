@@ -1,5 +1,5 @@
 module Ticketing
-  class Seat < BaseModel
+  class Seat < ApplicationRecord
     belongs_to :block, touch: true
     has_many :reservations, dependent: :destroy
     has_many :tickets, dependent: :nullify

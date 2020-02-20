@@ -1,6 +1,6 @@
 module Ticketing
   module PushNotifications
-    class Device < BaseModel
+    class Device < ApplicationRecord
       serialize :settings
 
       validates :token, :app, presence: true

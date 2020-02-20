@@ -1,5 +1,5 @@
 module Members
-  class MembershipFeeDebitSubmission < BaseModel
+  class MembershipFeeDebitSubmission < ApplicationRecord
     has_many :payments, class_name: 'MembershipFeePayment',
                         foreign_key: :debit_submission_id,
                         inverse_of: :debit_submission,

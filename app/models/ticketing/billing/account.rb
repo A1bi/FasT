@@ -1,6 +1,6 @@
 module Ticketing
   module Billing
-    class Account < BaseModel
+    class Account < ApplicationRecord
       belongs_to :billable, polymorphic: true, inverse_of: :billing_account
       has_many :transfers, -> { order(created_at: :desc) },
                inverse_of: :account, autosave: true, dependent: :destroy

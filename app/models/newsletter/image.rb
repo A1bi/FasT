@@ -1,5 +1,5 @@
 module Newsletter
-  class Image < BaseModel
+  class Image < ApplicationRecord
     belongs_to :newsletter
 
     has_attached_file :image,

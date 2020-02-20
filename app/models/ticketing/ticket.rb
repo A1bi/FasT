@@ -1,5 +1,5 @@
 module Ticketing
-  class Ticket < BaseModel
+  class Ticket < ApplicationRecord
     include Cancellable
 
     belongs_to :order, touch: true

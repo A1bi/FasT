@@ -1,5 +1,5 @@
 module Ticketing
-  class LogEvent < BaseModel
+  class LogEvent < ApplicationRecord
     serialize :info
 
     belongs_to :user, optional: true

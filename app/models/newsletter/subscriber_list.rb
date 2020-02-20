@@ -1,5 +1,5 @@
 module Newsletter
-  class SubscriberList < BaseModel
+  class SubscriberList < ApplicationRecord
     has_many :subscribers, -> { confirmed }, dependent: :destroy,
                                              inverse_of: :subscriber_list
     has_and_belongs_to_many :newsletters

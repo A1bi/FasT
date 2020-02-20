@@ -1,5 +1,5 @@
 module Members
-  class MembershipFeePayment < BaseModel
+  class MembershipFeePayment < ApplicationRecord
     belongs_to :member
     belongs_to :debit_submission, optional: true
 

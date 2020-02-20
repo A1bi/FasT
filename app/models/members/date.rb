@@ -1,5 +1,5 @@
 module Members
-  class Date < BaseModel
+  class Date < ApplicationRecord
     validates :datetime, presence: true
 
     def self.not_expired

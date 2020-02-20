@@ -1,5 +1,5 @@
 module Ticketing
-  class Reservation < BaseModel
+  class Reservation < ApplicationRecord
     belongs_to :seat, touch: true
     belongs_to :date, class_name: 'EventDate'
     belongs_to :group, class_name: 'ReservationGroup', touch: true

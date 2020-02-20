@@ -1,5 +1,5 @@
 module Ticketing
-  class EventDate < BaseModel
+  class EventDate < ApplicationRecord
     include Statistics
 
     belongs_to :event, touch: true

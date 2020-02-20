@@ -1,6 +1,6 @@
 module Ticketing
   module BoxOffice
-    class Purchase < BaseModel
+    class Purchase < ApplicationRecord
       include Ticketing::Billable
 
       belongs_to :box_office

@@ -1,5 +1,5 @@
 module Newsletter
-  class Newsletter < BaseModel
+  class Newsletter < ApplicationRecord
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::UrlHelper
     include ActionView::Helpers::AssetTagHelper

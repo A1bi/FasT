@@ -1,5 +1,5 @@
 module Ticketing
-  class SigningKey < BaseModel
+  class SigningKey < ApplicationRecord
     MINIMUM_NUMBER_OF_KEYS = 5
     SECRET_LENGTH = 32
 

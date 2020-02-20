@@ -1,5 +1,5 @@
 module Ticketing
-  class Geolocation < BaseModel
+  class Geolocation < ApplicationRecord
     validates :postcode, :cities, :coordinates, presence: true
   end
 end
