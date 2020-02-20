@@ -24,6 +24,10 @@ Metrics/MethodLength:
 Metrics/ParameterLists:
   CountKeywordArgs: false
 
+Rails/ApplicationRecord:
+  Exclude:
+    - lib/passbook/models/**/*.rb
+
 Rails/DynamicFindBy:
   Whitelist:
     - find_by_email
@@ -31,6 +35,10 @@ Rails/DynamicFindBy:
 # disable this because we mostly use native enums in Postgres
 Rails/EnumHash:
   Enabled: false
+
+Rails/RakeEnvironment:
+  Exclude:
+    - lib/capistrano/tasks/**/*.rake
 
 Rails/SkipsModelValidations:
   Whitelist: ['touch']

@@ -34,7 +34,7 @@ namespace :seating do
   end
 
   desc 'adds numbers in order of elements to seats'
-  task :add_numbers, [:path] do |_task, args|
+  task :add_numbers, [:path] do |_task, args| # rubocop:disable Rails/RakeEnvironment
     svg = svg_file(args[:path])
 
     num_seats = svg.css('.block').inject(0) do |i, block|
@@ -53,7 +53,7 @@ namespace :seating do
 
   desc 'adds rows to seats, starts with the last seat without a row until ' \
        'the specified last row'
-  task :add_rows, %i[path block_index seats_per_row last_row] do |_task, args|
+  task :add_rows, %i[path block_index seats_per_row last_row] do |_task, args| # rubocop:disable Rails/RakeEnvironment
     svg = svg_file(args[:path])
 
     block = svg.css('.block')[args[:block_index].to_i]
@@ -87,7 +87,7 @@ namespace :seating do
   end
 
   desc 'remove all row information'
-  task :strip_rows, [:path] do |_task, args|
+  task :strip_rows, [:path] do |_task, args| # rubocop:disable Rails/RakeEnvironment
     svg = svg_file(args[:path])
 
     remove_all_attributes(svg, 'data-row')
@@ -96,7 +96,7 @@ namespace :seating do
   end
 
   desc 'remove all IDs of persisted records'
-  task :strip_ids, [:path] do |_task, args|
+  task :strip_ids, [:path] do |_task, args| # rubocop:disable Rails/RakeEnvironment
     svg = svg_file(args[:path])
 
     remove_all_attributes(svg, 'data-id')

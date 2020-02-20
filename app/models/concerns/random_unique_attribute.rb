@@ -2,6 +2,7 @@ module RandomUniqueAttribute
   extend ActiveSupport::Concern
 
   module ClassMethods
+    # rubocop:disable Naming/PredicateName
     def has_random_unique_number(attr, min: 0, max:)
       max -= min
       set_attr attr do
@@ -12,9 +13,10 @@ module RandomUniqueAttribute
     def has_random_unique_token(attr, length = nil)
       length /= 2 if length
       set_attr attr do
-        SecureRandom.hex length
+        SecureRandom.hex(length)
       end
     end
+    # rubocop:enable Naming/PredicateName
 
     protected
 
