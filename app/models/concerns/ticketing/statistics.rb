@@ -52,10 +52,10 @@ module Ticketing
 
         scopes = [stats[:web], stats[:retail][:total],
                   stats[:box_office][:total]]
-        Retail::Store.each do |store|
+        Retail::Store.find_each do |store|
           scopes << stats[:retail][:stores][store.id]
         end
-        BoxOffice::BoxOffice.each do |box_office|
+        BoxOffice::BoxOffice.find_each do |box_office|
           scopes << stats[:box_office][:box_offices][box_office.id]
         end
 

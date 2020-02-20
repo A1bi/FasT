@@ -44,12 +44,10 @@ module Ticketing
 
     def self.max_length
       record = new
-      max = 0
-      INFO_TYPES.each do |_type, index|
+      INFO_TYPES.values.inject([]) do |lengths, index|
         record.info_type = index
-        max = [max, record.to_binary_s.length].max
-      end
-      max
+        lengths << record.to_binary_s.length
+      end.max
     end
   end
 end

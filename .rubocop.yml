@@ -36,6 +36,9 @@ Rails/DynamicFindBy:
 Rails/EnumHash:
   Enabled: false
 
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
 Rails/RakeEnvironment:
   Exclude:
     - lib/capistrano/tasks/**/*.rake
