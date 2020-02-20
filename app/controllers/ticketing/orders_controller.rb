@@ -317,10 +317,8 @@ module Ticketing
 
     def prepare_billing_actions
       @billing_actions = []
-      if @order.billing_account.balance > 0
-        if current_user.admin?
-          @billing_actions << :transfer_refund
-        end
+      if @order.billing_account.balance.positive?
+        @billing_actions << :transfer_refund if current_user.admin?
         if @order.is_a? Ticketing::Retail::Order
           @billing_actions << :cash_refund_in_store
         end

@@ -58,7 +58,7 @@ module Members
     end
 
     def update
-      if @date.update_attributes(date_params)
+      if @date.update(date_params)
         redirect_to members_root_path, notice: t('application.saved_changes')
       else
         render action: :edit

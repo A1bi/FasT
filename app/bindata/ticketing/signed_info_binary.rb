@@ -1,9 +1,8 @@
+# make user defined types available (otherwise not picked up by autoloading)
+%w[ticket order].each { |name| require_relative "#{name}_binary" }
+
 module Ticketing
   class SignedInfoBinary < BinData::Record
-    # workaround for BinData bug with enabled eager loading
-    Ticketing::TicketBinary
-    Ticketing::OrderBinary
-
     INFO_TYPES = { ticket: 0, order: 1 }.freeze
 
     bit4          :version, asserted_value: 1
@@ -46,7 +45,7 @@ module Ticketing
     def self.max_length
       record = new
       max = 0
-      INFO_TYPES.each do |type, index|
+      INFO_TYPES.each do |_type, index|
         record.info_type = index
         max = [max, record.to_binary_s.length].max
       end

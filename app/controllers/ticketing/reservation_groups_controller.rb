@@ -72,7 +72,6 @@ module Ticketing
 
     def update_node_with_reservations(reservations)
       NodeApi.update_seats_from_records(reservations)
-    rescue Errno::ENOENT # rubocop:disable Lint/HandleExceptions
     end
 
     def group_params

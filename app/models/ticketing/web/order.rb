@@ -1,6 +1,6 @@
 module Ticketing
   module Web
-    class Order < Order
+    class Order < Ticketing::Order
       attr_accessor :admin_validations
 
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
@@ -55,7 +55,7 @@ module Ticketing
       end
 
       def approve
-        return if !bank_charge
+        return unless bank_charge
 
         bank_charge.approved = true
         log(:approved)

@@ -30,7 +30,7 @@ module Members
     end
 
     def set_issued_on
-      self.issued_on ||= ::Date.today
+      self.issued_on ||= Time.zone.today
     end
   end
 end

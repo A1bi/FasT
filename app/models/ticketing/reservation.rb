@@ -5,9 +5,9 @@ module Ticketing
     belongs_to :group, class_name: 'ReservationGroup', touch: true
 
     def expired?
-      return false if self.expires.nil?
+      return false if expires.nil?
 
-      self.expires < Time.now
+      expires < Time.current
     end
   end
 end

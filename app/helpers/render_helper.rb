@@ -1,5 +1,5 @@
 module RenderHelper
- def render_inline(template, options = {})
+  def render_inline(template, options = {})
     # remove final newline from partial
     # so it will not add whitespace to mail content
     # or even line breaks in text mails

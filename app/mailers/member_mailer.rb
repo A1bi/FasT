@@ -3,7 +3,7 @@ class MemberMailer < BaseMailer
     @member = member
     mail_to_member
   end
-  alias_method :reset_password, :activation
+  alias reset_password activation
 
   private
 

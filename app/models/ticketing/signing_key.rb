@@ -34,7 +34,7 @@ module Ticketing
       begin
         data = decode_data(data)
         info = Ticketing::SignedInfoBinary.read(data)
-      rescue
+      rescue StandardError
         return false
       end
 
@@ -64,10 +64,10 @@ module Ticketing
     private
 
     def after_initialize
-      if new_record?
-        self[:active] = true
-        self[:secret] = SecureRandom.hex(SECRET_LENGTH / 2)
-      end
+      return unless new_record?
+
+      self[:active] = true
+      self[:secret] = SecureRandom.hex(SECRET_LENGTH / 2)
     end
 
     def generate_digest(data)

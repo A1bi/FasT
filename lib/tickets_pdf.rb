@@ -317,7 +317,7 @@ class TicketsPdf < Prawn::Document
   end
 
   def assets_path
-    Rails.root.join('app', 'assets')
+    Rails.root.join('app/assets')
   end
 
   def images_path

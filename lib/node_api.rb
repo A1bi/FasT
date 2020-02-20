@@ -10,10 +10,12 @@ class NodeApi
 
     request.exec(socket, '1.1', path)
 
-    begin
+    response = nil
+    loop do
       response = Net::HTTPResponse.read_new(socket)
-    end while response.kind_of?(Net::HTTPContinue)
-    response.reading_body(socket, request.response_body_permitted?) { }
+      break unless response.is_a?(Net::HTTPContinue)
+    end
+    response.reading_body(socket, request.response_body_permitted?) {}
 
     response.body = JSON.parse response.body, symbolize_names: true
 

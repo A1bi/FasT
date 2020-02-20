@@ -1,6 +1,6 @@
 module Ticketing
   module Retail
-    class Order < Order
+    class Order < Ticketing::Order
       belongs_to :store
 
       before_save :check_tickets

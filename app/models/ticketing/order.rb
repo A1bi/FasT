@@ -1,6 +1,8 @@
 module Ticketing
   class Order < BaseModel
-    include Loggable, RandomUniqueAttribute, Billable
+    include Billable
+    include RandomUniqueAttribute
+    include Loggable
 
     # binary ticket info reserves 20 bits for number
     NUMBER_DIGITS = Math.log10(2**20).floor
@@ -98,14 +100,14 @@ module Ticketing
     end
 
     def update_total_and_billing(billing_note)
-      old_total = self.total
+      old_total = total
 
       self.total = 0
       tickets.each do |ticket|
-        self.total = total.to_f + ticket.price.to_f if !ticket.cancelled?
+        self.total = total.to_f + ticket.price.to_f unless ticket.cancelled?
       end
 
-      diff = old_total - self.total
+      diff = old_total - total
       deposit_into_account(diff, billing_note)
     end
 

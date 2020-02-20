@@ -23,7 +23,7 @@ module Newsletter
     end
 
     def confirm!
-      self.confirmed_at = Time.now
+      self.confirmed_at = Time.current
       save
     end
 

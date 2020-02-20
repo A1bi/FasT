@@ -48,7 +48,7 @@ module Ticketing
       return redirect_to_overview if @unsubmitted_charges.empty?
 
       submission = BankSubmission.new
-      submission.charges = @unsubmitted_charges.map { |o| o.bank_charge }
+      submission.charges = @unsubmitted_charges.map(&:bank_charge)
       submission.save
 
       redirect_to_overview(:submitted)
@@ -81,7 +81,7 @@ module Ticketing
           local_instrument: 'COR1',
           sequence_type: 'OOFF',
           batch_booking: true,
-          requested_date: Date.today + 2
+          requested_date: 2.days.from_now
         )
       end
 
@@ -124,10 +124,7 @@ module Ticketing
     private
 
     def find_orders
-      @orders = []
-      (params[:orders] ||= []).each do |orderId|
-        @orders << Web::Order.find(orderId)
-      end
+      @orders = Web::Order.find(params[:orders])
     end
 
     def find_charges_to_submit

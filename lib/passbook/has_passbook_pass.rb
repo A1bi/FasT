@@ -30,4 +30,4 @@ module Passbook
   end
 end
 
-ActiveRecord::Base.send :include, Passbook::HasPassbookPass
+ActiveRecord::Base.include Passbook::HasPassbookPass

@@ -19,7 +19,7 @@ module Ticketing
         }
 
         Ticket.includes(:order, :date, :type, :cancellation)
-              .where(date: dates).each do |ticket|
+              .where(date: dates).find_each do |ticket|
           next if ticket.cancelled?
 
           scopes = [stats[:total]]

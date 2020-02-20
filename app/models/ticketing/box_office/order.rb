@@ -1,6 +1,6 @@
 module Ticketing
   module BoxOffice
-    class Order < Order
+    class Order < Ticketing::Order
       belongs_to :box_office
     end
   end

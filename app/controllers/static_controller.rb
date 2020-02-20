@@ -2,7 +2,7 @@ class StaticController < ApplicationController
   skip_authorization
 
   def index
-    @alert_file = Rails.root.join('public', 'uploads', 'index_alert.json')
+    @alert_file = Rails.root.join('public/uploads/index_alert.json')
     @events = Ticketing::Event.where(identifier: %i[gemetzel_2020])
   end
 

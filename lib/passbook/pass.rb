@@ -8,7 +8,7 @@ module Passbook
     include AbstractController::Helpers
     include Rails.application.routes.url_helpers
 
-    IMAGES_BASE_PATH = Rails.root.join('app', 'assets', 'passbook')
+    IMAGES_BASE_PATH = Rails.root.join('app/assets/passbook')
 
     helper :passbook
     append_view_path ApplicationController.view_paths
@@ -63,7 +63,7 @@ module Passbook
 
       iterate_working_dir do |file|
         path = Pathname.new(file).relative_path_from(working_dir)
-        manifest[path] = Digest::SHA1.hexdigest(File.read(file));
+        manifest[path] = Digest::SHA1.hexdigest(File.read(file))
       end
 
       write_json_file(manifest, 'manifest.json')
@@ -89,7 +89,7 @@ module Passbook
     end
 
     def zip(path)
-      FileUtils.rm(path) if File.exists?(path)
+      FileUtils.rm(path) if File.exist?(path)
       Zip::File.open(path, Zip::File::CREATE) do |zip_file|
         iterate_working_dir do |file|
           zip_file.add(File.basename(file), file)

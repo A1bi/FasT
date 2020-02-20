@@ -18,4 +18,4 @@ require 'passbook/has_passbook_pass'
 require 'passbook/pass'
 require 'passbook/routing'
 
-ActionDispatch::Routing::Mapper.send :include, Passbook::Routing
+ActionDispatch::Routing::Mapper.include Passbook::Routing
