@@ -121,7 +121,6 @@ Rails.application.routes.draw do
           patch :approve
           post :submit
           get :submission_file, path: 'sepa-auftrag/:id'
-          get :credit_transfer_file, path: 'sepa-transfer'
         end
         resources :seatings, path: 'sitzpläne', only: %i[index show]
         resources :reservation_groups,
