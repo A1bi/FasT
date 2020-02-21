@@ -43,46 +43,16 @@ module Ticketing
     end
 
     def finish_transfer
-      if (with_plan = @event.seating.plan?)
-        chosen_seats = NodeApi.get_chosen_seats(params[:socketId])
-      end
-      date = Ticketing::EventDate.find(params[:date_id])
-      updated_seats = {}
+      ticket_transfer_service =
+        TicketTransferService.new(@tickets,
+                                  new_date_id: params[:date_id],
+                                  order_id: params[:order_id],
+                                  socket_id: params[:socketId])
 
-      @tickets.map! do |ticket|
-        ticket.date = date
-        ticket.seat = Ticketing::Seat.find(chosen_seats.shift) if with_plan
+      return :unprocessable_entity unless ticket_transfer_service.execute
 
-        next unless ticket.save && ticket.saved_changes?
-
-        if with_plan
-          old_date_id = ticket.attribute_before_last_save(:date_id)
-          old_seat = Ticketing::Seat.find(
-            ticket.attribute_before_last_save(:seat_id)
-          )
-
-          (updated_seats[ticket.date_id] || {})
-
-          updated_seats.deep_merge!(
-            old_date_id => Hash[[old_seat.node_hash(old_date_id, true)]]
-          )
-          updated_seats.deep_merge!(
-            ticket.date.id => Hash[[ticket.seat.node_hash(ticket.date.id,
-                                                          false)]]
-          )
-        end
-
-        ticket
-      end
-
-      @tickets.compact!
-      if @tickets.any?
-        @order.log(:tickets_transferred, count: @tickets.count)
-        @order.save
-        NodeApi.update_seats(updated_seats) if with_plan
-      end
-
-      flash[:notice] = t('.edited', count: @tickets.count)
+      flash[:notice] = t('.edited',
+                         count: ticket_transfer_service.updates_tickets.count)
       head :ok
     end
 
