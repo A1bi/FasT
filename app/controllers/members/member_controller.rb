@@ -48,7 +48,7 @@ module Members
 
     def reset_password
       authorize Member
-      member = Member.find_by(email: params[:members_member][:email])
+      member = Member.find_by_email(params[:members_member][:email])
       if !member
         flash.alert = t("members.member.email_not_found")
         redirect_to :action => :forgot_password

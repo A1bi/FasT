@@ -26,7 +26,7 @@ class SessionsController < ApplicationController
   private
 
   def user
-    @user ||= User.find_by(email: params[:email])
+    @user ||= User.find_by_email(params[:email])
   end
 
   def goto_path

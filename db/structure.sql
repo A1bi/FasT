@@ -2693,10 +2693,10 @@ CREATE INDEX index_newsletter_newsletters_subscriber_lists_on_list_id ON public.
 
 
 --
--- Name: index_newsletter_subscribers_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_newsletter_subscribers_on_lower_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_newsletter_subscribers_on_email ON public.newsletter_subscribers USING btree (email);
+CREATE UNIQUE INDEX index_newsletter_subscribers_on_lower_email ON public.newsletter_subscribers USING btree (lower((email)::text));
 
 
 --
@@ -3106,17 +3106,17 @@ CREATE UNIQUE INDEX index_users_on_activation_code ON public.users USING btree (
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
-
-
---
 -- Name: index_users_on_family_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_users_on_family_id ON public.users USING btree (family_id);
+
+
+--
+-- Name: index_users_on_lower_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_lower_email ON public.users USING btree (lower((email)::text));
 
 
 --
@@ -3654,6 +3654,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200206143022'),
 ('20200210184433'),
 ('20200210221526'),
-('20200213133157');
+('20200213133157'),
+('20200222144644');
 
 

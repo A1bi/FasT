@@ -8,7 +8,7 @@ class User < BaseModel
 
   validates :email,
             allow_blank: true,
-            uniqueness: true,
+            uniqueness: { case_sensitive: false },
             email_format: true
 
   validates :password,
@@ -19,6 +19,10 @@ class User < BaseModel
 
   def self.alphabetically
     order(:last_name, :first_name)
+  end
+
+  def self.find_by_email(email)
+    find_by('LOWER(email) = ?', email.downcase)
   end
 
   def nickname
