@@ -29,9 +29,13 @@ module Ticketing
           end
         end
 
-        return purchase unless purchase.save
+        ActiveRecord::Base.transaction do
+          next unless purchase.save
 
-        @orders.uniq.each(&:save)
+          PurchaseBillService.new(purchase).execute
+
+          @orders.uniq.each(&:save)
+        end
 
         purchase
       end

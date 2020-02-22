@@ -14,8 +14,6 @@ module Ticketing
 
     def after_account_transfer; end
 
-    private
-
     def withdraw_from_account(amount, note_key)
       billing_account.withdraw(amount, note_key)
       after_account_transfer
