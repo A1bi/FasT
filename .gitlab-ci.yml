@@ -40,7 +40,6 @@ rubocop:
     - *bundle
   script:
     - rubocop
-  allow_failure: true
 
 specs:
   extends: .postgres
