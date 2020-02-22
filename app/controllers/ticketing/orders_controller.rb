@@ -105,14 +105,14 @@ module Ticketing
                            else
                              order_scope.includes(:store)
                            end
-        @orders.values.each do |orders|
+        @orders.each_value do |orders|
           orders
             .where!('created_at > ?', 1.month.ago)
             .limit!(20)
         end
       end
 
-      @orders.values.each do |orders|
+      @orders.each_value do |orders|
         orders
           .includes!(:tickets)
           .order!(created_at: :desc)
