@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class PushNotificationsJob < ApplicationJob
     def self.create_pool(size:, force_production: false)

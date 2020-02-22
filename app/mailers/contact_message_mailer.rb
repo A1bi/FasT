@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContactMessageMailer < ApplicationMailer
   default to: Settings.contact_messages.mail_to,
           reply_to: nil,

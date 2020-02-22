@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   module NodeUpdating
     extend ActiveSupport::Concern

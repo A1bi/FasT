@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class MembersController < ApiController
     SEARCHABLE_COLUMNS = %w[first_name last_name email].freeze

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DocumentManagement
   extend ActiveSupport::Concern
 

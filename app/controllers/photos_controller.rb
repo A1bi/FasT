@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhotosController < ApplicationController
   before_action :find_photo, only: %i[edit update destroy show]
   before_action :find_gallery, only: %i[new edit create]

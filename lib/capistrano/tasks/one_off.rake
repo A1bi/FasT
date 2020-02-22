@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :one_off do
   task :run do
     on roles(:app), primary: true do

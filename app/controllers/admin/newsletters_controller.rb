@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class NewslettersController < ApplicationController
     before_action :find_newsletter, only: %i[show edit update destroy finish]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # dates
   scope controller: :dates, path: 'termine', as: :dates do

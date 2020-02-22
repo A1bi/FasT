@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :members do
   desc 'generate membership fee debit SEPA xml file'
   task :generate_fee_debit_file, [:path] => [:environment] do

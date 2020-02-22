@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   module CouponsMailerHelper
     def prepare_body(body, coupon:, recipient:, html: false)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterMailer < ApplicationMailer
   def confirmation_instructions(subscriber, after_order: false)
     @subscriber = subscriber

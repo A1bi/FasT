@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class Seating < ApplicationRecord
     has_many :blocks, dependent: :destroy

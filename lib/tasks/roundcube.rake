@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :roundcube do
   desc 'migrate contacts data'
   task migrate_contacts: :environment do

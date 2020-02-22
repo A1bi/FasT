@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Passbook
   module Models
     def self.table_name_prefix

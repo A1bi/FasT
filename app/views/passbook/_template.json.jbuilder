@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 barcode = {
   format: 'PKBarcodeFormatQR',
   message: ticket.signed_info(medium: :passbook),

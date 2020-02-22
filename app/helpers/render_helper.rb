@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RenderHelper
   def render_inline(template, options = {})
     # remove final newline from partial

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class CheckIn < ApplicationRecord
     belongs_to :ticket, touch: true

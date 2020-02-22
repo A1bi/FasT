@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Newsletter
   class SubscriberList < ApplicationRecord
     has_many :subscribers, -> { confirmed }, dependent: :destroy,

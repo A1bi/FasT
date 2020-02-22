@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class SeatingsController < BaseController
     before_action :find_seatings, only: %w[index show]

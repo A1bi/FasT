@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class CouponsController < BaseController
     before_action :find_coupon, only: %i[edit update show destroy mail]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TheaterController < ApplicationController
   skip_authorization
 

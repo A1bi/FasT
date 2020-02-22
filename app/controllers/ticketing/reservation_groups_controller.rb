@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class ReservationGroupsController < BaseController
     before_action :find_group, only: %i[show update destroy]

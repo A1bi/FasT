@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   def self.table_name_prefix
     'ticketing_'

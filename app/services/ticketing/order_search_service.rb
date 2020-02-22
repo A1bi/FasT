@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class OrderSearchService < BaseService
     def initialize(query, scope: nil)

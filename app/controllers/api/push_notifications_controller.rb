@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class PushNotificationsController < ApiController
     def register

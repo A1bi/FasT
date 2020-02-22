@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketsRetailPdf < TicketsPdf
   def initialize
     super(margin: [0], page_size: [TICKET_WIDTH, TICKET_HEIGHT])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Members
   class Member < User
     attr_reader :family_member_id

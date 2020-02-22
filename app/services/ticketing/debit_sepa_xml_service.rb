@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Ticketing
   class DebitSepaXmlService
-    LOCAL_INSTRUMENT = 'COR1'.freeze
-    SEQUENCE_TYPE = 'OOFF'.freeze
+    LOCAL_INSTRUMENT = 'COR1'
+    SEQUENCE_TYPE = 'OOFF'
     BATCH_BOOKING = true
 
     def initialize(submission_id:)

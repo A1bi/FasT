@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NameOfPerson
   module AssignableName
     def name

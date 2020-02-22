@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Members
   class Family < ApplicationRecord
     has_many :members, dependent: :nullify

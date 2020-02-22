@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module MembersHelper
     def last_login_time(member)

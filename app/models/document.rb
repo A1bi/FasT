@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Document < ApplicationRecord
   has_attached_file :file
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Kernel
   def suppress_in_production(*exception_classes)
     # exceptions should be raised in development and staging

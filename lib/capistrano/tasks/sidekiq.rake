@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :deploy do
   after :starting, 'sidekiq:silence'
   after :updated, 'sidekiq:stop'

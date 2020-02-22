@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class TicketType < ApplicationRecord
     has_many :tickets, foreign_key: :type_id, inverse_of: :type,

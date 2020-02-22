@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Members
   class DatePolicy < ApplicationPolicy
     def index?

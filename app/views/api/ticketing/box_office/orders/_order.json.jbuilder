@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id order.id.to_s
 json.number order.number.to_s
 json.event_id order.event.id.to_s

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class ReservationGroup < ApplicationRecord
     has_many :reservations, foreign_key: :group_id, dependent: :destroy,

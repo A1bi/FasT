@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class TicketUpdateService < TicketBaseService
     def initialize(tickets, ticket_params)

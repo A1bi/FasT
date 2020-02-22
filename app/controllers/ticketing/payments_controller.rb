@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class PaymentsController < BaseController
     before_action :find_orders, only: %i[mark_as_paid approve]

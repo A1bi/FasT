@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Passbook
   module Controllers
     class PassbookController < ApplicationController

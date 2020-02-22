@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterSubscribersController < ApplicationController
   before_action :find_subscriber, except: :create
 

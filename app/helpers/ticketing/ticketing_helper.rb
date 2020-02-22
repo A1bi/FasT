@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   module TicketingHelper
     def obfuscated_iban(iban)

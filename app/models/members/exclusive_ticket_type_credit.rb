@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Members
   class ExclusiveTicketTypeCredit < ApplicationRecord
     belongs_to :ticket_type, class_name: 'Ticketing::TicketType'

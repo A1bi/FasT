@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :application, 'FasT'
 set :repo_url, 'git@gitlab.a0s.de:FasT/FasT.git'
 set :deploy_to, '~/FasT'

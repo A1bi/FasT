@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketsBoxOfficePdf < TicketsPdf
   def initialize
     super(margin: [0], page_size: 'A4', page_layout: :landscape)

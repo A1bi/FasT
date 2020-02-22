@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.signing_keys @signing_keys, :id, :secret
 
 json.dates @dates, :id, :date

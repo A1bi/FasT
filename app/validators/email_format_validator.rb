@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailFormatValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
     return if value.match? URI::MailTo::EMAIL_REGEXP

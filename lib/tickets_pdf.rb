@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketsPdf < Prawn::Document
   include ActionView::Helpers::NumberHelper
   include Rails.application.routes.url_helpers
@@ -6,12 +8,12 @@ class TicketsPdf < Prawn::Document
   TICKET_HEIGHT = 280
   TICKET_MARGIN = 12
 
-  FONT_NAME = 'OpenSans'.freeze
+  FONT_NAME = 'OpenSans'
   FONT_STYLES = %i[normal bold].freeze
   FONT_SIZES = { normal: 14, small: 11, tiny: 8 }.freeze
 
-  FG_COLOR = '000000'.freeze
-  BG_COLOR = 'ffffff'.freeze
+  FG_COLOR = '000000'
+  BG_COLOR = 'ffffff'
 
   def initialize(margin: [14, 0], page_size: 'A4', page_layout: :portrait)
     @tickets_drawn = 0

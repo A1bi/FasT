@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 current_path = '../../current'
 shared_path = '../../shared'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # galleries
 3.times do
   Gallery.create(

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Api
   module Ticketing
     module Authenticatable
       extend ActiveSupport::Concern
 
-      DEVELOPMENT_TOKEN = 'foobar'.freeze
+      DEVELOPMENT_TOKEN = 'foobar'
 
       included do
         before_action :authenticate

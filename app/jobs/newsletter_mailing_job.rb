@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewsletterMailingJob < ApplicationJob
   queue_as :mailers
 

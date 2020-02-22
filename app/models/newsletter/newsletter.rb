@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Newsletter
   class Newsletter < ApplicationRecord
     include ActionView::Helpers::TextHelper

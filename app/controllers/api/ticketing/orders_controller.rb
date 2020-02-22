@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Ticketing
     class OrdersController < ApiController
@@ -55,8 +57,7 @@ module Api
       def set_flash_notice
         return unless admin?
 
-        key = '.created'
-        key += '_email' if @order.email.present?
+        key = ".created#{'_email' if @order.email.present?}"
         flash[:notice] = t(key)
       end
 

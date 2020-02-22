@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class BankCharge < ApplicationRecord
     belongs_to :submission, class_name: 'BankSubmission', optional: true

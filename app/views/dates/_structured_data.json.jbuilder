@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array! @event.dates.map do |date|
   json.set! '@context', 'http://schema.org'
   json.set! '@type', local_assigns.fetch(:event_type, 'TheaterEvent')

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class OrdersController < BaseController
     before_action :prepare_new, only: %i[new new_privileged]

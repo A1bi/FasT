@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.events @events do |event|
   json.id event.id.to_s
   json.call(event, :name)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class TicketTransferService < TicketBaseService
     attr_accessor :updated_tickets

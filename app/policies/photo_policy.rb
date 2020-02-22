@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhotoPolicy < ApplicationPolicy
   # download photo
   def show?

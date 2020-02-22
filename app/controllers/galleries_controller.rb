@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GalleriesController < ApplicationController
   before_action :find_gallery, only: %i[show edit update destroy]
 

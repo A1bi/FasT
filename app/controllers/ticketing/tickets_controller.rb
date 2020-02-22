@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class TicketsController < BaseController
     before_action :find_tickets_with_order

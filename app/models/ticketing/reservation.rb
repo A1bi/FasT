@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class Reservation < ApplicationRecord
     belongs_to :seat, touch: true

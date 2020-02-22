@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Nominatim
   include HTTParty
   base_uri 'https://nominatim.openstreetmap.org'

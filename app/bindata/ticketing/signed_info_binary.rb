@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # make user defined types available (otherwise not picked up by autoloading)
 %w[ticket order].each { |name| require_relative "#{name}_binary" }
 

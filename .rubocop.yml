@@ -49,9 +49,6 @@ Rails/SkipsModelValidations:
 Style/Documentation:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 Style/HashEachMethods:
   Enabled: true
 

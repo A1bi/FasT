@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   class OrderBinary < BinData::Record
     bit16 :id

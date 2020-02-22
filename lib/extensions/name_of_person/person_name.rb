@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NameOfPerson
   class PersonNameWithTitle < PersonName
     attr_reader :title

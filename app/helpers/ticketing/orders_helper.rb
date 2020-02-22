@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ticketing
   module OrdersHelper
     def prepopulated_text_field(form, name, key = name, email = false)

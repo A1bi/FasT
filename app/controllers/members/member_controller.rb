@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Members
   class MemberController < ApplicationController
     def activate

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContactMessagesController < ApplicationController
   skip_authorization
 
