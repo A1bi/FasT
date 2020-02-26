@@ -25,9 +25,9 @@ gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.30.0'
 gem 'prawn-table', '~> 0.2.1'
 
-gem 'rubyzip', '~> 2.0.0'
+gem 'rubyzip', '~> 2.0'
 
-gem 'roadie', '~> 3.5.0'
+gem 'roadie', '~> 4.0.0'
 gem 'roadie-rails', '~> 2.1.0'
 
 gem 'sepa_king', '~> 0.12.0'
@@ -48,7 +48,7 @@ gem 'bootsnap', require: false
 
 gem 'listen', '~> 3.0'
 
-gem 'config', '~> 2.0.0'
+gem 'config', '~> 2.2.0'
 
 gem 'bindata', '~> 2.4.3'
 
@@ -61,11 +61,11 @@ gem 'name_of_person'
 
 gem 'request_store', '~> 1.5.0'
 
-gem 'jbuilder', '~> 2.9.0'
+gem 'jbuilder', '~> 2.10.0'
 
 gem 'unicorn', '~> 5.5.0'
 
-gem 'httparty', '~> 0.17.3'
+gem 'httparty', '~> 0.18'
 
 group :development do
   gem 'byebug'
@@ -74,7 +74,7 @@ group :development do
 end
 
 group :development, :ci do
-  gem 'capistrano', '~> 3.11.0'
+  gem 'capistrano', '~> 3.12.0'
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'ffaker', '~> 2.13.0'
