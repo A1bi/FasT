@@ -10,6 +10,15 @@ module Admin
       l member.last_login, format: '%-d. %B %Y, %H:%M Uhr'
     end
 
+    def last_membership_fee_payment_date(member)
+      payment = member.membership_fee_payments.last
+      if payment.nil?
+        return content_tag :em, t('admin.members.membership_fee_never_paid')
+      end
+
+      l payment.created_at.to_date, format: :long
+    end
+
     def obfuscated_mandate_iban(mandate)
       return nil if mandate&.iban.blank?
 

@@ -26,6 +26,7 @@ de:
       destroyed: "Das Mitglied wurde erfolgreich gelöscht."
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
       never_logged_in: noch nie
+      membership_fee_never_paid: noch keine Erstlastschrift veranlasst
       form:
         sepa_mandates:
           all: Alle Mandate

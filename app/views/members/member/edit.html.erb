@@ -15,6 +15,12 @@
     <td>Beitrittsdatum:</td>
     <td><%= l current_user.joined_at, format: '%-d. %B %Y' %></td>
   </tr>
+  <% if current_user.membership_fee_paid_until.present? %>
+    <tr>
+      <td>Mitgliedsbeitrag bezahlt bis:</td>
+      <td><%= l current_user.membership_fee_paid_until, format: :long %></td>
+    </tr>
+  <% end %>
   <tr>
     <td>e-mail-Adresse:</td>
     <td><%= f.text_field :email %></td>

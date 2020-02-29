@@ -71,10 +71,24 @@
           </td>
         </tr>
       <% end %>
+
+      <tr>
+        <td colspan="2"><h3>Mitgliedsbeitrag</h3></td>
+      </tr>
       <tr>
         <td>Jahresbeitrag:</td>
         <td><%= number_to_currency(@member.membership_fee) %></td>
       </tr>
+      <tr>
+        <td>zuletzt bezahlt:</td>
+        <td><%= last_membership_fee_payment_date(@member) %></td>
+      </tr>
+      <% if @member.membership_fee_paid_until.present? %>
+        <tr>
+          <td>bezahlt bis:</td>
+          <td><%= l @member.membership_fee_paid_until, format: :long %></td>
+        </tr>
+      <% end %>
 
       <tr>
         <td colspan="2"><h3>Weitere Angaben</h3></td>
