@@ -68,6 +68,8 @@ gem 'unicorn', '~> 5.5.0'
 
 gem 'httparty', '~> 0.18'
 
+gem 'whenever', require: false
+
 group :development do
   gem 'byebug'
   gem 'spring', '~> 2.1.0'
