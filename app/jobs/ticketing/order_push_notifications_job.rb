@@ -52,10 +52,11 @@ module Ticketing
     end
 
     def type
-      return :admin if @admin
-      return :web if @order.is_a? Web::Order
+      return :web if @order.is_a?(Web::Order) && !@admin
       return :retail if @order.is_a? Retail::Order
       return :box_office if @order.is_a? BoxOffice::Order
+
+      :admin
     end
 
     def i18n_scope

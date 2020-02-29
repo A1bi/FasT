@@ -3,24 +3,24 @@
 module Ticketing
   class PushNotificationsJob < ApplicationJob
     def self.create_pool(size:, force_production: false)
-      ConnectionPool.new(size: size) do
-        development = Rails.env.development? && !force_production
-        credentials = Rails.application.credentials.apns
-        connection_options = {
+      development = Rails.env.development? && !force_production
+      credentials = Rails.application.credentials.apns
+
+      Apnotic::ConnectionPool.public_send(
+        development ? :development : :new,
+        {
           auth_method: :token,
           cert_path: StringIO.new(credentials[:key]),
           key_id: credentials[:key_id],
           team_id: Settings.apns.team_id
-        }
-
-        connection = Apnotic::Connection.send(development ? :development : :new,
-                                              connection_options)
+        },
+        size: size
+      ) do |connection|
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread
         connection.on(:error) do |exception|
-          logger.error "Exception has been raised on APNS socket: #{exception}"
+          Raven.capture_exception(exception)
         end
-        connection
       end
     end
 
