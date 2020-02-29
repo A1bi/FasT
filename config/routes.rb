@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       resources :documents, path: 'dokumente', except: :show
       resources :newsletters do
         post :finish, on: :member
+        post :approve, on: :member
         resources :images, controller: :newsletter_images,
                            only: %i[create destroy]
       end

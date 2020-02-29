@@ -2,10 +2,9 @@
 
 module Admin
   class NewslettersController < ApplicationController
-    before_action :find_newsletter, only: %i[show edit update destroy finish]
+    before_action :find_newsletter, except: %i[index new create]
     before_action :prepare_new_newsletter, only: %i[new create]
     before_action :prepare_subscriber_lists, only: %i[new edit show]
-    before_action :redirect_if_sent, only: %i[edit update finish destroy]
     before_action :update_newsletter, only: %i[create update]
 
     def index
@@ -22,13 +21,18 @@ module Admin
 
     def update; end
 
-    def destroy
-      flash.notice = t('.destroyed') if @newsletter.destroy
+    def finish
+      flash.notice = t('.finished') if @newsletter.review!
       redirect_to_index
     end
 
-    def finish
-      flash.notice = t('.finished') if @newsletter.review!
+    def approve
+      flash.notice = t('.sent') if @newsletter.sent!
+      redirect_to_index
+    end
+
+    def destroy
+      flash.notice = t('.destroyed') if @newsletter.destroy
       redirect_to_index
     end
 
@@ -44,10 +48,6 @@ module Admin
 
     def prepare_subscriber_lists
       @subscriber_lists = Newsletter::SubscriberList.order(:name)
-    end
-
-    def redirect_if_sent
-      redirect_to_index if @newsletter.sent?
     end
 
     def update_newsletter

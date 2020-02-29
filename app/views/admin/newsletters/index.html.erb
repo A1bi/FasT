@@ -24,18 +24,20 @@
           </td>
           <td>
             <% if letter.sent? %>
-              <%= l letter.sent_at, format: "%d. %B %Y, %H:%M Uhr" %>
+              <%= l letter.sent_at, format: :long %>
             <% elsif letter.review? %>
-              <em>Newsletter wird geprüft und in Kürze gesendet.</em>
+              <% if policy(letter).approve? %>
+                <%= link_to "final senden", approve_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
+              <% else %>
+                <em>Newsletter wird geprüft und in Kürze gesendet.</em>
+              <% end %>
             <% else %>
-              <%= link_to "senden", finish_admin_newsletter_path(letter), method: :post, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich senden?" } %>
+              <%= link_to "senden", finish_admin_newsletter_path(letter), method: :post, data: { confirm: "Möchten Sie diesen Newsletter wirklich senden?" } %>
             <% end %>
           </td>
           <td class="actionBtns">
-            <% if !letter.sent? %>
-              <%= link_to "", edit_admin_newsletter_path(letter), :class => :edit, :title => "bearbeiten" %>
-              <%= link_to "", admin_newsletter_path(letter), { :method => :delete, :data => { :confirm => "Möchten Sie diesen Newsletter wirklich löschen?" }, :class => :delete, :title => "löschen" } %>
-            <% end %>
+            <%= link_to "", edit_admin_newsletter_path(letter), class: :edit, title: "bearbeiten" if policy(letter).edit? %>
+            <%= link_to "", admin_newsletter_path(letter), method: :delete, data: { confirm: "Möchten Sie diesen Newsletter wirklich löschen?" }, class: :delete, title: "löschen" if policy(letter).destroy? %>
           </td>
         </tr>
       <% end %>
