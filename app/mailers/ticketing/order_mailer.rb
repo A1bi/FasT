@@ -30,8 +30,6 @@ module Ticketing
 
     def payment_received; end
 
-    def overview; end
-
     def pay_reminder
       @order.transfer_payment? && !@order.paid
     end
@@ -41,8 +39,6 @@ module Ticketing
     end
 
     def resend_tickets; end
-
-    def seating_migration; end
 
     def attach_tickets
       pdf = TicketsWebPdf.new
