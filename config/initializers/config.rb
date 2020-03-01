@@ -4,6 +4,11 @@ Config.setup do |config|
   config.const_name = 'Settings'
 
   config.schema do
+    required(:smtp).schema do
+      required(:address).filled
+      required(:port).filled(:integer)
+    end
+
     required(:url_options).schema do
       required(:host).filled
       required(:protocol) { filled? & included_in?(%w[http https]) }

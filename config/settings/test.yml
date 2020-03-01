@@ -1,4 +1,5 @@
 url_options:
   host: www.theater-kaisersesch.de
   protocol: https
+
 ticket_barcode_base_url: 'https://a0s.de/!'
