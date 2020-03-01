@@ -73,9 +73,7 @@ deploy:
     <<: *production_env
   only:
     refs:
-      - master
-  when: manual
-  allow_failure: false
+      - production
 
 run_one_off_task:
   extends: .default-tags
@@ -92,5 +90,5 @@ run_one_off_task:
     <<: *production_env
   only:
     refs:
-      - master
+      - production
   when: manual
