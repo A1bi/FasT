@@ -16,5 +16,5 @@
   </tr>
 </table>
 <div style="margin-top: -11px; margin-bottom: 20px; margin-right: 7%; font-size: 11px; text-align: right;">
-  <%= link_to "Daten in Banking-Software übertragen", "bank://singlepaymentsepa?name=Freilichtbühne am schiefen Turm&iban=DE65570691440000178167&bic=GENODED1KAI&amount=#{@order.total}&currency=EUR&reason=Bestellung #{@order.number}" %>
+  <%= link_to "Daten in Banking-Software übertragen", "bank://singlepaymentsepa?name=Freilichtbühne am schiefen Turm&iban=DE65570691440000178167&bic=GENODED1KAI&amount=#{-@order.balance}&currency=EUR&reason=Bestellung #{@order.number}" %>
 </div>

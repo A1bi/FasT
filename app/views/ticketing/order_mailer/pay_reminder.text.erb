@@ -2,7 +2,7 @@ leider konnten wir zu Ihrer Bestellung <%= render_inline "order_number" %> vom <
 
 <%= render "tickets_ordered" %>
 
-Wir möchten Sie daher daran erinnern, den Betrag von <%= number_to_currency(@order.total) %> auf folgendes Konto zu überweisen:
+Wir möchten Sie daher daran erinnern, den noch offenen Betrag von <%= order_balance(@order) %> auf folgendes Konto zu überweisen:
 
 <%= render "bank_details" %>
 

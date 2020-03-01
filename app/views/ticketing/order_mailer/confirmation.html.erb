@@ -23,7 +23,7 @@ vielen Dank für Ihre Bestellung <%= render_inline "order_number" %>.
     </table>
   <% elsif !@order.paid %>
     <% if @order.transfer_payment? %>
-      Bitte überweisen Sie den Betrag von <b><%= number_to_currency(@order.total) %></b> auf folgendes Konto:
+      Bitte überweisen Sie den Betrag von <b><%= order_balance(@order) %></b> auf folgendes Konto:
       <%= render "bank_details" %>
       <p>Sie erhalten Ihre Tickets per E-Mail nach Zahlungseingang.</p>
     <% elsif @order.cash_payment? %>
