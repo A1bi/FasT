@@ -13,7 +13,8 @@ class NewsletterMailingJob < ApplicationJob
                  end
 
     recipients.each do |recipient|
-      NewsletterMailer.newsletter(newsletter, recipient).deliver
+      NewsletterMailer.with(newsletter: newsletter, subscriber: recipient)
+                      .newsletter.deliver_later
     end
   end
 end

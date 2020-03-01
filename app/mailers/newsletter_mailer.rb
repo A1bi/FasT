@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
 class NewsletterMailer < ApplicationMailer
-  def confirmation_instructions(subscriber, after_order: false)
-    @subscriber = subscriber
-    @after_order = after_order
+  before_action { @subscriber = params[:subscriber] }
+
+  default to: -> { @subscriber.email }
+
+  def confirmation_instructions
+    @after_order = params[:after_order]
     @skip_unsubscribe_link = true
-    mail to: subscriber.email
+    mail
   end
 
-  def newsletter(newsletter, subscriber)
-    @subscriber = subscriber
-    @newsletter = newsletter
+  def newsletter
+    @newsletter = params[:newsletter]
 
     headers['List-Unsubscribe'] = unsubscribe_address
 
-    mail to: subscriber.email, subject: newsletter.subject do |format|
+    mail subject: @newsletter.subject do |format|
       format.text { @newsletter.body_text_final }
       format.html { @newsletter.body_html_final }
     end

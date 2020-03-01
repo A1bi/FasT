@@ -120,7 +120,7 @@ module Admin
     end
 
     def send_activation_mail
-      MemberMailer.activation(@member).deliver_later
+      MemberMailer.with(member: @member).activation.deliver_later
     end
   end
 end

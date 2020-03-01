@@ -4,7 +4,7 @@
 
 ---------------------------------
 Gesamtbetrag: <%= number_to_currency(@order.total) %>
-<% if should_attach_tickets? && !(hide_notes ||= false) %>
+<% if attach_tickets? && !(hide_notes ||= false) %>
 
 --- Hinweise zu Ihren Tickets ---
 

@@ -129,6 +129,17 @@ de:
         electronic_cash_at_box_office: "EC-Zahlung an Abendkasse"
         cash_refund_at_box_office: "Barrückzahlung an Abendkasse"
         retail_store_billing: "Abrechnung"
+    order_mailer:
+      confirmation:
+        subject: "Ihre Bestellung"
+      payment_received:
+        subject: "Ihre Tickets"
+      pay_reminder:
+        subject: "Zahlungserinnerung"
+      cancellation:
+        subject: "Stornierung Ihrer Tickets"
+      resend_tickets:
+        subject: "Ihre Tickets"
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
@@ -222,17 +233,6 @@ de:
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"
-  ticketing/order_mailer:
-    confirmation:
-      subject: "Ihre Bestellung"
-    payment_received:
-      subject: "Ihre Tickets"
-    pay_reminder:
-      subject: "Zahlungserinnerung"
-    cancellation:
-      subject: "Stornierung Ihrer Tickets"
-    resend_tickets:
-      subject: "Ihre Tickets"
   newsletter_mailer:
     confirmation_instructions:
       subject: "Bitte bestätigen Sie Ihre Anmeldung zum Newsletter"

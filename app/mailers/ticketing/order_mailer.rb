@@ -4,52 +4,47 @@ module Ticketing
   class OrderMailer < ApplicationMailer
     helper TicketingHelper
 
-    # TODO: rewrite this with prepared params
-    def order_action(action, order, options = nil)
-      @order = order
+    before_action { @order = params[:order] }
+    before_action :prepare_tickets
 
-      @tickets ||= @order.tickets.cancelled(false)
-      attach_tickets if should_attach_tickets?
+    default to: -> { @order.email }
 
-      should_mail = if options&.any?
-                      send(action, options.symbolize_keys)
-                    else
-                      send(action)
-                    end
+    def confirmation
+      mail
+    end
 
-      return if should_mail == false || @order.email.nil?
+    def pay_reminder
+      mail if @order.transfer_payment? && !@order.paid
+    end
 
-      mail  to: @order.email,
-            subject: t(:subject, scope: [mailer_name, action]),
-            template_name: action
+    def payment_received
+      mail
+    end
+
+    def resend_tickets
+      mail
+    end
+
+    def cancellation
+      @reason = params[:reason]
+      mail
     end
 
     private
 
-    def confirmation; end
+    def prepare_tickets
+      @tickets = @order.tickets.cancelled(false)
+      return unless attach_tickets?
 
-    def payment_received; end
-
-    def pay_reminder
-      @order.transfer_payment? && !@order.paid
-    end
-
-    def cancellation(reason: nil)
-      @reason = reason
-    end
-
-    def resend_tickets; end
-
-    def attach_tickets
       pdf = TicketsWebPdf.new
-      pdf.add_tickets @order.tickets
+      pdf.add_tickets @tickets
       attachments['tickets.pdf'] = pdf.render
     end
 
-    def should_attach_tickets?
+    def attach_tickets?
       !@order.cancelled? && (@order.paid || @order.charge_payment?)
     end
-    helper_method :should_attach_tickets?
+    helper_method :attach_tickets?
 
     def overview_url
       @overview_url ||= order_overview_url(

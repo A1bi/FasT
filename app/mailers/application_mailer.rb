@@ -5,12 +5,13 @@ class ApplicationMailer < ActionMailer::Base
 
   helper :mailer
 
-  def mail(options)
+  def mail(options = {})
     options[:to] = if Rails.env.development?
                      Settings.action_mailer.mail_to_in_development
                    else
                      options[:to] || self.class.default[:to]
                    end
+    return if options[:to].blank?
 
     if options[:to].present?
       parts = options[:to].split('@')

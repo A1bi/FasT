@@ -74,12 +74,13 @@ module Ticketing
         log(:charge_submitted)
       end
 
-      def enqueue_mailing(action, options = nil)
+      def enqueue_mailing(action, params: {}, depends_on_commit: false)
         return if email.blank?
 
-        mail = Ticketing::OrderMailer.order_action(action.to_s, self, options)
+        params[:order] = self
+        mail = Ticketing::OrderMailer.with(params).public_send(action)
 
-        if options&.delete(:depends_on_commit)
+        if depends_on_commit
           (@queued_mails ||= []) << mail
         else
           mail.deliver_later

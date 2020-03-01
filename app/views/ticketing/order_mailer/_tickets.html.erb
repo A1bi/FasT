@@ -25,7 +25,7 @@
     <td colspan="1" class="amount"><%= number_to_currency(@order.total) %></td>
   </tr>
 </table>
-<% if should_attach_tickets? && !(hide_notes ||= false) %>
+<% if attach_tickets? && !(hide_notes ||= false) %>
   <table style="background: #f5f5f5;" cellspacing="7" align="center">
     <tr>
       <td>
