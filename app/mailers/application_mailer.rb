@@ -6,24 +6,31 @@ class ApplicationMailer < ActionMailer::Base
   helper :mailer
 
   def mail(options = {})
-    options[:to] = if Rails.env.development?
-                     Settings.action_mailer.mail_to_in_development
-                   else
-                     options[:to] || self.class.default[:to]
-                   end
+    options[:to] = prepare_recipient_email(options[:to])
     return if options[:to].blank?
-
-    if options[:to].present?
-      parts = options[:to].split('@')
-      unless parts[1].ascii_only?
-        parts[1] = SimpleIDN.to_ascii(parts[1])
-        options[:to] = parts.join('@')
-      end
-    end
 
     super
 
     fix_mixed_attachments
+  end
+
+  private
+
+  def prepare_recipient_email(email)
+    if Rails.env.development? &&
+       Settings.action_mailer.mail_to_in_development.present?
+      email = Settings.action_mailer.mail_to_in_development
+    else
+      email ||= compute_default(self.class.default[:to])
+    end
+    return if email.blank?
+
+    # convert to punycode for domains with non-ascii characters
+    parts = email.split('@')
+    return email if parts[1].ascii_only?
+
+    parts[1] = SimpleIDN.to_ascii(parts[1])
+    parts.join('@')
   end
 
   # fix regular attachments not showing up in some clients when
