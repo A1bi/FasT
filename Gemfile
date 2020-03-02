@@ -36,7 +36,7 @@ gem 'sepa_king', '~> 0.12.0'
 
 gem 'dalli', '~> 2.7.8'
 
-gem 'sidekiq', '~> 5.2.2'
+gem 'sidekiq', '~> 6.0.0'
 
 gem 'auto_strip_attributes', '~> 2.5.0'
 
@@ -44,7 +44,7 @@ gem 'phony_rails', '~> 0.14.2'
 
 gem 'record_tag_helper', '~> 1.0.1'
 
-gem 'sentry-raven', '~> 2.13.0'
+gem 'sentry-raven', '~> 3.0.0'
 
 gem 'bootsnap', require: false
 
