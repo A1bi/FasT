@@ -1,3 +1,7 @@
+smtp:
+  address: localhost
+  port: 1025
+
 url_options:
   host: www.theater-kaisersesch.de
   protocol: https
