@@ -30,7 +30,7 @@ module Admin
     def edit; end
 
     def update
-      render :edit unless @member.save
+      return render :edit unless @member.save
 
       redirect_to admin_members_member_path(@member),
                   notice: t('application.saved_changes')

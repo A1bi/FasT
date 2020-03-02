@@ -236,7 +236,19 @@ de:
   newsletter_mailer:
     confirmation_instructions:
       subject: "Bitte bestätigen Sie Ihre Anmeldung zum Newsletter"
+  form_builder:
+    email_field:
+      title: Bitte geben Sie eine gültige E-Mail-Adresse an.
+  errors:
+    messages:
+      blank: Das Feld „%{attribute}“ darf nicht leer sein.
+    attributes:
+      email:
+        invalid: Die angegebene E-Mail-Adresse ist ungültig.
   activemodel:
+    attributes:
+      contact_message:
+        content: Nachricht
     errors:
       models:
         contact_message:
@@ -245,15 +257,8 @@ de:
               blank: "Bitte geben Sie Ihren Namen an."
             email:
               blank: "Bitte geben Sie Ihre E-Mail-Adresse an."
-            content:
-              blank: "Bitte teilen Sie uns Ihre Nachricht mit."
   activerecord:
     errors:
-      messages:
-        blank: "Das Feld \"%{attribute}\" darf nicht leer sein."
-      attributes:
-        email:
-          invalid: "Die e-mail-Adresse ist ungültig."
       models:
         photo:
           attributes:
@@ -303,6 +308,7 @@ de:
     email: "e-mail-Adresse"
     first_name: "Vorname"
     last_name: "Nachname"
+    subject: Betreff
   time:
     formats:
       long: "%d. %B um %H.%M Uhr"

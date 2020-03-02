@@ -5,7 +5,7 @@ class ContactMessage
 
   attr_accessor :name, :email, :phone, :subject, :content
 
-  validates :name, :email, :subject, :content, presence: true
+  validates :name, :subject, :content, presence: true
   validates :email, email_format: true
 
   def mail

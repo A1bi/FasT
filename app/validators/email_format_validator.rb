@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 
 class EmailFormatValidator < ActiveModel::EachValidator
-  def validate_each(object, attribute, value)
-    return if value.match? URI::MailTo::EMAIL_REGEXP
+  def validate_each(record, attribute, value)
+    return record.errors.add(attribute, :blank) if value.blank?
 
-    scope = %i[activerecord errors]
-    message = options[:message] ||
-              I18n.t(
-                :invalid,
-                scope: scope + [:models, object.model_name.i18n_key,
-                                :attributes, :email],
-                default: I18n.t(:invalid, scope: scope + %i[attributes email])
-              )
-    object.errors[attribute] << message
+    # don't use URI::MailTo::EMAIL_REGEXP as it doesn't allow non-ascii domains
+    return if value.match? FasT::EMAIL_REGEXP
+
+    record.errors.add(attribute, :invalid)
   end
 end
