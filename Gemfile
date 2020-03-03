@@ -10,6 +10,7 @@ gem 'pundit', '~> 2.1.0'
 
 gem 'sass-rails', '~> 6.0.0'
 gem 'sprockets-rails', '~> 3.2.0'
+gem 'webpacker', '~> 4.2'
 
 gem 'uglifier'
 

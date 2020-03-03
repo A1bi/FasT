@@ -4,6 +4,7 @@ AllCops:
   Exclude:
   - 'bin/*'
   - 'db/migrate/*'
+  - 'node_modules/**/*'
 
 Metrics/AbcSize:
   Enabled: false
