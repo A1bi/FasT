@@ -27,7 +27,7 @@
 stages:
   - test
   - deploy
-  - post_deploy
+  - post-deploy
 
 variables:
   RAILS_ENV: test
@@ -52,11 +52,18 @@ specs:
     - rails db:drop db:create db:structure:load
     - rails test
 
-audit:
+bundler audit:
   extends: .default-tags
   script:
     - gem install bundler-audit
     - bundle audit check --update
+
+yarn audit:
+  tags:
+    - yarn
+  script:
+    - yarn audit
+  allow_failure: true
 
 deploy:
   extends: .default-tags
@@ -75,11 +82,11 @@ deploy:
     refs:
       - production
 
-run_one_off_task:
+run one off task:
   extends: .default-tags
   except:
     - schedules
-  stage: post_deploy
+  stage: post-deploy
   before_script:
     - *bundle
     - *prepare_ssh_agent
