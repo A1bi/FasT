@@ -1,6 +1,5 @@
 //= require ./_seating
 //= require ./base
-//= require validator/validator
 //= require ./_printer
 
 function Step(name, delegate) {
@@ -9,54 +8,6 @@ function Step(name, delegate) {
   this.info = { api: {}, internal: {} };
   this.delegate = delegate;
   this.foundErrors;
-
-  var _this = this;
-  this.validator = new Validator();
-  this.validator.error = function (msg) {
-    _this.showErrorOnField(msg[0], msg[1]);
-    return this;
-  };
-  this.validator.onlyDigits = function() {
-    if (!this.str.match(/^\d*$/)) {
-        return this.error(this.msg || 'Invalid digit');
-    }
-    return this;
-  };
-  this.validator.upperStrip = function () {
-    return this.str.toUpperCase().replace(/ /g, "");
-  };
-  this.validator.isIBAN = function () {
-    var parts = this.upperStrip().match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
-    var ok = true;
-
-    if (parts) {
-      var country = parts[1];
-      var check = parts[2];
-      var bban = parts[3];
-      var number = bban + country + check;
-
-      number = number.replace(/\D/g, function (char) {
-        return char.charCodeAt(0) - 64 + 9;
-      });
-
-      var remainder = 0;
-      for (var i = 0; i < number.length; i++) {
-        remainder = (remainder + number.charAt(i)) % 97;
-      }
-
-      if (country == "DE" && bban.length != 18 ||
-          remainder != 1) {
-        ok = false;
-      }
-
-    } else {
-      ok = false;
-    }
-
-    if (!ok) return this.error(this.msg || 'Invalid IBAN');
-
-    return this;
-  };
 }
 
 Step.prototype = {
@@ -135,6 +86,13 @@ Step.prototype = {
     callback();
   },
 
+  validateField: function (key, error, validationProc) {
+    var field = this.getFieldWithKey(key);
+    if (!validationProc.bind(this)(field)) {
+      this.showErrorOnField(key, error);
+    }
+  },
+
   validateFields: function (beforeProc, afterProc) {
     this.box.find("tr").removeClass("error");
     this.foundErrors = false;
@@ -150,8 +108,50 @@ Step.prototype = {
     return !this.foundErrors;
   },
 
-  getValidatorCheckForField: function (key, msg) {
-    return this.validator.check(this.getFieldWithKey(key).val(), [key, msg]);
+  upperStrip: function (value) {
+    return value.toUpperCase().replace(/ /g, "");
+  },
+
+  valueNotEmpty: function (value) {
+    return !value.match(/^[\s\t\r\n]*$/);
+  },
+
+  valueOnlyDigits: function (value) {
+    return value.match(/^\d*$/);
+  },
+
+  valueIsIBAN: function (value) {
+    var parts = this.upperStrip(value).match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/);
+
+    if (parts) {
+      var country = parts[1];
+      var check = parts[2];
+      var bban = parts[3];
+      var number = bban + country + check;
+
+      number = number.replace(/\D/g, function (char) {
+        return char.charCodeAt(0) - 64 + 9;
+      });
+
+      var remainder = 0;
+      for (var i = 0; i < number.length; i++) {
+        remainder = (remainder + number.charAt(i)) % 97;
+      }
+
+      if (country == "DE" && bban.length != 18 ||
+          remainder != 1) {
+        return false;
+      }
+
+    } else {
+      return false;
+    }
+
+    return true;
+  },
+
+  fieldIsEmail: function (field) {
+    return field.val().match(field.attr("pattern"));
   },
 
   showErrorOnField: function (key, msg) {
@@ -576,24 +576,34 @@ function SeatsStep(delegate) {
 }
 
 function AddressStep(delegate) {
-  var _this = this;
-
   this.validate = function () {
     return this.validateFields(function () {
       if (this.delegate.web) {
-        $.each(["first_name", "last_name", "phone"], function () {
-          _this.getValidatorCheckForField(this, "Bitte füllen Sie dieses Feld aus.").notEmpty();
+        $.each(["first_name", "last_name", "phone"], function (_i, key) {
+          this.validateField(key, "Bitte füllen Sie dieses Feld aus.", function (field) {
+            return this.valueNotEmpty(field.val());
+          }.bind(this));
+        }.bind(this));
+
+        this.validateField("gender", "Bitte wählen Sie eine Anrede aus.", function (field) {
+          return field.val() >= 0;
         });
 
-        if (this.getFieldWithKey("gender").val() < 0) this.showErrorOnField("gender", "Bitte wählen Sie eine Anrede aus.");
-        this.getValidatorCheckForField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.").notEmpty().equals(this.getFieldWithKey("email").val());
+        this.validateField("email_confirmation", "Die e-mail-Adressen stimmen nicht überein.", function (field) {
+          if (!this.valueNotEmpty(field.val())) return false;
+          return field.val() == this.getFieldWithKey("email").val();
+        });
       }
-      if (this.delegate.web || this.getFieldWithKey("email").val() != "") {
-        this.getValidatorCheckForField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.").isEmail();
-      }
-      if (this.delegate.web || this.getFieldWithKey("plz").val() != "") {
-        this.getValidatorCheckForField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.").onlyDigits().len(5, 5);
-      }
+
+      this.validateField("email", "Bitte geben Sie eine korrekte e-mail-Adresse an.", function (field) {
+        if (!this.delegate.web && !this.valueNotEmpty(field.val())) return true;
+        return this.fieldIsEmail(field);
+      });
+
+      this.validateField("plz", "Bitte geben Sie eine korrekte Postleitzahl an.", function (field) {
+        if (!this.delegate.web && !this.valueNotEmpty(field.val())) return true;
+        return this.valueOnlyDigits(field.val()) && field.val().length == 5;
+      });
     });
   };
 
@@ -618,8 +628,12 @@ function PaymentStep(delegate) {
   this.validate = function () {
     if (this.methodIsCharge()) {
       return this.validateFields(function () {
-        this.getValidatorCheckForField("name", "Bitte geben Sie den Kontoinhaber an.").notEmpty();
-        this.getValidatorCheckForField("iban", "Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.").isIBAN();
+        this.validateField("name", "Bitte geben Sie den Kontoinhaber an.", function (field) {
+          return this.valueNotEmpty(field.val());
+        });
+        this.validateField("iban", "Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.", function (field) {
+          return this.valueIsIBAN(field.val());
+        });
       });
     }
 

@@ -3161,11 +3161,6 @@ util@~0.10.1:
   dependencies:
     inherits "2.0.3"
 
-validator@^1.3.0:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-1.5.1.tgz#7ab356cbbcbbb000ab85c43b8cda12621b1344c0"
-  integrity sha1-erNWy7y7sACrhcQ7jNoSYhsTRMA=
-
 vector-tile@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/vector-tile/-/vector-tile-1.3.0.tgz#06d516a83b063f04c82ef539cf1bb1aebeb696b4"
