@@ -1,6 +1,6 @@
 //= require ./_seating
 //= require ./base
-//= require validator-js/validator
+//= require validator/validator
 //= require ./_printer
 
 function Step(name, delegate) {

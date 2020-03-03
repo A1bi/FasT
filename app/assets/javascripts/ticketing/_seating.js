@@ -1,4 +1,4 @@
-//= require socket.io-client/dist/socket.io.js
+//= require socket.io-client/dist/socket.io
 
 function Seating(container, delegate, zoomable) {
   this.container = container;

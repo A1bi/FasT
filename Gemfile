@@ -84,11 +84,3 @@ group :development, :ci do
   gem 'rubocop', '~> 0.80.0'
   gem 'rubocop-rails', '~> 2.4.2'
 end
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-chartjs', '~> 1.0.2'
-  gem 'rails-assets-ol3-bower', '~> 3.18.2'
-  gem 'rails-assets-raven-js', '~> 3.27.0'
-  gem 'rails-assets-socket.io-client', '~> 2.1.0'
-  gem 'rails-assets-validator-js', '~> 1.3.0'
-end
