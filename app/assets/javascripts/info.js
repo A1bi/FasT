@@ -1,5 +1,3 @@
-//= require map
-
 $(function () {
   $(".question").click(function () {
     $(this).toggleClass("disclosed").find("+ .answer").slideToggle();

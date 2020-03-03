@@ -1,14 +1,22 @@
-//= require openlayers/dist/ol
+import { Map, View, Overlay } from 'ol';
+import { Vector, Tile } from 'ol/layer';
+import VectorSource from 'ol/source/Vector';
+import OSM from 'ol/source/OSM';
+import { defaults } from 'ol/interaction';
+import { fromLonLat } from 'ol/proj';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { Style, Icon } from 'ol/style';
 
-function Map(id, center, zoom) {
+window.Map = function (id, center, zoom) {
   var _this = this;
   var icons = {};
-  var markerSource = new ol.source.Vector();
+  var markerSource = new VectorSource();
 
   this.registerIcons = function (icns) {
     icns.forEach(function (iconInfo) {
-      icons[iconInfo.name] = new ol.style.Style({
-        image: new ol.style.Icon({
+      icons[iconInfo.name] = new Style({
+        image: new Icon({
           anchor: iconInfo.offset,
           anchorXUnits: 'pixels',
           anchorYUnits: 'pixels',
@@ -20,8 +28,8 @@ function Map(id, center, zoom) {
 
   this.addMarkers = function (markers) {
     markers.forEach(function (markerInfo) {
-      var feature = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat(markerInfo.loc)),
+      var feature = new Feature({
+        geometry: new Point(fromLonLat(markerInfo.loc)),
         content: markerInfo.content
       });
       feature.setStyle(icons[markerInfo.icon]);
@@ -32,28 +40,28 @@ function Map(id, center, zoom) {
   var $map = $('#' + id);
 
   var $popup = $('<div>').addClass('popup').appendTo($map);
-  var popup = new ol.Overlay({
+  var popup = new Overlay({
     element: $popup.get(0),
     autoPan: true,
     positioning: 'bottom-center',
     offset: [0, -50]
   });
 
-  var map = new ol.Map({
+  var map = new Map({
     target: $map.get(0),
     layers: [
-      new ol.layer.Tile({
-        source: new ol.source.OSM()
+      new Tile({
+        source: new OSM()
       }),
-      new ol.layer.Vector({
+      new Vector({
         source: markerSource
       })
     ],
-    interactions: ol.interaction.defaults({
+    interactions: defaults({
       mouseWheelZoom: false
     }),
-    view: new ol.View({
-      center: ol.proj.fromLonLat(center),
+    view: new View({
+      center: fromLonLat(center),
       zoom: zoom
     }),
     overlays: [popup]

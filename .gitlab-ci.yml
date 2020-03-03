@@ -63,7 +63,6 @@ yarn audit:
     - yarn
   script:
     - yarn audit
-  allow_failure: true
 
 deploy:
   extends: .default-tags
