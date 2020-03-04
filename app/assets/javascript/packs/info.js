@@ -1,4 +1,5 @@
 import Map from '../map';
+import $ from 'jquery';
 
 $(() => {
   $(".question").click(event => {

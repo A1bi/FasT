@@ -7,6 +7,7 @@ import { fromLonLat } from 'ol/proj';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon } from 'ol/style';
+import $ from 'jquery';
 
 export default class {
   constructor(id, center, zoom) {
