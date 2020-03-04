@@ -6,7 +6,8 @@ module Ticketing
 
     ORDER_TYPES_FOR_CHART = [
       Ticketing::Web::Order,
-      Ticketing::Retail::Order
+      Ticketing::Retail::Order,
+      Ticketing::BoxOffice::Order
     ].freeze
 
     before_action :authorize
@@ -48,18 +49,12 @@ module Ticketing
 
     def chart_data
       daily_stats.each do |key, value|
-        order_klass = key.last.constantize
-        next unless ORDER_TYPES_FOR_CHART.include? order_klass
+        order_type = key.last.constantize
+        next unless ORDER_TYPES_FOR_CHART.include? order_type
 
-        date_key = key.first.to_date.to_s
-        daily_datasets[order_klass][date_key] = value
-        daily_datasets[nil][date_key] += value
+        date_key = key.first.to_date
+        chart_datasets[order_type][date_key] = value
       end
-
-      render json: {
-        labels: daily_dataset_labels,
-        datasets: daily_datasets.values.map(&:values)
-      }
     end
 
     private
@@ -73,35 +68,27 @@ module Ticketing
       @events = Event.current
     end
 
-    def daily_datasets
-      @daily_datasets ||=
-        # dataset with key nil contains the total over all order types
-        ([nil] + ORDER_TYPES_FOR_CHART).each_with_object({}) do |type, sets|
-          sets[type] = daily_stats_range.each_with_object({}) do |date, set|
-            set[date.to_s] = 0
-          end
-        end
+    def chart_dates
+      @chart_dates ||= 18.days.ago.to_date..Time.zone.today
     end
 
-    def daily_dataset_labels
-      daily_stats_range.map.with_index do |date, i|
-        format = (i % 7).zero? ? '%a %-d. %B' : '%a %-d.'
-        l(date, format: format)
-      end
+    def chart_datasets
+      @chart_datasets ||=
+        ORDER_TYPES_FOR_CHART.each_with_object({}) do |type, datasets|
+          datasets[type] = chart_dates.each_with_object({}) do |date, dataset|
+            dataset[date] = 0
+          end
+        end
     end
 
     def daily_stats
       Ticketing::Ticket
         .includes(:order)
-        .where('ticketing_tickets.created_at > ?', daily_stats_range.min)
+        .where('ticketing_tickets.created_at > ?', chart_dates.min)
         .group("DATE_TRUNC('day', (ticketing_tickets.created_at::timestamptz)
                 AT TIME ZONE '#{Time.zone.tzinfo.name}')")
         .group('ticketing_orders.type')
         .count(:id)
-    end
-
-    def daily_stats_range
-      18.days.ago.to_date..Time.zone.today
     end
 
     def seats_cache_key(date)

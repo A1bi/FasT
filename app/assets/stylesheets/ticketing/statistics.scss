@@ -58,20 +58,6 @@ $total-border: 2px $light-blue solid;
     }
   }
 
-  .daily_stats .key {
-    .total {
-      color: red;
-    }
-
-    .web {
-      color: $dark-blue;
-    }
-
-    .retail {
-      color: $light-blue;
-    }
-  }
-
   .billing {
     td {
       &:not(.amount) {

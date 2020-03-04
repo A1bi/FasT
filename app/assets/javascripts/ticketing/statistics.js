@@ -1,5 +1,5 @@
 //= require ./_seating
-//= require chart.js/Chart
+//= require chart.js/dist/Chart
 
 $(function () {
   $(".chooser span").click(function () {
@@ -43,24 +43,41 @@ $(function () {
     dailyStatsCanvas.prop("width", dailyStatsCanvas.parent().width());
 
     $.getJSON(dailyStatsCanvas.data("chart-data-path"), function (data) {
-      data.datasets = data.datasets.map(function (dataset, i) {
-        var color = dailyStatsCanvas.siblings(".key").find("span").eq(i).css("color");
-        var rgb = /^rgb\(([\d]{1,3}), ?([\d]{1,3}), ?([\d]{1,3})\)$/i.exec(color);
-        var rgba = "rgba(" + rgb[1] + "," + rgb[2] + "," + rgb[3] + ", .7)";
-        return {
-          data: dataset,
-          fillColor: (i == 0) ? "rgba(0, 0, 0, 0)" : rgba,
-          strokeColor: (i == 0) ? color : "#d7f1fb",
-          pointColor: color,
-          pointStrokeColor: "white"
-        };
+      var chartColors = {
+        red: 'rgb(255, 99, 132)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)'
+      };
+      var colorOrder = ['green', 'red', 'blue'];
+
+      data.datasets.forEach(function (dataset, index) {
+        dataset.backgroundColor = chartColors[colorOrder[index]];
+        dataset.borderColor = dataset.backgroundColor;
       });
 
-      var options = {
-        bezierCurve: false,
-        datasetStrokeWidth: 1
-      };
-      new Chart(dailyStatsCanvas.get(0).getContext("2d")).Line(data, options);
+      new Chart(dailyStatsCanvas, {
+        type: 'line',
+        data: data,
+        options: {
+          datasets: {
+            line: {
+              lineTension: 0
+            }
+          },
+          tooltips: {
+            mode: 'index'
+          },
+          scales: {
+            yAxes: [{
+              stacked: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Verkaufte Tickets'
+              }
+            }]
+          }
+        }
+      });
     });
   }
 });

@@ -2,7 +2,7 @@
   "name": "FasT",
   "dependencies": {
     "@rails/webpacker": "4.2.2",
-    "chart.js": "^1.0.2",
+    "chart.js": "^2.9.3",
     "ol": "^6.2.1",
     "raven-js": "^3.27.2",
     "socket.io-client": "^2.3.0"
