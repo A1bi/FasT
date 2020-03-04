@@ -65,7 +65,7 @@ export default class {
   }
 
   registerIcons(icons) {
-    icons.forEach(iconInfo => {
+    for (let iconInfo of icons) {
       this.icons[iconInfo.name] = new Style({
         image: new Icon({
           anchor: iconInfo.offset,
@@ -74,17 +74,17 @@ export default class {
           src: iconInfo.file
         })
       });
-    });
+    }
   }
 
   addMarkers(markers) {
-    markers.forEach(markerInfo => {
+    for (let markerInfo of markers) {
       var feature = new Feature({
         geometry: new Point(fromLonLat(markerInfo.loc)),
         content: markerInfo.content
       });
       feature.setStyle(this.icons[markerInfo.icon]);
       this.markerSource.addFeature(feature);
-    });
+    }
   }
 }
