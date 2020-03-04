@@ -8,11 +8,15 @@ module ApplicationHelper
   end
 
   def include_js(filename)
-    content_for :js_file, filename.to_s
+    content_for :head, javascript_include_tag(filename.to_s)
+  end
+
+  def include_js_pack(filename)
+    content_for :head, javascript_pack_tag(filename.to_s)
   end
 
   def include_css(filename)
-    content_for :css_file, filename.to_s
+    content_for :head, stylesheet_link_tag(filename.to_s, media: 'all')
   end
 
   def cond_submit(form)

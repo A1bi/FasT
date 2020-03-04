@@ -8,14 +8,65 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon } from 'ol/style';
 
-window.Map = function (id, center, zoom) {
-  var _this = this;
-  var icons = {};
-  var markerSource = new VectorSource();
+export default class {
+  constructor(id, center, zoom) {
+    this.icons = {};
+    this.markerSource = new VectorSource();
 
-  this.registerIcons = function (icns) {
-    icns.forEach(function (iconInfo) {
-      icons[iconInfo.name] = new Style({
+    const $map = $(`#${id}`);
+    const $popup = $('<div>').addClass('popup').appendTo($map);
+    const popup = new Overlay({
+      element: $popup.get(0),
+      autoPan: true,
+      positioning: 'bottom-center',
+      offset: [0, -50]
+    });
+
+    const map = new Map({
+      target: $map.get(0),
+      layers: [
+        new Tile({
+          source: new OSM()
+        }),
+        new Vector({
+          source: this.markerSource
+        })
+      ],
+      interactions: defaults({
+        mouseWheelZoom: false
+      }),
+      view: new View({
+        center: fromLonLat(center),
+        zoom: zoom
+      }),
+      overlays: [popup]
+    });
+
+    map.on('click', event => {
+      const feature = map.forEachFeatureAtPixel(event.pixel, feature => feature);
+
+      $popup.toggle(!!feature);
+      if (feature) {
+        var coordinates = feature.getGeometry().getCoordinates();
+        popup.setPosition(coordinates);
+        $popup.html(feature.get('content'));
+      }
+    });
+
+    map.on('pointermove', event => {
+      if (event.dragging) {
+        $popup.hide();
+        return;
+      }
+      const pixel = map.getEventPixel(event.originalEvent);
+      const hit = map.hasFeatureAtPixel(pixel);
+      $map.css('cursor', hit ? 'pointer' : 'auto');
+    });
+  }
+
+  registerIcons(icons) {
+    icons.forEach(iconInfo => {
+      this.icons[iconInfo.name] = new Style({
         image: new Icon({
           anchor: iconInfo.offset,
           anchorXUnits: 'pixels',
@@ -26,67 +77,14 @@ window.Map = function (id, center, zoom) {
     });
   }
 
-  this.addMarkers = function (markers) {
-    markers.forEach(function (markerInfo) {
+  addMarkers(markers) {
+    markers.forEach(markerInfo => {
       var feature = new Feature({
         geometry: new Point(fromLonLat(markerInfo.loc)),
         content: markerInfo.content
       });
-      feature.setStyle(icons[markerInfo.icon]);
-      markerSource.addFeature(feature);
+      feature.setStyle(this.icons[markerInfo.icon]);
+      this.markerSource.addFeature(feature);
     });
   }
-
-  var $map = $('#' + id);
-
-  var $popup = $('<div>').addClass('popup').appendTo($map);
-  var popup = new Overlay({
-    element: $popup.get(0),
-    autoPan: true,
-    positioning: 'bottom-center',
-    offset: [0, -50]
-  });
-
-  var map = new Map({
-    target: $map.get(0),
-    layers: [
-      new Tile({
-        source: new OSM()
-      }),
-      new Vector({
-        source: markerSource
-      })
-    ],
-    interactions: defaults({
-      mouseWheelZoom: false
-    }),
-    view: new View({
-      center: fromLonLat(center),
-      zoom: zoom
-    }),
-    overlays: [popup]
-  });
-
-  map.on('click', function (event) {
-    var feature = map.forEachFeatureAtPixel(event.pixel, function (feature) {
-      return feature;
-    });
-
-    $popup.toggle(!!feature);
-    if (feature) {
-      var coordinates = feature.getGeometry().getCoordinates();
-      popup.setPosition(coordinates);
-      $popup.html(feature.get('content'));
-    }
-  });
-
-  map.on('pointermove', function (event) {
-    if (event.dragging) {
-      $popup.hide();
-      return;
-    }
-    var pixel = map.getEventPixel(event.originalEvent);
-    var hit = map.hasFeatureAtPixel(pixel);
-    $map.css('cursor', hit ? 'pointer' : 'auto');
-  });
 }
