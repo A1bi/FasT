@@ -7,7 +7,7 @@ set :deploy_to, '~/FasT'
 
 append :linked_files, 'config/master.key'
 append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache',
-       'log', 'tmp/cache', '.bundle'
+       'log', 'tmp/cache', '.bundle', 'node_modules'
 
 set :keep_releases, 3
 
