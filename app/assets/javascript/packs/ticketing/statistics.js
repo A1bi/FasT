@@ -3,13 +3,15 @@ import Chart from 'chart.js'
 import $ from 'jquery'
 
 $(() => {
-  $('.chooser span').click(() => {
-    $(event.currentTarget).addClass('selected').siblings().removeClass('selected');
+  $('.chooser span').click(async event => {
+    const $this = $(event.currentTarget);
+    $this.addClass('selected').siblings().removeClass('selected');
     $(".stats *").stop(true, false);
-    const tableClass = "." + $(this).data("table");
-    $(".stats .table:visible").not(tableClass).slideUp(600, (event) => {
-      $(event.currentTarget).siblings(tableClass).slideDown();
-    });
+
+    const tableClass = "." + $this.data("table");
+    const tables = $(".stats .table:visible");
+    await tables.not(tableClass).slideUp(600).promise();
+    tables.siblings(tableClass).slideDown();
   });
 
   const seatingBoxes = $('.seating');
