@@ -46,7 +46,10 @@
 
 #map {
   margin-bottom: 30px;
-  height: 270px;
+
+  .map {
+    height: 270px;
+  }
 
   .popup {
     background: white;

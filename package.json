@@ -5,7 +5,8 @@
     "chart.js": "^2.9.3",
     "ol": "^6.2.1",
     "raven-js": "^3.27.2",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "stimulus": "^1.1.1"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.10.3"
