@@ -18,33 +18,41 @@
     font-size: 20px;
   }
 
-  > div, > p {
-    margin-left: 10px;
-    margin-top: 8px;
-  }
+  [data-controller='question-answer'] {
+    .question {
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-  .question {
-    font-size: 16px;
-    margin-top: 15px;
-    cursor: pointer;
+    .answer {
+      margin-left: 10px;
+      max-height: 0px;
+      overflow-y: hidden;
+      transition: max-height .5s;
+
+      > div {
+        margin-top: 10px;
+
+        > *:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
 
     &.disclosed {
-      font-weight: bold;
-    }
-  }
+      .question {
+        font-weight: bold;
+      }
 
-  .answer {
-    margin-left: 20px;
-    margin-bottom: 25px;
-    display: none;
-
-    > *:last-child {
-      margin-bottom: 0;
+      .answer {
+        max-height: 300px;
+      }
     }
   }
 }
 
-#map {
+[data-controller='map'] {
   margin-bottom: 30px;
 
   .map {
