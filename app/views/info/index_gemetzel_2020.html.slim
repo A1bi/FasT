@@ -1,0 +1,58 @@
+= render 'top'
+
+.section
+  h2 Vorverkauf
+
+  = render 'question_answer', question: 'Wo erhalte ich Tickets?' do
+    | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
+    ul
+      li Buchhandlung Walgenbach, Kaisersesch
+      li Buchhandlung Layaa-Laulhé, Cochem
+
+  = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
+    | Bei diesem Stück wird es keine Platzreservierung geben.
+
+  = render 'question_answer', question: 'Sind die Sitzplätze barrierefrei erreichbar?' do
+    | Alle Plätze sind barrierefrei zu erreichen.
+
+  = render 'question_answer', question: 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
+    | Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
+
+  = render 'question_answer', question: 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
+    | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+    p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.
+
+  = render 'question_answer', question: 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
+    | Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+    p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to "Wallet Passes", "https://play.google.com/store/apps/details?id=io.walletpasses.android", target: "_blank"}“ möglich.
+
+  = render 'question_answer', question: 'Lassen sich Tickets umbuchen oder stornieren?' do
+    p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
+    p Kontaktieren Sie uns dazu bitte telefonisch: <b>(02653) 28 27 09</b>. In Zukunft werden wir den Umbuchungsservice auch online anbieten.
+
+.trenner
+.section
+  h2 Anfahrt
+
+  = render 'map', identifier: 'wasserwerk'
+
+  = render 'question_answer', question: 'Wo finde ich das „Alte Wasserwerk“?' do
+    | Unsere kleine Bühne im „Alten Wasserwerk“ finden Sie unter der Adresse „Auf der Wacht 9“ in Kaisersesch.
+
+.trenner
+.section
+  h2 Veranstaltung
+
+  = render 'question_answer', question: 'Ich habe Tickets kurzfristig abzugeben. Kann ich diese an der Abendkasse zurückgeben?' do
+    | Ja, das ist möglich. Sofern wir einen neuen Besitzer für Ihre Tickets finden können, erhalten Sie den vollen Betrag zurück.
+
+  = render 'question_answer', question: 'Wird es eine Pause geben?' do
+    | Nein, das Stück wird nicht durch eine Pause unterbrochen.
+
+  = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
+    | Die Spielzeit beträgt etwa 90 Minuten.
+
+  = render 'question_answer', question: 'Gibt es ein Rauchverbot?' do
+    | Rauchen innerhalb des Gebäudes können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.
+
+= render 'further_questions'

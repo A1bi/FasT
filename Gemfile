@@ -12,6 +12,8 @@ gem 'sass-rails', '~> 6.0.0'
 gem 'sprockets-rails', '~> 3.2.0'
 gem 'webpacker', '~> 4.2'
 
+gem 'slim'
+
 gem 'uglifier'
 
 gem 'jquery-rails', '~> 4.3.1'

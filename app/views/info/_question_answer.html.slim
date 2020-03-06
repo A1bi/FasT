@@ -1,0 +1,5 @@
+div data-controller='question-answer'
+  .question data-action='click->question-answer#disclose'
+    = question
+  .answer data-target='question-answer.answer'
+    div = yield
