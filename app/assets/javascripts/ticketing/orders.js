@@ -190,12 +190,13 @@ Step.prototype = {
   },
 
   addBreadcrumb: function (message, data, level) {
-    Raven.captureBreadcrumb({
-      category: 'ordering.' + this.name,
-      message: message,
-      data: data,
-      level: level
-    });
+    // TODO: reenable
+    // Raven.captureBreadcrumb({
+    //   category: 'ordering.' + this.name,
+    //   message: message,
+    //   data: data,
+    //   level: level
+    // });
   },
 
   registerEventAndInitiate: function (elements, event, proc) {

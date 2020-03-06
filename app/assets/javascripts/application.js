@@ -15,5 +15,4 @@
 //= require jquery-ui/core
 //= require jquery-ui/widget
 //= require jquery-ui/widgets/sortable
-//= require raven-js/dist/raven
 //= require _main

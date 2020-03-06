@@ -25,13 +25,14 @@ function Seating(container, delegate, zoomable) {
       this.svg = this.container.find('svg');
 
       if (!response || !this.svg.length) {
-        Raven.captureMessage('Failed to load seating SVG', {
-          extra: {
-            xhr_response: response,
-            xhr_status: xhr.status,
-            xhr_status_text: xhr.statusText
-          }
-        });
+        // TODO: reenable
+        // Raven.captureMessage('Failed to load seating SVG', {
+        //   extra: {
+        //     xhr_response: response,
+        //     xhr_status: xhr.status,
+        //     xhr_status_text: xhr.statusText
+        //   }
+        // });
         return;
       }
 
@@ -236,12 +237,13 @@ function Seating(container, delegate, zoomable) {
   };
 
   this.addBreadcrumb = function (message, data, level) {
-    Raven.captureBreadcrumb({
-      category: 'seating',
-      message: message,
-      data: data,
-      level: level
-    });
+    // TODO: reenable
+    // Raven.captureBreadcrumb({
+    //   category: 'seating',
+    //   message: message,
+    //   data: data,
+    //   level: level
+    // });
   };
 };
 
