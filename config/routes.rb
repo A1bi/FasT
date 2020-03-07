@@ -48,7 +48,7 @@ Rails.application.routes.draw do
     resources :galleries, path: 'galerie' do
       post 'sort', on: :collection
 
-      resources :photos, path: 'fotos', except: :index do
+      resources :photos, path: 'fotos' do
         post 'sort', on: :collection
       end
     end

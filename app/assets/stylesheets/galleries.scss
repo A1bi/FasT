@@ -41,6 +41,7 @@
   margin: auto;
   background: black;
   overflow: auto;
+  user-select: none;
 
   .photo {
     position: relative;
@@ -123,8 +124,8 @@
       float: left;
     }
 
-    .desc {
-
+    .text {
+      padding-top: 7px;
     }
   }
 }
@@ -135,7 +136,7 @@
     text-align: center;
   }
 
-  #download-link {
+  a {
     text-align: right;
     font-size: 12px;
   }

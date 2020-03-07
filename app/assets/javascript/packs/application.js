@@ -15,7 +15,7 @@ if (host.indexOf('staging') > -1) {
   environment = 'development'
 }
 
-if (environment === 'development') {
+if (environment !== 'development') {
   initSentry({
     dsn: 'https://1ba66cdff88948a8a0784eaeb89c5dc2@sentry.a0s.de/2',
     environment: environment

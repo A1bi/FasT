@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class PhotoPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
   # download photo
   def show?
     user_member?

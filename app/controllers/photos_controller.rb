@@ -2,14 +2,16 @@
 
 class PhotosController < ApplicationController
   before_action :find_photo, only: %i[edit update destroy show]
-  before_action :find_gallery, only: %i[new edit create]
+  before_action :find_gallery, only: %i[index new edit create]
+
+  def index; end
 
   def new
-    @photo = authorize @gallery.photos.new
+    @photo = authorize @photos.new
   end
 
   def create
-    @photo = authorize @gallery.photos.new(photo_params)
+    @photo = authorize @photos.new(photo_params)
 
     return render :new unless @photo.save
 
@@ -48,7 +50,8 @@ class PhotosController < ApplicationController
   end
 
   def find_gallery
-    @gallery = authorize(Gallery.find(params[:gallery_id]))
+    @gallery = Gallery.find(params[:gallery_id])
+    @photos = authorize @gallery.photos
   end
 
   def photo_params

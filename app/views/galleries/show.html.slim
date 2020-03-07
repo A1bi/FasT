@@ -1,0 +1,25 @@
+- title "Fotogalerie – #{@gallery.title}"
+- include_css 'galleries'
+
+div{ data-controller='gallery'
+     data-gallery-photos-path=gallery_photos_path(@gallery) }
+  .photoFrame
+    .photo
+      img data-target='gallery.photo'
+    .directions
+      .next data-action='click->gallery#goToNext'
+        .space
+        .arrow
+      .prev data-action='click->gallery#goToPrevious'
+        .space
+        .arrow
+    .bar
+      .number
+        = 'Foto '
+        span data-target='gallery.indexCurrent'
+        = ' von '
+        span data-target='gallery.indexMax'
+      .text data-target='gallery.text'
+  .info
+    .disclaimer.small = @gallery.disclaimer
+    a data-target='gallery.downloadLink' Foto herunterladen
