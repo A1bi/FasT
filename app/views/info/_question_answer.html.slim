@@ -1,5 +1,5 @@
-div data-controller='question-answer'
-  .question data-action='click->question-answer#disclose'
+div data-controller='content-reveal'
+  a.question.reveal-trigger data-action='content-reveal#reveal'
     = question
-  .answer data-target='question-answer.answer'
+  .answer.revealed-content data-target='content-reveal.content'
     div = yield

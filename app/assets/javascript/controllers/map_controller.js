@@ -9,6 +9,8 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon } from 'ol/style';
 
+import 'ol/ol.css'
+
 export default class extends Controller {
   static targets = ['map', 'popup'];
 
