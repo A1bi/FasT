@@ -1,43 +1,43 @@
-import { Controller } from 'stimulus';
-import { Map, View, Overlay } from 'ol';
-import { Vector, Tile } from 'ol/layer';
-import VectorSource from 'ol/source/Vector';
-import OSM from 'ol/source/OSM';
-import { defaults } from 'ol/interaction';
-import { fromLonLat } from 'ol/proj';
-import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
-import { Style, Icon } from 'ol/style';
+import { Controller } from 'stimulus'
+import { Map, View, Overlay } from 'ol'
+import { Vector, Tile } from 'ol/layer'
+import VectorSource from 'ol/source/Vector'
+import OSM from 'ol/source/OSM'
+import { defaults } from 'ol/interaction'
+import { fromLonLat } from 'ol/proj'
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import { Style, Icon } from 'ol/style'
 
 import 'ol/ol.css'
 
 export default class extends Controller {
   static targets = ['map', 'popup'];
 
-  connect() {
-    this.loadData();
+  connect () {
+    this.loadData()
   }
 
-  async loadData() {
-    const path = `/faq/map.json?identifier=${this.data.get('identifier')}`;
-    const response = await fetch(path);
-    const data = await response.json();
+  async loadData () {
+    const path = `/faq/map.json?identifier=${this.data.get('identifier')}`
+    const response = await window.fetch(path)
+    const data = await response.json()
 
-    this.createMap(data.center, data.zoom);
-    this.registerIcons(data.icons);
-    this.addMarkers(data.markers);
+    this.createMap(data.center, data.zoom)
+    this.registerIcons(data.icons)
+    this.addMarkers(data.markers)
   }
 
-  createMap(center, zoom) {
-    this.icons = {};
-    this.markerSource = new VectorSource();
+  createMap (center, zoom) {
+    this.icons = {}
+    this.markerSource = new VectorSource()
 
     this.popup = new Overlay({
       element: this.popupTarget,
       autoPan: true,
       positioning: 'bottom-center',
       offset: [0, -50]
-    });
+    })
 
     this.map = new Map({
       target: this.mapTarget,
@@ -57,37 +57,37 @@ export default class extends Controller {
         zoom: zoom
       }),
       overlays: [this.popup]
-    });
+    })
 
-    this.registerEvents();
+    this.registerEvents()
   }
 
-  registerEvents() {
+  registerEvents () {
     this.map.on('click', event => {
       const feature = this.map.forEachFeatureAtPixel(event.pixel,
-                                                     feature => feature);
+        feature => feature)
 
-      this.popupTarget.style.display = !!feature ? 'block' : 'inline';
+      this.popupTarget.style.display = feature ? 'block' : 'inline'
       if (feature) {
-        var coordinates = feature.getGeometry().getCoordinates();
-        this.popup.setPosition(coordinates);
-        this.popupTarget.innerHTML = feature.get('content');
+        var coordinates = feature.getGeometry().getCoordinates()
+        this.popup.setPosition(coordinates)
+        this.popupTarget.innerHTML = feature.get('content')
       }
-    });
+    })
 
     this.map.on('pointermove', event => {
       if (event.dragging) {
-        this.popupTarget.style.display = 'none';
-        return;
+        this.popupTarget.style.display = 'none'
+        return
       }
-      const pixel = this.map.getEventPixel(event.originalEvent);
-      const hit = this.map.hasFeatureAtPixel(pixel);
-      this.mapTarget.style.cursor = hit ? 'pointer' : 'auto';
-    });
+      const pixel = this.map.getEventPixel(event.originalEvent)
+      const hit = this.map.hasFeatureAtPixel(pixel)
+      this.mapTarget.style.cursor = hit ? 'pointer' : 'auto'
+    })
   }
 
-  registerIcons(icons) {
-    for (let iconInfo of icons) {
+  registerIcons (icons) {
+    for (const iconInfo of icons) {
       this.icons[iconInfo.name] = new Style({
         image: new Icon({
           anchor: iconInfo.offset,
@@ -95,18 +95,18 @@ export default class extends Controller {
           anchorYUnits: 'pixels',
           src: iconInfo.file
         })
-      });
+      })
     }
   }
 
-  addMarkers(markers) {
-    for (let markerInfo of markers) {
+  addMarkers (markers) {
+    for (const markerInfo of markers) {
       const feature = new Feature({
         geometry: new Point(fromLonLat(markerInfo.loc)),
         content: `<b>${markerInfo.title}</b><br>${markerInfo.desc}`
-      });
-      feature.setStyle(this.icons[markerInfo.icon]);
-      this.markerSource.addFeature(feature);
+      })
+      feature.setStyle(this.icons[markerInfo.icon])
+      this.markerSource.addFeature(feature)
     }
   }
 }

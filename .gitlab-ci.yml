@@ -41,6 +41,16 @@ rubocop:
   script:
     - rubocop
 
+standardjs:
+  tags:
+    - yarn
+  except:
+    - schedules
+  before_script:
+    - yarn install
+  script:
+    - yarn run standard
+
 specs:
   extends: .postgres
   except:

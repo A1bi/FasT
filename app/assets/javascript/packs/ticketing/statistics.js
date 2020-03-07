@@ -1,63 +1,66 @@
+/* global Seating, Seat */
+
 import '../../../javascripts/ticketing/_seating'
 import Chart from 'chart.js'
 import $ from 'jquery'
 
 $(() => {
   $('.chooser span').click(async event => {
-    const $this = $(event.currentTarget);
-    $this.addClass('selected').siblings().removeClass('selected');
-    $(".stats *").stop(true, false);
+    const $this = $(event.currentTarget)
+    $this.addClass('selected').siblings().removeClass('selected')
+    $('.stats *').stop(true, false)
 
-    const tableClass = "." + $this.data("table");
-    const tables = $(".stats .table:visible");
-    await tables.not(tableClass).slideUp(600).promise();
-    tables.siblings(tableClass).slideDown();
-  });
+    const tableClass = '.' + $this.data('table')
+    const tables = $('.stats .table:visible')
+    await tables.not(tableClass).slideUp(600).promise()
+    tables.siblings(tableClass).slideDown()
+  })
 
-  const seatingBoxes = $('.seating');
+  const seatingBoxes = $('.seating')
   if (seatingBoxes.length) {
     $.getJSON(seatingBoxes.first().data('additional-path'), data => {
-      if (!data) return;
+      if (!data) return
 
-      for (let box of seatingBoxes) {
-        const $box = $(box);
-        const dateSeats = data.seats[$box.data('date')];
-        var seating = new Seating($box);
+      for (const box of seatingBoxes) {
+        const $box = $(box)
+        const dateSeats = data.seats[$box.data('date')]
+        var seating = new Seating($box)
         seating.initSeats(seat => {
-          var status;
+          var status
           switch (dateSeats[seat.id]) {
-          case 2:
-            status = Seat.Status.Exclusive
-            break;
-          case 1:
-            status = Seat.Status.Available
-            break;
-          default:
-            status = Seat.Status.Taken
+            case 2:
+              status = Seat.Status.Exclusive
+              break
+            case 1:
+              status = Seat.Status.Available
+              break
+            default:
+              status = Seat.Status.Taken
           }
-          seat.setStatus(status);
-        });
+          seat.setStatus(status)
+        })
       }
-    });
+    })
   }
 
-  const dailyStatsCanvas = $('#daily_stats');
+  const dailyStatsCanvas = $('#daily_stats')
   if (dailyStatsCanvas.length) {
-    dailyStatsCanvas.prop('width', dailyStatsCanvas.parent().width());
+    dailyStatsCanvas.prop('width', dailyStatsCanvas.parent().width())
 
     $.getJSON(dailyStatsCanvas.data('chart-data-path'), data => {
       const chartColors = {
         red: 'rgb(255, 99, 132)',
         green: 'rgb(75, 192, 192)',
         blue: 'rgb(54, 162, 235)'
-      };
-      const colorOrder = ['green', 'red', 'blue'];
+      }
+      const colorOrder = ['green', 'red', 'blue']
 
       data.datasets.forEach((dataset, index) => {
-        dataset.backgroundColor = chartColors[colorOrder[index]];
-        dataset.borderColor = dataset.backgroundColor;
-      });
+        dataset.backgroundColor = chartColors[colorOrder[index]]
+        dataset.borderColor = dataset.backgroundColor
+      })
 
+      /* eslint-disable-next-line no-new */
       new Chart(dailyStatsCanvas, {
         type: 'line',
         data: data,
@@ -80,7 +83,7 @@ $(() => {
             }]
           }
         }
-      });
-    });
+      })
+    })
   }
-});
+})
