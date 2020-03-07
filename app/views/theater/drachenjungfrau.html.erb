@@ -1,96 +1,5 @@
 <% title "Die Drachenjungfrau" %>
 <% include_css "drachenjungfrau" %>
-<% include_js "theater" %>
-<%
-@cast = [
-  {
-    name: "Jambus",
-    desc: "Erzähler 1",
-    actors: ["Melissa Gasser"]
-  },
-  {
-    name: "Trochäus",
-    desc: "Erzähler 2",
-    actors: ["Max Diederichs"]
-  },
-  {
-    name: "Streuner",
-    desc: "das Kätzchen",
-    actors: ["Merle Barl"]
-  },
-  {
-    name: "Heinrich",
-    desc: "Wirt der Vulkanstube",
-    actors: ["Tim Steffes"]
-  },
-  {
-    name: "Hertha",
-    desc: "Wirtin der Vulkanstube",
-    actors: ["Sophie Meiers"]
-  },
-  {
-    name: "Margarete",
-    desc: "Wirtstochter",
-    actors: ["Annalena Keller"]
-  },
-  {
-    name: "Cornelia",
-    desc: "Gretchens Freundin",
-    actors: ["Maria Lehnen"]
-  },
-  {
-    name: "Trudi",
-    desc: "Gretchens beste Freundin",
-    actors: ["Carla Wink"]
-  },
-  {
-    name: "Lenchen",
-    desc: "Gretchens Cousine",
-    actors: ["Paulina Gorges"]
-  },
-  {
-    name: "Fine",
-    desc: "Gretchens Freundin",
-    actors: ["Nele Fuhrmann"]
-  },
-  {
-    name: "Pfarrer Martin",
-    actors: ["Johanna May"]
-  },
-  {
-    name: "Alfred",
-    desc: "der Schmied",
-    actors: ["Jule Thelen"]
-  },
-  {
-    name: "Lehrerin",
-    actors: ["Lara Heins"]
-  },
-  {
-    name: "Doktor",
-    actors: ["Jakob Ellerich"]
-  },
-  {
-    name: "Emma",
-    desc: "Gretchens Tante",
-    actors: ["Michelle Kemler"]
-  },
-  {
-    name: "Der Ältestenrat",
-    actors: ["Jos Diederichs", "Katharina May", "Lorena Gorges"]
-  },
-  {
-    name: "Hans",
-    desc: "Glücksucher",
-    actors: ["Noel Schönberg"]
-  },
-  {
-    name: "Ignidur",
-    desc: "der Drache",
-    actors: ["Morten Roscher"]
-  }
-]
-%>
 <div class="info">
   Das Kinder- und Jugendtheater der Freilichtbühne am schiefen Turm präsentiert:
   <p class="hcen">
@@ -111,5 +20,92 @@
     Seit dem Ende der Sommerferien wird in der Friedenskirche Kaisersesch eifrig geprobt, mit Unterstützung von Pamela Diederichs und Helmut Mattern nimmt das Stück um den Drachen nun seine endgültige Gestalt an. Musikalisch begleitet wird das dramatische Geschehen von Annemarie Taßler und ihrer Flötengruppe. Mit dem näher rückenden Premierenwochenende am 13. und 14. November steigen allmählich Spannung und Vorfreude in der jungen Truppe.
   </p>
   <h2>Besetzung</h2>
-  <%= render "cast" %>
+  <%= render "cast", cast: [
+    {
+      name: "Jambus",
+      desc: "Erzähler 1",
+      actors: ["Melissa Gasser"]
+    },
+    {
+      name: "Trochäus",
+      desc: "Erzähler 2",
+      actors: ["Max Diederichs"]
+    },
+    {
+      name: "Streuner",
+      desc: "das Kätzchen",
+      actors: ["Merle Barl"]
+    },
+    {
+      name: "Heinrich",
+      desc: "Wirt der Vulkanstube",
+      actors: ["Tim Steffes"]
+    },
+    {
+      name: "Hertha",
+      desc: "Wirtin der Vulkanstube",
+      actors: ["Sophie Meiers"]
+    },
+    {
+      name: "Margarete",
+      desc: "Wirtstochter",
+      actors: ["Annalena Keller"]
+    },
+    {
+      name: "Cornelia",
+      desc: "Gretchens Freundin",
+      actors: ["Maria Lehnen"]
+    },
+    {
+      name: "Trudi",
+      desc: "Gretchens beste Freundin",
+      actors: ["Carla Wink"]
+    },
+    {
+      name: "Lenchen",
+      desc: "Gretchens Cousine",
+      actors: ["Paulina Gorges"]
+    },
+    {
+      name: "Fine",
+      desc: "Gretchens Freundin",
+      actors: ["Nele Fuhrmann"]
+    },
+    {
+      name: "Pfarrer Martin",
+      actors: ["Johanna May"]
+    },
+    {
+      name: "Alfred",
+      desc: "der Schmied",
+      actors: ["Jule Thelen"]
+    },
+    {
+      name: "Lehrerin",
+      actors: ["Lara Heins"]
+    },
+    {
+      name: "Doktor",
+      actors: ["Jakob Ellerich"]
+    },
+    {
+      name: "Emma",
+      desc: "Gretchens Tante",
+      actors: ["Michelle Kemler"]
+    },
+    {
+      name: "Der Ältestenrat",
+      actors: ["Jos Diederichs", "Katharina May", "Lorena Gorges"]
+    },
+    {
+      name: "Hans",
+      desc: "Glücksucher",
+      actors: ["Noel Schönberg"]
+    },
+    {
+      name: "Ignidur",
+      desc: "der Drache",
+      actors: ["Morten Roscher"]
+    }
+  ] %>
 </div>

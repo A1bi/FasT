@@ -1,0 +1,28 @@
+.cast
+  - cast.each do |role|
+    div data-controller='content-reveal'
+      .row
+        .role
+          = role[:name]
+          .desc = role[:desc] if role[:desc].present?
+        .actor class=('double' if role[:doubles])
+          - if role[:doubles]
+            = role[:doubles].pluck(:name).join(' / ')
+            .small.reveal-trigger data-action='click->content-reveal#reveal'
+              | Aufführungen anzeigen
+          - else
+            = role[:actors].join(' / ')
+      - if role[:doubles]
+        .revealed-content data-target='content-reveal.content'
+          .alt
+            - role[:doubles].each do |double|
+              .row
+                .role = double[:name]
+                .actor
+                  - if double[:dates].present?
+                    ul
+                      - double[:dates].each do |date|
+                        li = l((@dates[date] || @dates.first).date.to_date,
+                               format: :cast)
+                  - else
+                    | alle Aufführungen

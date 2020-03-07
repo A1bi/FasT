@@ -1,160 +1,5 @@
 <% title "Der Besuch der alten Dame" %>
 <% include_css "alte_dame" %>
-<% include_js "theater" %>
-<%
-@cast = [
-  {
-    name: "Claire Zachanassian, geb. Wäscher",
-    doubles: [
-      {
-        name: "Susanne Schubert",
-        dates: [0, 1, 2]
-      },
-      {
-        name: "Simone Spies",
-        dates: [3, 4, 5]
-      }
-    ]
-  },
-  {
-    name: "Ihr Gatte",
-    actors: ["Gerd Röser"]
-  },
-  {
-    name: "Der Butler",
-    actors: ["Otto Krechel"]
-  },
-  {
-    name: "Toby",
-    actors: ["Nina Lübke"]
-  },
-  {
-    name: "Koby",
-    actors: ["Claudia Scholz"]
-  },
-  {
-    name: "Bodyguard",
-    actors: ["Bernd Venus"]
-  },
-  {
-    name: "Alfred Ill",
-    actors: ["Thomas Ellerich"]
-  },
-  {
-    name: "Seine Frau",
-    actors: ["Catrin Drogi"]
-  },
-  {
-    name: "Carla, seine Tochter",
-    actors: ["Sarah-Céline Schubert"]
-  },
-  {
-    name: "Lisa, noch eine Tochter",
-    actors: ["Johanna Ellerich"]
-  },
-  {
-    name: "Der Bürgermeister",
-    actors: ["Stephan Hilken"]
-  },
-  {
-    name: "Seine Tochter",
-    actors: ["Melissa Gasser"]
-  },
-  {
-    name: "Der Pfarrer",
-    actors: ["Stefan Gasser"]
-  },
-  {
-    name: "Die Lehrerin",
-    actors: ["Kirsten Roscher"]
-  },
-  {
-    name: "Der Arzt",
-    actors: ["Dieter Stein"]
-  },
-  {
-    name: "Der Polizist",
-    actors: ["Markus Müller"]
-  },
-  {
-    name: "Herr Helmesberger",
-    actors: ["Alexander Dorka"]
-  },
-  {
-    name: "Erste Frau",
-    actors: ["Michaela Venus"]
-  },
-  {
-    name: "Zweite Frau",
-    actors: ["Gaby Bernauer"]
-  },
-  {
-    name: "Maler",
-    doubles: [
-      {
-        name: "Willi Schrader",
-        dates: [0, 1, 2, 3]
-      }
-    ]
-  },
-  {
-    name: "Der Erste",
-    actors: ["Wilfried Bernauer"]
-  },
-  {
-    name: "Der Zweite",
-    doubles: [
-      {
-        name: "Uli Hesse",
-        dates: [0, 2, 3, 4, 5]
-      }
-    ]
-  },
-  {
-    name: "Der Dritte",
-    doubles: [
-      {
-        name: "Josef Kreutz",
-        dates: [0, 1, 4, 5]
-      }
-    ]
-  },
-  {
-    name: "Zugführer",
-    actors: ["Werner Lutz"]
-  },
-  {
-    name: "Chefredakteurin",
-    doubles: [
-      {
-        name: "Maria Oster",
-        dates: [0, 1, 2, 3]
-      },
-      {
-        name: "Julia Heinrich",
-        dates: [4, 5]
-      }
-    ]
-  },
-  {
-    name: "Kameramann",
-    actors: ["Albrecht Oster"]
-  },
-  {
-    name: "Bürger von Güllen",
-    actors: ["Mitglieder des Kirchenchors sowie der Blaskapelle Kaisersesch"]
-  },
-  {
-    name: "weitere Rollen",
-    actors: [
-      "Margret Zeimetz",
-      "Julia Heinrich",
-      "Susanne Schubert",
-      "Maria Oster"
-    ]
-  }
-]
-%>
 <div class="info">
   <div class="title">
     <p>Die Freilichtbühne am schiefen Turm präsentiert</p>
@@ -176,5 +21,156 @@
     Im historischen Ortskern, zwischen dem schiefen Turm von St. Pankratius und dem barocken Prison, bietet sich eine wunderschöne Kulisse für die 6 Aufführungen im Juli. Reservierte Plätze, gepflegte Getränke und leckere Kleinigkeiten sorgen für einen entspannten Rahmen an allen Vorstellungsabenden.
   </p>
   <h2>Besetzung</h2>
-  <%= render "cast" %>
+  <%= render "cast", cast: [
+    {
+      name: "Claire Zachanassian, geb. Wäscher",
+      doubles: [
+        {
+          name: "Susanne Schubert",
+          dates: [0, 1, 2]
+        },
+        {
+          name: "Simone Spies",
+          dates: [3, 4, 5]
+        }
+      ]
+    },
+    {
+      name: "Ihr Gatte",
+      actors: ["Gerd Röser"]
+    },
+    {
+      name: "Der Butler",
+      actors: ["Otto Krechel"]
+    },
+    {
+      name: "Toby",
+      actors: ["Nina Lübke"]
+    },
+    {
+      name: "Koby",
+      actors: ["Claudia Scholz"]
+    },
+    {
+      name: "Bodyguard",
+      actors: ["Bernd Venus"]
+    },
+    {
+      name: "Alfred Ill",
+      actors: ["Thomas Ellerich"]
+    },
+    {
+      name: "Seine Frau",
+      actors: ["Catrin Drogi"]
+    },
+    {
+      name: "Carla, seine Tochter",
+      actors: ["Sarah-Céline Schubert"]
+    },
+    {
+      name: "Lisa, noch eine Tochter",
+      actors: ["Johanna Ellerich"]
+    },
+    {
+      name: "Der Bürgermeister",
+      actors: ["Stephan Hilken"]
+    },
+    {
+      name: "Seine Tochter",
+      actors: ["Melissa Gasser"]
+    },
+    {
+      name: "Der Pfarrer",
+      actors: ["Stefan Gasser"]
+    },
+    {
+      name: "Die Lehrerin",
+      actors: ["Kirsten Roscher"]
+    },
+    {
+      name: "Der Arzt",
+      actors: ["Dieter Stein"]
+    },
+    {
+      name: "Der Polizist",
+      actors: ["Markus Müller"]
+    },
+    {
+      name: "Herr Helmesberger",
+      actors: ["Alexander Dorka"]
+    },
+    {
+      name: "Erste Frau",
+      actors: ["Michaela Venus"]
+    },
+    {
+      name: "Zweite Frau",
+      actors: ["Gaby Bernauer"]
+    },
+    {
+      name: "Maler",
+      doubles: [
+        {
+          name: "Willi Schrader",
+          dates: [0, 1, 2, 3]
+        }
+      ]
+    },
+    {
+      name: "Der Erste",
+      actors: ["Wilfried Bernauer"]
+    },
+    {
+      name: "Der Zweite",
+      doubles: [
+        {
+          name: "Uli Hesse",
+          dates: [0, 2, 3, 4, 5]
+        }
+      ]
+    },
+    {
+      name: "Der Dritte",
+      doubles: [
+        {
+          name: "Josef Kreutz",
+          dates: [0, 1, 4, 5]
+        }
+      ]
+    },
+    {
+      name: "Zugführer",
+      actors: ["Werner Lutz"]
+    },
+    {
+      name: "Chefredakteurin",
+      doubles: [
+        {
+          name: "Maria Oster",
+          dates: [0, 1, 2, 3]
+        },
+        {
+          name: "Julia Heinrich",
+          dates: [4, 5]
+        }
+      ]
+    },
+    {
+      name: "Kameramann",
+      actors: ["Albrecht Oster"]
+    },
+    {
+      name: "Bürger von Güllen",
+      actors: ["Mitglieder des Kirchenchors sowie der Blaskapelle Kaisersesch"]
+    },
+    {
+      name: "weitere Rollen",
+      actors: [
+        "Margret Zeimetz",
+        "Julia Heinrich",
+        "Susanne Schubert",
+        "Maria Oster"
+      ]
+    }
+  ] %>
 </div>

@@ -1,197 +1,5 @@
 <% title "Don Camillo und Peppone" %>
 <% include_css "don_camillo" %>
-<% include_js "theater" %>
-<%
-@date_groups = [
-  [0, 1, 2],
-  [3, 4, 5, 6],
-  [0, 1, 3],
-  [2, 4, 5, 6]
-]
-@cast = [
-  {
-    name: "Don Camillo",
-    actors: ["Stephan Hilken"]
-  },
-  {
-    name: "Peppone",
-    actors: ["Jürgen Knaup"]
-  },
-  {
-    name: "Signora Cristina",
-    doubles: [
-      {
-        name: "Catrin Drogi",
-        date_group: 1
-      },
-      {
-        name: "Maria Oster",
-        date_group: 0
-      }
-    ]
-  },
-  {
-    name: "Ariana",
-    doubles: [
-      {
-        name: "Kirsten Roscher",
-        date_group: 1
-      },
-      {
-        name: "Susanne Schubert",
-        date_group: 0
-      }
-    ]
-  },
-  {
-    name: "Pasotti",
-    doubles: [
-      {
-        name: "Thomas Ellerich",
-        dates: [2, 4, 5]
-      },
-      {
-        name: "Otto Krechel",
-        dates: [0, 1, 3, 6]
-      }
-    ]
-  },
-  {
-    name: "Gina",
-    doubles: [
-      {
-        name: "Lena Schmitz",
-        date_group: 3
-      },
-      {
-        name: "Sarah-Céline Schubert",
-        date_group: 2
-      }
-    ]
-  },
-  {
-    name: "Mariolino",
-    doubles: [
-      {
-        name: "Ron Linden",
-        date_group: 3
-      },
-      {
-        name: "Alexander Dorka",
-        date_group: 2
-      }
-    ]
-  },
-  {
-    name: "Bruciata",
-    actors: ["Dieter Stein"]
-  },
-  {
-    name: "Fulmine",
-    actors: ["Werner Lutz"]
-  },
-  {
-    name: "Smilzo",
-    actors: ["Gerd Röser"]
-  },
-  {
-    name: "Jesus",
-    actors: ["Eugen Weiten"]
-  },
-  {
-    name: "Messdiener",
-    actors: ["Morten Roscher", "Noel Schönberg"]
-  },
-  {
-    name: "Schiedsrichterin",
-    actors: ["Christiane Lares"]
-  },
-  {
-    name: "Musiker",
-    actors: ["Iwo Iwanov (Gitarre)", "Annemarie Taßler (Flöte)", "Dorothea Kirsch (Flöte)", "Harriet Schmidt (Flöte)", "Sabine Ziegler (Flöte)", "Marie-Luise Bretz (Flöte)"]
-  },
-  {
-    name: "Katholiken",
-    doubles: [
-      {
-        name: "Wilfried Bernauer"
-      },
-      {
-        name: "Gerda Schnitzler",
-        dates: [1, 2, 5]
-      },
-      {
-        name: "Heidrun Bretz",
-        dates: [0, 1, 2, 3]
-      },
-      {
-        name: "Renate Reifenrath"
-      },
-      {
-        name: "Margit Fischer",
-        dates: [2, 3, 4, 5]
-      },
-      {
-        name: "Renate Sommer"
-      },
-      {
-        name: "Gabi Bernauer"
-      },
-      {
-        name: "Rolf Heidorn",
-        dates: [3, 4, 5]
-      },
-      {
-        name: "Karl-Heinz Werr",
-        dates: [0, 1, 2, 3, 5]
-      }
-    ]
-  },
-  {
-    name: "Kommunisten",
-    doubles: [
-      {
-        name: "Uli Hesse",
-        dates: [0, 2, 3, 4, 5]
-      },
-      {
-        name: "Christiane Lares"
-      },
-      {
-        name: "Margret Zeimetz",
-        dates: [0, 1, 4, 5]
-      },
-      {
-        name: "Barbara Röser"
-      },
-      {
-        name: "Josef Kreutz",
-        dates: [0, 1, 4, 5]
-      },
-      {
-        name: "Kathi Kreutz",
-        dates: [0, 4, 5]
-      },
-      {
-        name: "Dr. Elke Koller",
-        dates: [3, 4, 5]
-      },
-      {
-        name: "Martina Scheler",
-        dates: [0, 1, 2, 3]
-      },
-      {
-        name: "Simone Spies",
-        dates: [0, 1]
-      }
-    ]
-  },
-  {
-    name: "Vorspann",
-    actors: ["Johanna Ellerich", "Jakob Ellerich", "Saskia Scharbach", "Annalena Keller", "Carla Wink", "Jule Thelen", "Katharina May", "Cécile Lares", "Luca Ptachin", "Anna Ptachin", "Michéle Kemler", "Johanna May", "Anna Pulvermacher"]
-  }
-]
-%>
 <div class="info">
   <p>
     Die Freilichtbühne am schiefen Turm präsentiert:
@@ -209,5 +17,187 @@
     Italienisches Flair rund um den schiefen Turm des Eifelstädtchens Kaisersesch und ein streitbarer Gottesmann, der mit seinem kommunistischen Widersacher um das Seelenheil seiner anvertrauten Schäfchen kämpft. Viel Volk, turbulente Szenen, eine Demonstration, die sich in eine Prozession verwandelt, Familienfehden, Streiks, Prügeleien und mach andere chaotische Situation garantieren dem Zuschauer einen lustigen und unterhaltsamen Abend im historischen Ortskern von Kaisersesch.
   </p>
   <h2>Besetzung</h2>
-  <%= render "cast" %>
+  <%= render "cast", cast: [
+    {
+      name: "Don Camillo",
+      actors: ["Stephan Hilken"]
+    },
+    {
+      name: "Peppone",
+      actors: ["Jürgen Knaup"]
+    },
+    {
+      name: "Signora Cristina",
+      doubles: [
+        {
+          name: "Catrin Drogi",
+          dates: [3, 4, 5, 6]
+        },
+        {
+          name: "Maria Oster",
+          dates: [0, 1, 2]
+        }
+      ]
+    },
+    {
+      name: "Ariana",
+      doubles: [
+        {
+          name: "Kirsten Roscher",
+          dates: [3, 4, 5, 6]
+        },
+        {
+          name: "Susanne Schubert",
+          dates: [0, 1, 2]
+        }
+      ]
+    },
+    {
+      name: "Pasotti",
+      doubles: [
+        {
+          name: "Thomas Ellerich",
+          dates: [2, 4, 5]
+        },
+        {
+          name: "Otto Krechel",
+          dates: [0, 1, 3, 6]
+        }
+      ]
+    },
+    {
+      name: "Gina",
+      doubles: [
+        {
+          name: "Lena Schmitz",
+          dates: [2, 4, 5, 6]
+        },
+        {
+          name: "Sarah-Céline Schubert",
+          dates: [0, 1, 3]
+        }
+      ]
+    },
+    {
+      name: "Mariolino",
+      doubles: [
+        {
+          name: "Ron Linden",
+          dates: [2, 4, 5, 6]
+        },
+        {
+          name: "Alexander Dorka",
+          dates: [0, 1, 3]
+        }
+      ]
+    },
+    {
+      name: "Bruciata",
+      actors: ["Dieter Stein"]
+    },
+    {
+      name: "Fulmine",
+      actors: ["Werner Lutz"]
+    },
+    {
+      name: "Smilzo",
+      actors: ["Gerd Röser"]
+    },
+    {
+      name: "Jesus",
+      actors: ["Eugen Weiten"]
+    },
+    {
+      name: "Messdiener",
+      actors: ["Morten Roscher", "Noel Schönberg"]
+    },
+    {
+      name: "Schiedsrichterin",
+      actors: ["Christiane Lares"]
+    },
+    {
+      name: "Musiker",
+      actors: ["Iwo Iwanov (Gitarre)", "Annemarie Taßler (Flöte)", "Dorothea Kirsch (Flöte)", "Harriet Schmidt (Flöte)", "Sabine Ziegler (Flöte)", "Marie-Luise Bretz (Flöte)"]
+    },
+    {
+      name: "Katholiken",
+      doubles: [
+        {
+          name: "Wilfried Bernauer"
+        },
+        {
+          name: "Gerda Schnitzler",
+          dates: [1, 2, 5]
+        },
+        {
+          name: "Heidrun Bretz",
+          dates: [0, 1, 2, 3]
+        },
+        {
+          name: "Renate Reifenrath"
+        },
+        {
+          name: "Margit Fischer",
+          dates: [2, 3, 4, 5]
+        },
+        {
+          name: "Renate Sommer"
+        },
+        {
+          name: "Gabi Bernauer"
+        },
+        {
+          name: "Rolf Heidorn",
+          dates: [3, 4, 5]
+        },
+        {
+          name: "Karl-Heinz Werr",
+          dates: [0, 1, 2, 3, 5]
+        }
+      ]
+    },
+    {
+      name: "Kommunisten",
+      doubles: [
+        {
+          name: "Uli Hesse",
+          dates: [0, 2, 3, 4, 5]
+        },
+        {
+          name: "Christiane Lares"
+        },
+        {
+          name: "Margret Zeimetz",
+          dates: [0, 1, 4, 5]
+        },
+        {
+          name: "Barbara Röser"
+        },
+        {
+          name: "Josef Kreutz",
+          dates: [0, 1, 4, 5]
+        },
+        {
+          name: "Kathi Kreutz",
+          dates: [0, 4, 5]
+        },
+        {
+          name: "Dr. Elke Koller",
+          dates: [3, 4, 5]
+        },
+        {
+          name: "Martina Scheler",
+          dates: [0, 1, 2, 3]
+        },
+        {
+          name: "Simone Spies",
+          dates: [0, 1]
+        }
+      ]
+    },
+    {
+      name: "Vorspann",
+      actors: ["Johanna Ellerich", "Jakob Ellerich", "Saskia Scharbach", "Annalena Keller", "Carla Wink", "Jule Thelen", "Katharina May", "Cécile Lares", "Luca Ptachin", "Anna Ptachin", "Michéle Kemler", "Johanna May", "Anna Pulvermacher"]
+    }
+  ] %>
 </div>
