@@ -57,7 +57,7 @@
       <tbody class="hover">
         <% @orders[:unapproved].each do |order| %>
           <% charge = order.bank_charge %>
-          <tr data-path="<%= ticketing_order_path(order) %>">
+          <tr data-controller="linked-row" data-linked-row-path="<%= ticketing_order_path(order) %>">
             <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
             <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
             <td class="name"><%= charge.name %></td>

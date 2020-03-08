@@ -15,7 +15,7 @@
       <% if orders.any? %>
         <tr>
           <% if :checkbox.in?(additional_columns) %>
-            <th class="checkbox"><%= check_box_tag "orders_all[]" %></th>
+            <th></th>
           <% end %>
           <th>Nummer</th>
           <th><% if web ||= false %>Name<% else %>Vorverkaufsstelle<% end %></th>
@@ -33,7 +33,7 @@
     <tbody class="hover">
       <% orders.each do |order| %>
         <% classes = :cancelled if order.cancelled? %>
-        <%= content_tag :tr, class: classes, data: { path: ticketing_order_path(order) } do %>
+        <%= content_tag :tr, class: classes, data: { controller: 'linked-row', 'linked-row-path': ticketing_order_path(order) } do %>
           <% if :checkbox.in?(additional_columns) %>
             <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
           <% end %>

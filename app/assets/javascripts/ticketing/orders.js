@@ -1,5 +1,4 @@
 //= require ./_seating
-//= require ./base
 //= require ./_printer
 
 function Step(name, delegate) {

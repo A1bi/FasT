@@ -13,7 +13,7 @@
   <tbody class="hover">
     <% coupons.each do |coupon| %>
       <% cache coupon do %>
-        <tr data-path="<%= ticketing_coupon_path(coupon) %>">
+        <tr data-controller="linked-row" data-linked-row-path="<%= ticketing_coupon_path(coupon) %>">
           <td>
             <%= link_to name_and_affiliation(coupon.recipient, coupon.affiliation, 'niemand angegeben'), coupon %>
           </td>

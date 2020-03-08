@@ -1,6 +1,5 @@
 <% title "Gutscheine" %>
 <% include_css "ticketing/coupons" %>
-<% include_js "ticketing/base" %>
 <%= render "new_button", action: "Gutschein erstellen", url: new_ticketing_coupon_path %>
 <%= render "index_table", coupons: @coupons, title: "Gutscheine" %>
 <%= render "index_table", coupons: @coupons_expired, title: "Abgelaufene Gutscheine" %>

@@ -66,9 +66,9 @@ module Ticketing
 
     private
 
-    def redirect_to_order_details(notice)
-      redirect_to ticketing_order_path(params[:order_id]),
-                  notice: t(".#{notice}", count: @tickets.count)
+    def redirect_to_order_details(notice = nil)
+      flash.notice = t(".#{notice}", count: @tickets.count) if notice
+      redirect_to ticketing_order_path(params[:order_id])
     end
 
     def find_tickets_with_order
@@ -83,6 +83,8 @@ module Ticketing
 
         ticket_scope = @order.tickets
       end
+
+      return redirect_to_order_details unless params[:ticket_ids]&.any?
 
       @tickets = ticket_scope.cancelled(false).where(id: params[:ticket_ids])
                              .to_a
