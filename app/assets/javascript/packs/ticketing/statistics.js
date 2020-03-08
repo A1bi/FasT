@@ -1,7 +1,6 @@
 /* global Seating, Seat */
 
 import '../../../javascripts/ticketing/_seating'
-import Chart from 'chart.js'
 import $ from 'jquery'
 
 $(() => {
@@ -40,50 +39,6 @@ $(() => {
           seat.setStatus(status)
         })
       }
-    })
-  }
-
-  const dailyStatsCanvas = $('#daily_stats')
-  if (dailyStatsCanvas.length) {
-    dailyStatsCanvas.prop('width', dailyStatsCanvas.parent().width())
-
-    $.getJSON(dailyStatsCanvas.data('chart-data-path'), data => {
-      const chartColors = {
-        red: 'rgb(255, 99, 132)',
-        green: 'rgb(75, 192, 192)',
-        blue: 'rgb(54, 162, 235)'
-      }
-      const colorOrder = ['green', 'red', 'blue']
-
-      data.datasets.forEach((dataset, index) => {
-        dataset.backgroundColor = chartColors[colorOrder[index]]
-        dataset.borderColor = dataset.backgroundColor
-      })
-
-      /* eslint-disable-next-line no-new */
-      new Chart(dailyStatsCanvas, {
-        type: 'line',
-        data: data,
-        options: {
-          datasets: {
-            line: {
-              lineTension: 0
-            }
-          },
-          tooltips: {
-            mode: 'index'
-          },
-          scales: {
-            yAxes: [{
-              stacked: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Verkaufte Tickets'
-              }
-            }]
-          }
-        }
-      })
     })
   }
 })

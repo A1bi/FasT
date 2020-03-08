@@ -33,7 +33,7 @@
       </div>
     <% end %>
     <div class="trenner"></div>
-    <table class="rounded daily_stats">
+    <table class="rounded" data-controller="ticketing--statistics-chart" data-ticketing--statistics-chart-data-path="<%= ticketing_statistics_chart_data_path %>">
       <thead>
         <tr>
           <th>Tägliche Verkaufszahlen</th>
@@ -42,7 +42,7 @@
       <tbody>
         <tr>
           <td>
-            <canvas id="daily_stats" height="300" data-chart-data-path="<%= ticketing_statistics_chart_data_path %>"></canvas>
+            <canvas data-target="ticketing--statistics-chart.canvas"></canvas>
           </td>
         </tr>
       </tbody>
