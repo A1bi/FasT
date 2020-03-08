@@ -4,14 +4,14 @@
 
 <% cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all] do %>
   <div class="hl">Ticket-Statistik</div>
-  <div class="stats">
+  <div class="stats" data-controller="ticketing--statistics-table">
     <div class="box chooser">
-      <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-table="total">gesamt</span> | <span data-table="web">online</span> | <span data-table="retail">Vorverkaufsstellen</span> | <span data-table="box_office">Abendkassen</span></div>
+      <div class="top">Verkaufszahlen anzeigen: <span class="selected" data-action="click->ticketing--statistics-table#switchTable" data-table="total">gesamt</span> | <span  data-action="click->ticketing--statistics-table#switchTable" data-table="web">online</span> | <span data-action="click->ticketing--statistics-table#switchTable" data-table="retail">Vorverkaufsstellen</span> | <span data-action="click->ticketing--statistics-table#switchTable" data-table="box_office">Abendkassen</span></div>
     </div>
     <% @events.each do |event| %>
       <% stats = stats_for_event(event) %>
       <h4 class="hcen"><%= event.name %></h4>
-      <div class="total table">
+      <div class="total table active">
         <%= render "stats_table", scopes: [{ title: "Gesamt", scope: stats[:total] }], event: event, total: true %>
       </div>
       <div class="web table">
