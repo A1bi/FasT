@@ -1,5 +1,4 @@
 //= require ./_seating
-//= require ./base
 
 function TicketTransfer(container) {
   this.socketId;

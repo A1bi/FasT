@@ -1,5 +1,4 @@
 //= require ./_seating
-//= require ./base
 
 function ReservationGroups(container) {
   this.box = container;
