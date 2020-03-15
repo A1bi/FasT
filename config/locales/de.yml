@@ -35,7 +35,7 @@ de:
       saved: Der Newsletter wurde gespeichert.
       destroyed: Der Newsletter wurde gelöscht.
       preview_sent: Der Newsletter wurde gespeichert und eine Vorschau verschickt.
-      pending_review: Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt.
+      finished: Der Newsletter wird nach einer Prüfung an alle Empfänger verschickt.
       sent: Der Newsletter wird nun versendet.
   navi:
     members:

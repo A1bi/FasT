@@ -96,7 +96,7 @@
   </div>
   <% if @skip_ending.blank? %>
     <p class="signature">
-      <%= render 'layouts/mailer_ending' %>
+      <%= render 'layouts/mailer_ending' unless @skip_ending %>
     </p>
   <% end %>
   <% if content_for? :footer %>

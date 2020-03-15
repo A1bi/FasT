@@ -1,6 +1,8 @@
-<%= yield :address %>
+<%= yield :address -%>
+
 <%= yield %>
-<%= render 'layouts/mailer_ending' if @skip_ending&.blank? %>
+
+<%= render 'layouts/mailer_ending' unless @skip_ending -%>
 
 
 <%= yield :footer %>

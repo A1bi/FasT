@@ -54,8 +54,9 @@ module Admin
       render request.action unless @newsletter.update(newsletter_params)
 
       if send_preview?
-        NewsletterMailingJob.perform_later(@newsletter.id,
-                                           params[:preview_email])
+        NewsletterMailer.with(newsletter: @newsletter,
+                              email: params[:preview_email])
+                        .newsletter.deliver_later
         flash.notice = t('.preview_sent')
       else
         flash.notice = t('.saved')
