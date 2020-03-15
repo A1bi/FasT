@@ -2,9 +2,25 @@
 
 module DatesHelper
   def item_availability(date)
-    return 'Discontinued' if date.event.sale_ended?
-    return 'SoldOut' if date.sold_out?
+    availability = if date.event.sale_ended?
+                     'Discontinued'
+                   elsif date.sold_out?
+                     'SoldOut'
+                   else
+                     'InStock'
+                   end
+    schema_prefixed(availability)
+  end
 
-    'InStock'
+  def event_status(date)
+    schema_prefixed(date.cancelled? ? 'EventCancelled' : 'EventScheduled')
+  end
+
+  def schema_prefixed(entity)
+    "#{schema_context}/#{entity}"
+  end
+
+  def schema_context
+    'http://schema.org'
   end
 end

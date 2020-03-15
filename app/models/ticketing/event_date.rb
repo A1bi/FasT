@@ -2,6 +2,7 @@
 
 module Ticketing
   class EventDate < ApplicationRecord
+    include Cancellable
     include Statistics
 
     belongs_to :event, touch: true

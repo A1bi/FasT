@@ -1296,7 +1296,8 @@ CREATE TABLE public.ticketing_event_dates (
     date timestamp without time zone,
     event_id bigint,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    cancellation_id bigint
 );
 
 
@@ -2868,6 +2869,13 @@ CREATE INDEX index_ticketing_coupons_reservation_groups_on_group_id ON public.ti
 
 
 --
+-- Name: index_ticketing_event_dates_on_cancellation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_event_dates_on_cancellation_id ON public.ticketing_event_dates USING btree (cancellation_id);
+
+
+--
 -- Name: index_ticketing_event_dates_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3655,6 +3663,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200210184433'),
 ('20200210221526'),
 ('20200213133157'),
-('20200222144644');
+('20200222144644'),
+('20200315115826');
 
 

@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 json.array! @event.dates.map do |date|
-  json.set! '@context', 'http://schema.org'
+  json.set! '@context', schema_context
   json.set! '@type', local_assigns.fetch(:event_type, 'TheaterEvent')
 
   json.name @event.name
   json.image local_assigns[:image] ? asset_url(image) : nil
   json.startDate date.date.iso8601
   json.doorTime date.door_time.iso8601
+  json.eventStatus event_status(date)
 
   json.location do
     json.set! '@type', local_assigns.fetch(:location_type,
@@ -26,6 +27,6 @@ json.array! @event.dates.map do |date|
     json.price type.price
     json.priceCurrency 'EUR'
     json.validFrom @event.sale_start.iso8601
-    json.availability "http://schema.org/#{item_availability(date)}"
+    json.availability item_availability(date)
   end
 end

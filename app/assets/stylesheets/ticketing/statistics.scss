@@ -55,6 +55,11 @@ $total-border: 2px $light-blue solid;
       &:last-child td {
         padding: 5px;
       }
+
+      &.cancelled td:first-child {
+        text-decoration: line-through;
+        text-decoration-color: red;
+      }
     }
   }
 

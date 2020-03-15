@@ -48,6 +48,8 @@ module Ticketing
         @order.errors.add(:store, 'Ticket sale disabled for this retail store')
       end
 
+      @order.errors.add(:date, 'Date is cancelled') if date.cancelled?
+
       @order.errors.add(:event, 'Sold out') if sold_out?
     end
 

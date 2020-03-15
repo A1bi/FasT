@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <% event.dates.each do |date| %>
-        <tr>
+        <tr class="<%= date.cancelled? ? 'cancelled' : '' %>">
           <td><%= l date.date, format: '%a, %-d. %B' %></td>
           <% ticket_types.each do |type| %>
             <td><%= ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0 %></td>

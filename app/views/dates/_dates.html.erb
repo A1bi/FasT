@@ -9,11 +9,15 @@
     <div class="con">
       <table>
         <% @event.dates.each do |date| %>
-          <%= content_tag :tr, class: (date.sold_out? ? :disabled : nil) do %>
+          <%= content_tag :tr, class: (date.sold_out? || date.cancelled? ? :disabled : nil) do %>
             <td class="point"></td>
             <td class="day">
               <span class="line_through"><%= l date.date, format: "%A" %></span>
-              <% if date.sold_out? %><div class="sold_out">derzeit ausverkauft</div><% end %>
+              <% if date.cancelled? %>
+                <div class="unavailable">Aufführung entfällt</div>
+              <% elsif date.sold_out? %>
+                <div class="unavailable">derzeit ausverkauft</div>
+              <% end %>
             </td>
             <td class="date">
               <span class="line_through">
