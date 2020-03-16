@@ -1,0 +1,59 @@
+- title "Ihre Bestellung ##{@order.number}"
+- include_css 'ticketing/orders'
+- include_js 'ticketing/seats'
+
+.hl Ihre Bestellung #{@order.number}
+
+- if @authenticated
+  table.rounded.entries.details
+    thead
+      tr
+        th colspan=6 Ihre Tickets
+      tr
+        th Nummer
+        th Termin
+        th Kategorie
+        th Sitz
+        - if show_wallet?
+          th
+    tbody
+      - @order.tickets.each do |ticket|
+        - classes = [:cancelled] if ticket.cancelled?
+        tr class=classes
+          td.number = ticket.number
+          td.date
+            | „#{ticket.event.name}“<br>
+            = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
+          td.name
+            = ticket.type.name
+            br
+            = number_to_currency ticket.price
+          td
+            - if ticket.seat.present?
+              = ticket.seat.full_number
+            - else
+              | Freie Platzwahl
+          - if show_wallet?
+            td.wallet
+              - unless ticket.cancelled?
+                = link_to order_overview_wallet_path(ticket.signed_info)
+                  = image_tag("add_to_wallet.png")
+    - if @order.tickets.first.seat.present?
+      thead
+        tr
+          th colspan=(show_wallet? ? 5 : 4) Sitzplätze
+      tbody
+        tr
+          td colspan=(show_wallet? ? 5 : 4)
+            = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
+  p.hcen
+    | Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
+    | <b>(02653) 28 27 09</b><br>
+    | oder kontaktieren Sie uns per Mail:<br>
+    = mail_to('info@theater-kaisersesch.de')
+
+- else
+  p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
+  = form_tag order_overview_path(params[:signed_info]), method: :post, class: :hcen
+    | E-Mail-Adresse: #{email_field_tag :email}
+    p = submit_tag :absenden
