@@ -2,11 +2,17 @@
 
 namespace :one_off do
   task run: :environment do
-    postcodes = Ticketing::Web::Order.select(:plz).distinct.pluck(:plz)
+    orders = Ticketing::Web::Order
+             .joins(:tickets)
+             .where(ticketing_tickets:
+               {
+                 date_id: Ticketing::EventDate.cancelled(true),
+                 cancellation_id: nil
+               })
+             .distinct
 
-    postcodes.each do |postcode|
-      Ticketing::GeolocatePostcodeJob.set(wait: rand(120).seconds)
-                                     .perform_later(postcode)
+    orders.each do |order|
+      Ticketing::RefundMailer.with(order: order).notification.deliver_later
     end
   end
 end

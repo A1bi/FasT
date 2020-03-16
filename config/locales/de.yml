@@ -143,6 +143,8 @@ de:
     refund_mailer:
       customer:
         subject: Ihre Erstattung
+      notification:
+        subject: „Der Gott des Gemetzels“ fällt leider aus
       internal:
         subject: Neue Erstattung
     tickets:

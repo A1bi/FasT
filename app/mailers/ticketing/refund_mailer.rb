@@ -6,10 +6,15 @@ module Ticketing
 
     before_action { @order = params[:order] }
 
-    layout 'ticketing/order_mailer', only: :customer
+    default to: -> { @order.email }
+    layout 'ticketing/order_mailer', except: :internal
 
     def customer
-      mail to: @order.email
+      mail
+    end
+
+    def notification
+      mail
     end
 
     def internal
@@ -36,5 +41,12 @@ module Ticketing
         info[key] = I18n.t(key, scope: 'ticketing.payments.submissions')
       end
     end
+
+    def overview_url
+      @overview_url ||= order_overview_url(
+        @order.signed_info(authenticated: true)
+      )
+    end
+    helper_method :overview_url
   end
 end
