@@ -153,6 +153,7 @@ Rails.application.routes.draw do
                  constraints: { user_agent: /(Passbook|Wallet)/ }
         get '/', action: :show
         post '/', action: :check_email
+        post :refund
         get '/wallet', action: :passbook_pass, as: :wallet
         get '/seats', action: :seats
       end

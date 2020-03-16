@@ -1,0 +1,38 @@
+- tickets = @order.tickets.cancelled(false)
+- if @order.is_a?(Ticketing::Web::Order) && tickets.map(&:date).any?(&:cancelled?)
+  h2.hcen Erstattung Ihrer Tickets
+  p Da die Veranstaltung entfällt, erhalten Sie selbstverständlich eine Erstattung des Ticketpreises. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
+
+  = form_with url: order_overview_refund_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
+    - if @order.charge_payment?
+      table
+        tr
+          td = f.radio_button :use_bank_charge, true, required: true,
+            data: { action: 'ticketing--refund#toggleBankDetails' }
+          td
+            = f.label :use_bank_charge, value: true
+              | Bankkonto der ursprünglichen Lastschrift verwenden
+              .small Kontoinhaber: #{@order.bank_charge&.name}
+              .small IBAN: #{obfuscated_iban(@order.bank_charge&.iban)}
+        tr
+          td = f.radio_button :use_bank_charge, false, required: true,
+            data: { action: 'ticketing--refund#toggleBankDetails' }
+          td = f.label :use_bank_charge, value: false
+            | Anderes Bankkonto verwenden
+
+    table data-target='ticketing--refund.bankDetails' class=('visible' unless @order.charge_payment?)
+      tr
+        td = f.label :name, 'Kontoinhaber'
+        td = f.text_field :name
+      tr
+        td = f.label :iban, 'IBAN'
+        td = f.text_field :iban
+
+    p.hcen = f.submit 'Erstattung beantragen'
+
+- elsif tickets.any?
+  p.hcen
+    | Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
+    | <b>(02653) 28 27 09</b><br>
+    | oder kontaktieren Sie uns per Mail:<br>
+    = mail_to('info@theater-kaisersesch.de')

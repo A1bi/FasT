@@ -140,6 +140,11 @@ de:
         subject: "Stornierung Ihrer Tickets"
       resend_tickets:
         subject: "Ihre Tickets"
+    refund_mailer:
+      customer:
+        subject: Ihre Erstattung
+      internal:
+        subject: Neue Erstattung
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."

@@ -46,11 +46,8 @@
         tr
           td colspan=(show_wallet? ? 5 : 4)
             = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
-  p.hcen
-    | Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
-    | <b>(02653) 28 27 09</b><br>
-    | oder kontaktieren Sie uns per Mail:<br>
-    = mail_to('info@theater-kaisersesch.de')
+
+  = render 'refund'
 
 - else
   p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.

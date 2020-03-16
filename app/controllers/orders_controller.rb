@@ -7,6 +7,8 @@ class OrdersController < ApplicationController
 
   WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/.freeze
 
+  helper Ticketing::TicketingHelper
+
   def show; end
 
   def check_email
@@ -24,6 +26,34 @@ class OrdersController < ApplicationController
 
   def seats
     render json: seats_hash
+  end
+
+  def refund
+    if web_order? && @order.charge_payment? &&
+       params[:use_bank_charge] == 'true'
+      bank_details = @order.bank_charge.slice(:name, :iban)
+
+    else
+      if params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
+        flash.alert = 'Bitte überprüfen Sie Ihre eingegebenen Bankdaten.'
+        return redirect_to order_overview_path(params[:signed_info])
+      end
+      bank_details = params.permit(:name, :iban).to_h
+    end
+
+    bank_details[:iban].delete!(' ')
+
+    tickets = @order.tickets.where(date_id: Ticketing::EventDate.cancelled)
+    ::Ticketing::TicketCancelService.new(tickets, 'COVID-19')
+                                    .execute(send_customer_email: false)
+
+    mailer = Ticketing::RefundMailer.with(order: @order,
+                                          **bank_details.symbolize_keys)
+    mailer.customer.deliver_later
+    mailer.internal.deliver_later
+
+    redirect_to order_overview_path(params[:signed_info]),
+                notice: 'Ihre Erstattung wurde erfolgreich beantragt.'
   end
 
   private
