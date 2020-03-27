@@ -66,7 +66,8 @@ Rails.application.routes.draw do
         resources :images, controller: :newsletter_images,
                            only: %i[create destroy]
       end
-      resources :members_members, path: 'mitglieder', controller: :members do
+      resources :members_members, except: :destroy, path: 'mitglieder',
+                                  controller: :members do
         patch :reactivate, path: 'reaktivieren', on: :member
       end
     end

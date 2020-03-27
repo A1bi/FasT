@@ -6,8 +6,11 @@
     <%= @member.name.full %>
   </div>
   <div class="con">
-    <div class="actionBtns hright">
-      <%= render "admin_actions", :obj => [:admin, @member], :delete_confirm => "dieses Mitglied" %>
+    <div class="hright">
+      <% if !@member.membership_terminated? %>
+        <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { terminated: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
+      <% end %>
+      <%= link_to 'Daten bearbeiten', edit_admin_members_member_path(@member) %>
     </div>
     <table>
       <tr>
@@ -133,10 +136,5 @@
         </td>
       </tr>
     </table>
-    <% if !@member.membership_terminated? %>
-      <p class="hcen">
-        <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { terminated: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %>
-      </p>
-    <% end %>
   </div>
 </div>

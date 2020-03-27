@@ -3,7 +3,7 @@
 module Admin
   class MembersController < ApplicationController
     before_action :find_groups, only: %i[new edit create update]
-    before_action :find_member, only: %i[show edit update destroy reactivate]
+    before_action :find_member, only: %i[show edit update reactivate]
     before_action :build_sepa_mandate, only: %i[edit update]
     before_action :prepare_new_member, only: %i[new create]
     before_action :find_members_for_family, only: %i[new create edit update]
@@ -47,11 +47,6 @@ module Admin
 
       redirect_to admin_members_member_path(@member),
                   notice: notice
-    end
-
-    def destroy
-      flash.notice = t('.destroyed') if @member.destroy
-      redirect_to action: :index
     end
 
     def reactivate
