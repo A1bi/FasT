@@ -30,7 +30,7 @@ module Newsletter
 
       update(status: :sent, sent_at: Time.current)
 
-      NewsletterMailingJob.perform_later(self)
+      Newsletter::MailingJob.perform_later(self)
     end
 
     def body_text_final

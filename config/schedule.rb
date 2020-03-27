@@ -11,4 +11,5 @@ set :job_template, nil
 
 every :day do
   runner 'Ticketing::BadgeResetPushNotificationsJob.perform_later'
+  runner 'Newsletter::SubscriberCleanupJob.perform_later'
 end

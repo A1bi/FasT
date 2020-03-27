@@ -16,8 +16,18 @@ module Newsletter
 
     validates :privacy_terms, acceptance: true
 
-    def self.confirmed
-      where.not(confirmed_at: nil)
+    class << self
+      def confirmed
+        where.not(confirmed_at: nil)
+      end
+
+      def unconfirmed
+        where(confirmed_at: nil)
+      end
+
+      def expired
+        unconfirmed.where('created_at < ?', 1.month.ago)
+      end
     end
 
     def confirmed?
