@@ -1806,7 +1806,8 @@ CREATE TABLE public.users (
     membership_fee numeric,
     title character varying,
     membership_fee_paid_until date,
-    ticketing_retail_store_id bigint
+    ticketing_retail_store_id bigint,
+    membership_terminates_on date
 );
 
 
@@ -3664,6 +3665,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200210221526'),
 ('20200213133157'),
 ('20200222144644'),
-('20200315115826');
+('20200315115826'),
+('20200327213527');
 
 

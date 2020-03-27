@@ -44,12 +44,16 @@ module Members
       add_to_family_with_member(self.class.find(member_id))
     end
 
+    def membership_terminated?
+      membership_terminates_on.present?
+    end
+
     def membership_fee_paid?
       membership_fee_paid_until.present? && !membership_fee_paid_until.past?
     end
 
     def renew_membership!
-      return if membership_fee_paid?
+      return if membership_fee_paid? || membership_terminated?
 
       payment = membership_fee_payments.create(
         amount: membership_fee,
@@ -57,6 +61,14 @@ module Members
       )
 
       update(membership_fee_paid_until: payment.paid_until)
+    end
+
+    def terminate_membership!
+      update(membership_terminates_on: membership_fee_paid_until)
+    end
+
+    def revert_membership_termination!
+      update(membership_terminates_on: nil)
     end
 
     private

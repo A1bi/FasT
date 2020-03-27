@@ -6,7 +6,6 @@ module Admin
     before_action :find_member, only: %i[show edit update destroy reactivate]
     before_action :build_sepa_mandate, only: %i[edit update]
     before_action :prepare_new_member, only: %i[new create]
-    before_action :update_member, only: %i[create update]
     before_action :find_members_for_family, only: %i[new create edit update]
     before_action :find_sepa_mandates, only: %i[new create edit update]
 
@@ -17,6 +16,7 @@ module Admin
     def new; end
 
     def create
+      update_member
       @member.reset_password
       return render :new unless @member.save
 
@@ -30,10 +30,23 @@ module Admin
     def edit; end
 
     def update
-      return render :edit unless @member.save
+      if params[:members_member][:terminated] == 'true'
+        @member.terminate_membership!
+        notice = t('.terminated')
+
+      elsif params[:members_member][:terminated] == 'false'
+        @member.revert_membership_termination!
+        notice = t('.termination_reverted')
+
+      else
+        update_member
+        return render :edit unless @member.save
+
+        notice = t('application.saved_changes')
+      end
 
       redirect_to admin_members_member_path(@member),
-                  notice: t('application.saved_changes')
+                  notice: notice
     end
 
     def destroy
