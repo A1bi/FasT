@@ -24,10 +24,21 @@ Rails.application.routes.draw do
   scope controller: :static do
     get 'impressum'
     get 'satzung'
-    get 'agb'
-    get 'widerrufsbelehrung', action: :widerruf, as: :widerruf
-    get 'datenschutz', action: :privacy, as: :privacy
     get 'pressematerial', action: :press_material, as: :press_material
+
+    # sometimes we might pause our contract with IT-Recht when we don't sell any
+    # tickets for a longer period of time
+    # in that case we're legally obligated to remove their content from our site
+    if Settings.hide_it_recht_content
+      privacy_redirect = redirect('datenschutz', status: 302)
+      get 'agb', to: privacy_redirect
+      get 'widerrufsbelehrung', as: :widerruf, to: privacy_redirect
+      get 'datenschutz', action: :privacy_fallback, as: :privacy
+    else
+      get 'agb'
+      get 'widerrufsbelehrung', action: :widerruf, as: :widerruf
+      get 'datenschutz', action: :privacy, as: :privacy
+    end
 
     root action: :index
   end

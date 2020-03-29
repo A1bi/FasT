@@ -87,8 +87,10 @@
         <div class="bottom">
           <ul>
             <li><%= link_to 'Impressum', impressum_path %></li>
-            <li><%= link_to 'AGB', agb_path %></li>
-            <li><%= link_to 'Widerrufsbelehrung', widerruf_path %></li>
+            <% unless Settings.hide_it_recht_content %>
+              <li><%= link_to 'AGB', agb_path %></li>
+              <li><%= link_to 'Widerrufsbelehrung', widerruf_path %></li>
+            <% end %>
             <li><%= link_to 'Datenschutzerklärung', privacy_path %></li>
             <li><%= link_to 'Mitgliedsantrag', '/uploads/Mitgliedsantrag.pdf' %></li>
             <li><%= link_to 'Satzung', satzung_path %></li>

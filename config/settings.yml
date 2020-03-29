@@ -30,3 +30,5 @@ passbook:
 
 sentry:
   enabled: false
+
+hide_it_recht_content: false
