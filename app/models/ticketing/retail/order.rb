@@ -5,6 +5,7 @@ module Ticketing
     class Order < Ticketing::Order
       belongs_to :store
 
+      before_create :transfer_cash_payment_from_store
       before_save :check_tickets
       after_save :check_printable
       after_commit :delete_printable, on: :destroy
@@ -20,8 +21,7 @@ module Ticketing
 
       private
 
-      def before_create
-        super
+      def transfer_cash_payment_from_store
         transfer_balance_to_store(:cash_in_store)
       end
 
