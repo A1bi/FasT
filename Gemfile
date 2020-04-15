@@ -10,7 +10,7 @@ gem 'pundit', '~> 2.1.0'
 
 gem 'sass-rails', '~> 6.0.0'
 gem 'sprockets-rails', '~> 3.2.0'
-gem 'webpacker', '~> 4.2'
+gem 'webpacker', '~> 5.0'
 
 gem 'slim'
 
@@ -41,7 +41,7 @@ gem 'dalli', '~> 2.7.8'
 
 gem 'sidekiq', '~> 6.0.0'
 
-gem 'auto_strip_attributes', '~> 2.5.0'
+gem 'auto_strip_attributes', '~> 2.6.0'
 
 gem 'phony_rails', '~> 0.14.2'
 
@@ -80,7 +80,7 @@ group :development do
 end
 
 group :development, :ci do
-  gem 'capistrano', '~> 3.12.0'
+  gem 'capistrano', '~> 3.13.0'
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'ffaker', '~> 2.13'
