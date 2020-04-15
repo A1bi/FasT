@@ -4,7 +4,7 @@ namespace :deploy do
   after :starting, 'sidekiq:silence'
   after :updated, 'sidekiq:stop'
   after :published, 'sidekiq:start'
-  after :failed, 'sidekiq:restart'
+  after :failed, 'sidekiq:start'
 end
 
 namespace :sidekiq do
