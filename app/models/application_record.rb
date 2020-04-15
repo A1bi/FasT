@@ -10,7 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
       super(definitions.transform_values do |values|
         next values unless values.is_a? Array
 
-        Hash[values.map { |val| [val, val.to_s] }]
+        values.index_with(&:to_s)
       end)
     end
   end

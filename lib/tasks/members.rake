@@ -6,8 +6,8 @@ namespace :members do
     include ActionView::Helpers::TranslationHelper
 
     info_keys = %i[name iban creditor_identifier]
-    debit_info = info_keys.each_with_object({}) do |key, obj|
-      obj[key] = t(key, scope: %i[ticketing payments submissions])
+    debit_info = info_keys.index_with do |key|
+      t(key, scope: %i[ticketing payments submissions])
     end
 
     debit = SEPA::DirectDebit.new(debit_info)

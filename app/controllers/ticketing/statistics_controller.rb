@@ -73,12 +73,9 @@ module Ticketing
     end
 
     def chart_datasets
-      @chart_datasets ||=
-        ORDER_TYPES_FOR_CHART.each_with_object({}) do |type, datasets|
-          datasets[type] = chart_dates.each_with_object({}) do |date, dataset|
-            dataset[date] = 0
-          end
-        end
+      @chart_datasets ||= ORDER_TYPES_FOR_CHART.index_with do
+        chart_dates.index_with { 0 }
+      end
     end
 
     def daily_stats

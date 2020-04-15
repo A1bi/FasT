@@ -28,10 +28,7 @@ module Ticketing
     private
 
     def debit_info
-      info_keys = %i[name iban creditor_identifier]
-      info_keys.each_with_object({}) do |key, info|
-        info[key] = translate(key)
-      end
+      %i[name iban creditor_identifier].index_with { |key| translate(key) }
     end
 
     def transaction_from_charge(charge)

@@ -31,8 +31,8 @@ class TicketsPdf < Prawn::Document
     fill_color FG_COLOR
     stroke_color FG_COLOR
 
-    paths = FONT_STYLES.each_with_object({}) do |style, obj|
-      obj[style] = assets_path.join('fonts', "#{FONT_NAME}-#{style}.ttf").to_s
+    paths = FONT_STYLES.index_with do |style|
+      assets_path.join('fonts', "#{FONT_NAME}-#{style}.ttf").to_s
     end
     font_families.update(FONT_NAME => paths)
     font FONT_NAME

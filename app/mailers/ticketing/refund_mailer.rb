@@ -37,8 +37,8 @@ module Ticketing
     end
 
     def creditor_info
-      %i[name iban].each_with_object({}) do |key, info|
-        info[key] = I18n.t(key, scope: 'ticketing.payments.submissions')
+      %i[name iban].index_with do |key|
+        I18n.t(key, scope: 'ticketing.payments.submissions')
       end
     end
 
