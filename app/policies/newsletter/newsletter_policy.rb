@@ -27,14 +27,18 @@ module Newsletter
     end
 
     def approve?
-      # TODO: change this
-      user.id == 1
+      user_owner?
     end
 
     private
 
     def can_be_modified?
-      record.draft?
+      record.draft? || (record.review? && user_owner?)
+    end
+
+    # TODO: change this
+    def user_owner?
+      user.id == 1
     end
   end
 end
