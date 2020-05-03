@@ -65,6 +65,10 @@ yarn audit:
     - yarn
   script:
     - yarn audit
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
+      when: manual
+      allow_failure: true
 
 deploy:
   extends: .default-tags
