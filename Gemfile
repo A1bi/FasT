@@ -84,6 +84,6 @@ group :development, :ci do
   gem 'capistrano-bundler', '~> 1.6.0', require: false
   gem 'capistrano-rails', '~> 1.4.0', require: false
   gem 'ffaker', '~> 2.13'
-  gem 'rubocop', '~> 0.81.0'
+  gem 'rubocop', '~> 0.82.0'
   gem 'rubocop-rails', '~> 2.5.2'
 end
