@@ -2,6 +2,8 @@
 
 import $ from 'jquery'
 import { addBreadcrumb } from '@sentry/browser'
+import SeatChooser from '../../components/ticketing/seat_chooser'
+import { togglePluralText } from '../../components/utils'
 
 function Step (name, delegate) {
   this.name = name
@@ -560,6 +562,7 @@ function SeatsStep (delegate) {
     this.delegate.toggleModalSpinner(true, true)
     this.box.show()
     this.chooser = new SeatChooser(this.seatingBox.find('.seating'), this)
+    this.chooser.init()
     this.box.hide()
   }
   this.seatingBox.hide()
@@ -771,7 +774,7 @@ function ConfirmStep (delegate) {
       data: JSON.stringify(info),
       contentType: 'application/json',
       success: response => this.orderPlaced(response, successCallback),
-      error: this.orderFailed
+      error: response => this.orderFailed()
     })
   }
 

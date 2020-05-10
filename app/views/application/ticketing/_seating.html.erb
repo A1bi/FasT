@@ -4,6 +4,8 @@
   (options[:data] ||= {})[:event_id] = local_assigns[:event]&.id
   options[:data][:plan_path] = (local_assigns[:event]&.seating || seating).stripped_plan_url
   options[:data][:seats_path] = seats_path if local_assigns[:seats_path]
+  options[:data][:controller] = 'ticketing--seating'
+  options[:data]['ticketing--seating-mode'] = local_assigns.fetch(:mode, 'standalone')
 %>
 <%= content_tag :div, options do %>
   <%= content_tag :div, class: [:error, :plural_text] do %>

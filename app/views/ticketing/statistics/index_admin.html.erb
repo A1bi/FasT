@@ -1,6 +1,5 @@
 <% title "Statistik" %>
 <% include_css "ticketing/statistics" %>
-<% include_js_pack "ticketing/statistics" %>
 
 <% cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all] do %>
   <div class="hl">Ticket-Statistik</div>
