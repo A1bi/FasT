@@ -1,6 +1,6 @@
 <% title "Bestellungsdetails ##{@order.number}" %>
 <% include_css "ticketing/orders" %>
-<% include_js "ticketing/orders" %>
+
 <% scope = [:ticketing, :orders] %>
 <div class="hl">Bestellungsdetails</div>
 <% overview = [
@@ -104,7 +104,9 @@
                 <% end %>
               <% end %>
               <% if current_user.retail? %>
-                <div><%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { printable_path: @order.printable_path } %></div>
+                <div data-controller="ticketing--ticket-printer">
+                  <%= link_to "Tickets drucken", nil, class: :"print-tickets", data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path } %>
+                </div>
               <% end %>
             <% end %>
           </td>
@@ -115,7 +117,7 @@
 </div>
 <% cache_if params[:ticket].nil?, [@order, Ticketing::Ticket.all, params[:type]] do %>
   <a id="tickets"></a>
-  <%= form_tag nil, method: :patch, class: :edit_tickets do %>
+  <%= form_tag nil, method: :patch, class: :edit_tickets, data: { controller: 'ticketing--tickets-table', action: 'ticketing--tickets-table#submit' } do %>
     <table class="rounded entries details">
       <thead>
         <tr>
@@ -180,8 +182,10 @@
               ["Kategorie umbuchen", :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
               ["herunterladen", :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
             ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) } %>
-            <%= select_tag :edit_action, options_for_select(options), name: nil %>
-            <span class="cancellation">Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if current_user.retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %></span>
+            <%= select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleReason' } %>
+            <span class="cancellation" data-target="ticketing--tickets-table.reason">
+              Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if current_user.retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %>
+            </span>
             <%= submit_tag :ok, name: nil %>
           </td>
         </tr>
@@ -245,9 +249,11 @@
           <% if @billing_actions.empty? %>
             Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
           <% else %>
-            <%= form_tag create_billing_ticketing_order_path(@order), method: :post, data: { confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
-              <%= select_tag :note, options_for_select(@billing_actions) %>
-              <span>Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %></span>
+            <%= form_tag create_billing_ticketing_order_path(@order), method: :post, data: { controller: 'ticketing--transactions-table', confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
+              <%= select_tag :note, options_for_select(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount' } %>
+              <span data-target="ticketing--transactions-table.amount">
+                Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %>
+              </span>
               <%= submit_tag "buchen" %>
             <% end %>
           <% end %>

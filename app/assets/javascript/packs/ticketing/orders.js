@@ -1073,49 +1073,5 @@ function Ordering () {
 }
 
 $(() => {
-  if ($('.stepBox').length) {
-    new Ordering()
-  } else {
-    $('#cancelAction').click(event => {
-      $(event.currentTarget).hide().siblings('#cancelForm').show()
-      event.preventDefault()
-    })
-
-    const editTicketsForm = $('form.edit_tickets')
-    editTicketsForm
-      .submit(element => {
-        const $this = $(element)
-        const current = $this.find(':selected')
-        const method = current.data('method')
-        $this.data('confirm', current.data('confirm'))
-          .prop('action', current.data('path'))
-          .find('input[name=_method]').val(method)
-        $this.prop('method', (method === 'get') ? method : 'post')
-      })
-      .find('select').change(element => {
-        $this.siblings('.cancellation').toggle($(element).val() === 'cancel')
-      })
-
-    const toggleAmount = element => {
-      $(this).siblings('span').toggle($(element).val() === 'correction')
-    }
-    const billingNote = $('.billingLog select').change(toggleAmount)
-    toggleAmount(billingNote)
-
-    const printer = new TicketPrinter()
-    $('a.print-tickets').click(event => {
-      event.preventDefault()
-      const printablePath = $(event.currentTarget).data('printable-path')
-      printer.printTicketsWithNotification(printablePath)
-    })
-
-    const seatingBox = $('.seating')
-    $.getJSON(seatingBox.data('additional-path'), data => {
-      const seating = new Seating(seatingBox)
-      seating.initSeats(seat => {
-        const status = data.seats.indexOf(seat.id) !== -1 ? Seat.Status.Chosen : Seat.Status.Taken
-        seat.setStatus(status)
-      })
-    })
-  }
+  if ($('.stepBox').length) new Ordering()
 })

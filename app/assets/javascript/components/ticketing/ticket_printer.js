@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default class {
   static urlScheme = 'fastprint'
 
@@ -17,5 +19,44 @@ export default class {
 
   openSettings () {
     this.notifyHelper('settings')
+  }
+
+  showPrintNotification (path) {
+    if (!this.notification) {
+      this.notification = $('.print-notification')
+      this.notification.find('a.dismiss').click(event => {
+        this.notification.fadeOut()
+        event.preventDefault()
+      })
+      this.spinner = this.notification.find('.spinner')
+    }
+
+    this.notification.find('a.restart').toggle(!!path).off().click(event => {
+      this.printTickets(path)
+      this.showSpinner(true)
+      event.preventDefault()
+    })
+
+    if (this.notification.is(':visible')) return
+
+    this.notification.find('a.printable').toggle(!!path).prop('href', path)
+    this.showSpinner()
+    this.notification.fadeIn()
+  }
+
+  showSpinner (fadeIn) {
+    this.spinner.fadeIn()
+
+    setTimeout(() => this.spinner.fadeOut(), 5000)
+  }
+
+  printTicketsWithNotification (path) {
+    this.printTickets(path)
+    this.showPrintNotification(path)
+  }
+
+  printTestWithNotification () {
+    this.printTest()
+    this.showPrintNotification()
   }
 }
