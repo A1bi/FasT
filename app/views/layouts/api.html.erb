@@ -8,8 +8,8 @@
 
   <%= stylesheet_link_tag "api", media: "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_pack_tag "application" %>
 
-  <%= javascript_include_tag yield(:js_file) if content_for?(:js_file) %>
   <%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
 
   <%= yield(:head) %>
