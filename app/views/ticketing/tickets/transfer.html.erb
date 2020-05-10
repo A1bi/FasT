@@ -1,10 +1,10 @@
 <% title "Tickets umbuchen" %>
-<% include_js "ticketing/tickets" %>
 <% include_css "ticketing/tickets" %>
+
 <div class="hl">Tickets umbuchen</div>
-<%= content_tag :div, class: :transfer, data: { tickets: @tickets.map { |t| t.id }, init_path: init_transfer_ticketing_order_tickets_path(@order), update_path: finish_transfer_ticketing_order_tickets_path(@order), order_path: ticketing_order_path(@order) } do %>
+<%= content_tag :div, class: :transfer, data: { controller: 'ticketing--ticket-transfer', tickets: @tickets.map { |t| t.id }, init_path: init_transfer_ticketing_order_tickets_path(@order), update_path: finish_transfer_ticketing_order_tickets_path(@order), order_path: ticketing_order_path(@order) } do %>
   <div class="date">
-    <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date %>
+    <%= render "application/ticketing/date_select", dates: @order.event.dates, preselected_date: @order.date, data: { target: 'ticketing--ticket-transfer.date', action: 'ticketing--ticket-transfer#updateDate' } %>
   </div>
   <% if @event.seating.plan? %>
     <%= content_tag :p, class: ["reservationGroups"], data: { enable_url: enable_reservation_groups_ticketing_order_path } do %>
@@ -13,10 +13,10 @@
         <span><%= check_box_tag group.id, group.id %> <%= label_tag group.id, group.name %></span>
       <% end %>
     <% end if (@reservation_groups || []).any? %>
-    <%= render "application/ticketing/seating", class: [:chooser, :stage], event: @order.event, error_box: true, key: true %>
+    <%= render "application/ticketing/seating", class: [:chooser, :stage], event: @order.event, error_box: true, key: true, mode: :chooser, controller_target: 'ticketing--ticket-transfer.seating' %>
   <% end %>
   <div class="submit">
-    <%= button_tag "abbrechen" %>
-    <%= button_tag "umbuchen", data: { confirm: "Möchten Sie die Tickets wirklich umbuchen?" } %>
+    <%= button_tag "abbrechen", data: { action: 'ticketing--ticket-transfer#returnToOrder' } %>
+    <%= button_tag "umbuchen", data: { confirm: "Möchten Sie die Tickets wirklich umbuchen?", action: 'ticketing--ticket-transfer#finishTransfer' } %>
   </div>
 <% end %>

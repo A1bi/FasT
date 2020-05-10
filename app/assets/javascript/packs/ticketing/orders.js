@@ -3,6 +3,7 @@
 import $ from 'jquery'
 import { addBreadcrumb } from '@sentry/browser'
 import SeatChooser from '../../components/ticketing/seat_chooser'
+import TicketPrinter from '../../components/ticketing/ticket_printer'
 import { togglePluralText } from '../../components/utils'
 
 function Step (name, delegate) {

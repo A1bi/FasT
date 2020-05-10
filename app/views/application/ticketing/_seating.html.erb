@@ -6,6 +6,7 @@
   options[:data][:seats_path] = seats_path if local_assigns[:seats_path]
   options[:data][:controller] = 'ticketing--seating'
   options[:data]['ticketing--seating-mode'] = local_assigns.fetch(:mode, 'standalone')
+  options[:data][:target] = local_assigns[:controller_target]
 %>
 <%= content_tag :div, options do %>
   <%= content_tag :div, class: [:error, :plural_text] do %>
