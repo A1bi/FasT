@@ -3,10 +3,14 @@
   "dependencies": {
     "@rails/webpacker": "^5.1.1",
     "@sentry/browser": "^5.13.2",
+    "@stimulus/polyfills": "^1.1.1",
     "chart.js": "^2.9.3",
+    "core-js": "^3.6.5",
     "ol": "^6.2.1",
+    "regenerator-runtime": "^0.13.5",
     "socket.io-client": "^2.3.0",
-    "stimulus": "^1.1.1"
+    "stimulus": "^1.1.1",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "<10.1.0",

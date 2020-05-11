@@ -34,15 +34,13 @@ export default class {
 
         this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin')
 
+        // give up in case of IE, just don't bother
+        if (isIE()) return resolve()
+
         if (this.zoomable && this.svg.find('.block').length > 1) {
           const content = this.svg.find('> g, > rect, > line, > path, > text')
           this.globalGroup = this.createSvgElement('g')
-          if (this.globalGroup.classList) {
-            this.globalGroup.classList.add('global')
-          // IE workaround
-          } else {
-            this.globalGroup.className += ' global'
-          }
+          this.globalGroup.classList.add('global')
           this.svg[0].appendChild(this.globalGroup)
 
           for (let i = 0; i < content.length; i++) {

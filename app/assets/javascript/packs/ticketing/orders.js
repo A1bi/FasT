@@ -199,7 +199,7 @@ Step.prototype = {
 
   registerEventAndInitiate: function (elements, event, proc) {
     elements.on(event, event => proc($(event.currentTarget)))
-    for (const element of elements) proc($(element))
+    elements.each((_, element) => proc($(element)))
   }
 }
 
@@ -224,7 +224,7 @@ function TicketsStep (delegate) {
     this.info.internal.subtotal = 0
     this.info.internal.numberOfTickets = 0
     this.tickets = []
-    for (const number of this.box.find('.number tr')) {
+    this.box.find('.number tr').each((_, number) => {
       const $this = $(number)
       if ($this.is('.date_ticketing_ticket_type')) {
         const number = parseInt($this.find('select').val())
@@ -240,7 +240,7 @@ function TicketsStep (delegate) {
         $this.find('.total span')
           .html(this.formatCurrency(this.info.internal.subtotal))
       }
-    }
+    })
 
     this.updateDiscounts()
     this.delegate.updateNextBtn()
@@ -700,7 +700,7 @@ function ConfirmStep (delegate) {
       this.delegate.getStepInfo('seats').internal.localizedDate
     )
 
-    for (const element of this.box.find('.tickets tbody tr').show()) {
+    this.box.find('.tickets tbody tr').show().each((_, element) => {
       const typeBox = $(element)
       let number, total
       if (typeBox.is('.subtotal')) {
@@ -709,7 +709,7 @@ function ConfirmStep (delegate) {
       } else if (typeBox.is('.discount')) {
         if (ticketsInfo.internal.discount === 0) {
           typeBox.hide()
-          continue
+          return
         }
         total = this.formatCurrency(ticketsInfo.internal.discount)
       } else if (typeBox.is('.total')) {
@@ -719,7 +719,7 @@ function ConfirmStep (delegate) {
         number = ticketsInfo.api.tickets[typeId]
         if (!number || number < 1) {
           typeBox.hide()
-          continue
+          return
         }
         total = ticketsInfo.internal.ticketTotals[typeId]
       }
@@ -731,7 +731,7 @@ function ConfirmStep (delegate) {
         if (number === 0) number = 'keine'
         single.find('.number').text(number)
       }
-    }
+    })
 
     for (const type of ['address', 'payment']) {
       const info = this.delegate.getStepInfo(type)

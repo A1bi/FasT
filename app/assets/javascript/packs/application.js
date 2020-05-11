@@ -1,6 +1,13 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import { init as initSentry } from '@sentry/browser'
+
+(async () => {
+  // polyfill for IE 11
+  if (!window.Element.prototype.matches) await import('@stimulus/polyfills')
+})()
 
 const application = Application.start()
 const context = require.context('../controllers', true, /\.js$/)

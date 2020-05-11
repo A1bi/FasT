@@ -11,6 +11,8 @@ export const togglePluralText = (box, number) => {
 }
 
 export const fetch = async (url, method = 'get', data) => {
+  if (!window.fetch) await import('whatwg-fetch')
+
   const token =
       document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   const response = await window.fetch(url, {
