@@ -45,7 +45,7 @@ export default class extends Controller {
       this.element.querySelector('.reservationGroups').dataset.enableUrl
     fetch(url, 'post', {
       groups: groups,
-      socketId: this.chooser.socketId
+      socket_id: this.chooser.socketId
     })
       .then(res => this.chooser.toggleExclusiveSeatsKey(res.seats))
   }
@@ -67,7 +67,7 @@ export default class extends Controller {
     return fetch(url, method, {
       ticket_ids: this.tickets,
       date_id: this.date,
-      socketId: this.chooser.socketId
+      socket_id: this.chooser.socketId
     })
   }
 

@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus'
+import { fetch } from '../components/utils'
 
 export default class extends Controller {
   static targets = ['photo', 'indexCurrent', 'indexMax', 'text',
@@ -13,8 +14,7 @@ export default class extends Controller {
   }
 
   async fetchPhotos () {
-    const response = await window.fetch(this.data.get('photos-path'))
-    const data = await response.json()
+    const data = await fetch(this.data.get('photos-path'))
     this.photos = data.photos
   }
 

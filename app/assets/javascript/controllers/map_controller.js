@@ -8,6 +8,7 @@ import { fromLonLat } from 'ol/proj'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
 import { Style, Icon } from 'ol/style'
+import { fetch } from '../components/utils'
 
 import 'ol/ol.css'
 
@@ -20,8 +21,7 @@ export default class extends Controller {
 
   async loadData () {
     const path = `/faq/map.json?identifier=${this.data.get('identifier')}`
-    const response = await window.fetch(path)
-    const data = await response.json()
+    const data = await fetch(path)
 
     this.createMap(data.center, data.zoom)
     this.registerIcons(data.icons)

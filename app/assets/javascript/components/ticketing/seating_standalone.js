@@ -1,5 +1,5 @@
-import $ from 'jquery'
 import Seating from './seating'
+import { fetch } from '../utils'
 
 export default class extends Seating {
   constructor (container, zoomable) {
@@ -12,8 +12,7 @@ export default class extends Seating {
     const path = this.container.data('seats-path')
     if (!path) return
 
-    const response = await $.getJSON(path)
-    if (!response) return
+    const response = await fetch(path)
 
     if (this.container.is('.chosen')) {
       for (const type of ['taken', 'chosen']) {

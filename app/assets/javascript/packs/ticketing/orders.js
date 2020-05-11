@@ -4,7 +4,7 @@ import $ from 'jquery'
 import { addBreadcrumb } from '@sentry/browser'
 import SeatChooser from '../../components/ticketing/seat_chooser'
 import TicketPrinter from '../../components/ticketing/ticket_printer'
-import { togglePluralText } from '../../components/utils'
+import { togglePluralText, fetch } from '../../components/utils'
 
 function Step (name, delegate) {
   this.name = name
@@ -264,70 +264,78 @@ function TicketsStep (delegate) {
   this.addCoupon = function () {
     const code = this.couponBox.find('input[name=code]').val()
     if (this.info.api.couponCodes.indexOf(code) > -1) {
-      this.couponAdded({ ok: false, error: 'added' })
+      this.couponError('added')
     } else if (code !== '') {
       this.delegate.toggleModalSpinner(true)
-      $.post(this.couponBox.data('add-url'), {
-        code: code,
-        socketId: this.delegate.getStepInfo('seats').api.socketId
-      }).always(res => this.couponAdded(res))
+
+      this.postCouponCode(this.couponBox.data('add-url'), code)
+        .then(res => this.couponAdded(res.coupon))
+        .catch(res => this.couponError(res.data ? res.data.error : null))
     }
   }
 
   this.removeCoupon = function (index) {
-    const code = this.info.api.couponCodes[index]
-
     this.delegate.toggleModalSpinner(true)
-    $.post(this.couponBox.data('remove-url'), {
-      code: code,
-      socketId: this.delegate.getStepInfo('seats').api.socketId
-    }).always(res => {
-      if (res.ok) {
+
+    const code = this.info.api.couponCodes[index]
+    this.postCouponCode(this.couponBox.data('remove-url'), code)
+      .then(res => {
         this.info.internal.coupons.splice(index, 1)
         this.info.api.couponCodes.splice(index, 1)
         this.updateAddedCoupons()
         this.updateCouponResult('', false)
-      }
-      this.delegate.toggleModalSpinner(false)
+        this.delegate.toggleModalSpinner(false)
+      })
+      .finally(() => this.delegate.toggleModalSpinner(false))
+  }
+
+  this.postCouponCode = function (url, code) {
+    return fetch(url, 'post', {
+      code: code,
+      socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
   }
 
-  this.couponAdded = function (res) {
+  this.couponAdded = function (coupon) {
     let msg = 'Ihr Gutschein wurde erfolgreich hinzugefügt. Weitere Gutscheine sind möglich.'
-    if (res.ok === false) {
-      if (res.error === 'expired') {
-        msg = 'Dieser Code ist leider abgelaufen.'
-      } else if (res.error === 'added') {
-        msg = 'Dieser Code wurde bereits zu Ihrer Bestellung hinzugefügt.'
-      } else {
-        msg = 'Dieser Code ist nicht gültig.'
-      }
-    } else if (!res.ok) {
-      msg = 'Es ist ein unbekannter Fehler aufgetreten.'
-    } else {
-      const coupon = res.coupon
 
-      this.info.internal.coupons.push(coupon)
-      this.info.api.couponCodes.push(this.couponField.val())
+    this.info.internal.coupons.push(coupon)
+    this.info.api.couponCodes.push(this.couponField.val())
 
-      this.updateAddedCoupons()
-      this.trackPiwikGoal(2)
+    this.updateAddedCoupons()
+    this.trackPiwikGoal(2)
 
-      if (coupon.seats) {
-        msg += ' Es wurden exklusive Sitzplätze für Sie freigeschaltet.'
-      }
+    if (coupon.seats) {
+      msg += ' Es wurden exklusive Sitzplätze für Sie freigeschaltet.'
     }
 
     this.couponField.blur().val('')
     this.delegate.toggleModalSpinner(false)
-    this.updateCouponResult(msg, !res.ok)
+    this.updateCouponResult(msg, false)
     this.resizeDelegateBox()
 
-    this.addBreadcrumb('entered coupon code', {
-      code: res.coupon,
-      success: res.ok ? 'true' : 'false',
-      error: res.error
-    })
+    this.addBreadcrumb('entered coupon code')
+  }
+
+  this.couponError = function (error) {
+    let msg
+    switch (error) {
+      case 'expired':
+        msg = 'Dieser Code ist leider abgelaufen.'
+        break
+      case 'added':
+        msg = 'Dieser Code wurde bereits zu Ihrer Bestellung hinzugefügt.'
+        break
+      case 'invalid':
+        msg = 'Dieser Code ist nicht gültig.'
+        break
+      default:
+        msg = 'Es ist ein unbekannter Fehler aufgetreten.'
+    }
+
+    this.delegate.toggleModalSpinner(false)
+    this.updateCouponResult(msg, true)
+    this.resizeDelegateBox()
   }
 
   this.updateCouponResult = function (msg, error) {
@@ -511,14 +519,15 @@ function SeatsStep (delegate) {
     }
 
     this.delegate.toggleModalSpinner(true)
-    $.post(this.box.find('.reservationGroups').data('enable-url'), {
+    fetch(this.box.find('.reservationGroups').data('enable-url'), 'post', {
       groups: groups,
-      socketId: this.delegate.getStepInfo('seats').api.socketId
-    }).always(res => {
-      this.delegate.toggleModalSpinner(false)
-      this.toggleExclusiveSeatsKey(res.seats)
-      this.resizeDelegateBox()
+      socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
+      .then(res => {
+        this.toggleExclusiveSeatsKey(res.seats)
+        this.resizeDelegateBox()
+      })
+      .finally(() => this.delegate.toggleModalSpinner(false))
   }
 
   this.toggleExclusiveSeatsKey = function (toggle) {
@@ -769,14 +778,9 @@ function ConfirmStep (delegate) {
       newsletter: apiInfo.confirm.newsletter
     }
 
-    $.ajax({
-      url: '/api/ticketing/orders',
-      type: 'POST',
-      data: JSON.stringify(info),
-      contentType: 'application/json',
-      success: response => this.orderPlaced(response, successCallback),
-      error: response => this.orderFailed()
-    })
+    fetch('/api/ticketing/orders', 'post', info)
+      .then(res => this.orderPlaced(res, successCallback))
+      .catch(res => this.orderFailed())
   }
 
   this.disconnect = function () {

@@ -40,39 +40,28 @@ module Ticketing
     def add_coupon
       authorize Order
 
-      response = { ok: false }
-
       if !@coupon
-        response[:error] = 'not found'
+        error = 'invalid'
       elsif @coupon.expired?
-        response[:error] = 'expired'
+        error = 'expired'
       else
-        response = {
-          ok: true,
-          coupon: {
-            id: @coupon.id,
-            free_tickets: @coupon.free_tickets,
-            seats: update_exclusive_seats(:add, @coupon.reservation_groups)
-          }
+        coupon = {
+          id: @coupon.id,
+          free_tickets: @coupon.free_tickets,
+          seats: update_exclusive_seats(:add, @coupon.reservation_groups)
         }
       end
 
-      render json: response
+      render json: { coupon: coupon, error: error },
+             status: error ? :unprocessable_entity : :ok
     end
 
     def remove_coupon
       authorize Order
 
-      response = { ok: false }
+      update_exclusive_seats(:remove, @coupon.reservation_groups) if @coupon
 
-      if @coupon
-        update_exclusive_seats(:remove, @coupon.reservation_groups)
-        response = {
-          ok: true
-        }
-      end
-
-      render json: response
+      head :ok
     end
 
     def enable_reservation_groups
@@ -84,9 +73,7 @@ module Ticketing
       end
       update_exclusive_seats(:set, groups)
 
-      response = { ok: true, seats: true }
-
-      render json: response
+      render json: { seats: true }
     end
 
     def index
@@ -285,7 +272,7 @@ module Ticketing
     end
 
     def update_exclusive_seats(action, groups)
-      return false if params[:socketId].blank?
+      return false if params[:socket_id].blank?
 
       seats = {}
       groups.each do |reservation_group|
@@ -296,7 +283,7 @@ module Ticketing
         end
       end
       NodeApi.seating_request("#{action}ExclusiveSeats",
-                              { seats: seats }, params[:socketId])
+                              { seats: seats }, params[:socket_id])
       seats.any?
     end
 

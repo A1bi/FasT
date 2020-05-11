@@ -39,7 +39,7 @@ module Ticketing
 
     def init_transfer
       res = NodeApi.seating_request('setOriginalSeats', { seats: node_seats },
-                                    params[:socketId])
+                                    params[:socket_id])
 
       head res.read_body[:ok] ? :ok : :unprocessable_entity
     end
@@ -49,7 +49,7 @@ module Ticketing
         TicketTransferService.new(@tickets,
                                   new_date_id: params[:date_id],
                                   order_id: params[:order_id],
-                                  socket_id: params[:socketId])
+                                  socket_id: params[:socket_id])
 
       return :unprocessable_entity unless ticket_transfer_service.execute
 

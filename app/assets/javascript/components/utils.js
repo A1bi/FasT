@@ -10,7 +10,7 @@ export const togglePluralText = (box, number) => {
   box.find('.number span').text(number)
 }
 
-export const fetch = async (url, method, data) => {
+export const fetch = async (url, method = 'get', data) => {
   const token =
       document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   const response = await window.fetch(url, {
@@ -19,13 +19,19 @@ export const fetch = async (url, method, data) => {
       'Content-Type': 'application/json',
       'X-CSRF-Token': token
     },
-    body: JSON.stringify(data)
+    body: data ? JSON.stringify(data) : null
   })
 
-  if (!response.ok) throw response
-
+  let json = null
   const type = response.headers.get('Content-Type')
   if (type && type.indexOf('json') > -1) {
-    return response.json()
+    json = await response.json()
   }
+
+  if (!response.ok) {
+    response.data = json
+    throw response
+  }
+
+  return json
 }

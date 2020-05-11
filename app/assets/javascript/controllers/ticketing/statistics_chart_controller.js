@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
 import Chart from 'chart.js'
+import { fetch } from '../../components/utils'
 
 export default class extends Controller {
   static targets = ['canvas']
@@ -19,8 +20,7 @@ export default class extends Controller {
 
   async fetchData () {
     const path = this.data.get('data-path')
-    const response = await window.fetch(path)
-    this.chartData = await response.json()
+    this.chartData = await fetch(path)
 
     this.chartData.datasets.forEach((dataset, index) => {
       const colorIndex = this.constructor.colorOrder[index]
