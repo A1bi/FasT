@@ -10,7 +10,7 @@ export default class extends Seating {
   async init () {
     await super.init()
 
-    for (const id of this.seats) {
+    for (const id in this.seats) {
       this.setStatusForSeat(this.seats[id], 'available')
     }
 
