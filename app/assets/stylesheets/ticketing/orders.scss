@@ -184,7 +184,7 @@ table.details {
   .btn {
     padding: 5px 20px;
     border-radius: 20px;
-    @include background-gradient(top, (#0668ec 0%, #b8e1f9 90%), #0869ed);
+    background: linear-gradient(to bottom, #0668ec 0%, #b8e1f9 90%);
     color: #ffffff;
     text-decoration: none;
     box-shadow: #666666 0px 0px 6px;
@@ -264,8 +264,8 @@ table.details {
       left: 0px;
       height: 100%;
       display: block;
-       @include background-gradient(top, (#b8e1f9 0%, #0668ec 100%), #0668ec);
-      @include transition(left, .5s, ease-in-out);
+      background: linear-gradient(to bottom, #b8e1f9 0%, #0668ec 100%);
+      transition: left .5s ease-in-out;
     }
   }
 }
@@ -273,10 +273,10 @@ table.details {
 .expiration {
   width: 80%;
   display: none;
-  @include animation(expiration, .8s, infinite, true);
+  animation: .8s ease infinite alternate expiration;
 }
 
-@include keyframes(expiration) {
+@keyframes expiration {
   from {
     color: red;
   }
@@ -334,7 +334,7 @@ table.details {
 
     tr {
       td {
-        @include transition((color, background), .5s);
+        transition: color, background, .5s;
         padding: 8px;
       }
     }

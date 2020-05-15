@@ -36,7 +36,7 @@ a {
 }
 .shadow {
   color: inherit;
-  @include transition(text-shadow, .3s);
+  transition: text-shadow .3s;
   text: {
     decoration: none;
     shadow: 0px 0px 2px rgba(230, 33, 32, .5);
@@ -116,36 +116,33 @@ h3 {
   @include left-bg;
 
   ul {
-     position: relative;
-     list-style: none;
-     margin: 0px 0px 0px 37px;
-     padding: 0px;
-     font-family: "Qlassik", "Arial";
+    position: relative;
+    list-style: none;
+    margin: 0px 0px 0px 37px;
+    padding: 0px;
+    font-family: "Qlassik", "Arial";
 
     a {
-       color: #ffffff;
-       text-decoration: none;
+      color: #ffffff;
+      text-decoration: none;
     }
 
     li {
       padding: 10px 0px 10px 0px;
       font-size: 28px;
-       text-shadow: #000000 1px 1px 5px;
+      text-shadow: #000000 1px 1px 5px;
 
       &.spacer {
-         margin-left: 5px;
-         @include background-gradient(
-          left bottom,
-          (
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0) 100%
-          ),
-          white
+        margin-left: 5px;
+        background: linear-gradient(
+          to right,
+          rgba(white, 0) 0%,
+          rgba(white, 1) 50%,
+          rgba(white, 0) 100%
         );
-         padding: 0px;
-         height: 2px;
-         width: 60%;
+        padding: 0px;
+        height: 2px;
+        width: 60%;
       }
 
       @for $i from 0 through 3 {

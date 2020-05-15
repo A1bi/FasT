@@ -14,8 +14,6 @@ gem 'webpacker', '~> 5.0'
 
 gem 'slim'
 
-gem 'uglifier'
-
 gem 'paperclip', '~> 6.1.0'
 
 gem 'bcrypt', '~> 3.1.13'

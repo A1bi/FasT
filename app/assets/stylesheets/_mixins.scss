@@ -2,47 +2,9 @@ $faint-blue: #d7f1fb;
 $light-blue: #aae7ff;
 $dark-blue: #216bed;
 
-
-@mixin vendor-specific($property, $value) {
-  @each $vendor in moz, webkit, o, ms {
-    -#{$vendor}-#{$property}: $value;
-  }
-}
-
-@mixin transition($property, $duration, $ease: "") {
-  @include vendor-specific(transition, $property $duration #{$ease});
-}
-
-@mixin background-gradient($pos, $colors, $default: "") {
-  @if $default != "" {
-    background: #{$default};
-  }
-  @each $vendor in moz, webkit, o, ms {
-    background: -#{$vendor}-linear-gradient($pos, $colors);
-  }
-}
-
 @mixin font-face($name) {
   @font-face {
     font-family: "#{$name}";
     src: url(asset_path("#{$name}.woff")) format('woff');
   }
-}
-
-@mixin animation($name, $duration, $iteration: "", $alternate: false) {
-  @include vendor-specific(animation-name, $name);
-  @include vendor-specific(animation-duration, $duration);
-  @if $iteration != "" {
-    @include vendor-specific(animation-iteration-count, $iteration);
-  }
-  @if $alternate {
-    @include vendor-specific(animation-direction, alternate);
-  }
-}
-
-@mixin keyframes($name) {
-  @-moz-keyframes #{$name} { @content; }
-  @-webkit-keyframes #{$name} { @content; }
-  @-o-keyframes #{$name} { @content; }
-  @-ms-keyframes #{$name} { @content; }
 }

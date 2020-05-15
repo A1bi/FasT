@@ -46,7 +46,8 @@
   .photo {
     position: relative;
     margin: auto;
-    @include vendor-specific(user-select, none);
+    user-select: none;
+    -webkit-user-select: none;
   }
 
   .directions, .directions div {
@@ -61,7 +62,7 @@
 
     div div {
       opacity: 0;
-      @include transition(opacity, .3s);
+      transition: opacity .3s;
     }
 
     .arrow {
