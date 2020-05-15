@@ -36,7 +36,7 @@ export default class extends Step {
         this.updateDiscounts()
       }
     )
-    this.box.find('.event-header').load(() => this.resizeDelegateBox(true))
+    this.box.find('.event-header').on('load', () => this.resizeDelegateBox(true))
   }
 
   getTypeTotal ($typeBox, number) {

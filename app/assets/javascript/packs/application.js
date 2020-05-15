@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime'
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import { init as initSentry } from '@sentry/browser'
+import '@rails/ujs'
 
 (async () => {
   // polyfill for IE 11

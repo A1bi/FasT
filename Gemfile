@@ -16,8 +16,6 @@ gem 'slim'
 
 gem 'uglifier'
 
-gem 'jquery-rails', '~> 4.3.1'
-
 gem 'paperclip', '~> 6.1.0'
 
 gem 'bcrypt', '~> 3.1.13'

@@ -1,11 +1,13 @@
 {
   "name": "FasT",
   "dependencies": {
+    "@rails/ujs": "^6.0.3",
     "@rails/webpacker": "^5.1.1",
     "@sentry/browser": "^5.13.2",
     "@stimulus/polyfills": "^1.1.1",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
+    "jquery": "^3.5.1",
     "ol": "^6.2.1",
     "regenerator-runtime": "^0.13.5",
     "socket.io-client": "^2.3.0",
@@ -18,9 +20,6 @@
     "webpack-dev-server": "^3.10.3"
   },
   "standard": {
-    "parser": "babel-eslint",
-    "ignore": [
-      "app/assets/javascripts"
-    ]
+    "parser": "babel-eslint"
   }
 }

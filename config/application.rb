@@ -30,11 +30,6 @@ module FasT
 
     config.action_controller.include_all_helpers = false
 
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
-    config.assets.paths << Rails.root.join('node_modules')
-    config.assets.js_compressor = :uglify
-
     config.require_master_key = true
 
     config.active_job.queue_adapter = :sidekiq

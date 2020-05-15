@@ -7,7 +7,6 @@
   <%= csrf_meta_tag %>
 
   <%= stylesheet_link_tag "api", media: "all" %>
-  <%= javascript_include_tag "application" %>
   <%= javascript_pack_tag "application" %>
 
   <%= stylesheet_link_tag yield(:css_file), media: "all" if content_for?(:css_file) %>
