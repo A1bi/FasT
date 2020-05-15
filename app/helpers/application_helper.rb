@@ -7,14 +7,6 @@ module ApplicationHelper
     content_for :title, page_title.to_s
   end
 
-  def include_js(filename)
-    content_for :head, javascript_include_tag(filename.to_s)
-  end
-
-  def include_js_pack(filename)
-    content_for :head, javascript_pack_tag(filename.to_s)
-  end
-
   def include_css(filename)
     content_for :head, stylesheet_link_tag(filename.to_s, media: 'all')
   end

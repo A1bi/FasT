@@ -1,6 +1,6 @@
 <% title "Bestellung ##{@order.number} bearbeiten" %>
 <% include_css "ticketing/orders" %>
-<% include_js "ticketing/orders" %>
+
 <% scope = [:ticketing, :orders] %>
 <div class="hl">Bestellung #<%= @order.number %> bearbeiten</div>
 <%= form_for @order, as: :ticketing_order, url: ticketing_order_path(@order) do |f| %>
