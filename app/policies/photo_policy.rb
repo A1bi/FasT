@@ -21,8 +21,4 @@ class PhotoPolicy < ApplicationPolicy
   def destroy?
     user_admin?
   end
-
-  def sort?
-    user_admin?
-  end
 end

@@ -1,26 +1,14 @@
 <% title "Fotogalerie" %>
 <% include_css "galleries" %>
-<% content_for :head do %>
-  <script>
-    $(function () {
-      $("#galleries").sortable({
-        axis: "y",
-        handle: ".move_handle",
-        update: function () {
-          $.post($(this).data("sort-url"), $(this).sortable("serialize"));
-        }
-      });
-    });
-  </script>
-<% end if current_user&.admin? %>
+
 <% cache [@galleries, current_user&.admin?] do %>
 <div class="index">
   <div class="hl">Fotogalerie</div>
   <%= render "new_button", :action => "neue Galerie", :admin_required => true %>
-  <div id="galleries" data-sort-url="<%= sort_galleries_path %>">
+  <div id="galleries">
     <%= div_for @galleries, :class => "box" do |gallery| %>
       <% cache [gallery, current_user&.admin?] do %>
-        <div class="top<% if current_user&.admin? %> move_handle<% end %>">
+        <div class="top">
           <%= gallery.title %>
         </div>
         <div class="con">

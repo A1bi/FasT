@@ -17,7 +17,6 @@ gem 'slim'
 gem 'uglifier'
 
 gem 'jquery-rails', '~> 4.3.1'
-gem 'jquery-ui-rails', '~> 6.0.0'
 
 gem 'paperclip', '~> 6.1.0'
 

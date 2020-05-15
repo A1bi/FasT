@@ -163,24 +163,6 @@
         position: absolute;
       }
 
-      .circle {
-        background: rgba(0, 0, 0, .7);
-        border-radius: 8px;
-        color: white;
-        padding: 3px 7px;
-        font-size: 11px;
-        z-index: 2;
-        text: {
-          shadow: 1px 1px 2px black;
-          align: center;
-        }
-
-        &.number {
-          bottom: 5px;
-          left: 5px;
-        }
-      }
-
       .actionBtns {
         bottom: 4px;
         right: 5px;

@@ -39,14 +39,6 @@ class GalleriesController < ApplicationController
     redirect_to galleries_path
   end
 
-  def sort
-    params[:gallery].each.with_index(1) do |id, i|
-      authorize(Gallery.find(id)).update(position: i)
-    end
-
-    head :ok
-  end
-
   private
 
   def find_gallery

@@ -57,11 +57,7 @@ Rails.application.routes.draw do
 
     # galleries
     resources :galleries, path: 'galerie' do
-      post 'sort', on: :collection
-
-      resources :photos, path: 'fotos' do
-        post 'sort', on: :collection
-      end
+      resources :photos, path: 'fotos'
     end
 
     resource :newsletter_subscriber, path: :newsletter,

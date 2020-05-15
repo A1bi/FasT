@@ -35,14 +35,6 @@ class PhotosController < ApplicationController
     redirect_to edit_gallery_path(params[:gallery_id])
   end
 
-  def sort
-    params[:photo].each.with_index(1) do |id, i|
-      authorize(Photo.find(id)).update(position: i)
-    end
-
-    head :ok
-  end
-
   private
 
   def find_photo
