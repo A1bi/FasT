@@ -17,7 +17,7 @@
   "devDependencies": {
     "babel-eslint": "<10.1.0",
     "standard": "^14.3.1",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "standard": {
     "parser": "babel-eslint"

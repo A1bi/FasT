@@ -27,7 +27,7 @@ module Admin
       return mandate.iban if mandate.will_save_change_to_iban?
 
       iban = mandate.iban
-      iban[0..1] + 'X' * (iban.length - 5) + iban[-3..-1]
+      iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
     end
   end
 end

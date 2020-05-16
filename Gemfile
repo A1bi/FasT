@@ -75,10 +75,10 @@ group :development do
 end
 
 group :development, :ci do
-  gem 'capistrano', '~> 3.13.0'
-  gem 'capistrano-bundler', '~> 1.6.0', require: false
-  gem 'capistrano-rails', '~> 1.4.0', require: false
+  gem 'capistrano', '~> 3.13'
+  gem 'capistrano-bundler', '~> 1.6', require: false
+  gem 'capistrano-rails', '~> 1.4', require: false
   gem 'ffaker', '~> 2.13'
-  gem 'rubocop', '~> 0.82.0'
-  gem 'rubocop-rails', '~> 2.5.2'
+  gem 'rubocop'
+  gem 'rubocop-rails'
 end

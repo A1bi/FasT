@@ -24,6 +24,12 @@ stages:
 variables:
   RAILS_ENV: test
 
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH
+
 rubocop:
   extends: .default-tags
   except:
