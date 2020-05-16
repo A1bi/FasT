@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="keywords" content="Theater, Freilichtbühne, Verein, Kaisersesch" />
   <title><% if content_for?(:title) %><%= yield(:title) %> – <% end %>Freilichtbühne am schiefen Turm e. V.</title>
-  <link rel="shortcut icon" href="<%= asset_path("favicon.ico") %>" />
+  <link rel="icon" href="<%= asset_path('favicon.svg') %>" type="image/svg+xml" />
+  <link rel="icon" href="<%= asset_path('favicon.png') %>" type="image/png" />
+  <link rel="mask-icon" href="<%= asset_path('favicon_mask.svg') %>" color="black" />
 
   <%= csrf_meta_tag %>
 
