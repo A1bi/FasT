@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import io from 'socket.io-client'
 import Seating from './seating'
 import { togglePluralText } from '../utils'
@@ -164,7 +163,7 @@ export default class extends Seating {
   }
 
   registerEvents () {
-    $(window).on('beforeunload', () => { this.noErrors = true })
+    window.addEventListener('beforeunload', () => { this.noErrors = true })
 
     this.node.on('connect', () => {
       if (!this.socketId) {
