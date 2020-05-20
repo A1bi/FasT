@@ -43,8 +43,8 @@ class OrdersController < ApplicationController
 
     bank_details[:iban].delete!(' ')
 
-    tickets = @order.tickets.where(date_id: Ticketing::EventDate.cancelled)
-    ::Ticketing::TicketCancelService.new(tickets, 'COVID-19')
+    tickets = @order.tickets.filter(&:refundable?)
+    ::Ticketing::TicketCancelService.new(tickets, :date_cancelled)
                                     .execute(send_customer_email: false)
 
     mailer = Ticketing::RefundMailer.with(order: @order,

@@ -4,6 +4,8 @@ module Ticketing
   class Ticket < ApplicationRecord
     include Cancellable
 
+    REFUNDABLE_FOR_AFTER_DATE = 6.weeks
+
     belongs_to :order, touch: true
     belongs_to :type, class_name: 'TicketType'
     belongs_to :seat, optional: true
@@ -42,6 +44,11 @@ module Ticketing
       return false if seat.blank?
 
       seat.taken?(date)
+    end
+
+    def refundable?
+      !cancelled? && date.cancelled? &&
+        (date.date + REFUNDABLE_FOR_AFTER_DATE).future?
     end
 
     def signed_info(params = {})
