@@ -72,8 +72,9 @@ yarn audit:
   script:
     - yarn audit
   rules:
-    - if: '$CI_PIPELINE_SOURCE != "schedule"'
-      when: manual
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: always
+    - when: manual
       allow_failure: true
 
 deploy:
