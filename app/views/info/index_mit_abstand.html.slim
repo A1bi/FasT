@@ -1,0 +1,100 @@
+= render 'top'
+
+.section
+  h2 COVID-19
+
+  = render 'question_answer', question: 'Welche Hygienemaßnahmen werden getroffen?' do
+    ul
+      li Unsere Aufführungen finden in diesem Jahr nicht wie üblich auf der großen Bühne vor dem Alten Kino statt, sondern etwas abseits auf einem kleinen Platz neben dem Kino.
+      li Die Anzahl der Plätze ist auf etwa 30 limitiert.
+      li Zusammensitzen können ausschließlich zusammengehörige Besuchergruppen. Zwischen diesen Gruppen wird ein Abstand von 1,5 m in alle Richtungen eingehalten.
+      li Auf einen Verkauf von Tickets, Speisen oder Getränken vor Ort wird verzichtet.
+      li Die Aufführungsdauer ist auf etwa eine Stunde begrenzt.
+      li Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
+      li Die Kontaktdaten aller Besucher werden im Voraus für den Fall einer Infektion aufgenommen. Diese Daten werden nach der vorgeschriebenen Aufbewahrungszeit vollständig gelöscht.
+
+  = render 'question_answer', question: 'Wer gehört zu einer Besuchergruppe?' do
+    | Zu einer Besuchergruppe gehören ausschließlich Familienangehörige bzw. Angehörige desselben Haushalts.
+
+.section
+  h2 Vorverkauf
+
+  = render 'question_answer', question: 'Wo erhalte ich Tickets?' do
+    | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen. Ein Kauf in Vorverkaufsstellen ist in diesem Jahr nicht möglich.
+
+  = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
+    | Nein, die Plätze können in diesem Jahr nicht vorab reserviert werden. Die Besuchergruppen werden von uns unter Einhaltung des Abstandes im Zuschauerraum verteilt. Ihre Plätze werden Ihnen dann vor Ort genannt.
+
+  = render 'question_answer', question: 'Kann ich für mehrere Besuchergruppen buchen?' do
+    | Ja, bitte geben Sie dazu einfach eine Bestellung pro Gruppe auf. Bitte beachten Sie auch, dass separate Besuchergruppen nicht zusammensitzen können. Wir werden Sie entsprechend auf den Plätzen verteilen, um den nötigen Abstand einzuhalten.
+
+  = render 'question_answer', question: 'Gibt es gehbehindertengerechte Sitzplätze?' do
+    | Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.
+
+  = render 'question_answer', question: 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
+    | Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
+
+  = render 'question_answer', question: 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
+    | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+    p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.
+
+  = render 'question_answer', question: 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
+    | Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+    p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
+
+  = render 'question_answer', question: 'Lassen sich Tickets umbuchen oder stornieren?' do
+    p Sitzplätze lassen sich jederzeit umbuchen.
+    p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
+    p In beiden Fällen kontaktieren Sie uns bitte telefonisch: <b>(02653) 28 27 09</b>. In Zukunft werden wir den Umbuchungsservice auch online anbieten.
+
+.trenner
+
+.section
+  h2 Anfahrt
+
+  = render 'map', identifier: 'freilichtbuehne'
+
+  = render 'question_answer', question: 'Wo finde ich die Freilichtbühne?' do
+    | Unser Freilichttheater findet im Historischen Ortskern von Kaisersesch statt. Dieser befindet sich in der Burgstraße, direkt an der Hauptstraße, bzw. neben der Kirche.
+    p Im Ort sollte Ihnen unser namensgebender Kirchturm eine gute Orientierungshilfe sein.
+
+  = render 'question_answer', question: 'Wie reise ich mit dem Auto an?' do
+    Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgende der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
+    p Weitere Parkmöglichkeiten sind in der obigen Karte markiert.
+
+  = render 'question_answer', question: 'Wie reise ich mit öffentlichen Verkehrsmitteln an?' do
+    | Möchten Sie mit der Bahn anreisen, fahren Sie von Andernach kommend mit der Regionalbahn der DB Regio bis zum Bahnhof Kaisersesch. Von dort folgen Sie der Bahnhofstraße abwärts in den Ort bis zum Zentralplatz (Sparkasse).
+    p Mit dem Bus fahren Sie bis zum Balduinplatz.
+
+.trenner
+
+.section
+  h2 Wetter
+
+  = render 'question_answer', question: 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
+    | Da die Anzahl der Zuschauer in diesem Jahr überschaubar ist, haben wir bei Regen die Möglichkeit, in das Alte Kino auszuweichen.
+
+.trenner
+
+.section
+  h2 Aufführung
+
+  = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
+    | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
+
+  = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+    | In diesem Jahr findet kein Verkauf von Speisen oder Getränken statt.
+
+  = render 'question_answer', question: 'Wird es eine Pause geben?' do
+    | Es wird keine Pause geben.
+
+  = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
+    | Die Aufführung dauert etwa eine Stunde.
+
+  = render 'question_answer', question: 'Kann ich während der Aufführung fotografieren oder filmen?' do
+    | Leider können wir Ihnen dies nicht gestatten.
+
+  = render 'question_answer', question: 'Gibt es ein Rauchverbot?' do
+    | Rauchen ist während der Aufführung nicht gestattet.
+
+= render 'further_questions'

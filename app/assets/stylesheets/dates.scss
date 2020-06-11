@@ -37,26 +37,12 @@
   }
 }
 
-.sahnemixx {
-  .hl, .hl .small, .prices table td.price, .dates td {
-    color: #219ad5;
-    text-shadow: none;
-  }
-
+.mit_abstand {
   .title {
     padding-top: 30px !important;
 
     img {
       width: 250px;
-    }
-  }
-
-  .video {
-    box-sizing: border-box;
-    margin: 30px 100px;
-
-    video {
-      width: 100%;
     }
   }
 }

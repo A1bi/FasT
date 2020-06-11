@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-json.array! @event.dates.map do |date|
+json.array! event.dates.map do |date|
   json.set! '@context', schema_context
   json.set! '@type', local_assigns.fetch(:event_type, 'TheaterEvent')
 
-  json.name @event.name
+  json.name event.name
   json.image local_assigns[:image] ? asset_url(image) : nil
   json.startDate date.date.iso8601
   json.doorTime date.door_time.iso8601
@@ -20,13 +20,13 @@ json.array! @event.dates.map do |date|
                                      'Burgstraße, 56759 Kaisersesch')
   end
 
-  json.offers @ticket_types do |type|
-    json.url new_ticketing_order_url(@event.slug)
+  json.offers event.ticket_types.except_exclusive do |type|
+    json.url new_ticketing_order_url(event.slug)
     json.name type.name
     json.category 'primary'
     json.price type.price
     json.priceCurrency 'EUR'
-    json.validFrom @event.sale_start.iso8601
+    json.validFrom event.sale_start.iso8601
     json.availability item_availability(date)
   end
 end
