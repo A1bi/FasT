@@ -3,18 +3,14 @@
 module Admin
   module MembersHelper
     def last_login_time(member)
-      if member.last_login.nil?
-        return content_tag :em, t('admin.members.never_logged_in')
-      end
+      return tag.em t('admin.members.never_logged_in') if member.last_login.nil?
 
       l member.last_login, format: '%-d. %B %Y, %H:%M Uhr'
     end
 
     def last_membership_fee_payment_date(member)
       payment = member.membership_fee_payments.last
-      if payment.nil?
-        return content_tag :em, t('admin.members.membership_fee_never_paid')
-      end
+      return tag.em t('admin.members.membership_fee_never_paid') if payment.nil?
 
       l payment.created_at.to_date, format: :long
     end

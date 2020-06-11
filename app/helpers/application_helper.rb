@@ -55,12 +55,12 @@ module ApplicationHelper
     if name.present?
       capture do
         concat name
-        concat content_tag(:em, " (#{affiliation})") if affiliation.present?
+        concat tag.em(" (#{affiliation})") if affiliation.present?
       end
     elsif affiliation.present?
       affiliation
     else
-      content_tag :em, missing_notice
+      tag.em missing_notice
     end
   end
 

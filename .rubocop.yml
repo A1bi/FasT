@@ -7,6 +7,9 @@ AllCops:
   - 'db/migrate/*'
   - 'node_modules/**/*'
 
+Layout/LineLength:
+  Max: 80
+
 Metrics/AbcSize:
   Enabled: false
 

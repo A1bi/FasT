@@ -4,7 +4,7 @@ module Passbook
   module Routing
     def passbook_routes
       scope module: 'passbook/controllers', controller: :passbook,
-            path: :passbook, constraints: { pass_type_id: /([\w\d\-\.])+/ } do
+            path: :passbook, constraints: { pass_type_id: /([\w\d\-.])+/ } do
         root as: :passbook_root, to: redirect('/')
         scope path: :v1 do
           scope 'passes/:pass_type_id' do

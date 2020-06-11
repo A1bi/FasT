@@ -75,7 +75,7 @@ group :development do
 end
 
 group :development, :ci do
-  gem 'capistrano', '~> 3.13'
+  gem 'capistrano', '~> 3.14'
   gem 'capistrano-bundler', '~> 1.6', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'ffaker', '~> 2.13'
