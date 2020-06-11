@@ -3,7 +3,6 @@ import 'regenerator-runtime/runtime'
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import { init as initSentry } from '@sentry/browser'
-import '@rails/ujs'
 
 (async () => {
   // polyfill for IE 11
@@ -13,6 +12,8 @@ import '@rails/ujs'
 const application = Application.start()
 const context = require.context('../controllers', true, /\.js$/)
 application.load(definitionsFromContext(context))
+
+require('@rails/ujs').start()
 
 if (process.env.NODE_ENV !== 'development') {
   initSentry({
