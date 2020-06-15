@@ -81,7 +81,7 @@ CREATE TYPE public.user_type AS ENUM (
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: active_storage_attachments; Type: TABLE; Schema: public; Owner: -
@@ -1337,7 +1337,8 @@ CREATE TABLE public.ticketing_events (
     archived boolean DEFAULT false,
     sale_disabled_message character varying,
     subtitle character varying,
-    assets_identifier character varying NOT NULL
+    assets_identifier character varying NOT NULL,
+    covid19 boolean DEFAULT false NOT NULL
 );
 
 
@@ -3666,6 +3667,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200213133157'),
 ('20200222144644'),
 ('20200315115826'),
-('20200327213527');
+('20200327213527'),
+('20200615213727');
 
 

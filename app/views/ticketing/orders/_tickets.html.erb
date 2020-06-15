@@ -5,9 +5,28 @@
       <p>
         Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets <% if @event.seating.plan? %>und damit verbundene Sitzplatzreservierung <% end %>für „<%= @event.name %>“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
       </p>
-      <p>
-        Weitere Informationen zu unserem Vorverkauf finden Sie in unseren <b><%= link_to '„häufig gestellten Fragen“', info_path(@event.slug) %></b> oder telefonisch unter <b>(02653) 28 27 09</b>.
-      </p>
+      <% if @event.covid19? %>
+        <div class="covid19">
+          <h3 class="hcen">Hinweise zu COVID-19-bedingten Hygienemaßnahmen</h3>
+          <p>
+            <b>Zusammensitzen können ausschließlich Besucher einer zusammengehörigen Gruppe.</b> Dazu gehören Familienangehörige bzw. Angehörige desselben Haushalts. Zwischen den Gruppen wird ein Abstand von 1,5 m in alle Richtungen eingehalten.
+          </p>
+          <p>
+            <b>Jede Buchung wird von uns als eine Besuchergruppe verstanden.</b> Bitte prüfen Sie daher, ob bei jedem Mitglied Ihrer Gruppe eine Zugehörigkeit unter den genannten Kriterien gegeben ist. Sollten Sie für mehrere Gruppen buchen wollen, geben Sie bitte für jede jeweils eine Bestellung auf. Sollten Sie später weitere Personen zu einer Gruppe hinzufügen wollen, kontaktieren Sie uns bitte telefonisch.
+          </p>
+          <p>
+            Teil der behördlichen Auflagen ist die Aufzeichnung von Namen und Kontaktdaten aller Besucher. Diese Daten werden im Laufe des Bestellprozesses erfasst und nach Ablauf der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
+          </p>
+          <p>
+            Weitere Informationen finden Sie in unseren <b><%= link_to '„häufig gestellten Fragen“', info_path(@event.slug) %></b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+          </p>
+          <p>Vielen Dank für Ihr Verständnis.</p>
+        </div>
+      <% else %>
+        <p>
+          Weitere Informationen zu unserem Vorverkauf finden Sie in unseren <b><%= link_to '„häufig gestellten Fragen“', info_path(@event.slug) %></b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+        </p>
+      <% end %>
       <div class="trenner"></div>
       <p>Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.</p>
     </div>

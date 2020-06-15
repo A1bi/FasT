@@ -21,7 +21,7 @@ module Ticketing
     end
 
     def door_time
-      date - 1.hour
+      date - (event.covid19? ? 30.minutes : 1.hour)
     end
 
     def number_of_seats

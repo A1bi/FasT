@@ -238,6 +238,8 @@ de:
     opens: "Einlass"
     location: "Veranstaltungsort"
     free_seating: "Freie Platzwahl"
+    covid19_seat: Sitzplatz
+    covid19_seating: wird vor Ort mitgeteilt
     additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:\n<b>www.theater-kaisersesch.de</b> oder <b>(02653) 28 27 09</b>"
   member_mailer:
     activation:

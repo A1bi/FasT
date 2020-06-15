@@ -198,7 +198,10 @@ class TicketsPdf < Prawn::Document
       end
     end
 
-    if ticket.seat.nil?
+    if ticket.event.covid19?
+      labels << :covid19_seat
+      values << t(:covid19_seating)
+    elsif ticket.seat.nil?
       labels << ''
       values << t(:free_seating)
     else
