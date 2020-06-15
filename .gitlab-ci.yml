@@ -1,3 +1,6 @@
+include:
+  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+
 .default-tags:
   tags: [ruby-2.6]
 
@@ -23,12 +26,12 @@ stages:
 
 variables:
   RAILS_ENV: test
+  NODE_ENV: test
 
-workflow:
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
-    - if: $CI_COMMIT_TAG
-    - if: $CI_COMMIT_BRANCH
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - node_modules
 
 rubocop:
   extends: .default-tags
@@ -45,7 +48,7 @@ standardjs:
   except:
     - schedules
   before_script:
-    - yarn install
+    - yarn install --frozen-lockfile
   script:
     - yarn run standard
 
