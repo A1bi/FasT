@@ -1288,6 +1288,42 @@ CREATE TABLE public.ticketing_coupons_reservation_groups (
 
 
 --
+-- Name: ticketing_covid19_attendees; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_covid19_attendees (
+    id bigint NOT NULL,
+    ticket_id bigint NOT NULL,
+    name character varying NOT NULL,
+    street character varying NOT NULL,
+    plz character varying NOT NULL,
+    city character varying NOT NULL,
+    phone character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_covid19_attendees_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_covid19_attendees_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_covid19_attendees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_covid19_attendees_id_seq OWNED BY public.ticketing_covid19_attendees.id;
+
+
+--
 -- Name: ticketing_event_dates; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2077,6 +2113,13 @@ ALTER TABLE ONLY public.ticketing_coupons ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: ticketing_covid19_attendees id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_covid19_attendees ALTER COLUMN id SET DEFAULT nextval('public.ticketing_covid19_attendees_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_event_dates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2478,6 +2521,14 @@ ALTER TABLE ONLY public.ticketing_coupons
 
 
 --
+-- Name: ticketing_covid19_attendees ticketing_covid19_attendees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_covid19_attendees
+    ADD CONSTRAINT ticketing_covid19_attendees_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ticketing_event_dates ticketing_event_dates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2868,6 +2919,13 @@ CREATE INDEX index_ticketing_coupons_reservation_groups_on_coupon_id ON public.t
 --
 
 CREATE INDEX index_ticketing_coupons_reservation_groups_on_group_id ON public.ticketing_coupons_reservation_groups USING btree (reservation_group_id);
+
+
+--
+-- Name: index_ticketing_covid19_attendees_on_ticket_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_covid19_attendees_on_ticket_id ON public.ticketing_covid19_attendees USING btree (ticket_id);
 
 
 --
@@ -3398,6 +3456,14 @@ ALTER TABLE ONLY public.newsletter_subscribers
 
 
 --
+-- Name: ticketing_covid19_attendees fk_rails_95425908e5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_covid19_attendees
+    ADD CONSTRAINT fk_rails_95425908e5 FOREIGN KEY (ticket_id) REFERENCES public.ticketing_tickets(id);
+
+
+--
 -- Name: newsletter_newsletters_subscriber_lists fk_rails_985b265b1c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3668,6 +3734,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200222144644'),
 ('20200315115826'),
 ('20200327213527'),
-('20200615213727');
+('20200615213727'),
+('20200616104936');
 
 

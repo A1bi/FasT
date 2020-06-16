@@ -32,6 +32,10 @@ module Ticketing
 
       create_tickets
       redeem_coupons
+
+      Covid19AttendeeCreateService.new(params.dig(:covid19, :attendees), @order)
+                                  .execute
+
       finalize_order
 
       @order
