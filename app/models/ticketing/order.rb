@@ -109,6 +109,10 @@ module Ticketing
       deposit_into_account(diff, billing_note)
     end
 
+    def covid19?
+      tickets.any? { |ticket| ticket.event.covid19? }
+    end
+
     private
 
     def update_date

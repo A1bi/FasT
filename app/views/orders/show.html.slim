@@ -30,6 +30,8 @@
           td
             - if ticket.seat.present?
               = ticket.seat.full_number
+            - elsif ticket.event.covid19?
+              | Wird vor Ort mitgeteilt
             - else
               | Freie Platzwahl
           - if show_wallet?

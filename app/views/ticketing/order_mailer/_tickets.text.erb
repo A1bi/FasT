@@ -1,10 +1,23 @@
 <% @tickets.each do |ticket| %>
-      „<%= ticket.event.name %>“ | <%= l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr' %> | <% if ticket.seat.present? %>Sitz <%= ticket.seat.full_number %><% else %>Freie Platzwahl<% end %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
+      „<%= ticket.event.name %>“ | <%= l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr' %> | <% if ticket.seat.present? %>Sitz <%= ticket.seat.full_number %><% elsif ticket.event.covid19? %>Wird vor Ort mitgeteilt<% else %>Freie Platzwahl<% end %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
 ---------------------------------
 Gesamtbetrag: <%= number_to_currency(@order.total) %>
 <% if attach_tickets? && !(hide_notes ||= false) %>
+<% if @order.covid19? %>
+
+--- Hinweise zu COVID-19-bedingten Hygienemaßnahmen ---
+
+– Die Aufführung findet nicht wie üblich auf der großen Bühne vor dem Alten Kino statt, sondern etwas abseits auf einem kleinen Platz neben dem Kino.
+– Auf einen Verkauf von Speisen oder Getränken vor Ort wird verzichtet. Bitte bringen Sie auch keine Speisen oder Getränke mit.
+– Es findet keine Pause statt.
+– Es gilt eine allgemeine Maskenpflicht. Die Masken müssen getragen werden, bis Sie Ihren Platz eingenommen haben.
+– Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
+– Wir empfehlen Ihnen die Installation der Corona-Warn-App auf Ihrem Smartphone.
+
+Weitere Informationen finden Sie in den „häufig gestellten Fragen“ auf unserer Homepage oder telefonisch unter (02653) 28 27 09.
+<% end %>
 
 --- Hinweise zu Ihren Tickets ---
 
