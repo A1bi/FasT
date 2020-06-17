@@ -27,6 +27,7 @@
   <%= render "tickets" %>
   <%= render "seats" %>
   <%= render "address" %>
+  <%= render "covid19" if @event.covid19? %>
   <%= render "payment", methods: [
     {
       name: :charge,

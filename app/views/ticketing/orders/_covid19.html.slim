@@ -1,0 +1,27 @@
+.stepCon.covid19
+  .note
+    p Teil der COVID-19-bedingten Auflagen durch die Behörde ist die Aufzeichnung von <b>Namen und Kontaktdaten aller Besucher</b>. Diese Daten werden nach Ablauf der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
+  form(data-template)
+    table.inner.form.rounded
+      thead
+        tr: th colspan='2' Person %number%
+      tbody
+        tr
+          td Name:
+          td: input.field(type='text' name='name' required)
+        tr.same-address: td.hcen colspan='2'
+          label
+            input> type='checkbox' name='same-address'
+            | Kontaktdaten von Person 1 übernehmen
+        tr
+          td Straße und Hausnummer:
+          td: input.field(type='text' name='street' required)
+        tr
+          td PLZ:
+          td: input(type='text' name='plz' maxlength=5 pattern='\d{5}' inputmode='numeric' required)
+        tr
+          td Ort:
+          td: input.field(type='text' name='city' required)
+        tr
+          td Telefonnummer:
+          td: input.field(type='text' name='phone' required)

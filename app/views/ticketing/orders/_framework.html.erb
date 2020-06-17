@@ -9,6 +9,7 @@
   <div class="step current tickets">Tickets</div>
   <div class="step seats"><% if @event.seating.plan? %>Sitzplätze<% else %>Aufführung<% end %></div>
   <div class="step address">Adresse</div>
+  <% if @event.covid19? %><div class="step covid19">COVID-19</div><% end %>
   <div class="step payment">Bezahlen</div>
   <div class="step confirm">Bestätigen</div>
 </div>
@@ -18,7 +19,7 @@
     <li class="plural_text">Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.</li>
   </ul>
 </div>
-<%= content_tag :div, class: [:stepBox, @type], data: { controller: 'ticketing--orders', type: @type, order_path: ticketing_order_path(':id') } do %>
+<%= content_tag :div, class: [:stepBox, @type], data: { controller: 'ticketing--orders', type: @type, order_path: ticketing_order_path(':id'), covid19: @event.covid19? } do %>
   <div class="modalAlert">
     <div class="messages alert">
       <div class="icon"></div>
