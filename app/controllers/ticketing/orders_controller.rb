@@ -229,10 +229,15 @@ module Ticketing
       @type = :retail
       @max_tickets = 35
 
-      return render :new_retail if current_user.store.sale_enabled
+      if !current_user.store.sale_enabled
+        return redirect_to ticketing_orders_path,
+                           alert: t('.sale_disabled_for_store')
+      elsif @event.covid19?
+        return redirect_to ticketing_orders_path,
+                           alert: t('.sale_web_only_covid19')
+      end
 
-      redirect_to ticketing_orders_path,
-                  alert: t('.sale_disabled_for_store')
+      render :new_retail
     end
 
     def set_event_info
