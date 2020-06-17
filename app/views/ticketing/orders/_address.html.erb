@@ -18,7 +18,7 @@
         <% end %>
         <%= render layout: "field", locals: { name: "Firma / Gruppe / Zugehörigkeit" } do %>
           <%= f.text_field :affiliation, class: "field" %>
-        <% end %>
+        <% end unless @event.covid19? %>
         <%= render layout: "field", locals: { name: "PLZ" } do %>
           <%= f.text_field :plz, class: "field", maxlength: 5 %>
         <% end %>
