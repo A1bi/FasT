@@ -12,7 +12,7 @@
       <tbody>
         <% @dates.each do |date| %>
           <tr>
-            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date }, class: [date.cancelled? || (date.sold_out? && !current_user&.admin?) ? :disabled: nil]) do %>
+            <%= content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date && !date.event.covid19? }, class: [date.cancelled? || (date.sold_out? && !current_user&.admin?) ? :disabled: nil]) do %>
               <span class="line_through"><%= l date.date, format: "%A, den %d. %B %Y um %H.%M Uhr" %></span>
               <% if date.cancelled? %>
                 <span class="unavailable">Aufführung entfällt</span>

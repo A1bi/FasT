@@ -1,7 +1,13 @@
 .stepCon.covid19
   .note
     p Teil der COVID-19-bedingten Auflagen durch die Behörde ist die Aufzeichnung von <b>Namen und Kontaktdaten aller Besucher</b>. Diese Daten werden nach Ablauf der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
-  form(data-template)
+    p <b>Zusammensitzen können ausschließlich Besucher einer zusammengehörigen Gruppe.</b> Dazu zählen Angehörige des eigenen Hausstands und eine oder mehrere Personen eines weiteren Hausstands. Zwischen den Gruppen wird ein Abstand von 1,5 m in alle Richtungen eingehalten.
+    form
+      label
+        input>(type='checkbox' name='accept' required)
+        | Ich akzeptiere und beachte diese Bedingungen bei meiner Buchung.
+
+  form.person.template
     table.inner.form.rounded
       thead
         tr: th colspan='2' Person %number%

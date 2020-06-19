@@ -21,7 +21,7 @@ export default class extends Step {
 
     if (valid) {
       this.info.api.attendees = []
-      this.visibleForms.toArray().forEach(form => {
+      this.visiblePersonForms.toArray().forEach(form => {
         const attendee = {}
         this.info.api.attendees.push(attendee)
 
@@ -30,7 +30,7 @@ export default class extends Step {
         })
       })
     } else if (!this.forms[0].reportValidity) {
-      window.alert('Bitte füllen Sie alle Felder aus.')
+      window.alert('Bitte füllen Sie alle Felder aus und akzeptieren Sie die Bedingungen.')
     }
 
     return valid
@@ -50,16 +50,17 @@ export default class extends Step {
   }
 
   setFirstFormValue (fieldName, value) {
-    const firstForm = this.visibleForms[0]
+    const firstForm = this.visiblePersonForms[0]
     firstForm.querySelector(`input[name='${fieldName}']`).value = value
   }
 
   updateForms () {
-    const numberOfForms = this.visibleForms.length
+    const numberOfForms = this.visiblePersonForms.length
 
     for (let i = numberOfForms; i < this.numberOfTickets; i++) {
-      const form = this.formTemplate.clone().insertAfter(this.forms.last())
-      form.show().removeAttr('data-template')
+      const form = this.personFormTemplate.clone()
+      form.insertAfter(this.personForms.last())
+      form.show().removeClass('template')
 
       const title = form.find('th')
       title.text(title.text().replace('%number%', i + 1))
@@ -83,16 +84,16 @@ export default class extends Step {
     }
 
     for (let i = numberOfForms; i > this.numberOfTickets; i--) {
-      this.visibleForms[i - 1].remove()
+      this.visiblePersonForms[i - 1].remove()
     }
   }
 
   updateFields () {
-    this.visibleForms.toArray().forEach(form => {
+    this.visiblePersonForms.toArray().forEach(form => {
       const checkbox = form.querySelector("input[type='checkbox']")
       if (!checkbox || !checkbox.checked) return
 
-      this.visibleForms[0].querySelectorAll('input').forEach(source => {
+      this.visiblePersonForms[0].querySelectorAll('input').forEach(source => {
         if (source.name === 'name') return
 
         const target = form.querySelector(`input[name='${source.name}']`)
@@ -101,12 +102,20 @@ export default class extends Step {
     })
   }
 
-  get formTemplate () {
-    return this.forms.filter('[data-template]').hide()
+  get personFormTemplate () {
+    return this.personForms.filter('.template').hide()
+  }
+
+  get visiblePersonForms () {
+    return this.visibleForms.filter('.person')
+  }
+
+  get personForms () {
+    return this.forms.filter('.person')
   }
 
   get visibleForms () {
-    return this.forms.filter(':not([data-template])')
+    return this.forms.filter(':not(.template)')
   }
 
   get forms () {
