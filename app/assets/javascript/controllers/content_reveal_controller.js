@@ -7,7 +7,7 @@ export default class extends Controller {
 
   connect () {
     if (this.element.hasAttribute('data-revealed')) {
-      this.reveal()
+      setTimeout(() => this.reveal())
     }
   }
 
