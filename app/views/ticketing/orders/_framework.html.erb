@@ -1,8 +1,8 @@
-<% title (title ||= "Tickets bestellen") %>
+<% title local_assigns.fetch(:title, "Tickets bestellen – #{@event.name}") %>
 <% include_css "ticketing/orders" %>
 
 <div class="hl">
-  <%= title %>
+  <%= local_assigns.fetch(:title, 'Tickets bestellen') %>
 </div>
 <div class="progress">
   <div class="step bar"></div>

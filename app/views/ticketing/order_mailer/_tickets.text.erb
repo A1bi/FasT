@@ -4,7 +4,7 @@
 
 ---------------------------------
 Gesamtbetrag: <%= number_to_currency(@order.total) %>
-<% if attach_tickets? && !(hide_notes ||= false) %>
+<% if attach_tickets? %>
 <% if @order.covid19? %>
 
 --- Hinweise zu COVID-19-bedingten Hygienemaßnahmen ---

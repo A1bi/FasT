@@ -1,4 +1,4 @@
-<% cache_if (cache_key ||= nil).present?, [cache_key, orders, params[:type]] do %>
+<% cache_if local_assigns[:cache_key].present?, [local_assigns[:cache_key], orders, params[:type]] do %>
   <%
     additional_columns ||= []
     number_of_columns = 4 + additional_columns.count
@@ -18,7 +18,7 @@
             <th></th>
           <% end %>
           <th>Nummer</th>
-          <th><% if web ||= false %>Name<% else %>Vorverkaufsstelle<% end %></th>
+          <th><% if local_assigns[:web] %>Name<% else %>Vorverkaufsstelle<% end %></th>
           <th>Tickets</th>
           <% if :date.in?(additional_columns) %>
             <th>Termin</th>
@@ -39,7 +39,7 @@
           <% end %>
           <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
           <td class="name">
-            <% if web %>
+            <% if local_assigns[:web] %>
               <%= name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben') %>
             <% elsif order.is_a? Ticketing::Retail::Order %>
               <%= order.store.name %>

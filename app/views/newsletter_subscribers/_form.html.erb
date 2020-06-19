@@ -4,7 +4,7 @@
   </div>
   <div class="con">
     <%= render "errors", :errors => (@subscriber ||= Newsletter::Subscriber.new).errors %>
-    <%= text ||= "Melden Sie sich jetzt kostenlos zu unserem Newsletter an und erfahren Sie künftig alles Neue um unseren Verein sofort." %>
+    <%= local_assigns.fetch(:text, 'Melden Sie sich jetzt kostenlos zu unserem Newsletter an und erfahren Sie künftig alles Neue um unseren Verein sofort.') %>
     <%= form_with model: @subscriber, url: newsletter_subscriber_path(token: @subscriber.token), local: true do |f| %>
       <p>
         <%= f.select :gender, options_for_select({ "Frau" => 0, "Herr" => 1 }, @subscriber.gender) %>

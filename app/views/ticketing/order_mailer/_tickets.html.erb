@@ -31,7 +31,7 @@
     <td colspan="1" class="amount"><%= number_to_currency(@order.total) %></td>
   </tr>
 </table>
-<% if attach_tickets? && !(hide_notes ||= false) %>
+<% if attach_tickets? %>
   <% if @order.covid19? %>
     <table style="border: 1.5px solid red;" cellspacing="7" align="center">
       <tr>
