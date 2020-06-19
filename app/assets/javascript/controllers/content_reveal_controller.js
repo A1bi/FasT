@@ -5,6 +5,12 @@ import '../styles/content_reveal_controller.sass'
 export default class extends Controller {
   static targets = ['content']
 
+  connect () {
+    if (this.element.hasAttribute('data-revealed')) {
+      this.reveal()
+    }
+  }
+
   reveal () {
     this.element.classList.toggle('revealed')
 

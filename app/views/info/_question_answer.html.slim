@@ -1,4 +1,4 @@
-div data-controller='content-reveal'
+div data-controller='content-reveal' data-revealed=local_assigns[:revealed]
   a.question.reveal-trigger data-action='content-reveal#reveal'
     = question
   .answer.revealed-content data-target='content-reveal.content'

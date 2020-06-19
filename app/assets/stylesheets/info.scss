@@ -33,6 +33,10 @@
           margin-bottom: 0;
         }
       }
+
+      ul.unstyled {
+        list-style: none;
+      }
     }
 
     &.revealed {

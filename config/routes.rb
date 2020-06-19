@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   # info
   scope controller: :info, path: 'faq', as: :info do
     get 'map'
+    get :freundeskreis
     get '/(:event_slug)', action: :index
   end
   get 'info', to: redirect('faq')
