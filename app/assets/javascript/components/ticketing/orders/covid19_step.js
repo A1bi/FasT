@@ -25,7 +25,7 @@ export default class extends Step {
         const attendee = {}
         this.info.api.attendees.push(attendee)
 
-        form.querySelectorAll("input:not([type='checkbox']").forEach(field => {
+        form.querySelectorAll("input:not([type='checkbox'])").forEach(field => {
           attendee[field.name] = field.value
         })
       })
