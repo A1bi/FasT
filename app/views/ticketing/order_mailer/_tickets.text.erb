@@ -2,7 +2,7 @@
       „<%= ticket.event.name %>“ | <%= l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr' %> | <% if ticket.seat.present? %>Sitz <%= ticket.seat.full_number %><% elsif ticket.event.covid19? %>Wird vor Ort mitgeteilt<% else %>Freie Platzwahl<% end %> | <%= ticket.type.name %> | <%= number_to_currency(ticket.price) %>
 <% end %>
 
----------------------------------
+–––––––––––––––––––––––––––––––––
 Gesamtbetrag: <%= number_to_currency(@order.total) %>
 <% if attach_tickets? %>
 <% if @order.covid19? %>

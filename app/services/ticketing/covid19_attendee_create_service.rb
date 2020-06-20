@@ -5,7 +5,7 @@ module Ticketing
     attr_accessor :attendees_params, :order
 
     def initialize(attendees_params, order)
-      @attendees_params = attendees_params
+      @attendees_params = attendees_params || []
       @order = order
     end
 

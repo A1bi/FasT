@@ -8,7 +8,7 @@ module Admin
     before_action :update_newsletter, only: %i[create update]
 
     def index
-      @newsletters = authorize Newsletter::Newsletter.all
+      @newsletters = authorize Newsletter::Newsletter.order(created_at: :desc)
     end
 
     def new; end
