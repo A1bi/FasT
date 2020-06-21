@@ -35,7 +35,7 @@ module Ticketing
     private
 
     def statistics
-      ticket_stats_for_dates(event.dates).dig(:total, id) ||
+      ticket_stats_for_event(event).dig(:total, id) ||
         { total: 0, percentage: 0 }
     end
   end

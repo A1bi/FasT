@@ -60,7 +60,7 @@ module Ticketing
     private
 
     def stats_for_event(event)
-      ticket_stats_for_dates event.dates
+      ticket_stats_for_event event
     end
     helper_method :stats_for_event
 

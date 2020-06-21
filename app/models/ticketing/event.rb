@@ -28,7 +28,7 @@ module Ticketing
     end
 
     def sold_out?
-      (ticket_stats_for_dates(dates)
+      (ticket_stats_for_event(self)
         .dig(:total, :total, :percentage) || 0) >= 100
     end
 

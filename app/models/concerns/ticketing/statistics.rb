@@ -4,15 +4,17 @@ module Ticketing
   module Statistics
     extend ActiveSupport::Concern
 
-    def ticket_stats_for_dates(dates)
-      Rails.cache.fetch [:ticketing, :statistics, dates, Ticket.all,
+    def ticket_stats_for_event(event)
+      Rails.cache.fetch [:ticketing, :statistics, event, Ticket.all,
                          Reservation.all] do
-        calc_ticket_numbers(dates)
+        @stats = nil
 
-        dates.each do |date|
+        calc_ticket_numbers(event.dates)
+
+        event.dates.each do |date|
           calc_percentage_of_booked_seats(stats[:total][date.id], [date])
         end
-        calc_percentage_of_booked_seats(stats[:total][:total], dates)
+        calc_percentage_of_booked_seats(stats[:total][:total], event.dates)
 
         scopes = [stats[:web], stats[:retail][:total],
                   stats[:box_office][:total]]
