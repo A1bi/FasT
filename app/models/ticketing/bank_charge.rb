@@ -24,6 +24,10 @@ module Ticketing
       super
     end
 
+    def iban=(val)
+      super val.upcase
+    end
+
     def submitted?
       submission.present?
     end
