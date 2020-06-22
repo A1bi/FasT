@@ -67,7 +67,7 @@ export default class extends Controller {
     return fetch(url, method, {
       ticket_ids: this.tickets,
       date_id: this.date,
-      socket_id: this.chooser.socketId
+      socket_id: this.chooser?.socketId
     })
   }
 

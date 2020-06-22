@@ -93,7 +93,7 @@ export default class extends Step {
 
       this.postCouponCode(this.couponBox.data('add-url'), code)
         .then(res => this.couponAdded(res.coupon))
-        .catch(res => this.couponError(res.data ? res.data.error : null))
+        .catch(res => this.couponError(res.data?.error))
     }
   }
 
