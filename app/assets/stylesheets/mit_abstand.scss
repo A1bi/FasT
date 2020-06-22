@@ -1,0 +1,78 @@
+@import 'theater';
+
+.title {
+  text-align: center;
+
+  img {
+    width: 60%;
+  }
+}
+
+.info {
+  padding: 20px;
+  line-height: 1.5em;
+  font: {
+    size: 17px;
+    family: 'Ovo', serif;
+  }
+  text-align: justify;
+
+  .title {
+    text-align: center;
+    padding-left: 150px;
+    padding-bottom: 30px;
+
+    .highlight {
+      font-size: 34px;
+    }
+  }
+
+  h2, a, .highlight {
+    font: {
+      variant: small-caps;
+      weight: bold;
+    }
+  }
+
+  a {
+    font-style: italic;
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: 35px 0px 15px -15px;
+    font: {
+      size: 26px;
+      weight: bold;
+    }
+  }
+}
+
+.cast {
+  .small {
+    color: #9AA5BF;
+  }
+
+  .alt {
+    box-shadow: none;
+    background: transparent;
+    border: black solid {
+      width: 1px 0;
+    }
+
+    .row {
+      ul {
+        list-style-type: none;
+
+        li {
+          &:not(:first-child)::before {
+            content: '–';
+            padding-right: 6px;
+          }
+
+          padding-right: 6px;
+        }
+      }
+    }
+  }
+}

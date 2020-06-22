@@ -6,7 +6,10 @@
 
 .mit_abstand
   p Im Jahr 2020 führen wir angesichts der COVID-19-Pandemie ein alternatives „Sommernachtstheaterchen“ auf.
-  p <b>„Mit Abstand das Beste...“</b> – eine virale Satirerevue – wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+  p
+    => link_to theater_play_path(@event.slug)
+      b „Mit Abstand das Beste...“
+    | – eine virale Satirerevue – wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
 
   = render 'dates', opens: 'Einlass um 18.30 Uhr.'
   = render 'prices'

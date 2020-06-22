@@ -1,6 +1,6 @@
 .container
   .title
-    = image_tag("theater/#{@event.assets_identifier}/title.svg", alt: @event.name)
+    = link_to_if lookup_context.exists?("theater/#{@event.identifier}"), image_tag("theater/#{@event.assets_identifier}/title.svg", alt: @event.name), theater_play_path(@event.slug)
   .box.dates
     .top Termine
     .con
