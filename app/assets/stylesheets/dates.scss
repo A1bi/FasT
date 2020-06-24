@@ -59,8 +59,12 @@
   }
 
   .dates {
-    width: 46%;
+    width: 43%;
     float: left;
+
+    .con {
+      padding: 15px;
+    }
 
     tr {
       &.disabled td {
@@ -84,6 +88,10 @@
         font-weight: bold;
         vertical-align: top;
 
+        &.date {
+          text-align: right;
+        }
+
         .time {
           font-size: 12px;
         }
@@ -91,8 +99,7 @@
     }
 
     p {
-      font-size: 13px;
-      padding: 0px 15px;
+      margin-bottom: 0;
     }
   }
 }
@@ -104,13 +111,6 @@
     margin: 20px auto;
     margin-bottom: 30px;
   }
-}
-
-.point {
-  width: 25px;
-  height: 25px;
-  background: url(asset_path("point.png")) no-repeat;
-  padding: 0px 6px;
 }
 
 .prices {

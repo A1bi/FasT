@@ -6,8 +6,7 @@
     .con
       table
         - @event.dates.each do |date|
-          = tag.tr class: (date.sold_out? || date.cancelled? ? :disabled : nil)
-            td.point
+          tr class=('disabled' if date.sold_out? || date.cancelled?)
             td.day
               span.line_through = l date.date, format: '%A'
               - if date.cancelled?
@@ -18,4 +17,4 @@
               span.line_through
                 = l date.date, format: '%-d. %B ' + (date.date > Time.current.end_of_year ? '%Y' : '')
               .line_through.time = l date.date, format: '%H.%M Uhr'
-      p = local_assigns.fetch(:opens, 'Einlass eine Stunde vor Beginn.')
+      p.hcen = local_assigns.fetch(:opens, 'Einlass eine Stunde vor Beginn')
