@@ -19,12 +19,12 @@ module Ticketing
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread
         connection.on(:error) do |exception|
-          Raven.capture_exception(exception)
+          Raven.capture_exception(exception) unless exception.is_a? SocketError
         end
       end
     end
 
-    CONNECTION_POOL = create_pool(size: 5)
+    CONNECTION_POOL = create_pool(size: 1)
 
     # add another production pool even if in development
     # -> passbook notifications only support production
