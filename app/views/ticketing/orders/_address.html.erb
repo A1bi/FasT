@@ -8,7 +8,7 @@
       </thead>
       <tbody>
         <%= render layout: "field", locals: { name: "Anrede" } do %>
-          <%= f.select(:gender, options_for_select([[" ", -1], ["Frau", 0], ["Herr", 1]])) %>
+          <%= f.select(:gender, options_for_select([["", ""], ["Frau", 0], ["Herr", 1]])) %>
         <% end %>
         <%= render layout: "field", locals: { name: "Vorname" } do %>
           <%= prepopulated_text_field(f, :first_name) %>

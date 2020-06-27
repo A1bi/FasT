@@ -77,9 +77,6 @@ module Ticketing
 
       else
         @order = Ticketing::Order.find(params[:order_id])
-        @order.admin_validations =
-          current_user&.admin? && @order.is_a?(Web::Order)
-
         ticket_scope = @order.tickets
       end
 

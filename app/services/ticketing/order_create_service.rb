@@ -23,7 +23,6 @@ module Ticketing
         @order.box_office = current_box_office
 
       else
-        @order.admin_validations = admin?
         @order.attributes = order_params[:address]
         create_payment
       end
@@ -94,7 +93,8 @@ module Ticketing
 
     def finalize_order
       ActiveRecord::Base.transaction do
-        return unless @order.save
+        contexts = [:create, (:unprivileged_order unless admin?)]
+        return unless @order.save(context: contexts)
 
         update_node_seats
       end

@@ -13,7 +13,7 @@
     <tbody>
       <tr>
         <td class="label">Anrede:</td>
-        <td><%= f.select(:gender, options_for_select([[' ', -1], ['Frau', 0], ['Herr', 1]], @order.gender)) %></td>
+        <td><%= f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], @order.gender)) %></td>
       </tr>
       <% [[:first_name, 'Vorname'], [:last_name, 'Nachname'], [:affiliation, 'Zugehörigkeit'], [:email, 'e-mail'], [:phone, 'Telefon'], [:plz, 'PLZ']].each do |column| %>
         <tr>

@@ -3,8 +3,6 @@
 module Ticketing
   module Web
     class Order < Ticketing::Order
-      attr_accessor :admin_validations
-
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge',
                             as: :chargeable, validate: true,
@@ -15,17 +13,10 @@ module Ticketing
       auto_strip_attributes :first_name, :last_name, squish: true
       phony_normalize :phone, default_country_code: 'DE'
 
-      validates :email, :first_name, :last_name, :plz, presence: {
-        if: proc { |order| !order.admin_validations }, on: :create
-      }
-      validates :gender, inclusion: {
-        in: 0..1,
-        if: proc { |order| !order.admin_validations },
-        on: :create
-      }
-      validates :plz, format: { with: /\A\d{5}\z/,
-                                if: proc { |order| !order.admin_validations },
-                                on: :create }
+      validates :email, :gender, :first_name, :last_name, :plz,
+                presence: { on: :unprivileged_order }
+      validates :gender, inclusion: { in: 0..1, allow_blank: true }
+      validates :plz, format: { with: /\A\d{5}\z/, allow_blank: true }
       validates :email, allow_blank: true, email_format: true
       validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
