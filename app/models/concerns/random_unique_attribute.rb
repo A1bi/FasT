@@ -26,7 +26,7 @@ module RandomUniqueAttribute
       before_validation on: :create do |record|
         loop do
           record[attr] = block.call
-          break unless self.class.exists?(attr => record[attr])
+          break unless self.class.base_class.exists?(attr => record[attr])
         end
       end
     end
