@@ -8,7 +8,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
-    "ol": "^6.2.1",
+    "mapbox-gl": "^1.11.0",
     "regenerator-runtime": "^0.13.5",
     "socket.io-client": "^2.3.0",
     "stimulus": "^1.1.1",

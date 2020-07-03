@@ -1,16 +1,8 @@
 import { Controller } from 'stimulus'
-import { Map, View, Overlay } from 'ol'
-import { Vector, Tile } from 'ol/layer'
-import VectorSource from 'ol/source/Vector'
-import OSM from 'ol/source/OSM'
-import { defaults } from 'ol/interaction'
-import { fromLonLat } from 'ol/proj'
-import Feature from 'ol/Feature'
-import Point from 'ol/geom/Point'
-import { Style, Icon } from 'ol/style'
 import { fetch } from '../components/utils'
+import mapboxgl from 'mapbox-gl'
 
-import 'ol/ol.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 export default class extends Controller {
   static targets = ['map', 'popup'];
@@ -24,89 +16,87 @@ export default class extends Controller {
     const data = await fetch(path)
 
     this.createMap(data.center, data.zoom)
-    this.registerIcons(data.icons)
-    this.addMarkers(data.markers)
+    this.registerEvents()
+
+    this.map.on('load', () => {
+      this.registerIcons(data.icons)
+      this.addMarkers(data.markers)
+    })
   }
 
   createMap (center, zoom) {
-    this.icons = {}
-    this.markerSource = new VectorSource()
-
-    this.popup = new Overlay({
-      element: this.popupTarget,
-      autoPan: true,
-      positioning: 'bottom-center',
-      offset: [0, -50]
+    this.map = new mapboxgl.Map({
+      container: this.mapTarget,
+      style: 'https://maps.a0s.de/styles/osm-bright/style.json',
+      center: center,
+      zoom: zoom
     })
 
-    this.map = new Map({
-      target: this.mapTarget,
-      layers: [
-        new Tile({
-          source: new OSM()
-        }),
-        new Vector({
-          source: this.markerSource
-        })
-      ],
-      interactions: defaults({
-        mouseWheelZoom: false
-      }),
-      view: new View({
-        center: fromLonLat(center),
-        zoom: zoom
-      }),
-      overlays: [this.popup]
-    })
-
-    this.registerEvents()
+    this.map.addControl(new mapboxgl.NavigationControl())
+    this.map.scrollZoom.disable()
   }
 
   registerEvents () {
-    this.map.on('click', event => {
-      const feature = this.map.forEachFeatureAtPixel(event.pixel,
-        feature => feature)
+    this.map.on('click', 'places', event => {
+      const coordinates = event.features[0].geometry.coordinates.slice()
+      const props = event.features[0].properties
 
-      this.popupTarget.style.display = feature ? 'block' : 'inline'
-      if (feature) {
-        var coordinates = feature.getGeometry().getCoordinates()
-        this.popup.setPosition(coordinates)
-        this.popupTarget.innerHTML = feature.get('content')
-      }
-    })
-
-    this.map.on('pointermove', event => {
-      if (event.dragging) {
-        this.popupTarget.style.display = 'none'
-        return
-      }
-      const pixel = this.map.getEventPixel(event.originalEvent)
-      const hit = this.map.hasFeatureAtPixel(pixel)
-      this.mapTarget.style.cursor = hit ? 'pointer' : 'auto'
+      const popup = new mapboxgl.Popup().setLngLat(coordinates)
+      popup.setHTML(`<b>${props.title}</b><br>${props.description}`)
+      popup.addTo(this.map)
     })
   }
 
   registerIcons (icons) {
     for (const iconInfo of icons) {
-      this.icons[iconInfo.name] = new Style({
-        image: new Icon({
-          anchor: iconInfo.offset,
-          anchorXUnits: 'pixels',
-          anchorYUnits: 'pixels',
-          src: iconInfo.file
-        })
+      this.map.loadImage(iconInfo.file, (error, image) => {
+        if (error) return
+
+        this.map.addImage(iconInfo.name, image)
       })
     }
   }
 
   addMarkers (markers) {
-    for (const markerInfo of markers) {
-      const feature = new Feature({
-        geometry: new Point(fromLonLat(markerInfo.loc)),
-        content: `<b>${markerInfo.title}</b><br>${markerInfo.desc}`
-      })
-      feature.setStyle(this.icons[markerInfo.icon])
-      this.markerSource.addFeature(feature)
-    }
+    const features = markers.map(marker => {
+      return {
+        type: 'Feature',
+        properties: {
+          title: marker.title,
+          description: marker.desc,
+          icon: marker.icon
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: marker.loc
+        }
+      }
+    })
+
+    this.map.addSource('places', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: features
+      }
+    })
+
+    this.map.addLayer({
+      id: 'places',
+      type: 'symbol',
+      source: 'places',
+      layout: {
+        'icon-image': '{icon}',
+        'icon-allow-overlap': true
+      }
+    })
+
+    this.map.on('mouseenter', 'places', () => {
+      this.map.getCanvas().style.cursor = 'pointer'
+    })
+
+    this.map.on('mouseleave', 'places', () => {
+      this.map.getCanvas().style.cursor = ''
+    })
   }
 }
