@@ -61,22 +61,22 @@
 
   .mapboxgl-popup-content {
     padding: 10px;
+
+    h3 {
+      margin-top: 0;
+      text-align: center;
+    }
   }
 
   .mapboxgl-marker {
     cursor: pointer;
 
-    &.parking {
-      margin-left: 0px;
-      margin-top: -12px;
-
-      &::before {
-        position: relative;
-        content: 'P';
-        font-size: 20px;
-        font-weight: bold;
-        color: #1749FF;
-      }
+    &.parking::before {
+      position: relative;
+      content: 'P';
+      font-size: 20px;
+      font-weight: bold;
+      color: #0869ed;
     }
   }
 }

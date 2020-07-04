@@ -61,13 +61,13 @@ export default class extends Controller {
 
       const marker = new mapboxgl.Marker({
         element: el,
-        anchor: el ? 'top' : null
+        color: '#db0303'
       })
       marker.setLngLat(markerInfo.loc)
       marker.addTo(this.map)
 
-      const popup = new mapboxgl.Popup()
-      popup.setHTML(`<b>${markerInfo.title}</b><br>${markerInfo.desc}`)
+      const popup = new mapboxgl.Popup({ offset: el ? 12 : 40 })
+      popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc}`)
       marker.setPopup(popup)
 
       this.markerBounds.extend(markerInfo.loc)
@@ -85,7 +85,7 @@ export default class extends Controller {
     const scrollY = window.pageYOffset + window.innerHeight * 0.6
     if (scrollY < this.mapTarget.offsetTop) return
 
-    this.map.fitBounds(this.markerBounds, { padding: 30 })
+    this.map.fitBounds(this.markerBounds, { padding: 30, maxZoom: 15 })
 
     window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }
