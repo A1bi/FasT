@@ -5,31 +5,30 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 export default class extends Controller {
-  static targets = ['map', 'popup'];
+  static targets = ['map', 'popup']
 
-  connect () {
-    this.loadData()
-  }
+  async connect () {
+    const mapInfo = await this.fetchMapInformation()
 
-  async loadData () {
-    const path = `/faq/map.json?identifier=${this.data.get('identifier')}`
-    const data = await fetch(path)
-
-    this.createMap(data.center, data.zoom)
+    this.createMap()
     this.registerEvents()
 
     this.map.on('load', () => {
-      this.registerIcons(data.icons)
-      this.addMarkers(data.markers)
+      this.limitToBounds()
+      this.addMarkers(mapInfo.markers)
+      this.fitToMarkersIfInView()
     })
   }
 
-  createMap (center, zoom) {
+  async fetchMapInformation () {
+    const path = `/faq/map.json?identifier=${this.data.get('identifier')}`
+    return await fetch(path)
+  }
+
+  createMap () {
     this.map = new mapboxgl.Map({
       container: this.mapTarget,
-      style: 'https://maps.a0s.de/styles/osm-bright/style.json',
-      center: center,
-      zoom: zoom
+      style: 'https://maps.a0s.de/styles/osm-bright/style.json'
     })
 
     this.map.addControl(new mapboxgl.NavigationControl())
@@ -45,58 +44,49 @@ export default class extends Controller {
       popup.setHTML(`<b>${props.title}</b><br>${props.description}`)
       popup.addTo(this.map)
     })
-  }
 
-  registerIcons (icons) {
-    for (const iconInfo of icons) {
-      this.map.loadImage(iconInfo.file, (error, image) => {
-        if (error) return
-
-        this.map.addImage(iconInfo.name, image)
-      })
-    }
+    this.fitToMarkersIfInView = this.fitToMarkersIfInView.bind(this)
+    window.addEventListener('scroll', this.fitToMarkersIfInView)
   }
 
   addMarkers (markers) {
-    const features = markers.map(marker => {
-      return {
-        type: 'Feature',
-        properties: {
-          title: marker.title,
-          description: marker.desc,
-          icon: marker.icon
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: marker.loc
-        }
+    this.markerBounds = new mapboxgl.LngLatBounds()
+
+    markers.forEach(markerInfo => {
+      let el
+      if (markerInfo.icon) {
+        el = document.createElement('div')
+        el.className = markerInfo.icon
       }
-    })
 
-    this.map.addSource('places', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: features
-      }
-    })
+      const marker = new mapboxgl.Marker({
+        element: el,
+        anchor: el ? 'top' : null
+      })
+      marker.setLngLat(markerInfo.loc)
+      marker.addTo(this.map)
 
-    this.map.addLayer({
-      id: 'places',
-      type: 'symbol',
-      source: 'places',
-      layout: {
-        'icon-image': '{icon}',
-        'icon-allow-overlap': true
-      }
-    })
+      const popup = new mapboxgl.Popup()
+      popup.setHTML(`<b>${markerInfo.title}</b><br>${markerInfo.desc}`)
+      marker.setPopup(popup)
 
-    this.map.on('mouseenter', 'places', () => {
-      this.map.getCanvas().style.cursor = 'pointer'
+      this.markerBounds.extend(markerInfo.loc)
     })
+  }
 
-    this.map.on('mouseleave', 'places', () => {
-      this.map.getCanvas().style.cursor = ''
-    })
+  limitToBounds () {
+    const source = this.map.getSource('openmaptiles')
+    this.map.setMaxBounds(source.bounds)
+  }
+
+  fitToMarkersIfInView () {
+    if (!this.markerBounds) return
+
+    const scrollY = window.pageYOffset + window.innerHeight * 0.6
+    if (scrollY < this.mapTarget.offsetTop) return
+
+    this.map.fitBounds(this.markerBounds, { padding: 30 })
+
+    window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }
 }
