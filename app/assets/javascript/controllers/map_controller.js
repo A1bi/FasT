@@ -1,16 +1,16 @@
 import { Controller } from 'stimulus'
 import { fetch } from '../components/utils'
-import mapboxgl from 'mapbox-gl'
-
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 export default class extends Controller {
   static targets = ['map', 'popup']
 
   async connect () {
+    import(/* webpackChunkName: 'mapbox' */ 'mapbox-gl/dist/mapbox-gl.css') /* eslint-disable-line no-unused-expressions */
+    this.mapboxgl = await import(/* webpackChunkName: 'mapbox' */ 'mapbox-gl')
+
     const mapInfo = await this.fetchMapInformation()
 
-    this.createMap()
+    await this.createMap()
     this.registerEvents()
 
     this.map.on('load', () => {
@@ -25,13 +25,13 @@ export default class extends Controller {
     return await fetch(path)
   }
 
-  createMap () {
-    this.map = new mapboxgl.Map({
+  async createMap () {
+    this.map = new this.mapboxgl.Map({
       container: this.mapTarget,
       style: 'https://maps.a0s.de/styles/osm-bright/style.json'
     })
 
-    this.map.addControl(new mapboxgl.NavigationControl())
+    this.map.addControl(new this.mapboxgl.NavigationControl())
     this.map.scrollZoom.disable()
   }
 
@@ -40,7 +40,7 @@ export default class extends Controller {
       const coordinates = event.features[0].geometry.coordinates.slice()
       const props = event.features[0].properties
 
-      const popup = new mapboxgl.Popup().setLngLat(coordinates)
+      const popup = new this.mapboxgl.Popup().setLngLat(coordinates)
       popup.setHTML(`<b>${props.title}</b><br>${props.description}`)
       popup.addTo(this.map)
     })
@@ -50,7 +50,7 @@ export default class extends Controller {
   }
 
   addMarkers (markers) {
-    this.markerBounds = new mapboxgl.LngLatBounds()
+    this.markerBounds = new this.mapboxgl.LngLatBounds()
 
     markers.forEach(markerInfo => {
       let el
@@ -59,14 +59,14 @@ export default class extends Controller {
         el.className = markerInfo.icon
       }
 
-      const marker = new mapboxgl.Marker({
+      const marker = new this.mapboxgl.Marker({
         element: el,
         color: '#db0303'
       })
       marker.setLngLat(markerInfo.loc)
       marker.addTo(this.map)
 
-      const popup = new mapboxgl.Popup({ offset: el ? 12 : 40 })
+      const popup = new this.mapboxgl.Popup({ offset: el ? 12 : 40 })
       popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc}`)
       marker.setPopup(popup)
 
