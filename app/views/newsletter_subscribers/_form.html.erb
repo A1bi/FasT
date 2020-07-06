@@ -10,6 +10,7 @@
         <%= f.select :gender, options_for_select({ "Frau" => 0, "Herr" => 1 }, @subscriber.gender) %>
         <%= f.text_field :last_name, placeholder: "Nachname (freiwillig)" %>
         <%= f.email_field :email, placeholder: "e-mail-Adresse", disabled: @subscriber.persisted? %>
+        <%= honeypot_field %>
       </p>
       <% if @subscriber.new_record? %>
         <p>

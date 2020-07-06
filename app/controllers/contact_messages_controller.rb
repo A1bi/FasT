@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class ContactMessagesController < ApplicationController
+  include SpamHoneypot
+
   skip_authorization
 
-  before_action :filter_spam, only: :create
+  filters_spam_through_honeypot only: :create
 
   def index
     @message = ContactMessage.new
@@ -20,12 +22,6 @@ class ContactMessagesController < ApplicationController
   end
 
   private
-
-  def filter_spam
-    return if params[:comment].blank?
-
-    redirect_to contact_messages_path
-  end
 
   def message_params
     params.require(:contact_message).permit(

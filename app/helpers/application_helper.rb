@@ -64,6 +64,11 @@ module ApplicationHelper
     end
   end
 
+  def honeypot_field
+    text_area_tag :comment, nil, 'aria-hidden': true, tabindex: -1,
+                                 class: 'honeypot'
+  end
+
   private
 
   def event_identifier_path(identifier, path_method)

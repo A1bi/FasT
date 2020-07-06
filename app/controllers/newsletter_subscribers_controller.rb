@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class NewsletterSubscribersController < ApplicationController
+  include SpamHoneypot
+
+  filters_spam_through_honeypot only: :create
+
   before_action :find_subscriber, except: :create
 
   def create
