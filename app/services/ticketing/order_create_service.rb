@@ -72,14 +72,19 @@ module Ticketing
 
         coupon.redeem
         @order.coupons << coupon
-        next if order_params[:ignore_free_tickets].present?
 
-        coupon.free_tickets.times do
-          break if tickets_by_price.empty?
+        redeem_free_tickets(coupon, tickets_by_price)
+      end
+    end
 
-          tickets_by_price.pop.type = free_ticket_type
-          coupon.free_tickets -= 1
-        end
+    def redeem_free_tickets(coupon, tickets_by_price)
+      return if order_params[:ignore_free_tickets].present?
+
+      coupon.free_tickets.times do
+        break if tickets_by_price.empty?
+
+        tickets_by_price.pop.type = free_ticket_type
+        coupon.free_tickets -= 1
       end
     end
 

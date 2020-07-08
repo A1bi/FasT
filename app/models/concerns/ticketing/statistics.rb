@@ -72,12 +72,7 @@ module Ticketing
           scopes << stats[:box_office][:total]
         end
 
-        scopes.each do |scope|
-          [scope[ticket.date.id] ||= {},
-           scope[:total] ||= {}].each do |inner_scope|
-            increment_stats_values(inner_scope, ticket.type.id, ticket.price)
-          end
-        end
+        increment_values_for_ticket_in_scopes(ticket, scopes)
       end
     end
 
@@ -102,7 +97,16 @@ module Ticketing
         (scope[:total][:total] / total_number_of_tickets.to_f * 100).floor
     end
 
-    def increment_stats_values(scope, ticket_type, ticket_price)
+    def increment_values_for_ticket_in_scopes(ticket, scopes)
+      scopes.each do |scope|
+        [scope[ticket.date.id] ||= {},
+         scope[:total] ||= {}].each do |inner_scope|
+          increment_values(inner_scope, ticket.type.id, ticket.price)
+        end
+      end
+    end
+
+    def increment_values(scope, ticket_type, ticket_price)
       scope[ticket_type] = (scope[ticket_type] || 0) + 1
       scope[:total] = (scope[:total] || 0) + 1
       scope[:revenue] = (scope[:revenue] || 0) + ticket_price

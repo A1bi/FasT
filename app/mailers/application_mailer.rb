@@ -36,6 +36,7 @@ class ApplicationMailer < ActionMailer::Base
   # fix regular attachments not showing up in some clients when
   # sending inline attachments
   # source: https://github.com/rails/rails/issues/2686#issuecomment-20186734
+  # rubocop:disable Metrics/CyclomaticComplexity
   def fix_mixed_attachments
     # do nothing if we have no actual attachments
     return if @_message.parts.select { |p| p.attachment? && !p.inline? }.none?
@@ -56,4 +57,5 @@ class ApplicationMailer < ActionMailer::Base
     @_message = mail
     wrap_delivery_behavior!(delivery_method.to_sym)
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 end
