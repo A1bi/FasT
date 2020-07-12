@@ -34,7 +34,7 @@ gem 'sepa_king', '~> 0.12.0'
 
 gem 'dalli', '~> 2.7.8'
 
-gem 'sidekiq', '~> 6.0.0'
+gem 'sidekiq', '~> 6.1.0'
 
 gem 'auto_strip_attributes', '~> 2.6.0'
 
