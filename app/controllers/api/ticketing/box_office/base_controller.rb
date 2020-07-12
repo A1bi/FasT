@@ -11,6 +11,10 @@ module Api
         def current_box_office
           @current_box_office ||= ::Ticketing::BoxOffice::BoxOffice.first
         end
+
+        def auth_token
+          super || Rails.application.credentials.ticketing_api_auth_token
+        end
       end
     end
   end

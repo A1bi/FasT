@@ -2,9 +2,9 @@
 
 module Api
   class MembersController < ApiController
-    SEARCHABLE_COLUMNS = %w[first_name last_name email].freeze
+    include Authenticatable
 
-    before_action :authenticate
+    SEARCHABLE_COLUMNS = %w[first_name last_name email].freeze
 
     def index
       table = Members::Member.arel_table
@@ -29,10 +29,8 @@ module Api
 
     private
 
-    def authenticate
-      token = Rails.application.credentials.members_api_token
-      header_token = request.headers['X-Authorization']
-      head :unauthorized if !token || token != header_token
+    def auth_token
+      super || Rails.application.credentials.members_api_token
     end
 
     def cache?

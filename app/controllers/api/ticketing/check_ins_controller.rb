@@ -39,6 +39,10 @@ module Api
       def seatings
         @seatings ||= ::Ticketing::Seating.find(events.pluck(:seating_id))
       end
+
+      def auth_token
+        super || Rails.application.credentials.ticketing_api_auth_token
+      end
     end
   end
 end
