@@ -6,11 +6,9 @@ module Api
       include Authenticatable
 
       def index
+        @changed_tickets = changed_tickets
         @signing_keys = ::Ticketing::SigningKey.active
-        @dates = ::Ticketing::EventDate.where(event: events)
         @ticket_types = ::Ticketing::TicketType.where(event: events)
-        @changed_tickets = ::Ticketing::Ticket.where(date: @dates)
-                                              .where('created_at != updated_at')
         @blocks = ::Ticketing::Block.where(seating: seatings)
         @seats = ::Ticketing::Seat.where(block: @blocks)
       end
@@ -36,8 +34,22 @@ module Api
         @events ||= ::Ticketing::Event.current
       end
 
+      def dates
+        @dates ||= ::Ticketing::EventDate.where(event: events)
+      end
+
+      def covid19_dates
+        ::Ticketing::EventDate.where(event: events.where(covid19: true))
+      end
+
+      def changed_tickets
+        ::Ticketing::Ticket.where(date: dates)
+                           .where('created_at != updated_at')
+                           .or(::Ticketing::Ticket.where(date: covid19_dates))
+      end
+
       def seatings
-        @seatings ||= ::Ticketing::Seating.find(events.pluck(:seating_id))
+        ::Ticketing::Seating.find(events.pluck(:seating_id))
       end
 
       def auth_token
