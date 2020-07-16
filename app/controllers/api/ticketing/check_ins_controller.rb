@@ -18,9 +18,14 @@ module Api
         ActiveRecord::Base.transaction do
           params[:check_ins].each do |check_in|
             ticket = ::Ticketing::Ticket.find(check_in[:ticket_id])
-            next if ticket.check_ins.create(check_in.permit(:date, :medium))
-
-            raise ActiveRecord::RecordInvalid
+            tickets = if ticket.event.covid19?
+                        ticket.order.tickets.cancelled(false)
+                      else
+                        [ticket]
+                      end
+            tickets.each do |t|
+              t.check_ins.create!(check_in.permit(:date, :medium))
+            end
           end
         end
 
