@@ -11,6 +11,7 @@ module Api
         @ticket_types = ::Ticketing::TicketType.where(event: events)
         @blocks = ::Ticketing::Block.where(seating: seatings)
         @seats = ::Ticketing::Seat.where(block: @blocks)
+        @covid19_seats = covid19_seats
       end
 
       def create
@@ -50,6 +51,21 @@ module Api
 
       def seatings
         ::Ticketing::Seating.find(events.pluck(:seating_id))
+      end
+
+      def covid19_seats
+        CSV.new(covid19_seats_data, col_sep: ';', headers: true)
+           .each_with_object({}) do |row, seats|
+          seats[row['order_number'].to_i] = row['seat_number']
+        end
+      end
+
+      def covid19_seats_data
+        Rails.cache.fetch [:ticketing, :covid19_seats_data],
+                          expires_in: 15.minutes do
+          url = Rails.application.credentials.covid19_seats_url
+          URI.parse(url).open(&:read)
+        end
       end
 
       def auth_token

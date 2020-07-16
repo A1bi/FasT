@@ -10,5 +10,8 @@ json.blocks @blocks, :id, :entrance
 
 json.ticket_types @ticket_types, :id, :name
 
-json.changed_tickets @changed_tickets,
-                     :id, :date_id, :number, :type_id, :seat_id, :cancelled?
+json.changed_tickets @changed_tickets do |ticket|
+  json.call(ticket, :id, :date_id, :number, :type_id, :seat_id)
+  json.cancelled ticket.cancelled?
+  json.seat_number @covid19_seats[ticket.order.number] if ticket.event.covid19?
+end
