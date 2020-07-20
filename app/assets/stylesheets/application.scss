@@ -68,11 +68,12 @@ h3 {
 #sky {
   width: 993px;
   height: 283px;
-  background: url(asset_path("sky.png")) no-repeat;
+  background-repeat: no-repeat;
   z-index: -1;
   position: absolute;
   top: -54px;
   left: -30px;
+  @include webp-background('sky');
 }
 
 #left {
@@ -90,13 +91,13 @@ h3 {
 
 @mixin left-bg {
   background: {
-    image: url(asset_path('left.png'));
     repeat: no-repeat;
     size: 258px 659px;
   }
+  @include webp-background('left');
 
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    background-image: url(asset_path('left@2x.png'));
+    @include webp-background('left@2x');
   }
 }
 
@@ -485,7 +486,9 @@ input.btn {
 }
 
 @mixin box-sky($position: center) {
-  background: url(asset_path("sky.png")) no-repeat $position;
+  background-repeat: no-repeat;
+  background-position: $position;
+  @include webp-background('sky');
 }
 
 @mixin box-white-text {

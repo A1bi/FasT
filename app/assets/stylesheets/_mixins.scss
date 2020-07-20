@@ -5,6 +5,17 @@ $dark-blue: #216bed;
 @mixin font-face($name) {
   @font-face {
     font-family: "#{$name}";
-    src: url(asset_path("#{$name}.woff")) format('woff');
+    font-display: swap;
+    src: url(asset_path("#{$name}.woff2")) format('woff2'), url(asset_path("#{$name}.woff")) format('woff');
+  }
+}
+
+@mixin webp-background($filename) {
+  body.webp & {
+    background-image: url(asset_path('#{$filename}.webp'));
+  }
+
+  body.no-webp & {
+    background-image: url(asset_path('#{$filename}.png'));
   }
 }
