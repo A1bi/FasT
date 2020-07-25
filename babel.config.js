@@ -16,7 +16,6 @@ module.exports = function (api) {
   }
 
   return {
-    exclude: /node_modules\/(?!engine.io-client)/,
     presets: [
       isTestEnv && [
         '@babel/preset-env',
