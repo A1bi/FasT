@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMembershipFeeDetailsToUsers < ActiveRecord::Migration[6.0]
   def change
     add_column :users, :membership_fee_paid_until, :date
@@ -10,9 +12,7 @@ class AddMembershipFeeDetailsToUsers < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    create_table :members_membership_fee_debit_submissions do |t|
-      t.timestamps
-    end
+    create_table :members_membership_fee_debit_submissions, &:timestamps
 
     add_foreign_key :members_membership_fee_payments, :users, column: :member_id
     add_foreign_key :members_membership_fee_payments,

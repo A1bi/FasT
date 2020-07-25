@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMembershipFeeToUsers < ActiveRecord::Migration[6.0]
   def change
     add_column :users, :membership_fee, :decimal

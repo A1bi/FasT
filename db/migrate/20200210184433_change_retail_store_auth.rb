@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeRetailStoreAuth < ActiveRecord::Migration[6.0]
   def change
     remove_column :ticketing_retail_stores, :password_digest, :string

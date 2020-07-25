@@ -1,4 +1,6 @@
-class CreateTicketsBunches < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketsBunches < ActiveRecord::Migration[6.0]
   def change
     create_table :tickets_bunches do |t|
       t.boolean :paid

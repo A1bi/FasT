@@ -1,4 +1,6 @@
-class CreateTicketsEvents < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketsEvents < ActiveRecord::Migration[6.0]
   def change
     create_table :tickets_events do |t|
       t.string :name

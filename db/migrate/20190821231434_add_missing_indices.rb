@@ -1,4 +1,6 @@
-class AddMissingIndices < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class AddMissingIndices < ActiveRecord::Migration[6.0]
   def change
     add_index :documents, :members_group
 
@@ -17,8 +19,6 @@ class AddMissingIndices < ActiveRecord::Migration[5.2]
     add_index :ticketing_bank_charges, :approved
     add_index :ticketing_bank_charges, :submission_id
 
-    add_index :ticketing_blocks, :seating_id
-
     add_index :ticketing_box_office_purchase_items, :purchase_id
     add_index :ticketing_box_office_purchase_items, %i[purchasable_id purchasable_type], name: :index_ticketing_box_office_purchase_items_on_purchasable
 
@@ -28,15 +28,11 @@ class AddMissingIndices < ActiveRecord::Migration[5.2]
     add_index :ticketing_check_ins, :checkpoint_id
     add_index :ticketing_check_ins, :medium
 
-    add_index :ticketing_coupon_redemptions, :coupon_id
-    add_index :ticketing_coupon_redemptions, :order_id
-
     add_index :ticketing_coupons_reservation_groups, :coupon_id
     add_index :ticketing_coupons_reservation_groups, :reservation_group_id, name: :index_ticketing_coupons_reservation_groups_on_group_id
 
     add_index :ticketing_event_dates, :event_id
 
-    add_index :ticketing_events, :seating_id
     add_index :ticketing_events, :archived
 
     add_index :ticketing_log_events, :user_id
@@ -44,9 +40,7 @@ class AddMissingIndices < ActiveRecord::Migration[5.2]
 
     add_index :ticketing_orders, :number, unique: true
     add_index :ticketing_orders, :paid
-    add_index :ticketing_orders, :store_id
     add_index :ticketing_orders, :type
-    add_index :ticketing_orders, :box_office_id
 
     add_index :ticketing_push_notifications_devices, %i[app token], unique: true
 

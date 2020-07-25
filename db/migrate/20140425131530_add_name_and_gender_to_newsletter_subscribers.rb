@@ -1,6 +1,10 @@
-class AddNameAndGenderToNewsletterSubscribers < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class AddNameAndGenderToNewsletterSubscribers < ActiveRecord::Migration[6.0]
   def change
-    add_column :newsletter_subscribers, :gender, :integer
-    add_column :newsletter_subscribers, :last_name, :string
+    change_table :newsletter_subscribers, bulk: true do |t|
+      t.integer :gender
+      t.string :last_name
+    end
   end
 end

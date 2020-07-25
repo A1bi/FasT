@@ -1,4 +1,6 @@
-class CreateOrders < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateOrders < ActiveRecord::Migration[6.0]
   def up
     create_table :ticketing_orders do |t|
       t.integer     :number
@@ -18,12 +20,12 @@ class CreateOrders < ActiveRecord::Migration
       t.timestamps
     end
     rename_column :ticketing_tickets, :bunch_id, :order_id
-    
+
     drop_table :ticketing_web_orders
     drop_table :ticketing_retail_orders
     drop_table :ticketing_bunches
   end
-  
+
   def down
     create_table :ticketing_web_orders do |t|
       t.string   :email
@@ -35,13 +37,13 @@ class CreateOrders < ActiveRecord::Migration
       t.string   :pay_method
       t.timestamps
     end
-    
+
     create_table :ticketing_retail_orders do |t|
       t.references :store
       t.integer    :queue_number
       t.timestamps
     end
-    
+
     create_table :ticketing_bunches do |t|
       t.boolean     :paid
       t.float       :total
@@ -51,7 +53,7 @@ class CreateOrders < ActiveRecord::Migration
       t.references  :coupon
       t.timestamps
     end
-    
+
     rename_column :ticketing_tickets, :order_id, :bunch_id
     drop_table :ticketing_orders
   end

@@ -1,4 +1,6 @@
-class AddCustomDataTypesForEnums < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
   def up
     migrate_integer_to_enum(:newsletter_newsletters, :status, :newsletter_newsletter_status, Newsletter::Newsletter.statuses, :draft)
     migrate_integer_to_enum(:ticketing_check_ins, :medium, :ticketing_check_in_medium, Ticketing::CheckIn.media)

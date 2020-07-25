@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateMembersSepaMandates < ActiveRecord::Migration[6.0]
   def change
     create_table :members_sepa_mandates do |t|

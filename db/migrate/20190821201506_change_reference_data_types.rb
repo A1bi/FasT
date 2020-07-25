@@ -1,4 +1,6 @@
-class ChangeReferenceDataTypes < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class ChangeReferenceDataTypes < ActiveRecord::Migration[6.0]
   def up
     {
       active_storage_attachments: %i[blob_id record_id],

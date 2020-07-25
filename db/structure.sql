@@ -158,8 +158,8 @@ ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -171,11 +171,11 @@ CREATE TABLE public.documents (
     id bigint NOT NULL,
     title character varying,
     description character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     file_file_name character varying,
     file_content_type character varying,
-    file_file_size integer,
+    file_file_size bigint,
     file_updated_at timestamp without time zone,
     members_group integer DEFAULT 0
 );
@@ -209,8 +209,8 @@ CREATE TABLE public.galleries (
     title character varying,
     disclaimer character varying,
     "position" integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -239,11 +239,11 @@ ALTER SEQUENCE public.galleries_id_seq OWNED BY public.galleries.id;
 
 CREATE TABLE public.members_dates (
     id bigint NOT NULL,
-    datetime timestamp with time zone,
+    datetime timestamp without time zone,
     info text,
     location character varying,
-    created_at timestamp with time zone,
-    updated_at timestamp with time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     title character varying
 );
 
@@ -277,8 +277,8 @@ CREATE TABLE public.members_exclusive_ticket_type_credit_spendings (
     ticket_type_id bigint,
     order_id bigint,
     value integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -309,8 +309,8 @@ CREATE TABLE public.members_exclusive_ticket_type_credits (
     id bigint NOT NULL,
     ticket_type_id bigint,
     value integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -339,8 +339,8 @@ ALTER SEQUENCE public.members_exclusive_ticket_type_credits_id_seq OWNED BY publ
 
 CREATE TABLE public.members_families (
     id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -469,11 +469,11 @@ CREATE TABLE public.newsletter_images (
     id bigint NOT NULL,
     image_file_name character varying,
     image_content_type character varying,
-    image_file_size integer,
+    image_file_size bigint,
     image_updated_at timestamp without time zone,
     newsletter_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -506,8 +506,8 @@ CREATE TABLE public.newsletter_newsletters (
     body_html text,
     body_text text,
     sent_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     status public.newsletter_newsletter_status DEFAULT 'draft'::public.newsletter_newsletter_status
 );
 
@@ -537,7 +537,9 @@ ALTER SEQUENCE public.newsletter_newsletters_id_seq OWNED BY public.newsletter_n
 
 CREATE TABLE public.newsletter_newsletters_subscriber_lists (
     newsletter_id bigint,
-    subscriber_list_id bigint
+    subscriber_list_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -548,8 +550,8 @@ CREATE TABLE public.newsletter_newsletters_subscriber_lists (
 CREATE TABLE public.newsletter_subscriber_lists (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -580,8 +582,8 @@ CREATE TABLE public.newsletter_subscribers (
     id bigint NOT NULL,
     email character varying,
     token character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     gender integer,
     last_name character varying,
     subscriber_list_id bigint DEFAULT 1 NOT NULL,
@@ -616,8 +618,8 @@ CREATE TABLE public.passbook_devices (
     id bigint NOT NULL,
     device_id character varying,
     push_token character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -647,8 +649,8 @@ ALTER SEQUENCE public.passbook_devices_id_seq OWNED BY public.passbook_devices.i
 CREATE TABLE public.passbook_logs (
     id bigint NOT NULL,
     message text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -681,8 +683,8 @@ CREATE TABLE public.passbook_passes (
     serial_number character varying,
     auth_token character varying,
     filename character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     assignable_id bigint,
     assignable_type character varying
 );
@@ -715,8 +717,8 @@ CREATE TABLE public.passbook_registrations (
     id bigint NOT NULL,
     pass_id bigint,
     device_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -748,11 +750,11 @@ CREATE TABLE public.photos (
     text text,
     "position" integer,
     gallery_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     image_file_name character varying,
     image_content_type character varying,
-    image_file_size integer,
+    image_file_size bigint,
     image_updated_at timestamp without time zone
 );
 
@@ -795,8 +797,8 @@ CREATE TABLE public.ticketing_bank_charges (
     iban character varying,
     chargeable_type character varying,
     chargeable_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     approved boolean DEFAULT false,
     submission_id bigint,
     amount numeric DEFAULT 0.0 NOT NULL
@@ -828,8 +830,8 @@ ALTER SEQUENCE public.ticketing_bank_charges_id_seq OWNED BY public.ticketing_ba
 
 CREATE TABLE public.ticketing_bank_submissions (
     id bigint NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -859,10 +861,10 @@ ALTER SEQUENCE public.ticketing_bank_submissions_id_seq OWNED BY public.ticketin
 CREATE TABLE public.ticketing_billing_accounts (
     id bigint NOT NULL,
     balance numeric DEFAULT 0.0 NOT NULL,
-    billable_id bigint NOT NULL,
     billable_type character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    billable_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -896,8 +898,8 @@ CREATE TABLE public.ticketing_billing_transfers (
     account_id bigint NOT NULL,
     participant_id bigint,
     reverse_transfer_id bigint,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -927,8 +929,8 @@ ALTER SEQUENCE public.ticketing_billing_transfers_id_seq OWNED BY public.ticketi
 CREATE TABLE public.ticketing_blocks (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     seating_id bigint DEFAULT 1 NOT NULL,
     entrance character varying
 );
@@ -960,8 +962,8 @@ ALTER SEQUENCE public.ticketing_blocks_id_seq OWNED BY public.ticketing_blocks.i
 CREATE TABLE public.ticketing_box_office_box_offices (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -991,8 +993,8 @@ ALTER SEQUENCE public.ticketing_box_office_box_offices_id_seq OWNED BY public.ti
 CREATE TABLE public.ticketing_box_office_checkpoints (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1023,8 +1025,8 @@ CREATE TABLE public.ticketing_box_office_order_payments (
     id bigint NOT NULL,
     amount numeric DEFAULT 0.0 NOT NULL,
     order_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1055,8 +1057,8 @@ CREATE TABLE public.ticketing_box_office_products (
     id bigint NOT NULL,
     name character varying,
     price double precision,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1090,8 +1092,8 @@ CREATE TABLE public.ticketing_box_office_purchase_items (
     purchasable_type character varying,
     total double precision,
     number integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1122,8 +1124,8 @@ CREATE TABLE public.ticketing_box_office_purchases (
     id bigint NOT NULL,
     box_office_id bigint,
     total double precision,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     pay_method character varying
 );
 
@@ -1154,8 +1156,8 @@ ALTER SEQUENCE public.ticketing_box_office_purchases_id_seq OWNED BY public.tick
 CREATE TABLE public.ticketing_cancellations (
     id bigint NOT NULL,
     reason character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1218,8 +1220,8 @@ CREATE TABLE public.ticketing_coupon_redemptions (
     id bigint NOT NULL,
     coupon_id bigint NOT NULL,
     order_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1251,8 +1253,8 @@ CREATE TABLE public.ticketing_coupons (
     code character varying,
     expires timestamp without time zone,
     recipient character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     free_tickets integer DEFAULT 0,
     affiliation character varying
 );
@@ -1283,7 +1285,9 @@ ALTER SEQUENCE public.ticketing_coupons_id_seq OWNED BY public.ticketing_coupons
 
 CREATE TABLE public.ticketing_coupons_reservation_groups (
     coupon_id bigint,
-    reservation_group_id bigint
+    reservation_group_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1331,8 +1335,8 @@ CREATE TABLE public.ticketing_event_dates (
     id bigint NOT NULL,
     date timestamp without time zone,
     event_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     cancellation_id bigint
 );
 
@@ -1363,8 +1367,8 @@ ALTER SEQUENCE public.ticketing_event_dates_id_seq OWNED BY public.ticketing_eve
 CREATE TABLE public.ticketing_events (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     identifier character varying NOT NULL,
     sale_start timestamp without time zone,
     seating_id bigint DEFAULT 1 NOT NULL,
@@ -1442,8 +1446,8 @@ CREATE TABLE public.ticketing_log_events (
     user_id bigint,
     loggable_type character varying,
     loggable_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1484,8 +1488,8 @@ CREATE TABLE public.ticketing_orders (
     pay_method public.ticketing_pay_method,
     store_id bigint,
     type public.ticketing_order_type,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     box_office_id bigint,
     date_id bigint,
     affiliation character varying
@@ -1519,8 +1523,8 @@ CREATE TABLE public.ticketing_push_notifications_devices (
     id bigint NOT NULL,
     token character varying,
     app character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     settings text
 );
 
@@ -1551,8 +1555,8 @@ ALTER SEQUENCE public.ticketing_push_notifications_devices_id_seq OWNED BY publi
 CREATE TABLE public.ticketing_reservation_groups (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1584,8 +1588,8 @@ CREATE TABLE public.ticketing_reservations (
     expires timestamp without time zone,
     date_id bigint,
     seat_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     group_id bigint
 );
 
@@ -1616,8 +1620,8 @@ ALTER SEQUENCE public.ticketing_reservations_id_seq OWNED BY public.ticketing_re
 CREATE TABLE public.ticketing_retail_stores (
     id bigint NOT NULL,
     name character varying,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     sale_enabled boolean DEFAULT false NOT NULL
 );
 
@@ -1648,8 +1652,8 @@ ALTER SEQUENCE public.ticketing_retail_stores_id_seq OWNED BY public.ticketing_r
 CREATE TABLE public.ticketing_seatings (
     id bigint NOT NULL,
     number_of_seats integer DEFAULT 0,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     stripped_plan_digest character varying,
     name character varying
 );
@@ -1683,8 +1687,8 @@ CREATE TABLE public.ticketing_seats (
     number integer,
     "row" integer,
     block_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1715,8 +1719,8 @@ CREATE TABLE public.ticketing_signing_keys (
     id bigint NOT NULL,
     secret character varying(32) DEFAULT ''::character varying NOT NULL,
     active boolean DEFAULT true NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1747,8 +1751,8 @@ CREATE TABLE public.ticketing_ticket_types (
     id bigint NOT NULL,
     name character varying,
     price numeric DEFAULT 0.0 NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     info character varying,
     availability public.ticketing_ticket_type_availability DEFAULT 'universal'::public.ticketing_ticket_type_availability,
     event_id bigint
@@ -1784,8 +1788,8 @@ CREATE TABLE public.ticketing_tickets (
     order_id bigint,
     cancellation_id bigint,
     type_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     seat_id bigint,
     date_id bigint,
     picked_up boolean DEFAULT false,
@@ -1826,8 +1830,8 @@ CREATE TABLE public.users (
     last_name character varying,
     "group" integer DEFAULT 0,
     last_login timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     activation_code character varying,
     birthday date,
     nickname character varying,
@@ -2673,7 +2677,7 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 -- Name: index_billing_acounts_on_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_billing_acounts_on_id_and_type ON public.ticketing_billing_accounts USING btree (billable_id, billable_type);
+CREATE INDEX index_billing_acounts_on_id_and_type ON public.ticketing_billing_accounts USING btree (billable_type, billable_id);
 
 
 --
@@ -2845,10 +2849,24 @@ CREATE INDEX index_ticketing_billing_transfers_on_participant_id ON public.ticke
 
 
 --
+-- Name: index_ticketing_billing_transfers_on_reverse_transfer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_billing_transfers_on_reverse_transfer_id ON public.ticketing_billing_transfers USING btree (reverse_transfer_id);
+
+
+--
 -- Name: index_ticketing_blocks_on_seating_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_ticketing_blocks_on_seating_id ON public.ticketing_blocks USING btree (seating_id);
+
+
+--
+-- Name: index_ticketing_box_office_order_payments_on_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_box_office_order_payments_on_order_id ON public.ticketing_box_office_order_payments USING btree (order_id);
 
 
 --
@@ -3696,7 +3714,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181020134814'),
 ('20181024161610'),
 ('20181029200609'),
-('20181104184515'),
 ('20181109155509'),
 ('20181218184943'),
 ('20181223214432'),
@@ -3726,7 +3743,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200126224058'),
 ('20200127111237'),
 ('20200129150306'),
-('20200131193946'),
 ('20200206143022'),
 ('20200210184433'),
 ('20200210221526'),

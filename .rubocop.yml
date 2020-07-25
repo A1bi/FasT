@@ -4,11 +4,12 @@ AllCops:
   NewCops: enable
   Exclude:
   - 'bin/*'
-  - 'db/migrate/*'
   - 'node_modules/**/*'
 
 Layout/LineLength:
   Max: 80
+  Exclude:
+    - db/migrate/*.rb
 
 Metrics/AbcSize:
   Enabled: false
@@ -25,6 +26,8 @@ Metrics/ClassLength:
 
 Metrics/MethodLength:
   Max: 25
+  Exclude:
+    - db/migrate/*.rb
 
 Metrics/ParameterLists:
   CountKeywordArgs: false

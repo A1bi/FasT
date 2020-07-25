@@ -1,4 +1,6 @@
-class CreateMembersExclusiveTicketTypeAssignments < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class CreateMembersExclusiveTicketTypeAssignments < ActiveRecord::Migration[6.0]
   def change
     create_table :members_exclusive_ticket_type_credits do |t|
       t.belongs_to :ticket_type

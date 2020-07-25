@@ -1,4 +1,6 @@
-class CreateTicketsBankCharges < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketsBankCharges < ActiveRecord::Migration[6.0]
   def change
     create_table :tickets_bank_charges do |t|
       t.string :name
@@ -10,7 +12,7 @@ class CreateTicketsBankCharges < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     add_column :tickets_orders, :pay_method, :string
   end
 end

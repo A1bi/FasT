@@ -1,4 +1,6 @@
-class CreateTicketingBoxOfficePurchases < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketingBoxOfficePurchases < ActiveRecord::Migration[6.0]
   def change
     create_table :ticketing_box_office_purchases do |t|
       t.integer :box_office_id
@@ -6,7 +8,7 @@ class CreateTicketingBoxOfficePurchases < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     create_table :ticketing_box_office_purchase_items do |t|
       t.integer :purchase_id
       t.integer :purchasable_id
@@ -16,14 +18,14 @@ class CreateTicketingBoxOfficePurchases < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     create_table :ticketing_box_office_products do |t|
       t.string :name
       t.float :price
 
       t.timestamps
     end
-    
+
     create_table :ticketing_box_office_box_offices do |t|
       t.string :name
 

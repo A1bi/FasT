@@ -1,4 +1,6 @@
-class CreateNewsletterImages < ActiveRecord::Migration[5.1]
+# frozen_string_literal: true
+
+class CreateNewsletterImages < ActiveRecord::Migration[6.0]
   def change
     create_table :newsletter_images do |t|
       t.attachment :image

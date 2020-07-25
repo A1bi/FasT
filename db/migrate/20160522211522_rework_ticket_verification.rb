@@ -1,7 +1,9 @@
-class ReworkTicketVerification < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class ReworkTicketVerification < ActiveRecord::Migration[6.0]
   def change
     create_table :ticketing_ticket_signing_keys do |t|
-      t.string :secret, null: false, default: "", limit: 32
+      t.string :secret, null: false, default: '', limit: 32
       t.boolean :active, null: false, default: true
       t.timestamps
     end

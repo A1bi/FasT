@@ -1,4 +1,6 @@
-class AddArchivedToTicketingEvents < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class AddArchivedToTicketingEvents < ActiveRecord::Migration[6.0]
   def change
     add_column :ticketing_events, :archived, :boolean, default: false
 

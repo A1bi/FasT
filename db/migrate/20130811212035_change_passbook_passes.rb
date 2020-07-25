@@ -1,7 +1,11 @@
-class ChangePassbookPasses < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class ChangePassbookPasses < ActiveRecord::Migration[6.0]
   def change
-    add_column :passbook_passes, :assignable_id, :integer
-    add_column :passbook_passes, :assignable_type, :string
-    rename_column :passbook_passes, :path, :filename
+    change_table :passbook_passes, bulk: true do |t|
+      t.integer :assignable_id
+      t.string :assignable_type
+      t.rename :path, :filename
+    end
   end
 end

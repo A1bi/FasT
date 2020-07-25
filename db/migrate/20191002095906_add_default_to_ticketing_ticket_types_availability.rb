@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDefaultToTicketingTicketTypesAvailability < ActiveRecord::Migration[6.0]
   def change
     change_column_default :ticketing_ticket_types, :availability,

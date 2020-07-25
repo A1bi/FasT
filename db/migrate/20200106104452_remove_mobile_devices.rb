@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveMobileDevices < ActiveRecord::Migration[6.0]
   def change
     drop_table :mobile_devices do |t|

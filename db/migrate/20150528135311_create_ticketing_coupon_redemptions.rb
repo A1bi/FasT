@@ -1,4 +1,6 @@
-class CreateTicketingCouponRedemptions < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketingCouponRedemptions < ActiveRecord::Migration[6.0]
   def change
     create_table :ticketing_coupon_redemptions do |t|
       t.belongs_to :coupon, null: false
@@ -6,7 +8,7 @@ class CreateTicketingCouponRedemptions < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    
+
     remove_reference :ticketing_orders, :coupon, index: true
   end
 end

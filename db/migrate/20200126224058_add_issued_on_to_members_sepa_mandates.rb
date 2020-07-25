@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIssuedOnToMembersSepaMandates < ActiveRecord::Migration[6.0]
   def change
     add_column :members_sepa_mandates, :issued_on, :date

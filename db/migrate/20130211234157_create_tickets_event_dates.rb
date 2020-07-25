@@ -1,4 +1,6 @@
-class CreateTicketsEventDates < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketsEventDates < ActiveRecord::Migration[6.0]
   def change
     create_table :tickets_event_dates do |t|
       t.datetime :date

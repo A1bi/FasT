@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveIsSlideFromPhotos < ActiveRecord::Migration[6.0]
   def change
     remove_column :photos, :is_slide, :boolean

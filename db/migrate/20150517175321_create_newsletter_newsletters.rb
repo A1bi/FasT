@@ -1,4 +1,6 @@
-class CreateNewsletterNewsletters < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateNewsletterNewsletters < ActiveRecord::Migration[6.0]
   def change
     create_table :newsletter_newsletters do |t|
       t.string :subject

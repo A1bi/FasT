@@ -1,4 +1,6 @@
-class CreateTicketsOrders < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketsOrders < ActiveRecord::Migration[6.0]
   def change
     create_table :tickets_orders do |t|
       t.string :email

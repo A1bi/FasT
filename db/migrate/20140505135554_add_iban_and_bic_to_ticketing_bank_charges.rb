@@ -1,11 +1,15 @@
-class AddIbanAndBicToTicketingBankCharges < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class AddIbanAndBicToTicketingBankCharges < ActiveRecord::Migration[6.0]
   def change
-    rename_column :ticketing_bank_charges, :number, :iban
-    rename_column :ticketing_bank_charges, :blz, :bic
+    change_table :ticketing_bank_charges, bulk: true do |t|
+      t.rename :number, :iban
+      t.rename :blz, :bic
+      t.float :amount
+    end
     remove_column :ticketing_bank_charges, :bank, :string
-    add_column :ticketing_bank_charges, :amount, :float
   end
-  
+
   def migrate(direction)
     super
     change_table :ticketing_bank_charges do |t|

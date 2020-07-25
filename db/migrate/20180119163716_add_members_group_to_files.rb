@@ -1,19 +1,27 @@
-class AddMembersGroupToFiles < ActiveRecord::Migration[5.1]
+# frozen_string_literal: true
+
+class AddMembersGroupToFiles < ActiveRecord::Migration[6.0]
   def up
     rename_table :members_files, :documents
     add_column :documents, :members_group, :integer, default: 0
-    FileUtils.mv(old_path, new_path)
+
+    if File.exist?(old_path) && !File.exist?(new_path)
+      FileUtils.mv(old_path, new_path)
+    end
 
     change_column_default :members_members, :group, 0
-    execute 'UPDATE `members_members` SET `group` = `group` - 1'
+    execute 'UPDATE members_members SET "group" = "group" - 1'
   end
 
   def down
     rename_table :documents, :members_files
     remove_column :members_files, :members_group
-    FileUtils.mv(new_path, old_path)
 
-    execute 'UPDATE `members_members` SET `group` = `group` + 1'
+    if File.exist?(new_path) && !File.exist?(old_path)
+      FileUtils.mv(new_path, old_path)
+    end
+
+    execute 'UPDATE members_members SET "group" = "group" + 1'
   end
 
   private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MakeEmailsCaseInsensitive < ActiveRecord::Migration[6.0]
   def change
     %i[users newsletter_subscribers].each do |table|

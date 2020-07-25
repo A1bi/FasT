@@ -1,4 +1,6 @@
-class AddDateToTicketingOrders < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class AddDateToTicketingOrders < ActiveRecord::Migration[6.0]
   def change
     add_reference :ticketing_orders, :date
 

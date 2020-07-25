@@ -1,4 +1,6 @@
-class CreateTicketingBoxOfficeCheckins < ActiveRecord::Migration
+# frozen_string_literal: true
+
+class CreateTicketingBoxOfficeCheckins < ActiveRecord::Migration[6.0]
   def change
     create_table :ticketing_box_office_checkins do |t|
       t.integer :ticket_id
@@ -8,7 +10,7 @@ class CreateTicketingBoxOfficeCheckins < ActiveRecord::Migration
 
       t.timestamps
     end
-    
+
     create_table :ticketing_box_office_checkpoints do |t|
       t.string :name
 
