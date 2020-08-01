@@ -35,61 +35,75 @@ end
 locations = %i[hier da dort irgendwo nirgendwo]
 titles = ['Dies', 'Das', 'Irgendwas', 'Tolle Sachen', 'Treffen XY']
 5.times do
-  date = 3.weeks.from_now + rand(200).hours
   Members::Date.create(
-    datetime: date,
+    datetime: 3.weeks.from_now + rand(200).hours,
     info: FFaker::Lorem.sentence,
     title: titles.sample,
     location: locations.sample
   )
 end
 
-## newsletters
+# newsletters
 Newsletter::SubscriberList.create(name: 'Kunden')
 
 3.times do
   Newsletter::Subscriber.create(email: FFaker::Internet.free_email)
 end
 
-## ticket system
+# ticket system
 seating = Ticketing::Seating.create(name: 'Dummy', number_of_seats: 20)
 
-# events
-event = Ticketing::Event.new(
-  name: 'Testgloeckner',
-  identifier: 'gloeckner',
-  slug: 'der-test-gloeckner',
-  location: 'Testbühne',
-  sale_start: Time.zone.now - 1.week,
-  seating: seating
+## events
+event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
+               alice_wunderland magdalena willibald sommernachtstraum herdmanns
+               gemetzel gloeckner blauer_planet mit_abstand]
+
+event_ids.each.with_index do |event_id, i|
+  event = Ticketing::Event.new(
+    name: "Testevent #{event_id.humanize.titleize}",
+    identifier: event_id,
+    slug: "test-event-#{event_id.dasherize}",
+    location: 'Testbühne',
+    seating: seating
+  )
+
+  # two most recent events will be the future
+  if i > event_ids.count - 3
+    event_date_base = (event_ids.count - i).months.from_now
+  # older events will be in the past
+  else
+    event_date_base = (event_ids.count - i).years.ago
+    event.archived = true
+  end
+
+  event.sale_start = event_date_base - 1.month
+
+  unless event.archived
+    4.times do |j|
+      ### dates
+      event.dates.build(date: event_date_base + j.weeks)
+    end
+
+    ### ticket types
+    [
+      { name: 'Ermäßigt', info: 'Kinder und so', price: 8.5 },
+      { name: 'Erwachsene', price: 12.5 },
+      { name: 'Freikarte', price: 0, availability: :exclusive }
+    ].each do |type|
+      event.ticket_types.build(type)
+    end
+  end
+
+  event.save
+end
+
+## retail stores
+store = Ticketing::Retail::Store.create(
+  name: 'Testbuchhandlung',
+  sale_enabled: true
 )
 
-4.times do |i|
-  # dates
-  event.dates.build(date: 4.weeks.from_now + i.days)
-end
-
-# ticket types
-[
-  { name: 'Ermäßigt', info: 'Kinder und so', price: 8.5 },
-  { name: 'Erwachsene', price: 12.5 },
-  { name: 'Freikarte', price: 0, availability: :exclusive }
-].each do |type|
-  event.ticket_types.build(type)
-end
-
-event.save
-
-# retail stores
-['Meyers Buchhandlung', 'Test-Store', 'Buchhandlung'].each do |name|
-  Ticketing::Retail::Store.create(
-    name: name,
-    password: '123456',
-    sale_enabled: true
-  )
-end
-
-Ticketing::Retail::Store.last.users.create(
+store.users.create(
   email: 'store@example.com',
   password: '123456'
 )
