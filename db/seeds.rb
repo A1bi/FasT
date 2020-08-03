@@ -108,6 +108,77 @@ store.users.create(
   password: '123456'
 )
 
+## coupons
+coupons = []
+10.times do
+  coupons << Ticketing::Coupon.create(recipient: FFaker::NameDE.name,
+                                      free_tickets: 2)
+end
+
+## orders
+def create_tickets(order, coupons = [])
+  event = Ticketing::Event.with_future_dates.sample
+  date = event.dates.sample
+  ticket_types = event.ticket_types.to_a.shuffle
+
+  rand(1..2).times do
+    ticket_type = ticket_types.pop
+    if ticket_type.price.zero?
+      coupon = coupons.pop
+      if coupon.present?
+        coupon.update(free_tickets: 0)
+        coupon.redeem
+        order.coupons << coupon
+      end
+    end
+
+    rand(1..3).times do
+      ticket = order.tickets.new
+      ticket.type = ticket_type
+      ticket.date = date
+    end
+  end
+end
+
+### web orders
+20.times do
+  order = Ticketing::Web::Order.new(
+    first_name: FFaker::NameDE.first_name,
+    last_name: FFaker::NameDE.last_name,
+    email: FFaker::Internet.free_email,
+    phone: FFaker::PhoneNumberDE.phone_number,
+    plz: FFaker::AddressDE.zip_code,
+    affiliation: rand(3) == 2 ? FFaker::Company.name : nil,
+    pay_method: Ticketing::Web::Order.pay_methods.keys.sample
+  )
+
+  if order.charge_payment?
+    order.build_bank_charge(
+      name: FFaker::NameDE.name,
+      iban: 'DE89370400440532013000',
+      approved: [true, false].sample
+    )
+  end
+
+  create_tickets(order, coupons)
+
+  order.save
+
+  unless order.charge_payment? || [true, false].sample
+    order.mark_as_paid
+    order.save
+  end
+end
+
+### retail orders
+10.times do
+  order = store.orders.new
+
+  create_tickets(order)
+
+  order.save
+end
+
 Ticketing::BoxOffice::BoxOffice.create(name: 'Testkasse')
 
 # clear cache
