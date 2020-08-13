@@ -68,6 +68,9 @@ de:
       ics:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
+  permissions:
+    permissions_read: Berechtigungen der Mitglieder einsehen
+    permissions_update: Berechtigungen der Mitglieder bearbeiten
   ticketing:
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."

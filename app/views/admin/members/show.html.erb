@@ -135,6 +135,25 @@
           <% end %>
         </td>
       </tr>
+
+      <% if policy(@member).show_permissions? %>
+        <tr>
+          <td colspan="2"><h3>Berechtigungen</h3></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <% if @member.permissions&.any? %>
+              <ul>
+                <% @member.permissions&.each do |permission| %>
+                  <li><%= t "permissions.#{permission}" %></li>
+                <% end %>
+              </ul>
+            <% else %>
+              <em>Dieses Mitglied hat keine besonderen Berechtigungen.</em>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     </table>
   </div>
 </div>

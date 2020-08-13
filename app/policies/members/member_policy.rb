@@ -14,8 +14,16 @@ module Members
       user_admin?
     end
 
+    def show_permissions?
+      user.permitted?(:permissions_read)
+    end
+
     def update?
       user.present? && record.member? && record == user || user_admin?
+    end
+
+    def update_permissions?
+      user.permitted?(:permissions_update)
     end
 
     def destroy?
@@ -43,13 +51,15 @@ module Members
     end
 
     def permitted_attributes
-      if user_admin?
-        %i[email first_name last_name nickname title street plz city phone
-           birthday family_member_id family_id joined_at group sepa_mandate_id
-           membership_fee]
-      else
-        %i[email password password_confirmation]
-      end
+      attrs = if user_admin?
+                %i[email first_name last_name nickname title street plz city
+                   phone birthday family_member_id family_id joined_at group
+                   sepa_mandate_id membership_fee]
+              else
+                %i[email password password_confirmation]
+              end
+      attrs << { permissions: [] } if update_permissions?
+      attrs
     end
   end
 end

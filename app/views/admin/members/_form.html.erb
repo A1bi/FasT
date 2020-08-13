@@ -136,6 +136,24 @@
           <td>Gruppe:</td>
           <td><%= f.select(:group, options_for_select(@groups, @member.group)) %></td>
         </tr>
+
+        <% if @member.persisted? && policy(@member).update_permissions? %>
+          <tr>
+            <td colspan="2"><h3>Berechtigungen</h3></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+                <% %i[permissions_read permissions_update].each do |permission| %>
+                  <div>
+                    <%= label_tag do %>
+                      <%= f.check_box :permissions, { multiple: true, checked: @member.permitted?(permission) }, permission, nil %> <%= t("permissions.#{permission}") %>
+                    <% end %>
+                  </div>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
         <%= content_tag :tr do %>
           <td>
             Aktivierungsmail zusenden:

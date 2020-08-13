@@ -61,6 +61,10 @@ class User < ApplicationRecord
     is_a? Ticketing::Retail::User
   end
 
+  def permitted?(permission)
+    permissions&.include? permission.to_s
+  end
+
   private
 
   def set_random_password

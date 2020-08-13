@@ -21,6 +21,16 @@ CREATE TYPE public.newsletter_newsletter_status AS ENUM (
 
 
 --
+-- Name: permission; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.permission AS ENUM (
+    'permissions_read',
+    'permissions_update'
+);
+
+
+--
 -- Name: ticketing_check_in_medium; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1848,7 +1858,8 @@ CREATE TABLE public.users (
     title character varying,
     membership_fee_paid_until date,
     ticketing_retail_store_id bigint,
-    membership_terminates_on date
+    membership_terminates_on date,
+    permissions public.permission[]
 );
 
 
@@ -3751,6 +3762,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200315115826'),
 ('20200327213527'),
 ('20200615213727'),
-('20200616104936');
+('20200616104936'),
+('20200813192343');
 
 
