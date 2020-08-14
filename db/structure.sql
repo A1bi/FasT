@@ -1859,7 +1859,8 @@ CREATE TABLE public.users (
     membership_fee_paid_until date,
     ticketing_retail_store_id bigint,
     membership_terminates_on date,
-    permissions public.permission[]
+    permissions public.permission[],
+    shared_email_accounts_authorized_for character varying[]
 );
 
 
@@ -3763,6 +3764,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200327213527'),
 ('20200615213727'),
 ('20200616104936'),
-('20200813192343');
+('20200813192343'),
+('20200814205319');
 
 

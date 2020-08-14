@@ -147,6 +147,9 @@
                 <% @member.permissions&.each do |permission| %>
                   <li><%= t "permissions.#{permission}" %></li>
                 <% end %>
+                <% @member.shared_email_accounts_authorized_for&.each do |email| %>
+                  <li><%= t('permissions.authorized_for_shared_email_account_html', email: email) %></li>
+                <% end %>
               </ul>
             <% else %>
               <em>Dieses Mitglied hat keine besonderen Berechtigungen.</em>

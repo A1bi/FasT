@@ -65,6 +65,10 @@ class User < ApplicationRecord
     permissions&.include? permission.to_s
   end
 
+  def authorized_for_shared_email_account?(email)
+    shared_email_accounts_authorized_for&.include? email
+  end
+
   private
 
   def set_random_password

@@ -90,6 +90,11 @@ module Admin
     def update_member
       @member.assign_attributes(permitted_attributes(@member))
 
+      # remove emails not allowed to be authorized for
+      @member.shared_email_accounts_authorized_for&.select! do |email|
+        email.in? shared_email_accounts
+      end
+
       # skip mandate update if only the family needs to be removed
       return if params[:members_member] == { 'family_id' => '' }
 
@@ -130,5 +135,10 @@ module Admin
     def send_activation_mail
       MemberMailer.with(member: @member).activation.deliver_later
     end
+
+    def shared_email_accounts
+      Rails.application.credentials.shared_email_accounts&.pluck(:email)
+    end
+    helper_method :shared_email_accounts
   end
 end

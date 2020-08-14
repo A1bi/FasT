@@ -150,6 +150,13 @@
                     <% end %>
                   </div>
               <% end %>
+              <% shared_email_accounts.each do |email| %>
+                <div>
+                  <%= label_tag do %>
+                    <%= f.check_box :shared_email_accounts_authorized_for, { multiple: true, checked: @member.authorized_for_shared_email_account?(email) }, email, nil %> <%= t('permissions.authorized_for_shared_email_account_html', email: email) %>
+                  <% end %>
+                </div>
+              <% end %>
             </td>
           </tr>
         <% end %>

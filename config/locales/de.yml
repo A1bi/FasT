@@ -71,6 +71,7 @@ de:
   permissions:
     permissions_read: Berechtigungen der Mitglieder einsehen
     permissions_update: Berechtigungen der Mitglieder bearbeiten
+    authorized_for_shared_email_account_html: Zugriff auf E-Mail-Konto <em>%{email}</em>
   ticketing:
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."

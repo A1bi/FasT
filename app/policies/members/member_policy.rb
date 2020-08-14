@@ -58,7 +58,11 @@ module Members
               else
                 %i[email password password_confirmation]
               end
-      attrs << { permissions: [] } if update_permissions?
+
+      if update_permissions?
+        attrs << { permissions: [], shared_email_accounts_authorized_for: [] }
+      end
+
       attrs
     end
   end

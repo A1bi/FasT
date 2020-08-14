@@ -15,7 +15,10 @@ end
               first_name: 'Albrecht',
               last_name: 'Oster',
               email: 'albrecht@oster.online',
-              group: :admin
+              group: :admin,
+              permissions: %i[permissions_read permissions_update],
+              shared_email_accounts_authorized_for:
+                %w[info@theater-kaisersesch.de]
             }
           else
             {
