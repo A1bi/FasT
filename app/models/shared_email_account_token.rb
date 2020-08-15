@@ -5,6 +5,12 @@ class SharedEmailAccountToken < ApplicationRecord
 
   validates :email, presence: true
 
+  class << self
+    def expired
+      where('created_at < ?', EXPIRES_AFTER.ago)
+    end
+  end
+
   def expired?
     (created_at + EXPIRES_AFTER).past?
   end
