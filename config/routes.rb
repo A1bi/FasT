@@ -227,6 +227,10 @@ Rails.application.routes.draw do
     passbook_routes
   end
 
+  scope controller: :shared_email_accounts, path: :shared_email_accounts do
+    get :authorize, action: :token
+  end
+
   scope path: :admin do
     require 'sidekiq/web'
     if Rails.env.production?

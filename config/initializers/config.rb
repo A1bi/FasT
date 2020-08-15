@@ -32,5 +32,9 @@ Config.setup do |config|
     end
 
     required(:ticket_barcode_base_url).filled
+
+    required(:shared_email_accounts).schema do
+      required(:redirect_url).filled
+    end
   end
 end

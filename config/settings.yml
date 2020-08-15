@@ -31,4 +31,7 @@ passbook:
 sentry:
   enabled: false
 
+shared_email_accounts:
+  redirect_url: https://mail.theater-kaisersesch.de/?_task=login&action=login
+
 hide_it_recht_content: false

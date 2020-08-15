@@ -1,0 +1,4 @@
+.hcen
+  p Bitte wählen Sie die gewünschte E-Mail-Adresse, mit der Sie sich anmelden möchten.
+  - current_user.shared_email_accounts_authorized_for&.each do |email|
+    p = link_to email, email: email

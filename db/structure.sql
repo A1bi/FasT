@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
 -- Name: newsletter_newsletter_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -794,6 +808,18 @@ ALTER SEQUENCE public.photos_id_seq OWNED BY public.photos.id;
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
+);
+
+
+--
+-- Name: shared_email_account_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.shared_email_account_tokens (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    email character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -2417,6 +2443,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: shared_email_account_tokens shared_email_account_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shared_email_account_tokens
+    ADD CONSTRAINT shared_email_account_tokens_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ticketing_bank_charges ticketing_bank_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3765,6 +3799,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200615213727'),
 ('20200616104936'),
 ('20200813192343'),
-('20200814205319');
+('20200814205319'),
+('20200815175134');
 
 
