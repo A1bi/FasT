@@ -229,6 +229,7 @@ Rails.application.routes.draw do
 
   scope controller: :shared_email_accounts, path: :shared_email_accounts do
     get :authorize, action: :token
+    get 'credentials/:token', action: :credentials
   end
 
   scope path: :admin do

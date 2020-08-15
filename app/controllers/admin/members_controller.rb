@@ -137,7 +137,8 @@ module Admin
     end
 
     def shared_email_accounts
-      Rails.application.credentials.shared_email_accounts&.pluck(:email)
+      Rails.application.credentials
+           .shared_email_accounts[:credentials].pluck(:email)
     end
     helper_method :shared_email_accounts
   end

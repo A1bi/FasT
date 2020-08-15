@@ -4,4 +4,8 @@ SharedEmailAccountsPolicy = Struct.new(:user, :shared_email_accounts) do
   def token?
     user.shared_email_accounts_authorized_for&.any?
   end
+
+  def credentials?
+    true
+  end
 end
