@@ -88,7 +88,10 @@ module Admin
     end
 
     def update_member
-      @member.assign_attributes(permitted_attributes(@member))
+      attrs = permitted_attributes(@member)
+      attrs[:permissions] ||= []
+      attrs[:shared_email_accounts_authorized_for] ||= []
+      @member.assign_attributes(attrs)
 
       # remove emails not allowed to be authorized for
       @member.shared_email_accounts_authorized_for&.select! do |email|
