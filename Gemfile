@@ -20,7 +20,7 @@ gem 'bcrypt', '~> 3.1.13'
 
 gem 'icalendar', '~> 2.6.1'
 
-gem 'prawn', '~> 2.2.2'
+gem 'prawn', '~> 2.3.0'
 gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.30.0'
 gem 'prawn-table', '~> 0.2.1'
@@ -62,7 +62,7 @@ gem 'request_store', '~> 1.5.0'
 
 gem 'jbuilder', '~> 2.10.0'
 
-gem 'unicorn', '~> 5.5.0'
+gem 'unicorn', '~> 5.6.0'
 
 gem 'httparty', '~> 0.18'
 
@@ -76,7 +76,7 @@ end
 
 group :development, :ci do
   gem 'capistrano', '~> 3.14'
-  gem 'capistrano-bundler', '~> 1.6', require: false
+  gem 'capistrano-bundler', '~> 2.0', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'ffaker', '~> 2.13'
   gem 'rubocop'
