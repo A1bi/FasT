@@ -142,7 +142,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <% if @member.permissions&.any? %>
+            <% if @member.permissions&.any? || @member.shared_email_accounts_authorized_for&.any? %>
               <ul>
                 <% @member.permissions&.each do |permission| %>
                   <li><%= t "permissions.#{permission}" %></li>
