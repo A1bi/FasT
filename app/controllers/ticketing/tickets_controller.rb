@@ -82,8 +82,7 @@ module Ticketing
 
       return redirect_to_order_details unless params[:ticket_ids]&.any?
 
-      @tickets = ticket_scope.cancelled(false).where(id: params[:ticket_ids])
-                             .to_a
+      @tickets = ticket_scope.valid.where(id: params[:ticket_ids]).to_a
 
       authorize_tickets
     end

@@ -26,10 +26,10 @@
           <%= f.text_field :phone, class: "field" %>
         <% end %>
         <%= render layout: "field", locals: { name: "e-mail-Adresse" } do %>
-          <%= prepopulated_text_field(f, :email, :email, true) %>
+          <%= prepopulated_text_field(f, :email, :email, :email) %>
         <% end %>
         <%= render layout: "field", locals: { name: "e-mail-Adresse Bestätigung" } do %>
-          <%= prepopulated_text_field(f, :email_confirmation, :email, true) %>
+          <%= prepopulated_text_field(f, :email_confirmation, :email, :email) %>
           <div class="small">Noch einmal zur Sicherheit, um Tippfehler auszuschließen.</div>
         <% end if action_name == 'new' %>
       </tbody>

@@ -78,7 +78,7 @@ module Ticketing
     end
 
     def cancelled?
-      tickets.cancelled(false).empty?
+      tickets.valid.empty?
     end
 
     def transfer_refund

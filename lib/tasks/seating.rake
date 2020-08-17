@@ -11,8 +11,8 @@ namespace :seating do
   def write_svg_file(svg, path)
     # create a backup
     ext = File.extname(path)
-    dup_path = File.dirname(path) + '/' + File.basename(path, ext) +
-               '_original' + ext
+    dup_path = "#{File.dirname(path)}/#{File.basename(path, ext)}" \
+               "_original#{ext}"
     FileUtils.copy_file(path, dup_path)
 
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
@@ -20,11 +20,11 @@ namespace :seating do
 
   def prompt(message)
     puts message
-    STDIN.gets
+    $stdin.gets
   end
 
   def confirm(message)
-    response = prompt(message + ' [yn]').strip
+    response = prompt("#{message} [yn]").strip
     return true if response == 'Y'
     return false if response == 'y'
 

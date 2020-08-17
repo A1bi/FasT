@@ -34,7 +34,7 @@ class CreateBillingAccountsAndTransfers < ActiveRecord::Migration[6.0]
       tickets: :price,
       orders: :total
     }.each do |table, column|
-      change_column 'ticketing_' + table.to_s, column, type,
+      change_column "ticketing_#{table}", column, type,
                     default: 0, null: false
     end
   end

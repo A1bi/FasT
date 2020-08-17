@@ -6,7 +6,7 @@
 <% overview = [
   ["Nummer", @order.number, :number],
   ["aufgegeben", l(@order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
-  ["Tickets", @order.tickets.cancelled(false).count],
+  ["Tickets", @order.tickets.valid.count],
   ["Gesamtbetrag", number_to_currency(@order.total)],
   ["bezahlt", @order.paid ? "ja" : "nein"]
 ] %>

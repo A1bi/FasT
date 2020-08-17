@@ -28,6 +28,12 @@ module Ticketing
     delegate :event, to: :date, allow_nil: true
     delegate :block, to: :seat, allow_nil: true
 
+    class << self
+      def valid
+        where(invalidated: false)
+      end
+    end
+
     def type=(type)
       super
       self[:price] = type.price

@@ -47,7 +47,7 @@ class NewsletterSubscribersController < ApplicationController
   end
 
   def create_subscriber
-    Newsletter::SubscriberCreateService.new(newsletter_params, false).execute
+    Newsletter::SubscriberCreateService.new(newsletter_params).execute
   end
 
   def newsletter_params

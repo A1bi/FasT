@@ -45,7 +45,7 @@
               <%= order.store.name %>
             <% end %>
           </td>
-          <td class="tickets"><%= order.tickets.cancelled(false).size %></td>
+          <td class="tickets"><%= order.tickets.valid.size %></td>
           <% if :date.in?(additional_columns) %>
             <td>
               <%= l order.date.date, format: '%-d. %B' %><br>

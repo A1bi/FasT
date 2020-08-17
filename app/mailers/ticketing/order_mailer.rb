@@ -33,7 +33,7 @@ module Ticketing
     private
 
     def prepare_tickets
-      @tickets = @order.tickets.cancelled(false)
+      @tickets = @order.tickets.valid
       return unless attach_tickets?
 
       pdf = TicketsWebPdf.new

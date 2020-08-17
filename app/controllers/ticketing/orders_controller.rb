@@ -88,17 +88,13 @@ module Ticketing
         @orders[:search] = found_orders
 
       else
-        @orders[:web] = Ticketing::Web::Order.all if current_user.admin?
-        @orders[:retail] = if current_user.admin?
-                             Ticketing::Retail::Order.all
-                           else
-                             order_scope.includes(:store)
-                           end
-        @orders.each_value do |orders|
-          orders
-            .where!('created_at > ?', 1.month.ago)
-            .limit!(20)
+        if current_user.admin?
+          @orders[:web] = Ticketing::Web::Order.all
+          @orders[:retail] = Ticketing::Retail::Order.all
+        else
+          @orders[:retail] = order_scope.includes(:store)
         end
+        @orders.each_value { |orders| orders.limit!(20) }
       end
 
       @orders.each_value do |orders|

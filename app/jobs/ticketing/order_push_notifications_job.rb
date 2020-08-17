@@ -27,7 +27,7 @@ module Ticketing
     end
 
     def title
-      I18n.translate(
+      I18n.t(
         :title,
         scope: i18n_scope,
         event: @order.event.name
@@ -35,13 +35,13 @@ module Ticketing
     end
 
     def body
-      I18n.translate(
+      I18n.t(
         type,
-        scope: i18n_scope + '.body',
+        scope: "#{i18n_scope}.body",
         count: @order.tickets.count,
         store: @order.try(:store)&.name,
         box_office: @order.try(:box_office)&.name,
-        date: I18n.localize(@order.date.date, format: '%-d. %B')
+        date: I18n.l(@order.date.date, format: '%-d. %B')
       )
     end
 

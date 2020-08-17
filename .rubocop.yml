@@ -38,7 +38,7 @@ Rails/ApplicationRecord:
     - lib/passbook/models/**/*.rb
 
 Rails/DynamicFindBy:
-  Whitelist:
+  AllowedMethods:
     - find_by_email
 
 # disable this because we mostly use native enums in Postgres
@@ -53,7 +53,7 @@ Rails/RakeEnvironment:
     - lib/capistrano/tasks/**/*.rake
 
 Rails/SkipsModelValidations:
-  Whitelist: ['touch']
+  AllowedMethods: ['touch']
 
 Style/Documentation:
   Enabled: false

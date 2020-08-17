@@ -25,10 +25,8 @@ module Ticketing
     end
 
     module ClassMethods
-      def cancelled(cancelled = true)
-        return where.not(cancellation_id: nil) if cancelled
-
-        where(cancellation_id: nil)
+      def cancelled
+        where.not(cancellation_id: nil)
       end
     end
   end

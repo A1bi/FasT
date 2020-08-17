@@ -19,7 +19,7 @@ module Api
           params[:check_ins].each do |check_in|
             ticket = ::Ticketing::Ticket.find(check_in[:ticket_id])
             tickets = if ticket.event.covid19?
-                        ticket.order.tickets.cancelled(false)
+                        ticket.order.tickets.valid
                       else
                         [ticket]
                       end

@@ -21,8 +21,8 @@ module Ticketing
       validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
       after_create { send_confirmation(after_commit: true) }
-      after_commit :send_queued_mails
       after_save :schedule_geolocation
+      after_commit :send_queued_mails
 
       def self.charges_to_submit(approved)
         charge_payment

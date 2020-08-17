@@ -3,6 +3,7 @@
 module Ticketing
   class OrderSearchService < BaseService
     def initialize(query, scope: nil)
+      super
       @query = query
       @scope = scope
     end

@@ -5,14 +5,14 @@ module Ticketing
     class Order < Ticketing::Order
       belongs_to :store
 
-      before_create :transfer_cash_payment_from_store
       before_save :check_tickets
+      before_create :transfer_cash_payment_from_store
       after_save :check_printable
       after_commit :delete_printable, on: :destroy
 
-      def printable_path(full = false)
+      def printable_path(absolute: false)
         number_hash = Digest::SHA1.hexdigest(number.to_s)
-        File.join(printable_dir_path(full), "tickets-#{number_hash}.pdf")
+        "#{printable_dir_path(absolute: absolute)}/tickets-#{number_hash}.pdf"
       end
 
       def cash_refund_in_store
@@ -38,17 +38,17 @@ module Ticketing
         end
       end
 
-      def printable_dir_path(full = false)
-        path = Rails.public_path if full
-        File.join(path || '', '/system/tickets')
+      def printable_dir_path(absolute: false)
+        path = Rails.public_path if absolute
+        "#{path}/system/tickets"
       end
 
       def update_printable
-        FileUtils.mkdir_p(printable_dir_path(true))
+        FileUtils.mkdir_p(printable_dir_path(absolute: true))
 
         pdf = TicketsRetailPdf.new
         pdf.add_tickets tickets
-        pdf.render_file(printable_path(true))
+        pdf.render_file(printable_path(absolute: true))
       end
 
       def check_printable
@@ -59,7 +59,7 @@ module Ticketing
       end
 
       def delete_printable
-        FileUtils.rm(printable_path(true), force: true)
+        FileUtils.rm(printable_path(absolute: true), force: true)
       end
     end
   end

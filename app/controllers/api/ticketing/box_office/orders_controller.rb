@@ -59,7 +59,7 @@ module Api
             :type, :box_office_id, :socket_id,
             order: [
               :date,
-              tickets: {}
+              { tickets: {} }
             ]
           )
         end

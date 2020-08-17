@@ -4,7 +4,7 @@ module Newsletter
   class SubscriberCreateService
     attr_accessor :params, :after_order
 
-    def initialize(params, after_order = false)
+    def initialize(params, after_order: false)
       @params = params
       @after_order = after_order
     end

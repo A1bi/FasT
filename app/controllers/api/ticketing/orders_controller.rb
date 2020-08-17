@@ -32,12 +32,14 @@ module Api
           :type, :newsletter, :socket_id,
           order: [
             %i[date ignore_free_tickets],
-            tickets: {},
-            coupon_codes: [],
-            address: %i[
-              email first_name gender last_name affiliation phone plz
-            ],
-            payment: %i[method name iban]
+            {
+              tickets: {},
+              coupon_codes: [],
+              address: %i[
+                email first_name gender last_name affiliation phone plz
+              ],
+              payment: %i[method name iban]
+            }
           ],
           covid19: {
             attendees: %i[name street plz city phone]
@@ -48,7 +50,8 @@ module Api
       def create_newsletter_subscriber
         return unless web? && params[:newsletter].present?
 
-        Newsletter::SubscriberCreateService.new(newsletter_params, true).execute
+        Newsletter::SubscriberCreateService.new(newsletter_params,
+                                                after_order: true).execute
       end
 
       def newsletter_params

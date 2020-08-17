@@ -1,4 +1,4 @@
-- tickets = @order.tickets.cancelled(false)
+- tickets = @order.tickets.valid
 - if @order.is_a?(Ticketing::Web::Order) && tickets.any?(&:refundable?)
   h2.hcen Erstattung Ihrer Tickets
   p Da die Veranstaltung entfällt, erhalten Sie selbstverständlich eine Erstattung des Ticketpreises. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.

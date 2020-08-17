@@ -13,7 +13,7 @@ module Ticketing
           transfer: find_unpaid_orders.transfer_payment,
           cash: find_unpaid_orders.cash_payment,
           box_office: find_unpaid_orders.box_office_payment,
-          other: find_unpaid_orders(false).where.not(
+          other: find_unpaid_orders(web: false).where.not(
             pay_method: %i[transfer cash box_office]
           )
         },
@@ -73,7 +73,7 @@ module Ticketing
       @unsubmitted_charges = Web::Order.charges_to_submit(true)
     end
 
-    def find_unpaid_orders(web = true)
+    def find_unpaid_orders(web: true)
       klass = web ? Web::Order : Order
       klass.includes(:billing_account).unpaid.order(:number)
     end

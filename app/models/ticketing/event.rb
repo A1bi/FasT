@@ -15,11 +15,7 @@ module Ticketing
     before_validation :set_assets_identifier, on: :create
 
     def self.current
-      archived(false)
-    end
-
-    def self.archived(archived = true)
-      where(archived: archived)
+      where(archived: false)
     end
 
     def self.with_future_dates

@@ -58,13 +58,14 @@ module Ticketing
         next if ticket.cancelled?
 
         scopes = [stats[:total]]
-        if ticket.order.is_a? Web::Order
+        case ticket.order
+        when Web::Order
           scopes << stats[:web]
-        elsif ticket.order.is_a? Retail::Order
+        when Retail::Order
           store_scope = stats[:retail][:stores][ticket.order.store_id] ||= {}
           scopes << store_scope
           scopes << stats[:retail][:total]
-        elsif ticket.order.is_a? BoxOffice::Order
+        when BoxOffice::Order
           store_scope =
             stats[:box_office][:box_offices][ticket.order.box_office_id] ||=
               {}

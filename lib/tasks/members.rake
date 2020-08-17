@@ -23,8 +23,8 @@ namespace :members do
         name: mandate.debtor_name[0..69],
         iban: mandate.iban,
         amount: member.membership_fee,
-        remittance_information: 'Jahresmitgliedsbeitrag für ' + \
-                                member.name.full,
+        remittance_information:
+          "Jahresmitgliedsbeitrag für #{member.name.full}",
         mandate_id: mandate.number(prefixed: true),
         mandate_date_of_signature: mandate.issued_on,
         local_instrument: 'CORE',

@@ -9,8 +9,8 @@ module Ticketing
 
     validates :name, presence: true
 
-    after_commit :create_stripped_plan, on: %i[create update]
     after_destroy :remove_stripped_plan
+    after_commit :create_stripped_plan, on: %i[create update]
 
     class << self
       def with_plan
