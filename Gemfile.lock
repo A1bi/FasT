@@ -66,7 +66,7 @@ GEM
     ast (2.4.1)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
-    bcrypt (3.1.15)
+    bcrypt (3.1.13)
     bindata (2.4.8)
     bootsnap (1.4.8)
       msgpack (~> 1.0)
@@ -358,7 +358,7 @@ PLATFORMS
 DEPENDENCIES
   apnotic (~> 1.6.0)
   auto_strip_attributes (~> 2.6.0)
-  bcrypt (~> 3.1.13)
+  bcrypt (< 3.1.14)
   bindata (~> 2.4.3)
   bootsnap
   byebug

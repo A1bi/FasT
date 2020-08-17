@@ -16,7 +16,7 @@ gem 'slim'
 
 gem 'paperclip', '~> 6.1.0'
 
-gem 'bcrypt', '~> 3.1.13'
+gem 'bcrypt', '< 3.1.14'
 
 gem 'icalendar', '~> 2.6.1'
 
