@@ -40,7 +40,12 @@ CREATE TYPE public.newsletter_newsletter_status AS ENUM (
 
 CREATE TYPE public.permission AS ENUM (
     'permissions_read',
-    'permissions_update'
+    'permissions_update',
+    'members_read',
+    'members_update',
+    'newsletters_read',
+    'newsletters_update',
+    'newsletters_approve'
 );
 
 
@@ -3800,6 +3805,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200616104936'),
 ('20200813192343'),
 ('20200814205319'),
-('20200815175134');
+('20200815175134'),
+('20200830115812');
 
 

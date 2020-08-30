@@ -3,42 +3,37 @@
 module Newsletter
   class NewsletterPolicy < ApplicationPolicy
     def index?
-      user_admin?
+      user.permitted?(:newsletters_read)
     end
 
     def show?
-      user_admin?
+      index?
     end
 
     def create?
-      user_admin?
+      user.permitted?(:newsletters_update)
     end
 
     def update?
-      user_admin? && can_be_modified?
+      create? && can_be_modified?
     end
 
     def destroy?
-      user_admin? && can_be_modified?
+      create? && can_be_modified?
     end
 
     def finish?
-      user_admin?
+      create?
     end
 
     def approve?
-      user_owner?
+      user.permitted?(:newsletters_approve)
     end
 
     private
 
     def can_be_modified?
-      record.draft? || (record.review? && user_owner?)
-    end
-
-    # TODO: change this
-    def user_owner?
-      user.id == 1
+      record.draft? || (record.review? && approve?)
     end
   end
 end

@@ -71,6 +71,11 @@ de:
   permissions:
     permissions_read: Berechtigungen der Mitglieder einsehen
     permissions_update: Berechtigungen der Mitglieder bearbeiten
+    members_read: Mitgliederliste einsehen
+    members_update: Mitgliederdaten bearbeiten
+    newsletters_read: Newsletter einsehen
+    newsletters_update: Newsletter bearbeiten
+    newsletters_approve: Newsletter prüfen
     authorized_for_shared_email_account_html: Zugriff auf E-Mail-Konto <em>%{email}</em>
   ticketing:
     orders:

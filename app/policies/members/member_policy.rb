@@ -3,15 +3,15 @@
 module Members
   class MemberPolicy < ApplicationPolicy
     def index?
-      user_admin?
+      user.permitted?(:members_read)
     end
 
     def create?
-      user_admin?
+      updated_permitted?
     end
 
     def show?
-      user_admin?
+      index?
     end
 
     def show_permissions?
@@ -19,7 +19,7 @@ module Members
     end
 
     def update?
-      user.present? && record.member? && record == user || user_admin?
+      user.present? && record.member? && record == user || updated_permitted?
     end
 
     def update_permissions?
@@ -27,11 +27,11 @@ module Members
     end
 
     def destroy?
-      user_admin?
+      updated_permitted?
     end
 
     def reactivate?
-      user_admin?
+      updated_permitted?
     end
 
     def activate?
@@ -64,6 +64,12 @@ module Members
       end
 
       attrs
+    end
+
+    private
+
+    def updated_permitted?
+      user.permitted?(:members_update)
     end
   end
 end

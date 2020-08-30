@@ -143,7 +143,7 @@
           </tr>
           <tr>
             <td colspan="2">
-                <% %i[permissions_read permissions_update].each do |permission| %>
+                <% User::PERMISSIONS.each do |permission| %>
                   <div>
                     <%= label_tag do %>
                       <%= f.check_box :permissions, { multiple: true, checked: @member.permitted?(permission) }, permission, nil %> <%= t("permissions.#{permission}") %>
