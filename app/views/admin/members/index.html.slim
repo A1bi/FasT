@@ -1,8 +1,9 @@
 - title 'Mitgliederverwaltung'
 
-- cache @members
+- cache [@members, current_user]
   .hl Mitgliederverwaltung
-  = render 'new_button', action: 'neues Mitglied'
+  - if policy(Members::Member).new?
+    = render 'new_button', action: 'neues Mitglied'
   p
     ' Aktuelle Mitgliederzahl:
     b = @members.count
@@ -22,5 +23,5 @@
               span> title='Dieses Mitglied ist Teil des Vorstandes' 👑
             - if member.membership_terminated?
               span> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
-          td = link_to member.name.last_with_title_sorted, [:admin, member]
-          td = link_to member.name.first, [:admin, member]
+          td = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
+          td = link_to_if policy(member).show?, member.name.first, [:admin, member]

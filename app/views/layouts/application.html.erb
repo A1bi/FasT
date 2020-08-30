@@ -60,9 +60,7 @@
                 [:root, %i(member edit)]
               %>
               <% if current_user.admin? %>
-                <%= render "members_navi", title: "Vorstandsbereich", namespace: :admin, actions:
-                  [:documents, :members_members, :newsletters]
-                %>
+                <%= render "admin_navi" %>
                 <%= render "members_navi", title: "Vorverkauf", namespace: :ticketing, actions:
                   [:orders, :payments, :statistics, :coupons, :seatings]
                 %>

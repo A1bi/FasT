@@ -1,0 +1,7 @@
+ul.navi.admin
+  li Vorstandsbereich
+  = render 'navi_item', title: 'Dokumente', path: admin_documents_path
+  - if policy(Members::Member).index?
+    = render 'navi_item', title: 'Mitglieder', path: admin_members_members_path
+  - if policy(Newsletter::Newsletter).index?
+    = render 'navi_item', title: 'Newsletter', path: admin_newsletters_path

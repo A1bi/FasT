@@ -42,10 +42,6 @@ de:
     members:
       root: "Hauptseite"
       member: "Mein Mitgliedskonto"
-    admin:
-      documents: "Dokumente"
-      members_members: "Mitgliederverwaltung"
-      newsletters: "Newsletter"
     ticketing:
       seatings: "Sitzpläne"
       statistics: "Statistik"

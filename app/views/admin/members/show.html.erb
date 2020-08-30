@@ -6,12 +6,14 @@
     <%= @member.name.full %>
   </div>
   <div class="con">
-    <div class="hright">
-      <% if !@member.membership_terminated? %>
-        <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { terminated: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
-      <% end %>
-      <%= link_to 'Daten bearbeiten', edit_admin_members_member_path(@member) %>
-    </div>
+    <% if policy(@member).edit? %>
+      <div class="hright">
+        <% if !@member.membership_terminated? %>
+          <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { terminated: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
+        <% end %>
+        <%= link_to 'Daten bearbeiten', edit_admin_members_member_path(@member) %>
+      </div>
+    <% end %>
     <table>
       <tr>
         <td width="40%">Mitgliedsnummer:</td>

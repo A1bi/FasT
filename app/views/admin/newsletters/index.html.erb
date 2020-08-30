@@ -2,7 +2,9 @@
 <% include_css "admin/newsletters" %>
 <div class="index">
   <div class="hl">Newsletter</div>
-  <%= render "new_button", action: "neuen Newsletter erstellen", url: new_admin_newsletter_path %>
+  <% if policy(Newsletter::Newsletter).new? %>
+    <%= render "new_button", action: "neuen Newsletter erstellen", url: new_admin_newsletter_path %>
+  <% end %>
   <table class="rounded">
     <thead>
       <tr>
@@ -31,7 +33,7 @@
               <% else %>
                 <em>Newsletter wird geprüft und in Kürze gesendet.</em>
               <% end %>
-            <% else %>
+            <% elsif policy(letter).finish? %>
               <%= link_to "senden", finish_admin_newsletter_path(letter), method: :post, data: { confirm: "Möchten Sie diesen Newsletter wirklich senden?" } %>
             <% end %>
           </td>
