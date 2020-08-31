@@ -1,0 +1,38 @@
+- include_css 'index'
+
+.index
+  - if show_alert?
+    - cache [:alert, alert_mtime]
+      .alert
+        div = alert_info[:title]
+        = alert_info[:text].html_safe
+
+  - @events.each do |event|
+    .teaser class=event.identifier
+      = image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name
+      ul.links
+        - if theater_play_path_exists?(event)
+          li = link_to 'Über das Stück', theater_play_path(event.slug)
+        li = link_to 'Termine', dates_event_identifier_path(event.identifier)
+        - if !event.sale_started?
+          li Tickets ab #{l(event.sale_start, format: '%-d. %B')}
+        - elsif event.on_sale?
+          - if event.sold_out?
+            li Derzeit ausverkauft
+          - else
+            li = link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier)
+    .trenner
+
+  .teaser
+    .hl Freundeskreis Freilichtbühne
+    p Sie möchten uns unterstützen?<br>Wir freuen uns über Ihre Teilnahme an unserem neuen Freundeskreis.
+    ul.links: li = link_to 'Alle Informationen', info_freundeskreis_path
+  .trenner
+
+  = render 'newsletter_subscribers/form'
+
+  .partner
+    span.disclaimer Mit freundlicher Unterstützung durch
+    ul
+      li = link_to image_tag('misc/partner_innogy.svg', alt: 'Innogy'), 'https://www.innogy.com', target: '_blank'
+      li = link_to image_tag('misc/partner_lotto.svg', alt: 'Lotto Stiftung Rheinland-Pfalz'), 'https://www.lotto-rlp.de/lotto-stiftung/stiftungsportrait', target: '_blank'

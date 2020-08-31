@@ -39,16 +39,19 @@
     font-size: 24px;
   }
 
-  ul {
-    padding: 0;
-    list-style-type: none;
-  }
-
-  .links {
+  ul.links {
     text-align: center;
+    list-style: none;
+    padding: 0;
 
-    a, span {
-      padding: 0px 7px;
+    li {
+      display: inline;
+
+      &:not(:last-child) {
+        margin-right: 15px;
+        padding-right: 15px;
+        border-right: 2px solid black;
+      }
     }
 
     a {
@@ -58,16 +61,6 @@
       &:hover {
         text-decoration: underline;
       }
-    }
-  }
-
-  &.gemetzel_cochem {
-    h3, .links {
-      color: black;
-    }
-
-    .links:last-child {
-      margin-top: 10px;
     }
   }
 }
