@@ -153,9 +153,19 @@
 }
 
 .teaser {
-  ul {
-    padding: 0;
-    list-style-type: none;
+  text-align: center;
+
+  img {
+    width: 70%;
+  }
+
+  h2 {
+    margin-top: 40px;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: 18px;
   }
 }
 

@@ -6,9 +6,10 @@ class InfoController < ApplicationController
   def index
     if params[:event_slug].present?
       @event = Ticketing::Event.current.find_by!(slug: params[:event_slug])
-    else
-      @event = Ticketing::Event.with_future_dates.last || Ticketing::Event.last
+    elsif (@event = Ticketing::Event.with_future_dates.last)
       return redirect_to event_slug: @event.slug
+    else
+      return redirect_to action: :freundeskreis
     end
 
     template = "index_#{@event.identifier}"
