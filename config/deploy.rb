@@ -3,7 +3,7 @@
 set :application, 'FasT'
 set :repo_url, 'git@gitlab.a0s.de:FasT/FasT.git'
 set :branch, 'production'
-set :deploy_to, '~/FasT'
+set :deploy_to, '/home/rails/FasT'
 
 append :linked_files, 'config/master.key', 'config/settings.local.yml'
 append :linked_dirs, 'storage', 'public/system', 'public/uploads', 'tmp/cache',
