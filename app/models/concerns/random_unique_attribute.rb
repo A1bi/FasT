@@ -5,7 +5,7 @@ module RandomUniqueAttribute
 
   module ClassMethods
     # rubocop:disable Naming/PredicateName
-    def has_random_unique_number(attr, min: 0, max:)
+    def has_random_unique_number(attr, max:, min: 0)
       max -= min
       set_attr attr do
         min + SecureRandom.random_number(max)

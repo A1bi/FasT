@@ -22,7 +22,7 @@ namespace :roundcube do
       puts "Looking for matching contact for member with id #{member.id}."
 
       # find existing contact with matching email address
-      query = <<~SQL
+      query = <<~SQL.squish
         SELECT contact_id
           FROM contacts
          WHERE email = ?
@@ -36,7 +36,7 @@ namespace :roundcube do
       contacts.each do |contact|
         puts "Migrating existing contact with id #{contact[:contact_id]}"
 
-        query = <<~SQL
+        query = <<~SQL.squish
           SELECT contactgroup_id
             FROM contactgroupmembers
            WHERE contact_id = ?
@@ -48,7 +48,7 @@ namespace :roundcube do
 
         memberships.each do |membership|
           # replace all references in groups with a fast_* id
-          query = <<~SQL
+          query = <<~SQL.squish
             UPDATE contactgroupmembers
                SET contact_id = ?
              WHERE contact_id = ?
@@ -63,7 +63,7 @@ namespace :roundcube do
           # remove if this results in doubles
           puts 'Removing double'
 
-          query = <<~SQL
+          query = <<~SQL.squish
             DELETE FROM contactgroupmembers
                   WHERE contact_id = ?
                     AND contactgroup_id = ?
@@ -77,7 +77,7 @@ namespace :roundcube do
         puts 'Removing existing contact.'
 
         # remove old contact
-        query = <<~SQL
+        query = <<~SQL.squish
           DELETE FROM contacts
                 WHERE contact_id = ?
         SQL

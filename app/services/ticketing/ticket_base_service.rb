@@ -14,7 +14,7 @@ module Ticketing
       return @tickets if @tickets.is_a? ActiveRecord::Relation
 
       # we might get an array of records so turn it into a relation
-      @tickets = ::Ticketing::Ticket.where(id: @tickets.pluck(:id)) # rubocop:disable Rails/PluckInWhere
+      @tickets = ::Ticketing::Ticket.where(id: @tickets.pluck(:id))
     end
 
     def valid_tickets

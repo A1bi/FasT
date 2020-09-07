@@ -9,7 +9,7 @@ class AddAvailabilityToTicketingTicketTypes < ActiveRecord::Migration[6.0]
 
     reversible do |dir|
       dir.up do
-        execute <<-SQL
+        execute <<-SQL.squish
           CREATE TYPE ticketing_ticket_type_availability
             AS ENUM ('universal', 'exclusive', 'box_office');
 
@@ -23,7 +23,7 @@ class AddAvailabilityToTicketingTicketTypes < ActiveRecord::Migration[6.0]
       end
 
       dir.down do
-        execute <<-SQL
+        execute <<-SQL.squish
           ALTER TABLE ticketing_ticket_types
             ALTER COLUMN availability TYPE BOOLEAN
             USING CASE availability

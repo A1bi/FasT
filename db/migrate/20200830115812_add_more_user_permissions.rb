@@ -4,7 +4,7 @@ class AddMoreUserPermissions < ActiveRecord::Migration[6.0]
   disable_ddl_transaction!
 
   def up
-    execute <<~SQL
+    execute <<~SQL.squish
       ALTER TYPE permission ADD VALUE 'members_read';
       ALTER TYPE permission ADD VALUE 'members_update';
       ALTER TYPE permission ADD VALUE 'newsletters_read';

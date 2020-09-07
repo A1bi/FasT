@@ -25,24 +25,24 @@ class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
     enum = Hash[enum.map { |val| [val, val] }] if column_name == :type
 
     if default
-      execute <<-SQL
+      execute <<-SQL.squish
         ALTER TABLE #{table_name} ALTER COLUMN #{column_name} DROP DEFAULT;
       SQL
     end
 
-    execute <<-SQL
+    execute <<-SQL.squish
       CREATE TYPE #{enum_name} AS ENUM #{enum_value_list(enum)};
     SQL
 
     if column_name == :type
-      execute <<-SQL
+      execute <<-SQL.squish
         ALTER TABLE #{table_name}
           ALTER COLUMN #{column_name} TYPE #{enum_name}
           USING #{column_name}::#{enum_name}
       SQL
 
     else
-      execute <<-SQL
+      execute <<-SQL.squish
         ALTER TABLE #{table_name}
           ALTER COLUMN #{column_name} TYPE #{enum_name}
           USING CASE #{column_name}
@@ -53,19 +53,19 @@ class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
 
     return unless default
 
-    execute <<-SQL
+    execute <<-SQL.squish
       ALTER TABLE #{table_name} ALTER COLUMN #{column_name} SET DEFAULT '#{default}';
     SQL
   end
 
   def rollback_enum(table_name, column_name, enum_name, default = nil)
     if default
-      execute <<-SQL
+      execute <<-SQL.squish
         ALTER TABLE #{table_name} ALTER COLUMN #{column_name} DROP DEFAULT;
       SQL
     end
 
-    execute <<-SQL
+    execute <<-SQL.squish
       ALTER TABLE #{table_name}
         ALTER COLUMN #{column_name} TYPE #{column_name == :type ? 'character varying' : 'integer'}
         USING 0;
@@ -75,7 +75,7 @@ class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
 
     return unless default
 
-    execute <<-SQL
+    execute <<-SQL.squish
       ALTER TABLE #{table_name} ALTER COLUMN #{column_name} SET DEFAULT #{default};
     SQL
   end
