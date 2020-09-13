@@ -18,19 +18,6 @@ namespace :seating do
     File.open(path, 'w') { |f| f.write(svg.to_xml) }
   end
 
-  def prompt(message)
-    puts message
-    $stdin.gets
-  end
-
-  def confirm(message)
-    response = prompt("#{message} [yn]").strip
-    return true if response == 'Y'
-    return false if response == 'y'
-
-    raise ActiveRecord::Rollback
-  end
-
   def remove_all_attributes(svg, attr_name)
     svg.xpath("//*[@#{attr_name}]").remove_attr(attr_name)
   end
@@ -108,100 +95,8 @@ namespace :seating do
 
   desc 'imports seating plan to create corresponding records'
   task :import, [:path] => :environment do |_task, args|
-    svg = svg_file(args[:path])
+    path = args[:path]
 
-    ActiveRecord::Base.transaction do
-      if svg.root['data-id'].blank?
-        confirm('Seating does not exist yet. Do you want to create it?')
-        name = prompt('Name for seating:')
-        seating = Ticketing::Seating.create(name: name)
-        svg.root['data-id'] = seating.id
-        puts "Seating with id=#{seating.id} created."
-
-      else
-        id = svg.root['data-id']
-        seating = Ticketing::Seating.find_by(id: id)
-        abort "Seating with id=#{id} not found." unless seating
-      end
-
-      svg.css('.block').each do |element|
-        id = element['data-id']
-        title = element.css('> title').first&.content
-
-        if id.present?
-          block = Ticketing::Block.find_by(id: id)
-          abort "Block '#{title}' with id=#{id} not found." unless block
-
-          block.name = title
-          block.save
-          if block.saved_changes?
-            saved_changes = block.saved_changes.except(:updated_at)
-            if block.saved_changes?
-              puts "Block '#{title}' changed: #{saved_changes}"
-            end
-          end
-
-        else
-          confirm("Block '#{title}' does not exist yet. " \
-                  'Do you want to create it?')
-          block = seating.blocks.create(name: title)
-          element['data-id'] = block.id
-          puts "Block with id=#{block.id} created."
-        end
-
-        seats = []
-
-        element.css('.seat').each do |seat_element|
-          id = seat_element['data-id']
-          number = seat_element['data-number']
-          row = seat_element['data-row']
-
-          if id.present?
-            seat = Ticketing::Seat.find_by(id: id)
-            unless seat
-              abort "Seat '#{number}' in Block '#{block.name}' " \
-                    "with id=#{id} not found."
-            end
-
-            seat.block = block
-            seat.row = row
-            seat.number = number
-            seat.save
-
-            if seat.saved_changes?
-              saved_changes = seat.saved_changes.except(:updated_at)
-              puts "Seat '#{number}' in Block '#{block.name}' " \
-                   "changed: #{saved_changes}"
-            end
-
-          else
-            seat = block.seats.create(row: row, number: number)
-            seat_element['data-id'] = seat.id
-            puts "Seat '#{number}' in Block '#{block.name}' " \
-                 "with id=#{seat.id} created."
-          end
-
-          seats << seat
-        end
-
-        next if block.new_record?
-
-        confirmed_all = false
-        block.seats.where.not(id: seats.map(&:id)).each do |seat|
-          confirmed_all ||=
-            confirm("Seat '#{seat.number}' in Block '#{block.name}' with " \
-                    "id=#{seat.id} is missing. Do you want to remove it?")
-
-          if seat.tickets.any?
-            abort 'This seat cannot be removed due to existing tickets.'
-          end
-
-          seat.destroy
-        end
-      end
-
-      seating.plan.attach(io: StringIO.new(svg.to_xml), filename: 'seating.svg')
-      seating.save
-    end
+    Ticketing::SeatingSvgImporter.new(path: path, name: 'Import').import
   end
 end
