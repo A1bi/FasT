@@ -1,0 +1,2109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com" viewBox="-73.718 -34.433 1328.136 687.994">
+  <defs>
+    <symbol id="seat-available" viewBox="0 0 21.947 21.947">
+      <rect style="fill: rgb(0, 194, 58);" x="58.206" y="62.977" width="21.947" height="21.947" rx="5" ry="5" transform="matrix(1, 0, 0, 1, -58.206001281738274, -62.977001190185554)"/>
+    </symbol>
+    <symbol id="seat-chosen" viewBox="0 0 21.947 21.947">
+      <rect style="fill: yellow;" x="58.206" y="62.977" width="21.947" height="21.947" rx="5" ry="5" transform="matrix(1, 0, 0, 1, -58.206001281738274, -62.977001190185554)"/>
+    </symbol>
+    <symbol id="seat-taken" viewBox="0 0 21.947 21.947">
+      <rect style="fill: #CFD2CD;" x="58.206" y="62.977" width="21.947" height="21.947" rx="5" ry="5" transform="matrix(1, 0, 0, 1, -58.206001281738274, -62.977001190185554)"/>
+    </symbol>
+    <symbol id="seat-exclusive" viewBox="0 0 21.947 21.947">
+      <rect style="fill: orange;" x="58.206" y="62.977" width="21.947" height="21.947" rx="5" ry="5" transform="matrix(1, 0, 0, 1, -58.206001281738274,  -62.977001190185554)"/>
+    </symbol>
+    <bx:grid x="0" y="0" width="21.2" height="21.2"/>
+    <bx:guide x="930.07" y="231.169" angle="90"/>
+    <bx:guide x="227.857" y="279.611" angle="0"/>
+    <bx:guide x="365.734" y="290.621" angle="90"/>
+    <bx:guide x="23.785" y="135.681" angle="0"/>
+    <bx:guide x="-62.269" y="152.097" angle="0"/>
+    <bx:guide x="1292.731" y="322.432" angle="0"/>
+    <bx:guide x="488.44" y="347.088" angle="90"/>
+    <bx:guide x="78.552" y="23.136" angle="90"/>
+    <bx:guide x="86.155" y="45.178" angle="0"/>
+    <bx:guide x="625.84" y="91.843" angle="0"/>
+    <bx:guide x="382.114" y="-30.604" angle="90"/>
+    <bx:guide x="224.441" y="17.442" angle="90"/>
+    <bx:guide x="563.477" y="9.724" angle="90"/>
+    <bx:guide x="587.126" y="61.644" angle="90"/>
+  </defs>
+  <path style="fill: none; stroke-dashoffset: 11px; stroke: rgb(0, 0, 0);" d="M -62.269 161.946 C -62.269 161.946 145.706 160.907 214.082 160.283 C 387.71 158.7 335.722 155.508 540.439 244.453 C 628.415 282.677 738.127 342.112 840.878 342.336 C 938.892 342.549 938.962 325.16 1055.373 299.499 C 1090.592 291.735 1135.788 290.798 1171.822 290.621 C 1207.385 290.446 1244.005 290.621 1244.005 290.621"/>
+  <path style="fill: none; stroke: rgb(0, 0, 0); stroke-dasharray: 2px;" d="M -62.269 128.182 C -62.269 128.182 145.706 127.143 214.082 126.519 C 387.71 124.936 335.722 121.744 540.439 210.689 C 628.415 248.913 746.854 310.031 841.018 308.572 C 939.021 307.054 949.843 291.635 1055.513 265.735 C 1090.541 257.15 1135.928 257.034 1171.962 256.857 C 1207.525 256.682 1244.145 256.857 1244.145 256.857"/>
+  <path style="fill: none; stroke: rgb(0, 0, 0); stroke-dasharray: 2px;" d="M -62.269 93.405 C -62.269 93.405 145.706 92.366 214.082 91.742 C 387.71 90.159 335.722 86.967 540.439 175.912 C 628.415 214.136 734.825 273.532 839.697 273.795 C 937.711 274.041 948.522 256.858 1054.192 230.958 C 1089.22 222.373 1134.607 222.257 1170.641 222.08 C 1206.204 221.905 1242.824 222.08 1242.824 222.08"/>
+  <path style="fill: none; stroke: rgb(0, 0, 0); stroke-dasharray: 2px;" d="M -62.269 23.136 C -62.269 23.136 146.502 24.15 214.878 23.526 C 388.506 21.943 335.722 13.588 540.439 102.533 C 628.415 140.757 734.825 200.153 839.697 200.416 C 937.711 200.662 948.522 183.479 1054.192 157.579 C 1089.22 148.994 1134.607 148.878 1170.641 148.701 C 1206.204 148.526 1242.824 148.701 1242.824 148.701"/>
+  <text style="fill: rgb(51, 51, 51); font-size: 22px; white-space: pre;" x="-45.909" y="188.136">Parkett</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="-37.689" y="150.156">1. Rang</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 22px; white-space: pre;" x="1154.74" y="318.292">Parkett</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="-37.739" y="115.327">2. Rang</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="-38.692" y="65.151">3. Rang</text>
+  <g transform="matrix(1, 0, 0, 1, -52.641094, 0)">
+    <title>Treppe</title>
+    <rect x="864.707" y="185.197" width="45.209" height="173.629" style="fill: rgb(255, 255, 255);"/>
+    <text transform="matrix(0, 1, -1, 0, 991.086548, 80.487091)" style="fill: rgb(51, 51, 51); font-size: 20px; letter-spacing: 6px; white-space: pre;" x="165.237" y="109.382">Treppe</text>
+  </g>
+  <g>
+    <title>Treppe</title>
+    <rect x="170.762" y="12.128" width="45.209" height="167.048" style="fill: rgb(255, 255, 255);"/>
+    <text transform="matrix(0, 1, -1, 0, 296.53833, -100.123016)" style="fill: rgb(51, 51, 51); font-size: 20px; letter-spacing: 6px; white-space: pre;" x="165.237" y="109.382">Treppe</text>
+  </g>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="1128.366" y="278.357">1. Rang</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="1104.572" y="245.651">2. Rang</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="1087.253" y="193.182">3. Rang</text>
+  <g transform="matrix(1, 0, 0, 1, -44.494461, 583.01532)">
+    <title>Stage</title>
+    <path style="fill: rgb(0, 145, 235);" d="M 291.449 0.419 H 1107.844 A 14.98 14.98 0 0 1 1122.824 15.399 V 70.629 H 276.469 V 15.399 A 14.98 14.98 0 0 1 291.449 0.419 Z" bx:shape="rect 276.469 0.419 846.355 70.21 14.98 14.98 0 0 1@06f3a7c4">
+      <title>Stage</title>
+    </path>
+    <text style="fill: rgb(255, 255, 255); font-size: 35px; font-weight: 700; letter-spacing: 20px; white-space: pre;" x="605.228" y="47.759">Bühne</text>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, -292.646667, -101.45816)">
+    <title>A</title>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 37.910973)" class="seat" data-number="1" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 37.910976)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 37.910973)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 38.024143)" class="seat" data-number="4">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 71.910973)" class="seat" data-number="5">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 71.91098)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 71.910973)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 72.024147)" class="seat" data-number="8">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 105.772964)" class="seat" data-number="9">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 105.772972)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 105.772964)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 105.886139)" class="seat" data-number="12">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 139.772964)" class="seat" data-number="13">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 139.77298)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 139.772964)" class="seat" data-number="15">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 139.886139)" class="seat" data-number="16">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 173.867126)" class="seat" data-number="17">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 173.867126)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 173.867126)" class="seat" data-number="19">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 173.980301)" class="seat" data-number="20">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(0.951057, -0.309017, 0.309017, 0.951057, 267.529663, 259.210022)" class="seat" data-number="21">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">21</text>
+    </g>
+    <g transform="matrix(0.951057, -0.309017, 0.309017, 0.951057, 292.447357, 251.1138)" class="seat" data-number="22">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">22</text>
+    </g>
+    <g transform="matrix(0.951057, -0.309017, 0.309017, 0.951057, 317.399994, 243.125198)" class="seat" data-number="23">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">23</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 334.597321, 20.533875)" class="shield" style="">
+      <rect x="8.332" y="104.06" width="118.822" height="230.94" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="16.885" y="229.956">Block A</text>
+    </g>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, -124.529747, -100.849312)">
+    <title>B</title>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.360138, 37.910973)" class="seat" data-number="1" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.56015, 37.910976)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.760162, 37.910973)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.960144, 38.024143)" class="seat" data-number="4">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.668243, 37.810886)" class="seat" data-number="5" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.868256, 47.81089)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.068268, 56.810886)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.26825, 67.924057)" class="seat" data-number="8">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.648529, 80.069443)" class="seat" data-number="9" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 528.848511, 90.069443)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 555.048523, 103.069443)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 581.248535, 114.18261)" class="seat" data-number="12">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 607.956604, 126.969353)" class="seat" data-number="13" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 634.156616, 139.96936)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 660.356628, 152.96936)" class="seat" data-number="15">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 686.556641, 164.08252)" class="seat" data-number="16">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 713.215027, 173.747498)" class="seat" data-number="17">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 739.415039, 183.747498)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 765.615051, 194.860657)" class="seat" data-number="19">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 792.32312, 201.647415)" class="seat" data-number="20" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 818.523132, 208.647415)" class="seat" data-number="21">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">21</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 844.723145, 214.647415)" class="seat" data-number="22">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">22</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.389587, 71.939667)" class="seat" data-number="23" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">23</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.5896, 71.939674)" class="seat" data-number="24">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">24</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.789612, 71.939667)" class="seat" data-number="25">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">25</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.989594, 72.052841)" class="seat" data-number="26">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">26</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.697693, 71.839584)" class="seat" data-number="27" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">27</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.897705, 81.839584)" class="seat" data-number="28">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">28</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.097717, 90.839584)" class="seat" data-number="29">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">29</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.297699, 101.952751)" class="seat" data-number="30">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">30</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.677979, 114.098137)" class="seat" data-number="31" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">31</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 528.877991, 124.098137)" class="seat" data-number="32">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">32</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 555.078003, 137.098145)" class="seat" data-number="33">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">33</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 581.278015, 148.211304)" class="seat" data-number="34">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">34</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 607.986084, 160.998047)" class="seat" data-number="35" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">35</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 634.186096, 173.998047)" class="seat" data-number="36">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">36</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 660.386108, 186.998047)" class="seat" data-number="37">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">37</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 686.586121, 198.111221)" class="seat" data-number="38">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">38</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 713.244507, 207.776184)" class="seat" data-number="39">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">39</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 739.444519, 217.776184)" class="seat" data-number="40">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">40</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 765.644531, 228.889359)" class="seat" data-number="41">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">41</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 792.3526, 235.676102)" class="seat" data-number="42" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">42</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 818.552673, 242.676102)" class="seat" data-number="43">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">43</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 844.752625, 248.676102)" class="seat" data-number="44">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">44</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.376526, 105.73967)" class="seat" data-number="45" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">45</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.576538, 105.739677)" class="seat" data-number="46">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">46</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.77655, 105.73967)" class="seat" data-number="47">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">47</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.976532, 105.852844)" class="seat" data-number="48">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">48</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.684631, 105.639587)" class="seat" data-number="49" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">49</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.884644, 115.639587)" class="seat" data-number="50">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">50</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.084656, 124.639587)" class="seat" data-number="51">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">51</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.284637, 135.752747)" class="seat" data-number="52">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">52</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.664917, 147.898132)" class="seat" data-number="53" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">53</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 528.86499, 157.898132)" class="seat" data-number="54">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">54</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 555.065002, 170.898132)" class="seat" data-number="55">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">55</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 581.265015, 182.011307)" class="seat" data-number="56">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">56</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 607.973083, 194.79805)" class="seat" data-number="57" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">57</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 634.173096, 207.79805)" class="seat" data-number="58">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">58</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 660.373108, 220.79805)" class="seat" data-number="59">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">59</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 686.57312, 231.911224)" class="seat" data-number="60">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">60</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 713.231506, 241.576202)" class="seat" data-number="61">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">61</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 739.431519, 251.576187)" class="seat" data-number="62">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">62</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 765.631531, 262.689362)" class="seat" data-number="63">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">63</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 792.3396, 269.476105)" class="seat" data-number="64" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">64</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 818.539734, 276.476105)" class="seat" data-number="65">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">65</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 844.739624, 282.476105)" class="seat" data-number="66">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">66</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.376526, 139.73967)" class="seat" data-number="67" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">67</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.576538, 139.739685)" class="seat" data-number="68">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">68</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.77655, 139.73967)" class="seat" data-number="69">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">69</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.976532, 139.852844)" class="seat" data-number="70">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">70</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.684631, 139.639587)" class="seat" data-number="71" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">71</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.884644, 149.639587)" class="seat" data-number="72">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">72</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.084656, 158.639587)" class="seat" data-number="73">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">73</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.284637, 169.752762)" class="seat" data-number="74">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">74</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.664917, 181.898148)" class="seat" data-number="75" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">75</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 528.864929, 191.898148)" class="seat" data-number="76">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">76</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 555.064941, 204.898148)" class="seat" data-number="77">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">77</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 581.264954, 216.011307)" class="seat" data-number="78">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">78</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 607.973022, 228.79805)" class="seat" data-number="79" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">79</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 634.173035, 241.798065)" class="seat" data-number="80">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">80</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 660.373047, 254.79805)" class="seat" data-number="81">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">81</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 686.573059, 265.911224)" class="seat" data-number="82">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">82</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 713.231445, 275.576202)" class="seat" data-number="83">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">83</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 739.431458, 285.576172)" class="seat" data-number="84">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">84</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 765.63147, 296.689362)" class="seat" data-number="85">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">85</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 792.339539, 303.476105)" class="seat" data-number="86" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">86</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 818.539612, 310.476105)" class="seat" data-number="87">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">87</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.376526, 173.73967)" class="seat" data-number="88" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">88</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.576538, 173.739685)" class="seat" data-number="89">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">89</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.77655, 173.73967)" class="seat" data-number="90">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">90</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.976532, 173.852844)" class="seat" data-number="91">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">91</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.684631, 173.639587)" class="seat" data-number="92" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">92</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.884644, 183.639587)" class="seat" data-number="93">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">93</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.084656, 192.639587)" class="seat" data-number="94">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">94</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.284637, 203.752762)" class="seat" data-number="95">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">95</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.664917, 215.898148)" class="seat" data-number="96" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">96</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 528.86499, 225.898148)" class="seat" data-number="97">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">97</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 554.917236, 239.282013)" class="seat" data-number="98">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">98</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 581.117249, 252.281982)" class="seat" data-number="99">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">99</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 607.317261, 263.395172)" class="seat" data-number="100">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">100</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 713.231506, 309.576202)" class="seat" data-number="101">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">101</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 739.431519, 319.576172)" class="seat" data-number="102">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">102</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 765.631531, 330.689362)" class="seat" data-number="103">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">103</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 792.3396, 337.476105)" class="seat" data-number="104" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">104</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 818.539734, 344.476105)" class="seat" data-number="105">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">105</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 844.739563, 350.476105)" class="seat" data-number="106">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">106</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.389893, 207.858383)" class="seat" data-number="107" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">107</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.589905, 207.858383)" class="seat" data-number="108">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">108</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.789917, 207.858383)" class="seat" data-number="109">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">109</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 370.989899, 207.971542)" class="seat" data-number="110">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">110</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.697998, 207.758286)" class="seat" data-number="111" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">111</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.89801, 217.758301)" class="seat" data-number="112">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">112</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.098022, 226.758286)" class="seat" data-number="113">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">113</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.298004, 237.87146)" class="seat" data-number="114">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">114</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 502.678253, 250.016846)" class="seat" data-number="115" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">115</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.419342, 241.88707)" class="seat" data-number="116" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">116</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.619354, 241.887085)" class="seat" data-number="117">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">117</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 344.819366, 241.88707)" class="seat" data-number="118">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">118</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 371.019348, 242.000244)" class="seat" data-number="119">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">119</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 397.727448, 241.786987)" class="seat" data-number="120" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">120</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 423.92746, 251.786987)" class="seat" data-number="121">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">121</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 450.127472, 260.786987)" class="seat" data-number="122">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">122</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 476.327454, 271.900177)" class="seat" data-number="123">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">123</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 292.606293, 275.687073)" class="seat" data-number="124">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">124</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 318.806305, 275.687073)" class="seat" data-number="125">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">125</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 345.006287, 275.800262)" class="seat" data-number="126">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">126</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 371.714386, 275.587006)" class="seat" data-number="127" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">127</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 398.69223, 276.037445)" class="seat" data-number="128">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">128</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 425.739563, 286.127502)" class="seat" data-number="129">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">129</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 454.675781, 295.979279)" class="seat" data-number="130">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">130</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 311.246887, 309.687073)" class="seat" data-number="131">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">131</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 338.31311, 309.394653)" class="seat" data-number="132">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">132</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 364.662292, 309.28595)" class="seat" data-number="133" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">133</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 391.292511, 310.05127)" class="seat" data-number="134">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">134</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 418.433319, 318.242065)" class="seat" data-number="135">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">135</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.156647, 325.845551)" class="seat" data-number="136">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">136</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 334.597321, 20.533875)" class="shield" style="">
+      <path d="M 8.332 103.451 C 8.332 103.451 66.319 103.45 117.752 103.451 C 144.688 103.451 190.865 119.396 242.099 143.121 C 286.168 163.528 331.641 184.13 379.027 205.046 C 419.492 222.908 444.292 234.894 474.872 247.058 C 543.193 274.236 602.01 280.08 602.01 280.08 L 602.223 452.91 C 602.223 452.91 546.311 456.961 383.15 389.626 C 337.275 370.694 312.237 339.827 274.452 342.917 C 218.703 347.476 203.734 430.756 203.734 430.756 C 203.734 430.756 151.458 420.079 105.841 418.747 C 64.304 417.534 8.332 416.814 8.332 416.814 L 8.332 103.451 Z" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="254.44" y="289.73">Block B</text>
+    </g>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, 650.382141, 81.130516)" style="">
+    <title>C</title>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 159.325287, 34.818691)" class="seat" data-number="1" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.525299, 32.818691)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.72525, 27.818691)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.925323, 18.931858)" class="seat" data-number="4">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.633331, 12.718601)" class="seat" data-number="5" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.833405, 5.718609)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 317.033356, -2.281399)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 159.354706, 68.847374)" class="seat" data-number="8" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.554718, 66.847389)" class="seat" data-number="9">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.754791, 61.847374)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.954742, 52.960548)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.662872, 46.747292)" class="seat" data-number="12" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.862823, 39.747292)" class="seat" data-number="13">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 317.062897, 31.747292)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 159.341644, 102.647377)" class="seat" data-number="15" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.541656, 100.647392)" class="seat" data-number="16">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.74173, 95.647377)" class="seat" data-number="17">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.941681, 86.760551)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.649811, 80.547295)" class="seat" data-number="19" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.849762, 73.547295)" class="seat" data-number="20">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 317.049835, 65.547295)" class="seat" data-number="21">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">21</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 343.249786, 60.660469)" class="seat" data-number="22">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">22</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 159.341644, 136.647385)" class="seat" data-number="23" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">23</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.541656, 134.6474)" class="seat" data-number="24">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">24</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.74173, 129.647385)" class="seat" data-number="25">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">25</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.941681, 120.760559)" class="seat" data-number="26">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">26</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.649811, 114.547302)" class="seat" data-number="27" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">27</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.849762, 107.547302)" class="seat" data-number="28">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">28</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 317.049835, 99.547302)" class="seat" data-number="29">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">29</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 343.249786, 94.660477)" class="seat" data-number="30">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">30</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 369.630035, 89.805862)" class="seat" data-number="31" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">31</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 159.341644, 170.647385)" class="seat" data-number="32" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">32</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.541656, 168.6474)" class="seat" data-number="33">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">33</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.74173, 163.647385)" class="seat" data-number="34">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">34</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.941681, 154.760559)" class="seat" data-number="35">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">35</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.649811, 148.547302)" class="seat" data-number="36" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">36</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.849762, 141.547302)" class="seat" data-number="37">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">37</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 317.049835, 133.547302)" class="seat" data-number="38">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">38</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 343.249786, 128.660477)" class="seat" data-number="39">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">39</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 369.630035, 123.805862)" class="seat" data-number="40" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">40</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 395.830109, 118.805862)" class="seat" data-number="41" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">41</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 158.862198, 205.02739)" class="seat" data-number="42" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">42</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 185.06221, 203.02742)" class="seat" data-number="43">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">43</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 211.262222, 198.02739)" class="seat" data-number="44">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">44</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 237.462173, 189.140549)" class="seat" data-number="45">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">45</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 264.170288, 182.927307)" class="seat" data-number="46" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">46</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 290.370239, 175.927307)" class="seat" data-number="47">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">47</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 316.570374, 167.927307)" class="seat" data-number="48">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">48</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 342.770325, 163.040482)" class="seat" data-number="49">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">49</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 369.150574, 158.185867)" class="seat" data-number="50" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">50</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 395.350647, 153.185867)" class="seat" data-number="51" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">51</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 334.597321, -1.466125)" class="shield" style="">
+      <path d="M -127.706 119.79 C -127.706 119.79 -105.833 123.711 -46.346 110.422 C -25.479 105.76 15.819 92.396 29.415 88.559 C 74.71 75.774 80.382 75.802 80.382 75.802 C 80.382 75.802 76.575 134.059 112.814 162.852 C 176.727 213.632 157.1 285.561 157.1 285.561 C 157.1 285.561 101.602 280.824 13.264 313.074 C -33.243 330.053 -127.706 341.512 -127.706 341.512 L -127.706 119.79 Z" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="-40.075" y="218.232">Block C</text>
+    </g>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, -513.16272, 69.987785)" style="">
+    <title>D</title>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 378.906555, 226.679001)" class="seat" data-number="1">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 403.495056, 217.632217)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 428.122498, 208.691589)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 453.114349, 199.269196)" class="seat" data-number="4" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 477.702759, 190.222397)" class="seat" data-number="5">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 502.291504, 181.175522)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 526.918945, 172.234924)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 551.726807, 163.262329)" class="seat" data-number="8" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 576.42865, 154.271606)" class="seat" data-number="9" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 402.827606, 254.184692)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 427.416077, 245.137909)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 452.043671, 236.197266)" class="seat" data-number="12">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 477.035522, 226.774841)" class="seat" data-number="13" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 501.623901, 217.728043)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 526.212341, 208.681213)" class="seat" data-number="15">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 550.839966, 199.740616)" class="seat" data-number="16">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 575.647949, 190.768021)" class="seat" data-number="17" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 438.856171, 276.943115)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 463.483765, 268.002533)" class="seat" data-number="19">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 488.475494, 258.580109)" class="seat" data-number="20" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 513.064087, 249.533295)" class="seat" data-number="21">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">21</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 537.652466, 240.48645)" class="seat" data-number="22">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">22</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 562.280029, 231.545807)" class="seat" data-number="23">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">23</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 464.07074, 302.039459)" class="seat" data-number="24">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">24</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 488.698303, 293.098969)" class="seat" data-number="25">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">25</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 513.690002, 283.676483)" class="seat" data-number="26" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">26</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 538.278442, 274.6297)" class="seat" data-number="27">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">27</text>
+    </g>
+    <g transform="matrix(0.938494, -0.345297, 0.345297, 0.938494, 562.866882, 265.582794)" class="seat" data-number="28">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">28</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 447.206879, 151.612701)" class="shield" style="">
+      <path d="M 6.492 139.468 L 244.626 52.12 C 244.626 52.12 254.072 94.002 252.327 132.538 C 250.938 163.215 240.333 205.34 240.333 205.34 L 117.319 249.709 C 117.319 249.709 81.525 231.536 54.815 205.573 C 35.942 187.228 6.492 139.468 6.492 139.468 Z" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="98.581" y="170.823">Block D</text>
+    </g>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, -136.906036, 166.872925)" style="">
+    <title>E</title>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 419.191895, 118.765701)" class="seat" data-number="1" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.391907, 118.765701)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 471.591919, 118.765701)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 497.791931, 118.878891)" class="seat" data-number="4">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 524.5, 118.665634)" class="seat" data-number="5" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 550.700012, 118.665634)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 576.900024, 118.665634)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 603.100037, 118.778793)" class="seat" data-number="8">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 629.480286, 118.924179)" class="seat" data-number="9" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 655.680298, 118.924179)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 681.88031, 118.924179)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 708.080322, 119.037338)" class="seat" data-number="12">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 734.788391, 118.824081)" class="seat" data-number="13" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 760.988403, 118.824081)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 787.188416, 118.824081)" class="seat" data-number="15">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 419.221375, 152.794403)" class="seat" data-number="16" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.421387, 152.794403)" class="seat" data-number="17">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 471.621399, 152.794403)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 497.82135, 152.907562)" class="seat" data-number="19">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 524.52948, 152.694305)" class="seat" data-number="20" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 550.729492, 152.694305)" class="seat" data-number="21">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">21</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 576.929504, 152.694305)" class="seat" data-number="22">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">22</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 603.129456, 152.80748)" class="seat" data-number="23">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">23</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 629.509766, 152.952866)" class="seat" data-number="24" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">24</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 655.709778, 152.952866)" class="seat" data-number="25">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">25</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 681.90979, 152.952866)" class="seat" data-number="26">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">26</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 708.109802, 153.06604)" class="seat" data-number="27">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">27</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 734.817871, 152.852783)" class="seat" data-number="28" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">28</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 761.017883, 152.852783)" class="seat" data-number="29">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">29</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 787.217896, 152.852783)" class="seat" data-number="30">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">30</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 419.208313, 186.594391)" class="seat" data-number="31" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">31</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.408325, 186.594391)" class="seat" data-number="32">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">32</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 471.608337, 186.594391)" class="seat" data-number="33">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">33</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 497.808289, 186.707581)" class="seat" data-number="34">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">34</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 524.516418, 186.494339)" class="seat" data-number="35" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">35</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 550.716431, 186.494339)" class="seat" data-number="36">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">36</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 576.916443, 186.494339)" class="seat" data-number="37">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">37</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 603.116394, 186.607483)" class="seat" data-number="38">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">38</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 629.496704, 186.752884)" class="seat" data-number="39" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">39</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 655.696777, 186.752884)" class="seat" data-number="40">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">40</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 681.89679, 186.752884)" class="seat" data-number="41">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">41</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 708.096802, 186.866028)" class="seat" data-number="42">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">42</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 734.804871, 186.652771)" class="seat" data-number="43" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">43</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 761.004883, 186.652771)" class="seat" data-number="44">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">44</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 787.204895, 186.652771)" class="seat" data-number="45">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">45</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 419.208313, 220.594391)" class="seat" data-number="46" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">46</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.408325, 220.594391)" class="seat" data-number="47">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">47</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 471.608337, 220.594391)" class="seat" data-number="48">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">48</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 497.808289, 220.707565)" class="seat" data-number="49">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">49</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 524.516418, 220.494293)" class="seat" data-number="50" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">50</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 550.716431, 220.494293)" class="seat" data-number="51">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">51</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 576.916443, 220.494293)" class="seat" data-number="52">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">52</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 603.116394, 220.607529)" class="seat" data-number="53">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">53</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 629.496704, 220.752899)" class="seat" data-number="54" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">54</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 655.696716, 220.752899)" class="seat" data-number="55">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">55</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 681.896729, 220.752899)" class="seat" data-number="56">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">56</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 708.096741, 220.866058)" class="seat" data-number="57">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">57</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 734.80481, 220.652802)" class="seat" data-number="58" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">58</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 761.004822, 220.652802)" class="seat" data-number="59">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">59</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 787.204834, 220.652802)" class="seat" data-number="60">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">60</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 419.208313, 254.594391)" class="seat" data-number="61" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">61</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 445.408325, 254.594391)" class="seat" data-number="62">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">62</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 471.608337, 254.594391)" class="seat" data-number="63">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">63</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 497.808289, 254.707565)" class="seat" data-number="64">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">64</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 524.516418, 254.494293)" class="seat" data-number="65" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">65</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 550.716431, 254.494293)" class="seat" data-number="66">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">66</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 576.916443, 254.494293)" class="seat" data-number="67">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">67</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 603.116394, 254.607529)" class="seat" data-number="68">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">68</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 629.496704, 254.752899)" class="seat" data-number="69" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">69</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 655.696777, 254.752899)" class="seat" data-number="70">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">70</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 681.89679, 254.752899)" class="seat" data-number="71">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">71</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 708.096802, 254.866058)" class="seat" data-number="72">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">72</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 734.804871, 254.652802)" class="seat" data-number="73" style="">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">73</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 761.004883, 254.652802)" class="seat" data-number="74">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">74</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 787.204895, 254.652802)" class="seat" data-number="75">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">75</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 456.480804, 101.999504)" class="shield" style="">
+      <rect x="8.332" y="99.249" width="417.849" height="183.463" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="166.422" y="201.501">Block E</text>
+    </g>
+  </g>
+  <g class="block" transform="matrix(1, 0, 0, 1, 394.48288, -197.550568)">
+    <title>F</title>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -359.435608, 80.494545)" class="seat" data-number="1">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">1</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -333.235596, 80.494545)" class="seat" data-number="2">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">2</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -307.035553, 80.494545)" class="seat" data-number="3">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">3</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -280.835602, 80.607712)" class="seat" data-number="4">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">4</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -254.127472, 80.394455)" class="seat" data-number="5">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">5</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -226.99823, 80.471565)" class="seat" data-number="6">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">6</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -200.798218, 80.471565)" class="seat" data-number="7">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">7</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -174.598175, 80.471565)" class="seat" data-number="8">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">8</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -148.398209, 80.584732)" class="seat" data-number="9">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">9</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -121.690079, 80.371475)" class="seat" data-number="10">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">10</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -92.969246, 103.124176)" class="seat" data-number="11">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">11</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -66.769241, 103.124176)" class="seat" data-number="12">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">12</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -40.569191, 103.124176)" class="seat" data-number="13">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">13</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, -14.369239, 103.237335)" class="seat" data-number="14">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">14</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 12.338899, 103.024078)" class="seat" data-number="15">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">15</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 34.483303, 131.154907)" class="seat" data-number="16">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">16</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 60.683319, 131.154907)" class="seat" data-number="17">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">17</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 86.883354, 131.154907)" class="seat" data-number="18">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">18</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 113.083305, 131.268066)" class="seat" data-number="19">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">19</text>
+    </g>
+    <g transform="matrix(1.000001, 0, 0, 1.000001, 139.791428, 131.05481)" class="seat" data-number="20">
+      <use width="21.94700050354004" height="21.94700050354004" transform="matrix(0.954200029373169, 0, 0, 0.954200029373169, 60.13978958129883, 94.49093627929688)" xlink:href="#seat-available">
+        <title>seat</title>
+      </use>
+      <text style="fill: rgb(255, 255, 255); font-size: 12px; text-anchor: middle; white-space: pre;" x="70.6" y="109.211">20</text>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 334.597321, 20.533875)" class="shield" style="">
+      <path d="M -642.925 146.413 C -642.925 146.413 -464.265 147.221 -366.446 146.413 C -246.058 145.419 -230.08 186.741 -180.105 186.741 C -117.005 186.741 -103.24 186.741 -103.24 186.741 L -103.24 238.661 C -103.24 238.661 -188.442 238.661 -238.795 238.661 C -279.217 238.661 -308.5 215.984 -347.924 205.556 C -391.819 193.946 -431.088 194.459 -464.563 194.459 C -529.841 194.459 -642.925 194.459 -642.925 194.459 L -642.925 146.413 Z" style="fill-opacity: 0.74; fill: rgb(0, 72, 241);"/>
+      <text style="fill: rgb(255, 255, 255); font-size: 30px; white-space: pre;" x="-423.085" y="182.432">Block F</text>
+    </g>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, -11, 0)">
+    <title>Brunnen</title>
+    <circle style="fill: none; stroke: rgb(203, 203, 203); stroke-width: 21.2499px;" cx="497.546" cy="317" r="66.16" transform="matrix(0.67628, 0, 0, 0.656539, 165.789032, 108.051514)"/>
+    <rect x="376.447" y="320.289" width="57.335" height="24.779" style="fill: rgb(216, 216, 216); stroke-width: 0.941814; vector-effect: non-scaling-stroke;" transform="matrix(0.978148, -0.207912, 0.207912, 0.978148, 137.079865, 95.816185)"/>
+    <text style="fill: rgb(51, 51, 51); white-space: pre; font-size: 15px;" x="473.869" y="320.744">Brunnen</text>
+  </g>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="-38.692" y="-1.38">4. Rang</text>
+  <text style="fill: rgb(51, 51, 51); font-size: 18px; white-space: pre;" x="1074.157" y="128.858">4. Rang</text>
+</svg>

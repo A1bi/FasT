@@ -10,6 +10,8 @@ module Ticketing
           iterate_blocks
           save_seating
         end
+
+        seating
       end
 
       private

@@ -54,7 +54,13 @@ Newsletter::SubscriberList.create(name: 'Kunden')
 end
 
 # ticket system
-seating = Ticketing::Seating.create(name: 'Dummy', number_of_seats: 20)
+
+## seatings
+seatings = []
+seatings << Ticketing::Seating.create(name: 'Dummy', number_of_seats: 20)
+seatings << Ticketing::SeatingSvg::Importer.new(
+  path: Rails.root.join('db/seeds/seating.svg')
+).import(name: 'Dummy')
 
 ## events
 event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
@@ -67,7 +73,8 @@ event_ids.each.with_index do |event_id, i|
     identifier: event_id,
     slug: "test-event-#{event_id.dasherize}",
     location: 'Testbühne',
-    seating: seating
+    # the most recent event will have the seating with a plan
+    seating: seatings[i >= event_ids.count - 1 ? 1 : 0]
   )
 
   # two most recent events will be the future
@@ -139,6 +146,12 @@ def create_tickets(order, coupons = [])
       ticket = order.tickets.new
       ticket.type = ticket_type
       ticket.date = date
+      next unless event.seating.plan?
+
+      loop do
+        ticket.seat = event.seating.seats.sample
+        break unless ticket.seat.taken?(date)
+      end
     end
   end
 end
