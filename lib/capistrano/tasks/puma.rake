@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 namespace :deploy do
-  after :published, 'unicorn:reload'
+  after :published, 'puma:reload'
 end
 
-namespace :unicorn do
+namespace :puma do
   %i[reload restart].each do |command|
     task command do
       on roles(:app) do
-        sudo :service, fetch(:unicorn_service_name), command
+        sudo :service, fetch(:puma_service_name), command
       end
     end
   end

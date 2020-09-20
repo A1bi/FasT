@@ -62,7 +62,7 @@ gem 'request_store', '~> 1.5.0'
 
 gem 'jbuilder', '~> 2.10.0'
 
-gem 'unicorn', '~> 5.7.0'
+gem 'puma', '~> 5.0.0'
 
 gem 'httparty', '~> 0.18'
 
