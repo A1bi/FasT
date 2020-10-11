@@ -18,7 +18,7 @@ gem 'paperclip', '~> 6.1.0'
 
 gem 'bcrypt', '~> 3.1.16'
 
-gem 'icalendar', '~> 2.6.1'
+gem 'icalendar', '~> 2.7'
 
 gem 'prawn', '~> 2.3.0'
 gem 'prawn-qrcode', '~> 0.5.1'
@@ -42,7 +42,7 @@ gem 'phony_rails', '~> 0.14.2'
 
 gem 'record_tag_helper', '~> 1.0.1'
 
-gem 'sentry-raven', '~> 3.0.0'
+gem 'sentry-raven', '~> 3.0'
 
 gem 'bootsnap', require: false
 
