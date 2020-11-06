@@ -45,7 +45,8 @@ CREATE TYPE public.permission AS ENUM (
     'members_update',
     'newsletters_read',
     'newsletters_update',
-    'newsletters_approve'
+    'newsletters_approve',
+    'internet_access_sessions_create'
 );
 
 
@@ -3806,6 +3807,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200813192343'),
 ('20200814205319'),
 ('20200815175134'),
-('20200830115812');
+('20200830115812'),
+('20201106031019');
 
 

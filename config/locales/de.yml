@@ -75,6 +75,7 @@ de:
     newsletters_read: Newsletter einsehen
     newsletters_update: Newsletter bearbeiten
     newsletters_approve: Newsletter prüfen
+    internet_access_sessions_create: Zugang zum WLAN
     authorized_for_shared_email_account_html: Zugriff auf E-Mail-Konto <em>%{email}</em>
   ticketing:
     orders:
