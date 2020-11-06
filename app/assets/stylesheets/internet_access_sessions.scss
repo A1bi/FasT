@@ -1,0 +1,45 @@
+html {
+  font-size: 13px;
+}
+
+body {
+  margin: 20px;
+  text-align: center;
+}
+
+.logo img {
+  width: 50%;
+  max-width: 200px;
+  margin: 20px 0;
+}
+
+h1 {
+  font-size: 1.2rem;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+.alert {
+  margin: auto;
+  max-width: 600px;
+  border: 1px solid #fc0006;
+  background: rgba(#fc0006, .1);
+  padding: 5px;
+  font-size: .9rem;
+}
+
+form {
+  margin-top: 30px;
+
+  input[type='text'], input[type='password'] {
+    width: 70%;
+    max-width: 250px;
+  }
+}
+
+.forgot {
+  margin-top: 20px;
+  font-size: .8rem;
+}

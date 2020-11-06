@@ -20,6 +20,9 @@ de:
   documents:
     created: "Das Dokument wurde erfolgreich hochgeladen."
     destroyed: "Das Dokument wurde erfolgreich gelöscht."
+  internet_access_sessions:
+    auth_error: E-Mail-Adresse oder Passwort falsch.
+    not_authorized: Dein Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
   admin:
     members:
       created: "Das Mitglied wurde erfolgreich angelegt."

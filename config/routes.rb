@@ -232,6 +232,9 @@ Rails.application.routes.draw do
     get 'credentials/:token', action: :credentials
   end
 
+  resources :internet_access_sessions, path: :wlan, only: %i[new create],
+                                       path_names: { new: '' }
+
   scope path: :admin do
     require 'sidekiq/web'
     if Rails.env.production?

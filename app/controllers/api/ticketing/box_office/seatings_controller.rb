@@ -7,7 +7,7 @@ module Api
         before_action :find_event
 
         def show
-          render :show, layout: 'api'
+          render :show, layout: 'minimal'
         end
 
         private
