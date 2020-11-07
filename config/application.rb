@@ -5,7 +5,7 @@ require_relative 'boot'
 require 'rails'
 
 require 'active_record/railtie'
-require 'active_storage/engine'
+# require 'active_storage/engine'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'action_mailer/railtie'
@@ -55,8 +55,6 @@ module FasT
     Rails.application.routes.default_url_options = url_options
 
     Paperclip.options[:command_path] = Settings.imagemagick_path
-
-    config.active_storage.service = :local
 
     config.hosts.clear
   end
