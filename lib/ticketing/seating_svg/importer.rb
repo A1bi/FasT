@@ -85,9 +85,8 @@ module Ticketing
       end
 
       def save_seating
-        seating.plan.attach(io: StringIO.new(svg.to_xml),
-                            filename: 'seating.svg')
-        seating.save!
+        seating.update(plan: StringIO.new(svg.to_xml),
+                       plan_file_name: 'seating.svg')
         log_saved_changes(seating)
       end
 

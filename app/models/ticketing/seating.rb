@@ -5,22 +5,24 @@ module Ticketing
     has_many :blocks, dependent: :destroy
     has_many :seats, through: :blocks
     has_many :events, dependent: :nullify
-    has_one_attached :plan
+    has_attached_file :plan, styles: { stripped: true },
+                             processors: %i[seating_plan_stripper],
+                             url: '/system/:class/:attachment/:id/:style.svg'
 
     validates :name, presence: true
+    validates_attachment :plan, content_type: { content_type: 'image/svg+xml' }
 
-    after_destroy :remove_stripped_plan
-    after_commit :create_stripped_plan, on: %i[create update]
+    before_destroy :remove_gzip_stripped_plan, prepend: true
+    after_commit :gzip_stripped_plan
 
     class << self
       def with_plan
-        includes(:plan_attachment)
-          .where.not(active_storage_attachments: { id: nil })
+        where.not(plan_file_name: nil)
       end
     end
 
     def plan?
-      plan.attached?
+      plan.present?
     end
 
     def number_of_seats
@@ -55,66 +57,27 @@ module Ticketing
       plan? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
 
-    def stripped_plan_url
-      return unless plan.attached?
-
-      "/system/seatings/#{stripped_plan_filename}"
-    end
-
     def stripped_plan_path
-      return unless plan.attached?
-
-      Rails.root.join('public', 'system', 'seatings', stripped_plan_filename)
+      plan.path(:stripped)
     end
 
     private
 
-    def create_stripped_plan
-      return if !plan.attached? ||
-                (stripped_plan_digest.present? && !plan.saved_changes?)
+    def gzip_stripped_plan
+      return unless saved_change_to_attribute?(:plan_updated_at) &&
+                    plan_updated_at.present?
 
-      svg = Nokogiri::XML(plan_content)
-
-      svg.xpath('//bx:*').remove
-      svg.xpath('//*/@bx:*').remove
-      svg.xpath('//title').remove
-
-      xml = svg.to_xml
-      # nokogiri does not seem to support removal of namespaces
-      xml.sub!(/xmlns:bx=".+?"/, '')
-      # remove titles
-      xml.gsub!(%r{<title>.+?</title>}i, '')
-      # remove whitespace
-      xml.gsub!(/([>\n\r])\s+([<\n\r])/i, '\1\2')
-
-      # remove old plan
-      path = stripped_plan_path
-      FileUtils.rm_f([path, "#{path}.gz"])
-
-      update_column(:stripped_plan_digest, Digest::MD5.hexdigest(xml)) # rubocop:disable Rails/SkipsModelValidations
-
-      path = stripped_plan_path
-      FileUtils.mkdir_p(File.dirname(path))
-      File.open(path, 'w') { |f| f.write xml }
-      Zlib::GzipWriter.open("#{path}.gz") { |gz| gz.write xml }
+      Zlib::GzipWriter.open(gzip_stripped_plan_path) do |gz|
+        gz.write File.read(stripped_plan_path)
+      end
     end
 
-    def remove_stripped_plan
-      return unless plan.attached?
-
-      path = stripped_plan_path
-      FileUtils.rm_f([path, "#{path}.gz"])
+    def remove_gzip_stripped_plan
+      FileUtils.rm_f(gzip_stripped_plan_path)
     end
 
-    def stripped_plan_filename
-      "#{id}-#{stripped_plan_digest}.svg"
-    end
-
-    def plan_content
-      plan.download
-    rescue ActiveStorage::FileNotFoundError
-      # see https://github.com/rails/rails/pull/37005
-      attachment_changes['plan'].attachable[:io].string
+    def gzip_stripped_plan_path
+      "#{stripped_plan_path}.gz"
     end
   end
 end

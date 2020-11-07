@@ -1696,8 +1696,11 @@ CREATE TABLE public.ticketing_seatings (
     number_of_seats integer DEFAULT 0,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    stripped_plan_digest character varying,
-    name character varying
+    name character varying,
+    plan_file_name character varying,
+    plan_content_type character varying,
+    plan_file_size bigint,
+    plan_updated_at timestamp without time zone
 );
 
 
@@ -3808,6 +3811,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200814205319'),
 ('20200815175134'),
 ('20200830115812'),
-('20201106031019');
+('20201106031019'),
+('20201106213153');
 
 
