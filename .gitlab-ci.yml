@@ -61,7 +61,13 @@ specs:
     - *copy_master_key
   script:
     - rails db:drop db:create db:structure:load
-    - rails test
+    - rspec
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID"
+    expose_as: 'SimpleCov report'
+    paths:
+      - 'coverage/'
+    expire_in: 1 week
 
 bundler audit:
   extends: .default-tags
