@@ -19,4 +19,6 @@ dump.rdb
 /config/settings.local.yml
 /config/settings/*.local.yml
 
+/coverage
+
 .byebug_history

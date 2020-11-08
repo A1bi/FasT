@@ -69,9 +69,18 @@ gem 'httparty', '~> 0.18'
 gem 'whenever', require: false
 
 group :development do
-  gem 'byebug'
   gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :development, :test do
+  gem 'byebug'
+  gem 'rspec-rails', '~> 4.0.1'
+end
+
+group :test do
+  gem 'factory_bot_rails'
+  gem 'simplecov', require: false
 end
 
 group :development, :ci do
