@@ -13,7 +13,7 @@ require 'active_job/railtie'
 # require 'action_cable/engine'
 # require 'action_mailbox/engine'
 # require 'action_text/engine'
-require 'rails/test_unit/railtie'
+# require 'rails/test_unit/railtie'
 require 'sprockets/railtie'
 
 Bundler.require(*Rails.groups)
