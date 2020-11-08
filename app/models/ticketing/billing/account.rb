@@ -3,6 +3,8 @@
 module Ticketing
   module Billing
     class Account < ApplicationRecord
+      attr_readonly :balance
+
       belongs_to :billable, polymorphic: true, inverse_of: :billing_account
       has_many :transfers, -> { order(created_at: :desc) },
                inverse_of: :account, autosave: true, dependent: :destroy
@@ -51,10 +53,6 @@ module Ticketing
 
       def update_balance(amount)
         self[:balance] = self[:balance] + amount
-      end
-
-      def balance=(val)
-        self[:balance] = val
       end
     end
   end
