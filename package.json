@@ -2,7 +2,7 @@
   "name": "FasT",
   "dependencies": {
     "@rails/ujs": "^6.0.3",
-    "@rails/webpacker": "^5.1.1",
+    "@rails/webpacker": "^5.2.1",
     "@sentry/browser": "^5.13.2",
     "@stimulus/polyfills": "^1.1.1",
     "chart.js": "^2.9.3",
@@ -19,6 +19,9 @@
     "standard": "^14.3.1",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "resolutions": {
+    "node-sass": "5.0.0"
   },
   "standard": {
     "parser": "babel-eslint"
