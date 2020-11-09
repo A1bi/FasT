@@ -9,10 +9,6 @@ module Ticketing
       belongs_to :reverse_transfer, class_name: 'Transfer', optional: true
 
       validates :amount, numericality: true
-
-      def note_key
-        super.to_sym
-      end
     end
   end
 end

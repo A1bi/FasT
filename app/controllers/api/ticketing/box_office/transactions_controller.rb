@@ -60,10 +60,9 @@ module Api
         end
 
         def translated_note_key(transfer)
-          return '' if transfer.note_key.blank?
+          return '' if (note_key = transfer.note_key).blank?
 
-          t("ticketing.orders.balancing.#{transfer.note_key}",
-            default: transfer.note_key.to_s)
+          t("ticketing.orders.balancing.#{note_key}", default: note_key)
         end
       end
     end

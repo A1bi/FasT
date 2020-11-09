@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
 RSpec.describe Ticketing::Billing::Account do
+  describe 'associations' do
+    it { is_expected.to belong_to(:billable).inverse_of(:billing_account) }
+    it do
+      is_expected.to have_many(:transfers)
+        .inverse_of(:account).autosave(true).dependent(:destroy)
+        .order(created_at: :desc)
+    end
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_numericality_of(:balance) }
+  end
+
   shared_examples 'updates the balance' do
     it 'updates the balance' do
       expect { subject }.to change(account, :balance).by(transferred_amount)
@@ -12,7 +25,7 @@ RSpec.describe Ticketing::Billing::Account do
       expect { subject }.to change(account.transfers, :count).by(1)
       transfer = account.transfers.last
       expect(transfer.amount).to eq(transferred_amount)
-      expect(transfer.note_key).to eq(note_key)
+      expect(transfer.note_key).to eq(note_key.to_s)
     end
   end
 
