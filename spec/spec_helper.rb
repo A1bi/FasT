@@ -70,3 +70,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   # Kernel.srand config.seed
 end
+
+def require_shared_examples(path)
+  require_relative "support/shared_examples/#{path}"
+end
