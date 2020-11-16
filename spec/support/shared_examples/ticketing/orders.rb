@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_examples 'generic order' do
+RSpec.shared_examples 'generic order' do |order_factory|
   # let(:max_tickets) { 256 }
 
   describe 'attributes' do
@@ -36,5 +36,25 @@ RSpec.shared_examples 'generic order' do
       #   .is_at_least(1).is_at_most(max_tickets)
     }
     it { is_expected.to validate_presence_of(:date) }
+  end
+
+  describe '.unpaid' do
+    subject { described_class.unpaid }
+
+    before { stub_const('TicketsRetailPdf', double.as_null_object) }
+
+    let!(:unpaid_order) { create(order_factory, :complete, :unpaid) }
+    let!(:paid_order) { create(order_factory, :complete, :paid) }
+
+    it 'only returns unpaid orders' do
+      expect(subject).to include(unpaid_order)
+      expect(subject).not_to include(paid_order)
+    end
+  end
+
+  describe '.policy_class' do
+    subject { described_class.policy_class }
+
+    it { is_expected.to eq(Ticketing::OrderPolicy) }
   end
 end

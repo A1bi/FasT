@@ -75,6 +75,7 @@ end
 
 group :development, :test do
   gem 'byebug'
+  gem 'ffaker', '~> 2.13'
   gem 'rspec-rails', '~> 4.0.1'
 end
 
@@ -88,7 +89,6 @@ group :development, :ci do
   gem 'capistrano', '~> 3.14'
   gem 'capistrano-bundler', '~> 2.0', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
-  gem 'ffaker', '~> 2.13'
   gem 'rubocop'
   gem 'rubocop-rails'
 end

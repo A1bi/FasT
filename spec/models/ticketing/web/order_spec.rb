@@ -3,5 +3,5 @@
 require_shared_examples 'ticketing/orders'
 
 RSpec.describe Ticketing::Web::Order do
-  it_behaves_like 'generic order'
+  it_behaves_like 'generic order', :web_order
 end
