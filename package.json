@@ -21,7 +21,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "resolutions": {
-    "node-sass": "5.0.0"
+    "node-sass": "5.0.0",
+    "sass-loader": "10.0.5"
   },
   "standard": {
     "parser": "babel-eslint"
