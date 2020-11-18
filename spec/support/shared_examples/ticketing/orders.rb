@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_shared_examples 'ticketing/billable'
+
 RSpec.shared_examples 'generic order' do |order_factory|
   # let(:max_tickets) { 256 }
 
@@ -57,4 +59,6 @@ RSpec.shared_examples 'generic order' do |order_factory|
 
     it { is_expected.to eq(Ticketing::OrderPolicy) }
   end
+
+  it_behaves_like 'billable'
 end
