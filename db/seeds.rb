@@ -138,7 +138,7 @@ def create_tickets(order, coupons = [])
       if coupon.present?
         coupon.update(free_tickets: 0)
         coupon.redeem
-        order.coupons << coupon
+        order.redeemed_coupons << coupon
       end
     end
 

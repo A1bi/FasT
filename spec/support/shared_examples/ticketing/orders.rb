@@ -17,7 +17,11 @@ RSpec.shared_examples 'generic order' do |order_factory|
     }
     it { is_expected.to belong_to(:date).class_name('Ticketing::EventDate') }
     it { is_expected.to have_many(:coupon_redemptions).dependent(:destroy) }
-    it { is_expected.to have_many(:coupons).through(:coupon_redemptions) }
+    it {
+      is_expected
+        .to have_many(:redeemed_coupons)
+        .through(:coupon_redemptions).source(:coupon)
+    }
     it {
       is_expected.to have_many(:exclusive_ticket_type_credit_spendings)
         .class_name('Members::ExclusiveTicketTypeCreditSpending')

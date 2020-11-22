@@ -17,8 +17,8 @@
       <tr>
         <td class="label">Gutscheine:</td>
         <td>
-          <% if @order.coupons.any? %>
-            <% @order.coupons.each do |coupon| %>
+          <% if @order.redeemed_coupons.any? %>
+            <% @order.redeemed_coupons.each do |coupon| %>
               <div><%= link_to_if(policy(coupon).show?, coupon.recipient, coupon) %></div>
             <% end %>
           <% else %>

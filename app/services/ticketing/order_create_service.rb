@@ -71,7 +71,7 @@ module Ticketing
         next if coupon.expired?
 
         coupon.redeem
-        @order.coupons << coupon
+        @order.redeemed_coupons << coupon
 
         redeem_free_tickets(coupon, tickets_by_price)
       end
