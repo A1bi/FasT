@@ -12,7 +12,7 @@ module Ticketing
                            dependent: :destroy
     has_many :orders, through: :redemptions
 
-    before_create :before_create
+    before_create :log_created
 
     class << self
       def valid
@@ -41,7 +41,7 @@ module Ticketing
 
     private
 
-    def before_create
+    def log_created
       log(:created)
     end
   end
