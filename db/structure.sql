@@ -1230,7 +1230,8 @@ CREATE TABLE public.ticketing_coupons (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     free_tickets integer DEFAULT 0,
-    affiliation character varying
+    affiliation character varying,
+    purchased_with_order_id bigint
 );
 
 
@@ -2862,6 +2863,13 @@ CREATE INDEX index_ticketing_coupon_redemptions_on_order_id ON public.ticketing_
 
 
 --
+-- Name: index_ticketing_coupons_on_purchased_with_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_coupons_on_purchased_with_order_id ON public.ticketing_coupons USING btree (purchased_with_order_id);
+
+
+--
 -- Name: index_ticketing_coupons_reservation_groups_on_coupon_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3346,6 +3354,14 @@ ALTER TABLE ONLY public.newsletter_newsletters_subscriber_lists
 
 
 --
+-- Name: ticketing_coupons fk_rails_60a997c6d1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_coupons
+    ADD CONSTRAINT fk_rails_60a997c6d1 FOREIGN KEY (purchased_with_order_id) REFERENCES public.ticketing_orders(id);
+
+
+--
 -- Name: ticketing_tickets fk_rails_61a0f2a65f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3686,6 +3702,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200830115812'),
 ('20201106031019'),
 ('20201106213153'),
-('20201107030155');
+('20201107030155'),
+('20201125212834');
 
 

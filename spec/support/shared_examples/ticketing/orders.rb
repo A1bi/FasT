@@ -23,6 +23,13 @@ RSpec.shared_examples 'generic order' do |order_factory|
         .through(:coupon_redemptions).source(:coupon)
     }
     it {
+      is_expected
+        .to have_many(:purchased_coupons)
+        .class_name('Ticketing::Coupon').dependent(:nullify)
+        .with_foreign_key(:purchased_with_order_id)
+        .inverse_of(:purchased_with_order)
+    }
+    it {
       is_expected.to have_many(:exclusive_ticket_type_credit_spendings)
         .class_name('Members::ExclusiveTicketTypeCreditSpending')
         .dependent(:destroy).autosave(true)

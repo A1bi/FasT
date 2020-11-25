@@ -21,6 +21,10 @@ module Ticketing
     has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :redeemed_coupons, through: :coupon_redemptions, source: :coupon
+    has_many :purchased_coupons, class_name: 'Ticketing::Coupon',
+                                 foreign_key: :purchased_with_order_id,
+                                 inverse_of: :purchased_with_order,
+                                 dependent: :nullify
     has_many :exclusive_ticket_type_credit_spendings,
              class_name: 'Members::ExclusiveTicketTypeCreditSpending',
              dependent: :destroy, autosave: true

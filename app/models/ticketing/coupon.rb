@@ -10,6 +10,8 @@ module Ticketing
                             join_table: :ticketing_coupons_reservation_groups
     has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
                            dependent: :destroy
+    belongs_to :purchased_with_order, class_name: 'Ticketing::Order',
+                                      optional: true
     has_many :orders, through: :redemptions
 
     before_create :log_created

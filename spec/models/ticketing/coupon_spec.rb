@@ -14,6 +14,11 @@ RSpec.describe Ticketing::Coupon do
         .to have_many(:redemptions).class_name('Ticketing::CouponRedemption')
                                    .dependent(:destroy)
     }
+    it {
+      is_expected
+        .to belong_to(:purchased_with_order).class_name('Ticketing::Order')
+                                            .optional(true)
+    }
     it { is_expected.to have_many(:orders).through(:redemptions) }
   end
 
