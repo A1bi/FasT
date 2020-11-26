@@ -1231,7 +1231,8 @@ CREATE TABLE public.ticketing_coupons (
     updated_at timestamp(6) without time zone NOT NULL,
     free_tickets integer DEFAULT 0,
     affiliation character varying,
-    purchased_with_order_id bigint
+    purchased_with_order_id bigint,
+    amount numeric DEFAULT 0.0 NOT NULL
 );
 
 
@@ -3703,6 +3704,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201106031019'),
 ('20201106213153'),
 ('20201107030155'),
-('20201125212834');
+('20201125212834'),
+('20201126191323');
 
 

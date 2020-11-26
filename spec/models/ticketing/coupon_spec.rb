@@ -38,6 +38,16 @@ RSpec.describe Ticketing::Coupon do
   describe '#expired?' do
     subject { coupon.expired? }
 
+    shared_examples 'valid coupon' do
+      it { is_expected.to be_falsy }
+
+      context 'with an expired date' do
+        let(:coupon) { create(:coupon, :with_free_tickets, :expired) }
+
+        it { is_expected.to be_truthy }
+      end
+    end
+
     context 'without any value' do
       let(:coupon) { create(:coupon) }
 
@@ -47,13 +57,13 @@ RSpec.describe Ticketing::Coupon do
     context 'with free tickets' do
       let(:coupon) { create(:coupon, :with_free_tickets) }
 
-      it { is_expected.to be_falsy }
+      it_behaves_like 'valid coupon'
+    end
 
-      context 'with an expired date' do
-        let(:coupon) { create(:coupon, :with_free_tickets, :expired) }
+    context 'with an amount' do
+      let(:coupon) { create(:coupon, :with_amount) }
 
-        it { is_expected.to be_truthy }
-      end
+      it_behaves_like 'valid coupon'
     end
   end
 

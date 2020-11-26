@@ -6,6 +6,10 @@ FactoryBot.define do
       free_tickets { 2 }
     end
 
+    trait :with_amount do
+      amount { 10 }
+    end
+
     trait :expired do
       expires { Date.yesterday }
     end

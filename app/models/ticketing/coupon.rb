@@ -32,7 +32,8 @@ module Ticketing
     end
 
     def expired?
-      return true if free_tickets < 1 && reservation_groups.count.zero?
+      return true if free_tickets < 1 && reservation_groups.count.zero? &&
+                     !amount.positive?
 
       expires&.past?
     end
