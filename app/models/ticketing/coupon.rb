@@ -19,11 +19,11 @@ module Ticketing
     class << self
       def valid
         where('free_tickets > 0')
-          .where('expires IS NULL OR expires > ?', Time.current)
+          .where('expires_at IS NULL OR expires_at > ?', Time.current)
       end
 
       def expired
-        where('expires < ?', Time.current).or(where('free_tickets < 1'))
+        where('expires_at < ?', Time.current).or(where('free_tickets < 1'))
       end
 
       def within_18_months
@@ -35,7 +35,7 @@ module Ticketing
       return true if free_tickets < 1 && reservation_groups.count.zero? &&
                      !amount.positive?
 
-      expires&.past?
+      expires_at&.past?
     end
 
     def redeem

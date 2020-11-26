@@ -1225,7 +1225,7 @@ ALTER SEQUENCE public.ticketing_coupon_redemptions_id_seq OWNED BY public.ticket
 CREATE TABLE public.ticketing_coupons (
     id bigint NOT NULL,
     code character varying,
-    expires timestamp without time zone,
+    expires_at timestamp without time zone,
     recipient character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
@@ -3705,6 +3705,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201106213153'),
 ('20201107030155'),
 ('20201125212834'),
-('20201126191323');
+('20201126191323'),
+('20201126192338');
 
 
