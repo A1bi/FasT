@@ -16,6 +16,13 @@ FactoryBot.define do
       end
     end
 
+    trait :with_purchased_coupons do
+      before(:create) do |order|
+        order.purchased_coupons = create_list(:coupon, 2, :with_amount,
+                                              purchased_with_order: order)
+      end
+    end
+
     trait :paid do
       paid { true }
 

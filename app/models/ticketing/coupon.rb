@@ -11,7 +11,7 @@ module Ticketing
     has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
                            dependent: :destroy
     belongs_to :purchased_with_order, class_name: 'Ticketing::Order',
-                                      optional: true
+                                      optional: true, autosave: false
     has_many :orders, through: :redemptions
 
     before_create :log_created

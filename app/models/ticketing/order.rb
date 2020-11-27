@@ -24,7 +24,7 @@ module Ticketing
     has_many :purchased_coupons, class_name: 'Ticketing::Coupon',
                                  foreign_key: :purchased_with_order_id,
                                  inverse_of: :purchased_with_order,
-                                 dependent: :nullify
+                                 dependent: :nullify, autosave: true
     has_many :exclusive_ticket_type_credit_spendings,
              class_name: 'Members::ExclusiveTicketTypeCreditSpending',
              dependent: :destroy, autosave: true
@@ -102,14 +102,19 @@ module Ticketing
     end
 
     def update_total_and_billing(billing_note)
-      old_total = total
-
-      self.total = 0
-      tickets.each do |ticket|
-        self.total = total.to_f + ticket.price.to_f unless ticket.cancelled?
+      self.total = tickets.sum do |ticket|
+        ticket.price unless ticket.cancelled?
       end
 
-      diff = old_total - total
+      # TODO: as soon as we have an amount history for coupons, this should only
+      # use the initial amount
+      # this makes sure a coupon redemption will not change the order's total
+      #
+      # also we have to use &:amount here, because coupons are still only in
+      # memory at this point, sum would otherwise make it an SQL query
+      self.total += purchased_coupons.sum(&:amount)
+
+      diff = attribute_in_database(:total) - total
       deposit_into_account(diff, billing_note)
     end
 
