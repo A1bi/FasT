@@ -5,7 +5,7 @@ require_shared_examples 'ticketing/billable'
 RSpec.shared_examples 'generic order' do |order_factory|
   before { stub_const('TicketsRetailPdf', double.as_null_object) }
 
-  # let(:max_tickets) { 256 }
+  # let(:max_tickets) { 255 }
 
   describe 'attributes' do
     it { is_expected.to have_readonly_attribute(:date) }
@@ -17,7 +17,10 @@ RSpec.shared_examples 'generic order' do |order_factory|
         .inverse_of(:order).dependent(:destroy).autosave(true)
         .order(:order_index)
     }
-    it { is_expected.to belong_to(:date).class_name('Ticketing::EventDate') }
+    it {
+      is_expected.to belong_to(:date)
+        .class_name('Ticketing::EventDate').optional(true)
+    }
     it { is_expected.to have_many(:coupon_redemptions).dependent(:destroy) }
     it {
       is_expected
@@ -47,10 +50,19 @@ RSpec.shared_examples 'generic order' do |order_factory|
     it {
       # TODO: wait for the following issue to get fixed
       # https://github.com/thoughtbot/shoulda-matchers/issues/1007
-      # is_expected.to validate_length_of(:tickets)
-      #   .is_at_least(1).is_at_most(max_tickets)
+      # is_expected.to validate_length_of(:tickets).is_at_most(max_tickets)
     }
-    it { is_expected.to validate_presence_of(:date) }
+
+    describe 'items presence' do
+      subject { build(order_factory) }
+
+      it { is_expected.to be_invalid }
+
+      it 'validates presence of items' do
+        subject.valid?
+        expect(subject.errors.added?(:base, :missing_items)).to be_truthy
+      end
+    end
   end
 
   describe '.unpaid' do
@@ -71,8 +83,38 @@ RSpec.shared_examples 'generic order' do |order_factory|
     it { is_expected.to eq(Ticketing::OrderPolicy) }
   end
 
+  describe '#items' do
+    subject { order.items }
+
+    context 'no items present' do
+      let(:order) { build(order_factory) }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'tickets present' do
+      let(:order) { create(order_factory, :with_tickets) }
+
+      it { is_expected.to eq(order.tickets) }
+    end
+
+    context 'coupons present' do
+      let(:order) { create(order_factory, :with_purchased_coupons) }
+
+      it { is_expected.to eq(order.purchased_coupons) }
+    end
+
+    context 'tickets and coupons present' do
+      let(:order) do
+        create(order_factory, :with_tickets, :with_purchased_coupons)
+      end
+
+      it { is_expected.to eq(order.tickets + order.purchased_coupons) }
+    end
+  end
+
   describe '#update_total_and_billing' do
-    let(:order) { create(order_factory, :complete) }
+    let(:order) { create(order_factory, :with_tickets) }
     let(:billing_account) { order.billing_account }
     let(:total) { order.tickets.sum(:price) }
 
@@ -97,7 +139,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
 
       context 'with purchased coupons' do
         let(:order) do
-          create(order_factory, :complete, :with_purchased_coupons)
+          create(order_factory, :with_tickets, :with_purchased_coupons)
         end
         let(:total) { super() + order.purchased_coupons.sum(:amount) }
 

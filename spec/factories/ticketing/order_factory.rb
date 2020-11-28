@@ -34,7 +34,7 @@ FactoryBot.define do
     end
 
     trait :complete do
-      with_tickets
+      with_purchased_coupons
     end
   end
 end

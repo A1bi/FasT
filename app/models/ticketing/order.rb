@@ -11,13 +11,13 @@ module Ticketing
     NUMBER_MIN = 10**(NUMBER_DIGITS - 1)
     NUMBER_MAX = 10**NUMBER_DIGITS - 1
     # binary ticket info reserves 8 bits for index
-    NUM_TICKETS_MAX = 2**8
+    NUM_TICKETS_MAX = 2**8 - 1
 
     attr_readonly :date
 
     has_many :tickets, -> { order(:order_index) },
              inverse_of: :order, dependent: :destroy, autosave: true
-    belongs_to :date, class_name: 'EventDate'
+    belongs_to :date, class_name: 'EventDate', optional: true
     has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
     has_many :redeemed_coupons, through: :coupon_redemptions, source: :coupon
@@ -32,8 +32,8 @@ module Ticketing
              class_name: 'Ticketing::BoxOffice::OrderPayment',
              dependent: :nullify
 
-    validates :tickets, length: { in: 1..NUM_TICKETS_MAX }
-    validates :date, presence: true
+    validates :tickets, length: { maximum: NUM_TICKETS_MAX }
+    validate :items_present
 
     before_validation :update_date
     before_validation :before_create_validation, on: :create
@@ -122,10 +122,20 @@ module Ticketing
       tickets.any? { |ticket| ticket.event.covid19? }
     end
 
+    def items
+      tickets + purchased_coupons
+    end
+
     private
 
+    def items_present
+      return if items.any?
+
+      errors.add(:base, :missing_items)
+    end
+
     def update_date
-      self[:date_id] = tickets.first&.date_id
+      self[:date_id] = tickets.first&.date_id if tickets.any?
     end
 
     def before_create_validation
