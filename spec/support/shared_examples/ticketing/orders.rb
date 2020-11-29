@@ -3,7 +3,7 @@
 require_shared_examples 'ticketing/billable'
 
 RSpec.shared_examples 'generic order' do |order_factory|
-  before { stub_const('TicketsRetailPdf', double.as_null_object) }
+  before { stub_const('Ticketing::TicketsRetailPdf', double.as_null_object) }
 
   # let(:max_tickets) { 255 }
 

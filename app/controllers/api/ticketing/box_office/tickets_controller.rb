@@ -24,7 +24,7 @@ module Api
         end
 
         def printable_data
-          pdf = TicketsBoxOfficePdf.new
+          pdf = ::Ticketing::TicketsBoxOfficePdf.new
           pdf.add_tickets(@tickets)
           pdf.render
         end

@@ -230,10 +230,11 @@ de:
       orders:
         created: "Die Bestellung wurde erfolgreich aufgenommen."
         created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
-  tickets_pdf:
-    title: "Tickets"
+  base_pdf:
     author: "Freilichtbühne am schiefen Turm e.V."
     creator: "www.theater-kaisersesch.de"
+  tickets_pdf:
+    title: "Tickets"
     date_format: "%A, %-d. %B"
     time_format: "%H:%M Uhr"
     ticket: "Ticket"
