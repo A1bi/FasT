@@ -14,11 +14,19 @@ module Ticketing
     end
 
     def execute
+      return if date.nil? || ticket_params.blank?
+
       if seating_plan? && seats.nil?
         order.errors.add(:base, 'Unknown socket id')
       end
 
-      params[:order][:tickets].each do |type_id, number|
+      build_tickets
+    end
+
+    private
+
+    def build_tickets
+      ticket_params.each do |type_id, number|
         next unless number.positive?
 
         ticket_type = date.event.ticket_types.find_by(id: type_id)
@@ -33,8 +41,6 @@ module Ticketing
         build_tickets_for_type(ticket_type, number)
       end
     end
-
-    private
 
     def validate_ticket_type(ticket_type, number)
       if ticket_type.box_office? && !box_office?
@@ -93,6 +99,10 @@ module Ticketing
 
     def box_office?
       order.is_a? BoxOffice::Order
+    end
+
+    def ticket_params
+      params[:order][:tickets]
     end
   end
 end

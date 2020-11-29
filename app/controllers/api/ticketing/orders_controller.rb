@@ -34,6 +34,7 @@ module Api
             %i[date ignore_free_tickets],
             {
               tickets: {},
+              coupons: %i[amount number],
               coupon_codes: [],
               address: %i[
                 email first_name gender last_name affiliation phone plz

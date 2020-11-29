@@ -2,8 +2,6 @@
 
 module Ticketing
   class OrderCreateService < BaseService
-    class FreeTicketTypeMissingError < StandardError; end
-
     include OrderingType
 
     attr_accessor :current_box_office
@@ -29,7 +27,7 @@ module Ticketing
 
       validate_event
 
-      create_tickets
+      create_items
       redeem_coupons
 
       Covid19AttendeeCreateService.new(params.dig(:covid19, :attendees), @order)
@@ -51,41 +49,18 @@ module Ticketing
         @order.errors.add(:store, 'Ticket sale disabled for this retail store')
       end
 
-      @order.errors.add(:date, 'Date is cancelled') if date.cancelled?
+      @order.errors.add(:date, 'Date is cancelled') if date_cancelled?
 
       @order.errors.add(:event, 'Sold out') if sold_out?
     end
 
-    def create_tickets
+    def create_items
       TicketCreateService.new(@order, date, current_user, params).execute
+      CouponCreateService.new(@order, current_user, order_params).execute
     end
 
     def redeem_coupons
-      return unless (codes = Array(order_params[:coupon_codes])).any?
-
-      tickets_by_price = @order.tickets.to_a.sort_by(&:price)
-      free_ticket_type = date.event.ticket_types.find_by(price: 0)
-      raise FreeTicketTypeMissingError if free_ticket_type.nil?
-
-      Ticketing::Coupon.where(code: codes).each do |coupon|
-        next if coupon.expired?
-
-        coupon.redeem
-        @order.redeemed_coupons << coupon
-
-        redeem_free_tickets(coupon, tickets_by_price)
-      end
-    end
-
-    def redeem_free_tickets(coupon, tickets_by_price)
-      return if order_params[:ignore_free_tickets].present?
-
-      coupon.free_tickets.times do
-        break if tickets_by_price.empty?
-
-        tickets_by_price.pop.type = free_ticket_type
-        coupon.free_tickets -= 1
-      end
+      CouponRedeemService.new(@order, date, current_user, order_params).execute
     end
 
     def create_payment
@@ -114,7 +89,7 @@ module Ticketing
     end
 
     def update_node_seats
-      return unless date.event.seating.plan?
+      return unless date&.event&.seating&.plan?
 
       NodeApi.update_seats_from_records(@order.tickets)
     end
@@ -134,11 +109,15 @@ module Ticketing
     end
 
     def date
-      @date ||= Ticketing::EventDate.find(order_params[:date])
+      @date ||= begin
+        return if order_params[:date].blank?
+
+        Ticketing::EventDate.find(order_params[:date])
+      end
     end
 
     def sale_disabled?
-      date.event.sale_disabled? && !current_user&.admin?
+      date&.event&.sale_disabled? && !current_user&.admin?
     end
 
     def sale_disabled_for_store?
@@ -146,7 +125,11 @@ module Ticketing
     end
 
     def sold_out?
-      date.sold_out? && !admin?
+      date&.sold_out? && !admin?
+    end
+
+    def date_cancelled?
+      date&.cancelled?
     end
   end
 end
