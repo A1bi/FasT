@@ -1,0 +1,43 @@
+table#ticketsTable
+  tr.top
+    td Veranstaltung
+    td Sitz
+    td Kategorie
+    td.amount Preis
+
+  - @tickets.each do |ticket|
+    tr
+      td
+        | „#{ticket.event.name}“<br>
+        = l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr'
+      - if ticket.seat.present?
+        td = ticket.seat.full_number
+      - else
+        td
+          - if ticket.event.covid19?
+            | Wird vor Ort mitgeteilt
+          - else
+            | Freie Platzwahl
+      td = ticket.type.name
+      td.amount = number_to_currency(ticket.price)
+
+  tr.total
+    td colspan='3' Gesamt
+    td.amount colspan='1' = number_to_currency(@order.total)
+
+- if attach_tickets?
+  - if @order.covid19?
+    = render 'covid19'
+
+  table style='background: #f5f5f5;' cellspacing='7' align='center'>
+    tr
+      td
+        .hl Hinweise zu Ihren Tickets
+        p Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser E-Mail. Diese können Sie ausdrucken und an der gestrichelten Linie auseinanderschneiden, um sie schließlich am Abend der Aufführung direkt an der Einlasskontrolle vorzeigen zu können.
+        p Sollten Sie keine Möglichkeit zum Drucken haben, erhalten Sie Ihre Tickets unter Vorlage Ihrer Bestellnummer <b>#{@order.number}</b> an der Abendkasse. Alternativ können Sie Ihre Tickets natürlich gerne auch auf Ihrem Smartphone vorzeigen.
+
+  p.hcen
+    = link_to overview_url
+      = attached_image_tag('add_to_wallet.png', height: 40, alt: 'Zu Apple Wallet hinzufügen')
+  p.hcen style='margin-bottom: 15px;'
+    = link_to 'Tickets umbuchen oder stornieren', overview_url

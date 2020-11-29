@@ -2,6 +2,10 @@
 
 module Ticketing
   module OrderMailerHelper
+    def order_with_number(order)
+      t('ticketing.order_mailer.order_with_number_html', number: order.number)
+    end
+
     def order_balance(order)
       number_to_currency(-order.balance)
     end

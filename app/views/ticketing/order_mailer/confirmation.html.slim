@@ -1,0 +1,33 @@
+| vielen Dank für Ihre #{order_with_number(@order)}.
+
+= render 'tickets_ordered'
+
+p
+  - if @order.charge_payment?
+    | Der Betrag wird in den kommenden Tagen per SEPA-Lastschrift von folgendem Konto abgebucht:
+    table
+      tr
+        td Kontoinhaber:
+        td = @order.bank_charge.name
+      tr
+        td IBAN:
+        td = obfuscated_iban(@order.bank_charge.iban)
+      tr
+        td Ihre Mandatsreferenznummer:
+        td = @order.bank_charge.mandate_id
+      tr
+        td Unsere Gläubiger-ID:
+        td DE21ZZZ00001271843
+
+  - elsif !@order.paid
+    - if @order.transfer_payment?
+      | Bitte überweisen Sie den Betrag von <b>#{order_balance(@order)}</b> auf folgendes Konto:
+      = render 'bank_details'
+      p Sie erhalten Ihre Tickets per E-Mail nach Zahlungseingang.
+    - elsif @order.cash_payment?
+      p Sie erhalten Ihre Tickets nach Barzahlung.
+    - elsif @order.box_office_payment?
+      p Sie erhalten Ihre Tickets nach Zahlung in bar oder per EC-Karte an der Abendkasse. Nennen Sie dazu einfach Ihre Bestellnummer oder Ihren Namen.
+
+- if attach_tickets?
+  p Wir wünschen Ihnen viel Spaß bei der Aufführung!

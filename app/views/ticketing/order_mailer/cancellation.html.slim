@@ -1,0 +1,18 @@
+' wir möchten Sie darauf hinweisen, dass
+- if @order.cancelled?
+  ' Ihre
+- else
+  ' ein Teil Ihrer
+' #{order_with_number(@order)} aus folgendem Grund storniert wurde:
+- if @reason.present?
+  = @reason
+- else
+  em Kein Grund angegeben.
+
+p Die stornierten Tickets verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
+
+- unless @order.cancelled?
+  p Folgende nicht stornierte Tickets sind weiterhin gültig:
+  = render 'tickets'
+
+p Mit freundlichen Grüßen

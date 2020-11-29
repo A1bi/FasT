@@ -151,6 +151,7 @@ de:
         subject: "Stornierung Ihrer Tickets"
       resend_tickets:
         subject: "Ihre Tickets"
+      order_with_number_html: Bestellung mit der Nummer <b>%{number}</b>
     refund_mailer:
       customer:
         subject: Ihre Erstattung

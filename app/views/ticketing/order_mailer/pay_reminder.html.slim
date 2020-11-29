@@ -1,0 +1,7 @@
+| leider konnten wir zu Ihrer #{order_with_number(@order)} vom #{l @order.created_at, format: '%d.%m.%Y'} bisher keinen Zahlungseingang feststellen.
+
+= render 'tickets_ordered'
+
+| Wir möchten Sie daher daran erinnern, den noch offenen Betrag von <b>#{order_balance(@order)}</b> auf folgendes Konto zu überweisen:
+= render 'bank_details'
+p Sollten Sie den Betrag bereits zwischenzeitlich überwiesen haben, sehen Sie diese Nachricht bitte als gegenstandslos an.
