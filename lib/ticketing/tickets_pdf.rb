@@ -2,7 +2,6 @@
 
 module Ticketing
   class TicketsPdf < BasePdf
-    include ActionView::Helpers::NumberHelper
     include Rails.application.routes.url_helpers
 
     TICKET_WIDTH = 595
@@ -219,7 +218,7 @@ module Ticketing
       draw_stamp(:logo, nil, true) do
         width_scale = 0.55
 
-        event_image_path = images_path.join('logo_ticket.svg')
+        event_image_path = images_path.join('pdf/logo_bw.svg')
         svg File.read(event_image_path),
             width: bounds.width * width_scale, position: :center
 

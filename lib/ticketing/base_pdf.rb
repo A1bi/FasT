@@ -2,6 +2,8 @@
 
 module Ticketing
   class BasePdf < Prawn::Document
+    include ActionView::Helpers::NumberHelper
+
     FONT_NAME = 'OpenSans'
     FONT_STYLES = %i[normal bold].freeze
     FONT_SIZES = { normal: 14, small: 11, tiny: 8 }.freeze

@@ -47,7 +47,7 @@ module Ticketing
 
       pdf = TicketsWebPdf.new
       pdf.add_tickets @tickets
-      attachments['tickets.pdf'] = pdf.render
+      attachments['Tickets.pdf'] = pdf.render
     end
 
     def attach_tickets?
@@ -57,6 +57,12 @@ module Ticketing
 
     def prepare_coupons
       @coupons = @order.purchased_coupons
+      return unless attach_coupons?
+
+      @coupons.each_with_index do |coupon, i|
+        pdf = CouponPdf.new(coupon)
+        attachments["Gutschein #{i + 1}.pdf"] = pdf.render
+      end
     end
 
     def attach_coupons?
