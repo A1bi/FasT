@@ -1,0 +1,23 @@
+tr.category
+  td.hcen colspan='4' Tickets
+tr.top
+  td Veranstaltung
+  td Sitz
+  td Kategorie
+  td.amount Preis
+
+- @tickets.each do |ticket|
+  tr
+    td
+      | „#{ticket.event.name}“<br>
+      = l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr'
+    - if ticket.seat.present?
+      td = ticket.seat.full_number
+    - else
+      td
+        - if ticket.event.covid19?
+          | Wird vor Ort mitgeteilt
+        - else
+          | Freie Platzwahl
+    td = ticket.type.name
+    td.amount = number_to_currency(ticket.price)

@@ -37,9 +37,9 @@ module Ticketing
         log(:sent_pay_reminder)
       end
 
-      def resend_tickets
-        enqueue_mailing(:resend_tickets)
-        log(:resent_tickets)
+      def resend_items
+        enqueue_mailing(:resend_items)
+        log(:resent_items)
       end
 
       def send_confirmation(after_commit: false, log: false)

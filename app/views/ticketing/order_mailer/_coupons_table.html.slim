@@ -1,0 +1,13 @@
+tr.category
+  td.hcen colspan='4' Geschenkgutscheine
+tr.top
+  td colspan='3' Gutschein
+  td.amount Wert
+
+- @coupons.each do |coupon|
+  tr
+    td colspan='3'
+      ' Code
+      span.coupon-code = coupon.code
+    / TODO: show initial amount here
+    td.amount = number_to_currency(coupon.amount)

@@ -5,7 +5,7 @@ module Ticketing
     helper TicketingHelper
 
     before_action { @order = params[:order] }
-    before_action :prepare_tickets
+    before_action :prepare_tickets, :prepare_coupons
 
     default to: -> { @order.email }
 
@@ -18,11 +18,11 @@ module Ticketing
     end
 
     def payment_received
-      mail
+      mail item_subject: true
     end
 
-    def resend_tickets
-      mail
+    def resend_items
+      mail item_subject: true
     end
 
     def cancellation
@@ -31,6 +31,15 @@ module Ticketing
     end
 
     private
+
+    def mail(item_subject: false)
+      if item_subject
+        item_type = @tickets.any? ? :tickets : :coupons
+        subject = t("ticketing.order_mailer.item_subjects.#{item_type}")
+      end
+
+      super subject: subject
+    end
 
     def prepare_tickets
       @tickets = @order.tickets.valid
@@ -42,9 +51,22 @@ module Ticketing
     end
 
     def attach_tickets?
-      !@order.cancelled? && (@order.paid || @order.charge_payment?)
+      @tickets.any? && attach_items?
     end
     helper_method :attach_tickets?
+
+    def prepare_coupons
+      @coupons = @order.purchased_coupons
+    end
+
+    def attach_coupons?
+      @coupons.any? && attach_items?
+    end
+    helper_method :attach_coupons?
+
+    def attach_items?
+      @order.paid || @order.charge_payment?
+    end
 
     def overview_url
       @overview_url ||= order_overview_url(

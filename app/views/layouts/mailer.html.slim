@@ -28,17 +28,31 @@ html
         font-weight: bold;
         border-bottom-width: 2px;
       }
-      #ticketsTable {
+      #items {
         width: 100%;
       }
-      #ticketsTable .total td {
-        border-top-width: 2px;
-        border-bottom: 0;
-        padding: 5px 10px;
+      #items td {
+        border-width: 1px 0;
+      }
+      #items .category td {
         font-weight: bold;
       }
-      #ticketsTable .amount {
+      #items .total td {
+        border-top-width: 2px;
+        border-bottom: 0;
+        padding: 10px;
+        font-weight: bold;
+      }
+      #items .amount {
         text-align: right;
+      }
+      #items .category td, #items .total td {
+        background: #f6f4f9;
+      }
+      .item-notes {
+        background: #f5f5f5;
+        border-spacing: 7px;
+        text-align: center;
       }
       .hl {
         text-align: center;

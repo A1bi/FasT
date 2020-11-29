@@ -83,6 +83,7 @@ de:
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
       approved: "Die Bestellung wurde als geprüft markiert."
       resent_tickets: "Die Tickets wurden dem Käufer erneut zugesendet."
+      resent_items: "Die Artikel wurden dem Käufer erneut zugesendet."
       resent_confirmation: "Die Bestellbestätigung wurde dem Käufer erneut zugesendet."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
       created_billing: "Die Zahlung wurde verbucht."
@@ -143,14 +144,13 @@ de:
     order_mailer:
       confirmation:
         subject: "Ihre Bestellung"
-      payment_received:
-        subject: "Ihre Tickets"
       pay_reminder:
         subject: "Zahlungserinnerung"
       cancellation:
-        subject: "Stornierung Ihrer Tickets"
-      resend_tickets:
-        subject: "Ihre Tickets"
+        subject: "Stornierung Ihrer Artikel"
+      item_subjects:
+        tickets: Ihre Tickets
+        coupons: Ihre Geschenkgutscheine
       order_with_number_html: Bestellung mit der Nummer <b>%{number}</b>
     refund_mailer:
       customer:

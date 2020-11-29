@@ -1,0 +1,20 @@
+p = local_assigns[:introduction] || 'Ihre bestellten Artikel:'
+
+table#items
+  - if @tickets.any?
+    = render 'tickets_table'
+  - if @coupons.any?
+    = render 'coupons_table'
+
+  tr.total
+    td colspan='3' Gesamt
+    td.amount colspan='1' = number_to_currency(@order.total)
+
+- if attach_tickets?
+  - if @order.covid19?
+    = render 'covid19'
+
+  = render 'tickets_notes'
+
+- if attach_coupons?
+  = render 'coupons_notes'

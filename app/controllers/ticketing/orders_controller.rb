@@ -171,7 +171,7 @@ module Ticketing
 
     def resend_tickets
       if authorize(@order).is_a? Ticketing::Web::Order
-        @order.resend_tickets
+        @order.resend_items
         @order.save
       end
       redirect_to_order_details :resent_tickets

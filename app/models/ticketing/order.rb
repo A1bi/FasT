@@ -103,7 +103,9 @@ module Ticketing
 
     def update_total_and_billing(billing_note)
       self.total = tickets.sum do |ticket|
-        ticket.price unless ticket.cancelled?
+        next 0 if ticket.cancelled?
+
+        ticket.price
       end
 
       # TODO: as soon as we have an amount history for coupons, this should only

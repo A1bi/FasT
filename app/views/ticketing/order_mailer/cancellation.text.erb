@@ -1,11 +1,8 @@
-wir möchten Sie darauf hinweisen, dass <% if @tickets.empty? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> aus folgendem Grund storniert wurde: <%= @reason.present? ? @reason : "<em>Kein Grund angegeben.</em>".html_safe %>
+wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> aus folgendem Grund storniert wurde: <%= @reason.present? ? @reason : "<em>Kein Grund angegeben.</em>".html_safe %>
 
-Die stornierten Tickets verlieren damit ihre Gültigkeit. Bei weiteren Fragen können Sie sich gerne an uns wenden.
+Die stornierten Artikel verlieren damit ihre Gültigkeit. Bei weiteren Fragen können Sie sich gerne an uns wenden.
 
-<% if @tickets.any? %>
-Folgende nicht stornierte Tickets sind weiterhin gültig:
-<%= render "tickets" %>
-<% end %>
+<%= render 'items', introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:' unless @order.cancelled? %>
 
 
 Mit freundlichen Grüßen

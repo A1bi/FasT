@@ -1,0 +1,17 @@
+Ihre bestellten Artikel:
+
+<%= render 'tickets_table' %>
+<%= render 'coupons_table' %>
+
+–––––––––––––––––––––––––––––––––
+Gesamtbetrag: <%= number_to_currency(@order.total) %>
+<% if attach_tickets? %>
+<% if @order.covid19? %>
+
+<%= render 'covid19' %>
+<% end %>
+
+<%= render 'tickets_notes' %>
+<% end %>
+
+<%= render 'coupons_notes' if attach_coupons? %>
