@@ -37,6 +37,10 @@ module Ticketing
       end
     end
 
+    def new_coupons
+      authorize Order
+    end
+
     def add_coupon
       authorize Order
 

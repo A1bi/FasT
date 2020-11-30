@@ -150,6 +150,8 @@ Rails.application.routes.draw do
           post :remove_coupon
         end
       end
+
+      get 'geschenkgutscheine/bestellen' => 'orders#new_coupons'
     end
 
     scope controller: :orders, path: 'tickets' do

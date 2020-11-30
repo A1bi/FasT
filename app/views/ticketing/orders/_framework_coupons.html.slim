@@ -1,0 +1,25 @@
+- title local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
+- include_css 'ticketing/orders'
+
+.hl = local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
+
+.progress
+  .step.bar
+  .step.current.coupons Geschenkgutscheine
+  .step.address Adresse
+  .step.payment Bezahlen
+  .step.confirm Bestätigen
+
+= content_tag :div, class: %i[stepBox web], data: { controller: 'ticketing--orders', coupons: true, type: :web }
+  .modalAlert
+    .messages.alert
+      .icon
+      ul
+        li
+        li = link_to 'Bestellvorgang neu starten', request.path, class: :btn
+    = render 'application/spinner'
+  = yield :steps
+
+.btns
+  .btn.prev.disabled zurück
+  .btn.next.disabled: span.action weiter

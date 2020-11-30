@@ -402,7 +402,7 @@ table.details {
     }
   }
 
-  &.tickets {
+  &.tickets, &.coupons {
     .event-header {
       display: block;
       width: 300px;
@@ -423,6 +423,11 @@ table.details {
       }
     }
 
+    tr.top td {
+      padding: 5px 11px;
+      font-weight: bold;
+    }
+
     td.number {
       width: 15%;
     }
@@ -441,6 +446,11 @@ table.details {
       .ignore_free_tickets {
         display: none;
       }
+    }
+
+    .single, td.total {
+      width: 18%;
+      text-align: right;
     }
 
     .coupon {
@@ -687,14 +697,7 @@ table.details {
   }
 }
 
-.stepCon.tickets {
-  .single, td.total {
-    width: 18%;
-    text-align: right;
-  }
-}
-
-.stepCon.tickets, .stepCon.confirm {
+.stepCon.tickets, .stepCon.coupons, .stepCon.confirm {
   tr {
     td.total, td.amount {
       text-align: right;

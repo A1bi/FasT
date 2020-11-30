@@ -1,0 +1,38 @@
+ruby:
+  payment_methods = [
+    {
+      name: :charge,
+      human_name: 'SEPA-Lastschrift',
+      desc: 'Schnell und bequem. Sie erhalten Ihre Geschenkgutscheine sofort nach der Bestellung.'
+    },
+    {
+      name: :transfer,
+      human_name: 'Vorkasse per Überweisung',
+      desc: 'Sie erhalten Ihre Geschenkgutscheine nach Zahlungseingang.'
+    }
+  ]
+
+- content_for :finish
+  .hl.note Vielen Dank für Ihre Bestellung!
+
+  .note
+    p.order-number Ihre Bestellnummer lautet <b></b>.
+    p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="items">Ihren Geschenkgutscheinen und </span>allen Informationen zu Ihrer Bestellung.
+
+  = render 'gmail_warning'
+
+- content_for :steps
+  = render 'coupons'
+  = render 'address'
+  = render 'payment', methods: payment_methods
+
+  .stepCon.confirm
+    .note Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.
+    = render 'confirm_coupons'
+    = render 'confirm_address'
+    = render 'confirm_payment'
+    = render 'confirm_additional'
+
+  = render 'finish'
+
+= render 'framework_coupons'

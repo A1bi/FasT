@@ -10,7 +10,7 @@
           = prepopulated_text_field(f, :first_name)
         = render layout: 'field', locals: { name: 'Nachname' }
           = prepopulated_text_field(f, :last_name)
-        - unless @event.covid19?
+        - unless @event&.covid19?
           = render layout: 'field', locals: { name: 'Firma / Gruppe / Zugehörigkeit' }
             = f.text_field :affiliation, class: 'field'
         = render layout: 'field', locals: { name: 'PLZ' }
@@ -19,7 +19,7 @@
           = f.text_field :phone, class: 'field'
         = render layout: 'field', locals: { name: 'e-mail-Adresse' }
           = prepopulated_text_field(f, :email, :email, :email)
-        - if action_name == 'new'
+        - if action_name.in? ['new', 'new_coupons']
           = render layout: 'field', locals: { name: 'e-mail-Adresse Bestätigung' }
             = prepopulated_text_field(f, :email_confirmation, :email, :email)
             .small Noch einmal zur Sicherheit, um Tippfehler auszuschließen.

@@ -22,18 +22,10 @@ ruby:
 
   .note
     p.order-number Ihre Bestellnummer lautet <b></b>.
-    p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="tickets">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.
+    p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="items">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.
     p In den #{link_to 'FAQ', info_path(@event.slug)} finden Sie übrigens weitere hilfreiche Informationen zu unseren Veranstaltungen.
 
-  .gmail-warning
-    .trenner
-    .hl Hinweis für Nutzer von Gmail
-    .content
-      .icon = image_tag 'warning.svg', alt: ''
-      .note
-        p Leider werden unsere E-Mails von Google konsequent als Spam markiert. Sollten Sie daher keine Bestellbestätigung von uns in Ihrem Postfach vorfinden, schauen Sie bitte in Ihrem Spam-Ordner nach. Wird Ihnen kein Spam-Ordner angezeigt, geben Sie einfach <b>in:spam</b> in das Gmail-Suchfeld ein.
-        p Nachdem Sie unsere E-Mail gefunden haben, markieren Sie diese bitte über den entsprechenden Button als <b>„Kein Spam“</b>.
-        p Wir möchten uns für diese Unannehmlichkeiten entschuldigen.
+  = render 'gmail_warning'
   = render 'dates/restaurants'
 
 - content_for :steps
@@ -46,57 +38,9 @@ ruby:
   .stepCon.confirm
     .note Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.
     = render 'confirm_tickets'
-
-    .address.inner
-      table.rounded.form
-        thead
-          tr: th colspan='2' Ihre Angaben
-        tbody
-          tr
-            td Name:
-            td
-              span.first_name>
-              span.last_name
-          tr
-            td Telefonnummer:
-            td.phone
-          tr
-            td E-Mail-Adresse:
-            td.email
-
-    .payment.inner
-      .transfer
-        table.rounded.form
-          thead
-            tr: th colspan='2' Bezahlung per Überweisung
-          tbody
-            tr: td Unsere Kontodaten werden Ihnen nach der Bestellung per E-Mail zugesandt.
-      .charge
-        table.rounded.form
-          thead
-            tr: th colspan='2' Bezahlung per SEPA-Lastschrift
-          tbody
-            tr
-              td Kontoinhaber:
-              td.name
-            tr
-              td IBAN:
-              td.iban
-            tr: td colspan='2' Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
-      .box_office
-        table.rounded.form
-          thead
-            tr: th colspan='2' Bezahlung an der Abendkasse
-          tbody
-            tr: td Sie erhalten Ihre Tickets an der Abendkasse nach Zahlung in bar oder per EC-Karte.
-
-    = form_for :confirm do |f|
-      table.rounded.checkboxes.form.inner
-        tr
-          td.checkbox = f.check_box :newsletter
-          td = f.label :newsletter
-            = render 'newsletter_subscribers/privacy_terms'
-      p.note Ich habe die #{link_to 'AGB', agb_path, target: '_blank'} des Anbieters gelesen und erkläre mit dem Absenden der Bestellung mein Einverständnis. Die #{link_to 'Widerrufsbelehrung', widerruf_path, target: '_blank'} inklusive Muster-Widerrufsformular habe ich zur Kenntnis genommen.
+    = render 'confirm_address'
+    = render 'confirm_payment'
+    = render 'confirm_additional'
 
   = render 'finish'
 

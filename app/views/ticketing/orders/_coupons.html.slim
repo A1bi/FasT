@@ -1,0 +1,26 @@
+.stepCon.coupons
+  .note
+    p Unsere Geschenkgutscheine lassen sich in zukünftigen Ticket-Bestellungen auf unserer Internetseite und in teilnehmenden Vorverkaufsstellen einsetzen. Sie sind nicht personengebunden und mehrfach benutzbar, ein Restwert kann also bei weiteren Bestellungen noch verbraucht werden.
+    p Sie erhalten den Gutschein per E-Mail als PDF-Dokument zum Ausdrucken. Alternativ können Sie auch einfach nur den enthaltenen Gutscheincode weitergeben oder selbst verwenden.
+
+    .trenner
+    p Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Geschenkgutscheinen und deren Wert.
+
+  .number.inner
+    table.rounded
+      thead
+        tr: th colspan='3' Ihre gewünschten Geschenkgutscheine
+      tbody
+        tr.top
+          td Anzahl
+          td Wert
+          td Summe
+        tr.coupon
+          td.number
+            = select_tag(:number, options_for_select(1..10))
+          td.type
+            = select_tag(:amount, options_for_select((1..150).map { |amount| [number_to_currency(amount), amount] } ))
+          td.total <span></span> €
+        tr.total
+          td.plural_text colspan='2' Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
+          td.total <span></span> €

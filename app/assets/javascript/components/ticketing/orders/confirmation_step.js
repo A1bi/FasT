@@ -5,23 +5,40 @@ import $ from 'jquery'
 export default class extends Step {
   constructor (delegate) {
     super('confirm', delegate)
+
+    this.couponTemplate = this.box.find('tr.coupon').detach()
   }
 
-  updateSummary (info, part) {
-    for (const [key, value] of Object.entries(info)) {
-      this.box.find(`.${part} .${key}`).text(value)
-    }
+  updateCouponSummary () {
+    const couponsInfo = this.delegate.getStepInfo('coupons')
+    if (!couponsInfo) return
+
+    this.box.find('tr.coupon').remove()
+    var total = 0
+    var totalNumber = 0
+
+    couponsInfo.api.coupons.forEach(coupon => {
+      const row = this.couponTemplate.clone()
+      const couponTotal = coupon.number * coupon.amount
+      const numberText = row.find('.plural_text')
+
+      togglePluralText(numberText, coupon.number)
+      numberText.find('.amount').text(this.formatCurrency(coupon.amount))
+      row.find('.total span').text(this.formatCurrency(couponTotal))
+
+      this.box.find('.coupons tbody').prepend(row)
+      total += couponTotal
+      totalNumber += coupon.number
+    })
+
+    togglePluralText(this.box.find('tr.total .plural_text'), totalNumber)
+    this.box.find('tr.total td.total span').text(this.formatCurrency(total))
   }
 
-  willMoveIn () {
-    let btnText = 'bestätigen'
-    if (this.delegate.web &&
-        !this.delegate.getStepInfo('tickets').internal.zeroTotal) {
-      btnText = 'kostenpflichtig bestellen'
-    }
-    this.delegate.setNextBtnText(btnText)
-
+  updateTicketSummary () {
     const ticketsInfo = this.delegate.getStepInfo('tickets')
+    if (!ticketsInfo) return
+
     this.box.find('.date').text(
       this.delegate.getStepInfo('seats').internal.localizedDate
     )
@@ -58,12 +75,26 @@ export default class extends Step {
         single.find('.number').text(number)
       }
     })
+  }
+
+  willMoveIn () {
+    const ticketsInternal = this.delegate.getStepInfo('tickets')?.internal
+
+    let btnText = 'bestätigen'
+    if (this.delegate.web &&
+        !ticketsInternal?.zeroTotal) {
+      btnText = 'kostenpflichtig bestellen'
+    }
+    this.delegate.setNextBtnText(btnText)
+
+    this.updateTicketSummary()
+    this.updateCouponSummary()
 
     for (const type of ['address', 'payment']) {
       const info = this.delegate.getStepInfo(type)
       if (!info) continue
       const box = this.box.find(`.${type}`)
-      if (type === 'payment' && !ticketsInfo.internal.zeroTotal) {
+      if (type === 'payment' && !ticketsInternal?.zeroTotal) {
         box.removeClass('transfer charge box_office').addClass(info.api.method)
       }
       for (const [key, value] of Object.entries(info.api)) {
@@ -89,18 +120,19 @@ export default class extends Step {
     const apiInfo = this.delegate.getApiInfo()
 
     const orderInfo = {
-      date: apiInfo.seats.date,
-      tickets: apiInfo.tickets.tickets,
-      ignore_free_tickets: apiInfo.tickets.ignore_free_tickets,
+      date: apiInfo.seats?.date,
+      tickets: apiInfo.tickets?.tickets,
+      coupons: apiInfo.coupons?.coupons,
+      ignore_free_tickets: apiInfo.tickets?.ignore_free_tickets,
       address: apiInfo.address,
       payment: apiInfo.payment,
-      coupon_codes: apiInfo.tickets.couponCodes
+      coupon_codes: apiInfo.tickets?.couponCodes
     }
 
     const info = {
       order: orderInfo,
       type: this.delegate.type,
-      socket_id: apiInfo.seats.socketId,
+      socket_id: apiInfo.seats?.socketId,
       newsletter: apiInfo.confirm.newsletter,
       covid19: apiInfo.covid19
     }
@@ -111,7 +143,7 @@ export default class extends Step {
   }
 
   disconnect () {
-    const chooser = this.delegate.getStep('seats').chooser
+    const chooser = this.delegate.getStep('seats')?.chooser
     if (chooser) chooser.disconnect()
     this.delegate.killExpirationTimer()
   }
@@ -126,13 +158,16 @@ export default class extends Step {
     this.delegate.toggleModalSpinner(false)
 
     this.info.internal.order = response
-    this.info.internal.detailsPath =
+
+    if (this.delegate.stepBox.data('order-path')) {
+      this.info.internal.detailsPath =
       this.delegate.stepBox.data('order-path')
         .replace(':id', this.info.internal.order.id)
 
-    if (this.delegate.admin) {
-      window.location = this.info.internal.detailsPath
-      return
+      if (this.delegate.admin) {
+        window.location = this.info.internal.detailsPath
+        return
+      }
     }
 
     callback()

@@ -9,9 +9,7 @@ export default class extends Step {
   willMoveIn () {
     const payInfo = this.delegate.getStepInfo('payment')
     if (payInfo) {
-      const immediateTickets =
-        ['charge', 'credit_card'].indexOf(payInfo.api.method) > -1
-      this.box.find('.tickets').toggle(immediateTickets)
+      this.box.find('.items').toggle(payInfo.api.method === 'charge')
     }
 
     const confirmInfo = this.delegate.getStepInfo('confirm')

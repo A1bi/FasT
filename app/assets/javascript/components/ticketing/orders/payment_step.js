@@ -15,7 +15,7 @@ export default class extends Step {
 
   willMoveIn () {
     if (this.delegate.web) {
-      const boxOffice = this.delegate.getStepInfo('seats').internal.boxOfficePayment
+      const boxOffice = this.delegate.getStepInfo('seats')?.internal.boxOfficePayment
       this.box.find('.transfer').toggle(!boxOffice)
       this.box.find('.box_office').toggle(boxOffice)
 
@@ -49,6 +49,6 @@ export default class extends Step {
   }
 
   shouldBeSkipped () {
-    return this.delegate.getStepInfo('tickets').internal.zeroTotal
+    return this.delegate.getStepInfo('tickets')?.internal.zeroTotal
   }
 }

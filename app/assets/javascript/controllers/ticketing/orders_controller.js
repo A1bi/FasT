@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
 import TicketsStep from '../../components/ticketing/orders/tickets_step'
+import CouponsStep from '../../components/ticketing/orders/coupons_step'
 import SeatsStep from '../../components/ticketing/orders/seats_step'
 import AddressStep from '../../components/ticketing/orders/address_step'
 import Covid19Step from '../../components/ticketing/orders/covid19_step'
@@ -22,13 +23,16 @@ export default class extends Controller {
     this.progressBox = $('.progress')
     this.modalBox = this.stepBox.find('.modalAlert')
 
+    this.coupons = this.element.dataset.coupons
     this.type = this.element.dataset.type
     this.retail = this.type === 'retail'
     this.admin = this.type === 'admin'
     this.web = !this.retail && !this.admin
 
     let steps
-    if (this.retail) {
+    if (this.coupons) {
+      steps = { CouponsStep, AddressStep, PaymentStep, ConfirmationStep, FinishStep }
+    } else if (this.retail) {
       steps = { TicketsStep, SeatsStep, ConfirmationStep, FinishStep }
     } else if (this.element.dataset.covid19) {
       steps = {
@@ -211,11 +215,13 @@ export default class extends Controller {
   }
 
   killExpirationTimer () {
+    if (!this.expirationBox) return
     clearTimeout(this.expirationTimer.timer)
     this.expirationBox.slideUp()
   }
 
   resetExpirationTimer () {
+    if (!this.expirationBox) return
     this.killExpirationTimer()
     if (this.noFurtherErrors) return
     this.expirationTimer.type = 0

@@ -26,21 +26,6 @@ ruby:
 
   .stepCon.confirm
     = render 'confirm_tickets'
-    .address.inner
-      table.rounded.form
-        thead
-          tr: th colspan='2' Ihre Angaben
-        tbody
-          tr
-            td Name:
-            td
-              span.first_name>
-              span.last_name
-          tr
-            td Telefonnummer:
-            td.phone
-          tr
-            td E-Mail-Adresse:
-            td.email
+    = render 'confirm_address'
 
 = render 'framework', title: 'Neue Bestellung aufnehmen'
