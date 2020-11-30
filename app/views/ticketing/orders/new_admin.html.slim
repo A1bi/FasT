@@ -1,0 +1,46 @@
+ruby:
+  payment_methods = [
+    {
+      name: :transfer,
+      human_name: 'Vorkasse per Überweisung',
+      desc: 'Der Kunde überweist das Geld und erhält seine Tickets an der Abendkasse oder anderweitig.'
+    },
+    {
+      name: :cash,
+      human_name: 'Barzahlung',
+      desc: 'Der Kunde bezahlt in bar.'
+    },
+    {
+      name: :box_office,
+      human_name: 'Zahlung an der Abendkasse',
+      desc: 'Der Kunde zahlt an der Abendkasse in bar oder per EC-Karte.'
+    }
+  ]
+
+- content_for :steps
+  = render 'tickets'
+  = render 'seats'
+  = render 'address'
+  = render 'covid19' if @event.covid19?
+  = render 'payment', methods: payment_methods
+
+  .stepCon.confirm
+    = render 'confirm_tickets'
+    .address.inner
+      table.rounded.form
+        thead
+          tr: th colspan='2' Ihre Angaben
+        tbody
+          tr
+            td Name:
+            td
+              span.first_name>
+              span.last_name
+          tr
+            td Telefonnummer:
+            td.phone
+          tr
+            td E-Mail-Adresse:
+            td.email
+
+= render 'framework', title: 'Neue Bestellung aufnehmen'

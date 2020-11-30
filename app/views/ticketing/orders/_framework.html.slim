@@ -1,0 +1,37 @@
+- title local_assigns.fetch(:title, "Tickets bestellen – #{@event.name}")
+- include_css 'ticketing/orders'
+
+.hl = local_assigns.fetch(:title, 'Tickets bestellen')
+
+.progress
+  .step.bar
+  .step.current.tickets Tickets
+  .step.seats
+    - if @event.seating.plan?
+      | Sitzplätze
+    - else
+      | Aufführung
+  .step.address Adresse
+  - if @event.covid19?
+    .step.covid19 COVID-19
+  .step.payment Bezahlen
+  .step.confirm Bestätigen
+
+.messages.warning.expiration
+  .icon
+  ul
+    li.plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
+
+= content_tag :div, class: [:stepBox, @type], data: { controller: 'ticketing--orders', type: @type, order_path: ticketing_order_path(':id'), covid19: @event.covid19? || nil }
+  .modalAlert
+    .messages.alert
+      .icon
+      ul
+        li
+        li = link_to 'Bestellvorgang neu starten', request.path, class: :btn
+    = render 'application/spinner'
+  = yield :steps
+
+.btns
+  .btn.prev.disabled zurück
+  .btn.next.disabled: span.action weiter

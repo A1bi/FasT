@@ -1,0 +1,71 @@
+.stepCon.tickets
+  = event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen })
+
+  - if action_name == 'new'
+    .note
+      p
+        ' Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets
+        - if @event.seating.plan?
+          ' und damit verbundene Sitzplatzreservierung
+        | für „#{@event.name}“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
+
+      - if @event.covid19?
+        .covid19
+          h3.hcen Hinweise zu COVID-19-bedingten Hygienemaßnahmen
+          p <b>Zusammensitzen können ausschließlich Besucher einer zusammengehörigen Gruppe.</b> Dazu zählen Angehörige des eigenen Hausstands und eine oder mehrere Personen eines weiteren Hausstands. Zwischen den Gruppen wird ein Abstand von 1,5 m in alle Richtungen eingehalten.
+          p <b>Jede Buchung wird von uns als eine Besuchergruppe verstanden.</b> Bitte prüfen Sie daher, ob bei jedem Mitglied Ihrer Gruppe eine Zugehörigkeit unter den genannten Kriterien gegeben ist. Sollten Sie für mehrere Gruppen buchen wollen, geben Sie bitte für jede jeweils eine Bestellung auf. Sollten Sie später weitere Personen zu einer Gruppe hinzufügen wollen, kontaktieren Sie uns bitte telefonisch.
+          p Teil der behördlichen Auflagen ist die Aufzeichnung von Namen und Kontaktdaten aller Besucher. Diese Daten werden im Laufe des Bestellprozesses erfasst und nach Ablauf der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
+          p Weitere Informationen finden Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+          p Vielen Dank für Ihr Verständnis.
+      - else
+        p Weitere Informationen zu unserem Vorverkauf finden Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+
+      .trenner
+      p Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
+
+  .number.inner
+    table.rounded
+      thead
+        tr: th colspan='4' Ihre gewünschten Tickets
+      tbody
+        - @ticket_types.each do |type|
+          - if !type.exclusive? || @type == :admin || (user_signed_in? && type.exclusive_ticket_type_credit.present?)
+            = content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price })
+              td.number
+                = select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(@max_tickets, type)), id: nil)
+              td.type
+                = type.name
+                .small = type.info
+                - if type.exclusive_ticket_type_credit.present?
+                  .small
+                    - if max_tickets_for_type(@max_tickets, type).zero?
+                      | Das Kontingent für dieses Mitgliedskonto und verknüpfte Familienmitglieder ist bereits aufgebraucht.
+              td.single je #{number_to_currency(type.price || 0)}
+              td.total <span></span> €
+
+        tr.subtotal
+          td.plural_text colspan='3' <span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt
+          td.total <span></span> €
+        tr.ignore_free_tickets
+          td colspan='4'
+            = check_box_tag(:ignore_free_tickets)
+            = label_tag :ignore_free_tickets
+              | Freikarten nicht in Anspruch nehmen
+        tr.total
+          td colspan='3' Gesamt
+          td.total <span></span> €
+
+    = content_tag :table, data: { add_url: add_coupon_ticketing_order_path, remove_url: remove_coupon_ticketing_order_path }, class: [:rounded, :coupon]
+      thead
+        tr
+          th colspan='2' Gutscheine
+      tbody
+        tr
+          td Gutscheincode einlösen:
+          td
+            => text_field_tag :code, '', class: 'noKeyCatch'
+            = submit_tag 'einlösen'
+            .msg: .result
+        tr.added.hide
+          td Hinzugefügte Gutscheine:
+          td

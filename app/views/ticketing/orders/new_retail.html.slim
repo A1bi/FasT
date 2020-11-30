@@ -1,0 +1,30 @@
+- content_for :finish
+  .hl.note Die Bestellung wurde erfolgreich aufgenommen.
+  table.rounded.info
+    thead
+      tr: th colspan='2' Zusammenfassung
+    tbody
+      tr
+        td Gesamtbetrag:
+        td.total <span></span> €
+      tr
+        td Tickets:
+        td.number
+      tr
+        td.links colspan='2'
+          => link_to 'zu weiteren Bestelldetails', '', class: :details
+          | |
+          =< link_to 'neue Bestellung aufnehmen', action: :new_privileged
+
+= content_for :steps
+  = render 'tickets'
+  = render 'seats'
+
+  .stepCon.confirm
+    .note Bitte kontrollieren Sie die Bestellung noch einmal und klicken anschließend auf <em>bestätigen</em>.
+    = render 'confirm_tickets'
+
+  = render 'finish'
+
+= render 'framework'
+= render 'application/ticketing/print_notification'

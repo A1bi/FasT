@@ -1,0 +1,22 @@
+.tickets.inner
+  table.tickets.rounded
+    thead
+      tr: th colspan='3' Tickets für <span class="date"></span>
+    tbody
+      = content_tag_for(:tr, @ticket_types, :confirm) do |type|
+        td data-id=type.id = type.name
+        td.single
+          b.number> 0
+          | je #{number_to_currency(type.price || 0)}
+        td.total data-price=type.price <span></span> €
+      tr.subtotal
+        td
+        td.single.plural_text
+          <span class="number"><span></span></span> Ticket<span class="plural">s</span>
+        td.total <span></span> €
+      tr.discount
+        td colspan='2' Abzug durch Gutscheine
+        td.total <span></span> €
+      tr.total
+        td colspan='2' Gesamt
+        td.total <span></span> €

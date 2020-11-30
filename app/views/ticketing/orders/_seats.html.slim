@@ -1,0 +1,45 @@
+.stepCon.seats data-has-seating-plan=(@event.seating.plan? ? 1 : 0)
+  .note
+    ' Bitte wählen Sie Ihren gewünschten Veranstaltungstermin.
+    - if @event.seating.plan? && @dates.count > 1
+      | Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
+  .inner
+    table.rounded.date
+      thead
+        tr: th Ihr gewünschter Termin
+      tbody
+        - @dates.each do |date|
+          tr
+            = content_tag_for(:td, date, data: { id: date.id, box_office_payment: 3.days.from_now > date.date && !date.event.covid19? }, class: [date.cancelled? || (date.sold_out? && !current_user&.admin?) ? :disabled: nil])
+              span.line_through = l date.date, format: '%A, den %d. %B %Y um %H.%M Uhr'
+              - if date.cancelled?
+                span.unavailable Aufführung entfällt
+              - elsif date.sold_out?
+                - if current_user&.admin?
+                  .seats_info
+                    <span>#{date.number_of_booked_seats}</span> von #{date.number_of_seats} Plätzen gebucht
+                - else
+                  span.unavailable derzeit ausverkauft
+
+  - if @event.seating.plan?
+    .seat_chooser
+      .note.plural_text.number_of_tickets
+        .trenner
+        | Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
+        p: em Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.
+
+      - if @reservation_groups&.any?
+        .note
+          = content_tag :p, class: ['reservationGroups'], data: { enable_url: enable_reservation_groups_ticketing_order_path }
+            | Vorreservierungen freischalten:
+            - @reservation_groups.each do |group|
+              span
+                => check_box_tag group.id, group.id
+                = label_tag group.id, group.name
+
+      = render 'application/ticketing/seating', class: %i[chooser stage], error_box: true, key: true, mode: :chooser, event: @event
+
+  - elsif @event.covid19?
+    .no-seating Ihre Sitzplätze werden Ihnen vor Ort mitgeteilt.
+  - else
+    .no-seating Bei diesem Stück gilt freie Platzwahl.

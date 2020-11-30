@@ -1,0 +1,10 @@
+- title 'Tickets bestellen'
+- include_css 'ticketing/orders'
+
+.hl Tickets bestellen
+.hcen Bitte wählen Sie eine Veranstaltung.
+
+.choose-event
+  - @events.each do |event|
+    = link_to event_slug: event.slug
+      = event_logo(event)
