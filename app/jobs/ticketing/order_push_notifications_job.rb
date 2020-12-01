@@ -30,18 +30,19 @@ module Ticketing
       I18n.t(
         :title,
         scope: i18n_scope,
-        event: @order.event.name
+        event: @order.event&.name,
+        default: nil
       )
     end
 
     def body
       I18n.t(
-        type,
-        scope: "#{i18n_scope}.body",
-        count: @order.tickets.count,
+        body_key,
+        scope: i18n_scope,
+        count: @order.items.count,
         store: @order.try(:store)&.name,
         box_office: @order.try(:box_office)&.name,
-        date: I18n.l(@order.date.date, format: '%-d. %B')
+        date: date
       )
     end
 
@@ -59,8 +60,23 @@ module Ticketing
       :admin
     end
 
+    def date
+      return if @order.date.blank?
+
+      I18n.l(@order.date.date, format: '%-d. %B')
+    end
+
+    def coupons_sold?
+      @order.purchased_coupons.any?
+    end
+
+    def body_key
+      [:body, (type unless coupons_sold?)].join('.')
+    end
+
     def i18n_scope
-      'ticketing.push_notifications.tickets_sold'
+      event = coupons_sold? ? 'coupons_sold' : 'tickets_sold'
+      "ticketing.push_notifications.#{event}"
     end
   end
 end
