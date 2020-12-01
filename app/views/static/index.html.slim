@@ -23,7 +23,13 @@
             li = link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier)
     .trenner
 
-  = render 'dates/teaser_dates'
+  .coupons
+    .hl Jetzt neu: Geschenkgutscheine
+    = link_to new_coupons_ticketing_order_path
+      = image_tag'misc/coupon.svg', alt: 'Geschenkgutschein'
+    p Die Geschenkidee zu Weihnachten!
+    p Verschenken Sie doch schon jetzt das Kaisersescher Theatererlebnis an Ihre Familie, Freunde, Mitarbeiter oder einfach an sich selbst.
+    p Klicken Sie #{link_to 'hier', new_coupons_ticketing_order_path} und bestellen Sie Gutscheine mit beliebigem Wert zum Selbstausdrucken. Diese können dann später bei einer oder mehreren Ticket-Bestellungen zu unseren Veranstaltungen eingelöst werden.
   .trenner
 
   .teaser

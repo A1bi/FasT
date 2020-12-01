@@ -16,6 +16,20 @@
   }
 }
 
+.coupons {
+  overflow: auto;
+
+  .hl {
+    margin-bottom: 30px;
+  }
+
+  img {
+    width: 30%;
+    padding: 0 30px;
+    float: left;
+  }
+}
+
 .teaser {
   margin: 30px auto;
   text-align: center;
