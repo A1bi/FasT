@@ -13,7 +13,7 @@ module Ticketing
       draw_coupon_details
       draw_front
       draw_back
-      draw_cut_lines
+      draw_folding_lines
     end
 
     private
@@ -99,7 +99,8 @@ module Ticketing
       end
     end
 
-    def draw_cut_lines
+    def draw_folding_lines
+      stroke_color 'd1cfd2'
       dash(10, space: 5, phase: 0)
 
       stroke do

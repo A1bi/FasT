@@ -1,0 +1,6 @@
+= form_for :confirm do |f|
+  table.rounded.checkboxes.form.inner
+    tr
+      td.checkbox = f.check_box :newsletter
+      td = f.label :newsletter
+        = render 'newsletter_subscribers/privacy_terms'

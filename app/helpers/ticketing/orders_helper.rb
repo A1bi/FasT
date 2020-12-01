@@ -3,7 +3,7 @@
 module Ticketing
   module OrdersHelper
     def prepopulated_text_field(form, name, key = name, type = :text)
-      value = action_name == 'new' ? current_user.try(key) : nil
+      value = action_name.in?(%w[new new_coupons]) ? current_user.try(key) : nil
       form.send("#{type}_field", name,
                 class: 'field', value: value.to_s)
     end

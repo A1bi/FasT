@@ -1,3 +1,3 @@
 <% @coupons.each do |coupon| %>
-      Gutschein – Code <%= coupon.code %> – Wert <%= number_to_currency(coupon.amount) %>
+      Gutschein <% if attach_coupons? %>– Code <%= coupon.code %> <% end %>– Wert <%= number_to_currency(coupon.amount) %>
 <% end %>

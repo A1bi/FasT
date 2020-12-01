@@ -7,7 +7,10 @@ tr.top
 - @coupons.each do |coupon|
   tr
     td colspan='3'
-      ' Code
-      span.coupon-code = coupon.code
+      - if attach_coupons?
+        ' Code
+        span.coupon-code = coupon.code
+      - else
+        | Gutschein
     / TODO: show initial amount here
     td.amount = number_to_currency(coupon.amount)

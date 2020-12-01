@@ -63,6 +63,10 @@ module Ticketing
         pdf = CouponPdf.new(coupon)
         attachments["Gutschein #{i + 1}.pdf"] = pdf.render
       end
+
+      attachments['Faltanleitung.pdf'] = File.read(
+        Rails.root.join('app/assets/images/misc/coupon_instructions.pdf')
+      )
     end
 
     def attach_coupons?
