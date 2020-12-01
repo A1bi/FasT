@@ -121,7 +121,7 @@ Rails.application.routes.draw do
               post :resend_confirmation
               patch :mark_as_paid
               patch :approve
-              post :resend_tickets
+              post :resend_items
               get :seats
               post :create_billing
             end

@@ -7,7 +7,9 @@ module Ticketing
 
     def index
       authorize Coupon
-      coupon_scope = Coupon.within_18_months.order(:recipient)
+      coupon_scope = Coupon.where('created_at > ?', 18.months.ago)
+                           .where(purchased_with_order: nil)
+                           .order(:recipient)
       @coupons = coupon_scope.valid
       @coupons_expired = coupon_scope.expired
     end

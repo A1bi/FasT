@@ -6,7 +6,7 @@ module Ticketing
     before_action :set_event_info, only: %i[new new_privileged]
     before_action :find_order, only: %i[show edit update mark_as_paid
                                         send_pay_reminder resend_confirmation
-                                        resend_tickets approve create_billing
+                                        resend_items approve create_billing
                                         seats]
     before_action :find_coupon, only: %i[add_coupon remove_coupon]
     before_action :prepare_billing_actions, only: %i[show create_billing]
@@ -173,12 +173,12 @@ module Ticketing
       redirect_to_order_details :resent_confirmation
     end
 
-    def resend_tickets
+    def resend_items
       if authorize(@order).is_a? Ticketing::Web::Order
         @order.resend_items
         @order.save
       end
-      redirect_to_order_details :resent_tickets
+      redirect_to_order_details :resent_items
     end
 
     def create_billing

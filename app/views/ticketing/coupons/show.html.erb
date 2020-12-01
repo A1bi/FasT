@@ -17,7 +17,13 @@
       </tr>
       <tr>
         <td>Empfänger:</td>
-        <td><%= @coupon.recipient %></td>
+        <td>
+          <% if @coupon.recipient.present? %>
+            <%= @coupon.recipient %>
+          <% else %>
+            <em>nicht angegeben</em>
+          <% end %>
+        </td>
       </tr>
       <tr>
         <td>Zugehörigkeit:</td>
@@ -26,6 +32,16 @@
             <%= @coupon.affiliation %>
           <% else %>
             <em>nicht angegeben</em>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td>Geldwert:</td>
+        <td>
+          <% if @coupon.amount %>
+            <%= number_to_currency @coupon.amount %>
+          <% else %>
+            <em>keiner</em>
           <% end %>
         </td>
       </tr>
@@ -53,8 +69,14 @@
           <% end %>
         </td>
       </tr>
+      <% if @coupon.purchased_with_order.present? %>
+        <tr>
+          <td>Bestellt in:</td>
+          <td><%= link_to "Bestellung #{@coupon.purchased_with_order.number}", ticketing_order_path(@coupon.purchased_with_order) %></td>
+        </tr>
+      <% end %>
       <tr>
-        <td>Genutzt in Bestellungen:</td>
+        <td>Eingelöst in Bestellungen:</td>
         <td>
           <% if !@coupon.orders.empty? %>
             <ul>

@@ -82,7 +82,7 @@ module Ticketing
     end
 
     def cancelled?
-      tickets.valid.empty?
+      tickets.valid.empty? && purchased_coupons.empty?
     end
 
     def transfer_refund

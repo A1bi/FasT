@@ -6,7 +6,7 @@
 <% overview = [
   ["Nummer", @order.number, :number],
   ["aufgegeben", l(@order.created_at, format: "%d. %B %Y, %H:%M Uhr")],
-  ["Tickets", @order.tickets.valid.count],
+  ["Artikel", @order.items.size],
   ["Gesamtbetrag", number_to_currency(@order.total)],
   ["bezahlt", @order.paid ? "ja" : "nein"]
 ] %>
@@ -15,7 +15,7 @@
     <%= render "show_overview_table", title: "Übersicht", overview: overview %>
     <tbody>
       <tr>
-        <td class="label">Gutscheine:</td>
+        <td class="label">Eingelöste Gutscheine:</td>
         <td>
           <% if @order.redeemed_coupons.any? %>
             <% @order.redeemed_coupons.each do |coupon| %>
@@ -91,7 +91,7 @@
             <% if !@order.cancelled? %>
               <% if @order.is_a? Ticketing::Web::Order %>
                 <% if @order.paid %>
-                  <div><%= link_to "Tickets erneut zusenden", { action: :resend_tickets }, method: :post, data: { confirm: "Möchten Sie die Tickets wirklich erneut zusenden?" } if @order.email.present? %></div>
+                  <div><%= link_to "Artikel erneut zusenden", { action: :resend_items }, method: :post, data: { confirm: "Möchten Sie die Artikel wirklich erneut zusenden?" } if @order.email.present? %></div>
                 <% else %>
                   <div><%= link_to "als bezahlt markieren", { action: :mark_as_paid }, method: :patch, data: { confirm: "Möchten Sie diese Bestellung wirklich als bezahlt markieren?" } %></div>
                   <div><%= link_to "Bestellbestätigung erneut senden", { action: :resend_confirmation }, method: :post, data: { confirm: "Möchten Sie die Bestellbestätigung wirklich erneut senden?" } %></div>
@@ -115,97 +115,120 @@
     </table>
   </div>
 </div>
-<% cache_if params[:ticket].nil?, [@order, Ticketing::Ticket.all, params[:type]] do %>
-  <a id="tickets"></a>
-  <%= form_tag nil, method: :patch, class: :edit_tickets, data: { controller: 'ticketing--tickets-table', action: 'ticketing--tickets-table#submit' } do %>
-    <table class="rounded entries details">
-      <thead>
-        <tr>
-          <th colspan="<%= tickets_colspan(@show_check_ins) %>">In der Bestellung enthaltene Tickets</th>
-        </tr>
-        <tr>
-          <th></th>
-          <th>Nummer</th>
-          <th>Kategorie</th>
-          <th>Preis</th>
-          <th>Termin</th>
-          <th>Sitz</th>
-          <% if @show_check_ins %>
-            <th>Einlass</th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @order.tickets.each do |ticket| %>
-          <% classes = [:cancelled] if ticket.cancelled? %>
-          <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.order_index %>
-          <%= content_tag_for :tr, ticket, class: classes do %>
-            <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
-            <td class="number">
-              <%= ticket.number %>
-              <% if ticket.resale && !ticket.cancelled? %>
-                <div class="small">
-                  Weiterverkauf <% if ticket.resold? %>erfolgreich<% else %>möglich<% end %>
-                </div>
-              <% end %>
-            </td>
-            <td class="name"><%= ticket.type.name %></td>
-            <td class="amount"><%= number_to_currency ticket.price %></td>
-            <td class="date">
-              <%= l ticket.date.date, format: '%-d. %B' %><br>
-              <%= content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small %>
-            </td>
-            <% if ticket.seat.present? %>
-              <td><%= ticket.seat.full_number %></td>
-            <% else %>
-              <td>Freie Platzwahl</td>
-            <% end %>
-            <% if @show_check_ins %>
-              <td>
-                <% if (check_in = ticket.check_ins.first) %>
-                  <span title="via <%= t(check_in.medium, scope: 'ticketing.orders.check_ins.media') %>">
-                    <%= l check_in.date, format: '%H:%M' %>
-                  </span>
-                <% end %>
-              </td>
-            <% end %>
-          <% end %>
-        <% end %>
-      </tbody>
-      <tbody>
-        <tr>
-          <td colspan="<%= tickets_colspan(@show_check_ins) %>" class="actions">
-            <% options = [
-              ["stornieren", :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
-              ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: enable_resale_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
-              ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
-              ["Kategorie umbuchen", :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
-              ["herunterladen", :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
-            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) } %>
-            <%= select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleReason' } %>
-            <span class="cancellation" data-target="ticketing--tickets-table.reason">
-              Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if current_user.retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %>
-            </span>
-            <%= submit_tag :ok, name: nil %>
-          </td>
-        </tr>
-      </tbody>
-      <% if @order.tickets.first.seat.present? %>
+<% if @order.tickets.any? %>
+  <% cache_if params[:ticket].nil?, [@order, Ticketing::Ticket.all, params[:type]] do %>
+    <a id="tickets"></a>
+    <%= form_tag nil, method: :patch, class: :edit_tickets, data: { controller: 'ticketing--tickets-table', action: 'ticketing--tickets-table#submit' } do %>
+      <table class="rounded entries details">
         <thead>
           <tr>
-            <th colspan="<%= tickets_colspan(@show_check_ins) %>">Sitzplätze</th>
+            <th colspan="<%= tickets_colspan(@show_check_ins) %>">Bestellte Tickets</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>Nummer</th>
+            <th>Kategorie</th>
+            <th>Preis</th>
+            <th>Termin</th>
+            <th>Sitz</th>
+            <% if @show_check_ins %>
+              <th>Einlass</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
+          <% @order.tickets.each do |ticket| %>
+            <% classes = [:cancelled] if ticket.cancelled? %>
+            <% (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.order_index %>
+            <%= content_tag_for :tr, ticket, class: classes do %>
+              <td><%= check_box_tag "ticket_ids[]", ticket.id, false, disabled: ticket.cancelled? %></td>
+              <td class="number">
+                <%= ticket.number %>
+                <% if ticket.resale && !ticket.cancelled? %>
+                  <div class="small">
+                    Weiterverkauf <% if ticket.resold? %>erfolgreich<% else %>möglich<% end %>
+                  </div>
+                <% end %>
+              </td>
+              <td class="name"><%= ticket.type.name %></td>
+              <td class="amount"><%= number_to_currency ticket.price %></td>
+              <td class="date">
+                <%= l ticket.date.date, format: '%-d. %B' %><br>
+                <%= content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small %>
+              </td>
+              <% if ticket.seat.present? %>
+                <td><%= ticket.seat.full_number %></td>
+              <% else %>
+                <td>Freie Platzwahl</td>
+              <% end %>
+              <% if @show_check_ins %>
+                <td>
+                  <% if (check_in = ticket.check_ins.first) %>
+                    <span title="via <%= t(check_in.medium, scope: 'ticketing.orders.check_ins.media') %>">
+                      <%= l check_in.date, format: '%H:%M' %>
+                    </span>
+                  <% end %>
+                </td>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+        <tbody>
           <tr>
-            <td colspan="<%= tickets_colspan(@show_check_ins) %>">
-              <%= render "application/ticketing/seating", event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen] %>
+            <td colspan="<%= tickets_colspan(@show_check_ins) %>" class="actions">
+              <% options = [
+                ["stornieren", :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
+                ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: enable_resale_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
+                ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
+                ["Kategorie umbuchen", :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
+                ["herunterladen", :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
+              ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) } %>
+              <%= select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleReason' } %>
+              <span class="cancellation" data-target="ticketing--tickets-table.reason">
+                Grund: <%= text_field_tag :reason, nil, placeholder: "optional" %><% if current_user.retail? %> <%= check_box_tag :refund, nil, true %> Rückzahlung direkt in Bar<% end %>
+              </span>
+              <%= submit_tag :ok, name: nil %>
             </td>
           </tr>
         </tbody>
-      <% end %>
-    </table>
+        <% if @order.tickets.first.seat.present? %>
+          <thead>
+            <tr>
+              <th colspan="<%= tickets_colspan(@show_check_ins) %>">Sitzplätze</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="<%= tickets_colspan(@show_check_ins) %>">
+                <%= render "application/ticketing/seating", event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen] %>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    <% end %>
   <% end %>
+<% end %>
+<% if @order.purchased_coupons.any? %>
+  <table class="rounded entries details">
+    <thead>
+      <tr>
+        <th colspan="2">Bestellte Geschenkgutscheine</th>
+      </tr>
+      <tr>
+        <th>Code</th>
+        <th>Wert</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.purchased_coupons.each do |coupon| %>
+        <tr>
+          <td class="code"><%= link_to coupon.code, coupon %></td>
+          <td class="amount"><%= number_to_currency coupon.amount %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
 <% cache [@order, @order.log_events] do %>
   <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>

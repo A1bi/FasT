@@ -76,7 +76,7 @@ table.details {
       text-align: left;
     }
 
-    &.number {
+    &.number, &.code {
       font: {
         weight: bold;
         family: monospace;
@@ -87,6 +87,10 @@ table.details {
         font-style: italic;
         font-weight: normal;
       }
+    }
+
+    &.code {
+      text-align: left;
     }
 
     &.amount {

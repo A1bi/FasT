@@ -4,49 +4,62 @@
 .hl Ihre Bestellung #{@order.number}
 
 - if @authenticated
-  table.rounded.entries.details
-    thead
-      tr
-        th colspan=6 Ihre Tickets
-      tr
-        th Nummer
-        th Termin
-        th Kategorie
-        th Sitz
-        - if show_wallet?
-          th
-    tbody
-      - @order.tickets.each do |ticket|
-        - classes = [:cancelled] if ticket.cancelled?
-        tr class=classes
-          td.number = ticket.number
-          td.date
-            | „#{ticket.event.name}“<br>
-            = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
-          td.name
-            = ticket.type.name
-            br
-            = number_to_currency ticket.price
-          td
-            - if ticket.seat.present?
-              = ticket.seat.full_number
-            - elsif ticket.event.covid19?
-              | Wird vor Ort mitgeteilt
-            - else
-              | Freie Platzwahl
-          - if show_wallet?
-            td.wallet
-              - unless ticket.cancelled?
-                = link_to order_overview_wallet_path(ticket.signed_info)
-                  = image_tag("add_to_wallet.png")
-    - if @order.tickets.first.seat.present?
+  - if @order.tickets.any?
+    table.rounded.entries.details
       thead
         tr
-          th colspan=(show_wallet? ? 5 : 4) Sitzplätze
-      tbody
+          th colspan=6 Ihre bestellten Tickets
         tr
-          td colspan=(show_wallet? ? 5 : 4)
-            = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
+          th Nummer
+          th Termin
+          th Kategorie
+          th Sitz
+          - if show_wallet?
+            th
+      tbody
+        - @order.tickets.each do |ticket|
+          - classes = [:cancelled] if ticket.cancelled?
+          tr class=classes
+            td.number = ticket.number
+            td.date
+              | „#{ticket.event.name}“<br>
+              = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
+            td.name
+              = ticket.type.name
+              br
+              = number_to_currency ticket.price
+            td
+              - if ticket.seat.present?
+                = ticket.seat.full_number
+              - elsif ticket.event.covid19?
+                | Wird vor Ort mitgeteilt
+              - else
+                | Freie Platzwahl
+            - if show_wallet?
+              td.wallet
+                - unless ticket.cancelled?
+                  = link_to order_overview_wallet_path(ticket.signed_info)
+                    = image_tag("add_to_wallet.png")
+      - if @order.tickets.first.seat.present?
+        thead
+          tr
+            th colspan=(show_wallet? ? 5 : 4) Sitzplätze
+        tbody
+          tr
+            td colspan=(show_wallet? ? 5 : 4)
+              = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
+
+  - if @order.purchased_coupons.any?
+    table.rounded.entries.details
+      thead
+        tr
+          th Ihre bestellten Geschenkgutscheine
+      tbody
+        - @order.purchased_coupons.each do |coupon|
+          tr
+            td
+              ' Gutschein über
+              b = number_to_currency coupon.amount
 
   = render 'refund'
 

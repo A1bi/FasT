@@ -74,7 +74,7 @@ module Ticketing
       user_admin?
     end
 
-    def resend_tickets?
+    def resend_items?
       user_admin?
     end
 

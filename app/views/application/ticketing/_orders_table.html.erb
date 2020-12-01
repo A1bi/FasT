@@ -19,7 +19,7 @@
           <% end %>
           <th>Nummer</th>
           <th><% if local_assigns[:web] %>Name<% else %>Vorverkaufsstelle<% end %></th>
-          <th>Tickets</th>
+          <th>Artikel</th>
           <% if :date.in?(additional_columns) %>
             <th>Termin</th>
           <% end %>
@@ -45,11 +45,13 @@
               <%= order.store.name %>
             <% end %>
           </td>
-          <td class="tickets"><%= order.tickets.valid.size %></td>
+          <td class="tickets"><%= order.items.size %></td>
           <% if :date.in?(additional_columns) %>
             <td>
-              <%= l order.date.date, format: '%-d. %B' %><br>
-              <%= content_tag :span, truncate(order.event.name, length: 12), title: order.event.name, class: :small %>
+              <% if order.date.present? %>
+                <%= l order.date.date, format: '%-d. %B' %><br>
+                <%= content_tag :span, truncate(order.event.name, length: 12), title: order.event.name, class: :small %>
+              <% end %>
             </td>
           <% end %>
           <% if :balance.in?(additional_columns) %>

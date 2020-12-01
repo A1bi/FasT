@@ -25,10 +25,6 @@ module Ticketing
       def expired
         where('expires_at < ?', Time.current).or(where('free_tickets < 1'))
       end
-
-      def within_18_months
-        where('created_at > ?', 18.months.ago)
-      end
     end
 
     def expired?
