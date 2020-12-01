@@ -19,8 +19,12 @@
           td.number
             = select_tag(:number, options_for_select(1..10))
           td.type
-            = select_tag(:amount, options_for_select((1..150).map { |amount| [number_to_currency(amount), amount] } ))
+            => select_tag(:amount, options_for_select((1..150).map { |amount| [number_to_currency(amount), amount] } ))
+            a.remove-coupon href='#' entfernen
           td.total <span></span> €
+        tr
+          td.hright colspan='3'
+            a.add-coupon href='#' Weiteren Gutscheinwert hinzufügen
         tr.total
           td.plural_text colspan='2' Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
           td.total <span></span> €

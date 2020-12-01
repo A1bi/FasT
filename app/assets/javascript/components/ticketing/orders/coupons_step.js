@@ -10,9 +10,20 @@ export default class extends Step {
       coupons: []
     }
 
-    this.registerEventAndInitiate(this.box.find('select'), 'change', () => this.updateTotals())
+    this.couponTemplate = this.box.find('tr.coupon').clone()
 
-    this.box.find('.event-header').on('load', () => this.resizeDelegateBox(true))
+    this.box.on('change', 'select', () => this.updateTotals())
+    this.box.find('.add-coupon').click(event => {
+      this.addCoupon()
+      event.preventDefault()
+    })
+    this.box.on('click', '.remove-coupon', event => {
+      this.removeCoupon(event.currentTarget)
+      event.preventDefault()
+    })
+
+    this.updateTotals()
+    this.updateRemoveLinks()
   }
 
   updateTotals () {
@@ -39,5 +50,28 @@ export default class extends Step {
 
     const formattedTotal = this.formatCurrency(total)
     this.box.find('tr.total .total span').text(formattedTotal)
+  }
+
+  addCoupon () {
+    const coupon = this.couponTemplate.clone()
+    this.box.find('tr.coupon').last().after(coupon)
+    this.updateList()
+  }
+
+  removeCoupon (row) {
+    row = $(row)
+    row.parents('tr').remove()
+    this.updateList()
+  }
+
+  updateList () {
+    this.updateTotals()
+    this.updateRemoveLinks()
+    this.resizeDelegateBox(true)
+  }
+
+  updateRemoveLinks () {
+    const multipleCoupons = this.box.find('tr.coupon').length > 1
+    this.box.find('.remove-coupon').toggle(multipleCoupons)
   }
 }
