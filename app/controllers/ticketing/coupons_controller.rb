@@ -82,9 +82,7 @@ module Ticketing
     end
 
     def coupon_params
-      params.require(:ticketing_coupon)
-            .permit(:recipient, :affiliation, :free_tickets,
-                    reservation_group_ids: [])
+      permitted_attributes(@coupon)
     end
   end
 end

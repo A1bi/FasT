@@ -1,0 +1,6 @@
+- path = Array(obj)
+- record = path.last
+- if policy(record).edit?
+  => link_to '', [:edit] + path, class: :edit, title: 'bearbeiten'
+- if policy(record).destroy?
+  = link_to '', path, class: :delete, title: 'löschen', method: :delete, data: { confirm: "Möchten Sie #{(delete_confirm || 'dieses Element')} wirklich löschen?" }

@@ -15,7 +15,7 @@ module Ticketing
     end
 
     def update?
-      user_admin?
+      user_admin? && record.purchased_with_order.nil?
     end
 
     def destroy?
@@ -24,6 +24,11 @@ module Ticketing
 
     def mail?
       update?
+    end
+
+    def permitted_attributes
+      [:recipient, :affiliation, :amount, :free_tickets,
+       { reservation_group_ids: [] }]
     end
   end
 end

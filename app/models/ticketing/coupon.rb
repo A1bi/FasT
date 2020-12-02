@@ -18,12 +18,13 @@ module Ticketing
 
     class << self
       def valid
-        where('free_tickets > 0')
-          .where('expires_at IS NULL OR expires_at > ?', Time.current)
+        where('expires_at IS NULL OR expires_at > ?', Time.current)
+          .where('free_tickets > 0 OR amount > 0')
       end
 
       def expired
-        where('expires_at < ?', Time.current).or(where('free_tickets < 1'))
+        where('expires_at < ?', Time.current)
+          .or(where('free_tickets <= 0 AND amount <= 0'))
       end
     end
 
