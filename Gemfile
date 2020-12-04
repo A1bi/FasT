@@ -81,6 +81,7 @@ end
 
 group :test do
   gem 'factory_bot_rails'
+  gem 'pdf-inspector'
   gem 'shoulda-matchers', '~> 4.0'
   gem 'simplecov', require: false
 end

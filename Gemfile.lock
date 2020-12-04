@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    Ascii85 (1.0.3)
     actioncable (6.0.3.4)
       actionpack (= 6.0.3.4)
       nio4r (~> 2.0)
@@ -58,6 +59,7 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    afm (0.2.2)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     apnotic (1.6.1)
@@ -147,6 +149,7 @@ GEM
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hashery (2.1.2)
     http-2 (0.10.2)
     httparty (0.18.1)
       mime-types (~> 3.0)
@@ -201,6 +204,14 @@ GEM
     parser (2.7.2.0)
       ast (~> 2.4.1)
     pdf-core (0.8.1)
+    pdf-inspector (1.3.0)
+      pdf-reader (>= 1.0, < 3.0.a)
+    pdf-reader (2.4.1)
+      Ascii85 (~> 1.0.0)
+      afm (~> 0.2.1)
+      hashery (~> 2.0)
+      ruby-rc4
+      ttfunk
     pg (1.2.3)
     phony (2.18.15)
     phony_rails (0.14.13)
@@ -308,6 +319,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 0.87.0)
     ruby-progressbar (1.10.1)
+    ruby-rc4 (0.1.5)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -404,6 +416,7 @@ DEPENDENCIES
   listen (~> 3.0)
   name_of_person
   paperclip (~> 6.1.0)
+  pdf-inspector
   pg
   phony_rails (~> 0.14.2)
   prawn (~> 2.3.0)
