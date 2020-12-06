@@ -5,6 +5,7 @@ FactoryBot.define do
     name { 'Event' }
     sequence(:identifier) { |n| "event_#{n}" }
     sequence(:slug) { |n| "event-#{n}" }
+    location { 'Sample location' }
     seating
 
     trait :with_dates do

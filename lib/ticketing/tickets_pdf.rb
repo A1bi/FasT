@@ -19,10 +19,6 @@ module Ticketing
       tickets.reject(&:cancelled?).each { |ticket| draw_ticket ticket }
     end
 
-    def add_ticket(ticket)
-      draw_ticket ticket unless ticket.cancelled?
-    end
-
     private
 
     def draw_ticket(ticket)
