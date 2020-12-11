@@ -16,15 +16,13 @@ Bitte überweisen Sie den Betrag von <%= order_balance(@order) %> auf folgendes 
 
 <%= render "bank_details" %>
 
-Sie erhalten Ihre Tickets per E-Mail nach Zahlungseingang.
+Sie erhalten Ihre bestellten Artikel per E-Mail nach Zahlungseingang.
 <% elsif @order.cash_payment? %>
-Sie erhalten Ihre Tickets nach Barzahlung.
+Sie erhalten Ihre bestellten Artikel nach Barzahlung.
 <% elsif @order.box_office_payment? %>
-Sie erhalten Ihre Tickets nach Zahlung in bar oder per EC-Karte an der Abendkasse. Nennen Sie dazu einfach Ihre Bestellnummer oder Ihren Namen.
+Sie erhalten Ihre bestellten Artikel nach Zahlung in bar oder per Karte an der Abendkasse. Nennen Sie dazu einfach Ihre Bestellnummer oder Ihren Namen.
 <% end %>
 <% end %>
-<% if attach_tickets? %>
 
 
-Wir wünschen Ihnen viel Spaß bei der Aufführung!
-<% end %>
+<%= render 'closing' %>

@@ -1,6 +1,6 @@
-wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> aus folgendem Grund storniert wurde: <%= @reason.present? ? @reason : "<em>Kein Grund angegeben.</em>".html_safe %>
+wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> aus folgendem Grund storniert wurde: <%= @reason.presence || 'Kein Grund angegeben.' %>
 
-Die stornierten Artikel verlieren damit ihre Gültigkeit. Bei weiteren Fragen können Sie sich gerne an uns wenden.
+Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
 
 <%= render 'items', introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:' unless @order.cancelled? %>
 

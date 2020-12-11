@@ -10,7 +10,7 @@ module Ticketing
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
                                inverse_of: false, optional: true
 
-      auto_strip_attributes :first_name, :last_name, squish: true
+      auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
       phony_normalize :phone, default_country_code: 'DE'
 
       validates :email, :gender, :first_name, :last_name, :plz,
