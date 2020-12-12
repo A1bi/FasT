@@ -17,7 +17,7 @@ module Passbook
 
     def initialize(type_id:, serial:, auth_token:,
                    ressources_identifier:, assets_identifier:, template_locals:)
-      super
+      super()
       @type_id = type_id
       @serial = serial
       @auth_token = auth_token
