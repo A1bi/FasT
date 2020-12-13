@@ -2,8 +2,8 @@
   <div class="messages alert">
     <div class="icon"></div>
       <ul>
-        <% errors.each do |attr, msg| %>
-        <%= content_tag :li, msg %>
+        <% errors.each do |error| %>
+        <%= content_tag :li, error.message %>
         <% end %>
       </ul>
   </div>

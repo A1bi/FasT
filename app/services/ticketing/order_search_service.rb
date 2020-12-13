@@ -61,7 +61,7 @@ module Ticketing
     end
 
     def search_words
-      ActiveSupport::Inflector.transliterate(@query).split(' ').uniq << @query
+      ActiveSupport::Inflector.transliterate(@query).split.uniq << @query
     end
 
     def scope

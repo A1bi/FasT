@@ -17,7 +17,7 @@ class NodeApi
       response = Net::HTTPResponse.read_new(socket)
       break unless response.is_a?(Net::HTTPContinue)
     end
-    response.reading_body(socket, request.response_body_permitted?) {}
+    response.reading_body(socket, request.response_body_permitted?) {} # rubocop:disable Lint/EmptyBlock
 
     response.body = JSON.parse response.body, symbolize_names: true
 
@@ -32,11 +32,9 @@ class NodeApi
 
   def self.get_chosen_seats(socket_id)
     body = seating_request('getChosenSeats', {}, socket_id).body
-    if !body[:ok]
-      nil
-    else
-      body[:seats]
-    end
+    return unless body[:ok]
+
+    body[:seats]
   end
 
   def self.update_seats(seats)

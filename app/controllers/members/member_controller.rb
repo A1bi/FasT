@@ -57,10 +57,7 @@ module Members
     def reset_password
       authorize Member
       member = Member.find_by_email(member_params[:email])
-      if !member
-        flash.alert = t('.email_not_found')
-        redirect_to action: :forgot_password
-      else
+      if member
         member.set_activation_code
         member.save
 
@@ -68,6 +65,9 @@ module Members
 
         flash.notice = t('.password_reset')
         redirect_to_login
+      else
+        flash.alert = t('.email_not_found')
+        redirect_to action: :forgot_password
       end
     end
 

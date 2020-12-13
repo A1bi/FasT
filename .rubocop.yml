@@ -11,6 +11,10 @@ Layout/LineLength:
   Exclude:
     - db/migrate/*.rb
 
+Lint/EmptyBlock:
+  Exclude:
+    - lib/tasks/one_off.rake
+
 Metrics/AbcSize:
   Enabled: false
 

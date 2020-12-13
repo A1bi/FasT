@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.0'
 
 gem 'pg'
 
@@ -22,13 +22,13 @@ gem 'icalendar', '~> 2.7'
 
 gem 'prawn', '~> 2.3.0'
 gem 'prawn-qrcode', '~> 0.5.1'
-gem 'prawn-svg', '~> 0.30.0'
+gem 'prawn-svg', '~> 0.31.0'
 gem 'prawn-table', '~> 0.2.1'
 
 gem 'rubyzip', '~> 2.0'
 
 gem 'roadie', '~> 4.0.0'
-gem 'roadie-rails', '~> 2.1.0'
+gem 'roadie-rails', '~> 2.1'
 
 gem 'sepa_king', '~> 0.12.0'
 
@@ -62,7 +62,7 @@ gem 'request_store', '~> 1.5.0'
 
 gem 'jbuilder', '~> 2.10.0'
 
-gem 'puma', '~> 5.0.0'
+gem 'puma', '~> 5.0'
 
 gem 'httparty', '~> 0.18'
 

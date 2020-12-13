@@ -109,11 +109,9 @@ module Ticketing
     end
 
     def date
-      @date ||= begin
-        return if order_params[:date].blank?
+      return if order_params[:date].blank?
 
-        Ticketing::EventDate.find(order_params[:date])
-      end
+      @date ||= Ticketing::EventDate.find(order_params[:date])
     end
 
     def sale_disabled?

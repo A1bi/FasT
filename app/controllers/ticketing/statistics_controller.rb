@@ -32,10 +32,12 @@ module Ticketing
       render_cached_json seats_cache_key(date) do
         seats = if date.event.seating.plan?
                   Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
-                    status = if !seat.taken?
-                               seat.reserved? ? 2 : 1
-                             else
+                    status = if seat.taken?
                                0
+                             elsif seat.reserved?
+                               2
+                             else
+                               1
                              end
                     [seat.id, status]
                   end
