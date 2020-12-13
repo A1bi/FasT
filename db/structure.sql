@@ -43,6 +43,7 @@ CREATE TYPE public.permission AS ENUM (
     'permissions_update',
     'members_read',
     'members_update',
+    'members_destroy',
     'newsletters_read',
     'newsletters_update',
     'newsletters_approve',
@@ -3706,6 +3707,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201107030155'),
 ('20201125212834'),
 ('20201126191323'),
-('20201126192338');
+('20201126192338'),
+('20201213211837');
 
 

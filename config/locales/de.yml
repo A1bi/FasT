@@ -26,6 +26,7 @@ de:
   admin:
     members:
       created: "Das Mitglied wurde erfolgreich angelegt."
+      destroyed: Das Mitglied wurde gelöscht.
       sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
       terminated: Die Kündigung wurde vorgemerkt.
       termination_reverted: Die vorgemerkte Kündigung wurde entfernt.
@@ -72,6 +73,7 @@ de:
     permissions_update: Berechtigungen der Mitglieder bearbeiten
     members_read: Mitgliederliste einsehen
     members_update: Mitgliederdaten bearbeiten
+    members_destroy: Mitglieder löschen
     newsletters_read: Newsletter einsehen
     newsletters_update: Newsletter bearbeiten
     newsletters_approve: Newsletter prüfen

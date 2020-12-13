@@ -2,8 +2,9 @@
 
 class User < ApplicationRecord
   PERMISSIONS = %i[permissions_read permissions_update members_read
-                   members_update newsletters_read newsletters_update
-                   newsletters_approve internet_access_sessions_create].freeze
+                   members_update members_destroy newsletters_read
+                   newsletters_update newsletters_approve
+                   internet_access_sessions_create].freeze
 
   has_secure_password
   has_person_name

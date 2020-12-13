@@ -7,7 +7,7 @@ module Members
     end
 
     def create?
-      updated_permitted?
+      update_permitted?
     end
 
     def show?
@@ -19,7 +19,7 @@ module Members
     end
 
     def update?
-      user.present? && record.member? && record == user || updated_permitted?
+      user.present? && record.member? && record == user || update_permitted?
     end
 
     def update_permissions?
@@ -27,11 +27,11 @@ module Members
     end
 
     def destroy?
-      updated_permitted?
+      user.permitted?(:members_destroy)
     end
 
     def reactivate?
-      updated_permitted?
+      update_permitted?
     end
 
     def activate?
@@ -68,7 +68,7 @@ module Members
 
     private
 
-    def updated_permitted?
+    def update_permitted?
       user.permitted?(:members_update)
     end
   end
