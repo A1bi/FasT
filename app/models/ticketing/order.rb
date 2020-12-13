@@ -102,6 +102,11 @@ module Ticketing
     end
 
     def update_total_and_billing(billing_note)
+      # do not use attribute_in_database because total might have already
+      # been changed in memory resulting in depositing the same diff twice to
+      # the account
+      old_total = total
+
       self.total = tickets.sum do |ticket|
         next 0 if ticket.cancelled?
 
@@ -116,7 +121,7 @@ module Ticketing
       # memory at this point, sum would otherwise make it an SQL query
       self.total += purchased_coupons.sum(&:amount)
 
-      diff = attribute_in_database(:total) - total
+      diff = old_total - total
       deposit_into_account(diff, billing_note)
     end
 
