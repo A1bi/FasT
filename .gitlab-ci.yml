@@ -2,11 +2,11 @@ include:
   - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
 
 .default-tags:
-  tags: [ruby-2.6]
+  tags: [ruby-2.7]
 
 .postgres:
   tags:
-    - ruby-2.6
+    - ruby-2.7
     - postgres
 
 .bundle: &bundle
