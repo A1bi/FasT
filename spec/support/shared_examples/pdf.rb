@@ -4,7 +4,7 @@ RSpec::Matchers.define :an_svg_file do
   match { |path| path.to_s.match?(/.+\.svg\z/) }
 end
 
-RSpec.shared_examples 'stub loading of SVG files' do
+RSpec.shared_context 'when loading of SVG files' do
   before do
     allow(File).to receive(:read).with(an_svg_file).and_return('<svg></svg>')
   end

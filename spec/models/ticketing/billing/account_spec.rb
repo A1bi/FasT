@@ -3,8 +3,9 @@
 RSpec.describe Ticketing::Billing::Account do
   describe 'associations' do
     it { is_expected.to belong_to(:billable).inverse_of(:billing_account) }
+
     it do
-      is_expected.to have_many(:transfers)
+      expect(subject).to have_many(:transfers)
         .inverse_of(:account).autosave(true).dependent(:destroy)
         .order(created_at: :desc)
     end
@@ -41,7 +42,7 @@ RSpec.describe Ticketing::Billing::Account do
   end
 
   shared_examples 'amount is zero' do
-    context 'amount is zero' do
+    context 'with zero amount' do
       let(:amount) { 0 }
 
       include_examples 'does not update balance or create transfer'
@@ -49,7 +50,7 @@ RSpec.describe Ticketing::Billing::Account do
   end
 
   shared_examples 'transfer of amount' do |negative|
-    context 'amount is non-zero' do
+    context 'with non-zero amount' do
       let(:amount) { 10 }
       let(:transferred_amount) { amount * (negative ? -1 : 1) }
 
@@ -61,17 +62,17 @@ RSpec.describe Ticketing::Billing::Account do
   end
 
   describe '#balance' do
-    let(:account) { create(:billing_account) }
-
     subject { account.balance }
+
+    let(:account) { create(:billing_account) }
 
     it { is_expected.to be_zero }
   end
 
   describe '#transfers' do
-    let(:account) { create(:billing_account) }
-
     subject { account.transfers }
+
+    let(:account) { create(:billing_account) }
 
     it { is_expected.to be_empty }
   end
@@ -80,7 +81,7 @@ RSpec.describe Ticketing::Billing::Account do
     let(:account) { create(:billing_account) }
     let(:note_key) { :foobar }
 
-    context 'depositing once' do
+    context 'when depositing once' do
       subject do
         account.deposit(amount, note_key)
         account.save
@@ -89,14 +90,14 @@ RSpec.describe Ticketing::Billing::Account do
       include_examples 'transfer of amount'
     end
 
-    context 'depositing twice' do
-      let(:amount) { 10 }
-      let(:transferred_amount) { amount * 2 }
-
+    context 'when depositing twice' do
       subject do
         2.times { account.deposit(amount, note_key) }
         account.save
       end
+
+      let(:amount) { 10 }
+      let(:transferred_amount) { amount * 2 }
 
       include_examples 'updates the balance'
     end
@@ -106,7 +107,7 @@ RSpec.describe Ticketing::Billing::Account do
     let(:account) { create(:billing_account) }
     let(:note_key) { :foobar }
 
-    context 'withdrawing once' do
+    context 'when withdrawing once' do
       subject do
         account.withdraw(amount, note_key)
         account.save
@@ -115,29 +116,29 @@ RSpec.describe Ticketing::Billing::Account do
       include_examples 'transfer of amount', true
     end
 
-    context 'withdrawing twice' do
-      let(:amount) { 10 }
-      let(:transferred_amount) { -amount * 2 }
-
+    context 'when withdrawing twice' do
       subject do
         2.times { account.withdraw(amount, note_key) }
         account.save
       end
+
+      let(:amount) { 10 }
+      let(:transferred_amount) { -amount * 2 }
 
       include_examples 'updates the balance'
     end
   end
 
   describe '#transfer' do
-    let(:sender) { create(:billing_account) }
-    let(:recipient) { create(:billing_account) }
-    let(:amount) { 10 }
-    let(:note_key) { :foobar }
-
     subject do
       sender.transfer(recipient, amount, note_key)
       sender.save
     end
+
+    let(:sender) { create(:billing_account) }
+    let(:recipient) { create(:billing_account) }
+    let(:amount) { 10 }
+    let(:note_key) { :foobar }
 
     shared_examples 'updates the balance and creates transfer' do
       include_examples 'updates the balance'
@@ -155,14 +156,14 @@ RSpec.describe Ticketing::Billing::Account do
           .to eq(participant.transfers.last)
       end
 
-      context 'recipient is sender' do
+      context 'when recipient is sender' do
         let(:recipient) { sender }
 
         include_examples 'does not update balance or create transfer'
       end
     end
 
-    context 'sender' do
+    context 'when checking the sender\'s account' do
       let(:account) { sender }
       let(:participant) { recipient }
       let(:transferred_amount) { -amount }
@@ -170,7 +171,7 @@ RSpec.describe Ticketing::Billing::Account do
       include_examples 'updates the balance and creates transfer'
     end
 
-    context 'recipient' do
+    context 'when checking the recipient\'s account' do
       let(:account) { recipient }
       let(:participant) { sender }
       let(:transferred_amount) { amount }
@@ -180,21 +181,21 @@ RSpec.describe Ticketing::Billing::Account do
   end
 
   describe '#outstanding?' do
-    let(:account) { create(:billing_account) }
-
     subject { account.outstanding? }
 
-    context 'zero balance' do
+    let(:account) { create(:billing_account) }
+
+    context 'with zero balance' do
       it { is_expected.to be_falsy }
     end
 
-    context 'positive balance' do
+    context 'with positive balance' do
       before { account.deposit(10, nil) }
 
       it { is_expected.to be_falsy }
     end
 
-    context 'negative balance' do
+    context 'with negative balance' do
       before { account.deposit(-10, nil) }
 
       it { is_expected.to be_truthy }

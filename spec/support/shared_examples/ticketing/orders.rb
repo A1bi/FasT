@@ -13,34 +13,40 @@ RSpec.shared_examples 'generic order' do |order_factory|
 
   describe 'associations' do
     it {
-      is_expected.to have_many(:tickets)
+      expect(subject).to have_many(:tickets)
         .inverse_of(:order).dependent(:destroy).autosave(true)
         .order(:order_index)
     }
+
     it {
-      is_expected.to belong_to(:date)
+      expect(subject).to belong_to(:date)
         .class_name('Ticketing::EventDate').optional(true)
     }
+
     it { is_expected.to have_many(:coupon_redemptions).dependent(:destroy) }
+
     it {
-      is_expected
+      expect(subject)
         .to have_many(:redeemed_coupons)
         .through(:coupon_redemptions).source(:coupon)
     }
+
     it {
-      is_expected
+      expect(subject)
         .to have_many(:purchased_coupons)
         .class_name('Ticketing::Coupon').dependent(:nullify)
         .with_foreign_key(:purchased_with_order_id)
         .inverse_of(:purchased_with_order).autosave(true)
     }
+
     it {
-      is_expected.to have_many(:exclusive_ticket_type_credit_spendings)
+      expect(subject).to have_many(:exclusive_ticket_type_credit_spendings)
         .class_name('Members::ExclusiveTicketTypeCreditSpending')
         .dependent(:destroy).autosave(true)
     }
+
     it {
-      is_expected.to have_many(:box_office_payments)
+      expect(subject).to have_many(:box_office_payments)
         .class_name('Ticketing::BoxOffice::OrderPayment')
         .dependent(:nullify)
     }
@@ -60,7 +66,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
 
       it 'validates presence of items' do
         subject.valid?
-        expect(subject.errors.added?(:base, :missing_items)).to be_truthy
+        expect(subject.errors).to be_added(:base, :missing_items)
       end
     end
   end
@@ -86,25 +92,25 @@ RSpec.shared_examples 'generic order' do |order_factory|
   describe '#items' do
     subject { order.items }
 
-    context 'no items present' do
+    context 'without items present' do
       let(:order) { build(order_factory) }
 
       it { is_expected.to be_empty }
     end
 
-    context 'tickets present' do
+    context 'with tickets present' do
       let(:order) { create(order_factory, :with_tickets) }
 
       it { is_expected.to eq(order.tickets) }
     end
 
-    context 'coupons present' do
+    context 'with coupons present' do
       let(:order) { create(order_factory, :with_purchased_coupons) }
 
       it { is_expected.to eq(order.purchased_coupons) }
     end
 
-    context 'tickets and coupons present' do
+    context 'with tickets and coupons present' do
       let(:order) do
         create(order_factory, :with_tickets, :with_purchased_coupons)
       end
@@ -118,7 +124,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     let(:billing_account) { order.billing_account }
     let(:total) { order.tickets.sum(:price) }
 
-    context 'order created' do
+    context 'when order created' do
       # TODO: remove this exception for retail orders which is needed because
       # their total is balanced with their store's right away
       next if order_factory == :retail_order
@@ -147,16 +153,16 @@ RSpec.shared_examples 'generic order' do |order_factory|
       end
     end
 
-    context 'a ticket has been cancelled' do
-      let(:ticket) { order.tickets.first }
-      let(:billing_note) { 'cancel_foo' }
-
-      before { ticket.cancel(nil) }
-
+    context 'when a ticket has been cancelled' do
       subject do
         order.update_total_and_billing(billing_note)
         order.save
       end
+
+      let(:ticket) { order.tickets.first }
+      let(:billing_note) { 'cancel_foo' }
+
+      before { ticket.cancel(nil) }
 
       it 'updates the total after changes' do
         expect { subject }.to change(order, :total).by(-ticket.price)

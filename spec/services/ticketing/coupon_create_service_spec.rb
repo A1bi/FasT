@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe Ticketing::CouponCreateService do
-  let(:order) { build(:order) }
-  let(:service) do
-    Ticketing::CouponCreateService.new(order, nil, { coupons: coupons })
-  end
-
   subject { service.execute }
 
-  context 'no coupons provided' do
+  let(:order) { build(:order) }
+  let(:service) { described_class.new(order, nil, { coupons: coupons }) }
+
+  context 'with no coupons provided' do
     let(:coupons) { nil }
 
     it 'does not add any coupons' do
@@ -16,7 +14,7 @@ RSpec.describe Ticketing::CouponCreateService do
     end
   end
 
-  context 'three coupons provided' do
+  context 'with three coupons provided' do
     let(:coupons) do
       [
         { amount: 50, number: 1 },

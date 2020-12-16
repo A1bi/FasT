@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'spam honeypot' do |model|
-  context 'request is spam' do
+  context 'with spam request' do
     shared_examples 'spam request handling' do
       if model
         it 'does not create a record' do
@@ -15,13 +15,13 @@ RSpec.shared_examples 'spam honeypot' do |model|
       end
     end
 
-    context 'comment is not empty' do
+    context 'when comment is not empty' do
       let(:comment) { 'foo' }
 
       include_examples 'spam request handling'
     end
 
-    context 'comment is a newline' do
+    context 'when comment is a newline' do
       let(:comment) { "\n" }
 
       include_examples 'spam request handling'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :event, class: Ticketing::Event do
+  factory :event, class: 'Ticketing::Event' do
     name { 'Event' }
     sequence(:identifier) { |n| "event_#{n}" }
     sequence(:slug) { |n| "event-#{n}" }

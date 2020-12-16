@@ -9,7 +9,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
 
     it {
       expect { subject }
-        .to have_enqueued_job(Ticketing::OrderPushNotificationsJob)
+        .to have_enqueued_job(described_class)
         .with(order, admin: admin)
     }
   end
@@ -27,7 +27,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
         .to receive(:find_each).and_yield(devices[0]).and_yield(devices[1])
     end
 
-    context 'ticket order' do
+    context 'with ticket order' do
       shared_examples 'common payload' do
         let(:date) { 'January 1st 2001' }
 
@@ -47,12 +47,12 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
         end
       end
 
-      context 'web order' do
+      context 'with web order' do
         let(:order) { create(:web_order, :with_tickets) }
 
         include_examples 'common payload'
 
-        context 'regular order' do
+        context 'with regular order' do
           it 'includes online in body' do
             expect(devices).to all(receive(:push) do |payload|
               expect(payload[:body]).to include('online')
@@ -61,7 +61,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
           end
         end
 
-        context 'admin order' do
+        context 'with admin order' do
           let(:admin) { true }
 
           it 'includes phone context in body' do
@@ -73,7 +73,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
         end
       end
 
-      context 'retail order' do
+      context 'with retail order' do
         let(:order) { create(:retail_order, :with_tickets) }
 
         before do
@@ -90,7 +90,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
         end
       end
 
-      context 'box office order' do
+      context 'with box office order' do
         let(:order) { create(:box_office_order, :with_tickets) }
 
         include_examples 'common payload'
@@ -104,7 +104,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
       end
     end
 
-    context 'coupon order' do
+    context 'with coupon order' do
       let(:order) { create(:web_order, :with_purchased_coupons) }
 
       it 'pushes the correct payload' do

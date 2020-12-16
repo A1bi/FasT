@@ -3,7 +3,7 @@
 RSpec.shared_examples 'billable' do
   describe 'associations' do
     it do
-      is_expected
+      expect(subject)
         .to have_one(:billing_account)
         .class_name('Ticketing::Billing::Account')
         .inverse_of(:billable).autosave(true).dependent(:destroy)
@@ -62,7 +62,7 @@ RSpec.shared_examples 'billable' do
 
       include_examples 'calls the after transfer callback'
 
-      context 'recipient receives callback' do
+      context 'when recipient receives callback' do
         let(:after_transfer_callback_receiver) { recipient }
 
         include_examples 'calls the after transfer callback'

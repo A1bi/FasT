@@ -9,7 +9,7 @@ RSpec.describe Ticketing::CouponPdf do
   let(:page_analysis) { PDF::Inspector::Page.analyze(pdf) }
   let(:page_layout) { [841.89, 595.28] }
 
-  include_examples 'stub loading of SVG files'
+  include_context 'when loading of SVG files'
 
   include_examples 'it has the correct number of pages', 1
   include_examples 'all pages have the correct layout'

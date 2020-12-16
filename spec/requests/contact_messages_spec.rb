@@ -14,13 +14,14 @@ RSpec.describe 'ContactMessages' do
       { contact_message: message_params, comment: comment }
     end
 
-    context 'valid params provided' do
+    context 'with valid params' do
       let(:message) { double.as_null_object }
+
+      before { allow(ContactMessage).to receive(:new).and_return(message) }
 
       it 'sends a contact message notification' do
         expect(ContactMessage)
           .to receive(:new).with(message_params.stringify_keys)
-                           .and_return(message)
         expect(message).to receive(:mail)
         subject
       end
@@ -31,7 +32,7 @@ RSpec.describe 'ContactMessages' do
       end
     end
 
-    context 'invalid params provided' do
+    context 'with invalid params' do
       let(:message_params) { { email: 'foo' } }
 
       it 'renders the form' do

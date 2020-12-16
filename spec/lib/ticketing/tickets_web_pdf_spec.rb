@@ -25,8 +25,6 @@ RSpec.describe Ticketing::TicketsWebPdf do
     images_path.join("theater/#{event.identifier}/ticket_header.svg")
   end
 
-  include_examples 'stub loading of SVG files'
-
   before do
     # speed up PDF generation by skipping barcode
     allow(tickets_pdf).to receive(:print_qr_code)
@@ -43,7 +41,17 @@ RSpec.describe Ticketing::TicketsWebPdf do
     end
   end
 
+  include_context 'when loading of SVG files'
+
   shared_examples 'renders the correct information' do
+    def unauthenticated_content(index)
+      "#{Settings.ticket_barcode_base_url}barcode_#{index}"
+    end
+
+    def authenticated_content(index)
+      "#{Settings.ticket_barcode_base_url}barcode_authenticated_#{index}"
+    end
+
     it 'renders the correct event information' do
       expect(text_analysis.strings)
         .to include(event.location).exactly(tickets_count).times
@@ -58,17 +66,12 @@ RSpec.describe Ticketing::TicketsWebPdf do
 
     it 'renders the correct ticket barcodes' do
       order.tickets.size.times do |i|
-        unauthenticated_content =
-          "#{Settings.ticket_barcode_base_url}barcode_#{i}"
         expect(tickets_pdf).to receive(:print_qr_code)
-          .with(unauthenticated_content, any_args).once
-
-        authenticated_content =
-          "#{Settings.ticket_barcode_base_url}barcode_authenticated_#{i}"
+          .with(unauthenticated_content(i), any_args).once
         expect(tickets_pdf).not_to receive(:print_qr_code)
-          .with(authenticated_content, any_args)
+          .with(authenticated_content(i), any_args)
         expect(tickets_pdf).to receive(:link_annotate)
-          .with(authenticated_content, any_args).once
+          .with(authenticated_content(i), any_args).once
       end
       pdf
     end
@@ -79,25 +82,25 @@ RSpec.describe Ticketing::TicketsWebPdf do
     pdf
   end
 
-  context 'one ticket' do
+  context 'with one ticket' do
     include_examples 'all pages have the correct layout'
     include_examples 'renders the correct information'
   end
 
-  context 'three tickets' do
+  context 'with three tickets' do
     let(:tickets_count) { 3 }
 
     include_examples 'renders the correct information'
   end
 
-  context 'four tickets' do
+  context 'with four tickets' do
     let(:tickets_count) { 4 }
 
     include_examples 'all pages have the correct layout'
     include_examples 'renders the correct information'
   end
 
-  context 'nine tickets' do
+  context 'with nine tickets' do
     let(:tickets_count) { 9 }
 
     include_examples 'renders the correct information'

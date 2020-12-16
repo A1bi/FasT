@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :order, class: Ticketing::Order do
+  factory :order, class: 'Ticketing::Order' do
     trait :with_tickets do
       transient do
         event { build(:event, :complete) }

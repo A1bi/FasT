@@ -87,9 +87,10 @@ group :test do
 end
 
 group :development, :ci do
-  gem 'capistrano', '~> 3.14'
+  gem 'capistrano', '~> 3.14', require: false
   gem 'capistrano-bundler', '~> 2.0', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
-  gem 'rubocop'
-  gem 'rubocop-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 end

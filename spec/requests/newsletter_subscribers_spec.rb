@@ -14,10 +14,13 @@ RSpec.describe 'NewsletterSubscribers' do
       { newsletter_subscriber: subscriber_params, comment: comment }
     end
 
+    # rubocop:disable RSpec/BeforeAfterAll
     before(:context) { create(:newsletter_subscriber_list, id: 1) }
-    after(:context) { Newsletter::SubscriberList.delete_all }
 
-    context 'valid params provided' do
+    after(:context) { Newsletter::SubscriberList.delete_all }
+    # rubocop:enable RSpec/BeforeAfterAll
+
+    context 'with valid params' do
       it 'creates a subscriber' do
         expect { subject }.to change(Newsletter::Subscriber, :count).by(1)
         subscriber = Newsletter::Subscriber.last
@@ -32,7 +35,7 @@ RSpec.describe 'NewsletterSubscribers' do
       end
     end
 
-    context 'invalid params provided' do
+    context 'with invalid params' do
       let(:subscriber_params) { { email: 'foo' } }
 
       it 'renders the form' do

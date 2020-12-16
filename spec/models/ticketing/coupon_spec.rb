@@ -5,28 +5,31 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::Coupon do
   describe 'associations' do
     it {
-      is_expected
+      expect(subject)
         .to have_and_belong_to_many(:reservation_groups)
         .join_table(:ticketing_coupons_reservation_groups)
     }
+
     it {
-      is_expected
+      expect(subject)
         .to have_many(:redemptions).class_name('Ticketing::CouponRedemption')
                                    .dependent(:destroy)
     }
+
     it {
-      is_expected
+      expect(subject)
         .to belong_to(:purchased_with_order).class_name('Ticketing::Order')
                                             .optional(true)
     }
+
     it { is_expected.to have_many(:orders).through(:redemptions) }
   end
 
   describe '#code' do
+    subject { coupon.code }
+
     let(:coupon) { described_class.create }
     let(:coupon2) { described_class.create }
-
-    subject { coupon.code }
 
     it { is_expected.not_to be_empty }
 
@@ -68,13 +71,13 @@ RSpec.describe Ticketing::Coupon do
   end
 
   describe '#redeem' do
-    let(:coupon) { create(:coupon) }
-    let(:loggable) { coupon }
-
     subject do
       coupon.redeem
       coupon.save
     end
+
+    let(:coupon) { create(:coupon) }
+    let(:loggable) { coupon }
 
     include_examples 'creates a log event', :redeemed
   end
