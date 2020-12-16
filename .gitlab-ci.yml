@@ -10,7 +10,9 @@ include:
     - postgres
 
 .bundle: &bundle
-  - bundle install -j $(sysctl -n hw.ncpu) --without development
+  - bundle config set --local without development
+  - bundle config set --local path vendor/ruby
+  - bundle install -j $(sysctl -n hw.ncpu)
 
 .copy_master_key: &copy_master_key
   - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
@@ -27,11 +29,14 @@ stages:
 variables:
   RAILS_ENV: test
   NODE_ENV: test
+  RUBOCOP_CACHE_ROOT: .cache/rubocop
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
+    - vendor/ruby
     - node_modules
+    - .cache
     - public/assets
 
 rubocop:
