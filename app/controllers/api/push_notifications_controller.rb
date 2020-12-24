@@ -3,7 +3,7 @@
 module Api
   class PushNotificationsController < ApiController
     def register
-      device.settings = params.require(:settings).permit(:sound_enabled)
+      device.settings = params.require(:settings).permit(:sound_enabled).to_h
       head device.save ? :ok : :unprocessable_entity
     end
 
