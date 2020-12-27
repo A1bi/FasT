@@ -11,8 +11,8 @@
           <%= link_to 'löschen', admin_members_member_path(@member), method: :delete, data: { confirm: 'Möchten Sie dieses Mitglied wirklich löschen?'} %> |
         <% end %>
         <% if policy(@member).edit? %>
-          <% if !@member.membership_terminated? %>
-            <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { terminated: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
+          <% if !@member.membership_cancelled? %>
+            <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { cancelled: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
           <% end %>
           <%= link_to 'Daten bearbeiten', edit_admin_members_member_path(@member) %>
         <% end %>
@@ -35,14 +35,14 @@
         <td>Geburtstag:</td>
         <td><%= l @member.birthday, format: :long if @member.birthday %></td>
       </tr>
-      <% if @member.membership_terminated? %>
+      <% if @member.membership_cancelled? %>
         <tr>
           <td colspan="2">
-            <div class="terminated">
+            <div class="cancelled">
               Mitgliedschaft gekündigt zum <%= l @member.membership_terminates_on, format: :long %>
             </div>
             <div class="small hcen">
-              <%= link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { terminated: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'} %>
+              <%= link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'} %>
             </div>
           </td>
         </tr>

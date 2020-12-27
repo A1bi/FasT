@@ -21,7 +21,7 @@
               span> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
             - if member.admin?
               span> title='Dieses Mitglied ist Teil des Vorstandes' 👑
-            - if member.membership_terminated?
+            - if member.membership_cancelled?
               span> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
           td = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
           td = link_to_if policy(member).show?, member.name.first, [:admin, member]

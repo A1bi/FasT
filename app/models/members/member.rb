@@ -44,7 +44,7 @@ module Members
       add_to_family_with_member(self.class.find(member_id))
     end
 
-    def membership_terminated?
+    def membership_cancelled?
       membership_terminates_on.present?
     end
 
@@ -53,7 +53,7 @@ module Members
     end
 
     def renew_membership!
-      return if membership_fee_paid? || membership_terminated?
+      return if membership_fee_paid? || membership_cancelled?
 
       payment = membership_fee_payments.create(
         amount: membership_fee,

@@ -30,13 +30,13 @@ module Admin
     def edit; end
 
     def update
-      case params[:members_member][:terminated]
+      case params[:members_member][:cancelled]
       when 'true'
         @member.terminate_membership!
-        notice = t('.terminated')
+        notice = t('.cancelled')
       when 'false'
         @member.revert_membership_termination!
-        notice = t('.termination_reverted')
+        notice = t('.cancellation_reverted')
       else
         update_member
         return render :edit unless @member.save
