@@ -27,5 +27,15 @@ RSpec.describe Members::SubmitMembershipFeeDebitsJob do
       expect { subject }
         .not_to(change { submitted_payment.reload.debit_submission_id })
     end
+
+    it 'enqueues sending the debit SEPA XML file' do
+      expect { subject }.to(
+        have_enqueued_mail(Members::MembershipFeeMailer, :debit_submission)
+        .with do |args|
+          expect(args[:args].first)
+            .to eq(Members::MembershipFeeDebitSubmission.last)
+        end
+      )
+    end
   end
 end

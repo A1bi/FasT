@@ -3,7 +3,10 @@
 module Members
   class SubmitMembershipFeeDebitsJob < ApplicationJob
     def perform
-      MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
+      submission =
+        MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
+
+      Members::MembershipFeeMailer.debit_submission(submission).deliver_later
     end
 
     private
