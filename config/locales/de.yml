@@ -74,6 +74,9 @@ de:
         iban: DE65570691440000178167
         creditor_identifier: DE21ZZZ00001271843
         remittance_information: Jahresmitgliedsbeitrag für %{member}
+    membership_fee_mailer:
+      debit_submission:
+        subject: Neue Sammellastschrift für Mitgliedsbeträge
   permissions:
     permissions_read: Berechtigungen der Mitglieder einsehen
     permissions_update: Berechtigungen der Mitglieder bearbeiten
