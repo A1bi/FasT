@@ -4,6 +4,8 @@ module Members
   class RenewMembershipsJob < ApplicationJob
     def perform
       members_to_renew.find_each(&:renew_membership!)
+
+      SubmitMembershipFeeDebitsJob.perform_later
     end
 
     private

@@ -39,5 +39,10 @@ RSpec.describe Members::RenewMembershipsJob do
     it 'creates membership fee payments' do
       expect { subject }.to change(Members::MembershipFeePayment, :count).by(2)
     end
+
+    it 'enqueues a debits submission job' do
+      expect { subject }
+        .to have_enqueued_job(Members::SubmitMembershipFeeDebitsJob)
+    end
   end
 end
