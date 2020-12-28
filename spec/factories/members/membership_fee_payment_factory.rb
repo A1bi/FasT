@@ -3,14 +3,15 @@
 FactoryBot.define do
   factory :membership_fee_payment, class: 'Members::MembershipFeePayment' do
     member
-    amount { 25 }
+    amount { rand(10..50) }
     paid_until { 1.year.from_now }
 
     trait :submitted do
-      after(:create) do |payment|
-        payment.create_debit_submission
-        payment.save
-      end
+      debit_submission factory: :membership_fee_debit_submission
+    end
+
+    trait :with_sepa_mandate do
+      association :member, :with_sepa_mandate
     end
   end
 end

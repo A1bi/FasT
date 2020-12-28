@@ -68,6 +68,12 @@ de:
       ics:
         calname: "Freilichtbühne am schiefen Turm"
         caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
+    membership_fee_payments:
+      debit_submissions:
+        name: Freilichtbühne am schiefen Turm
+        iban: DE65570691440000178167
+        creditor_identifier: DE21ZZZ00001271843
+        remittance_information: Jahresmitgliedsbeitrag für %{member}
   permissions:
     permissions_read: Berechtigungen der Mitglieder einsehen
     permissions_update: Berechtigungen der Mitglieder bearbeiten

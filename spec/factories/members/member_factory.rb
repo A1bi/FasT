@@ -13,5 +13,9 @@ FactoryBot.define do
     trait :membership_cancelled do
       after(:create, &:terminate_membership!)
     end
+
+    trait :with_sepa_mandate do
+      association :sepa_mandate, factory: :members_sepa_mandate
+    end
   end
 end
