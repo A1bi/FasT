@@ -8,10 +8,15 @@ env 'MAILTO', 'albrecht@oster.online'
 # whenever does not need to prefix jobs with bash to load the environment
 # as we are not using RVM in production
 set :job_template, nil
+set :chronic_options, hours24: true
 
 every :day do
   runner 'Ticketing::BadgeResetPushNotificationsJob.perform_later'
   runner 'Newsletter::SubscriberCleanupJob.perform_later'
   runner 'SharedEmailAccountTokensCleanupJob.perform_later'
   runner 'Members::DestroyTerminatedMembersJob.perform_later'
+end
+
+every :day, at: '10:30' do
+  runner 'Members::RenewMembershipsJob.perform_later'
 end
