@@ -28,11 +28,34 @@ end
               group: :member
             }
           end
+
   attrs[:password] = '123456'
+  attrs[:birthday] = FFaker::Time.date(year_range: 50, year_latest: 10)
   attrs[:joined_at] = FFaker::Time.date
+  attrs[:phone] = FFaker::PhoneNumberDE.phone_number
+  attrs[:street] = FFaker::AddressDE.street_address
+  attrs[:plz] = FFaker::AddressDE.zip_code
+  attrs[:city] = FFaker::AddressDE.city
+
   member = Members::Member.new(attrs)
-  member.save(valide: false)
+
+  member.build_sepa_mandate(
+    debtor_name: member.name.full,
+    iban: 'DE89370400440532013000'
+  )
+
+  member.save
+  next unless rand(2) == 1
+
+  member.renew_membership!
+  next unless rand(5) == 1
+
+  member.terminate_membership!
 end
+
+Members::MembershipFeeDebitSubmission.create(
+  payments: Members::MembershipFeePayment.all
+)
 
 # dates
 locations = %i[hier da dort irgendwo nirgendwo]
