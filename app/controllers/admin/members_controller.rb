@@ -140,7 +140,7 @@ module Admin
     end
 
     def send_activation_mail
-      MemberMailer.with(member: @member).activation.deliver_later
+      Members::MemberMailer.with(member: @member).activation.deliver_later
     end
 
     def shared_email_accounts

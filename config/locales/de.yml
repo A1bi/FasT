@@ -74,6 +74,11 @@ de:
         iban: DE65570691440000178167
         creditor_identifier: DE21ZZZ00001271843
         remittance_information: Jahresmitgliedsbeitrag für %{member}
+    member_mailer:
+      activation:
+        subject: "Willkommen im Mitgliederbereich!"
+      reset_password:
+        subject: "Passwort zurücksetzen"
     membership_fee_mailer:
       debit_submission:
         subject: Neue Sammellastschrift für Mitgliedsbeträge
@@ -273,11 +278,6 @@ de:
     code: Gutscheincode
     amount: über <b>%{amount}</b>
     disclaimer: "Dieser Gutschein ist online auf www.theater-kaisersesch.de und in teilnehmenden Vorverkaufsstellen einlösbar.\nDie Verjährung Ihrer Ansprüche richtet sich nach der gesetzlichen Regelung."
-  member_mailer:
-    activation:
-      subject: "Willkommen im Mitgliederbereich!"
-    reset_password:
-      subject: "Passwort zurücksetzen"
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"
