@@ -179,6 +179,15 @@ def create_tickets(order, coupons = [])
   end
 end
 
+5.times do
+  Ticketing::Geolocation.create(
+    postcode: FFaker::AddressDE.zip_code,
+    cities: [FFaker::AddressDE.city],
+    coordinates: [FFaker::Geolocation.lat, FFaker::Geolocation.lng]
+  )
+end
+postcodes = Ticketing::Geolocation.pluck(:postcode)
+
 ### web orders
 20.times do
   order = Ticketing::Web::Order.new(
@@ -186,7 +195,7 @@ end
     last_name: FFaker::NameDE.last_name,
     email: FFaker::Internet.free_email,
     phone: FFaker::PhoneNumberDE.phone_number,
-    plz: FFaker::AddressDE.zip_code,
+    plz: postcodes.sample,
     affiliation: rand(3) == 2 ? FFaker::Company.name : nil,
     pay_method: Ticketing::Web::Order.pay_methods.keys.sample
   )
@@ -219,6 +228,9 @@ end
 end
 
 Ticketing::BoxOffice::BoxOffice.create(name: 'Testkasse')
+
+# avoid processing emails for the created entities
+Sidekiq::Queue.all.find { |queue| queue.name == 'mailers' }&.clear
 
 # clear cache
 Rails.cache.clear
