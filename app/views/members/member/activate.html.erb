@@ -3,9 +3,9 @@
 <p><b>Hallo <%= @member.nickname %>!</b></p>
 <p>
   <% if @member.last_login %>
-    Du kannst nun ein neues Passwort für dein Migliedskonto festlegen.
+    Sie können nun ein neues Passwort für Ihr Migliedskonto festlegen.
   <% else %>
-    Bevor du dich das erste Mal im Mitgliederbereich umsiehst, musst du dein persönliches Passwort festlegen, mit dem du dich hier in Zukunft einloggen kannst.
+    Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.
   <% end %>
 </p>
 <%= render "errors", errors: @member.errors %>

@@ -1,10 +1,9 @@
-Hallo <%= @member.nickname %>,
+<%= render 'address' %>
 
-du hast ab sofort die Möglichkeit, dich in den Mitgliederbereich auf unserer Homepage einzuloggen. Dort findest du immer alle wichtigen vereinsinternen Informationen, wie zum Beispiel unseren aktuellen Probenplan.
+Sie haben ab sofort die Möglichkeit, sich in den Mitgliederbereich auf unserer Homepage einzuloggen. Dort finden Sie immer alle wichtigen vereinsinternen Informationen und Medien, beispielsweise unseren aktuellen Probenplan und Texte.
 
-Zuerst musst du jedoch dein Mitgliedskonto aktivieren, indem du dein persönliches Passwort festlegst. Klicke dazu einfach auf folgenden Link:
-<%= activate_members_member_url(:code => @member.activation_code) %>
-
+Aktivieren Sie bitte zunächst Ihr Mitgliedskonto, indem Sie Ihr persönliches Passwort festlegen. Dazu klicken Sie einfach auf folgenden Link:
+<%= activate_members_member_url(code: @member.activation_code) %>
 
 Viel Spaß wünscht
 Der Vorstand der Freilichtbühne am schiefen Turm

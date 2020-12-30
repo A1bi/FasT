@@ -26,7 +26,7 @@ de:
     destroyed: "Das Dokument wurde erfolgreich gelöscht."
   internet_access_sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
-    not_authorized: Dein Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
+    not_authorized: Ihr Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
   admin:
     members:
       created: "Das Mitglied wurde erfolgreich angelegt."
@@ -64,10 +64,10 @@ de:
       admin: "Vorstand"
       member: "Mitglied"
     member:
-      activated: "Dein Mitgliedskonto wurde erfolgreich aktiviert."
-      email_not_found: "Ein Konto mit dieser e-mail-Adresse wurde nicht gefunden."
-      password_reset: "Eine e-mail mit weiteren Instruktionen wurde dir zugeschickt."
-      password_changed: "Dein Passwort wurde geändert."
+      activated: Ihr Mitgliedskonto wurde erfolgreich aktiviert.
+      email_not_found: Ein Konto mit dieser E-Mail-Adresse wurde nicht gefunden.
+      password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
+      password_changed: Ihr Passwort wurde geändert.
     dates:
       ics:
         calname: "Freilichtbühne am schiefen Turm"
