@@ -24,6 +24,17 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
+-- Name: gender; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.gender AS ENUM (
+    'female',
+    'male',
+    'diverse'
+);
+
+
+--
 -- Name: newsletter_newsletter_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1830,7 +1841,8 @@ CREATE TABLE public.users (
     ticketing_retail_store_id bigint,
     membership_terminates_on date,
     permissions public.permission[],
-    shared_email_accounts_authorized_for character varying[]
+    shared_email_accounts_authorized_for character varying[],
+    gender public.gender
 );
 
 
@@ -3708,6 +3720,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201125212834'),
 ('20201126191323'),
 ('20201126192338'),
-('20201213211837');
+('20201213211837'),
+('20201230175154');
 
 

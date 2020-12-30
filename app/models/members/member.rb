@@ -2,6 +2,8 @@
 
 module Members
   class Member < User
+    include HasGender
+
     attr_reader :family_member_id
 
     belongs_to :family, optional: true
@@ -12,7 +14,8 @@ module Members
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
     phony_normalize :phone, default_country_code: 'DE'
 
-    validates :first_name, :last_name, :number, :joined_at, presence: true
+    validates :first_name, :last_name, :gender, :number, :joined_at,
+              presence: true
     validates :number, uniqueness: true
     validates :membership_fee, numericality: { greater_than_or_equal_to: 0 }
     validates :plz, numericality: { only_integer: true, less_than: 100_000 },
