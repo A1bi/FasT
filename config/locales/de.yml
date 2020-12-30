@@ -7,6 +7,10 @@ de:
       create: erstellen
       save: speichern
     btn_delete: "löschen"
+  genders:
+    female: weiblich
+    male: männlich
+    diverse: divers
   contact_messages:
     via: via Kontaktformular
     success: "Vielen Dank für Ihre Nachricht. Wir werden uns schnellstmöglich bei Ihnen melden."
@@ -356,6 +360,7 @@ de:
     email: "e-mail-Adresse"
     first_name: "Vorname"
     last_name: "Nachname"
+    gender: Geschlecht
     subject: Betreff
   time:
     formats:

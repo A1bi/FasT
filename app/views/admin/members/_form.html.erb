@@ -38,6 +38,10 @@
           </td>
         </tr>
         <tr>
+          <td>Geschlecht:</td>
+          <td><%= f.select :gender, Members::Member.genders.map { |g| [t("genders.#{g}"), g] } %></td>
+        </tr>
+        <tr>
           <td>Geburtstag:</td>
           <td><%= f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year %></td>
         </tr>

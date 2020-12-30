@@ -14,6 +14,7 @@ end
             {
               first_name: 'Albrecht',
               last_name: 'Oster',
+              gender: :male,
               email: 'albrecht@oster.online',
               group: :admin,
               permissions: User::PERMISSIONS,
@@ -24,6 +25,7 @@ end
             {
               first_name: FFaker::NameDE.first_name,
               last_name: FFaker::NameDE.last_name,
+              gender: Members::Member.genders.sample,
               email: FFaker::Internet.free_email,
               group: :member
             }

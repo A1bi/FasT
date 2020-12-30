@@ -35,6 +35,10 @@
         <td>Geburtstag:</td>
         <td><%= l @member.birthday, format: :long if @member.birthday %></td>
       </tr>
+      <tr>
+        <td>Geschlecht:</td>
+        <td><%= t("genders.#{@member.gender}") %></td>
+      </tr>
       <% if @member.membership_cancelled? %>
         <tr>
           <td colspan="2">
