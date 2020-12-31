@@ -79,6 +79,8 @@ de:
         creditor_identifier: DE21ZZZ00001271843
         remittance_information: Jahresmitgliedsbeitrag für %{member}
     member_mailer:
+      welcome:
+        subject: Willkommen in unserem Verein
       activation:
         subject: "Willkommen im Mitgliederbereich!"
       reset_password:

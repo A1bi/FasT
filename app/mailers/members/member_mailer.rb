@@ -6,6 +6,10 @@ module Members
 
     default to: -> { @member.email }
 
+    def welcome
+      mail
+    end
+
     def activation
       mail
     end

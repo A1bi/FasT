@@ -5,6 +5,7 @@ FactoryBot.define do
     first_name { 'John' }
     last_name { 'Doe' }
     gender { :female }
+    sequence(:email) { |n| "member#{n}@example.com" }
     joined_at { Time.zone.today }
 
     trait :membership_fee_paid do

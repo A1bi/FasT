@@ -1,0 +1,18 @@
+<%= render 'address' %>
+
+hiermit möchten wir Sie als Mitglied in unserem Verein herzlich begrüßen.
+
+Wir werden den Mitgliedsbeitrag in Höhe von <%= number_to_currency @member.membership_fee %> in den kommenden Tagen per SEPA-Lastschrift von folgendem Konto einziehen. Sollten die Daten nicht korrekt sein, bitten wir Sie umgehend mit uns Kontakt aufzunehmen.
+
+Kontoinhaber: <%= @member.sepa_mandate.debtor_name %>
+IBAN: <%= @member.sepa_mandate.iban %>
+
+Ihre Mandatsreferenz-Nummer: <%= @member.sepa_mandate.number(prefixed: true) %>
+Unsere Gläubiger-Identifikationsnummer: <%= t 'members.membership_fee_payments.debit_submissions.creditor_identifier' %>
+
+Sie erhalten in Kürze eine weitere E-Mail, um Ihr persönliches Mitgliedskonto auf unserer Homepage zu aktivieren.
+
+Für Rückfragen stehen wir gerne zur Verfügung.
+
+Mit freundlichen Grüßen
+Der Vorstand der Freilichtbühne am schiefen Turm
