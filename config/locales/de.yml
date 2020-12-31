@@ -82,9 +82,9 @@ de:
       welcome:
         subject: Willkommen in unserem Verein
       activation:
-        subject: "Willkommen im Mitgliederbereich!"
+        subject: Aktivierung Ihres Mitgliedskontos
       reset_password:
-        subject: "Passwort zurücksetzen"
+        subject: Passwort zurücksetzen
     membership_fee_mailer:
       debit_submission:
         subject: Neue Sammellastschrift für Mitgliedsbeträge

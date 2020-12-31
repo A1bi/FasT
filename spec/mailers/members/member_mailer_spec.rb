@@ -3,6 +3,7 @@
 RSpec.describe Members::MemberMailer do
   let(:member) { create(:member, gender: gender) }
   let(:gender) { :female }
+  let(:mailer) { described_class.with(member: member) }
 
   shared_examples 'an email addressed to a member' do
     it 'is sent to the member' do
@@ -10,7 +11,7 @@ RSpec.describe Members::MemberMailer do
     end
 
     it 'has the correct subject' do
-      expect(mail.subject).to eq(subject)
+      expect(mail.subject).to include(subject)
     end
 
     context 'with a female member' do
@@ -41,13 +42,21 @@ RSpec.describe Members::MemberMailer do
     end
   end
 
+  shared_examples 'activation link' do
+    it 'contains a link to activate the account' do
+      member.set_activation_code
+      expect(mail.body.encoded)
+        .to match(%r{https?://.+code=#{member.activation_code}})
+    end
+  end
+
   describe '#welcome' do
-    subject(:mail) { described_class.with(member: member).welcome }
+    subject(:mail) { mailer.welcome }
 
     let(:member) do
       create(:member, :with_sepa_mandate, gender: gender, membership_fee: 13.4)
     end
-    let(:subject) { 'Willkommen in unserem Verein' }
+    let(:subject) { 'Willkommen' }
 
     it_behaves_like 'an email addressed to a member'
 
@@ -59,5 +68,23 @@ RSpec.describe Members::MemberMailer do
           '13,40 €'
         )
     end
+  end
+
+  describe '#activation' do
+    subject(:mail) { mailer.activation }
+
+    let(:subject) { 'Aktivierung' }
+
+    it_behaves_like 'an email addressed to a member'
+    include_examples 'activation link'
+  end
+
+  describe '#reset_password' do
+    subject(:mail) { mailer.reset_password }
+
+    let(:subject) { 'Passwort zurücksetzen' }
+
+    it_behaves_like 'an email addressed to a member'
+    include_examples 'activation link'
   end
 end
