@@ -3,6 +3,8 @@
 module Members
   class SubmitMembershipFeeDebitsJob < ApplicationJob
     def perform
+      return if unsubmitted_payments.none?
+
       submission =
         MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
 
@@ -12,7 +14,8 @@ module Members
     private
 
     def unsubmitted_payments
-      MembershipFeePayment.where(debit_submission_id: nil)
+      @unsubmitted_payments ||=
+        MembershipFeePayment.where(debit_submission_id: nil)
     end
   end
 end
