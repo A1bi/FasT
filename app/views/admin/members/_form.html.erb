@@ -164,22 +164,18 @@
             </td>
           </tr>
         <% end %>
-
-        <%= content_tag :tr do %>
-          <td>
-            Aktivierungsmail zusenden:
-          </td>
-          <td>
-            <%= check_box :activation, :send, checked: true %>
-            <div class="small">Wird nur versendet, wenn e-mail-Adresse angegeben.</div>
-          </td>
-        <% end if @member.new_record? %>
       </table>
+      <% if @member.new_record? %>
+        <div class="submit-note">
+          <p>Nach Anlegen dieses Mitglieds wird automatisch eine <b>Begrüßungs-E-Mail</b> sowie eine weitere <b>E-Mail zum Aktivieren des Mitgliedskontos</b> an das Mitglied versandt.</p>
+          <p>Ebenfalls wird in den nächsten Tagen automatisch <b>der erste Mitgliedsbeitrag</b> vom Konto des Mitglieds eingezogen.</p>
+        </div>
+      <% end %>
       <div class="submit">
         <%= cond_submit f %>
       </div>
       <%= content_tag :div, class: [:small, :hcen] do %>
-        <%= link_to "Passwort zurücksetzen und Aktivierungsmail erneut zusenden.", reactivate_admin_members_member_path, method: :patch, data: { confirm: "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungsmail zusenden?" } %>
+        <%= link_to "Passwort zurücksetzen und Aktivierungs-E-Mail erneut zusenden", reactivate_admin_members_member_path, method: :patch, data: { confirm: "Möchten Sie diesem Mitglied wirklich eine neue Aktivierungs-E-Mail zusenden?" } %>
       <% end if !@member.new_record? && @member.email.present? %>
       <% if @member.persisted? %>
         <p>

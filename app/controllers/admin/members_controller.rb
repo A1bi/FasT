@@ -20,7 +20,8 @@ module Admin
       @member.reset_password
       return render :new unless @member.save
 
-      send_activation_mail if params[:activation][:send] == '1'
+      send_welcome_email
+      send_activation_email(delayed: true)
 
       redirect_to admin_members_member_path(@member), notice: t('.created')
     end
@@ -56,7 +57,7 @@ module Admin
     def reactivate
       @member.last_login = nil
       @member.reset_password
-      send_activation_mail if @member.save
+      send_activation_email if @member.save
 
       redirect_to admin_members_member_path(@member),
                   notice: t('.sent_activation_mail')
@@ -139,8 +140,16 @@ module Admin
                                              :issued_on)
     end
 
-    def send_activation_mail
-      Members::MemberMailer.with(member: @member).activation.deliver_later
+    def send_welcome_email
+      member_mailer.welcome.deliver_later
+    end
+
+    def send_activation_email(delayed: false)
+      member_mailer.activation.deliver_later(wait: (delayed ? 1 : 0).minutes)
+    end
+
+    def member_mailer
+      Members::MemberMailer.with(member: @member)
     end
 
     def shared_email_accounts

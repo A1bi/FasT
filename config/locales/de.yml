@@ -29,9 +29,9 @@ de:
     not_authorized: Ihr Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
   admin:
     members:
-      created: "Das Mitglied wurde erfolgreich angelegt."
+      created: Das Mitglied wurde erfolgreich angelegt. Begrüßungs- und Aktivierungs-E-Mails wurden verschickt. Der erste Mitgliedsbeitrag wird in den kommenden Tagen eingezogen.
       destroyed: Das Mitglied wurde gelöscht.
-      sent_activation_mail: "Die Aktivierungsmail wurde erfolgreich verschickt."
+      sent_activation_mail: Die Aktivierungs-E-Mail wurde erfolgreich verschickt.
       cancelled: Die Kündigung wurde vorgemerkt.
       cancellation_reverted: Die vorgemerkte Kündigung wurde entfernt.
       never_logged_in: noch nie
