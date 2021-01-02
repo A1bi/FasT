@@ -762,6 +762,11 @@ table.rounded {
   }
 }
 
+table.form td {
+  vertical-align: top;
+  padding-bottom: 10px;
+}
+
 textarea.honeypot {
   padding: 0;
   clip: rect(1px, 1px, 1px, 1px);

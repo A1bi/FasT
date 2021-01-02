@@ -4,7 +4,7 @@ module Members
   class MemberMailer < ApplicationMailer
     before_action { @member = params[:member] }
 
-    default to: -> { @member.email }
+    default to: -> { recipient_email }
 
     def welcome
       mail
@@ -16,6 +16,15 @@ module Members
 
     def reset_password
       mail
+    end
+
+    private
+
+    def recipient_email
+      return @member.email if @member.email.present?
+      return unless @member.in_family?
+
+      @member.family.members.where.not(id: @member).first&.email
     end
   end
 end

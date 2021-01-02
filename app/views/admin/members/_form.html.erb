@@ -9,7 +9,7 @@
     <div class="con">
       <%= render "errors", errors: @member.errors %>
       <%= render "errors", errors: @member.sepa_mandate.errors %>
-      <table>
+      <table class="form">
         <tr>
           <td width="40%">Vorname:</td>
           <td><%= f.text_field :first_name, required: true %></td>
@@ -19,22 +19,21 @@
           <td><%= f.text_field :last_name, required: true %></td>
         </tr>
         <tr>
+          <td>Titel:</td>
           <td>
-            Titel:
+            <%= f.text_field :title %>
             <div class="small">
               Zum Beispiel <em>Dr. med.</em>
             </div>
           </td>
-          <td><%= f.text_field :title %></td>
         </tr>
         <tr>
-          <td>Vorname in Anrede:
+          <td>Vorname in Anrede:</td>
+          <td>
+            <%= f.text_field :nickname, value: @member[:nickname] %>
             <div class="small">
               Zum Beispiel Uli statt Ulrich. Ansonsten freilassen.
             </div>
-          </td>
-          <td>
-            <%= f.text_field :nickname, value: @member[:nickname] %>
           </td>
         </tr>
         <tr>
@@ -66,8 +65,13 @@
           <td colspan="2"><h3>Kontaktdaten</h3></td>
         </tr>
         <tr>
-          <td>e-mail-Adresse:</td>
-          <td><%= f.email_field :email %></td>
+          <td>E-Mail-Adresse:</td>
+          <td>
+            <%= f.email_field :email %>
+            <div class="small">
+              Diese Adresse wird für den Versand von E-Mails wie der Begrüßungs-E-Mail sowie für den Login in den Mitgliederbereich verwendet. Sollte keine eigene E-Mail-Adresse vorhanden sein, werden E-Mails stattdessen an ein eventuell verknüpftes Familienmitglied verschickt.
+            </div>
+          </td>
         </tr>
         <tr>
           <td>Telefonnummer:</td>

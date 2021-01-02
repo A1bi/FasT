@@ -6,8 +6,30 @@ RSpec.describe Members::MemberMailer do
   let(:mailer) { described_class.with(member: member) }
 
   shared_examples 'an email addressed to a member' do
-    it 'is sent to the member' do
-      expect(mail.to).to eq([member.email])
+    context 'when member has own email address' do
+      it 'is sent to the member' do
+        expect(mail.to).to eq([member.email])
+      end
+    end
+
+    context 'when member lacks email address' do
+      before { member.update(email: nil) }
+
+      context 'when member is part of a family' do
+        let(:family_member) { create(:member) }
+
+        before { member.add_to_family_with_member(family_member) }
+
+        it 'is sent to the family member' do
+          expect(mail.to).to eq([family_member.email])
+        end
+      end
+
+      context 'when member is not part of a family' do
+        it 'is sent to noone' do
+          expect(mail.to).to be_nil
+        end
+      end
     end
 
     it 'has the correct subject' do
