@@ -1,0 +1,41 @@
+- title 'Mitgliedskonto bearbeiten'
+
+.hl Mein Mitgliedskonto bearbeiten
+
+table.rounded.panel
+  tr
+    td Name:
+    td = current_user.name.full
+  tr
+    td Mitgliedsnummer:
+    td.monospace = current_user.number
+  tr
+    td Beitrittsdatum:
+    td = l current_user.joined_at, format: '%-d. %B %Y'
+  - if current_user.membership_fee_paid_until.present?
+    tr
+      td Mitgliedsbeitrag bezahlt bis:
+      td = l current_user.membership_fee_paid_until, format: :long
+  tr
+    td Bankverbindung für Mitgliedsbeitrag:
+    td
+      = current_user.sepa_mandate.debtor_name
+      br
+      = obfuscated_iban(current_user.sepa_mandate.iban)
+
+= render 'errors', errors: current_user.errors
+
+= form_for current_user, url: members_member_path do |f|
+  table.rounded.panel
+    tr
+      td E-Mail-Adresse:
+      td = f.email_field :email
+    tr
+      td
+        Neues Passwort:
+        .small Freilassen, wenn Sie Ihr Passwort nicht ändern möchten.
+      td = f.password_field :password
+    tr
+      td Neues Passwort wiederholen:
+      td = f.password_field :password_confirmation
+  .submit = f.submit 'speichern'

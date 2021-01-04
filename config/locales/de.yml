@@ -333,7 +333,7 @@ de:
         members/member:
           attributes:
             email:
-              taken: "Ein anderes Mitglied verwendet diese e-mail-Adresse bereits."
+              taken: "Ein anderes Mitglied verwendet diese E-Mail-Adresse bereits."
             password:
               too_short: "Das Passwort muss mindestens %{count} Zeichen lang sein."
             password_confirmation:

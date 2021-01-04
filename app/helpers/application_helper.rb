@@ -69,6 +69,10 @@ module ApplicationHelper
                                  class: 'honeypot'
   end
 
+  def obfuscated_iban(iban)
+    iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
+  end
+
   private
 
   def event_identifier_path(identifier, path_method)

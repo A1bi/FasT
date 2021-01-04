@@ -1,8 +1,6 @@
 <% title "Mitgliederbereich – Hauptseite" %>
 <% include_css "members/main" %>
-<p><b>Hallo <%= current_user.nickname %>.</b></p>
-<p>Auf dieser Seite finden Sie alle vereinsinternen Informationen und Medien als Download, zusätzlich zu den üblichen E-Mails.</p>
-<div class="trenner"></div>
+
 <% cache [@dates, current_user.admin?] do %>
   <div class="hl">Termine</div>
   <%= render "new_button", :action => "Neuer Termin", :url => new_members_date_path, :admin_required => true %>
