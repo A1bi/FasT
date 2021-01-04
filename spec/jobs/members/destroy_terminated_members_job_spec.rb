@@ -28,7 +28,7 @@ RSpec.describe Members::DestroyTerminatedMembersJob do
     end
 
     context 'when the first membership has expired' do
-      let(:travel_to_date) { 4.days.from_now }
+      let(:travel_to_date) { 4.days.from_now.noon }
 
       it 'destroys one members' do
         expect { subject }.to change(Members::Member, :count).by(-1)
@@ -42,7 +42,7 @@ RSpec.describe Members::DestroyTerminatedMembersJob do
     end
 
     context 'when two memberships have expired' do
-      let(:travel_to_date) { 6.days.from_now }
+      let(:travel_to_date) { 6.days.from_now.noon }
 
       it 'destroys one members' do
         expect { subject }.to change(Members::Member, :count).by(-2)
