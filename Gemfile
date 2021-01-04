@@ -20,7 +20,7 @@ gem 'bcrypt', '~> 3.1.16'
 
 gem 'icalendar', '~> 2.7'
 
-gem 'prawn', '~> 2.3.0'
+gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.31.0'
 gem 'prawn-table', '~> 0.2.1'
