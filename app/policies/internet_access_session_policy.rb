@@ -6,6 +6,6 @@ InternetAccessSessionPolicy = Struct.new(:user, :internet_access_session) do
   end
 
   def create?
-    user.permitted?(:internet_access_sessions_create)
+    user_permitted?(:internet_access_sessions_create)
   end
 end

@@ -3,7 +3,7 @@
 module Newsletter
   class NewsletterPolicy < ApplicationPolicy
     def index?
-      user.permitted?(:newsletters_read)
+      user_permitted?(:newsletters_read)
     end
 
     def show?
@@ -11,7 +11,7 @@ module Newsletter
     end
 
     def create?
-      user.permitted?(:newsletters_update)
+      user_permitted?(:newsletters_update)
     end
 
     def update?
@@ -27,7 +27,7 @@ module Newsletter
     end
 
     def approve?
-      user.permitted?(:newsletters_approve)
+      user_permitted?(:newsletters_approve)
     end
 
     private

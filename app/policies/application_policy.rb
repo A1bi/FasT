@@ -61,6 +61,10 @@ class ApplicationPolicy
 
   private
 
+  def user_permitted?(action)
+    user&.permitted?(action)
+  end
+
   def user_admin?
     user.try(:admin?)
   end
