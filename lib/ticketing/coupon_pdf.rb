@@ -5,8 +5,9 @@ module Ticketing
     FOLD_LINES_LENGTH = 50
     QUARTER_MARGIN = 20
 
-    def initialize(coupon)
+    def initialize(coupon, theme: nil)
       @coupon = coupon
+      @theme = theme
 
       super page_size: 'A4', page_layout: :landscape, margin: 0
 
@@ -19,7 +20,7 @@ module Ticketing
     private
 
     def draw_coupon_details
-      quarter_bounding_box([half_page_width, half_page_height], false) do
+      quarter_bounding_box([half_page_width, half_page_height]) do
         text t(:title), align: :center, size: 25
 
         move_down 10
@@ -38,11 +39,11 @@ module Ticketing
         indent 80, 80 do
           font_size_name :normal do
             move_down 48
-            text 'für:'
+            text t(:recipient)
             draw_name_line
 
             move_down 40
-            text 'von:'
+            text t(:sender)
             draw_name_line
           end
         end
@@ -50,20 +51,43 @@ module Ticketing
     end
 
     def draw_front
-      quarter_bounding_box([0, bounds.height], true) do
+      quarter_bounding_box([0, bounds.height], rotate: true, pad: false) do
+        case @theme
+        when :christmas
+          draw_christmas_front
+        else
+          draw_generic_front
+        end
+      end
+    end
+
+    def draw_generic_front
+      svg_image 'pdf/coupon/bow.svg',
+                height: bounds.height * 0.4, position: :right
+
+      pad_quarter do
+        move_up 30
+        text t(:title), size: 25, align: :center, styles: %i[bold]
+
+        move_down 30
+        svg_image 'pdf/logo_kaisersesch.svg',
+                  height: bounds.height * 0.3, position: :center
+      end
+    end
+
+    def draw_christmas_front
+      pad_quarter do
         move_down 5
-        event_image_path = images_path.join('pdf/coupon_front.svg')
-        svg File.read(event_image_path),
-            height: bounds.width * 0.6, position: :center
+        svg_image 'pdf/coupon/christmas_front.svg',
+                  height: bounds.width * 0.6, position: :center
       end
     end
 
     def draw_back
-      quarter_bounding_box([half_page_width, bounds.height], true) do
+      quarter_bounding_box([half_page_width, bounds.height], rotate: true) do
         move_down 30
-        event_image_path = images_path.join('pdf/logo.svg')
-        svg File.read(event_image_path),
-            height: bounds.height * 0.4, position: :center
+        svg_image 'pdf/logo.svg',
+                  height: bounds.height * 0.4, position: :center
 
         move_down 30
         indent 20, 20 do
@@ -129,15 +153,23 @@ module Ticketing
       stroke { line [start, cursor], [bounds.width, cursor] }
     end
 
-    def quarter_bounding_box(position, rotate, &block)
+    def quarter_bounding_box(position, rotate: false, pad: true, &block)
       bounding_box(position, width: half_page_width,
                              height: half_page_height) do
         rotate(rotate ? 180 : 0,
                origin: [bounds.width / 2, bounds.height / 2]) do
-          pad QUARTER_MARGIN + 10 do
-            indent QUARTER_MARGIN, QUARTER_MARGIN, &block
+          if pad
+            pad_quarter(&block)
+          else
+            block.call
           end
         end
+      end
+    end
+
+    def pad_quarter(&block)
+      pad QUARTER_MARGIN + 10 do
+        indent QUARTER_MARGIN, QUARTER_MARGIN, &block
       end
     end
 

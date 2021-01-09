@@ -282,6 +282,8 @@ de:
   coupon_pdf:
     title: Gutschein
     code: Gutscheincode
+    sender: "von:"
+    recipient: "für:"
     amount: über <b>%{amount}</b>
     disclaimer: "Dieser Gutschein ist online auf www.theater-kaisersesch.de und in teilnehmenden Vorverkaufsstellen einlösbar.\nDie Verjährung Ihrer Ansprüche richtet sich nach der gesetzlichen Regelung."
   contact_message_mailer:

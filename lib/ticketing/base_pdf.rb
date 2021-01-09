@@ -79,6 +79,11 @@ module Ticketing
       I18n.t(key, options)
     end
 
+    def svg_image(path, options)
+      file = File.read(images_path.join(path))
+      svg file, options
+    end
+
     def assets_path
       Rails.root.join('app/assets')
     end

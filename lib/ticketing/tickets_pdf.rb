@@ -213,10 +213,8 @@ module Ticketing
     def draw_logo
       draw_stamp(:logo, nil, true) do
         width_scale = 0.55
-
-        event_image_path = images_path.join('pdf/logo_bw.svg')
-        svg File.read(event_image_path),
-            width: bounds.width * width_scale, position: :center
+        svg_image 'pdf/logo_bw.svg',
+                  width: bounds.width * width_scale, position: :center
 
         next unless includes_links?
 
