@@ -3,6 +3,8 @@
 module Ticketing
   module Web
     class Order < Ticketing::Order
+      include Anonymizable
+
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge',
                             as: :chargeable, validate: true,
@@ -12,6 +14,8 @@ module Ticketing
 
       auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
       phony_normalize :phone, default_country_code: 'DE'
+      is_anonymizable columns: %i[email first_name last_name gender affiliation
+                                  phone]
 
       validates :email, :gender, :first_name, :last_name, :plz,
                 presence: { on: :unprivileged_order }

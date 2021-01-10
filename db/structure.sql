@@ -1480,7 +1480,8 @@ CREATE TABLE public.ticketing_orders (
     updated_at timestamp(6) without time zone NOT NULL,
     box_office_id bigint,
     date_id bigint,
-    affiliation character varying
+    affiliation character varying,
+    anonymized_at timestamp without time zone
 );
 
 
@@ -3721,6 +3722,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201126191323'),
 ('20201126192338'),
 ('20201213211837'),
-('20201230175154');
+('20201230175154'),
+('20210110175421');
 
 
