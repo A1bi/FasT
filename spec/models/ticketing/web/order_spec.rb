@@ -9,5 +9,6 @@ RSpec.describe Ticketing::Web::Order do
   it_behaves_like 'anonymizable', %i[email first_name last_name gender
                                      affiliation phone] do
     let(:record) { create(:web_order, :with_purchased_coupons) }
+    let(:records) { create_list(:web_order, 2, :with_purchased_coupons) }
   end
 end

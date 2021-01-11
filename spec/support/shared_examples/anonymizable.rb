@@ -3,6 +3,22 @@
 require 'support/time'
 
 RSpec.shared_examples 'anonymizable' do |columns|
+  describe '.unanonymized' do
+    subject { described_class.unanonymized }
+
+    let!(:anonymized) do
+      record = records.first
+      record.anonymize!
+      record
+    end
+    let!(:unanonymized) { records.second }
+
+    it 'only includes anonymized records' do
+      expect(subject).not_to include(anonymized)
+      expect(subject).to include(unanonymized)
+    end
+  end
+
   describe '#anonymize!' do
     subject { record.anonymize! }
 

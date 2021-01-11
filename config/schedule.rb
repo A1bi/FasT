@@ -12,6 +12,7 @@ set :chronic_options, hours24: true
 
 every :day do
   runner 'Ticketing::BadgeResetPushNotificationsJob.perform_later'
+  runner 'Ticketing::AnonymizeOrdersJob.perform_later'
   runner 'Newsletter::SubscriberCleanupJob.perform_later'
   runner 'SharedEmailAccountTokensCleanupJob.perform_later'
   runner 'Members::DestroyTerminatedMembersJob.perform_later'

@@ -7,6 +7,10 @@ module Anonymizable
     def is_anonymizable(columns:) # rubocop:disable Naming/PredicateName
       @@anonymizable_columns = columns # rubocop:disable Style/ClassVars
     end
+
+    def unanonymized
+      where(anonymized_at: nil)
+    end
   end
 
   def anonymize!

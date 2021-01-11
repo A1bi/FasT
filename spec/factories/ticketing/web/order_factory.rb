@@ -9,5 +9,9 @@ FactoryBot.define do
     affiliation { 'Foobar Inc' }
     plz { '13403' }
     phone { '0305550123' }
+
+    trait :anonymized do
+      after(:create, &:anonymize!)
+    end
   end
 end
