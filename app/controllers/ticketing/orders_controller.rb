@@ -93,7 +93,7 @@ module Ticketing
 
       else
         if current_user.admin?
-          @orders[:web] = Ticketing::Web::Order.all
+          @orders[:web] = Ticketing::Web::Order.unanonymized
           @orders[:retail] = Ticketing::Retail::Order.all
         else
           @orders[:retail] = order_scope.includes(:store)

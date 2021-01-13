@@ -12,6 +12,13 @@
 ] %>
 <div class="topTables">
   <table class="rounded details">
+    <% if @order.try(:anonymized?) %>
+      <thead>
+        <tr>
+          <th colspan="2" class="anonymized">Diese Bestellung wurde anonymisiert.</th>
+        </tr>
+      </thead>
+    <% end %>
     <%= render "show_overview_table", title: "Übersicht", overview: overview %>
     <tbody>
       <tr>

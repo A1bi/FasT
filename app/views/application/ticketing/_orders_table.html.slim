@@ -1,0 +1,46 @@
+- cache_if local_assigns[:cache_key].present?, [local_assigns[:cache_key], orders, params[:type]]
+  - additional_columns ||= []
+  - number_of_columns = 4 + additional_columns.count
+  table.rounded.entries.details class=local_assigns.fetch(:class, nil)
+    thead
+      - if defined? table_title
+        - Array(table_title).each do |title|
+          tr: th colspan=number_of_columns = title
+      - if orders.any?
+        tr
+          - if :checkbox.in?(additional_columns)
+            th
+          th Nummer
+          th = local_assigns[:web] ? 'Name' : 'Vorverkaufsstelle'
+          th Artikel
+          - if :date.in?(additional_columns)
+            th Termin
+          - if :balance.in?(additional_columns)
+            th offen
+          th Datum
+    tbody.hover
+      - orders.each do |order|
+        - classes = :cancelled if order.cancelled?
+        tr class=classes data={ controller: 'linked-row', 'linked-row-path': ticketing_order_path(order) }
+          - if :checkbox.in?(additional_columns)
+            td.checkbox = check_box_tag 'orders[]', order.id
+          td.number = link_to order.number, ticketing_order_path(order)
+          td.name
+            - if order.try(:anonymized?)
+              em.anonymized anonymisiert
+            - elsif local_assigns[:web]
+              = name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben')
+            - elsif order.is_a? Ticketing::Retail::Order
+              = order.store.name
+          td.tickets = order.items.size
+          - if :date.in?(additional_columns)
+            td
+              - if order.date.present?
+                = l order.date.date, format: '%-d. %B'
+                br
+                span.small title=order.event.name = truncate(order.event.name, length: 12)
+          - if :balance.in?(additional_columns)
+            td.amount = number_to_currency(-order.balance)
+          td.date = l order.created_at, format: '%d.%m.%y, %H:%M'
+      - if orders.empty?
+        tr: td.empty colspan=5 Keine Bestellungen vorhanden.

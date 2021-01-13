@@ -116,6 +116,12 @@ table.details {
         width: 110px;
       }
     }
+
+    .anonymized {
+      background-color: black;
+      color: white;
+      padding: 2px 10px;
+    }
   }
 }
 
@@ -171,6 +177,13 @@ table.details {
       color: red;
       text-shadow: 1px 1px 3px white;
     }
+  }
+
+  .anonymized {
+    background: black;
+    background-image: none !important;
+    color: white;
+    padding: 10px;
   }
 }
 
