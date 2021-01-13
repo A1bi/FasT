@@ -10,6 +10,11 @@ FactoryBot.define do
     plz { '13403' }
     phone { '0305550123' }
 
+    trait :charge_payment do
+      pay_method { :charge }
+      bank_charge
+    end
+
     trait :anonymized do
       after(:create, &:anonymize!)
     end

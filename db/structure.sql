@@ -787,7 +787,8 @@ CREATE TABLE public.ticketing_bank_charges (
     updated_at timestamp(6) without time zone NOT NULL,
     approved boolean DEFAULT false,
     submission_id bigint,
-    amount numeric DEFAULT 0.0 NOT NULL
+    amount numeric DEFAULT 0.0 NOT NULL,
+    anonymized_at timestamp without time zone
 );
 
 
@@ -3723,6 +3724,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201126192338'),
 ('20201213211837'),
 ('20201230175154'),
-('20210110175421');
+('20210110175421'),
+('20210113210947');
 
 

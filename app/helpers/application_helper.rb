@@ -70,6 +70,8 @@ module ApplicationHelper
   end
 
   def obfuscated_iban(iban)
+    return if iban.blank?
+
     iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
   end
 

@@ -5,7 +5,11 @@ module Anonymizable
 
   class_methods do
     def is_anonymizable(columns:) # rubocop:disable Naming/PredicateName
-      @@anonymizable_columns = columns # rubocop:disable Style/ClassVars
+      @anonymizable_columns = columns
+    end
+
+    def anonymizable_columns
+      @anonymizable_columns || []
     end
 
     def unanonymized
@@ -16,7 +20,7 @@ module Anonymizable
   def anonymize!
     return if anonymized?
 
-    @@anonymizable_columns.each do |column|
+    self.class.anonymizable_columns.each do |column|
       self[column] = nil
     end
     self.anonymized_at = Time.current
