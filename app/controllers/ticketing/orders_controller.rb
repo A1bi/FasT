@@ -202,8 +202,8 @@ module Ticketing
     def seats
       authorize @order
 
-      render_cached_json[:ticketing, :orders, :show, @order,
-                         @order.date.tickets] do
+      render_cached_json([:ticketing, :orders, :show, @order,
+                          @order.date.tickets]) do
         seats = {}
         [[:chosen, @order], [:taken, @order.date]].each do |type|
           seats[type.first] = type.last.tickets
