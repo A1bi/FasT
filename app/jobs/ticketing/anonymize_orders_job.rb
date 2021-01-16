@@ -27,7 +27,7 @@ module Ticketing
       tickets = order.tickets
       # if the order only contains tickets with the same date, it is
       # already covered by the orders query
-      return if tickets.pluck(:date_id).uniq.count > 1
+      return true if tickets.pluck(:date_id).uniq.count == 1
 
       # no other ticket with a date not to be anonymized yet is present
       tickets
