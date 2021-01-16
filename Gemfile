@@ -54,7 +54,7 @@ gem 'bindata', '~> 2.4.3'
 
 gem 'apnotic', '~> 1.6.0'
 
-gem 'simpleidn', '~> 0.1.1'
+gem 'simpleidn', '~> 0.2.1'
 
 gem 'name_of_person'
 
