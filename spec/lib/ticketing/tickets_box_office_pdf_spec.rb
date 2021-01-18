@@ -2,16 +2,16 @@
 
 require_shared_examples 'ticketing/tickets_pdf'
 
-RSpec.describe Ticketing::TicketsWebPdf do
-  let(:ticket_medium) { 'web' }
-  let(:page_layout) { [595.28, 841.89] }
+RSpec.describe Ticketing::TicketsBoxOfficePdf do
+  let(:ticket_medium) { 'box_office' }
+  let(:page_layout) { [841.89, 595.28] }
 
   include_context 'when rendering tickets pdf'
 
   shared_examples 'renders the correct ticket information' do
-    it 'renders the correct ticket information' do
+    it 'renders the correct ticket information on the correct page' do
       order.tickets.each.with_index do |ticket, i|
-        expect(page_analysis.pages[i / 3][:strings])
+        expect(page_analysis.pages[i][:strings])
           .to include(ticket.number, ticket.type.name)
       end
     end
@@ -22,8 +22,8 @@ RSpec.describe Ticketing::TicketsWebPdf do
           .with(unauthenticated_content(i), any_args).once
         expect(tickets_pdf).not_to receive(:print_qr_code)
           .with(authenticated_content(i), any_args)
-        expect(tickets_pdf).to receive(:link_annotate)
-          .with(authenticated_content(i), any_args).once
+        expect(tickets_pdf).not_to receive(:link_annotate)
+          .with(authenticated_content(i), any_args)
       end
       pdf
     end
