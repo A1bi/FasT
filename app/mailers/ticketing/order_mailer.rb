@@ -7,7 +7,7 @@ module Ticketing
     before_action { @order = params[:order] }
     before_action :prepare_tickets, :prepare_coupons
 
-    default to: -> { @order.email }
+    default to: -> { @order.try(:email) }
 
     def confirmation
       mail

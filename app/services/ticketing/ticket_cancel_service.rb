@@ -35,11 +35,8 @@ module Ticketing
     end
 
     def send_email(order)
-      return unless order.respond_to? :enqueue_mailing
-
-      order.enqueue_mailing(:cancellation,
-                            depends_on_commit: true,
-                            params: { reason: @reason.to_s })
+      Ticketing::OrderMailer.with(order: order, reason: @reason.to_s)
+                            .cancellation.deliver_later
     end
   end
 end
