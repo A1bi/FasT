@@ -9,11 +9,11 @@ FactoryBot.define do
     joined_at { Time.zone.today }
 
     trait :membership_fee_paid do
-      after(:create, &:renew_membership!)
+      membership_fee_paid_until { 1.month.from_now }
     end
 
     trait :membership_cancelled do
-      after(:create, &:terminate_membership!)
+      membership_terminates_on { 1.month.from_now }
     end
 
     trait :with_sepa_mandate do

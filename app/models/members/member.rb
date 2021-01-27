@@ -92,8 +92,8 @@ module Members
     end
 
     def next_membership_fee_paid_until
-      (membership_fee_paid_until || Time.zone.today) +
-        Settings.members.membership_renewal_after_months.months - 1.day
+      (membership_fee_paid_until || Time.zone.yesterday) +
+        Settings.members.membership_renewal_after_months.months
     end
   end
 end

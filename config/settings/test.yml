@@ -7,3 +7,6 @@ url_options:
   protocol: https
 
 ticket_barcode_base_url: 'https://a0s.de/!'
+
+members:
+  membership_renewal_after_months: 6
