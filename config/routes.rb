@@ -77,6 +77,10 @@ Rails.application.routes.draw do
       resources :members_members, path: 'mitglieder', controller: :members do
         patch :reactivate, path: 'reaktivieren', on: :member
       end
+      resources :members_membership_fee_payments,
+                controller: :membership_fee_payments do
+        patch :mark_as_failed, on: :member
+      end
     end
 
     namespace :ticketing, path: '' do

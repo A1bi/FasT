@@ -378,7 +378,8 @@ CREATE TABLE public.members_membership_fee_payments (
     paid_until date NOT NULL,
     debit_submission_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    failed boolean DEFAULT false NOT NULL
 );
 
 
@@ -1844,7 +1845,8 @@ CREATE TABLE public.users (
     membership_terminates_on date,
     permissions public.permission[],
     shared_email_accounts_authorized_for character varying[],
-    gender public.gender
+    gender public.gender,
+    membership_fee_payments_paused boolean DEFAULT false NOT NULL
 );
 
 
@@ -3725,6 +3727,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201213211837'),
 ('20201230175154'),
 ('20210110175421'),
-('20210113210947');
+('20210113210947'),
+('20210128200247');
 
 

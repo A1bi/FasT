@@ -103,9 +103,17 @@
         <td>Jahresbeitrag:</td>
         <td><%= number_to_currency(@member.membership_fee) %></td>
       </tr>
+      <% last_payment = @member.membership_fee_payments.last %>
       <tr>
         <td>zuletzt bezahlt:</td>
-        <td><%= last_membership_fee_payment_date(@member) %></td>
+        <td>
+          <%= last_membership_fee_payment_date(@member) %>
+          <% if last_payment.failed? %>
+            <div class="small cancelled">Zahlung fehlgeschlagen</div>
+          <% else %>
+            <div class="small"><%= link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' } %></div>
+          <% end %>
+        </td>
       </tr>
       <% if @member.membership_fee_paid_until.present? %>
         <tr>
