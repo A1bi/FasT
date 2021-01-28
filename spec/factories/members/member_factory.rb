@@ -16,6 +16,10 @@ FactoryBot.define do
       membership_terminates_on { 1.month.from_now }
     end
 
+    trait :membership_fee_payments_paused do
+      membership_fee_payments_paused { true }
+    end
+
     trait :with_sepa_mandate do
       association :sepa_mandate, factory: :members_sepa_mandate
     end

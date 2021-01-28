@@ -12,6 +12,9 @@ RSpec.describe Members::RenewMembershipsJob do
     create(:member, :membership_cancelled,
            membership_fee_paid_until: 1.month.ago)
   end
+  let!(:paused_member) do
+    create(:member, :membership_fee_payments_paused)
+  end
 
   describe '#perform_now' do
     subject { described_class.perform_now }
@@ -29,6 +32,11 @@ RSpec.describe Members::RenewMembershipsJob do
     it 'does not renew a cancelled member' do
       expect { subject }
         .not_to(change { cancelled_member.reload.membership_fee_paid_until })
+    end
+
+    it 'does not renew a member with paused payments' do
+      expect { subject }
+        .not_to(change { paused_member.reload.membership_fee_paid_until })
     end
 
     it 'does not renew a member not yet due for renewal' do

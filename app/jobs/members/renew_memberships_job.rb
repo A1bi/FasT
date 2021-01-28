@@ -11,7 +11,7 @@ module Members
     private
 
     def members_to_renew
-      uncancelled_members.merge(new_members.or(members_due_for_renewal))
+      eligible_members.merge(new_members.or(members_due_for_renewal))
     end
 
     def new_members
@@ -22,8 +22,9 @@ module Members
       Member.where('membership_fee_paid_until < ?', Time.zone.today)
     end
 
-    def uncancelled_members
-      Member.where(membership_terminates_on: nil)
+    def eligible_members
+      Member.where(membership_terminates_on: nil,
+                   membership_fee_payments_paused: false)
     end
   end
 end
