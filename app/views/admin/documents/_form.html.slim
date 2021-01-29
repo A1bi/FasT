@@ -1,20 +1,13 @@
-<%= render "errors", :errors => (@document.errors.delete(:file); @document.errors) %>
-<%= form_for [:admin, @document] do |f| %>
-  <table class="rounded">
-    <tr>
-      <td>Titel</td>
-      <td><%= f.text_field :title %></td>
-    </tr>
-    <tr>
-      <td>Beschreibung</td>
-      <td><%= f.text_field :description %></td>
-    </tr>
-    <tr>
-      <td>Datei</td>
-      <td><%= f.file_field :file %></td>
-    </tr>
-  </table>
-  <div class="submit">
-    <%= cond_submit f %>
-  </div>
-<% end %>
+= render 'errors', errors: @document.errors
+= form_for [:admin, @document] do |f|
+  table.rounded
+    tr
+      td Titel
+      td = f.text_field :title
+    tr
+      td Beschreibung
+      td = f.text_field :description
+    tr
+      td Datei
+      td = f.file_field :file
+  .submit = cond_submit f

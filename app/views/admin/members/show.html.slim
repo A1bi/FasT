@@ -1,179 +1,118 @@
-<% include_css 'members/main' %>
-<% title "Mitgliederverwaltung – #{@member.name.full}" %>
-<div class="hl">Mitgliederverwaltung</div>
-<div class="box">
-  <div class="top">
-    <%= @member.name.full %>
-  </div>
-  <div class="con">
-      <div class="hright">
-        <% if policy(@member).destroy? %>
-          <%= link_to 'löschen', admin_members_member_path(@member), method: :delete, data: { confirm: 'Möchten Sie dieses Mitglied wirklich löschen?'} %> |
-        <% end %>
-        <% if policy(@member).edit? %>
-          <% if !@member.membership_cancelled? %>
-            <%= link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { cancelled: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'} %> |
-          <% end %>
-          <%= link_to 'Daten bearbeiten', edit_admin_members_member_path(@member) %>
-        <% end %>
-      </div>
-    <table>
-      <tr>
-        <td width="40%">Mitgliedsnummer:</td>
-        <td class="monospace"><%= @member.number %></td>
-      </tr>
-      <tr>
-        <td>Name:</td>
-        <td>
-          <%= @member.name.full %>
-          <% if @member.nickname != @member.first_name %>
-            <em>(<%= @member.nickname %>)</em>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td>Geburtstag:</td>
-        <td><%= l @member.birthday, format: :long if @member.birthday %></td>
-      </tr>
-      <tr>
-        <td>Geschlecht:</td>
-        <td><%= t("genders.#{@member.gender}") %></td>
-      </tr>
-      <% if @member.membership_cancelled? %>
-        <tr>
-          <td colspan="2">
-            <div class="cancelled">
-              Mitgliedschaft gekündigt zum <%= l @member.membership_terminates_on, format: :long %>
-            </div>
-            <div class="small hcen">
-              <%= link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'} %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
+- include_css 'members/main'
+- title "Mitgliederverwaltung – #{@member.name.full}"
 
-      <tr>
-        <td colspan="2"><h3>Kontaktdaten</h3></td>
-      </tr>
-      <tr>
-        <td>Adresse:</td>
-        <td>
-          <%= @member.street %><br>
-          <%= @member.plz %> <%= @member.city %>
-        </td>
-      </tr>
-      <tr>
-        <td>E-Mail-Adresse:</td>
-        <td><%= mail_to @member.email %></td>
-      </tr>
-      <tr>
-        <td>Telefonnummer:</td>
-        <td><%= @member.phone %></td>
-      </tr>
+.hl Mitgliederverwaltung
+.box
+  .top = @member.name.full
+  .con
+    .hright
+      - if policy(@member).destroy?
+        => link_to 'löschen', admin_members_member_path(@member), method: :delete, data: { confirm: 'Möchten Sie dieses Mitglied wirklich löschen?'}
+        ' |
+      - if policy(@member).edit?
+        - unless @member.membership_cancelled?
+          => link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { cancelled: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'}
+          ' |
+        = link_to 'Daten bearbeiten', edit_admin_members_member_path(@member)
 
-      <tr>
-        <td colspan="2"><h3>Bankverbindung</h3></td>
-      </tr>
-      <% if @member.sepa_mandate.present? %>
-        <tr>
-          <td>Kontoinhaber:</td>
-          <td><%= @member.sepa_mandate.debtor_name %></td>
-        </tr>
-        <tr>
-          <td>IBAN:</td>
-          <td class="monospace">
-            <%= obfuscated_mandate_iban(@member.sepa_mandate) %>
-          </td>
-        </tr>
-        <tr>
-          <td>Mandat:</td>
-          <td>
-            <span class="monospace">
-              <%= @member.sepa_mandate.number(prefixed: true) %>
-            </span>
-            (vom <%= l @member.sepa_mandate.issued_on %>)
-          </td>
-        </tr>
-      <% end %>
+    table
+      tr
+        td width='40%' Mitgliedsnummer:
+        td.monospace = @member.number
+      tr
+        td Name:
+        td
+          = @member.name.full
+          - if @member.nickname != @member.first_name
+            em<() (#{@member.nickname})
+      tr
+        td Geburtstag:
+        td
+          - if @member.birthday
+            = l @member.birthday, format: :long
+      tr
+        td Geschlecht:
+        td = t("genders.#{@member.gender}")
+      - if @member.membership_cancelled?
+        tr
+          td colspan=2
+            .cancelled Mitgliedschaft gekündigt zum #{l(@member.membership_terminates_on, format: :long)}
+            .small.hcen = link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'}
 
-      <tr>
-        <td colspan="2"><h3>Mitgliedsbeitrag</h3></td>
-      </tr>
-      <tr>
-        <td>Jahresbeitrag:</td>
-        <td><%= number_to_currency(@member.membership_fee) %></td>
-      </tr>
-      <% last_payment = @member.membership_fee_payments.last %>
-      <tr>
-        <td>zuletzt bezahlt:</td>
-        <td>
-          <%= last_membership_fee_payment_date(@member) %>
-          <% if last_payment.failed? %>
-            <div class="small cancelled">Zahlung fehlgeschlagen</div>
-          <% else %>
-            <div class="small"><%= link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' } %></div>
-          <% end %>
-        </td>
-      </tr>
-      <% if @member.membership_fee_paid_until.present? %>
-        <tr>
-          <td>bezahlt bis:</td>
-          <td><%= l @member.membership_fee_paid_until, format: :long %></td>
-        </tr>
-      <% end %>
+      tr: td(colspan=2): h3 Kontaktdaten
+      tr
+        td Adresse:
+        td
+          = @member.street
+          br
+          | #{@member.plz} #{@member.city}
+      tr
+        td E-Mail-Adresse:
+        td = mail_to @member.email
+      tr
+        td Telefonnummer:
+        td = @member.phone
 
-      <tr>
-        <td colspan="2"><h3>Weitere Angaben</h3></td>
-      </tr>
-      <tr>
-        <td>Beitrittsdatum:</td>
-        <td><%= l @member.joined_at, format: :long %></td>
-      </tr>
-      <tr>
-        <td>Im Vorstand:</td>
-        <td><% if @member.admin? %>Ja<% else %>Nein<% end %></td>
-      </tr>
-      <tr>
-        <td>Letzter Login:</td>
-        <td><%= last_login_time @member %></td>
-      </tr>
-      <tr>
-        <td>Familie:</td>
-        <td>
-          <% if @member.in_family? %>
-            <ul>
-              <% @member.family.members.alphabetically.each do |member| %>
-                <li><%= link_to member.name.full, admin_members_member_path(member) %></li>
-              <% end %>
-              <p><small><%= link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'} %></small></p>
-            </ul>
-          <% else %>
-            <em>Dieses Mitglied ist keiner Familie zugeordnet.</em>
-          <% end %>
-        </td>
-      </tr>
+      tr: td(colspan=2): h3 Bankverbindung
+      - if @member.sepa_mandate.present?
+        tr
+          td Kontoinhaber:
+          td = @member.sepa_mandate.debtor_name
+        tr
+          td IBAN:
+          td.monospace = obfuscated_mandate_iban(@member.sepa_mandate)
+        tr
+          td Mandat:
+          td
+            span.monospace> = @member.sepa_mandate.number(prefixed: true)
+            | (vom #{l(@member.sepa_mandate.issued_on)})
 
-      <% if policy(@member).show_permissions? %>
-        <tr>
-          <td colspan="2"><h3>Berechtigungen</h3></td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <% if @member.permissions&.any? || @member.shared_email_accounts_authorized_for&.any? %>
-              <ul>
-                <% @member.permissions&.each do |permission| %>
-                  <li><%= t "permissions.#{permission}" %></li>
-                <% end %>
-                <% @member.shared_email_accounts_authorized_for&.each do |email| %>
-                  <li><%= t('permissions.authorized_for_shared_email_account_html', email: email) %></li>
-                <% end %>
-              </ul>
-            <% else %>
-              <em>Dieses Mitglied hat keine besonderen Berechtigungen.</em>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
-</div>
+      tr: td(colspan=2): h3 Mitgliedsbeitrag
+      tr
+        td Jahresbeitrag:
+        td = number_to_currency(@member.membership_fee)
+      - last_payment = @member.membership_fee_payments.last
+      tr
+        td zuletzt bezahlt:
+        td
+          = last_membership_fee_payment_date(@member)
+          - if last_payment.failed?
+            .small.cancelled Zahlung fehlgeschlagen
+          - else
+            .small = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
+      - if @member.membership_fee_paid_until.present?
+        tr
+          td bezahlt bis:
+          td = l @member.membership_fee_paid_until, format: :long
+
+      tr: td(colspan=2): h3 Weitere Angaben
+      tr
+        td Beitrittsdatum:
+        td = l @member.joined_at, format: :long
+      tr
+        td Im Vorstand:
+        td = @member.admin? ? 'Ja' : 'Nein'
+      tr
+        td Letzter Login
+        td = last_login_time @member
+      tr
+        td Familie
+        td
+          - if @member.in_family?
+            ul
+              - @member.family.members.alphabetically.each do |member|
+                li = link_to member.name.full, admin_members_member_path(member)
+              p.small = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
+          - else
+            em Dieses Mitglied ist keiner Familie zugeordnet.
+
+    - if policy(@member).show_permissions?
+      h3 Berechtigungen
+      - if @member.permissions&.any? || @member.shared_email_accounts_authorized_for&.any?
+        ul
+          - @member.permissions&.each do |permission|
+            li = t "permissions.#{permission}"
+          - @member.shared_email_accounts_authorized_for&.each do |email|
+            li = t('permissions.authorized_for_shared_email_account_html', email: email)
+      - else
+        em Dieses Mitglied hat keine besonderen Berechtigungen.
