@@ -14,7 +14,7 @@ module Admin
         membership_fee_payments_paused: true
       )
 
-      redirect_to [:admin, payment.member]
+      redirect_to [:admin, payment.member], notice: t('.marked_as_failed')
     end
   end
 end

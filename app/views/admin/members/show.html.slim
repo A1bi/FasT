@@ -5,14 +5,17 @@
 .box
   .top = @member.name.full
   .con
-    .hright
+    .small.hright
       - if policy(@member).destroy?
         => link_to 'löschen', admin_members_member_path(@member), method: :delete, data: { confirm: 'Möchten Sie dieses Mitglied wirklich löschen?'}
         ' |
+      - if policy(@member).edit? && !@member.membership_cancelled?
+        => link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { cancelled: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'}
+        ' |
+      - if policy(@member).reactivate? && @member.email.present?
+        => link_to 'reaktivieren', reactivate_admin_members_member_path, method: :patch, title: 'Passwort zurücksetzen und Aktivierungs-E-Mail erneut zusenden', data: { confirm: 'Möchten Sie diesem Mitglied wirklich eine neue Aktivierungs-E-Mail zusenden?' }
+        ' |
       - if policy(@member).edit?
-        - unless @member.membership_cancelled?
-          => link_to 'Kündigung vormerken', admin_members_member_path(@member, members_member: { cancelled: true }), method: :patch, data: { confirm: 'Möchten Sie eine Kündigung wirklich vormerken?'}
-          ' |
         = link_to 'Daten bearbeiten', edit_admin_members_member_path(@member)
 
     table
@@ -77,9 +80,11 @@
         td
           = last_membership_fee_payment_date(@member)
           - if last_payment.failed?
-            .small.cancelled Zahlung fehlgeschlagen
-          - else
+            .small.failed Zahlung fehlgeschlagen
+          - elsif policy(last_payment).mark_as_failed?
             .small = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
+          - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
+            .small = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
       - if @member.membership_fee_paid_until.present?
         tr
           td bezahlt bis:

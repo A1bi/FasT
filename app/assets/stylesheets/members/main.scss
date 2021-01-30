@@ -42,9 +42,12 @@
   }
 }
 
-div.cancelled {
+div.cancelled, div.failed {
   color: red;
   font-weight: bold;
+}
+
+div.cancelled {
   padding-top: 10px;
   padding-bottom: 5px;
   text-align: center;

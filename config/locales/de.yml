@@ -34,12 +34,15 @@ de:
       sent_activation_mail: Die Aktivierungs-E-Mail wurde erfolgreich verschickt.
       cancelled: Die Kündigung wurde vorgemerkt.
       cancellation_reverted: Die vorgemerkte Kündigung wurde entfernt.
+      membership_fee_payments_resumed: Der automatische Bankeinzug wird fortgesetzt.
       never_logged_in: noch nie
       membership_fee_never_paid: noch keine Erstlastschrift veranlasst
       form:
         sepa_mandates:
           all: Alle Mandate
           family: Mandate aus der Familie dieses Mitglieds
+    membership_fee_payments:
+      marked_as_failed: Die Zahlung wurde als fehlgeschlagen markiert.
     newsletters:
       saved: Der Newsletter wurde gespeichert.
       destroyed: Der Newsletter wurde gelöscht.

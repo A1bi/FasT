@@ -116,9 +116,6 @@
       .submit = cond_submit f
 
       - if @member.persisted?
-        - if @member.email.present?
-          = content_tag :div, class: [:small, :hcen]
-            = link_to 'Passwort zurücksetzen und Aktivierungs-E-Mail erneut zusenden', reactivate_admin_members_member_path, method: :patch, data: { confirm: 'Möchten Sie diesem Mitglied wirklich eine neue Aktivierungs-E-Mail zusenden?' }
         p
           h3 Familie
           - if @member.in_family?

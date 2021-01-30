@@ -34,6 +34,10 @@ module Members
       update_permitted?
     end
 
+    def resume_membership_fee_payments?
+      update_permitted?
+    end
+
     def activate?
       true
     end

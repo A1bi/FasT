@@ -75,7 +75,8 @@ Rails.application.routes.draw do
                            only: %i[create destroy]
       end
       resources :members_members, path: 'mitglieder', controller: :members do
-        patch :reactivate, path: 'reaktivieren', on: :member
+        patch :reactivate, on: :member
+        patch :resume_membership_fee_payments, on: :member
       end
       resources :members_membership_fee_payments,
                 controller: :membership_fee_payments do

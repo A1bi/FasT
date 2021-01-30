@@ -3,7 +3,8 @@
 module Admin
   class MembersController < ApplicationController
     before_action :find_groups, only: %i[new edit create update]
-    before_action :find_member, only: %i[show edit update destroy reactivate]
+    before_action :find_member, only: %i[show edit update destroy reactivate
+                                         resume_membership_fee_payments]
     before_action :build_sepa_mandate, only: %i[edit update]
     before_action :prepare_new_member, only: %i[new create]
     before_action :find_members_for_family, only: %i[new create edit update]
@@ -61,6 +62,13 @@ module Admin
 
       redirect_to admin_members_member_path(@member),
                   notice: t('.sent_activation_mail')
+    end
+
+    def resume_membership_fee_payments
+      @member.update(membership_fee_payments_paused: false)
+
+      redirect_to admin_members_member_path(@member),
+                  notice: t('.membership_fee_payments_resumed')
     end
 
     protected

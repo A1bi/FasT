@@ -2,7 +2,7 @@
 
 require 'support/authentication'
 
-RSpec.describe 'Admin::MembershipFeePayments' do
+RSpec.describe 'Admin::MembershipFeePaymentsController' do
   describe 'PATCH #mark_as_failed' do
     subject do
       patch mark_as_failed_admin_members_membership_fee_payment_path(payment)
@@ -45,8 +45,7 @@ RSpec.describe 'Admin::MembershipFeePayments' do
 
     it 'redirects to the member details' do
       subject
-      expect(response)
-        .to redirect_to(admin_members_member_path(member))
+      expect(response).to redirect_to(admin_members_member_path(member))
     end
   end
 end
