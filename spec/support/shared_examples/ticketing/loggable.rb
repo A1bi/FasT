@@ -19,3 +19,9 @@ RSpec.shared_examples 'creates a log event' do |event, info|
     expect(log_event.info).to eq(info || {})
   end
 end
+
+RSpec.shared_examples 'does not create a log event' do
+  it 'does not create a log event' do
+    expect { subject }.not_to change(Ticketing::LogEvent, :count)
+  end
+end

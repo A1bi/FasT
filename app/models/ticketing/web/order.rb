@@ -36,11 +36,6 @@ module Ticketing
                                            submission_id: nil })
       end
 
-      def send_pay_reminder
-        enqueue_mailing(:pay_reminder)
-        log(:sent_pay_reminder)
-      end
-
       def resend_items
         enqueue_mailing(:resend_items)
         log(:resent_items)
@@ -56,11 +51,6 @@ module Ticketing
 
         bank_charge.approved = true
         log(:approved)
-      end
-
-      def mark_as_paid
-        super
-        enqueue_mailing(:payment_received, depends_on_commit: true)
       end
 
       def bank_charge_submitted

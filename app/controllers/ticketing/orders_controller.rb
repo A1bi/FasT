@@ -141,10 +141,7 @@ module Ticketing
     end
 
     def mark_as_paid
-      if !authorize(@order).cancelled? && @order.billing_account.outstanding?
-        @order.mark_as_paid
-        @order.save
-      end
+      order_payment_service.mark_as_paid
       redirect_to_order_details :marked_as_paid
     end
 
@@ -157,11 +154,7 @@ module Ticketing
     end
 
     def send_pay_reminder
-      if authorize(@order).is_a?(Ticketing::Web::Order) &&
-         @order.billing_account.outstanding?
-        @order.send_pay_reminder
-        @order.save
-      end
+      order_payment_service.send_reminder
       redirect_to_order_details :sent_pay_reminder
     end
 
@@ -322,6 +315,10 @@ module Ticketing
 
     def order_scope
       policy_scope(Order)
+    end
+
+    def order_payment_service
+      Ticketing::OrderPaymentService.new(authorize(@order))
     end
 
     def update_order_params

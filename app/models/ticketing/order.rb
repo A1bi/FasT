@@ -66,13 +66,6 @@ module Ticketing
       end
     end
 
-    def mark_as_paid
-      return if paid
-
-      withdraw_from_account(billing_account.balance, :payment_received)
-      log(:marked_as_paid)
-    end
-
     def edit_ticket_types(tickets, types)
       tickets.each do |ticket|
         ticket.update(type: TicketType.find(types[ticket.id]))
