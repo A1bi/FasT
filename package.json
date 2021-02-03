@@ -10,7 +10,7 @@
     "jquery": "^3.5.1",
     "mapbox-gl": "^1.11.0",
     "regenerator-runtime": "^0.13.5",
-    "socket.io-client": "^2.3.0",
+    "socket.io-client": "~3.1.0",
     "stimulus": "^1.1.1",
     "whatwg-fetch": "^3.0.0"
   },
