@@ -24,9 +24,7 @@ module Ticketing
       validates :email, allow_blank: true, email_format: true
       validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
-      after_create { send_confirmation(after_commit: true) }
       after_save :schedule_geolocation
-      after_commit :send_queued_mails
 
       def self.charges_to_submit(approved)
         charge_payment
@@ -34,16 +32,6 @@ module Ticketing
           .where('ticketing_billing_accounts.balance < 0')
           .where(ticketing_bank_charges: { approved: approved,
                                            submission_id: nil })
-      end
-
-      def resend_items
-        enqueue_mailing(:resend_items)
-        log(:resent_items)
-      end
-
-      def send_confirmation(after_commit: false, log: false)
-        enqueue_mailing(:confirmation, depends_on_commit: after_commit)
-        self.log(:resent_confirmation) if log
       end
 
       def approve
@@ -57,19 +45,6 @@ module Ticketing
         bank_charge.amount = -billing_account.balance
         withdraw_from_account(billing_account.balance, :bank_charge_submitted)
         log(:charge_submitted)
-      end
-
-      def enqueue_mailing(action, params: {}, depends_on_commit: false)
-        return if email.blank?
-
-        params[:order] = self
-        mail = Ticketing::OrderMailer.with(params).public_send(action)
-
-        if depends_on_commit
-          (@queued_mails ||= []) << mail
-        else
-          mail.deliver_later
-        end
       end
 
       def update_total_and_billing(billing_note)
@@ -88,12 +63,6 @@ module Ticketing
         return unless saved_change_to_plz? && geolocation.blank?
 
         Ticketing::GeolocatePostcodeJob.perform_later(plz)
-      end
-
-      def send_queued_mails
-        @queued_mails&.each do |mail|
-          mail.deliver_later
-        end
       end
 
       def update_paid

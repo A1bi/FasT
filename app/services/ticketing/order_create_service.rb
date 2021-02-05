@@ -79,9 +79,17 @@ module Ticketing
         update_node_seats
       end
 
+      send_confirmation
+
       suppress_in_production(StandardError) do
         send_push_notifications
       end
+    end
+
+    def send_confirmation
+      return unless @order.is_a? Web::Order
+
+      OrderMailer.with(order: @order).confirmation.deliver_later
     end
 
     def send_push_notifications

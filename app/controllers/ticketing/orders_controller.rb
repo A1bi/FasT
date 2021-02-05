@@ -159,18 +159,12 @@ module Ticketing
     end
 
     def resend_confirmation
-      if authorize(@order).is_a? Ticketing::Web::Order
-        @order.send_confirmation(log: true)
-        @order.save
-      end
+      send_order_email(:confirmation, :resent_confirmation)
       redirect_to_order_details :resent_confirmation
     end
 
     def resend_items
-      if authorize(@order).is_a? Ticketing::Web::Order
-        @order.resend_items
-        @order.save
-      end
+      send_order_email(:resend_items, :resent_items)
       redirect_to_order_details :resent_items
     end
 
@@ -311,6 +305,14 @@ module Ticketing
         end
       end
       @billing_actions << :correction if current_user.admin?
+    end
+
+    def send_order_email(mailer_action, log_action)
+      return unless @order.is_a? Ticketing::Web::Order
+
+      Ticketing::OrderMailer.with(order: authorize(@order))
+                            .public_send(mailer_action).deliver_later
+      @order.log(log_action).save
     end
 
     def order_scope
