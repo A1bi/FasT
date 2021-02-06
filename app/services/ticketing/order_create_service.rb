@@ -87,13 +87,11 @@ module Ticketing
     end
 
     def send_confirmation
-      return unless @order.is_a? Web::Order
-
       OrderMailer.with(order: @order).confirmation.deliver_later
     end
 
     def send_push_notifications
-      Ticketing::OrderPushNotificationsJob.perform_later(@order, admin: admin?)
+      OrderPushNotificationsJob.perform_later(@order, admin: admin?)
     end
 
     def update_node_seats
@@ -104,11 +102,11 @@ module Ticketing
 
     def order_class
       if retail?
-        Ticketing::Retail::Order
+        Retail::Order
       elsif box_office?
-        Ticketing::BoxOffice::Order
+        BoxOffice::Order
       else
-        Ticketing::Web::Order
+        Web::Order
       end
     end
 
@@ -119,7 +117,7 @@ module Ticketing
     def date
       return if order_params[:date].blank?
 
-      @date ||= Ticketing::EventDate.find(order_params[:date])
+      @date ||= EventDate.find(order_params[:date])
     end
 
     def sale_disabled?

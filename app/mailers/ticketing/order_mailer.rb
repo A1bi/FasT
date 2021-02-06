@@ -4,10 +4,10 @@ module Ticketing
   class OrderMailer < ApplicationMailer
     helper TicketingHelper
 
-    before_action { @order = params[:order] }
+    before_action :set_order
     before_action :prepare_tickets, :prepare_coupons
 
-    default to: -> { @order.try(:email) }
+    default to: -> { @order.email }
 
     def confirmation
       mail
@@ -31,6 +31,14 @@ module Ticketing
     end
 
     private
+
+    def set_order
+      return if (@order = params[:order]).is_a? Web::Order
+
+      # prevent delivery and action processing if order is not a web order
+      self.perform_deliveries = false
+      self.response_body = :null
+    end
 
     def mail(item_subject: false)
       if item_subject

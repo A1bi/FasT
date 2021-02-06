@@ -28,8 +28,6 @@ module Ticketing
     private
 
     def send_email(action)
-      return unless web_order?
-
       Ticketing::OrderMailer.with(order: @order)
                             .public_send(action).deliver_later
     end

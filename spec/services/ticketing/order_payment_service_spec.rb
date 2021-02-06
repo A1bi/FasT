@@ -56,7 +56,6 @@ RSpec.describe Ticketing::OrderPaymentService do
 
       include_examples 'marks as paid'
       include_examples 'creates a log event', :marked_as_paid
-      include_examples 'does not send an email'
     end
 
     context 'with an already paid order' do
