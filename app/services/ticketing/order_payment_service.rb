@@ -20,8 +20,7 @@ module Ticketing
     def send_reminder
       return unless web_order? && !@order.paid?
 
-      @order.log(:sent_pay_reminder).save
-
+      @order.log!(:sent_pay_reminder)
       send_email(:pay_reminder)
     end
 

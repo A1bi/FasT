@@ -66,7 +66,7 @@ module Ticketing
                                       subject: params[:subject],
                                       body: params[:text]).deliver_later
 
-      @coupon.log(:sent, email: email, recipient: recipient).save
+      @coupon.log!(:sent, email: email, recipient: recipient)
 
       redirect_to @coupon, notice: t('.sent')
     end

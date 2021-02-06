@@ -17,7 +17,7 @@
         <td class="empty" colspan="3">Keine Protokolleinträge vorhanden.</td>
       </tr>
     <% else %>
-      <% events.each do |event| %>
+      <% events.reverse_order.each do |event| %>
         <tr>
           <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
           <td><%= t event.name, { scope: scope }.merge(event.info) %></td>

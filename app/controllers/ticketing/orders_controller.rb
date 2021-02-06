@@ -312,7 +312,7 @@ module Ticketing
 
       Ticketing::OrderMailer.with(order: authorize(@order))
                             .public_send(mailer_action).deliver_later
-      @order.log(log_action).save
+      @order.log!(log_action)
     end
 
     def order_scope

@@ -23,7 +23,7 @@ json.tickets order.tickets do |ticket|
   json.call(ticket, :price, :picked_up, :resale)
 end
 
-json.log_events order.log_events do |log_event|
+json.log_events order.log_events.reverse_order do |log_event|
   json.created_at log_event.created_at.to_i
 
   i18n_info = log_event.info
