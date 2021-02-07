@@ -4,8 +4,9 @@ module Ticketing
   class TicketBaseService
     include NodeUpdating
 
-    def initialize(tickets)
+    def initialize(tickets, current_user: nil)
       @tickets = tickets
+      @current_user = current_user
     end
 
     private
@@ -25,6 +26,10 @@ module Ticketing
 
     def valid_tickets_by_order
       valid_tickets.group_by(&:order)
+    end
+
+    def log_service(loggable)
+      LogEventCreateService.new(loggable, current_user: @current_user)
     end
   end
 end

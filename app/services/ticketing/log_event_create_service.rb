@@ -1,0 +1,78 @@
+# frozen_string_literal: true
+
+module Ticketing
+  class LogEventCreateService
+    def initialize(loggable, current_user: nil)
+      @loggable = loggable
+      @current_user = current_user
+    end
+
+    def create
+      create_event(:created)
+    end
+
+    def update
+      create_event(:updated)
+    end
+
+    def mark_as_paid
+      create_event(:marked_as_paid)
+    end
+
+    def approve
+      create_event(:approved)
+    end
+
+    def redeem
+      create_event(:redeemed)
+    end
+
+    def send(email:, name:)
+      create_event(:sent, email: email, name: name)
+    end
+
+    def submit_charge
+      create_event(:submitted_charge)
+    end
+
+    def resend_confirmation
+      create_event(:resent_confirmation) if web_order?
+    end
+
+    def resend_items
+      create_event(:resent_items) if web_order?
+    end
+
+    def send_pay_reminder
+      create_event(:sent_pay_reminder) if web_order?
+    end
+
+    def update_ticket_types
+      create_event(:updated_ticket_types)
+    end
+
+    def cancel_tickets(tickets, reason: nil)
+      create_event(:cancelled_tickets, count: tickets.count, reason: reason)
+    end
+
+    def transfer_tickets(tickets)
+      create_event(:transferred_tickets, count: tickets.count)
+    end
+
+    def enable_resale_for_tickets(tickets)
+      create_event(:enabled_resale_for_tickets, count: tickets.count)
+    end
+
+    private
+
+    def create_event(name, info = {})
+      event = @loggable.log_events.new(name: name, user: @current_user,
+                                       info: info)
+      event.save if @loggable.persisted?
+    end
+
+    def web_order?
+      @loggable.is_a? Web::Order
+    end
+  end
+end

@@ -3,7 +3,7 @@
 RSpec.describe Ticketing::TicketCancelService do
   subject { service.execute }
 
-  let(:service) { described_class.new(tickets, reason) }
+  let(:service) { described_class.new(tickets, reason: reason) }
   let(:orders) { create_list(:web_order, 2, :with_tickets, tickets_count: 2) }
   let(:tickets) { orders.map(&:tickets).flatten }
   let(:reason) { 'foo' }

@@ -320,7 +320,7 @@ module Ticketing
     end
 
     def order_payment_service
-      Ticketing::OrderPaymentService.new(authorize(@order))
+      OrderPaymentService.new(authorize(@order), current_user: current_user)
     end
 
     def update_order_params

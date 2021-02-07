@@ -2,8 +2,8 @@
 
 module Ticketing
   class TicketCancelService < TicketBaseService
-    def initialize(tickets, reason)
-      super(tickets)
+    def initialize(tickets, reason:, current_user: nil)
+      super(tickets, current_user: current_user)
       @reason = reason
     end
 
@@ -30,8 +30,9 @@ module Ticketing
 
     def update_order(order, tickets)
       order.update_total_and_billing(:cancellation)
-      order.log(:tickets_cancelled, count: tickets.count, reason: @reason)
-      order.save
+      return unless order.save
+
+      log_service(order).cancel_tickets(tickets, reason: @reason)
     end
 
     def send_email(order)

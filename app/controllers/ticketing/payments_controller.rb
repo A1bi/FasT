@@ -28,7 +28,7 @@ module Ticketing
       authorize Ticketing::Order
 
       @orders.each do |order|
-        Ticketing::OrderPaymentService.new(order).mark_as_paid
+        OrderPaymentService.new(order, current_user: current_user).mark_as_paid
       end
       redirect_to_overview(:marked_as_paid)
     end

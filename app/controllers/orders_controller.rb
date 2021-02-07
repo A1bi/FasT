@@ -44,8 +44,8 @@ class OrdersController < ApplicationController
     bank_details[:iban].delete!(' ')
 
     tickets = @order.tickets.filter(&:refundable?)
-    ::Ticketing::TicketCancelService.new(tickets, :date_cancelled)
-                                    .execute(send_customer_email: false)
+    Ticketing::TicketCancelService.new(tickets, reason: :date_cancelled)
+                                  .execute(send_customer_email: false)
 
     mailer = Ticketing::RefundMailer.with(order: @order,
                                           **bank_details.symbolize_keys)

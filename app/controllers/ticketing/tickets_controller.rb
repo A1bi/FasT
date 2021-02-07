@@ -6,7 +6,7 @@ module Ticketing
     before_action :find_event, only: %i[transfer finish_transfer]
 
     def cancel
-      ::Ticketing::TicketCancelService.new(@tickets, params[:reason]).execute
+      cancel_tickets
 
       if @order.is_a?(Retail::Order) && params[:refund]
         @order.cash_refund_in_store
@@ -17,7 +17,9 @@ module Ticketing
     end
 
     def enable_resale
-      ::Ticketing::TicketUpdateService.new(@tickets, resale: true).execute
+      TicketUpdateService.new(@tickets, params: { resale: true },
+                                        current_user: current_user)
+                         .execute
 
       redirect_to_order_details :enabled_resale
     end
@@ -49,12 +51,13 @@ module Ticketing
         TicketTransferService.new(@tickets,
                                   new_date_id: params[:date_id],
                                   order_id: params[:order_id],
-                                  socket_id: params[:socket_id])
+                                  socket_id: params[:socket_id],
+                                  current_user: current_user)
 
       return :unprocessable_entity unless ticket_transfer_service.execute
 
       flash[:notice] = t('.edited',
-                         count: ticket_transfer_service.updates_tickets.count)
+                         count: ticket_transfer_service.updated_tickets.count)
       head :ok
     end
 
@@ -100,6 +103,12 @@ module Ticketing
                                 .each_with_object({}) do |(id, val), types|
         types[id.to_i] = val[:type_id].to_i
       end
+    end
+
+    def cancel_tickets
+      TicketCancelService.new(@tickets, reason: params[:reason],
+                                        current_user: current_user)
+                         .execute
     end
 
     def node_seats

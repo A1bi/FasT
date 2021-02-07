@@ -2,8 +2,9 @@
 
 module Ticketing
   class OrderPaymentService
-    def initialize(order)
+    def initialize(order, current_user: nil)
       @order = order
+      @current_user = current_user
     end
 
     def mark_as_paid
@@ -11,7 +12,7 @@ module Ticketing
 
       @order.withdraw_from_account(@order.billing_account.balance,
                                    :payment_received)
-      @order.log(:marked_as_paid)
+      log_service.mark_as_paid
       @order.save
 
       send_email(:payment_received)
@@ -20,19 +21,22 @@ module Ticketing
     def send_reminder
       return unless web_order? && !@order.paid?
 
-      @order.log!(:sent_pay_reminder)
       send_email(:pay_reminder)
+      log_service.send_pay_reminder
     end
 
     private
 
     def send_email(action)
-      Ticketing::OrderMailer.with(order: @order)
-                            .public_send(action).deliver_later
+      OrderMailer.with(order: @order).public_send(action).deliver_later
+    end
+
+    def log_service
+      LogEventCreateService.new(@order, current_user: @current_user)
     end
 
     def web_order?
-      @order.is_a?(Ticketing::Web::Order)
+      @order.is_a?(Web::Order)
     end
   end
 end

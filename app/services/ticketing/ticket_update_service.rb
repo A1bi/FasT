@@ -2,15 +2,15 @@
 
 module Ticketing
   class TicketUpdateService < TicketBaseService
-    def initialize(tickets, ticket_params)
-      super(tickets)
-      @ticket_params = ticket_params.except(:cancelled)
+    def initialize(tickets, params:, current_user: nil)
+      super(tickets, current_user: current_user)
+      @params = params.except(:cancelled)
     end
 
     def execute
       ActiveRecord::Base.transaction do
         valid_tickets.each do |ticket|
-          ticket.update(@ticket_params)
+          ticket.update(@params)
         end
 
         valid_tickets_by_order.each do |order, tickets|
@@ -27,8 +27,9 @@ module Ticketing
     private
 
     def update_order(order, tickets)
-      order.log(:enabled_resale_for_tickets, count: tickets.count) if resale?
-      order.save
+      return unless order.save
+
+      log_service(order).enable_resale_for_tickets(tickets) if resale?
     end
 
     def update_node
@@ -36,7 +37,7 @@ module Ticketing
     end
 
     def resale?
-      !@ticket_params[:resale].nil?
+      !@params[:resale].nil?
     end
   end
 end

@@ -4,8 +4,8 @@ module Ticketing
   class TicketTransferService < TicketBaseService
     attr_accessor :updated_tickets
 
-    def initialize(tickets, new_date_id:, order_id:, socket_id:)
-      super(tickets)
+    def initialize(tickets, new_date_id:, order_id:, socket_id:, current_user:)
+      super(tickets, current_user: current_user)
       @new_date_id = new_date_id
       @order_id = order_id
       @socket_id = socket_id
@@ -17,10 +17,9 @@ module Ticketing
                                         .compact
 
         return if updated_tickets.none?
+        return unless order.save
 
-        order.log(:tickets_transferred, count: updated_tickets.count)
-        return if order.save
-
+        create_log_event
         update_seats_with_node
       end
 
@@ -64,6 +63,10 @@ module Ticketing
           Hash[[ticket.seat.node_hash(ticket.date.id, false)]]
         )
       end
+    end
+
+    def create_log_event
+      log_service(order).transfer_tickets(updated_tickets)
     end
 
     def update_seats_with_node

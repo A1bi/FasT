@@ -9,7 +9,9 @@ RSpec.shared_examples 'loggable' do
   end
 end
 
-RSpec.shared_examples 'creates a log event' do |event, info|
+RSpec.shared_examples 'creates a log event' do |event|
+  let(:info) { {} }
+
   it 'creates a log event' do
     expect { subject }.to change(loggable.log_events, :count).by(1)
     log_event = loggable.log_events.last
