@@ -23,8 +23,8 @@ module Ticketing
       coupons.each do |coupon|
         next if coupon.expired?
 
-        coupon.redeem
         order.redeemed_coupons << coupon
+        log_redemption(coupon)
 
         redeem_free_tickets(coupon, tickets_by_price)
       end
@@ -41,6 +41,10 @@ module Ticketing
         tickets_by_price.pop.type = free_ticket_type
         coupon.free_tickets -= 1
       end
+    end
+
+    def log_redemption(coupon)
+      LogEventCreateService.new(coupon, current_user: current_user).redeem
     end
 
     def coupons

@@ -32,8 +32,7 @@ module Ticketing
 
     def update
       params[:ticketing_coupon][:reservation_group_ids] ||= []
-      @coupon.log(:edited)
-      @coupon.update(coupon_params)
+      log_service.update if @coupon.update(coupon_params)
       redirect_to @coupon
     end
 
@@ -79,6 +78,11 @@ module Ticketing
 
     def find_reservation_groups
       @reservation_groups = Ticketing::ReservationGroup.all
+    end
+
+    def log_service
+      @log_service ||=
+        LogEventCreateService.new(@coupon, current_user: current_user)
     end
 
     def coupon_params

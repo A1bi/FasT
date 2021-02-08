@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_shared_examples 'ticketing/loggable'
+
 RSpec.describe Ticketing::CouponCreateService do
   subject { service.execute }
 
@@ -21,6 +23,7 @@ RSpec.describe Ticketing::CouponCreateService do
         { amount: 10, number: 2 }
       ]
     end
+    let(:loggable) { order.purchased_coupons.last }
 
     it 'adds three coupons' do
       expect { subject }.to change(order.purchased_coupons, :size).by(3)
@@ -33,5 +36,7 @@ RSpec.describe Ticketing::CouponCreateService do
         expect(coupon.amount).to eq(10)
       end
     end
+
+    include_examples 'creates a log event for a new record', :created
   end
 end

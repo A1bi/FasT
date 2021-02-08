@@ -34,7 +34,10 @@ module Ticketing
 
     def update
       @order.edit_ticket_types(@tickets, tickets_with_type)
-      @order.save
+      if @order.save
+        LogEventCreateService.new(@order, current_user: current_user)
+                             .update_ticket_types(@tickets)
+      end
 
       redirect_to_order_details :edited
     end

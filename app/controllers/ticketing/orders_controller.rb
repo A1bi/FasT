@@ -134,6 +134,7 @@ module Ticketing
 
     def update
       if authorize(@order).update(update_order_params)
+        log_service.update
         redirect_to_order_details :updated
       else
         render :edit
@@ -159,12 +160,14 @@ module Ticketing
     end
 
     def resend_confirmation
-      send_order_email(:confirmation, :resent_confirmation)
+      order_mailer.confirmation.deliver_later
+      log_service.resend_confirmation
       redirect_to_order_details :resent_confirmation
     end
 
     def resend_items
-      send_order_email(:resend_items, :resent_items)
+      order_mailer.resend_items.deliver_later
+      log_service.resend_items
       redirect_to_order_details :resent_items
     end
 
@@ -307,20 +310,21 @@ module Ticketing
       @billing_actions << :correction if current_user.admin?
     end
 
-    def send_order_email(mailer_action, log_action)
-      return unless @order.is_a? Ticketing::Web::Order
-
-      Ticketing::OrderMailer.with(order: authorize(@order))
-                            .public_send(mailer_action).deliver_later
-      @order.log!(log_action)
-    end
-
     def order_scope
       policy_scope(Order)
     end
 
     def order_payment_service
       OrderPaymentService.new(authorize(@order), current_user: current_user)
+    end
+
+    def order_mailer
+      OrderMailer.with(order: authorize(@order))
+    end
+
+    def log_service
+      @log_service ||=
+        LogEventCreateService.new(@order, current_user: current_user)
     end
 
     def update_order_params

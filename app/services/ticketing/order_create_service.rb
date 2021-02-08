@@ -76,6 +76,8 @@ module Ticketing
         contexts = [:create, (:unprivileged_order unless admin?)]
         return unless @order.save(context: contexts)
 
+        log_order_creation
+
         update_node_seats
       end
 
@@ -84,6 +86,10 @@ module Ticketing
       suppress_in_production(StandardError) do
         send_push_notifications
       end
+    end
+
+    def log_order_creation
+      LogEventCreateService.new(@order, current_user: current_user).create
     end
 
     def send_confirmation

@@ -15,9 +15,20 @@ module Ticketing
 
       params[:coupons].each do |coupon_params|
         coupon_params[:number].times do
-          order.purchased_coupons.new(amount: coupon_params[:amount])
+          coupon = build_coupon(order, coupon_params[:amount])
+          log_coupon_creation(coupon)
         end
       end
+    end
+
+    private
+
+    def build_coupon(order, amount)
+      order.purchased_coupons.new(amount: amount)
+    end
+
+    def log_coupon_creation(coupon)
+      LogEventCreateService.new(coupon, current_user: current_user).create
     end
   end
 end

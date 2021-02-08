@@ -70,17 +70,5 @@ RSpec.describe Ticketing::Coupon do
     end
   end
 
-  describe '#redeem' do
-    subject do
-      coupon.redeem
-      coupon.save
-    end
-
-    let(:coupon) { create(:coupon) }
-    let(:loggable) { coupon }
-
-    include_examples 'creates a log event', :redeemed
-  end
-
   it_behaves_like 'loggable'
 end

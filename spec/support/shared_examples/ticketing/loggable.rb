@@ -16,7 +16,19 @@ RSpec.shared_examples 'creates a log event' do |event|
     expect { subject }.to change(loggable.log_events, :count).by(1)
     log_event = loggable.log_events.last
     expect(log_event.name).to eq(event.to_s)
-    expect(log_event.info).to eq(info || {})
+    expect(log_event.info).to eq(info)
+  end
+end
+
+RSpec.shared_examples 'creates a log event for a new record' do |event|
+  let(:info) { {} }
+
+  it 'creates a log event' do
+    subject
+    expect(loggable.log_events.size).to eq(1)
+    log_event = loggable.log_events.last
+    expect(log_event.name).to eq(event.to_s)
+    expect(log_event.info).to eq(info)
   end
 end
 

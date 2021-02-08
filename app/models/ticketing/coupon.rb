@@ -14,8 +14,6 @@ module Ticketing
                                       optional: true, autosave: false
     has_many :orders, through: :redemptions
 
-    before_create :log_created
-
     class << self
       def valid
         where('expires_at IS NULL OR expires_at > ?', Time.current)
@@ -33,16 +31,6 @@ module Ticketing
                      !amount.positive?
 
       expires_at&.past?
-    end
-
-    def redeem
-      log(:redeemed)
-    end
-
-    private
-
-    def log_created
-      log(:created)
     end
   end
 end

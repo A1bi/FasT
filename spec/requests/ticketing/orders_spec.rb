@@ -9,6 +9,14 @@ RSpec.describe 'Ticketing::OrdersController' do
 
   before { sign_in(admin: true) }
 
+  describe 'PATCH #update' do
+    subject { patch ticketing_order_path(order), params: params }
+
+    let(:params) { { ticketing_order: { foo: :bar } } }
+
+    include_examples 'creates a log event', :updated
+  end
+
   describe 'POST #resend_confirmation' do
     subject { post resend_confirmation_ticketing_order_path(order) }
 

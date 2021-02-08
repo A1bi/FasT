@@ -47,20 +47,20 @@ module Ticketing
       create_event(:sent_pay_reminder) if web_order?
     end
 
-    def update_ticket_types
-      create_event(:updated_ticket_types)
+    def update_ticket_types(tickets)
+      create_event_with_tickets(:updated_ticket_types, tickets)
     end
 
     def cancel_tickets(tickets, reason: nil)
-      create_event(:cancelled_tickets, count: tickets.count, reason: reason)
+      create_event_with_tickets(:cancelled_tickets, tickets, reason: reason)
     end
 
     def transfer_tickets(tickets)
-      create_event(:transferred_tickets, count: tickets.count)
+      create_event_with_tickets(:transferred_tickets, tickets)
     end
 
     def enable_resale_for_tickets(tickets)
-      create_event(:enabled_resale_for_tickets, count: tickets.count)
+      create_event_with_tickets(:enabled_resale_for_tickets, tickets)
     end
 
     private
@@ -69,6 +69,11 @@ module Ticketing
       event = @loggable.log_events.new(name: name, user: @current_user,
                                        info: info)
       event.save if @loggable.persisted?
+    end
+
+    def create_event_with_tickets(name, tickets, info = {})
+      info[:count] = tickets.count
+      create_event(name, info)
     end
 
     def web_order?

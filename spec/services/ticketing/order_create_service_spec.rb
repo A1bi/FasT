@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_shared_examples 'ticketing/loggable'
+
 RSpec.describe Ticketing::OrderCreateService do
   subject { service.execute }
 
@@ -42,6 +44,8 @@ RSpec.describe Ticketing::OrderCreateService do
     end
 
     context 'when params are valid' do
+      let(:loggable) { Ticketing::Order.last }
+
       it 'sends a confirmation' do
         expect { subject }.to(
           have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
@@ -50,6 +54,8 @@ RSpec.describe Ticketing::OrderCreateService do
             end
         )
       end
+
+      include_examples 'creates a log event for a new record', :created
     end
 
     context 'when params are invalid' do

@@ -37,8 +37,6 @@ module Ticketing
 
     before_validation :update_date
     before_validation :before_create_validation, on: :create
-    before_create :log_created
-    before_update :log_updated
 
     delegate :event, to: :date, allow_nil: true
     delegate :balance, to: :billing_account
@@ -71,7 +69,6 @@ module Ticketing
         ticket.update(type: TicketType.find(types[ticket.id]))
       end
       update_total_and_billing(:ticket_types_edited)
-      log(:ticket_types_edited, { count: tickets.count })
     end
 
     def cancelled?
@@ -144,15 +141,6 @@ module Ticketing
       tickets.each_with_index do |ticket, index|
         ticket.order_index = index + 1
       end
-    end
-
-    def log_created
-      log(:created)
-    end
-
-    def log_updated
-      log(:updated) if (changed_attribute_names_to_save -
-                        %w[paid total updated_at]).any?
     end
 
     def update_paid
