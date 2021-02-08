@@ -9,13 +9,5 @@ module Ticketing
       has_many :log_events,
                as: :loggable, inverse_of: :loggable, dependent: :destroy
     end
-
-    def log(event, info = nil)
-      log_events.new(name: event, info: info)
-    end
-
-    def log!(event, info = nil)
-      log(event, info).save
-    end
   end
 end

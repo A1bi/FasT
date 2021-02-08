@@ -77,10 +77,10 @@ class ApplicationController < ActionController::Base
     user_id = session[:user_id] ||= permanently_authenticated_user_id
     return if user_id.nil?
 
-    user = User.find_by(id: user_id)
-    session[:user_id] = self.permanently_authenticated_user = nil if user.nil?
+    if (user = User.find_by(id: user_id)).nil?
+      session[:user_id] = self.permanently_authenticated_user = nil
+    end
 
-    Ticketing::LogEvent.user = user
     user
   end
 
