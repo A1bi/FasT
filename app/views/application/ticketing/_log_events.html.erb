@@ -3,7 +3,7 @@
     <tr>
       <th colspan="3">Protokoll</th>
     </tr>
-    <% if !events.size.zero? %>
+    <% if events.any? %>
       <tr>
         <th>Datum</th>
         <th>Aktion</th>
@@ -20,7 +20,7 @@
       <% events.reverse_order.each do |event| %>
         <tr>
           <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          <td><%= t event.name, { scope: scope }.merge(event.info) %></td>
+          <td><%= translate_log_event(event) %></td>
           <td><%= event.user.name&.full if event.user.present? %></td>
         </tr>
       <% end %>

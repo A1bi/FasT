@@ -1431,11 +1431,11 @@ ALTER SEQUENCE public.ticketing_geolocations_id_seq OWNED BY public.ticketing_ge
 
 CREATE TABLE public.ticketing_log_events (
     id bigint NOT NULL,
-    name character varying,
+    action character varying NOT NULL,
     info character varying,
     user_id bigint,
-    loggable_type character varying,
-    loggable_id bigint,
+    loggable_type character varying NOT NULL,
+    loggable_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -3728,6 +3728,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201230175154'),
 ('20210110175421'),
 ('20210113210947'),
-('20210128200247');
+('20210128200247'),
+('20210206182618'),
+('20210211163535');
 
 

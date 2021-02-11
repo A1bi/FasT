@@ -65,15 +65,15 @@ module Ticketing
 
     private
 
-    def create_event(name, info = {})
-      event = @loggable.log_events.new(name: name, user: @current_user,
+    def create_event(action, info = {})
+      event = @loggable.log_events.new(action: action, user: @current_user,
                                        info: info)
       event.save if @loggable.persisted?
     end
 
-    def create_event_with_tickets(name, tickets, info = {})
+    def create_event_with_tickets(action, tickets, info = {})
       info[:count] = tickets.count
-      create_event(name, info)
+      create_event(action, info)
     end
 
     def web_order?

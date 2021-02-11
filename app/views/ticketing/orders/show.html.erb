@@ -237,9 +237,7 @@
     </tbody>
   </table>
 <% end %>
-<% cache [@order, @order.log_events] do %>
-  <%= render "application/ticketing/log_events", events: @order.log_events, scope: (scope + [:log_events]) %>
-<% end %>
+<%= render "application/ticketing/log_events", events: @order.log_events %>
 <% cache [@order, @order.billing_account, params[:type]] do %>
   <table class="rounded entries billingLog details">
     <thead>

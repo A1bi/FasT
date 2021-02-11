@@ -13,5 +13,13 @@ module Ticketing
 
       content_tag fallback_tag, event.name, fallback_options
     end
+
+    def translate_log_event(event)
+      options = event.info.dup
+      options[:scope] = [:activerecord, :attributes,
+                         event.model_name.i18n_key, :actions,
+                         event.loggable.class.base_class.model_name.i18n_key]
+      t(event.action, options)
+    end
   end
 end

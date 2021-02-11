@@ -8,6 +8,8 @@ module Api
 
         before_action :find_order, only: :destroy
 
+        helper ::Ticketing::TicketingHelper
+
         def index
           @orders = ::Ticketing::Order.order(:last_name, :first_name)
           unless %i[event_today unpaid q].any? { |key| params[key].present? }
