@@ -60,7 +60,7 @@ gem 'name_of_person'
 
 gem 'request_store', '~> 1.5.0'
 
-gem 'jbuilder', '~> 2.10.0'
+gem 'jbuilder', '~> 2.10'
 
 gem 'puma', '~> 5.0'
 
