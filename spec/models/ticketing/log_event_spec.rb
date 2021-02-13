@@ -6,6 +6,10 @@ RSpec.describe Ticketing::LogEvent do
     it { is_expected.to belong_to(:user).optional(true) }
   end
 
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:action) }
+  end
+
   describe '#info' do
     subject { event.info }
 
