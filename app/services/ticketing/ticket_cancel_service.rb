@@ -8,22 +8,15 @@ module Ticketing
     end
 
     def execute(send_customer_email: true)
-      ActiveRecord::Base.transaction do
-        valid_tickets.inject(nil) do |cancellation, ticket|
-          ticket.cancel(cancellation || @reason)
-        end
+      Cancellation.create!(reason: @reason, tickets: valid_tickets)
 
-        valid_tickets_by_order.each do |order, tickets|
-          next unless update_order(order, tickets)
+      valid_tickets_by_order.each do |order, tickets|
+        next unless update_order(order, tickets)
 
-          send_email(order) if send_customer_email
-        end
-
-        update_node_with_tickets(@tickets)
+        send_email(order) if send_customer_email
       end
 
-      # return copy so a count wouldn't reload and thus make it empty
-      valid_tickets.to_a
+      update_node_with_tickets(@tickets)
     end
 
     private

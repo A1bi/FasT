@@ -5,19 +5,7 @@ module Ticketing
     extend ActiveSupport::Concern
 
     included do
-      belongs_to :cancellation, optional: true, autosave: true
-    end
-
-    def cancel(reason)
-      return if cancelled?
-
-      if reason.is_a? Ticketing::Cancellation
-        self.cancellation = reason
-      else
-        build_cancellation(reason: reason)
-      end
-      save
-      cancellation
+      belongs_to :cancellation, optional: true
     end
 
     def cancelled?

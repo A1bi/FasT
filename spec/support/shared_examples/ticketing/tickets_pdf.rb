@@ -93,7 +93,7 @@ RSpec.shared_examples 'tickets pdf renderer' do
     let(:tickets_count) { 2 }
     let(:cancelled_ticket) { order.tickets.last }
 
-    before { order.tickets.last.cancel(nil) }
+    before { create(:cancellation, tickets: order.tickets.last(1)) }
 
     it 'does not render the cancelled ticket' do
       expect(text_analysis.strings).to include(order.tickets.first.number)

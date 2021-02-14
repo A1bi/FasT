@@ -162,7 +162,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
       let(:ticket) { order.tickets.first }
       let(:billing_note) { 'cancel_foo' }
 
-      before { ticket.cancel(nil) }
+      before { create(:cancellation, tickets: [ticket]) }
 
       it 'updates the total after changes' do
         expect { subject }.to change(order, :total).by(-ticket.price)
