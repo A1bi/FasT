@@ -62,7 +62,7 @@ module Ticketing
       user_admin?
     end
 
-    def credit_transfer_file?
+    def approve?
       user_admin?
     end
 

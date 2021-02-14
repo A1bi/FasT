@@ -20,6 +20,28 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
   end
 
+  describe '#approve_charge' do
+    subject { service.approve_charge }
+
+    context 'with an order with charge payment' do
+      let(:order) do
+        create(:web_order, :with_purchased_coupons, :charge_payment)
+      end
+
+      include_examples 'creates a log event', :approved
+
+      it 'approves the bank charge' do
+        expect { subject }.to change(order.bank_charge, :approved).to(true)
+      end
+    end
+
+    context 'with an order without charge payment' do
+      let(:order) { create(:web_order, :with_purchased_coupons) }
+
+      include_examples 'does not create a log event'
+    end
+  end
+
   describe '#mark_as_paid' do
     subject { service.mark_as_paid }
 

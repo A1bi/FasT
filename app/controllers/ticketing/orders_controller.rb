@@ -147,10 +147,7 @@ module Ticketing
     end
 
     def approve
-      authorize BankCharge
-
-      @order.approve
-      @order.save
+      order_payment_service.approve_charge
       redirect_to_order_details :approved
     end
 

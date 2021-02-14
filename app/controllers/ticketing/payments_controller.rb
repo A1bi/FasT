@@ -25,20 +25,15 @@ module Ticketing
     end
 
     def mark_as_paid
-      authorize Ticketing::Order
-
       @orders.each do |order|
-        OrderPaymentService.new(order, current_user: current_user).mark_as_paid
+        payment_service(order).mark_as_paid
       end
       redirect_to_overview(:marked_as_paid)
     end
 
     def approve
-      authorize Ticketing::BankCharge
-
       @orders.each do |order|
-        order.approve
-        order.save
+        payment_service(order).approve_charge
       end
       redirect_to_overview(:approved)
     end
@@ -81,6 +76,10 @@ module Ticketing
       Order.joins(:billing_account)
            .where('ticketing_billing_accounts.balance > 0')
            .order(:number)
+    end
+
+    def payment_service(order)
+      OrderPaymentService.new(authorize(order), current_user: current_user)
     end
 
     def redirect_to_overview(notice = nil)

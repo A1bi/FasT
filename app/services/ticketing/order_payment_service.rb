@@ -7,6 +7,14 @@ module Ticketing
       @current_user = current_user
     end
 
+    def approve_charge
+      return unless web_order? && @order.charge_payment? &&
+                    !@order.bank_charge.approved
+
+      @order.bank_charge.update(approved: true)
+      log_service.approve
+    end
+
     def mark_as_paid
       return if @order.cancelled? || @order.paid?
 

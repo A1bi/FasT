@@ -7,8 +7,7 @@ module Ticketing
 
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge',
-                            as: :chargeable, validate: true,
-                            dependent: :destroy, autosave: true
+                            as: :chargeable, validate: true, dependent: :destroy
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
                                inverse_of: false, optional: true
 
@@ -32,13 +31,6 @@ module Ticketing
           .where('ticketing_billing_accounts.balance < 0')
           .where(ticketing_bank_charges: { approved: approved,
                                            submission_id: nil })
-      end
-
-      def approve
-        return unless bank_charge
-
-        bank_charge.approved = true
-        log_service.approve
       end
 
       def bank_charge_submitted
