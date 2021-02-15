@@ -33,12 +33,6 @@ module Ticketing
                                            submission_id: nil })
       end
 
-      def bank_charge_submitted
-        bank_charge.amount = -billing_account.balance
-        withdraw_from_account(billing_account.balance, :bank_charge_submitted)
-        log_service.submit_charge
-      end
-
       def update_total_and_billing(billing_note)
         old_total = total
         super
@@ -60,10 +54,6 @@ module Ticketing
       def update_paid
         super
         self.paid ||= bank_charge.present? && !bank_charge.submitted?
-      end
-
-      def log_service
-        LogEventCreateService.new(self)
       end
     end
   end

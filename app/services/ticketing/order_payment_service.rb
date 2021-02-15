@@ -8,11 +8,21 @@ module Ticketing
     end
 
     def approve_charge
-      return unless web_order? && @order.charge_payment? &&
-                    !@order.bank_charge.approved
+      return unless charge? && !@order.bank_charge.approved
 
       @order.bank_charge.update(approved: true)
       log_service.approve
+    end
+
+    def submit_charge
+      return unless charge? && @order.bank_charge.approved &&
+                    !@order.bank_charge.submitted?
+
+      @order.bank_charge.amount = -@order.billing_account.balance
+      @order.withdraw_from_account(@order.billing_account.balance,
+                                   :bank_charge_submitted)
+      log_service.submit_charge
+      @order.save
     end
 
     def mark_as_paid
@@ -41,6 +51,10 @@ module Ticketing
 
     def log_service
       LogEventCreateService.new(@order, current_user: @current_user)
+    end
+
+    def charge?
+      web_order? && @order.charge_payment?
     end
 
     def web_order?

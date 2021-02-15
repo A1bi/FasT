@@ -26,26 +26,24 @@ module Ticketing
 
     def mark_as_paid
       @orders.each do |order|
-        payment_service(order).mark_as_paid
+        payment_service(authorize(order)).mark_as_paid
       end
       redirect_to_overview(:marked_as_paid)
     end
 
     def approve
       @orders.each do |order|
+        authorize order.bank_charge
         payment_service(order).approve_charge
       end
       redirect_to_overview(:approved)
     end
 
     def submit
-      authorize Ticketing::BankCharge
+      @unsubmitted_charges.each { |order| authorize order.bank_charge }
 
-      return redirect_to_overview if @unsubmitted_charges.empty?
-
-      submission = BankSubmission.new
-      submission.charges = @unsubmitted_charges.map(&:bank_charge)
-      submission.save
+      DebitSubmitService.new(@unsubmitted_charges, current_user: current_user)
+                        .execute
 
       redirect_to_overview(:submitted)
     end
@@ -79,7 +77,7 @@ module Ticketing
     end
 
     def payment_service(order)
-      OrderPaymentService.new(authorize(order), current_user: current_user)
+      OrderPaymentService.new(order, current_user: current_user)
     end
 
     def redirect_to_overview(notice = nil)

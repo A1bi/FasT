@@ -142,16 +142,19 @@ module Ticketing
     end
 
     def mark_as_paid
+      authorize @order
       order_payment_service.mark_as_paid
       redirect_to_order_details :marked_as_paid
     end
 
     def approve
+      authorize @order.bank_charge
       order_payment_service.approve_charge
       redirect_to_order_details :approved
     end
 
     def send_pay_reminder
+      authorize @order
       order_payment_service.send_reminder
       redirect_to_order_details :sent_pay_reminder
     end
@@ -312,7 +315,7 @@ module Ticketing
     end
 
     def order_payment_service
-      OrderPaymentService.new(authorize(@order), current_user: current_user)
+      OrderPaymentService.new(@order, current_user: current_user)
     end
 
     def order_mailer

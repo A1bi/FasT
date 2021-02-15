@@ -62,10 +62,6 @@ module Ticketing
       user_admin?
     end
 
-    def approve?
-      user_admin?
-    end
-
     def send_pay_reminder?
       user_admin?
     end
