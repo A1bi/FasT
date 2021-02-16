@@ -33,7 +33,7 @@ module Ticketing
                                            submission_id: nil })
       end
 
-      def update_total_and_billing(billing_note)
+      def update_total
         old_total = total
         super
         return unless pay_method.blank? && old_total.zero? && total.positive?

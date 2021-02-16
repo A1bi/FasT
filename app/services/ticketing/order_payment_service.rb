@@ -19,8 +19,7 @@ module Ticketing
                     !@order.bank_charge.submitted?
 
       @order.bank_charge.amount = -@order.billing_account.balance
-      @order.withdraw_from_account(@order.billing_account.balance,
-                                   :bank_charge_submitted)
+      billing_service.settle_balance(:bank_charge_submitted)
       log_service.submit_charge
       @order.save
     end
@@ -28,8 +27,7 @@ module Ticketing
     def mark_as_paid
       return if @order.cancelled? || @order.paid?
 
-      @order.withdraw_from_account(@order.billing_account.balance,
-                                   :payment_received)
+      billing_service.settle_balance(:payment_received)
       log_service.mark_as_paid
       @order.save
 
@@ -44,6 +42,10 @@ module Ticketing
     end
 
     private
+
+    def billing_service
+      OrderBillingService.new(@order)
+    end
 
     def send_email(action)
       OrderMailer.with(order: @order).public_send(action).deliver_later

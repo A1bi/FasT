@@ -36,7 +36,7 @@ module Ticketing
     validate :items_present
 
     before_validation :update_date
-    before_validation :before_create_validation, on: :create
+    before_validation :set_ticket_order_indexes, on: :create
 
     delegate :event, to: :date, allow_nil: true
     delegate :balance, to: :billing_account
@@ -91,12 +91,7 @@ module Ticketing
       update_paid
     end
 
-    def update_total_and_billing(billing_note)
-      # do not use attribute_in_database because total might have already
-      # been changed in memory resulting in depositing the same diff twice to
-      # the account
-      old_total = total
-
+    def update_total
       self.total = tickets.sum do |ticket|
         next 0 if ticket.cancelled?
 
@@ -110,9 +105,6 @@ module Ticketing
       # also we have to use &:amount here, because coupons are still only in
       # memory at this point, sum would otherwise make it an SQL query
       self.total += purchased_coupons.sum(&:amount)
-
-      diff = old_total - total
-      deposit_into_account(diff, billing_note)
     end
 
     def covid19?
@@ -135,9 +127,7 @@ module Ticketing
       self[:date_id] = tickets.first&.date_id if tickets.any?
     end
 
-    def before_create_validation
-      update_total_and_billing(:order_created)
-
+    def set_ticket_order_indexes
       tickets.each_with_index do |ticket, index|
         ticket.order_index = index + 1
       end

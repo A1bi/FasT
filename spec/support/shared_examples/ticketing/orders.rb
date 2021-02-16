@@ -119,60 +119,21 @@ RSpec.shared_examples 'generic order' do |order_factory|
     end
   end
 
-  describe '#update_total_and_billing' do
-    let(:order) { create(order_factory, :with_tickets) }
-    let(:billing_account) { order.billing_account }
-    let(:total) { order.tickets.sum(:price) }
+  describe '#update_total' do
+    subject { order.update_total }
 
-    context 'when order created' do
-      # TODO: remove this exception for retail orders which is needed because
-      # their total is balanced with their store's right away
-      next if order_factory == :retail_order
-
-      shared_examples 'sets total and balance' do
-        it 'sets the correct initial total' do
-          expect(order.total).to eq(total)
-        end
-
-        it 'withdraws the initial total from billing account' do
-          expect(billing_account.balance).to eq(-total)
-          expect(billing_account.transfers.first.note_key)
-            .to eq('order_created')
-        end
-      end
-
-      include_examples 'sets total and balance'
-
-      context 'with purchased coupons' do
-        let(:order) do
-          create(order_factory, :with_tickets, :with_purchased_coupons)
-        end
-        let(:total) { super() + order.purchased_coupons.sum(:amount) }
-
-        include_examples 'sets total and balance'
-      end
+    let(:order) do
+      create(order_factory,
+             :with_tickets, :with_purchased_coupons, tickets_count: 2)
+    end
+    let(:total) do
+      order.tickets.last.price + order.purchased_coupons.sum(:amount)
     end
 
-    context 'when a ticket has been cancelled' do
-      subject do
-        order.update_total_and_billing(billing_note)
-        order.save
-      end
+    before { Ticketing::Cancellation.create(tickets: [order.tickets.first]) }
 
-      let(:ticket) { order.tickets.first }
-      let(:billing_note) { 'cancel_foo' }
-
-      before { create(:cancellation, tickets: [ticket]) }
-
-      it 'updates the total after changes' do
-        expect { subject }.to change(order, :total).by(-ticket.price)
-      end
-
-      it 'updates the billing account' do
-        expect { subject }
-          .to change(billing_account, :balance).by(ticket.price)
-        expect(billing_account.transfers.first.note_key).to eq(billing_note)
-      end
+    it 'sets the correct total (excluding the cancelled ticket)' do
+      expect { subject }.to change(order, :total).from(0).to(total)
     end
   end
 

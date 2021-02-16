@@ -27,8 +27,10 @@ module Ticketing
 
       validate_event
 
-      create_items
-      redeem_coupons
+      update_balance do
+        create_items
+        redeem_coupons
+      end
 
       Covid19AttendeeCreateService.new(params.dig(:covid19, :attendees), @order)
                                   .execute
@@ -61,6 +63,10 @@ module Ticketing
 
     def redeem_coupons
       CouponRedeemService.new(@order, date, current_user, order_params).execute
+    end
+
+    def update_balance(&block)
+      OrderBillingService.new(@order).update_balance(:order_created, &block)
     end
 
     def create_payment
