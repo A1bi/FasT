@@ -75,7 +75,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     subject { described_class.unpaid }
 
     let!(:unpaid_order) { create(order_factory, :complete, :unpaid) }
-    let!(:paid_order) { create(order_factory, :complete, :paid) }
+    let!(:paid_order) { create(order_factory, :complete) }
 
     it 'only returns unpaid orders' do
       expect(subject).to include(unpaid_order)

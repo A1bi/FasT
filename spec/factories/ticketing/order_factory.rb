@@ -2,6 +2,8 @@
 
 FactoryBot.define do
   factory :order, class: 'Ticketing::Order' do
+    paid { true }
+
     trait :with_tickets do
       transient do
         event { build(:event, :complete) }
@@ -23,14 +25,9 @@ FactoryBot.define do
       end
     end
 
-    trait :paid do
-      paid { true }
-
-      after(:create) { |order| order.update(paid: true) }
-    end
-
     trait :unpaid do
-      after(:create) { |order| order.update(paid: false) }
+      paid { false }
+      pay_method { :transfer }
     end
 
     trait :complete do

@@ -11,12 +11,18 @@ module Ticketing
       yield
       @order.update_total
       diff = old_total - @order.total
-      @order.deposit_into_account(diff, note)
-      @order.save
+      deposit_into_account(diff, note)
     end
 
     def settle_balance(note)
-      @order.withdraw_from_account(@order.billing_account.balance, note)
+      deposit_into_account(-@order.billing_account.balance, note)
+    end
+
+    private
+
+    def deposit_into_account(amount, note)
+      @order.deposit_into_account(amount, note)
+      @order.update_paid
       @order.save
     end
   end

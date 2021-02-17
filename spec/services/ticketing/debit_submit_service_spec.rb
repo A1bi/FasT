@@ -10,6 +10,7 @@ RSpec.describe Ticketing::DebitSubmitService do
   let(:user) { create(:user) }
 
   before do
+    orders.each { |order| order.billing_account.update(balance: -20) }
     orders[0..2].each { |order| order.bank_charge.update(approved: true) }
     Ticketing::BankSubmission.create(charges: [orders[2].bank_charge])
   end

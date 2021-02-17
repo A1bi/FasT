@@ -8,13 +8,18 @@ RSpec.describe Ticketing::OrderBillingService do
 
   before { order.billing_account.update(balance: previous_balance) }
 
-  shared_examples 'transfer creation' do
+  shared_examples 'money transfer' do
     it 'creates a transfer' do
       expect { subject }
         .to change(order.billing_account.transfers, :count).by(1)
       transfer = order.billing_account.transfers.last
       expect(transfer.amount).to eq(amount)
       expect(transfer.note_key).to eq(note)
+    end
+
+    it "updates the order's paid status" do
+      expect(order).to receive(:update_paid)
+      subject
     end
   end
 
@@ -39,7 +44,7 @@ RSpec.describe Ticketing::OrderBillingService do
           .to change(order.billing_account, :balance).by(ticket_price)
       end
 
-      include_examples 'transfer creation' do
+      include_examples 'money transfer' do
         let(:amount) { ticket_price }
       end
     end
@@ -59,7 +64,7 @@ RSpec.describe Ticketing::OrderBillingService do
           .to change(order.billing_account, :balance).by(diff)
       end
 
-      include_examples 'transfer creation' do
+      include_examples 'money transfer' do
         let(:amount) { diff }
       end
     end
@@ -75,7 +80,7 @@ RSpec.describe Ticketing::OrderBillingService do
           .from(previous_balance).to(0)
       end
 
-      include_examples 'transfer creation' do
+      include_examples 'money transfer' do
         let(:amount) { -previous_balance }
       end
     end

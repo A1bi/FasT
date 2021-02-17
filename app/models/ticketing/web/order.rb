@@ -43,17 +43,17 @@ module Ticketing
         self.pay_method = :cash
       end
 
+      def update_paid
+        super
+        self.paid ||= bank_charge.present? && !bank_charge.submitted?
+      end
+
       private
 
       def schedule_geolocation
         return unless saved_change_to_plz? && geolocation.blank?
 
         Ticketing::GeolocatePostcodeJob.perform_later(plz)
-      end
-
-      def update_paid
-        super
-        self.paid ||= bank_charge.present? && !bank_charge.submitted?
       end
     end
   end

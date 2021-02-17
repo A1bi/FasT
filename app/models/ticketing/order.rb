@@ -87,10 +87,6 @@ module Ticketing
       SigningKey.random_active.sign_order(self, params)
     end
 
-    def after_account_transfer
-      update_paid
-    end
-
     def update_total
       self.total = tickets.sum do |ticket|
         next 0 if ticket.cancelled?
@@ -105,6 +101,10 @@ module Ticketing
       # also we have to use &:amount here, because coupons are still only in
       # memory at this point, sum would otherwise make it an SQL query
       self.total += purchased_coupons.sum(&:amount)
+    end
+
+    def update_paid
+      self.paid = !billing_account.outstanding?
     end
 
     def covid19?
@@ -131,10 +131,6 @@ module Ticketing
       tickets.each_with_index do |ticket, index|
         ticket.order_index = index + 1
       end
-    end
-
-    def update_paid
-      self.paid = !billing_account.outstanding?
     end
   end
 end
