@@ -35,7 +35,7 @@ RSpec.describe Ticketing::OrderBillingService do
     context 'when an item is cancelled' do
       subject do
         service.update_balance(note) do
-          Ticketing::Cancellation.create(tickets: [tickets.last], reason: 'foo')
+          create(:cancellation, tickets: [tickets.last])
         end
       end
 

@@ -8,11 +8,14 @@ module Ticketing
     end
 
     def execute(send_customer_email: true)
-      Cancellation.create!(reason: @reason, tickets: valid_tickets)
+      cancellation = Cancellation.create(reason: @reason)
 
       valid_tickets_by_order.each do |order, tickets|
-        next unless update_order(order, tickets)
+        update_order_balance(order) do
+          cancellation.tickets += tickets
+        end
 
+        log_cancellation(order, tickets)
         send_email(order) if send_customer_email
       end
 
@@ -21,16 +24,17 @@ module Ticketing
 
     private
 
-    def update_order(order, tickets)
-      order.update_total_and_billing(:cancellation)
-      return unless order.save
+    def update_order_balance(order, &block)
+      OrderBillingService.new(order).update_balance(:cancellation, &block)
+    end
 
+    def log_cancellation(order, tickets)
       log_service(order).cancel_tickets(tickets, reason: @reason)
     end
 
     def send_email(order)
-      Ticketing::OrderMailer.with(order: order, reason: @reason.to_s)
-                            .cancellation.deliver_later
+      OrderMailer.with(order: order, reason: @reason.to_s)
+                 .cancellation.deliver_later
     end
   end
 end

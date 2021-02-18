@@ -130,7 +130,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
       order.tickets.last.price + order.purchased_coupons.sum(:amount)
     end
 
-    before { Ticketing::Cancellation.create(tickets: [order.tickets.first]) }
+    before { create(:cancellation, tickets: [order.tickets.first]) }
 
     it 'sets the correct total (excluding the cancelled ticket)' do
       expect { subject }.to change(order, :total).from(0).to(total)
