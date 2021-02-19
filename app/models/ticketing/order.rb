@@ -64,13 +64,6 @@ module Ticketing
       end
     end
 
-    def edit_ticket_types(tickets, types)
-      tickets.each do |ticket|
-        ticket.update(type: TicketType.find(types[ticket.id]))
-      end
-      update_total_and_billing(:ticket_types_edited)
-    end
-
     def cancelled?
       tickets.valid.empty? && purchased_coupons.empty?
     end

@@ -16,14 +16,6 @@ module Ticketing
       redirect_to_order_details :cancelled
     end
 
-    def enable_resale
-      TicketUpdateService.new(@tickets, params: { resale: true },
-                                        current_user: current_user)
-                         .execute
-
-      redirect_to_order_details :enabled_resale
-    end
-
     def transfer
       return unless current_user.admin?
 
@@ -33,13 +25,8 @@ module Ticketing
     def edit; end
 
     def update
-      @order.edit_ticket_types(@tickets, tickets_with_type)
-      if @order.save
-        LogEventCreateService.new(@order, current_user: current_user)
-                             .update_ticket_types(@tickets)
-      end
-
-      redirect_to_order_details :edited
+      update_tickets(ticket_params)
+      redirect_to_order_details :updated
     end
 
     def init_transfer
@@ -101,17 +88,22 @@ module Ticketing
       @event = @tickets.first.date.event
     end
 
-    def tickets_with_type
+    def ticket_params
       params[:ticketing_tickets].permit!.to_h
-                                .each_with_object({}) do |(id, val), types|
-        types[id.to_i] = val[:type_id].to_i
+                                .each_with_object({}) do |(id, val), params|
+        ticket = params[id.to_i] = val.slice(:resale)
+        ticket[:type_id] = val[:type_id].to_i if val.key?(:type_id)
       end
     end
 
     def cancel_tickets
       TicketCancelService.new(@tickets, reason: params[:reason],
-                                        current_user: current_user)
-                         .execute
+                                        current_user: current_user).execute
+    end
+
+    def update_tickets(params)
+      TicketUpdateService.new(@tickets, params: params,
+                                        current_user: current_user).execute
     end
 
     def node_seats

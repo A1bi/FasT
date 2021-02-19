@@ -85,10 +85,18 @@ RSpec.describe Ticketing::LogEventCreateService do
   end
 
   describe '#update_ticket_types' do
-    subject { service.update_ticket_types(order.tickets) }
+    subject { service.update_ticket_types(tickets) }
+
+    let(:tickets) { order.tickets }
 
     include_examples 'creates a log event', :updated_ticket_types do
       let(:info) { { count: order.tickets.count } }
+    end
+
+    context 'without any tickets provided' do
+      let(:tickets) { [] }
+
+      include_examples 'does not create a log event'
     end
   end
 

@@ -73,6 +73,8 @@ RSpec.configure do |config|
   # Kernel.srand config.seed
 end
 
+RSpec::Matchers.define_negated_matcher :not_change, :change
+
 def require_shared_examples(path)
   require_relative "support/shared_examples/#{path}"
 end

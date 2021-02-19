@@ -22,6 +22,17 @@ export default class extends Controller {
       return event.preventDefault()
     }
 
+    if (current.dataset.resale) {
+      this.element.querySelectorAll("[name='ticket_ids[]']").forEach(el => {
+        const id = el.value
+        const field = document.createElement('input')
+        field.setAttribute('type', 'hidden')
+        field.setAttribute('name', `ticketing_tickets[${id}][resale]`)
+        field.setAttribute('value', true)
+        this.element.append(field)
+      })
+    }
+
     this.element.setAttribute('action', current.dataset.path)
     this.element.setAttribute('method', method === 'get' ? method : 'post')
     this.element.querySelector("[name='_method']").value = method

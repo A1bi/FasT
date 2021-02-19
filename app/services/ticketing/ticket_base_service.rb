@@ -28,6 +28,10 @@ module Ticketing
       valid_tickets.group_by(&:order)
     end
 
+    def update_order_balance(order, note, &block)
+      OrderBillingService.new(order).update_balance(note, &block)
+    end
+
     def log_service(loggable)
       LogEventCreateService.new(loggable, current_user: @current_user)
     end

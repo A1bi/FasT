@@ -185,9 +185,9 @@
             <td colspan="<%= tickets_colspan(@show_check_ins) %>" class="actions">
               <% options = [
                 ["stornieren", :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich stornieren?" }],
-                ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: enable_resale_ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?" } }],
                 ["Aufführung / Sitzplatz umbuchen", :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
                 ["Kategorie umbuchen", :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
+                ["zum Weiterverkauf freigeben", :enable_resale, { data: { path: ticketing_order_tickets_path(@order), method: :patch, confirm: "Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?", resale: true } }],
                 ["herunterladen", :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
               ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) } %>
               <%= select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleReason' } %>

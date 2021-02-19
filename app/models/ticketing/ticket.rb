@@ -36,17 +36,16 @@ module Ticketing
 
     def type=(type)
       super
-      self[:price] = type.price
+      update_price
+    end
+
+    def type_id=(type)
+      super
+      update_price
     end
 
     def number
       "#{order.number}-#{self[:order_index]}"
-    end
-
-    def resale=(value)
-      return if seat.blank?
-
-      super
     end
 
     def resold?
@@ -106,6 +105,10 @@ module Ticketing
     def update_invalidated
       self[:invalidated] = cancellation.present? || cancellation_id.present? ||
                            resale
+    end
+
+    def update_price
+      self[:price] = type.price
     end
 
     def seating

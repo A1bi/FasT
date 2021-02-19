@@ -6,10 +6,6 @@ module Ticketing
       admin_or_retail?
     end
 
-    def enable_resale?
-      user_admin?
-    end
-
     def transfer?
       admin_or_retail?
     end

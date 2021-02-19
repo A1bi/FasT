@@ -11,7 +11,7 @@ module Ticketing
       cancellation = Cancellation.create(reason: @reason)
 
       valid_tickets_by_order.each do |order, tickets|
-        update_order_balance(order) do
+        update_order_balance(order, :cancellation) do
           cancellation.tickets += tickets
         end
 
@@ -23,10 +23,6 @@ module Ticketing
     end
 
     private
-
-    def update_order_balance(order, &block)
-      OrderBillingService.new(order).update_balance(:cancellation, &block)
-    end
 
     def log_cancellation(order, tickets)
       log_service(order).cancel_tickets(tickets, reason: @reason)
