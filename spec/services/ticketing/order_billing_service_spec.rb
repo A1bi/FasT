@@ -95,4 +95,23 @@ RSpec.describe Ticketing::OrderBillingService do
       include_examples 'settles balance'
     end
   end
+
+  describe '#settle_balance_with_retail_account' do
+    subject { service.settle_balance_with_retail_account }
+
+    let(:order) { create(:retail_order, :with_purchased_coupons) }
+
+    before do
+      order.billing_account.update(balance: -55)
+      order.store.billing_account.update(balance: 20)
+    end
+
+    it 'withdraws the negative balance from the retail store billing account' do
+      expect { subject }.to(
+        change { order.billing_account.reload.balance }.from(-55).to(0)
+        .and(change { order.store.billing_account.reload.balance }
+              .from(20).to(-35))
+      )
+    end
+  end
 end

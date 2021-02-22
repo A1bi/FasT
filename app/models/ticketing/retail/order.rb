@@ -6,7 +6,6 @@ module Ticketing
       belongs_to :store
 
       before_save :check_tickets
-      before_create :transfer_cash_payment_from_store
       after_save :check_printable
       after_commit :delete_printable, on: :destroy
 
@@ -16,18 +15,11 @@ module Ticketing
       end
 
       def cash_refund_in_store
-        transfer_balance_to_store(:cash_refund_in_store)
+        transfer_to_account(store, billing_account.balance,
+                            :cash_refund_in_store)
       end
 
       private
-
-      def transfer_cash_payment_from_store
-        transfer_balance_to_store(:cash_in_store)
-      end
-
-      def transfer_balance_to_store(note_key)
-        transfer_to_account(store, billing_account.balance, note_key)
-      end
 
       def check_tickets
         tickets.each do |ticket|

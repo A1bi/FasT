@@ -66,7 +66,9 @@ module Ticketing
     end
 
     def update_balance(&block)
-      OrderBillingService.new(@order).update_balance(:order_created, &block)
+      service = OrderBillingService.new(@order)
+      service.update_balance(:order_created, &block)
+      service.settle_balance_with_retail_account if retail?
     end
 
     def create_payment
