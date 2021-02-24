@@ -47,6 +47,10 @@ module Ticketing
         balance.negative?
       end
 
+      def credit?
+        balance.positive?
+      end
+
       private
 
       def update_balance(amount)

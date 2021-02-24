@@ -18,9 +18,9 @@ module Ticketing
       deposit_into_account(-@order.billing_account.balance, note)
     end
 
-    def settle_balance_with_retail_account
+    def settle_balance_with_retail_account(note = :cash_in_store)
       @order.transfer_to_account(@order.store, @order.billing_account.balance,
-                                 :cash_in_store)
+                                 note)
       update_paid
     end
 

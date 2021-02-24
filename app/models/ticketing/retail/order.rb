@@ -14,11 +14,6 @@ module Ticketing
         "#{printable_dir_path(absolute: absolute)}/tickets-#{number_hash}.pdf"
       end
 
-      def cash_refund_in_store
-        transfer_to_account(store, billing_account.balance,
-                            :cash_refund_in_store)
-      end
-
       private
 
       def check_tickets

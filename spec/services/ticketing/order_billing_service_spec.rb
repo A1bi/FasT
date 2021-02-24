@@ -102,16 +102,38 @@ RSpec.describe Ticketing::OrderBillingService do
     let(:order) { create(:retail_order, :with_purchased_coupons) }
 
     before do
-      order.billing_account.update(balance: -55)
+      order.billing_account.update(balance: balance)
       order.store.billing_account.update(balance: 20)
     end
 
-    it 'withdraws the negative balance from the retail store billing account' do
-      expect { subject }.to(
-        change { order.billing_account.reload.balance }.from(-55).to(0)
-        .and(change { order.store.billing_account.reload.balance }
-              .from(20).to(-35))
-      )
+    context 'with a negative balance' do
+      let(:balance) { -55 }
+
+      it 'withdraws the negative balance from the store billing account' do
+        expect { subject }.to(
+          change { order.billing_account.reload.balance }.from(-55).to(0)
+          .and(change { order.store.billing_account.reload.balance }
+                .from(20).to(-35))
+        )
+      end
+
+      it 'sets a default transfer note if none provided' do
+        subject
+        transfer = order.billing_account.transfers.last
+        expect(transfer.note_key).to eq('cash_in_store')
+      end
+    end
+
+    context 'with a positive balance' do
+      let(:balance) { 77 }
+
+      it 'deposits the positive balance into the store billing account' do
+        expect { subject }.to(
+          change { order.billing_account.reload.balance }.from(77).to(0)
+          .and(change { order.store.billing_account.reload.balance }
+                .from(20).to(97))
+        )
+      end
     end
   end
 end

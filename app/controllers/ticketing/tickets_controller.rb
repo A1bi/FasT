@@ -7,11 +7,7 @@ module Ticketing
 
     def cancel
       cancel_tickets
-
-      if @order.is_a?(Retail::Order) && params[:refund]
-        @order.cash_refund_in_store
-        @order.save
-      end
+      refund_in_retail_store
 
       redirect_to_order_details :cancelled
     end
@@ -99,6 +95,13 @@ module Ticketing
     def cancel_tickets
       TicketCancelService.new(@tickets, reason: params[:reason],
                                         current_user: current_user).execute
+    end
+
+    def refund_in_retail_store
+      return unless params[:refund]
+
+      OrderPaymentService.new(@order, current_user: current_user)
+                         .refund_in_retail_store
     end
 
     def update_tickets(params)
