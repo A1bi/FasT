@@ -68,14 +68,6 @@ module Ticketing
       tickets.valid.empty? && purchased_coupons.empty?
     end
 
-    def transfer_refund
-      withdraw_from_account(billing_account.balance, :transfer_refund)
-    end
-
-    def correct_balance(amount)
-      deposit_into_account(amount, :correction)
-    end
-
     def signed_info(params = {})
       SigningKey.random_active.sign_order(self, params)
     end

@@ -74,18 +74,6 @@ module Ticketing
       user_admin?
     end
 
-    def cash_refund_in_store?
-      user_admin? || retail_order?
-    end
-
-    def transfer_refund?
-      user_admin?
-    end
-
-    def correct_balance?
-      user_admin?
-    end
-
     private
 
     def retail_order?

@@ -110,7 +110,6 @@ de:
       resent_items: "Die Artikel wurden dem Käufer erneut zugesendet."
       resent_confirmation: "Die Bestellbestätigung wurde dem Käufer erneut zugesendet."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
-      created_billing: "Die Zahlung wurde verbucht."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       sale_ended: "Tickets zu „%{event}“ sind nicht mehr erhältlich."
       sale_disabled_for_store: Der Ticketverkauf ist für diese Vorverkaufsstelle derzeit nicht freigeschaltet.
@@ -180,6 +179,8 @@ de:
         creditor_identifier: "DE21ZZZ00001271843"
         debit_remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
         transfer_remittance_information: "Erstattung zu Ihrer Bestellung mit der Nummer %{number}"
+    billings:
+      created: Die Zahlung wurde verbucht.
     coupons:
       free_tickets:
         one: "%{count} Freikarte"

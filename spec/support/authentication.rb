@@ -12,3 +12,17 @@ end
 RSpec.configure do |config|
   config.include AuthenticationHelpers
 end
+
+RSpec.shared_examples 'redirect unauthenticated' do
+  it 'redirects to the login page' do
+    subject
+    expect(response).to redirect_to(login_path)
+  end
+end
+
+RSpec.shared_examples 'redirect unauthorized' do
+  it 'redirects to the login page' do
+    subject
+    expect(response).to redirect_to(root_path)
+  end
+end

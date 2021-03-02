@@ -126,8 +126,8 @@ Rails.application.routes.draw do
               patch :approve
               post :resend_items
               get :seats
-              post :create_billing
             end
+            resources :billings, only: %i[create]
           end
         end
         scope controller: :payments, path: 'zahlungen', as: :payments do

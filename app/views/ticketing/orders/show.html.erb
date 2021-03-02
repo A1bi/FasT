@@ -277,7 +277,7 @@
           <% if @billing_actions.empty? %>
             Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
           <% else %>
-            <%= form_tag create_billing_ticketing_order_path(@order), method: :post, data: { controller: 'ticketing--transactions-table', confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
+            <%= form_tag ticketing_order_billings_path(@order), method: :post, data: { controller: 'ticketing--transactions-table', confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
               <%= select_tag :note, options_for_select(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount' } %>
               <span data-target="ticketing--transactions-table.amount">
                 Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %>

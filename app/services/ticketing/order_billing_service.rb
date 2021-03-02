@@ -19,9 +19,21 @@ module Ticketing
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)
+      return unless @order.is_a? Retail::Order
+
       @order.transfer_to_account(@order.store, @order.billing_account.balance,
                                  note)
       update_paid
+    end
+
+    def refund_in_retail_store
+      return unless @order.billing_account.credit?
+
+      settle_balance_with_retail_account(:cash_refund_in_store)
+    end
+
+    def adjust_balance(amount)
+      deposit_into_account(amount, :correction)
     end
 
     private

@@ -41,12 +41,6 @@ module Ticketing
       log_service.send_pay_reminder
     end
 
-    def refund_in_retail_store
-      return unless retail_order? && @order.billing_account.credit?
-
-      billing_service.settle_balance_with_retail_account(:cash_refund_in_store)
-    end
-
     private
 
     def billing_service
@@ -67,10 +61,6 @@ module Ticketing
 
     def web_order?
       @order.is_a?(Web::Order)
-    end
-
-    def retail_order?
-      @order.is_a?(Retail::Order)
     end
   end
 end

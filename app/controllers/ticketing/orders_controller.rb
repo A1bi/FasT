@@ -6,10 +6,9 @@ module Ticketing
     before_action :set_event_info, only: %i[new new_privileged]
     before_action :find_order, only: %i[show edit update mark_as_paid
                                         send_pay_reminder resend_confirmation
-                                        resend_items approve create_billing
-                                        seats]
+                                        resend_items approve seats]
     before_action :find_coupon, only: %i[add_coupon remove_coupon]
-    before_action :prepare_billing_actions, only: %i[show create_billing]
+    before_action :prepare_billing_actions, only: %i[show]
 
     def new
       @type = :web
@@ -169,24 +168,6 @@ module Ticketing
       order_mailer.resend_items.deliver_later
       log_service.resend_items
       redirect_to_order_details :resent_items
-    end
-
-    def create_billing
-      type = params[:note].to_sym
-
-      if type.in? %i[cash_refund_in_store transfer_refund]
-        authorize @order, "#{type}?"
-        @order.send(params[:note])
-
-      elsif type == :correction
-        authorize @order, :correct_balance?
-        amount = params[:amount].gsub(',', '.').to_f
-        @order.correct_balance(amount) if amount.nonzero?
-      end
-
-      @order.save
-
-      redirect_to_order_details :created_billing
     end
 
     def seats

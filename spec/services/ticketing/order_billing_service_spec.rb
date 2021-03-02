@@ -23,6 +23,12 @@ RSpec.describe Ticketing::OrderBillingService do
     end
   end
 
+  shared_examples 'does not change the balance' do
+    it 'does not change the balance' do
+      expect { subject }.not_to change(order.billing_account, :balance)
+    end
+  end
+
   describe '#update_balance' do
     let(:tickets) { order.tickets }
     let(:ticket_price) { 11 }
@@ -100,15 +106,14 @@ RSpec.describe Ticketing::OrderBillingService do
     subject { service.settle_balance_with_retail_account }
 
     let(:order) { create(:retail_order, :with_purchased_coupons) }
+    let(:balance) { -55 }
 
     before do
       order.billing_account.update(balance: balance)
-      order.store.billing_account.update(balance: 20)
+      order.store.billing_account.update(balance: 20) if order.try(:store)
     end
 
     context 'with a negative balance' do
-      let(:balance) { -55 }
-
       it 'withdraws the negative balance from the store billing account' do
         expect { subject }.to(
           change { order.billing_account.reload.balance }.from(-55).to(0)
@@ -134,6 +139,79 @@ RSpec.describe Ticketing::OrderBillingService do
                 .from(20).to(97))
         )
       end
+    end
+
+    context 'with a web order' do
+      let(:order) { create(:web_order, :with_purchased_coupons) }
+
+      include_examples 'does not change the balance'
+    end
+  end
+
+  describe '#refund_in_retail_store' do
+    subject { service.refund_in_retail_store }
+
+    let(:balance) { 55 }
+
+    before { order.billing_account.update(balance: balance) }
+
+    context 'with a web order' do
+      let(:order) { create(:web_order, :with_purchased_coupons) }
+
+      include_examples 'does not change the balance'
+    end
+
+    context 'with a retail order' do
+      let(:order) { create(:retail_order, :with_purchased_coupons, :unpaid) }
+
+      context 'with a negative balance' do
+        let(:balance) { -55 }
+
+        include_examples 'does not change the balance'
+      end
+
+      context 'with a positive balance' do
+        it 'settles the balance' do
+          expect { subject }
+            .to change(order.billing_account, :balance).from(balance).to(0)
+        end
+
+        it 'sets the right transfer note' do
+          subject
+          transfer = order.billing_account.transfers.last
+          expect(transfer.note_key).to eq('cash_refund_in_store')
+        end
+      end
+    end
+  end
+
+  describe '#adjust_balance' do
+    subject { service.adjust_balance(amount) }
+
+    shared_examples 'adjusts balance' do
+      it 'changes the balance to 0' do
+        expect { subject }
+          .to change(order.billing_account, :balance)
+          .from(previous_balance).to(previous_balance + amount)
+      end
+
+      it 'sets the right transfer note' do
+        subject
+        transfer = order.billing_account.transfers.last
+        expect(transfer.note_key).to eq('correction')
+      end
+    end
+
+    context 'with a positive amount' do
+      let(:amount) { 22 }
+
+      include_examples 'adjusts balance'
+    end
+
+    context 'with a negative amount' do
+      let(:amount) { -44 }
+
+      include_examples 'adjusts balance'
     end
   end
 end
