@@ -9,14 +9,8 @@ module Api
           dates = events.collect(&:dates).flatten
 
           render json: {
-            events: Hash[events.map do |event|
-              event_info(event)
-            end],
-            seats: Hash[dates.map do |date|
-              next if date.event.seating.nil?
-
-              date_info(date)
-            end]
+            events: events.map { |event| event_info(event) }.to_h,
+            seats: dates.filter_map { |date| date_info(date) }.to_h
           }
         end
 
@@ -27,7 +21,9 @@ module Api
         end
 
         def date_info(date)
-          [date.id, Hash[seats_for_date(date).map(&:node_hash)]]
+          return if date.event.seating.nil?
+
+          [date.id, seats_for_date(date).map(&:node_hash).to_h]
         end
 
         def seats_for_date(date)

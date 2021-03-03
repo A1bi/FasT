@@ -194,14 +194,11 @@ module Ticketing
 
       render_cached_json([:ticketing, :orders, :show, @order,
                           @order.date.tickets]) do
-        seats = {}
-        [[:chosen, @order], [:taken, @order.date]].each do |type|
-          seats[type.first] = type.last.tickets
-                                  .where(invalidated: false).map do |t|
-            t.seat&.id
-          end.compact
+        [[:chosen, @order], [:taken, @order.date]]
+          .each_with_object({}) do |type, seats|
+          seats[type.first] = type.last.tickets.where(invalidated: false)
+                                  .filter_map { |t| t.seat&.id }
         end
-        seats
       end
     end
 

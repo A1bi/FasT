@@ -13,8 +13,8 @@ module Ticketing
 
     def execute
       ActiveRecord::Base.transaction do
-        @updated_tickets = valid_tickets.map { |ticket| update_ticket(ticket) }
-                                        .compact
+        @updated_tickets =
+          valid_tickets.filter_map { |ticket| update_ticket(ticket) }
 
         return if updated_tickets.none?
         return unless order.save
@@ -55,12 +55,12 @@ module Ticketing
 
         # old date and seat
         (updated_seats[old_date_id] ||= {}).merge(
-          Hash[[old_seat.node_hash(old_date_id, true)]]
+          [old_seat.node_hash(old_date_id, true)].to_h
         )
 
         # new date and seat
         (updated_seats[ticket.date.id] ||= {}).merge(
-          Hash[[ticket.seat.node_hash(ticket.date.id, false)]]
+          [ticket.seat.node_hash(ticket.date.id, false)].to_h
         )
       end
     end

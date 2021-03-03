@@ -42,15 +42,14 @@ class NodeApi
   end
 
   def self.update_seats_from_records(records)
-    seats = {}
-    records.each do |record|
+    updated_seats = records.each_with_object({}) do |record, seats|
       next unless record.respond_to?(:date_id) && record.respond_to?(:seat) &&
                   record.seat.is_a?(Ticketing::Seat)
 
       seats.deep_merge!(
-        record.date_id => Hash[[record.seat.node_hash(record.date_id)]]
+        record.date_id => [record.seat.node_hash(record.date_id)].to_h
       )
     end
-    update_seats(seats) if seats.any?
+    update_seats(updated_seats) if updated_seats.any?
   end
 end

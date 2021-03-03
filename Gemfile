@@ -48,7 +48,7 @@ gem 'bootsnap', require: false
 
 gem 'listen', '~> 3.0'
 
-gem 'config', '~> 2.2.0'
+gem 'config', '~> 3.0.0'
 
 gem 'bindata', '~> 2.4.3'
 

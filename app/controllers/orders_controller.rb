@@ -77,7 +77,7 @@ class OrdersController < ApplicationController
     types = [[:chosen, @order], [:taken, @order.date]]
     types.each_with_object({}) do |type, obj|
       obj[type.first] = type.last.tickets.where(invalidated: false)
-                            .map(&:seat_id).compact
+                            .filter_map(&:seat_id)
     end
   end
 
