@@ -54,12 +54,12 @@ module Ticketing
         old_seat = Seat.find(ticket.attribute_before_last_save(:seat_id))
 
         # old date and seat
-        (updated_seats[old_date_id] ||= {}).merge(
+        (updated_seats[old_date_id] ||= {}).merge!(
           [old_seat.node_hash(old_date_id, true)].to_h
         )
 
         # new date and seat
-        (updated_seats[ticket.date.id] ||= {}).merge(
+        (updated_seats[ticket.date.id] ||= {}).merge!(
           [ticket.seat.node_hash(ticket.date.id, false)].to_h
         )
       end
