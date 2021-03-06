@@ -14,7 +14,7 @@ gem 'webpacker', '~> 5.0'
 
 gem 'slim'
 
-gem 'paperclip', '~> 6.1.0'
+gem 'kt-paperclip', '~> 6.4'
 
 gem 'bcrypt', '~> 3.1.16'
 
@@ -74,7 +74,7 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
-  gem 'rspec-rails', '~> 4.0.1'
+  gem 'rspec-rails', '~> 4.1.0'
 end
 
 group :test do
