@@ -14,7 +14,8 @@ module Ticketing
           key_id: credentials[:key_id],
           team_id: Settings.apns.team_id
         },
-        size: size
+        size: size,
+        timeout: 30
       ) do |connection|
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread
