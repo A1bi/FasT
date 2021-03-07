@@ -16,14 +16,6 @@ RSpec.shared_examples 'billable' do
     let(:note_key) { :foo }
     let(:after_transfer_callback_receiver) { record }
 
-    shared_examples 'calls the after transfer callback' do
-      it 'calls the after transfer callback' do
-        expect(after_transfer_callback_receiver)
-          .to receive(:after_account_transfer)
-        subject
-      end
-    end
-
     describe '#withdraw_from_account' do
       subject { record.withdraw_from_account(amount, note_key) }
 
@@ -32,8 +24,6 @@ RSpec.shared_examples 'billable' do
           .to receive(:withdraw).with(amount, note_key)
         subject
       end
-
-      include_examples 'calls the after transfer callback'
     end
 
     describe '#deposit_into_account' do
@@ -44,8 +34,6 @@ RSpec.shared_examples 'billable' do
           .to receive(:deposit).with(amount, note_key)
         subject
       end
-
-      include_examples 'calls the after transfer callback'
     end
 
     describe '#transfer_to_account' do
@@ -58,14 +46,6 @@ RSpec.shared_examples 'billable' do
           .to receive(:transfer)
           .with(recipient.billing_account, amount, note_key)
         subject
-      end
-
-      include_examples 'calls the after transfer callback'
-
-      context 'when recipient receives callback' do
-        let(:after_transfer_callback_receiver) { recipient }
-
-        include_examples 'calls the after transfer callback'
       end
     end
   end

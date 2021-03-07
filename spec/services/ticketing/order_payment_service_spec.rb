@@ -109,13 +109,6 @@ RSpec.describe Ticketing::OrderPaymentService do
     context 'with a retail order' do
       let(:order) { create(:retail_order, :with_purchased_coupons, :unpaid) }
 
-      # TODO: remove this when retail orders no longer withdraw total from
-      # balance on creation
-      before do
-        order.withdraw_from_account(10, nil)
-        order.save
-      end
-
       include_examples 'marks as paid'
       include_examples 'creates a log event', :marked_as_paid
     end
