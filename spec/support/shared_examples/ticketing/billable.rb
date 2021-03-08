@@ -6,7 +6,7 @@ RSpec.shared_examples 'billable' do
       expect(subject)
         .to have_one(:billing_account)
         .class_name('Ticketing::Billing::Account')
-        .inverse_of(:billable).autosave(true).dependent(:destroy)
+        .inverse_of(:billable).dependent(:destroy)
     end
   end
 

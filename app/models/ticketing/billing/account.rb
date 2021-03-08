@@ -5,7 +5,7 @@ module Ticketing
     class Account < ApplicationRecord
       belongs_to :billable, polymorphic: true, inverse_of: :billing_account
       has_many :transfers, -> { order(created_at: :desc) },
-               inverse_of: :account, autosave: true, dependent: :destroy
+               inverse_of: :account, dependent: :destroy
 
       validates :balance, numericality: true
 
@@ -14,10 +14,7 @@ module Ticketing
 
         update_balance(amount)
 
-        t = transfers.new
-        t.amount = amount
-        t.note_key = note_key
-        t
+        create_transfer(amount: amount, note_key: note_key)
       end
 
       def withdraw(amount, note_key)
@@ -25,22 +22,15 @@ module Ticketing
       end
 
       def transfer(participant, amount, note_key, reverse_transfer = nil)
-        return nil if amount.zero? || participant == self
+        return if amount.zero? || participant == self
 
         update_balance(-amount)
 
-        t = transfers.new
-        t.participant = participant
-        t.amount = -amount
-        t.note_key = note_key
-
-        t.reverse_transfer = if reverse_transfer.nil?
+        create_transfer(participant: participant, amount: -amount,
+                        note_key: note_key) do |t|
+          t.reverse_transfer = reverse_transfer ||
                                participant.transfer(self, -amount, note_key, t)
-                             else
-                               reverse_transfer
-                             end
-
-        t
+        end
       end
 
       def outstanding?
@@ -54,7 +44,15 @@ module Ticketing
       private
 
       def update_balance(amount)
-        self[:balance] = self[:balance] + amount
+        self[:balance] += amount
+        save! if persisted?
+      end
+
+      def create_transfer(attrs)
+        t = transfers.new(attrs)
+        yield t if block_given?
+        t.save! if persisted?
+        t
       end
     end
   end

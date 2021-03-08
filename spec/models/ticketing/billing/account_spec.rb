@@ -6,8 +6,7 @@ RSpec.describe Ticketing::Billing::Account do
 
     it do
       expect(subject).to have_many(:transfers)
-        .inverse_of(:account).autosave(true).dependent(:destroy)
-        .order(created_at: :desc)
+        .inverse_of(:account).dependent(:destroy).order(created_at: :desc)
     end
   end
 
@@ -199,6 +198,28 @@ RSpec.describe Ticketing::Billing::Account do
       before { account.deposit(-10, nil) }
 
       it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#credit?' do
+    subject { account.credit? }
+
+    let(:account) { create(:billing_account) }
+
+    context 'with zero balance' do
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with positive balance' do
+      before { account.deposit(10, nil) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with negative balance' do
+      before { account.deposit(-10, nil) }
+
+      it { is_expected.to be_falsy }
     end
   end
 end

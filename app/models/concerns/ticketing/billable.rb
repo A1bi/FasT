@@ -6,12 +6,10 @@ module Ticketing
 
     included do
       has_one :billing_account,
-              as: :billable, inverse_of: :billable, autosave: true,
+              as: :billable, inverse_of: :billable,
               class_name: 'Ticketing::Billing::Account', dependent: :destroy
-    end
 
-    def billing_account
-      super || build_billing_account
+      after_initialize :build_billing_account, if: :new_record?
     end
 
     def withdraw_from_account(amount, note_key)
