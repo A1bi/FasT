@@ -2,7 +2,7 @@
 
 module Ticketing
   class PushNotificationsJob < ApplicationJob
-    def self.create_pool(size:, force_production: false)
+    def self.create_pool(force_production: false)
       development = Rails.env.development? && !force_production
       credentials = Rails.application.credentials.apns
 
@@ -14,8 +14,7 @@ module Ticketing
           key_id: credentials[:key_id],
           team_id: Settings.apns.team_id
         },
-        size: size,
-        timeout: 30
+        size: ENV.fetch('RAILS_MAX_THREADS', 5)
       ) do |connection|
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread
@@ -25,12 +24,12 @@ module Ticketing
       end
     end
 
-    CONNECTION_POOL = create_pool(size: 1)
+    CONNECTION_POOL = create_pool
 
     # add another production pool even if in development
     # -> passbook notifications only support production
     if Rails.env.development?
-      CONNECTION_POOL_PRODUCTION = create_pool(size: 1, force_production: true)
+      CONNECTION_POOL_PRODUCTION = create_pool(force_production: true)
     end
 
     def perform(device, body: nil, title: nil, badge: nil, sound: nil,
