@@ -876,26 +876,26 @@ ALTER SEQUENCE public.ticketing_billing_accounts_id_seq OWNED BY public.ticketin
 
 
 --
--- Name: ticketing_billing_transfers; Type: TABLE; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.ticketing_billing_transfers (
+CREATE TABLE public.ticketing_billing_transactions (
     id bigint NOT NULL,
     amount numeric DEFAULT 0.0 NOT NULL,
     note_key character varying,
     account_id bigint NOT NULL,
     participant_id bigint,
-    reverse_transfer_id bigint,
+    reverse_transaction_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
 
 
 --
--- Name: ticketing_billing_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.ticketing_billing_transfers_id_seq
+CREATE SEQUENCE public.ticketing_billing_transactions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -904,10 +904,10 @@ CREATE SEQUENCE public.ticketing_billing_transfers_id_seq
 
 
 --
--- Name: ticketing_billing_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.ticketing_billing_transfers_id_seq OWNED BY public.ticketing_billing_transfers.id;
+ALTER SEQUENCE public.ticketing_billing_transactions_id_seq OWNED BY public.ticketing_billing_transactions.id;
 
 
 --
@@ -2017,10 +2017,10 @@ ALTER TABLE ONLY public.ticketing_billing_accounts ALTER COLUMN id SET DEFAULT n
 
 
 --
--- Name: ticketing_billing_transfers id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_billing_transfers ALTER COLUMN id SET DEFAULT nextval('public.ticketing_billing_transfers_id_seq'::regclass);
+ALTER TABLE ONLY public.ticketing_billing_transactions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_billing_transactions_id_seq'::regclass);
 
 
 --
@@ -2405,11 +2405,11 @@ ALTER TABLE ONLY public.ticketing_billing_accounts
 
 
 --
--- Name: ticketing_billing_transfers ticketing_billing_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions ticketing_billing_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_billing_transfers
-    ADD CONSTRAINT ticketing_billing_transfers_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.ticketing_billing_transactions
+    ADD CONSTRAINT ticketing_billing_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2790,24 +2790,24 @@ CREATE INDEX index_ticketing_bank_charges_on_submission_id ON public.ticketing_b
 
 
 --
--- Name: index_ticketing_billing_transfers_on_account_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_ticketing_billing_transactions_on_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ticketing_billing_transfers_on_account_id ON public.ticketing_billing_transfers USING btree (account_id);
-
-
---
--- Name: index_ticketing_billing_transfers_on_participant_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_billing_transfers_on_participant_id ON public.ticketing_billing_transfers USING btree (participant_id);
+CREATE INDEX index_ticketing_billing_transactions_on_account_id ON public.ticketing_billing_transactions USING btree (account_id);
 
 
 --
--- Name: index_ticketing_billing_transfers_on_reverse_transfer_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_ticketing_billing_transactions_on_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ticketing_billing_transfers_on_reverse_transfer_id ON public.ticketing_billing_transfers USING btree (reverse_transfer_id);
+CREATE INDEX index_ticketing_billing_transactions_on_participant_id ON public.ticketing_billing_transactions USING btree (participant_id);
+
+
+--
+-- Name: index_ticketing_billing_transactions_on_reverse_transaction_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_billing_transactions_on_reverse_transaction_id ON public.ticketing_billing_transactions USING btree (reverse_transaction_id);
 
 
 --
@@ -3204,10 +3204,10 @@ ALTER TABLE ONLY public.newsletter_images
 
 
 --
--- Name: ticketing_billing_transfers fk_rails_071c9c9aef; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions fk_rails_071c9c9aef; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_billing_transfers
+ALTER TABLE ONLY public.ticketing_billing_transactions
     ADD CONSTRAINT fk_rails_071c9c9aef FOREIGN KEY (participant_id) REFERENCES public.ticketing_billing_accounts(id);
 
 
@@ -3244,10 +3244,10 @@ ALTER TABLE ONLY public.ticketing_box_office_order_payments
 
 
 --
--- Name: ticketing_billing_transfers fk_rails_17a5504e18; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions fk_rails_17a5504e18; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_billing_transfers
+ALTER TABLE ONLY public.ticketing_billing_transactions
     ADD CONSTRAINT fk_rails_17a5504e18 FOREIGN KEY (account_id) REFERENCES public.ticketing_billing_accounts(id);
 
 
@@ -3340,11 +3340,11 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: ticketing_billing_transfers fk_rails_50c9e4ab50; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: ticketing_billing_transactions fk_rails_50c9e4ab50; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_billing_transfers
-    ADD CONSTRAINT fk_rails_50c9e4ab50 FOREIGN KEY (reverse_transfer_id) REFERENCES public.ticketing_billing_transfers(id);
+ALTER TABLE ONLY public.ticketing_billing_transactions
+    ADD CONSTRAINT fk_rails_50c9e4ab50 FOREIGN KEY (reverse_transaction_id) REFERENCES public.ticketing_billing_transactions(id);
 
 
 --
@@ -3732,6 +3732,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210206182618'),
 ('20210211163535'),
 ('20210212151229'),
-('20210213132820');
+('20210213132820'),
+('20210313212839');
 
 

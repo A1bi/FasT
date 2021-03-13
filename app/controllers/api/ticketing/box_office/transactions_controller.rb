@@ -23,13 +23,13 @@ module Api
 
         def transactions
           billing_account
-            .transfers
+            .transactions
             .where('created_at > ?', start_date)
-            .map do |transfer|
+            .map do |transaction|
             {
-              reason: translated_note_key(transfer),
-              amount: transfer.amount,
-              date: transfer.created_at.to_i
+              reason: translated_note_key(transaction),
+              amount: transaction.amount,
+              date: transaction.created_at.to_i
             }
           end
         end
@@ -59,8 +59,8 @@ module Api
           12.hours.ago
         end
 
-        def translated_note_key(transfer)
-          return '' if (note_key = transfer.note_key).blank?
+        def translated_note_key(transaction)
+          return '' if (note_key = transaction.note_key).blank?
 
           t("ticketing.orders.balancing.#{note_key}", default: note_key)
         end

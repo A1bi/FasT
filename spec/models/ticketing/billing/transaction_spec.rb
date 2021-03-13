@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Ticketing::Billing::Transfer do
+RSpec.describe Ticketing::Billing::Transaction do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
 
@@ -10,8 +10,8 @@ RSpec.describe Ticketing::Billing::Transfer do
     end
 
     it do
-      expect(subject).to belong_to(:reverse_transfer)
-        .class_name('Transfer').optional(true)
+      expect(subject).to belong_to(:reverse_transaction)
+        .class_name('Transaction').optional(true)
     end
   end
 

@@ -1,6 +1,6 @@
 <% title "Statistik" %>
 <% include_css "ticketing/statistics" %>
-<% cache [Ticketing::Ticket.all, current_user.store, @transfers] do %>
+<% cache [Ticketing::Ticket.all, current_user.store, @transactions] do %>
   <div class="stats">
     <div class="hl">Ticket-Statistik</div>
     <% @events.each do |event| %>
@@ -21,17 +21,17 @@
         </tr>
       </thead>
       <tbody>
-        <% @transfers.each do |transfer| %>
+        <% @transactions.each do |transaction| %>
           <tr>
-            <td class="date"><%= l transfer.created_at, format: "%d.%m.%y, %H:%M" %></td>
-            <td><%= t transfer.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
+            <td class="date"><%= l transaction.created_at, format: "%d.%m.%y, %H:%M" %></td>
+            <td><%= t transaction.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
             <td>
-              <% participant = transfer.participant ? transfer.participant.billable : nil %>
+              <% participant = transaction.participant ? transaction.participant.billable : nil %>
               <% if participant.is_a?(Ticketing::Order) %>
                 <%= link_to "##{participant.number}", ticketing_order_path(participant) %>
               <% end %>
             </td>
-            <td class="amount <%= -transfer.amount < 0 ? "negative" : "positive" %>"><%= format_billing_amount(-transfer.amount) %></td>
+            <td class="amount <%= -transaction.amount < 0 ? "negative" : "positive" %>"><%= format_billing_amount(-transaction.amount) %></td>
           </tr>
         <% end %>
         <tr class="total">

@@ -94,8 +94,9 @@ RSpec.describe Ticketing::OrderPaymentService do
       end
 
       it 'creates a billing' do
-        expect { subject }.to change(Ticketing::Billing::Transfer, :count).by(1)
-        expect(order.billing_account.transfers.first.note_key)
+        expect { subject }
+          .to change(Ticketing::Billing::Transaction, :count).by(1)
+        expect(order.billing_account.transactions.first.note_key)
           .to eq('payment_received')
       end
     end
@@ -120,7 +121,8 @@ RSpec.describe Ticketing::OrderPaymentService do
       include_examples 'does not send an email'
 
       it 'does not create a billing' do
-        expect { subject }.not_to change(Ticketing::Billing::Transfer, :count)
+        expect { subject }
+          .not_to change(Ticketing::Billing::Transaction, :count)
       end
     end
   end

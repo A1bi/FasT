@@ -2,11 +2,11 @@
 
 module Ticketing
   module Billing
-    class Transfer < ApplicationRecord
+    class Transaction < ApplicationRecord
       belongs_to :account
       belongs_to :participant, class_name: 'Account', optional: true,
                                autosave: true
-      belongs_to :reverse_transfer, class_name: 'Transfer', optional: true
+      belongs_to :reverse_transaction, class_name: 'Transaction', optional: true
 
       validates :amount, numericality: true
     end

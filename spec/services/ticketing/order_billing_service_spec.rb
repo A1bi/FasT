@@ -9,12 +9,12 @@ RSpec.describe Ticketing::OrderBillingService do
   before { order.billing_account.update(balance: previous_balance) }
 
   shared_examples 'money transfer' do
-    it 'creates a transfer' do
+    it 'creates a transaction' do
       expect { subject }
-        .to change(order.billing_account.transfers, :count).by(1)
-      transfer = order.billing_account.transfers.last
-      expect(transfer.amount).to eq(amount)
-      expect(transfer.note_key).to eq(note)
+        .to change(order.billing_account.transactions, :count).by(1)
+      transaction = order.billing_account.transactions.last
+      expect(transaction.amount).to eq(amount)
+      expect(transaction.note_key).to eq(note)
     end
 
     it "updates the order's paid status" do
@@ -26,6 +26,14 @@ RSpec.describe Ticketing::OrderBillingService do
   shared_examples 'does not change the balance' do
     it 'does not change the balance' do
       expect { subject }.not_to change(order.billing_account, :balance)
+    end
+  end
+
+  shared_examples 'sets transaction note' do |note_key|
+    it 'sets the right transaction note' do
+      subject
+      transaction = order.billing_account.transactions.last
+      expect(transaction.note_key).to eq(note_key)
     end
   end
 
@@ -122,11 +130,7 @@ RSpec.describe Ticketing::OrderBillingService do
         )
       end
 
-      it 'sets a default transfer note if none provided' do
-        subject
-        transfer = order.billing_account.transfers.last
-        expect(transfer.note_key).to eq('cash_in_store')
-      end
+      include_examples 'sets transaction note', 'cash_in_store'
     end
 
     context 'with a positive balance' do
@@ -176,11 +180,7 @@ RSpec.describe Ticketing::OrderBillingService do
             .to change(order.billing_account, :balance).from(balance).to(0)
         end
 
-        it 'sets the right transfer note' do
-          subject
-          transfer = order.billing_account.transfers.last
-          expect(transfer.note_key).to eq('cash_refund_in_store')
-        end
+        include_examples 'sets transaction note', 'cash_refund_in_store'
       end
     end
   end
@@ -195,11 +195,7 @@ RSpec.describe Ticketing::OrderBillingService do
           .from(previous_balance).to(previous_balance + amount)
       end
 
-      it 'sets the right transfer note' do
-        subject
-        transfer = order.billing_account.transfers.last
-        expect(transfer.note_key).to eq('correction')
-      end
+      include_examples 'sets transaction note', 'correction'
     end
 
     context 'with a positive amount' do

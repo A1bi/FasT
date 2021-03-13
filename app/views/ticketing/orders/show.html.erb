@@ -251,11 +251,11 @@
       </tr>
     </thead>
     <tbody class="log">
-      <% @order.billing_account.transfers.each do |transfer| %>
+      <% @order.billing_account.transactions.each do |transaction| %>
         <tr>
-          <td class="date"><%= l transfer.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          <td><%= t transfer.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
-          <td><%= format_billing_amount(transfer.amount) %></td>
+          <td class="date"><%= l transaction.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          <td><%= t transaction.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
+          <td><%= format_billing_amount(transaction.amount) %></td>
         </tr>
       <% end %>
       <tr>

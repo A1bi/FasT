@@ -5,7 +5,7 @@ RSpec.describe Ticketing::Billing::Account do
     it { is_expected.to belong_to(:billable).inverse_of(:billing_account) }
 
     it do
-      expect(subject).to have_many(:transfers)
+      expect(subject).to have_many(:transactions)
         .inverse_of(:account).dependent(:destroy).order(created_at: :desc)
     end
   end
@@ -21,22 +21,22 @@ RSpec.describe Ticketing::Billing::Account do
     end
   end
 
-  shared_examples 'creates a transfer' do
-    it 'creates a transfer' do
-      expect { subject }.to change(account.transfers, :count).by(1)
-      transfer = account.transfers.last
-      expect(transfer.amount).to eq(transferred_amount)
-      expect(transfer.note_key).to eq(note_key.to_s)
+  shared_examples 'creates a transaction' do
+    it 'creates a transaction' do
+      expect { subject }.to change(account.transactions, :count).by(1)
+      transaction = account.transactions.last
+      expect(transaction.amount).to eq(transferred_amount)
+      expect(transaction.note_key).to eq(note_key.to_s)
     end
   end
 
-  shared_examples 'does not update balance or create transfer' do
+  shared_examples 'does not update balance or create transaction' do
     it 'does not change the balance' do
       expect { subject }.not_to change(account, :balance)
     end
 
-    it 'does not create a transfer' do
-      expect { subject }.not_to change(Ticketing::Billing::Transfer, :count)
+    it 'does not create a transaction' do
+      expect { subject }.not_to change(Ticketing::Billing::Transaction, :count)
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe Ticketing::Billing::Account do
     context 'with zero amount' do
       let(:amount) { 0 }
 
-      include_examples 'does not update balance or create transfer'
+      include_examples 'does not update balance or create transaction'
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:transferred_amount) { amount * (negative ? -1 : 1) }
 
       include_examples 'updates the balance'
-      include_examples 'creates a transfer'
+      include_examples 'creates a transaction'
     end
 
     include_examples 'amount is zero'
@@ -68,8 +68,8 @@ RSpec.describe Ticketing::Billing::Account do
     it { is_expected.to be_zero }
   end
 
-  describe '#transfers' do
-    subject { account.transfers }
+  describe '#transactions_controller.rb' do
+    subject { account.transactions }
 
     let(:account) { create(:billing_account) }
 
@@ -139,26 +139,26 @@ RSpec.describe Ticketing::Billing::Account do
     let(:amount) { 10 }
     let(:note_key) { :foobar }
 
-    shared_examples 'updates the balance and creates transfer' do
+    shared_examples 'updates the balance and creates transaction' do
       include_examples 'updates the balance'
-      include_examples 'creates a transfer'
+      include_examples 'creates a transaction'
       include_examples 'amount is zero'
 
       it 'sets the participant' do
         subject
-        expect(account.transfers.last.participant).to eq(participant)
+        expect(account.transactions.last.participant).to eq(participant)
       end
 
-      it 'sets the reverse transfer' do
+      it 'sets the reverse transaction' do
         subject
-        expect(account.transfers.last.reverse_transfer)
-          .to eq(participant.transfers.last)
+        expect(account.transactions.last.reverse_transaction)
+          .to eq(participant.transactions.last)
       end
 
       context 'when recipient is sender' do
         let(:recipient) { sender }
 
-        include_examples 'does not update balance or create transfer'
+        include_examples 'does not update balance or create transaction'
       end
     end
 
@@ -167,7 +167,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:participant) { recipient }
       let(:transferred_amount) { -amount }
 
-      include_examples 'updates the balance and creates transfer'
+      include_examples 'updates the balance and creates transaction'
     end
 
     context 'when checking the recipient\'s account' do
@@ -175,7 +175,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:participant) { sender }
       let(:transferred_amount) { amount }
 
-      include_examples 'updates the balance and creates transfer'
+      include_examples 'updates the balance and creates transaction'
     end
   end
 
