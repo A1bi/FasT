@@ -6,7 +6,7 @@ RSpec.describe Ticketing::Billing::Transaction do
 
     it do
       expect(subject).to belong_to(:participant)
-        .class_name('Account').optional(true).autosave(true)
+        .class_name('Account').optional(true)
     end
 
     it do
