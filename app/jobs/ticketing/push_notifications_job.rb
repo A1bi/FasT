@@ -2,6 +2,8 @@
 
 module Ticketing
   class PushNotificationsJob < ApplicationJob
+    retry_on Errno::ETIMEDOUT
+
     def self.create_pool(force_production: false)
       development = Rails.env.development? && !force_production
       credentials = Rails.application.credentials.apns
@@ -45,13 +47,9 @@ module Ticketing
         notification.sound = sound
 
         response = connection.push(notification)
-        raise 'Timeout sending a push notification' unless response
+        raise Errno::ETIMEDOUT unless response
 
-        if response.status == '410' ||
-           (response.status == '400' &&
-            response.body['reason'] == 'BadDeviceToken')
-          device.destroy
-        end
+        device.destroy if bad_device?(response)
       end
     end
 
@@ -63,6 +61,12 @@ module Ticketing
       else
         CONNECTION_POOL
       end
+    end
+
+    def bad_device?(response)
+      response.status == '410' ||
+        (response.status == '400' &&
+         response.body['reason'] == 'BadDeviceToken')
     end
   end
 end
