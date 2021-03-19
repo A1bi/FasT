@@ -6,8 +6,12 @@ FactoryBot.define do
       free_tickets { 2 }
     end
 
-    trait :with_amount do
-      amount { 10 }
+    trait :with_credit do
+      transient { credit { 25 } }
+
+      after(:create) do |coupon, evaluator|
+        coupon.deposit_into_account(evaluator.credit, :foo)
+      end
     end
 
     trait :expired do

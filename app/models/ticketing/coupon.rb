@@ -3,6 +3,7 @@
 module Ticketing
   class Coupon < ApplicationRecord
     include RandomUniqueAttribute
+    include Billable
     include Loggable
 
     has_random_unique_token :code, 6
@@ -16,19 +17,22 @@ module Ticketing
 
     class << self
       def valid
-        where('expires_at IS NULL OR expires_at > ?', Time.current)
-          .where('free_tickets > 0 OR amount > 0')
+        joins(:billing_account)
+          .where('expires_at IS NULL OR expires_at > ?', Time.current)
+          .where('free_tickets > 0 OR ticketing_billing_accounts.balance > 0')
       end
 
       def expired
-        where('expires_at < ?', Time.current)
-          .or(where('free_tickets <= 0 AND amount <= 0'))
+        joins(:billing_account)
+          .where('expires_at < ?', Time.current)
+          .or(where('free_tickets <= 0 AND ' \
+                    'ticketing_billing_accounts.balance <= 0'))
       end
     end
 
     def expired?
       return true if free_tickets < 1 && reservation_groups.count.zero? &&
-                     !amount.positive?
+                     !billing_account.credit?
 
       expires_at&.past?
     end

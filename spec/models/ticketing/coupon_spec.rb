@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_shared_examples 'ticketing/billable'
 require_shared_examples 'ticketing/loggable'
 
 RSpec.describe Ticketing::Coupon do
@@ -23,6 +24,39 @@ RSpec.describe Ticketing::Coupon do
     }
 
     it { is_expected.to have_many(:orders).through(:redemptions) }
+  end
+
+  describe 'valid/expired scopes' do
+    let!(:valid_coupons) do
+      [
+        create(:coupon, :with_free_tickets),
+        create(:coupon, :with_credit)
+      ]
+    end
+    let!(:expired_coupons) do
+      [
+        create(:coupon),
+        create(:coupon, :with_free_tickets, :expired)
+      ]
+    end
+
+    describe '.valid' do
+      subject { described_class.valid }
+
+      it 'only returns valid coupons' do
+        expect(subject).to include(*valid_coupons)
+        expect(subject).not_to include(*expired_coupons)
+      end
+    end
+
+    describe '.expired' do
+      subject { described_class.expired }
+
+      it 'only returns expired coupons' do
+        expect(subject).to include(*expired_coupons)
+        expect(subject).not_to include(*valid_coupons)
+      end
+    end
   end
 
   describe '#code' do
@@ -63,12 +97,13 @@ RSpec.describe Ticketing::Coupon do
       it_behaves_like 'valid coupon'
     end
 
-    context 'with an amount' do
-      let(:coupon) { create(:coupon, :with_amount) }
+    context 'with credit' do
+      let(:coupon) { create(:coupon, :with_credit) }
 
       it_behaves_like 'valid coupon'
     end
   end
 
+  it_behaves_like 'billable'
   it_behaves_like 'loggable'
 end
