@@ -122,15 +122,21 @@ RSpec.shared_examples 'generic order' do |order_factory|
   describe '#update_total' do
     subject { order.update_total }
 
-    let(:order) do
-      create(order_factory,
-             :with_tickets, :with_purchased_coupons, tickets_count: 2)
-    end
-    let(:total) do
-      order.tickets.last.price + order.purchased_coupons.sum(:amount)
-    end
+    let(:order) { create(order_factory, :with_tickets, tickets_count: 2) }
+    let(:total) { order.tickets.last.price + 10 + 15 }
 
-    before { create(:cancellation, tickets: [order.tickets.first]) }
+    before do
+      create(:cancellation, tickets: [order.tickets.first])
+
+      coupon = create(:coupon, :with_credit,
+                      value: 10, purchased_with_order: order)
+      coupon.withdraw_from_account(10, :foo)
+      order.purchased_coupons.reload
+
+      # make sure this also takes unpersisted records into account
+      coupon = order.purchased_coupons.build
+      coupon.deposit_into_account(15, :foo)
+    end
 
     it 'sets the correct total (excluding the cancelled ticket)' do
       expect { subject }.to change(order, :total).from(0).to(total)

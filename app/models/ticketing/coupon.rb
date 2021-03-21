@@ -36,5 +36,16 @@ module Ticketing
 
       expires_at&.past?
     end
+
+    def value
+      billing_account.balance
+    end
+
+    def initial_value
+      return value if new_record?
+
+      transaction = billing_account.transactions.reorder(:created_at).first
+      transaction ? transaction.amount : 0
+    end
   end
 end

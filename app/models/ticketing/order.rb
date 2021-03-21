@@ -79,13 +79,7 @@ module Ticketing
         ticket.price
       end
 
-      # TODO: as soon as we have an amount history for coupons, this should only
-      # use the initial amount
-      # this makes sure a coupon redemption will not change the order's total
-      #
-      # also we have to use &:amount here, because coupons are still only in
-      # memory at this point, sum would otherwise make it an SQL query
-      self.total += purchased_coupons.sum(&:amount)
+      self.total += purchased_coupons.sum(&:initial_value)
     end
 
     def update_paid

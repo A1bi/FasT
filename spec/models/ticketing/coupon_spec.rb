@@ -104,6 +104,42 @@ RSpec.describe Ticketing::Coupon do
     end
   end
 
+  describe '#value' do
+    subject { coupon.value }
+
+    let(:coupon) { create(:coupon, :with_value, value: 44) }
+
+    it { is_expected.to eq(44) }
+
+    context 'when value changes' do
+      before { coupon.withdraw_from_account(10, :foo) }
+
+      it { is_expected.to eq(34) }
+    end
+  end
+
+  describe '#initial_value' do
+    subject { coupon.initial_value }
+
+    let(:coupon) { create(:coupon, :with_value, value: 44) }
+
+    context 'when coupon never had any value' do
+      let(:coupon) { create(:coupon) }
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'when coupon has not been redeemed yet' do
+      it { is_expected.to eq(44) }
+    end
+
+    context 'when coupon has been redeemed at least partially' do
+      before { coupon.withdraw_from_account(10, :foo) }
+
+      it { is_expected.to eq(44) }
+    end
+  end
+
   it_behaves_like 'billable'
   it_behaves_like 'loggable'
 end

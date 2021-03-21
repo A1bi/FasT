@@ -29,11 +29,11 @@ RSpec.describe Ticketing::CouponCreateService do
       expect { subject }.to change(order.purchased_coupons, :size).by(3)
     end
 
-    it 'sets the correct amounts' do
+    it 'sets the correct credit value' do
       subject
-      expect(order.purchased_coupons[0].amount).to eq(50)
+      expect(order.purchased_coupons[0].value).to eq(50)
       order.purchased_coupons[1..2].each do |coupon|
-        expect(coupon.amount).to eq(10)
+        expect(coupon.value).to eq(10)
       end
     end
 

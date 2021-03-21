@@ -23,8 +23,10 @@ module Ticketing
 
     private
 
-    def build_coupon(order, amount)
-      order.purchased_coupons.new(amount: amount)
+    def build_coupon(order, value)
+      coupon = order.purchased_coupons.new
+      coupon.deposit_into_account(value, :purchased_coupon)
+      coupon
     end
 
     def log_coupon_creation(coupon)
