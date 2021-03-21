@@ -25,7 +25,7 @@ module Ticketing
 
         move_down 10
         font_size_name :small do
-          text t(:amount, amount: number_to_currency(@coupon.amount)),
+          text t(:value, value: number_to_currency(@coupon.initial_value)),
                align: :center, size: 17, inline_format: true
         end
 

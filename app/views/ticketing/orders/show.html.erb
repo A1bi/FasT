@@ -231,7 +231,7 @@
       <% @order.purchased_coupons.each do |coupon| %>
         <tr>
           <td class="code"><%= link_to coupon.code, coupon %></td>
-          <td class="amount"><%= number_to_currency coupon.amount %></td>
+          <td class="amount"><%= number_to_currency coupon.initial_value %></td>
         </tr>
       <% end %>
     </tbody>

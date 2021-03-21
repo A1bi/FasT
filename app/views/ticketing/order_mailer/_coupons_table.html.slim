@@ -12,5 +12,4 @@ tr.top
         span.coupon-code = coupon.code
       - else
         | Gutschein
-    / TODO: show initial amount here
-    td.amount = number_to_currency(coupon.amount)
+    td.amount = number_to_currency(coupon.initial_value)
