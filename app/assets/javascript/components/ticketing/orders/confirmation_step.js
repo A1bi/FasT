@@ -19,11 +19,11 @@ export default class extends Step {
 
     couponsInfo.api.coupons.forEach(coupon => {
       const row = this.couponTemplate.clone()
-      const couponTotal = coupon.number * coupon.amount
+      const couponTotal = coupon.number * coupon.value
       const numberText = row.find('.plural_text')
 
       togglePluralText(numberText, coupon.number)
-      numberText.find('.amount').text(this.formatCurrency(coupon.amount))
+      numberText.find('.value').text(this.formatCurrency(coupon.value))
       row.find('.total span').text(this.formatCurrency(couponTotal))
 
       this.box.find('.coupons tbody').prepend(row)

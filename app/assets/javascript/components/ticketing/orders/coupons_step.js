@@ -34,11 +34,11 @@ export default class extends Step {
     this.box.find('tr.coupon').each((_, couponRow) => {
       couponRow = $(couponRow)
       const number = parseInt(couponRow.find('#number').val())
-      const amount = parseFloat(couponRow.find('#amount').val())
-      const couponTotal = number * amount
+      const value = parseFloat(couponRow.find('#value').val())
+      const couponTotal = number * value
       const formattedTotal = this.formatCurrency(couponTotal)
 
-      this.info.api.coupons.push({ number: number, amount: amount })
+      this.info.api.coupons.push({ number: number, value: value })
       couponRow.find('.total span').text(formattedTotal)
       numberOfCoupons += number
       total += couponTotal

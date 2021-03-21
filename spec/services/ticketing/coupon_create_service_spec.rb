@@ -19,8 +19,8 @@ RSpec.describe Ticketing::CouponCreateService do
   context 'with three coupons provided' do
     let(:coupons) do
       [
-        { amount: 50, number: 1 },
-        { amount: 10, number: 2 }
+        { value: 50, number: 1 },
+        { value: 10, number: 2 }
       ]
     end
     let(:loggable) { order.purchased_coupons.last }

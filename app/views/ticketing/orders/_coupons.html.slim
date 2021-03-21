@@ -19,7 +19,7 @@
           td.number
             = select_tag(:number, options_for_select(1..10))
           td.type
-            => select_tag(:amount, options_for_select((1..150).map { |amount| [number_to_currency(amount), amount] } ))
+            => select_tag(:value, options_for_select((1..150).map { |value| [number_to_currency(value), value] } ))
             a.remove-coupon href='#' entfernen
           td.total <span></span> €
         tr

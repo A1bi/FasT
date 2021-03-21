@@ -15,7 +15,7 @@ module Ticketing
 
       params[:coupons].each do |coupon_params|
         coupon_params[:number].times do
-          coupon = build_coupon(order, coupon_params[:amount])
+          coupon = build_coupon(order, coupon_params[:value])
           log_coupon_creation(coupon)
         end
       end
