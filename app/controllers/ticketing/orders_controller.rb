@@ -113,10 +113,6 @@ module Ticketing
       @show_check_ins = current_user.admin? && @order.tickets.any? do |t|
         t.check_ins.any? || t.date.date.past?
       end
-
-      @billing_actions.map! do |transaction|
-        [t("ticketing.orders.balancing.#{transaction}"), transaction]
-      end
     end
 
     def edit

@@ -128,20 +128,6 @@ de:
           passbook: Apple Wallet
           box_office: Abendkassen-Ticket
           box_office_direct: Abendkasse direkt
-      balancing:
-        order_created: "Bestellung aufgegeben"
-        cash_in_store: "Barzahlung in Vorverkaufsstelle"
-        cancellation: "Stornierung"
-        cash_refund_in_store: "Barrückzahlung in Vorverkaufsstelle"
-        transfer_refund: "Rückzahlung per Überweisung"
-        payment_received: "Zahlung erhalten"
-        bank_charge_submitted: "Lastschrift bei der Bank eingereicht"
-        ticket_types_edited: "Ticketkategorien umgebucht"
-        correction: "Korrektur"
-        cash_at_box_office: "Barzahlung an Abendkasse"
-        electronic_cash_at_box_office: "EC-Zahlung an Abendkasse"
-        cash_refund_at_box_office: "Barrückzahlung an Abendkasse"
-        retail_store_billing: "Abrechnung"
     order_mailer:
       confirmation:
         subject: "Ihre Bestellung"
@@ -358,6 +344,22 @@ de:
             sent: "Gutschein verschickt an %{recipient} (%{email})"
             updated: Gutschein bearbeitet
             redeemed: Gutschein eingelöst
+      ticketing/billing/transaction:
+        notes:
+          order_created: Bestellung aufgegeben
+          cash_in_store: Barzahlung in Vorverkaufsstelle
+          cancellation: Stornierung
+          cash_refund_in_store: Barrückzahlung in Vorverkaufsstelle
+          transfer_refund: Rückzahlung per Überweisung
+          payment_received: Zahlung erhalten
+          bank_charge_submitted: Lastschrift bei der Bank eingereicht
+          ticket_types_edited: Ticketkategorien umgebucht
+          correction: Korrektur
+          cash_at_box_office: Barzahlung an Abendkasse
+          electronic_cash_at_box_office: EC-Zahlung an Abendkasse
+          cash_refund_at_box_office: Barrückzahlung an Abendkasse
+          retail_store_billing: Abrechnung
+          purchased_coupon: Gutschein gekauft
   attributes:
     title: "Titel"
     email: "e-mail-Adresse"
@@ -367,6 +369,7 @@ de:
     subject: Betreff
   time:
     formats:
+      medium: "%d.%m.%y, %H:%M"
       long: "%d. %B um %H.%M Uhr"
   date:
     formats:

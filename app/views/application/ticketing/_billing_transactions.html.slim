@@ -1,0 +1,34 @@
+table.rounded.entries.billingLog.details
+  thead
+    tr: th colspan=3 = local_assigns.fetch(:title, 'Zahlungsprotokoll')
+    tr
+      th Datum
+      th Anmerkung
+      th Betrag
+  tbody.log
+    - record.billing_account.transactions.each do |transaction|
+      tr
+        td.date = l(transaction.created_at, format: :medium)
+        td = translate_billing_transaction(transaction)
+        td = format_billing_amount(transaction.amount)
+    tr
+      td
+      td Saldo
+      td class=(record.billing_account.outstanding? ? 'negative' : 'positive')
+        = format_billing_amount(record.billing_account.balance)
+
+  - if local_assigns[:actions]
+    thead
+      tr: th colspan=3 Neue Buchung vornehmen
+    tbody
+      tr
+        td colspan=3
+          - if @billing_actions.empty?
+            | Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
+          - else
+            = form_tag ticketing_order_billings_path(record), method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Zahlung wirklich verbuchen?' }
+              = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount' }
+              span<> data-target='ticketing--transactions-table.amount'
+                ' Betrag:
+                = text_field_tag :amount, nil, placeholder: '-1,00'
+              = submit_tag 'buchen'

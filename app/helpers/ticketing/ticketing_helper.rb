@@ -21,5 +21,24 @@ module Ticketing
                          event.loggable.class.base_class.model_name.i18n_key]
       t(event.action, options)
     end
+
+    def translate_billing_transaction(transaction)
+      translate_billing_transaction_note(transaction.note_key)
+    end
+
+    def billing_action_options(actions)
+      options = actions.map do |action|
+        [translate_billing_transaction_note(action), action]
+      end
+      options_for_select(options)
+    end
+
+    private
+
+    def translate_billing_transaction_note(key)
+      t(key, scope: [:activerecord, :attributes,
+                     Ticketing::Billing::Transaction.model_name.i18n_key,
+                     :notes])
+    end
   end
 end

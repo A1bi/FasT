@@ -238,56 +238,5 @@
   </table>
 <% end %>
 <%= render "application/ticketing/log_events", events: @order.log_events %>
-<% cache [@order, @order.billing_account, params[:type]] do %>
-  <table class="rounded entries billingLog details">
-    <thead>
-      <tr>
-        <th colspan="3">Zahlungsprotokoll</th>
-      </tr>
-      <tr>
-        <th>Datum</th>
-        <th>Anmerkung</th>
-        <th>Betrag</th>
-      </tr>
-    </thead>
-    <tbody class="log">
-      <% @order.billing_account.transactions.each do |transaction| %>
-        <tr>
-          <td class="date"><%= l transaction.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          <td><%= t transaction.note_key, { scope: [:ticketing, :orders, :balancing] } %></td>
-          <td><%= format_billing_amount(transaction.amount) %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td></td>
-        <td>Saldo</td>
-        <td class="<%= @order.billing_account.outstanding? ? "negative" : "positive" %>">
-          <%= format_billing_amount(@order.billing_account.balance) %>
-        </td>
-      </tr>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="3">Neue Zahlung verbuchen</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td colspan="3">
-          <% if @billing_actions.empty? %>
-            Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
-          <% else %>
-            <%= form_tag ticketing_order_billings_path(@order), method: :post, data: { controller: 'ticketing--transactions-table', confirm: "Möchten Sie diese Zahlung wirklich verbuchen?" } do %>
-              <%= select_tag :note, options_for_select(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount' } %>
-              <span data-target="ticketing--transactions-table.amount">
-                Betrag: <%= text_field_tag :amount, nil, placeholder: "-1,00" %>
-              </span>
-              <%= submit_tag "buchen" %>
-            <% end %>
-          <% end %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-<% end %>
+<%= render 'application/ticketing/billing_transactions', record: @order, actions: true %>
 <%= render "application/ticketing/print_notification" %>

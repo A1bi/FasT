@@ -129,3 +129,4 @@
   </div>
 <% end %>
 <%= render "application/ticketing/log_events", events: @coupon.log_events %>
+<%= render 'application/ticketing/billing_transactions', record: @coupon, title: 'Gutscheinwertprotokoll' %>
