@@ -15,15 +15,13 @@ module Ticketing
     end
 
     def settle_balance(note)
-      deposit_into_account(-@order.billing_account.balance, note)
+      deposit_into_account(-order_balance, note)
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)
       return unless @order.is_a? Retail::Order
 
-      @order.transfer_to_account(@order.store, @order.billing_account.balance,
-                                 note)
-      update_paid
+      transfer_to_account(@order.store, order_balance, note)
     end
 
     def refund_in_retail_store
@@ -36,6 +34,14 @@ module Ticketing
       deposit_into_account(amount, :correction)
     end
 
+    def deposit_coupon_credit(coupon)
+      return unless @order.billing_account.outstanding? &&
+                    coupon.billing_account.credit?
+
+      amount = [-coupon.value, order_balance].max
+      transfer_to_account(coupon, amount, :redeemed_coupon)
+    end
+
     private
 
     def deposit_into_account(amount, note)
@@ -43,9 +49,18 @@ module Ticketing
       update_paid
     end
 
+    def transfer_to_account(recipient, amount, note)
+      @order.transfer_to_account(recipient, amount, note)
+      update_paid
+    end
+
     def update_paid
       @order.update_paid
-      @order.save
+      @order.save if @order.persisted?
+    end
+
+    def order_balance
+      @order.billing_account.balance
     end
   end
 end

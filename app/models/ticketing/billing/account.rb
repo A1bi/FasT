@@ -52,7 +52,7 @@ module Ticketing
       def create_transaction(attrs)
         t = transactions.new(attrs)
         yield t if block_given?
-        t.save! if persisted?
+        t.save! if persisted? && (!t.participant || t.participant.persisted?)
         t
       end
     end

@@ -114,14 +114,14 @@ RSpec.describe Ticketing::OrderBillingService do
     subject { service.settle_balance_with_retail_account }
 
     let(:order) { create(:retail_order, :with_purchased_coupons) }
-    let(:balance) { -55 }
 
     before do
-      order.billing_account.update(balance: balance)
       order.store.billing_account.update(balance: 20) if order.try(:store)
     end
 
     context 'with a negative balance' do
+      let(:previous_balance) { -55 }
+
       it 'withdraws the negative balance from the store billing account' do
         expect { subject }.to(
           change { order.billing_account.reload.balance }.from(-55).to(0)
@@ -134,13 +134,12 @@ RSpec.describe Ticketing::OrderBillingService do
     end
 
     context 'with a positive balance' do
-      let(:balance) { 77 }
-
       it 'deposits the positive balance into the store billing account' do
         expect { subject }.to(
-          change { order.billing_account.reload.balance }.from(77).to(0)
+          change { order.billing_account.reload.balance }.from(previous_balance)
+                                                         .to(0)
           .and(change { order.store.billing_account.reload.balance }
-                .from(20).to(97))
+                .from(20).to(20 + previous_balance))
         )
       end
     end
@@ -155,10 +154,6 @@ RSpec.describe Ticketing::OrderBillingService do
   describe '#refund_in_retail_store' do
     subject { service.refund_in_retail_store }
 
-    let(:balance) { 55 }
-
-    before { order.billing_account.update(balance: balance) }
-
     context 'with a web order' do
       let(:order) { create(:web_order, :with_purchased_coupons) }
 
@@ -169,7 +164,7 @@ RSpec.describe Ticketing::OrderBillingService do
       let(:order) { create(:retail_order, :with_purchased_coupons, :unpaid) }
 
       context 'with a negative balance' do
-        let(:balance) { -55 }
+        let(:previous_balance) { -55 }
 
         include_examples 'does not change the balance'
       end
@@ -177,7 +172,8 @@ RSpec.describe Ticketing::OrderBillingService do
       context 'with a positive balance' do
         it 'settles the balance' do
           expect { subject }
-            .to change(order.billing_account, :balance).from(balance).to(0)
+            .to change(order.billing_account, :balance).from(previous_balance)
+                                                       .to(0)
         end
 
         include_examples 'sets transaction note', 'cash_refund_in_store'
@@ -208,6 +204,72 @@ RSpec.describe Ticketing::OrderBillingService do
       let(:amount) { -44 }
 
       include_examples 'adjusts balance'
+    end
+  end
+
+  describe '#deposit_coupon_credit' do
+    subject { service.deposit_coupon_credit(coupon) }
+
+    shared_examples 'changes neither order nor coupon balance' do
+      it 'does not change the coupon balance' do
+        expect { subject }.not_to(change { coupon.reload.value })
+      end
+
+      include_examples 'does not change the balance'
+    end
+
+    context 'with a coupon without credit' do
+      let(:coupon) { create(:coupon) }
+
+      include_examples 'changes neither order nor coupon balance'
+    end
+
+    context 'with a coupon with credit' do
+      let(:coupon) { create(:coupon, :with_credit, value: 25) }
+
+      shared_examples 'transfers from coupon to order' do
+        it 'withdraws the negative balance from the coupon billing account' do
+          expect { subject }.to(
+            change(order.billing_account, :balance).from(previous_balance)
+                                                   .to(new_order_balance)
+            .and(change(coupon, :value).from(coupon.value)
+                                       .to(new_coupon_balance))
+          )
+        end
+
+        include_examples 'sets transaction note', 'redeemed_coupon'
+      end
+
+      context 'when order has credit' do
+        include_examples 'changes neither order nor coupon balance'
+      end
+
+      context 'when order has balance greather than coupon credit' do
+        let(:previous_balance) { -42 }
+
+        it_behaves_like 'transfers from coupon to order' do
+          let(:new_order_balance) { -17 }
+          let(:new_coupon_balance) { 0 }
+        end
+      end
+
+      context 'when order has balance less than coupon credit' do
+        let(:previous_balance) { -24 }
+
+        it_behaves_like 'transfers from coupon to order' do
+          let(:new_order_balance) { 0 }
+          let(:new_coupon_balance) { 1 }
+        end
+      end
+
+      context 'when order balance equals coupon credit' do
+        let(:previous_balance) { -25 }
+
+        it_behaves_like 'transfers from coupon to order' do
+          let(:new_order_balance) { 0 }
+          let(:new_coupon_balance) { 0 }
+        end
+      end
     end
   end
 end

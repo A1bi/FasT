@@ -13,10 +13,8 @@ module Ticketing
       @date = date
     end
 
-    def execute
+    def execute(free_tickets: true, credit: true)
       return if coupons.empty?
-
-      tickets_by_price = order.tickets.to_a.sort_by(&:price)
 
       coupons.each do |coupon|
         next if coupon.expired?
@@ -24,13 +22,14 @@ module Ticketing
         order.redeemed_coupons << coupon
         log_redemption(coupon)
 
-        redeem_free_tickets(coupon, tickets_by_price)
+        redeem_free_tickets(coupon) if free_tickets
+        redeem_credit(coupon) if credit
       end
     end
 
     private
 
-    def redeem_free_tickets(coupon, tickets_by_price)
+    def redeem_free_tickets(coupon)
       return if params[:ignore_free_tickets].present?
 
       coupon.free_tickets.times do
@@ -39,6 +38,12 @@ module Ticketing
         tickets_by_price.pop.type = free_ticket_type
         coupon.free_tickets -= 1
       end
+    end
+
+    def redeem_credit(coupon)
+      return unless coupon.billing_account.credit?
+
+      order_billing_service.deposit_coupon_credit(coupon)
     end
 
     def log_redemption(coupon)
@@ -58,6 +63,14 @@ module Ticketing
 
         type
       end
+    end
+
+    def tickets_by_price
+      @tickets_by_price ||= order.tickets.to_a.sort_by(&:price)
+    end
+
+    def order_billing_service
+      @order_billing_service ||= OrderBillingService.new(order)
     end
   end
 end

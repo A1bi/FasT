@@ -4,7 +4,7 @@ require_shared_examples 'ticketing/loggable'
 
 RSpec.describe Ticketing::CouponRedeemService do
   subject do
-    service.execute
+    service.execute(**execution_params)
     order.save
   end
 
@@ -14,104 +14,149 @@ RSpec.describe Ticketing::CouponRedeemService do
   let(:date) { event.dates.first }
   let(:codes) { [*coupons.pluck(:code), 'foooo'] }
   let(:ignore_free_tickets) { false }
-  let!(:tickets) do
-    type = create(:ticket_type, event: event, price: 1000)
-    type2 = create(:ticket_type, event: event, price: 999)
-    event.ticket_types += [type, type2]
-
-    ticket = build(:ticket, order: order, date: date, type: type)
-    ticket2 = build(:ticket, order: order, date: date, type: type2)
-
-    # mix expensive tickets with cheaper tickets
-    order.tickets = [
-      build(:ticket, order: order, date: date, type: event.ticket_types.first),
-      ticket,
-      build(:ticket, order: order, date: date, type: event.ticket_types.first),
-      ticket2,
-      build(:ticket, order: order, date: date, type: event.ticket_types.first)
-    ]
-
-    [ticket, ticket2]
-  end
-  let(:coupons) do
-    [
-      create(:coupon, :expired, free_tickets: 2),
-      create(:coupon, free_tickets: 2)
-    ]
-  end
   let(:params) do
     { ignore_free_tickets: ignore_free_tickets, coupon_codes: codes }
   end
+  let(:execution_params) { { free_tickets: true, credit: true } }
 
-  context 'when free ticket type does not exist' do
-    it {
-      expect { subject }.to raise_error(Ticketing::CouponRedeemService::
-                                        FreeTicketTypeMissingError)
-    }
-  end
+  context 'with a free tickets coupon' do
+    let!(:tickets) do
+      type = create(:ticket_type, event: event, price: 1000)
+      type2 = create(:ticket_type, event: event, price: 999)
+      event.ticket_types += [type, type2]
 
-  context 'when free ticket type exists' do
-    let!(:free_ticket_type) do
-      type = create(:ticket_type, :free, event: event)
-      event.ticket_types << type
-      type
+      ticket = build(:ticket, order: order, date: date, type: type)
+      ticket2 = build(:ticket, order: order, date: date, type: type2)
+
+      # mix expensive tickets with cheaper tickets
+      order.tickets = [
+        build(:ticket, order: order, date: date,
+                       type: event.ticket_types.first),
+        ticket,
+        build(:ticket, order: order, date: date,
+                       type: event.ticket_types.first),
+        ticket2,
+        build(:ticket, order: order, date: date, type: event.ticket_types.first)
+      ]
+
+      [ticket, ticket2]
+    end
+    let(:coupons) do
+      [
+        create(:coupon, :expired, free_tickets: 2),
+        create(:coupon, free_tickets: 2)
+      ]
     end
 
-    it 'redeems only the valid coupon' do
-      subject
-      expect(order.redeemed_coupons).to contain_exactly(coupons.second)
+    context 'when free ticket type does not exist' do
+      it {
+        expect { subject }.to raise_error(Ticketing::CouponRedeemService::
+                                          FreeTicketTypeMissingError)
+      }
     end
 
-    context 'when free tickets should be used' do
-      it 'changes the ticket type to free, tickets with highest price first' do
-        expect { subject }
-          .to change { tickets.map(&:type).uniq }.to([free_ticket_type])
+    context 'when free ticket type exists' do
+      let!(:free_ticket_type) do
+        type = create(:ticket_type, :free, event: event)
+        event.ticket_types << type
+        type
       end
 
-      it 'decreases the remaining free tickets' do
-        expect { subject }.to change { coupons.last.reload.free_tickets }.to(0)
+      it 'redeems only the valid coupon' do
+        subject
+        expect(order.redeemed_coupons).to contain_exactly(coupons.second)
       end
 
-      context 'when more free tickets than ordered tickets are available' do
-        let(:tickets) do
-          order.tickets = [build(:ticket, order: order, date: date,
-                                          type: event.ticket_types.first)]
+      context 'when free tickets should be used' do
+        it 'changes the ticket type to free, tickets w/ highest price first' do
+          expect { subject }
+            .to change { tickets.map(&:type).uniq }.to([free_ticket_type])
         end
 
         it 'decreases the remaining free tickets' do
           expect { subject }
-            .to change { coupons.last.reload.free_tickets }.to(1)
+            .to change { coupons.last.reload.free_tickets }.to(0)
+        end
+
+        context 'when more free tickets than ordered tickets are available' do
+          let(:tickets) do
+            order.tickets = [build(:ticket, order: order, date: date,
+                                            type: event.ticket_types.first)]
+          end
+
+          it 'decreases the remaining free tickets' do
+            expect { subject }
+              .to change { coupons.last.reload.free_tickets }.to(1)
+          end
+        end
+
+        context 'when multiple valid coupons are provided' do
+          # there are 5 tickets in the order and 4 free tickets in coupons
+          let(:coupons) { create_list(:coupon, 2, free_tickets: 2) }
+
+          it 'sets the remaining free tickets correctly' do
+            expect { subject }.to(
+              change { coupons[0].reload.free_tickets }.to(0)
+              .and(change { coupons[1].reload.free_tickets }.to(0))
+            )
+          end
+
+          it 'changes the ticket type of only four tickets' do
+            expect { subject }.not_to change(order.tickets.first, :type)
+            expect(order.tickets[1..].map(&:type)).to all(eq(free_ticket_type))
+          end
         end
       end
 
-      context 'when multiple valid coupons are provided' do
-        # there are 5 tickets in the order and 4 free tickets in coupons
-        let(:coupons) { create_list(:coupon, 2, free_tickets: 2) }
+      it_behaves_like 'creates a log event', :redeemed do
+        let(:loggable) { coupons.last }
+      end
 
-        it 'sets the remaining free tickets correctly' do
-          expect { subject }.to(
-            change { coupons[0].reload.free_tickets }.to(0)
-            .and(change { coupons[1].reload.free_tickets }.to(0))
-          )
+      it_behaves_like 'does not create a log event' do
+        let(:loggable) { coupons.first }
+      end
+
+      shared_examples 'does not redeem free tickets' do
+        it 'does not change any ticket type' do
+          expect { subject }.not_to(change { order.tickets.map(&:type) })
         end
 
-        it 'changes the ticket type of only four tickets' do
-          expect { subject }.not_to change(order.tickets.first, :type)
-          expect(order.tickets[1..].map(&:type)).to all(eq(free_ticket_type))
+        it 'does not decrease the remaining free tickets' do
+          expect { subject }.not_to(change { coupons.last.reload.free_tickets })
         end
+      end
+
+      context 'when free tickets should be ignored' do
+        let(:ignore_free_tickets) { true }
+
+        include_examples 'does not redeem free tickets'
+      end
+
+      context 'when free tickets coupon redemption is not desired' do
+        let(:execution_params) { { free_tickets: false } }
+
+        include_examples 'does not redeem free tickets'
       end
     end
+  end
 
-    context 'when free tickets should be ignored' do
-      let(:ignore_free_tickets) { true }
+  context 'with a credit coupon' do
+    let(:coupons) do
+      [
+        create(:coupon, :expired, :with_credit),
+        create(:coupon, :with_credit, value: 25)
+      ]
+    end
 
-      it 'does not change any ticket type' do
-        expect { subject }.not_to(change { order.tickets.map(&:type) })
-      end
+    before { order.billing_account.balance = -33 }
 
-      it 'does not decrease the remaining free tickets' do
-        expect { subject }.not_to(change { coupons.last.reload.free_tickets })
-      end
+    it 'adds the coupon credit to the order account' do
+      expect { subject }
+        .to change(order.billing_account, :balance).from(-33).to(-8)
+    end
+
+    it 'updates the coupon credit' do
+      expect { subject }.to change { coupons.last.reload.value }.from(25).to(0)
     end
 
     it_behaves_like 'creates a log event', :redeemed do
@@ -120,6 +165,69 @@ RSpec.describe Ticketing::CouponRedeemService do
 
     it_behaves_like 'does not create a log event' do
       let(:loggable) { coupons.first }
+    end
+
+    context 'with multiple credit coupons with lower value than order' do
+      let(:coupons) do
+        [
+          create(:coupon, :with_credit, value: 25),
+          create(:coupon, :with_credit, value: 10)
+        ]
+      end
+
+      it 'adds the coupon credit to the order account' do
+        expect { subject }
+          .to change(order.billing_account, :balance).from(-33).to(0)
+      end
+
+      it 'updates the coupon credit' do
+        expect { subject }.to(
+          change { coupons[0].reload.value }.from(25).to(0)
+          .and(change { coupons[1].reload.value }.from(10).to(2))
+        )
+      end
+    end
+
+    context 'when credit coupon redemption is not desired' do
+      let(:execution_params) { { credit: false } }
+
+      it 'does not change the order balance' do
+        expect { subject }.not_to change(order.billing_account, :balance)
+      end
+
+      it 'does not change the coupon balance' do
+        expect { subject }.not_to(change { coupons[1].reload.value })
+      end
+    end
+  end
+
+  context 'with coupons with mixed value types' do
+    let(:coupons) do
+      [
+        create(:coupon, :with_free_tickets, free_tickets: 2),
+        create(:coupon, :with_credit, value: 15)
+      ]
+    end
+
+    before do
+      type = create(:ticket_type, event: event, price: 10)
+      type2 = create(:ticket_type, event: event, price: 20)
+      type3 = create(:ticket_type, :free, event: event)
+      event.ticket_types += [type, type2, type3]
+
+      order.tickets += build_list(:ticket, 2, order: order, date: date,
+                                              type: type)
+      order.tickets += build_list(:ticket, 2, order: order, date: date,
+                                              type: type2)
+
+      order.billing_account.balance = -20
+    end
+
+    it 'redeems both free tickets and credit' do
+      subject
+      expect(order.tickets[..1].map(&:price)).to eq([10, 10])
+      expect(order.tickets[2..].map(&:price)).to eq([0, 0])
+      expect(order.billing_account.balance).to eq(-5)
     end
   end
 end
