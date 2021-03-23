@@ -17,8 +17,6 @@ module Ticketing
       return if coupons.empty?
 
       tickets_by_price = order.tickets.to_a.sort_by(&:price)
-      free_ticket_type = date.event.ticket_types.find_by(price: 0)
-      raise FreeTicketTypeMissingError if free_ticket_type.nil?
 
       coupons.each do |coupon|
         next if coupon.expired?
@@ -51,6 +49,15 @@ module Ticketing
       return [] if params[:coupon_codes].blank?
 
       @coupons ||= Ticketing::Coupon.where(code: params[:coupon_codes])
+    end
+
+    def free_ticket_type
+      @free_ticket_type ||= begin
+        type = date.event.ticket_types.find_by(price: 0)
+        raise FreeTicketTypeMissingError if type.nil?
+
+        type
+      end
     end
   end
 end

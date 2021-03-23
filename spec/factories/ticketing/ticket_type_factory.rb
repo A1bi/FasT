@@ -5,5 +5,11 @@ FactoryBot.define do
     name { 'Sample type' }
     price { rand(1.0..50).floor(2) }
     event
+
+    trait :free do
+      name { 'Free' }
+      price { 0 }
+      availability { :exclusive }
+    end
   end
 end
