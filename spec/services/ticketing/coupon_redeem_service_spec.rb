@@ -201,7 +201,23 @@ RSpec.describe Ticketing::CouponRedeemService do
     end
   end
 
-  context 'with coupons with mixed value types' do
+  context 'with same coupon multiple times' do
+    let(:codes) { [coupon.code] * 2 }
+    let(:coupon) { create(:coupon, :with_credit, value: 5) }
+
+    before { order.billing_account.balance = -20 }
+
+    it 'transfers coupon credit only once' do
+      expect { subject }.to change(order.billing_account, :balance).to(-15)
+    end
+
+    it 'creates redemption only once' do
+      subject
+      expect(order.redeemed_coupons).to contain_exactly(coupon)
+    end
+  end
+
+  shared_examples 'mixed redemption' do
     let(:coupons) do
       [
         create(:coupon, :with_free_tickets, free_tickets: 2),
@@ -223,11 +239,46 @@ RSpec.describe Ticketing::CouponRedeemService do
       order.billing_account.balance = -20
     end
 
-    it 'redeems both free tickets and credit' do
+    it 'redeems free tickets and transfers credit' do
       subject
       expect(order.tickets[..1].map(&:price)).to eq([10, 10])
       expect(order.tickets[2..].map(&:price)).to eq([0, 0])
       expect(order.billing_account.balance).to eq(-5)
+    end
+
+    it 'creates a redemption once for each coupon' do
+      subject
+      expect(order.redeemed_coupons).to contain_exactly(*coupons)
+    end
+  end
+
+  context 'with coupons with mixed value types' do
+    include_examples 'mixed redemption'
+  end
+
+  context 'when executed multiple times with different params' do
+    subject do
+      service.execute(credit: false)
+      service.execute(free_tickets: false)
+      order.save
+    end
+
+    include_examples 'mixed redemption'
+  end
+
+  context 'with a coupon already added to this order previously' do
+    let(:coupons) { [create(:coupon, :with_credit, value: 15)] }
+
+    before do
+      order.billing_account.balance = -20
+      order.redeemed_coupons << coupons.first
+    end
+
+    it 'does not redeem the coupon again' do
+      expect { subject }.to(
+        not_change(order.billing_account, :balance)
+        .and(not_change(order.redeemed_coupons, :size))
+      )
     end
   end
 end
