@@ -15,12 +15,19 @@ RSpec.describe Ticketing::OrderCreateService do
   let(:order_params) do
     {
       date: date_id,
-      tickets: ticket_params
+      tickets: ticket_params,
+      coupon_codes: coupons.pluck(:code)
     }
   end
   let(:event) { create(:event, :complete) }
+  let!(:free_ticket_type) { create(:ticket_type, :free, event: event) }
   let(:date_id) { event.dates.first.id }
-  let(:ticket_params) { { event.ticket_types.first.id => 1 } }
+  let(:ticket_params) { { event.ticket_types[0].id => 2 } }
+  let(:coupons) do
+    [create(:coupon, :with_credit, value: 1),
+     create(:coupon, :with_free_tickets, free_tickets: 1)]
+  end
+  let(:order) { Ticketing::Order.last }
 
   context 'with a web order' do
     let(:type) { :web }
@@ -44,18 +51,33 @@ RSpec.describe Ticketing::OrderCreateService do
     end
 
     context 'when params are valid' do
-      let(:loggable) { Ticketing::Order.last }
+      it 'creates tickets with the correct type' do
+        subject
+        expect(order.tickets.count).to eq(2)
+        expect(order.tickets[0].type).to eq(event.ticket_types[0])
+        expect(order.tickets[1].type).to eq(free_ticket_type)
+      end
+
+      it 'redeems credit coupons' do
+        subject
+        total = event.ticket_types[0].price
+        expect(order.total).to eq(total)
+        expect(order.billing_account.balance)
+          .to eq(-total + coupons.first.value)
+      end
 
       it 'sends a confirmation' do
         expect { subject }.to(
           have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
             .with do |params|
-              expect(params[:params][:order]).to eq(Ticketing::Order.last)
+              expect(params[:params][:order]).to eq(order)
             end
         )
       end
 
-      include_examples 'creates a log event for a new record', :created
+      include_examples 'creates a log event for a new record', :created do
+        let(:loggable) { order }
+      end
     end
 
     context 'when params are invalid' do

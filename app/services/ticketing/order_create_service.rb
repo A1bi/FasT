@@ -29,8 +29,10 @@ module Ticketing
 
       update_balance do
         create_items
-        redeem_coupons
+        redeem_coupons(credit: false)
       end
+
+      redeem_coupons(free_tickets: false)
 
       Covid19AttendeeCreateService.new(params.dig(:covid19, :attendees), @order)
                                   .execute
@@ -61,8 +63,13 @@ module Ticketing
       CouponCreateService.new(@order, current_user, order_params).execute
     end
 
-    def redeem_coupons
-      CouponRedeemService.new(@order, date, current_user, order_params).execute
+    def redeem_coupons(options)
+      coupon_redeem_service.execute(**options)
+    end
+
+    def coupon_redeem_service
+      @coupon_redeem_service ||=
+        CouponRedeemService.new(@order, date, current_user, order_params)
     end
 
     def update_balance(&block)
