@@ -4,7 +4,7 @@ module Ticketing
   module Billing
     class Account < ApplicationRecord
       belongs_to :billable, polymorphic: true, inverse_of: :billing_account
-      has_many :transactions, -> { order(created_at: :desc) },
+      has_many :transactions, -> { order(:created_at) },
                inverse_of: :account, dependent: :destroy
 
       validates :balance, numericality: true

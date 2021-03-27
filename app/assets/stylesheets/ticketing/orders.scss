@@ -18,37 +18,6 @@ table.details {
     text-align: left;
   }
 
-  &.billingLog {
-    .log {
-      tr:last-child td {
-        border-top: 2px solid #ccc;
-        font-weight: bold;
-      }
-
-      td {
-        text-align: left;
-
-        &:last-child {
-          text-align: right;
-        }
-
-        &.positive {
-          color: green;
-        }
-
-        &.negative {
-          color: red;
-        }
-      }
-    }
-
-    tbody:last-child {
-      input[type=text] {
-        width: 50px;
-      }
-    }
-  }
-
   &.search {
     th:last-child {
       width: 70%;
@@ -747,3 +716,5 @@ table.details {
     }
   }
 }
+
+@import 'billing';

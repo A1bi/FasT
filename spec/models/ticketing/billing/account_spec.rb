@@ -6,7 +6,7 @@ RSpec.describe Ticketing::Billing::Account do
 
     it do
       expect(subject).to have_many(:transactions)
-        .inverse_of(:account).dependent(:destroy).order(created_at: :desc)
+        .inverse_of(:account).dependent(:destroy).order(:created_at)
     end
   end
 

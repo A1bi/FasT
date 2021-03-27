@@ -20,8 +20,7 @@ module Ticketing
         render :index_admin
 
       elsif current_user.retail?
-        @transactions = current_user.store.billing_account
-                                    .transactions.order(:created_at)
+        @transactions = current_user.store.billing_account.transactions
         render :index_retail
       end
     end

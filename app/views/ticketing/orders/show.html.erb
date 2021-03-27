@@ -26,7 +26,7 @@
         <td>
           <% if @order.redeemed_coupons.any? %>
             <% @order.redeemed_coupons.each do |coupon| %>
-              <div><%= link_to_if(policy(coupon).show?, coupon.recipient, coupon) %></div>
+              <div><%= link_to_if(policy(coupon).show?, coupon.recipient.presence || "##{coupon.id}", coupon) %></div>
             <% end %>
           <% else %>
             <em class="small">keiner</em>

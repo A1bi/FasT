@@ -360,6 +360,7 @@ de:
           cash_refund_at_box_office: Barrückzahlung an Abendkasse
           retail_store_billing: Abrechnung
           purchased_coupon: Gutschein gekauft
+          redeemed_coupon: Gutscheinguthaben eingelöst
   attributes:
     title: "Titel"
     email: "e-mail-Adresse"

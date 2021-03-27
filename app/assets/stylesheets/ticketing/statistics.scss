@@ -62,28 +62,6 @@ $total-border: 2px $light-blue solid;
       }
     }
   }
-
-  .billing {
-    td {
-      &:not(.amount) {
-        text-align: left !important;
-      }
-
-      &.amount {
-        text-align: right;
-
-        &.positive {
-          color: green;
-        }
-
-        &.negative {
-          color: red;
-        }
-      }
-    }
-
-    .total {
-      font-weight: bold;
-    }
-  }
 }
+
+@import 'billing';
