@@ -1,7 +1,7 @@
 vielen Dank für Ihre <%= order_with_number(@order) %>.
 
 
-<%= render "items" %>
+<%= render "items", billing: true %>
 
 
 <% if @order.charge_payment? %>

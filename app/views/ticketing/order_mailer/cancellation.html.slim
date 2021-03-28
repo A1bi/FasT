@@ -12,6 +12,6 @@
 p Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
 
 - unless @order.cancelled?
-  = render 'items', introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:'
+  = render 'items', billing: true, introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:'
 
 p Mit freundlichen Grüßen

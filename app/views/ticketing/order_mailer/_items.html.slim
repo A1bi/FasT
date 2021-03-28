@@ -6,9 +6,8 @@ table#items
   - if @coupons.any?
     = render 'coupons_table'
 
-  tr.total
-    td colspan='3' Gesamt
-    td.amount colspan='1' = number_to_currency(@order.total)
+  - if local_assigns[:billing]
+    = render 'billing'
 
 - if attach_tickets?
   - if @order.covid19?

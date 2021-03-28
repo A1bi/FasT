@@ -1,0 +1,13 @@
+tr.total
+  td colspan='3' Gesamt
+  td.amount colspan='1' = number_to_currency(@order.total)
+
+- if @order.total != -@order.billing_account.balance
+  - @order.billing_account.transactions.each do |transaction|
+    - next if transaction.note_key == 'order_created'
+    tr
+      td colspan='3' = translate_billing_transaction(transaction)
+      td.amount colspan='1' = number_to_currency(-transaction.amount)
+  tr.total
+    td colspan='3' Noch zu zahlen
+    td.amount colspan='1' = order_balance(@order)
