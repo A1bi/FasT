@@ -1,0 +1,7 @@
+<% if @order.redeemed_coupons.any? %>
+
+Eingelöste Gutscheine:
+<% @order.redeemed_coupons.each do |coupon| %>
+<%= coupon.code %> (Restwert: <%= number_to_currency(coupon.billing_account.balance) %>)
+<% end %>
+<% end %>

@@ -2,7 +2,10 @@ Ihre bestellten Artikel:
 
 <%= render 'tickets_table' %>
 <%= render 'coupons_table' %>
-<%= render 'billing' if local_assigns[:billing] %>
+<% if local_assigns[:billing] %>
+  <%= render 'billing' %>
+  <%= render 'redeemed_coupons' %>
+<% end %>
 
 <% if attach_tickets? %>
 <% if @order.covid19? %>

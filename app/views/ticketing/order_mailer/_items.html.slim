@@ -5,9 +5,11 @@ table#items
     = render 'tickets_table'
   - if @coupons.any?
     = render 'coupons_table'
-
   - if local_assigns[:billing]
     = render 'billing'
+
+- if local_assigns[:billing]
+  = render 'redeemed_coupons'
 
 - if attach_tickets?
   - if @order.covid19?
