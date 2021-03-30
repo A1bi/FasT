@@ -26,13 +26,7 @@ module Ticketing
       end
 
       validate_event
-
-      update_balance do
-        create_items
-        redeem_coupons(credit: false)
-      end
-
-      redeem_coupons(free_tickets: false)
+      populate_order
 
       Covid19AttendeeCreateService.new(params.dig(:covid19, :attendees), @order)
                                   .execute
@@ -58,32 +52,17 @@ module Ticketing
       @order.errors.add(:event, 'Sold out') if sold_out?
     end
 
-    def create_items
-      TicketCreateService.new(@order, date, current_user, params).execute
-      CouponCreateService.new(@order, current_user, order_params).execute
-    end
-
-    def redeem_coupons(options)
-      coupon_redeem_service.execute(**options)
-    end
-
-    def coupon_redeem_service
-      @coupon_redeem_service ||=
-        CouponRedeemService.new(@order, date, current_user, order_params)
-    end
-
-    def update_balance(&block)
-      service = OrderBillingService.new(@order)
-      service.update_balance(:order_created, &block)
-      service.settle_balance_with_retail_account if retail?
-    end
-
     def create_payment
       @order.pay_method = order_params[:payment][:method]
       return unless @order.charge_payment?
 
       charge_params = order_params[:payment].slice(:name, :iban)
       @order.build_bank_charge(charge_params)
+    end
+
+    def populate_order
+      OrderPopulateService.new(@order, params, current_user: current_user)
+                          .execute
     end
 
     def finalize_order
