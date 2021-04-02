@@ -36,11 +36,14 @@ module Ticketing
       def update_total
         old_total = total
         super
-        return unless pay_method.blank? && old_total.zero? && total.positive?
 
         # set default pay method when a free order (without a pay method set)
         # turns into a non-free order
-        self.pay_method = :cash
+        if pay_method.blank? && old_total.zero? && total.positive?
+          self.pay_method = :cash
+        end
+
+        total
       end
 
       def update_paid

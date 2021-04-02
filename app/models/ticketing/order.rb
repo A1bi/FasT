@@ -14,6 +14,7 @@ module Ticketing
     NUM_TICKETS_MAX = 2**8 - 1
 
     attr_readonly :date
+    attr_reader :total_before_coupons
 
     has_many :tickets, -> { order(:order_index) },
              inverse_of: :order, dependent: :destroy, autosave: true
@@ -80,6 +81,10 @@ module Ticketing
       end
 
       self.total += purchased_coupons.sum(&:initial_value)
+    end
+
+    def set_total_before_coupons
+      @total_before_coupons = update_total
     end
 
     def update_paid

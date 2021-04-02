@@ -141,6 +141,23 @@ RSpec.shared_examples 'generic order' do |order_factory|
     it 'sets the correct total (excluding the cancelled ticket)' do
       expect { subject }.to change(order, :total).from(0).to(total)
     end
+
+    it 'returns the new total' do
+      expect(subject).to eq(total)
+    end
+  end
+
+  describe '#set_total_before_coupons' do
+    subject { order.set_total_before_coupons }
+
+    let(:order) { create(order_factory, :with_purchased_coupons) }
+
+    before { allow(order).to receive(:update_total).and_return(5) }
+
+    it 'sets the correct total (excluding the cancelled ticket)' do
+      expect(order).to receive(:update_total)
+      expect { subject }.to change(order, :total_before_coupons).to(5)
+    end
   end
 
   it_behaves_like 'billable'

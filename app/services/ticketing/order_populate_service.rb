@@ -11,6 +11,7 @@ module Ticketing
     def execute
       update_balance do
         create_items
+        @order.set_total_before_coupons
         redeem_coupons(credit: false)
       end
 

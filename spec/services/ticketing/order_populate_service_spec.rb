@@ -58,6 +58,12 @@ RSpec.describe Ticketing::OrderPopulateService do
     expect(order.billing_account.balance).to eq(-total + coupons.first.value)
   end
 
+  it 'sets total_before_coupons' do
+    total = (event.ticket_types[0].price + event.ticket_types[1].price) * 2 + 3
+    expect { subject }.to change(order, :total_before_coupons).to(total)
+    expect(order.total_before_coupons).to be > order.total
+  end
+
   context 'with a retail order' do
     let(:order) { Ticketing::Retail::Order.new }
     let(:store) { create(:retail_store) }
