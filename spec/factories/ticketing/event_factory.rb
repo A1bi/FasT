@@ -20,6 +20,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_free_ticket_type do
+      after(:create) do |event|
+        create(:ticket_type, :free, event: event)
+      end
+    end
+
     trait :complete do
       with_dates
       with_ticket_types

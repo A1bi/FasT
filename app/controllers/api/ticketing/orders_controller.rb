@@ -25,7 +25,18 @@ module Api
         set_flash_notice
       end
 
+      def totals
+        @order = ::Ticketing::Order.new
+        populate_order
+      end
+
       private
+
+      def populate_order
+        ::Ticketing::OrderPopulateService
+          .new(@order, order_params, current_user: current_user)
+          .execute
+      end
 
       def order_params
         params.permit(

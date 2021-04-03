@@ -198,7 +198,9 @@ Rails.application.routes.draw do
   scope path: :api, as: :api, defaults: { format: :json } do
     scope module: :api do
       namespace :ticketing do
-        resources :orders, only: [:create]
+        resources :orders, only: [:create] do
+          post :totals, on: :collection
+        end
 
         namespace :box_office do
           resources :events, only: :index
