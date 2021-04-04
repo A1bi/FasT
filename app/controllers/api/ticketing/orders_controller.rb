@@ -26,6 +26,9 @@ module Api
       end
 
       def totals
+        event = ::Ticketing::Event.find(params[:event_id])
+        params[:order][:date] = event.dates.first.id
+
         @order = ::Ticketing::Order.new
         populate_order
       end

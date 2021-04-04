@@ -69,7 +69,7 @@ module Ticketing
           type: ticket_type,
           date: date
         )
-        ticket.seat = Ticketing::Seat.find(Array(seats).shift) if seating_plan?
+        ticket.seat = next_seat if seating_plan?
       end
     end
 
@@ -89,7 +89,15 @@ module Ticketing
       )
     end
 
+    def next_seat
+      return if seats.blank?
+
+      Ticketing::Seat.find(seats.shift)
+    end
+
     def seats
+      return if params[:socket_id].blank?
+
       @seats ||= NodeApi.get_chosen_seats(params[:socket_id])
     end
 

@@ -11,8 +11,8 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
 
     let(:params) do
       {
+        'event_id' => event.id,
         'order' => {
-          'date' => event.dates.first.id,
           'ignore_free_tickets' => false,
           'tickets' => {
             event.ticket_types.first.id.to_s => 2
@@ -30,6 +30,16 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
 
     before { sign_in(user: user) }
 
+    shared_examples 'renders totals' do
+      it 'renders totals' do
+        subject
+        total = event.ticket_types.first.price * 2 + 22
+        expect(json_response['total']).to eq(total)
+        expect(json_response['total_before_coupons']).to eq(total)
+        expect(json_response['total_after_coupons']).to eq(total)
+      end
+    end
+
     shared_examples 'no redeemed coupons' do
       it 'renders no redeemed coupons' do
         subject
@@ -38,21 +48,20 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     end
 
     it 'populates an empty order' do
+      service_params = {
+        'order' => {
+          **params['order'],
+          'date' => event.dates.first.id
+        }
+      }
       expect(Ticketing::OrderPopulateService)
-        .to(receive(:new).with(anything, params, current_user: user)
+        .to(receive(:new).with(anything, service_params, current_user: user)
                          .and_call_original)
       subject
     end
 
     context 'without coupons to redeem' do
-      it 'renders totals' do
-        subject
-        total = event.ticket_types.first.price * 2 + 22
-        expect(json_response['total']).to eq(total)
-        expect(json_response['total_before_coupons']).to eq(total)
-        expect(json_response['total_after_coupons']).to eq(total)
-      end
-
+      include_examples 'renders totals'
       include_examples 'no redeemed coupons'
     end
 
@@ -83,6 +92,12 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
       let(:coupons) { [create(:coupon, :expired)] }
 
       include_examples 'no redeemed coupons'
+    end
+
+    context 'with an event with seating plan' do
+      let(:event) { create(:event, :complete, :with_seating_plan) }
+
+      include_examples 'renders totals'
     end
   end
 end

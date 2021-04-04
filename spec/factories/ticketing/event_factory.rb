@@ -26,6 +26,10 @@ FactoryBot.define do
       end
     end
 
+    trait :with_seating_plan do
+      association :seating, :with_plan
+    end
+
     trait :complete do
       with_dates
       with_ticket_types
