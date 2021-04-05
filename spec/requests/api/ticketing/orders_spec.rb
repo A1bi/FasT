@@ -4,24 +4,21 @@ require 'support/api_requests'
 require 'support/authentication'
 
 RSpec.describe 'Api::Ticketing::OrdersController' do
-  describe 'GET #totals' do
+  describe 'POST #totals' do
     subject do
       post_json totals_api_ticketing_orders_path, params: params
     end
 
     let(:params) do
       {
-        'event_id' => event.id,
-        'order' => {
-          'ignore_free_tickets' => false,
-          'tickets' => {
-            event.ticket_types.first.id.to_s => 2
-          },
-          'coupons' => [
-            { 'value' => 11, 'number' => 2 }
-          ],
-          'coupon_codes' => coupons.pluck(:code)
-        }
+        event_id: event.id,
+        tickets: {
+          event.ticket_types.first.id => 2
+        },
+        coupons: [
+          { value: 11, number: 2 }
+        ],
+        coupon_codes: coupons.pluck(:code)
       }
     end
     let(:event) { create(:event, :complete, :with_free_ticket_type) }
@@ -34,9 +31,11 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
       it 'renders totals' do
         subject
         total = event.ticket_types.first.price * 2 + 22
+        expect(json_response['subtotal']).to eq(total)
         expect(json_response['total']).to eq(total)
-        expect(json_response['total_before_coupons']).to eq(total)
         expect(json_response['total_after_coupons']).to eq(total)
+        expect(json_response['free_tickets_discount']).to eq(0)
+        expect(json_response['credit_discount']).to eq(0)
       end
     end
 
@@ -45,19 +44,6 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
         subject
         expect(json_response['redeemed_coupons']).to eq([])
       end
-    end
-
-    it 'populates an empty order' do
-      service_params = {
-        'order' => {
-          **params['order'],
-          'date' => event.dates.first.id
-        }
-      }
-      expect(Ticketing::OrderPopulateService)
-        .to(receive(:new).with(anything, service_params, current_user: user)
-                         .and_call_original)
-      subject
     end
 
     context 'without coupons to redeem' do
@@ -75,11 +61,13 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
 
       it 'renders totals' do
         subject
-        total = event.ticket_types.first.price + 22
+        first_price = event.ticket_types.first.price
+        total = first_price + 22
         expect(json_response['total']).to eq(total)
-        expect(json_response['total_before_coupons'])
-          .to eq(total + event.ticket_types.first.price)
+        expect(json_response['subtotal']).to eq(total + first_price)
         expect(json_response['total_after_coupons']).to eq(total - 13)
+        expect(json_response['free_tickets_discount']).to eq(-first_price)
+        expect(json_response['credit_discount']).to eq(-13)
       end
 
       it 'renders redeemed coupons' do

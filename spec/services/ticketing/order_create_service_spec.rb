@@ -5,7 +5,7 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::OrderCreateService do
   subject { service.execute }
 
-  let(:service) { described_class.new(params) }
+  let(:service) { described_class.new(params, current_user: current_user) }
   let(:params) do
     {
       type: type,
@@ -27,6 +27,7 @@ RSpec.describe Ticketing::OrderCreateService do
     [create(:coupon, :with_credit, value: 1),
      create(:coupon, :with_free_tickets, free_tickets: 1)]
   end
+  let(:current_user) { nil }
   let(:order) { Ticketing::Order.last }
 
   context 'with a web order' do
@@ -87,6 +88,23 @@ RSpec.describe Ticketing::OrderCreateService do
         expect { subject }
           .not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
       end
+    end
+  end
+
+  context 'with a retail order' do
+    let(:type) { :retail }
+    let(:store) { create(:retail_store) }
+    let(:current_user) { create(:retail_user, store: store) }
+
+    before do
+      pdf = double.as_null_object
+      allow(Ticketing::TicketsRetailPdf).to receive(:new).and_return(pdf)
+    end
+
+    it 'withdraws from the retail billing account' do
+      subject
+      expect(order.billing_account.balance).to eq(0)
+      expect(store.billing_account.balance).to eq(-order.total)
     end
   end
 end

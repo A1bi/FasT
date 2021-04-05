@@ -26,20 +26,12 @@ module Api
       end
 
       def totals
-        event = ::Ticketing::Event.find(params[:event_id])
-        params[:order][:date] = event.dates.first.id
-
-        @order = ::Ticketing::Order.new
-        populate_order
+        @result = ::Ticketing::OrderSimulationService.new(
+          simulation_params.to_h
+        ).execute
       end
 
       private
-
-      def populate_order
-        ::Ticketing::OrderPopulateService
-          .new(@order, order_params, current_user: current_user)
-          .execute
-      end
 
       def order_params
         params.permit(
@@ -60,6 +52,11 @@ module Api
             attendees: %i[name street plz city phone]
           }
         )
+      end
+
+      def simulation_params
+        params.permit(:event_id, tickets: {}, coupons: %i[value number],
+                                 coupon_codes: [])
       end
 
       def create_newsletter_subscriber

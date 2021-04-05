@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-json.total @order.total.to_f
-json.total_before_coupons @order.total_before_coupons.to_f
-json.total_after_coupons (-@order.balance).to_f
+@result.slice(:subtotal, :total, :total_after_coupons, :free_tickets_discount,
+              :credit_discount).each do |key, value|
+  json.set! key, value.to_f
+end
 
-json.redeemed_coupons @order.redeemed_coupons.map(&:code)
+json.redeemed_coupons @result[:redeemed_coupons].pluck(:code)
