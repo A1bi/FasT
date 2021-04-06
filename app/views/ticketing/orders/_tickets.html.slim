@@ -1,4 +1,4 @@
-.stepCon.tickets
+.stepCon.tickets data={ 'totals-url': totals_api_ticketing_orders_path }
   = event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen })
 
   - if action_name == 'new'
@@ -51,6 +51,12 @@
             = check_box_tag(:ignore_free_tickets)
             = label_tag :ignore_free_tickets
               | Freikarten nicht in Anspruch nehmen
+        tr.discount.free_tickets
+          td colspan='3' Abzug durch Freikartengutscheine
+          td.amount
+        tr.discount.credit
+          td colspan='3' Abzug durch Wertgutscheine
+          td.amount
         tr.total
           td colspan='3' Gesamt
           td.total <span></span> €

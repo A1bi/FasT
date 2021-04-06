@@ -23,6 +23,7 @@ export default class extends Controller {
     this.progressBox = $('.progress')
     this.modalBox = this.stepBox.find('.modalAlert')
 
+    this.eventId = this.element.dataset.eventId
     this.coupons = this.element.dataset.coupons
     this.type = this.element.dataset.type
     this.retail = this.type === 'retail'

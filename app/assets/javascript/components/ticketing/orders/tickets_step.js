@@ -13,15 +13,14 @@ export default class extends Step {
 
     this.info.internal = {
       ticketTotals: {},
-      coupons: [],
-      exclusiveSeats: false
+      coupons: []
     }
 
+    this.totalsUrl = this.box.data('totals-url')
     this.couponBox = this.box.find('.coupon')
     this.couponField = this.couponBox.find('input[name=code]')
-    this.registerEventAndInitiate(this.box.find('select'), 'change', $this => {
-      this.choseNumber($this)
-    })
+    this.box.find('select').on('change', () => this.updateNumbers())
+    this.updateNumbers()
     this.couponField.keyup(event => {
       if (event.which === 13) this.addCoupon()
     })
@@ -33,7 +32,7 @@ export default class extends Step {
     this.registerEventAndInitiate(
       this.box.find('tr.ignore_free_tickets input'), 'change', $this => {
         this.info.api.ignore_free_tickets = $this.is(':checked')
-        this.updateDiscounts()
+        this.updateSubtotal()
       }
     )
     this.box.find('.event-header').on('load', () => this.resizeDelegateBox(true))
@@ -44,7 +43,6 @@ export default class extends Step {
   }
 
   updateSubtotal () {
-    this.info.internal.subtotal = 0
     this.info.internal.numberOfTickets = 0
     this.tickets = []
     this.box.find('.number tr').each((_, number) => {
@@ -52,7 +50,6 @@ export default class extends Step {
       if ($this.is('.date_ticketing_ticket_type')) {
         const number = parseInt($this.find('select').val())
         this.info.internal.numberOfTickets += number
-        this.info.internal.subtotal += this.getTypeTotal($this)
         for (let i = 0; i < number; i++) {
           this.tickets.push($this.data('price'))
         }
@@ -60,23 +57,46 @@ export default class extends Step {
         togglePluralText(
           $this.find('td').first(), this.info.internal.numberOfTickets
         )
-        $this.find('.total span')
-          .html(this.formatCurrency(this.info.internal.subtotal))
       }
     })
 
-    this.updateDiscounts()
-    this.delegate.updateNextBtn()
+    return fetch(this.totalsUrl, 'post', {
+      event_id: this.delegate.eventId,
+      tickets: this.info.api.tickets,
+      ignore_free_tickets: this.info.api.ignore_free_tickets,
+      coupon_codes: this.info.api.couponCodes
+    }).then(res => {
+      this.info.api.couponCodes = res.redeemed_coupons
+      this.info.internal = {
+        ...this.info.internal,
+        subtotal: res.subtotal,
+        total: res.total,
+        totalAfterCoupons: res.total_after_coupons,
+        freeTicketsDiscount: res.free_tickets_discount,
+        creditDiscount: res.credit_discount,
+        discount: res.free_tickets_discount + res.credit_discount
+      }
+
+      this.box.find('.number tr.subtotal .total span')
+        .html(this.formatCurrency(this.info.internal.subtotal))
+
+      this.updateDiscounts()
+      this.delegate.updateNextBtn()
+    })
   }
 
-  choseNumber ($this) {
-    const typeBox = $this.parents('tr')
-    const typeId = typeBox.data('id')
-    const total = this.formatCurrency(this.getTypeTotal(typeBox))
-    typeBox.find('td.total span').html(total)
+  updateNumbers () {
+    this.box.find('select').each((_, select) => {
+      select = $(select)
+      const typeBox = select.parents('tr')
+      const typeId = typeBox.data('id')
+      const total = this.formatCurrency(this.getTypeTotal(typeBox))
+      typeBox.find('td.total span').html(total)
 
-    this.info.api.tickets[typeId] = parseInt($this.val())
-    this.info.internal.ticketTotals[typeId] = total
+      this.info.api.tickets[typeId] = parseInt(select.val())
+      this.info.internal.ticketTotals[typeId] = total
+    })
+
     this.updateSubtotal()
 
     this.addBreadcrumb('set ticket number', {
@@ -85,52 +105,44 @@ export default class extends Step {
   }
 
   addCoupon () {
+    this.delegate.toggleModalSpinner(true)
+
     const code = this.couponBox.find('input[name=code]').val()
     if (this.info.api.couponCodes.indexOf(code) > -1) {
       this.couponError('added')
     } else if (code !== '') {
-      this.delegate.toggleModalSpinner(true)
+      this.info.api.couponCodes.push(code)
 
-      this.postCouponCode(this.couponBox.data('add-url'), code)
-        .then(res => this.couponAdded(res.coupon))
-        .catch(res => this.couponError(res.data?.error))
+      this.updateSubtotal()
+        .then(result => {
+          if (this.info.api.couponCodes.indexOf(code) > -1) {
+            this.couponAdded()
+          } else {
+            this.couponError('invalid')
+          }
+        })
+        .finally(() => this.delegate.toggleModalSpinner(false))
     }
   }
 
   removeCoupon (index) {
     this.delegate.toggleModalSpinner(true)
 
-    const code = this.info.api.couponCodes[index]
-    this.postCouponCode(this.couponBox.data('remove-url'), code)
-      .then(res => {
-        this.info.internal.coupons.splice(index, 1)
-        this.info.api.couponCodes.splice(index, 1)
+    this.info.api.couponCodes.splice(index, 1)
+
+    this.updateSubtotal()
+      .then(() => {
         this.updateAddedCoupons()
         this.updateCouponResult('', false)
-        this.delegate.toggleModalSpinner(false)
       })
       .finally(() => this.delegate.toggleModalSpinner(false))
   }
 
-  postCouponCode (url, code) {
-    return fetch(url, 'post', {
-      code: code,
-      socket_id: this.delegate.getStepInfo('seats').api.socketId
-    })
-  }
-
-  couponAdded (coupon) {
-    let msg = 'Ihr Gutschein wurde erfolgreich hinzugefügt. Weitere Gutscheine sind möglich.'
-
-    this.info.internal.coupons.push(coupon)
-    this.info.api.couponCodes.push(this.couponField.val())
+  couponAdded () {
+    const msg = 'Ihr Gutschein wurde erfolgreich hinzugefügt. Weitere Gutscheine sind möglich.'
 
     this.updateAddedCoupons()
     this.trackPiwikGoal(2)
-
-    if (coupon.seats) {
-      msg += ' Es wurden exklusive Sitzplätze für Sie freigeschaltet.'
-    }
 
     this.couponField.blur().val('')
     this.delegate.toggleModalSpinner(false)
@@ -143,14 +155,11 @@ export default class extends Step {
   couponError (error) {
     let msg
     switch (error) {
-      case 'expired':
-        msg = 'Dieser Code ist leider abgelaufen.'
+      case 'invalid':
+        msg = 'Dieser Gutscheincode ist ungültig oder bereits abgelaufen.'
         break
       case 'added':
-        msg = 'Dieser Code wurde bereits zu Ihrer Bestellung hinzugefügt.'
-        break
-      case 'invalid':
-        msg = 'Dieser Code ist nicht gültig.'
+        msg = 'Dieser Gutscheincode wurde bereits zu Ihrer Bestellung hinzugefügt.'
         break
       default:
         msg = 'Es ist ein unbekannter Fehler aufgetreten.'
@@ -167,73 +176,34 @@ export default class extends Step {
   }
 
   updateAddedCoupons () {
-    this.info.internal.exclusiveSeats = false
-
     const addedBox = this.couponBox.find('.added')
       .toggle(this.info.api.couponCodes.length > 0)
       .find('td:last-child')
       .empty()
 
-    for (const [i, coupon] of Object.entries(this.info.internal.coupons)) {
-      this.info.internal.exclusiveSeats =
-        this.info.internal.exclusiveSeats || coupon.seats
-
-      addedBox.append(`<b>${this.info.api.couponCodes[i]}</b> (<a href='#' data-index='${i}'>entfernen</a>)`)
-      if (i < this.info.internal.coupons.length - 1) {
+    this.info.api.couponCodes.forEach((code, i) => {
+      addedBox.append(`<b>${code}</b> (<a href='#' data-index='${i}'>entfernen</a>)`)
+      if (i < this.info.api.couponCodes.length - 1) {
         addedBox.append(', ')
       }
-    }
-
-    this.updateDiscounts()
+    })
   }
 
   updateDiscounts () {
-    const tickets = this.tickets.slice(0).sort(function (a, b) {
-      return a - b
-    })
-    let anyFreeTickets = false
-    this.info.internal.total = this.info.internal.subtotal
-    this.info.internal.discount = 0
+    this.updateDiscountRow('free_tickets', this.info.internal.freeTicketsDiscount)
+    this.box.find('tr.ignore_free_tickets').toggle(this.info.internal.freeTicketsDiscount < 0)
 
-    this.box.find('tr.discount').remove()
-    for (const [i, coupon] of Object.entries(this.info.internal.coupons)) {
-      if (coupon.free_tickets > 0) {
-        anyFreeTickets = true
-        let discount = 0
+    this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
-        for (let j = 0; j < coupon.free_tickets; j++) {
-          const ticketToRemove = tickets.pop()
-          if (ticketToRemove) {
-            discount -= ticketToRemove
-          }
-        }
+    this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
+    this.box.find('.number tr.total .total span')
+      .html(this.formatCurrency(this.info.internal.totalAfterCoupons))
+  }
 
-        if (!this.info.api.ignore_free_tickets) {
-          this.info.internal.total += discount
-          this.info.internal.discount += discount
-        }
-
-        const discountBox = $('<tr>').addClass('discount')
-        discountBox.toggleClass('ignore', this.info.api.ignore_free_tickets)
-        const info = $('<td>').addClass('plural_text').attr('colspan', 3)
-          .html(`Gutschein <em>${this.info.api.couponCodes[i]}</em> (Wert: <span class="number"><span></span></span> Freikarte<span class="plural">n</span>)`)
-        discountBox.append(
-          info,
-          $('<td>').addClass('amount')
-            .text(`${this.formatCurrency(discount)} €`)
-        )
-        discountBox.insertAfter(this.box.find('tr.subtotal'))
-        togglePluralText(info, coupon.free_tickets)
-      }
-    }
-
-    this.box.find('tr.ignore_free_tickets')
-      .toggle(anyFreeTickets && this.info.internal.exclusiveSeats)
-
-    const $this = this.box.find('.number tr.total')
-    this.info.internal.zeroTotal = this.info.internal.total <= 0
-    $this.find('.total span')
-      .html(this.formatCurrency(this.info.internal.total))
+  updateDiscountRow (klass, discount) {
+    this.box.find(`tr.discount.${klass}`)
+      .toggle(discount < 0)
+      .find('.amount').text(`${this.formatCurrency(discount)} €`)
   }
 
   nextBtnEnabled () {

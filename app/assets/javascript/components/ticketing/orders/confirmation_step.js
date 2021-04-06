@@ -56,7 +56,7 @@ export default class extends Step {
         }
         total = this.formatCurrency(ticketsInfo.internal.discount)
       } else if (typeBox.is('.total')) {
-        total = this.formatCurrency(ticketsInfo.internal.total)
+        total = this.formatCurrency(ticketsInfo.internal.totalAfterCoupons)
       } else {
         const typeId = typeBox.find('td').first().data('id')
         number = ticketsInfo.api.tickets[typeId]
