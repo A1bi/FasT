@@ -123,7 +123,6 @@ export default class extends Step {
       date: apiInfo.seats?.date,
       tickets: apiInfo.tickets?.tickets,
       coupons: apiInfo.coupons?.coupons,
-      ignore_free_tickets: apiInfo.tickets?.ignore_free_tickets,
       address: apiInfo.address,
       payment: apiInfo.payment,
       coupon_codes: apiInfo.tickets?.couponCodes

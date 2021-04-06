@@ -13,10 +13,7 @@ RSpec.describe Ticketing::CouponRedeemService do
   let(:event) { create(:event, :complete) }
   let(:date) { event.dates.first }
   let(:codes) { [*coupons.pluck(:code), 'foooo'] }
-  let(:ignore_free_tickets) { false }
-  let(:params) do
-    { ignore_free_tickets: ignore_free_tickets, coupon_codes: codes }
-  end
+  let(:params) { { coupon_codes: codes } }
   let(:execution_params) { { free_tickets: true, credit: true } }
 
   context 'with a free tickets coupon' do
@@ -124,12 +121,6 @@ RSpec.describe Ticketing::CouponRedeemService do
         it 'does not decrease the remaining free tickets' do
           expect { subject }.not_to(change { coupons.last.reload.free_tickets })
         end
-      end
-
-      context 'when free tickets should be ignored' do
-        let(:ignore_free_tickets) { true }
-
-        include_examples 'does not redeem free tickets'
       end
 
       context 'when free tickets coupon redemption is not desired' do

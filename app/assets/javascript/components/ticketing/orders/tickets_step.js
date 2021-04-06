@@ -29,12 +29,6 @@ export default class extends Step {
       this.removeCoupon($(event.currentTarget).data('index'))
       event.preventDefault()
     })
-    this.registerEventAndInitiate(
-      this.box.find('tr.ignore_free_tickets input'), 'change', $this => {
-        this.info.api.ignore_free_tickets = $this.is(':checked')
-        this.updateSubtotal()
-      }
-    )
     this.box.find('.event-header').on('load', () => this.resizeDelegateBox(true))
   }
 
@@ -63,7 +57,6 @@ export default class extends Step {
     return fetch(this.totalsUrl, 'post', {
       event_id: this.delegate.eventId,
       tickets: this.info.api.tickets,
-      ignore_free_tickets: this.info.api.ignore_free_tickets,
       coupon_codes: this.info.api.couponCodes
     }).then(res => {
       this.info.api.couponCodes = res.redeemed_coupons
@@ -191,8 +184,6 @@ export default class extends Step {
 
   updateDiscounts () {
     this.updateDiscountRow('free_tickets', this.info.internal.freeTicketsDiscount)
-    this.box.find('tr.ignore_free_tickets').toggle(this.info.internal.freeTicketsDiscount < 0)
-
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0

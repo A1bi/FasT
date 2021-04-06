@@ -46,11 +46,6 @@
         tr.subtotal
           td.plural_text colspan='3' <span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt
           td.total <span></span> €
-        tr.ignore_free_tickets
-          td colspan='4'
-            = check_box_tag(:ignore_free_tickets)
-            = label_tag :ignore_free_tickets
-              | Freikarten nicht in Anspruch nehmen
         tr.discount.free_tickets
           td colspan='3' Abzug durch Freikartengutscheine
           td.amount

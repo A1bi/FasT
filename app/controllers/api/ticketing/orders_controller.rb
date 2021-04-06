@@ -37,7 +37,7 @@ module Api
         params.permit(
           :type, :newsletter, :socket_id,
           order: [
-            %i[date ignore_free_tickets],
+            :date,
             {
               tickets: {},
               coupons: %i[value number],

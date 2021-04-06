@@ -32,8 +32,7 @@ module Ticketing
     end
 
     def redeem_free_tickets(coupon)
-      return if params[:ignore_free_tickets].present? ||
-                coupon.free_tickets.zero?
+      return if coupon.free_tickets.zero?
 
       coupon.free_tickets.times do
         break if tickets_by_price.empty?
