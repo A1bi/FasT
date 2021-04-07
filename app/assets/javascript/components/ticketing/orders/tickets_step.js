@@ -36,7 +36,7 @@ export default class extends Step {
     return $typeBox.data('price') * $typeBox.find('select').val()
   }
 
-  updateSubtotal () {
+  async updateSubtotal (toggleSpinner) {
     this.info.internal.numberOfTickets = 0
     this.tickets = []
     this.box.find('.number tr').each((_, number) => {
@@ -54,11 +54,15 @@ export default class extends Step {
       }
     })
 
-    return fetch(this.totalsUrl, 'post', {
-      event_id: this.delegate.eventId,
-      tickets: this.info.api.tickets,
-      coupon_codes: this.info.api.couponCodes
-    }).then(res => {
+    if (toggleSpinner) this.delegate.toggleModalSpinner(true)
+
+    try {
+      const res = await fetch(this.totalsUrl, 'post', {
+        event_id: this.delegate.eventId,
+        tickets: this.info.api.tickets,
+        coupon_codes: this.info.api.couponCodes
+      })
+
       this.info.api.couponCodes = res.redeemed_coupons
       this.info.internal = {
         ...this.info.internal,
@@ -75,7 +79,9 @@ export default class extends Step {
 
       this.updateDiscounts()
       this.delegate.updateNextBtn()
-    })
+    } finally {
+      if (toggleSpinner) this.delegate.toggleModalSpinner(false)
+    }
   }
 
   updateNumbers () {
@@ -97,38 +103,32 @@ export default class extends Step {
     })
   }
 
-  addCoupon () {
-    this.delegate.toggleModalSpinner(true)
-
+  async addCoupon () {
     const code = this.couponBox.find('input[name=code]').val()
     if (this.info.api.couponCodes.indexOf(code) > -1) {
       this.couponError('added')
     } else if (code !== '') {
       this.info.api.couponCodes.push(code)
 
-      this.updateSubtotal()
-        .then(result => {
-          if (this.info.api.couponCodes.indexOf(code) > -1) {
-            this.couponAdded()
-          } else {
-            this.couponError('invalid')
-          }
-        })
-        .finally(() => this.delegate.toggleModalSpinner(false))
+      try {
+        await this.updateSubtotal(true)
+        if (this.info.api.couponCodes.indexOf(code) > -1) {
+          this.couponAdded()
+        } else {
+          this.couponError('invalid')
+        }
+      } catch {
+        this.couponError()
+      }
     }
   }
 
-  removeCoupon (index) {
-    this.delegate.toggleModalSpinner(true)
-
+  async removeCoupon (index) {
     this.info.api.couponCodes.splice(index, 1)
 
-    this.updateSubtotal()
-      .then(() => {
-        this.updateAddedCoupons()
-        this.updateCouponResult('', false)
-      })
-      .finally(() => this.delegate.toggleModalSpinner(false))
+    await this.updateSubtotal(true)
+    this.updateAddedCoupons()
+    this.updateCouponResult('', false)
   }
 
   couponAdded () {
@@ -138,9 +138,7 @@ export default class extends Step {
     this.trackPiwikGoal(2)
 
     this.couponField.blur().val('')
-    this.delegate.toggleModalSpinner(false)
     this.updateCouponResult(msg, false)
-    this.resizeDelegateBox()
 
     this.addBreadcrumb('entered coupon code')
   }
@@ -158,14 +156,13 @@ export default class extends Step {
         msg = 'Es ist ein unbekannter Fehler aufgetreten.'
     }
 
-    this.delegate.toggleModalSpinner(false)
     this.updateCouponResult(msg, true)
-    this.resizeDelegateBox()
   }
 
   updateCouponResult (msg, error) {
     this.couponBox.find('.msg .result')
       .text(msg).toggleClass('error', error).parent().toggle(!!msg)
+    this.resizeDelegateBox()
   }
 
   updateAddedCoupons () {
