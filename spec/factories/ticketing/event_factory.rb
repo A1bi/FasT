@@ -16,7 +16,9 @@ FactoryBot.define do
     trait :with_ticket_types do
       transient { ticket_types_count { 1 } }
       ticket_types do
-        Array.new(ticket_types_count) { association :ticket_type }
+        ticket_types_count.times.map do |i|
+          association :ticket_type, price: 7 * (i + 1)
+        end
       end
     end
 

@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :ticket_type, class: 'Ticketing::TicketType' do
     name { 'Sample type' }
-    sequence(:price) { |n| 7 * n }
+    price { 13 }
     event
 
     trait :free do
