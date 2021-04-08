@@ -11,7 +11,6 @@ include:
 
 .bundle: &bundle
   - bundle config set --local without development
-  - bundle config set --local path vendor/ruby
   - bundle install -j $(sysctl -n hw.ncpu)
 
 .copy_master_key: &copy_master_key
@@ -34,7 +33,6 @@ variables:
 cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
-    - vendor/ruby
     - node_modules
     - .cache
     - public/assets
