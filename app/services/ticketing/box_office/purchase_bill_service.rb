@@ -65,14 +65,12 @@ module Ticketing
       end
 
       def payment_note
-        @payment_note ||= begin
-          case purchase.pay_method
-          when 'cash'
-            :cash_at_box_office
-          when 'electronic_cash'
-            :electronic_cash_at_box_office
-          end
-        end
+        @payment_note ||= case purchase.pay_method
+                          when 'cash'
+                            :cash_at_box_office
+                          when 'electronic_cash'
+                            :electronic_cash_at_box_office
+                          end
       end
     end
   end

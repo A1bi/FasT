@@ -17,15 +17,13 @@ module Ticketing
       private
 
       def seating
-        @seating ||= begin
-          if (id = svg.root['data-id']).blank?
-            record = Ticketing::Seating.create(name: @name)
-            svg.root['data-id'] = record.id
-            record
-          else
-            Ticketing::Seating.find(id)
-          end
-        end
+        @seating ||= if (id = svg.root['data-id']).blank?
+                       record = Ticketing::Seating.create(name: @name)
+                       svg.root['data-id'] = record.id
+                       record
+                     else
+                       Ticketing::Seating.find(id)
+                     end
       end
 
       def iterate_blocks
