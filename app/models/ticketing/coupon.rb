@@ -7,8 +7,6 @@ module Ticketing
     include Loggable
 
     has_random_unique_token :code, 6
-    has_and_belongs_to_many :reservation_groups,
-                            join_table: :ticketing_coupons_reservation_groups
     has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
                            dependent: :destroy
     belongs_to :purchased_with_order, class_name: 'Ticketing::Order',
@@ -31,8 +29,7 @@ module Ticketing
     end
 
     def expired?
-      return true if free_tickets < 1 && reservation_groups.count.zero? &&
-                     !billing_account.credit?
+      return true if free_tickets < 1 && !billing_account.credit?
 
       expires_at&.past?
     end

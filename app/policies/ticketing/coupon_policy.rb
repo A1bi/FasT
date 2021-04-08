@@ -27,7 +27,7 @@ module Ticketing
     end
 
     def permitted_attributes
-      [:recipient, :affiliation, :free_tickets, { reservation_group_ids: [] }]
+      %i[recipient affiliation free_tickets]
     end
   end
 end

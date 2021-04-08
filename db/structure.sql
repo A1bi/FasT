@@ -1269,18 +1269,6 @@ ALTER SEQUENCE public.ticketing_coupons_id_seq OWNED BY public.ticketing_coupons
 
 
 --
--- Name: ticketing_coupons_reservation_groups; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.ticketing_coupons_reservation_groups (
-    coupon_id bigint,
-    reservation_group_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
 -- Name: ticketing_covid19_attendees; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2887,20 +2875,6 @@ CREATE INDEX index_ticketing_coupons_on_purchased_with_order_id ON public.ticket
 
 
 --
--- Name: index_ticketing_coupons_reservation_groups_on_coupon_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_coupons_reservation_groups_on_coupon_id ON public.ticketing_coupons_reservation_groups USING btree (coupon_id);
-
-
---
--- Name: index_ticketing_coupons_reservation_groups_on_group_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_coupons_reservation_groups_on_group_id ON public.ticketing_coupons_reservation_groups USING btree (reservation_group_id);
-
-
---
 -- Name: index_ticketing_covid19_attendees_on_ticket_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3411,14 +3385,6 @@ ALTER TABLE ONLY public.passbook_registrations
 
 
 --
--- Name: ticketing_coupons_reservation_groups fk_rails_727a2e4bc0; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ticketing_coupons_reservation_groups
-    ADD CONSTRAINT fk_rails_727a2e4bc0 FOREIGN KEY (coupon_id) REFERENCES public.ticketing_coupons(id);
-
-
---
 -- Name: users fk_rails_87dbf420c1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3488,14 +3454,6 @@ ALTER TABLE ONLY public.ticketing_tickets
 
 ALTER TABLE ONLY public.ticketing_events
     ADD CONSTRAINT fk_rails_a8bcf8f505 FOREIGN KEY (seating_id) REFERENCES public.ticketing_seatings(id);
-
-
---
--- Name: ticketing_coupons_reservation_groups fk_rails_a9e9990530; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ticketing_coupons_reservation_groups
-    ADD CONSTRAINT fk_rails_a9e9990530 FOREIGN KEY (reservation_group_id) REFERENCES public.ticketing_reservation_groups(id);
 
 
 --
@@ -3733,6 +3691,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210212151229'),
 ('20210213132820'),
 ('20210313212839'),
-('20210320180321');
+('20210320180321'),
+('20210408155502');
 
 

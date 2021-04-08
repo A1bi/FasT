@@ -7,12 +7,6 @@ RSpec.describe Ticketing::Coupon do
   describe 'associations' do
     it {
       expect(subject)
-        .to have_and_belong_to_many(:reservation_groups)
-        .join_table(:ticketing_coupons_reservation_groups)
-    }
-
-    it {
-      expect(subject)
         .to have_many(:redemptions).class_name('Ticketing::CouponRedemption')
                                    .dependent(:destroy)
     }

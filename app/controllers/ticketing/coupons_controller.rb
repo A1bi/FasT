@@ -3,7 +3,6 @@
 module Ticketing
   class CouponsController < BaseController
     before_action :find_coupon, only: %i[edit update show destroy mail]
-    before_action :find_reservation_groups, only: %i[edit new update create]
 
     def index
       authorize Coupon
@@ -32,7 +31,6 @@ module Ticketing
     def edit; end
 
     def update
-      params[:ticketing_coupon][:reservation_group_ids] ||= []
       log_service.update if @coupon.update(coupon_params)
       redirect_to @coupon
     end
@@ -77,17 +75,13 @@ module Ticketing
       @coupon = authorize Coupon.find(params[:id])
     end
 
-    def find_reservation_groups
-      @reservation_groups = Ticketing::ReservationGroup.all
-    end
-
     def log_service
       @log_service ||=
         LogEventCreateService.new(@coupon, current_user: current_user)
     end
 
     def coupon_params
-      permitted_attributes(@coupon)
+      permitted_attributes Coupon
     end
   end
 end

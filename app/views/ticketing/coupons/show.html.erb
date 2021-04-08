@@ -57,20 +57,6 @@
           <% end %>
         </td>
       </tr>
-      <tr>
-        <td>Sitzplatzvorreservierungen:</td>
-        <td>
-          <% if !@coupon.reservation_groups.empty? %>
-            <ul>
-              <% @coupon.reservation_groups.each do |group| %>
-                <li><%= group.name %></li>
-              <% end %>
-            </ul>
-          <% else %>
-            <em>keine</em>
-          <% end %>
-        </td>
-      </tr>
       <% if @coupon.purchased_with_order.present? %>
         <tr>
           <td>Bestellt in:</td>

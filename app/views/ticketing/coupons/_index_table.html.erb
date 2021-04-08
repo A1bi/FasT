@@ -19,7 +19,6 @@
           </td>
           <td>
             <% if coupon.free_tickets > 0 %><div><%= t("ticketing.coupons.free_tickets", count: coupon.free_tickets) %></div><% end %>
-            <%= content_tag :div do %>Zugang zu vorreservierten Plätzen<% end if !coupon.reservation_groups.empty? %>
           </td>
           <td><%= !coupon.orders.empty? ? "ja" : "nein" %></td>
           <td class="actionBtns"><%= render "admin_actions", :obj => coupon, :delete_confirm => "diesen Gutschein" %></td>

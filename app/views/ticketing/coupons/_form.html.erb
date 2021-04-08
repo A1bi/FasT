@@ -20,19 +20,6 @@
           <%= f.number_field :free_tickets, class: :numberField %>
         </td>
       </tr>
-      <tr>
-        <td>Sitzplatzvorreservierungen:</td>
-        <td>
-          <ul>
-          <% @reservation_groups.each do |group| %>
-            <li>
-              <%= check_box_tag "ticketing_coupon[reservation_group_ids][]", group.id, @coupon.reservation_groups.include?(group), id: dom_id(group) %>
-              <%= label_tag dom_id(group), group.name %>
-            </li>
-          <% end %>
-          </ul>
-        </td>
-      </tr>
     </tbody>
   </table>
   <div class="hcen submit">
