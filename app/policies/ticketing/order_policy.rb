@@ -30,14 +30,6 @@ module Ticketing
       user_admin? || user_retail?
     end
 
-    def add_coupon?
-      true
-    end
-
-    def remove_coupon?
-      true
-    end
-
     def enable_reservation_groups?
       user_admin?
     end

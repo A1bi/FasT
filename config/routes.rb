@@ -149,10 +149,6 @@ Rails.application.routes.draw do
       resource :order, path: '', type: :web, only: [] do
         scope path: 'tickets' do
           get 'bestellen/(:event_slug)', action: :new, as: :new, on: :member
-          collection do
-            post :add_coupon
-            post :remove_coupon
-          end
         end
         get 'geschenkgutscheine/bestellen', action: :new_coupons,
                                             as: :new_coupons, on: :member

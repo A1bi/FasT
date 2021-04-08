@@ -7,7 +7,6 @@ module Ticketing
     before_action :find_order, only: %i[show edit update mark_as_paid
                                         send_pay_reminder resend_confirmation
                                         resend_items approve seats]
-    before_action :find_coupon, only: %i[add_coupon remove_coupon]
     before_action :prepare_billing_actions, only: %i[show]
 
     def new
@@ -38,33 +37,6 @@ module Ticketing
 
     def new_coupons
       authorize Order
-    end
-
-    def add_coupon
-      authorize Order
-
-      if !@coupon
-        error = 'invalid'
-      elsif @coupon.expired?
-        error = 'expired'
-      else
-        coupon = {
-          id: @coupon.id,
-          free_tickets: @coupon.free_tickets,
-          seats: update_exclusive_seats(:add, @coupon.reservation_groups)
-        }
-      end
-
-      render json: { coupon: coupon, error: error },
-             status: error ? :unprocessable_entity : :ok
-    end
-
-    def remove_coupon
-      authorize Order
-
-      update_exclusive_seats(:remove, @coupon.reservation_groups) if @coupon
-
-      head :ok
     end
 
     def enable_reservation_groups
@@ -263,10 +235,6 @@ module Ticketing
 
     def find_order
       @order = order_scope.find(params[:id])
-    end
-
-    def find_coupon
-      @coupon = Ticketing::Coupon.where(code: params[:code]).first
     end
 
     def prepare_new
