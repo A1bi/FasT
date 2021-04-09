@@ -2,69 +2,43 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.0'
-
 gem 'pg'
+gem 'puma', '~> 5.0'
+gem 'rails', '~> 6.1.0'
+gem 'sidekiq', '~> 6.1.0'
 
-gem 'pundit', '~> 2.1.0'
-
-gem 'sass-rails', '~> 6.0.0'
-gem 'sprockets-rails', '~> 3.2.0'
-gem 'webpacker', '~> 5.0'
-
-gem 'slim'
-
-gem 'kt-paperclip', '~> 6.4'
-
+gem 'apnotic', '~> 1.6.0'
+gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'bcrypt', '~> 3.1.16'
+gem 'bindata', '~> 2.4.3'
+gem 'bootsnap', require: false
+gem 'config', '~> 3.0.0'
+gem 'dalli', '~> 2.7.8'
+gem 'httparty', '~> 0.18'
+gem 'kt-paperclip', '~> 6.4'
+gem 'listen', '~> 3.0'
+gem 'name_of_person'
+gem 'phony_rails', '~> 0.14.2'
+gem 'pundit', '~> 2.1.0'
+gem 'rubyzip', '~> 2.0'
+gem 'sentry-raven', '~> 3.0'
+gem 'sepa_king', '~> 0.12.0'
+gem 'simpleidn', '~> 0.2.1'
+gem 'whenever', require: false
 
 gem 'icalendar', '~> 2.7'
-
+gem 'jbuilder', '~> 2.10'
 gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.31.0'
 gem 'prawn-table', '~> 0.2.1'
-
-gem 'rubyzip', '~> 2.0'
-
+gem 'record_tag_helper', '~> 1.0.1'
 gem 'roadie', '~> 4.0.0'
 gem 'roadie-rails', '~> 2.1'
-
-gem 'sepa_king', '~> 0.12.0'
-
-gem 'dalli', '~> 2.7.8'
-
-gem 'sidekiq', '~> 6.1.0'
-
-gem 'auto_strip_attributes', '~> 2.6.0'
-
-gem 'phony_rails', '~> 0.14.2'
-
-gem 'record_tag_helper', '~> 1.0.1'
-
-gem 'sentry-raven', '~> 3.0'
-
-gem 'bootsnap', require: false
-
-gem 'listen', '~> 3.0'
-
-gem 'config', '~> 3.0.0'
-
-gem 'bindata', '~> 2.4.3'
-
-gem 'apnotic', '~> 1.6.0'
-
-gem 'simpleidn', '~> 0.2.1'
-
-gem 'name_of_person'
-
-gem 'jbuilder', '~> 2.10'
-
-gem 'puma', '~> 5.0'
-
-gem 'httparty', '~> 0.18'
-
-gem 'whenever', require: false
+gem 'sass-rails', '~> 6.0.0'
+gem 'slim'
+gem 'sprockets-rails', '~> 3.2.0'
+gem 'webpacker', '~> 5.0'
 
 group :development do
   gem 'spring', '~> 2.1.0'
