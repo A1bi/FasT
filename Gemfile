@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'pg'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.0'
-gem 'sidekiq', '~> 6.1.0'
+gem 'sidekiq', '~> 6.2'
 
 gem 'apnotic', '~> 1.6.0'
 gem 'auto_strip_attributes', '~> 2.6.0'
@@ -30,7 +30,7 @@ gem 'icalendar', '~> 2.7'
 gem 'jbuilder', '~> 2.10'
 gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
-gem 'prawn-svg', '~> 0.31.0'
+gem 'prawn-svg', '~> 0.32.0'
 gem 'prawn-table', '~> 0.2.1'
 gem 'record_tag_helper', '~> 1.0.1'
 gem 'roadie', '~> 4.0.0'
@@ -48,7 +48,7 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
-  gem 'rspec-rails', '~> 4.1.0'
+  gem 'rspec-rails', '~> 5.0'
 end
 
 group :test do
