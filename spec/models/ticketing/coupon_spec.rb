@@ -4,6 +4,14 @@ require_shared_examples 'ticketing/billable'
 require_shared_examples 'ticketing/loggable'
 
 RSpec.describe Ticketing::Coupon do
+  it {
+    expect(subject)
+      .to define_enum_for(:value_type).with_values(free_tickets: 'free_tickets',
+                                                   credit: 'credit')
+                                      .with_suffix(:value)
+                                      .backed_by_column_of_type(:enum)
+  }
+
   describe 'associations' do
     it {
       expect(subject)
@@ -29,7 +37,7 @@ RSpec.describe Ticketing::Coupon do
     end
     let!(:expired_coupons) do
       [
-        create(:coupon),
+        create(:coupon, :blank),
         create(:coupon, :with_free_tickets, :expired)
       ]
     end
@@ -56,8 +64,8 @@ RSpec.describe Ticketing::Coupon do
   describe '#code' do
     subject { coupon.code }
 
-    let(:coupon) { described_class.create }
-    let(:coupon2) { described_class.create }
+    let(:coupon) { create(:coupon) }
+    let(:coupon2) { create(:coupon) }
 
     it { is_expected.not_to be_empty }
 
@@ -80,7 +88,7 @@ RSpec.describe Ticketing::Coupon do
     end
 
     context 'without any value' do
-      let(:coupon) { create(:coupon) }
+      let(:coupon) { create(:coupon, :blank) }
 
       it { is_expected.to be_truthy }
     end
@@ -101,7 +109,7 @@ RSpec.describe Ticketing::Coupon do
   describe '#value' do
     subject { coupon.value }
 
-    let(:coupon) { create(:coupon, :with_value, value: 44) }
+    let(:coupon) { create(:coupon, value: 44) }
 
     it { is_expected.to eq(44) }
 
@@ -115,10 +123,10 @@ RSpec.describe Ticketing::Coupon do
   describe '#initial_value' do
     subject { coupon.initial_value }
 
-    let(:coupon) { create(:coupon, :with_value, value: 44) }
+    let(:coupon) { create(:coupon, value: 44) }
 
     context 'when coupon never had any value' do
-      let(:coupon) { create(:coupon) }
+      let(:coupon) { create(:coupon, :blank) }
 
       it { is_expected.to eq(0) }
     end

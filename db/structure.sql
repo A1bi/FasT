@@ -24,6 +24,16 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
+-- Name: coupon_value_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.coupon_value_type AS ENUM (
+    'free_tickets',
+    'credit'
+);
+
+
+--
 -- Name: gender; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1243,9 +1253,9 @@ CREATE TABLE public.ticketing_coupons (
     recipient character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    free_tickets integer DEFAULT 0,
     affiliation character varying,
-    purchased_with_order_id bigint
+    purchased_with_order_id bigint,
+    value_type public.coupon_value_type NOT NULL
 );
 
 
@@ -3692,6 +3702,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210213132820'),
 ('20210313212839'),
 ('20210320180321'),
-('20210408155502');
+('20210408155502'),
+('20210409193803');
 
 

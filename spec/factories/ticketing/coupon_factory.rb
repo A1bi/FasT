@@ -2,9 +2,7 @@
 
 FactoryBot.define do
   factory :coupon, class: 'Ticketing::Coupon' do
-    trait :with_free_tickets do
-      free_tickets { 2 }
-    end
+    with_free_tickets
 
     trait :with_value do
       transient { value { 25 } }
@@ -14,8 +12,20 @@ FactoryBot.define do
       end
     end
 
-    trait :with_credit do
+    trait :with_free_tickets do
+      value_type { :free_tickets }
+      value { 2 }
       with_value
+    end
+
+    trait :with_credit do
+      value_type { :credit }
+      value { 25 }
+      with_value
+    end
+
+    trait :blank do
+      value { 0 }
     end
 
     trait :expired do

@@ -6,6 +6,8 @@ module Ticketing
     include Billable
     include Loggable
 
+    enum value_type: %i[free_tickets credit], _suffix: :value
+
     has_random_unique_token :code, 6
     has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
                            dependent: :destroy
@@ -17,21 +19,18 @@ module Ticketing
       def valid
         joins(:billing_account)
           .where('expires_at IS NULL OR expires_at > ?', Time.current)
-          .where('free_tickets > 0 OR ticketing_billing_accounts.balance > 0')
+          .where('ticketing_billing_accounts.balance > 0')
       end
 
       def expired
         joins(:billing_account)
           .where('expires_at < ?', Time.current)
-          .or(where('free_tickets <= 0 AND ' \
-                    'ticketing_billing_accounts.balance <= 0'))
+          .or(where('ticketing_billing_accounts.balance <= 0'))
       end
     end
 
     def expired?
-      return true if free_tickets < 1 && !billing_account.credit?
-
-      expires_at&.past?
+      expires_at&.past? || !billing_account.credit?
     end
 
     def value
