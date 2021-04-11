@@ -2,11 +2,19 @@
 
 module Members
   class DashboardController < ApplicationController
-    def index
-      authorize(%i[members dashboard])
+    before_action :authorize
 
+    def index
       @dates = Members::Date.not_expired.order(:datetime)
       @files = Document.member
+    end
+
+    def videos; end
+
+    private
+
+    def authorize
+      super(%i[members dashboard])
     end
   end
 end

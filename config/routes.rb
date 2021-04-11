@@ -187,7 +187,10 @@ Rails.application.routes.draw do
       end
       resources :documents, path: 'dokumente', except: %i[index show]
 
-      root to: 'dashboard#index', as: :root
+      scope controller: :dashboard do
+        get '/', action: :index, as: :root
+        get :videos
+      end
     end
   end
 

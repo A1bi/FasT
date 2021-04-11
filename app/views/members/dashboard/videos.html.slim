@@ -1,0 +1,17 @@
+- title 'Mitgliederbereich – Videos'
+- include_css 'members/main'
+
+.hl Videos
+
+div data-controller='members--videos'
+  div data-target='members--videos.videoList'
+    | Video auswählen:
+    ul
+      li: a data-action='members--videos#setCurrentVideo' Video Title
+
+  video(controls data-target='members--videos.player')
+
+  div data-target='members--videos.chapterMarks'
+    | Zu einer Stelle im Video springen:
+    ul
+      li: a data-action='members--videos#jumpToChapterMark' Chapter Title (00:00:00)
