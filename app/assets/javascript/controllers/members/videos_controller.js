@@ -35,7 +35,7 @@ export default class extends Controller {
     if (!video || video === this.currentVideo) return
 
     this.currentVideo = video
-    this.playerTarget.setAttribute('src', this.currentVideo.mediaSrc)
+    this.playerTarget.src = `${this.currentVideo.mediaSrc}#t=0.1`
     this.setUpChapterMarks()
   }
 
@@ -63,6 +63,13 @@ export default class extends Controller {
   }
 
   jumpToChapterMark (event) {
+    if (!this.playerTarget.paused) {
+      this.playerTarget.pause()
+      this.playerTarget.addEventListener('seeked', () => {
+        this.playerTarget.play()
+      }, { once: true })
+    }
+
     const index = event.currentTarget.dataset.chapterIndex
     const mark = this.currentVideo.chapterMarks[index]
     this.playerTarget.currentTime = mark.seconds

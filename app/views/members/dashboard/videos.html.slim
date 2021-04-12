@@ -9,7 +9,7 @@ div data-controller='members--videos'
     ul
       li: a data-action='members--videos#setCurrentVideo' Video Title
 
-  video(controls data-target='members--videos.player')
+  video(controls playsinline data-target='members--videos.player')
 
   div data-target='members--videos.chapterMarks'
     | Zu einer Stelle im Video springen:
