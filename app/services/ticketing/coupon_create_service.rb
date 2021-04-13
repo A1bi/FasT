@@ -24,7 +24,7 @@ module Ticketing
     private
 
     def build_coupon(order, value)
-      coupon = order.purchased_coupons.new
+      coupon = order.purchased_coupons.new(value_type: :credit)
       coupon.deposit_into_account(value, :purchased_coupon)
       coupon
     end

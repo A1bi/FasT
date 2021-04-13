@@ -46,10 +46,10 @@ RSpec.describe Ticketing::OrderSimulationService do
     expect { subject }.to(
       not_change(Ticketing::Order, :count)
       .and(not_change(Ticketing::Ticket, :count))
+      .and(not_change(Ticketing::Coupon, :count))
       .and(not_change(Ticketing::Billing::Account, :count))
       .and(not_change(Ticketing::Billing::Transaction, :count))
-      .and(not_change { coupons.pluck(:free_tickets) })
-      .and(not_change { coupons.map { |c| c.billing_account.reload.balance } })
+      .and(not_change { coupons.map { |c| c.reload.value } })
       .and(not_change(Ticketing::LogEvent, :count))
     )
   end

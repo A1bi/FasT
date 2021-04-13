@@ -32,20 +32,20 @@ module Ticketing
     end
 
     def redeem_free_tickets(coupon)
-      return if coupon.free_tickets.zero?
+      return unless coupon.free_tickets.positive?
 
-      coupon.free_tickets.times do
-        break if tickets_by_price.empty?
-
+      free_tickets = [tickets_by_price.size, coupon.free_tickets].min
+      free_tickets.times do
         tickets_by_price.pop.type = free_ticket_type
-        coupon.free_tickets -= 1
       end
+
+      coupon.withdraw_from_account(free_tickets, :redeemed_coupon)
 
       true
     end
 
     def redeem_credit(coupon)
-      return unless coupon.billing_account.credit?
+      return unless coupon.credit.positive?
 
       order_billing_service.deposit_coupon_credit(coupon)
 

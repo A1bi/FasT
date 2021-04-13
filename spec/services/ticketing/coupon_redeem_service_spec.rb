@@ -75,6 +75,14 @@ RSpec.describe Ticketing::CouponRedeemService do
             .to change { coupons.last.reload.free_tickets }.to(0)
         end
 
+        it 'creates a transaction for the redeemed free tickets' do
+          expect { subject }
+            .to change(coupons.last.billing_account.transactions, :count).by(1)
+          transaction = coupons.last.billing_account.transactions.last
+          expect(transaction.amount).to eq(-2)
+          expect(transaction.note_key).to eq('redeemed_coupon')
+        end
+
         context 'when more free tickets than ordered tickets are available' do
           let(:tickets) do
             order.tickets = [build(:ticket, order: order, date: date,
