@@ -24,8 +24,8 @@ RSpec.describe Ticketing::OrderCreateService do
   let(:date_id) { event.dates.first.id }
   let(:ticket_params) { { event.ticket_types[0].id => 2 } }
   let(:coupons) do
-    [create(:coupon, :with_credit, value: 1),
-     create(:coupon, :with_free_tickets, free_tickets: 1)]
+    [create(:coupon, :credit, value: 1),
+     create(:coupon, :free_tickets, value: 1)]
   end
   let(:current_user) { nil }
   let(:order) { Ticketing::Order.last }

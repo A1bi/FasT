@@ -31,14 +31,14 @@ RSpec.describe Ticketing::Coupon do
   describe 'valid/expired scopes' do
     let!(:valid_coupons) do
       [
-        create(:coupon, :with_free_tickets),
-        create(:coupon, :with_credit)
+        create(:coupon, :free_tickets),
+        create(:coupon, :credit)
       ]
     end
     let!(:expired_coupons) do
       [
         create(:coupon, :blank),
-        create(:coupon, :with_free_tickets, :expired)
+        create(:coupon, :free_tickets, :expired)
       ]
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Ticketing::Coupon do
       it { is_expected.to be_falsy }
 
       context 'with an expired date' do
-        let(:coupon) { create(:coupon, :with_free_tickets, :expired) }
+        let(:coupon) { create(:coupon, :free_tickets, :expired) }
 
         it { is_expected.to be_truthy }
       end
@@ -94,13 +94,13 @@ RSpec.describe Ticketing::Coupon do
     end
 
     context 'with free tickets' do
-      let(:coupon) { create(:coupon, :with_free_tickets) }
+      let(:coupon) { create(:coupon, :free_tickets) }
 
       it_behaves_like 'valid coupon'
     end
 
     context 'with credit' do
-      let(:coupon) { create(:coupon, :with_credit) }
+      let(:coupon) { create(:coupon, :credit) }
 
       it_behaves_like 'valid coupon'
     end
@@ -139,6 +139,52 @@ RSpec.describe Ticketing::Coupon do
       before { coupon.withdraw_from_account(10, :foo) }
 
       it { is_expected.to eq(44) }
+    end
+  end
+
+  describe '#free_tickets' do
+    subject { coupon.free_tickets }
+
+    context 'when coupon is not of type free_tickets' do
+      let(:coupon) { create(:coupon, :credit, value: 25) }
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'when coupon is of type free_tickets and has value' do
+      let(:coupon) { create(:coupon, :free_tickets, value: 2) }
+
+      it { is_expected.to eq(2) }
+      it { is_expected.to be_a(Integer) }
+    end
+
+    context 'when coupon is of type free_tickets and has no value' do
+      let(:coupon) { create(:coupon, :free_tickets, :blank) }
+
+      it { is_expected.to eq(0) }
+    end
+  end
+
+  describe '#credit' do
+    subject { coupon.credit }
+
+    context 'when coupon is not of type credit' do
+      let(:coupon) { create(:coupon, :free_tickets, value: 2) }
+
+      it { is_expected.to eq(0) }
+    end
+
+    context 'when coupon is of type credit and has value' do
+      let(:coupon) { create(:coupon, :credit, value: 25) }
+
+      it { is_expected.to eq(25) }
+      it { is_expected.to be_a(BigDecimal) }
+    end
+
+    context 'when coupon is of type credit and has no value' do
+      let(:coupon) { create(:coupon, :credit, :blank) }
+
+      it { is_expected.to eq(0) }
     end
   end
 

@@ -54,8 +54,8 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     context 'with coupons to redeem' do
       let(:coupons) do
         [
-          create(:coupon, free_tickets: 1),
-          create(:coupon, :with_credit, value: 13)
+          create(:coupon, :free_tickets, value: 1),
+          create(:coupon, :credit, value: 13)
         ]
       end
 

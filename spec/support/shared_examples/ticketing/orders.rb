@@ -128,8 +128,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     before do
       create(:cancellation, tickets: [order.tickets.first])
 
-      coupon = create(:coupon, :with_credit,
-                      value: 10, purchased_with_order: order)
+      coupon = create(:coupon, :credit, value: 10, purchased_with_order: order)
       coupon.withdraw_from_account(10, :foo)
       order.purchased_coupons.reload
 

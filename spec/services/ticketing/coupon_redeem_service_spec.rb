@@ -40,8 +40,8 @@ RSpec.describe Ticketing::CouponRedeemService do
     end
     let(:coupons) do
       [
-        create(:coupon, :expired, free_tickets: 2),
-        create(:coupon, free_tickets: 2)
+        create(:coupon, :expired),
+        create(:coupon, :free_tickets, value: 2)
       ]
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
         context 'when multiple valid coupons are provided' do
           # there are 5 tickets in the order and 4 free tickets in coupons
-          let(:coupons) { create_list(:coupon, 2, free_tickets: 2) }
+          let(:coupons) { create_list(:coupon, 2, :free_tickets, value: 2) }
 
           it 'sets the remaining free tickets correctly' do
             expect { subject }.to(
@@ -134,8 +134,8 @@ RSpec.describe Ticketing::CouponRedeemService do
   context 'with a credit coupon' do
     let(:coupons) do
       [
-        create(:coupon, :expired, :with_credit),
-        create(:coupon, :with_credit, value: 25)
+        create(:coupon, :credit, :expired),
+        create(:coupon, :credit, value: 25)
       ]
     end
 
@@ -161,8 +161,8 @@ RSpec.describe Ticketing::CouponRedeemService do
     context 'with multiple credit coupons with lower value than order' do
       let(:coupons) do
         [
-          create(:coupon, :with_credit, value: 25),
-          create(:coupon, :with_credit, value: 10)
+          create(:coupon, :credit, value: 25),
+          create(:coupon, :credit, value: 10)
         ]
       end
 
@@ -194,7 +194,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
   context 'with same coupon multiple times' do
     let(:codes) { [coupon.code] * 2 }
-    let(:coupon) { create(:coupon, :with_credit, value: 5) }
+    let(:coupon) { create(:coupon, :credit, value: 5) }
 
     before { order.billing_account.balance = -20 }
 
@@ -211,8 +211,8 @@ RSpec.describe Ticketing::CouponRedeemService do
   shared_examples 'mixed redemption' do
     let(:coupons) do
       [
-        create(:coupon, :with_free_tickets, free_tickets: 2),
-        create(:coupon, :with_credit, value: 15)
+        create(:coupon, :free_tickets, value: 2),
+        create(:coupon, :credit, value: 15)
       ]
     end
 
@@ -258,7 +258,7 @@ RSpec.describe Ticketing::CouponRedeemService do
   end
 
   context 'with a coupon already added to this order previously' do
-    let(:coupons) { [create(:coupon, :with_credit, value: 15)] }
+    let(:coupons) { [create(:coupon, :credit, value: 15)] }
 
     before do
       order.billing_account.balance = -20

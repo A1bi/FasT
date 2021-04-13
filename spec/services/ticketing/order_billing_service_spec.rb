@@ -225,7 +225,7 @@ RSpec.describe Ticketing::OrderBillingService do
     end
 
     context 'with a coupon with credit' do
-      let(:coupon) { create(:coupon, :with_credit, value: 25) }
+      let(:coupon) { create(:coupon, :credit, value: 25) }
 
       shared_examples 'transfers from coupon to order' do
         it 'withdraws the negative balance from the coupon billing account' do

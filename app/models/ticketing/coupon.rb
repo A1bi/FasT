@@ -43,5 +43,13 @@ module Ticketing
       transaction = billing_account.transactions.reorder(:created_at).first
       transaction ? transaction.amount : 0
     end
+
+    def free_tickets
+      free_tickets_value? ? value.to_i : 0
+    end
+
+    def credit
+      credit_value? ? value : 0
+    end
   end
 end
