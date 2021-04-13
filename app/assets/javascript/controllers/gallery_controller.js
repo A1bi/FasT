@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { fetch } from '../components/utils'
+import { fetch, toggleDisplay } from '../components/utils'
 
 export default class extends Controller {
   static targets = ['photo', 'indexCurrent', 'indexMax', 'text',
@@ -31,7 +31,7 @@ export default class extends Controller {
     if (photo.url.full) {
       this.downloadLinkTarget.setAttribute('href', photo.url.full)
     }
-    this.downloadLinkTarget.style.display = photo.url.full ? 'block' : 'none'
+    toggleDisplay(this.downloadLinkTarget, photo.url.full)
   }
 
   getIndex (direction) {

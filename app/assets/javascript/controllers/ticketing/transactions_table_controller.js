@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus'
+import { toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
   static targets = ['note', 'amount']
@@ -8,7 +9,6 @@ export default class extends Controller {
   }
 
   toggleAmount () {
-    this.amountTarget.style.display =
-      this.noteTarget.value === 'correction' ? 'inline' : 'none'
+    toggleDisplay(this.amountTarget, this.noteTarget.value === 'correction', 'inline')
   }
 }

@@ -4,6 +4,10 @@ export const isIE = () => {
   !!(agent.match(/Trident/) || agent.match(/rv:11/))
 }
 
+export const toggleDisplay = (el, toggle, showValue = 'block') => {
+  el.style.display = toggle ? showValue : 'none'
+}
+
 export const togglePluralText = (box, number) => {
   const plural = number !== 1
   box.toggleClass('plural', plural).toggleClass('singular', !plural)

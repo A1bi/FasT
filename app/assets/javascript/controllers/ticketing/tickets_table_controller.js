@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { getAuthenticityToken } from '../../components/utils'
+import { getAuthenticityToken, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
   static targets = ['action', 'reason']
@@ -11,8 +11,7 @@ export default class extends Controller {
   }
 
   toggleReason () {
-    this.reasonTarget.style.display =
-      this.actionTarget.value === 'cancel' ? 'inline' : 'none'
+    toggleDisplay(this.reasonTarget, this.actionTarget.value === 'cancel', 'inline')
   }
 
   submit (event) {

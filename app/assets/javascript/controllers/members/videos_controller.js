@@ -1,10 +1,10 @@
 import { Controller } from 'stimulus'
-import { fetch } from '../../components/utils'
+import { fetch, toggleDisplay } from '../../components/utils'
 
 import '../../styles/members/videos_controller.sass'
 
 export default class extends Controller {
-  static targets = ['videoList', 'player', 'chapterMarks']
+  static targets = ['videoList', 'player', 'chapterMarks', 'audioLink']
 
   async connect () {
     await this.fetchVideoInformation()
@@ -35,8 +35,9 @@ export default class extends Controller {
     if (!video || video === this.currentVideo) return
 
     this.currentVideo = video
-    this.playerTarget.src = `${this.currentVideo.mediaSrc}#t=0.1`
+    this.playerTarget.src = `${this.currentVideo.videoSrc}#t=0.1`
     this.setUpChapterMarks()
+    this.setUpAudioLink()
   }
 
   setUpChapterMarks () {
@@ -75,9 +76,14 @@ export default class extends Controller {
     this.playerTarget.currentTime = mark.seconds
   }
 
+  setUpAudioLink () {
+    toggleDisplay(this.audioLinkTarget, this.currentVideo.audioSrc)
+    this.audioLinkTarget.querySelector('a').setAttribute('href', this.currentVideo.audioSrc)
+  }
+
   setUpList (target, items, callback) {
     const show = items.length > 1
-    target.style.display = show ? 'block' : 'none'
+    toggleDisplay(target, show)
     if (!show) return
 
     const list = target.querySelector('ul')
