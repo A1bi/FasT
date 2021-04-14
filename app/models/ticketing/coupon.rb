@@ -27,6 +27,11 @@ module Ticketing
           .where('expires_at < ?', Time.current)
           .or(where('ticketing_billing_accounts.balance <= 0'))
       end
+
+      def with_codes(codes)
+        join = 'JOIN unnest(ARRAY[?]) WITH ORDINALITY t(code, ord) USING (code)'
+        joins(sanitize_sql_array([join, codes.uniq])).order('t.ord')
+      end
     end
 
     def expired?

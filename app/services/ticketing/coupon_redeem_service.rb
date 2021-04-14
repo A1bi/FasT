@@ -59,7 +59,7 @@ module Ticketing
     def coupons
       return [] if params[:coupon_codes].blank?
 
-      @coupons ||= Ticketing::Coupon.where(code: params[:coupon_codes])
+      @coupons ||= Ticketing::Coupon.with_codes(params[:coupon_codes])
     end
 
     def free_ticket_type

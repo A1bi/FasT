@@ -61,6 +61,34 @@ RSpec.describe Ticketing::Coupon do
     end
   end
 
+  describe '.with_codes' do
+    subject { described_class.with_codes(codes) }
+
+    let!(:coupons) { create_list(:coupon, 3) }
+
+    before do
+      %w[abc 123 012].each.with_index { |c, i| coupons[i].update(code: c) }
+    end
+
+    context 'with one code' do
+      let(:codes) { %w[123] }
+
+      it { is_expected.to eq([coupons[1]]) }
+    end
+
+    context 'with two codes' do
+      let(:codes) { %w[012 123] }
+
+      it { is_expected.to eq([coupons[2], coupons[1]]) }
+    end
+
+    context 'with duplicate codes and sql injection attempt' do
+      let(:codes) { %w[123 abc 123 012 foo bar'}] }
+
+      it { is_expected.to eq([coupons[1], coupons[0], coupons[2]]) }
+    end
+  end
+
   describe '#code' do
     subject { coupon.code }
 

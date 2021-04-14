@@ -52,7 +52,7 @@ module Ticketing
     end
 
     def coupons
-      @coupons ||= Coupon.valid.where(code: params[:coupon_codes])
+      @coupons ||= Coupon.valid.with_codes(params[:coupon_codes])
     end
 
     def coupon_free_tickets_sum
