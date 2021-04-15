@@ -9,8 +9,15 @@
       tr
         td Firma / Gruppe / Zugehörigkeit:
         td = f.text_field :affiliation
-      tr
-        td Freikarten:
-        td = f.number_field :free_tickets, class: :numberField
+
+      - if @coupon.new_record?
+        tr
+          td Gutscheinart
+          td = f.select :value_type, @coupon.class.value_types.values.map { |t| [@coupon.class.human_enum_name(:value_type, t), t] }
+        tr
+          td Wert:
+          td
+            = f.number_field :value, step: :any
+            .small Anzahl der Freikarten oder Euro-Betrag
 
   .hcen.submit = f.submit 'speichern'

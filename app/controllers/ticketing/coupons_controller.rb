@@ -3,6 +3,7 @@
 module Ticketing
   class CouponsController < BaseController
     before_action :find_coupon, only: %i[edit update show destroy mail]
+    before_action :build_coupon, only: %i[new create]
 
     def index
       authorize Coupon
@@ -18,13 +19,14 @@ module Ticketing
       @members = Members::Member.where("email != ''").order(:last_name)
     end
 
-    def new
-      @coupon = authorize Coupon.new
-    end
+    def new; end
 
     def create
-      @coupon = authorize Coupon.new(coupon_params)
-      @coupon.save
+      if @coupon.update(coupon_params)
+        @coupon.deposit_into_account(params[:ticketing_coupon][:value].to_f,
+                                     :created_coupon)
+        log_service.create
+      end
       redirect_to @coupon
     end
 
@@ -75,13 +77,17 @@ module Ticketing
       @coupon = authorize Coupon.find(params[:id])
     end
 
+    def build_coupon
+      @coupon = authorize Coupon.new
+    end
+
     def log_service
       @log_service ||=
         LogEventCreateService.new(@coupon, current_user: current_user)
     end
 
     def coupon_params
-      permitted_attributes Coupon
+      permitted_attributes @coupon
     end
   end
 end

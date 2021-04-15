@@ -27,17 +27,10 @@
             em nicht angegeben
       tr
         td Ursprünglicher Wert:
-        td = number_to_currency @coupon.initial_value
+        td = render 'value', coupon: @coupon, initial: true
       tr
         td Restwert:
-        td = number_to_currency @coupon.value
-      tr
-        td Freikarten:
-        td
-          - if @coupon.free_tickets > 0
-            = @coupon.free_tickets
-          - else
-            em keine
+        td = render 'value', coupon: @coupon
       - if @coupon.purchased_with_order.present?
         tr
           td Bestellt in:

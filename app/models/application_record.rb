@@ -13,5 +13,10 @@ class ApplicationRecord < ActiveRecord::Base
         values.index_with(&:to_s)
       end)
     end
+
+    def human_enum_name(name, value)
+      I18n.t("activerecord.attributes.#{model_name.i18n_key}" \
+             ".#{name.to_s.pluralize}.#{value}")
+    end
   end
 end

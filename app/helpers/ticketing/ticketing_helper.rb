@@ -36,9 +36,7 @@ module Ticketing
     private
 
     def translate_billing_transaction_note(key)
-      t(key, scope: [:activerecord, :attributes,
-                     Ticketing::Billing::Transaction.model_name.i18n_key,
-                     :notes])
+      Ticketing::Billing::Transaction.human_enum_name(:notes, key)
     end
   end
 end

@@ -168,9 +168,6 @@ de:
     billings:
       created: Die Zahlung wurde verbucht.
     coupons:
-      free_tickets:
-        one: "%{count} Freikarte"
-        other: "%{count} Freikarten"
       sent: "Der Gutschein wurde erfolgreich verschickt."
     reservation_groups:
       created: "Die Vorreservierungsgruppe wurde erfolgreich erstellt."
@@ -359,8 +356,13 @@ de:
           electronic_cash_at_box_office: EC-Zahlung an Abendkasse
           cash_refund_at_box_office: Barrückzahlung an Abendkasse
           retail_store_billing: Abrechnung
+          created_coupon: Gutschein erstellt
           purchased_coupon: Gutschein gekauft
           redeemed_coupon: Gutscheinguthaben eingelöst
+      ticketing/coupon:
+        value_types:
+          free_tickets: Freikarten
+          credit: Guthaben
   attributes:
     title: "Titel"
     email: "e-mail-Adresse"

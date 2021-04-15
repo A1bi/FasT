@@ -27,7 +27,9 @@ module Ticketing
     end
 
     def permitted_attributes
-      %i[recipient affiliation free_tickets]
+      attrs = %i[recipient affiliation]
+      attrs << :value_type if record.new_record?
+      attrs
     end
   end
 end
