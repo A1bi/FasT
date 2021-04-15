@@ -1,118 +1,81 @@
-<% title "Gutscheindetails" %>
-<% include_css "ticketing/coupons" %>
-<%= form_tag mail_ticketing_coupon_path(@coupon) do %>
-  <table class="rounded show">
-    <thead>
-      <tr>
-        <th colspan="2">Gutscheindetails</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Code:</td>
-        <td>
-          <span class="code"><%= @coupon.code %></span>
-          <span class="actionBtns"><%= render "admin_actions", obj: @coupon, delete_confirm: "diesen Gutschein" %></span>
-        </td>
-      </tr>
-      <tr>
-        <td>Empfänger:</td>
-        <td>
-          <% if @coupon.recipient.present? %>
-            <%= @coupon.recipient %>
-          <% else %>
-            <em>nicht angegeben</em>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td>Zugehörigkeit:</td>
-        <td>
-          <% if @coupon.affiliation.present? %>
-            <%= @coupon.affiliation %>
-          <% else %>
-            <em>nicht angegeben</em>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td>Ursprünglicher Wert:</td>
-        <td>
-          <%= number_to_currency @coupon.initial_value %>
-        </td>
-      </tr>
-      <tr>
-        <td>Restwert:</td>
-        <td>
-          <%= number_to_currency @coupon.value %>
-        </td>
-      </tr>
-      <tr>
-        <td>Freikarten:</td>
-        <td>
-          <% if @coupon.free_tickets > 0 %>
-            <%= @coupon.free_tickets %>
-          <% else %>
-            <em>keine</em>
-          <% end %>
-        </td>
-      </tr>
-      <% if @coupon.purchased_with_order.present? %>
-        <tr>
-          <td>Bestellt in:</td>
-          <td><%= link_to "Bestellung #{@coupon.purchased_with_order.number}", ticketing_order_path(@coupon.purchased_with_order) %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td>Eingelöst in Bestellungen:</td>
-        <td>
-          <% if !@coupon.orders.empty? %>
-            <ul>
-              <% @coupon.orders.each do |order| %>
-                <li><%= link_to order.number, ticketing_order_path(order) %> | <%= l order.created_at, format: "%d.%m.%y" %> | <%= number_to_currency(order.total) %></li>
-              <% end %>
-            </ul>
-          <% else %>
-            <em>keine</em>
-          <% end %>
-        </td>
-      </tr>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="2">Gutschein verschicken</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Empfänger:</td>
-        <td><%= text_field_tag :recipient, @coupon.recipient %></td>
-      </tr>
-      <tr>
-        <td>e-mail-Adresse:</td>
-        <td><%= email_field_tag :email %></td>
-      </tr>
-      <tr>
-        <td>Mitglied:</td>
-        <td>
-          <%= collection_select(:member, :id, @members, :id, proc { |member| member.name.sorted }, prompt: "") %><br />
-          <%= check_box_tag :member_is_recipient, true %>
-          <%= label_tag :member_is_recipient, "Mitglied auch als Empfänger des Codes eintragen" %>
-        </td>
-      </tr>
-      <tr>
-        <td>Betreff:</td>
-        <td><%= text_field_tag :subject, (session[:coupon_sending] ||= {})[:subject] %></td>
-      </tr>
-      <tr>
-        <td>Nachricht:</td>
-        <td><%= text_area_tag :text, session[:coupon_sending][:text] %></td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="submit">
-    <%= submit_tag "senden" %>
-  </div>
-<% end %>
-<%= render "application/ticketing/log_events", events: @coupon.log_events %>
-<%= render 'application/ticketing/billing_transactions', record: @coupon, title: 'Gutscheinwertprotokoll' %>
+- title 'Gutscheindetails'
+- include_css 'ticketing/coupons'
+
+= form_tag mail_ticketing_coupon_path(@coupon)
+  table.rounded.show
+    thead
+      tr: th colspan=2 Gutscheindetails
+    tbody
+      tr
+        td Code:
+        td
+          span.code = @coupon.code
+          span.actionBtns = render 'admin_actions', obj: @coupon, delete_confirm: 'diesen Gutschein'
+      tr
+        td Empfänger:
+        td
+          - if @coupon.recipient.present?
+            = @coupon.recipient
+          - else
+            em nicht angegeben
+      tr
+        td Zugehörigkeit:
+        td
+          - if @coupon.affiliation.present?
+            = @coupon.affiliation
+          - else
+            em nicht angegeben
+      tr
+        td Ursprünglicher Wert:
+        td = number_to_currency @coupon.initial_value
+      tr
+        td Restwert:
+        td = number_to_currency @coupon.value
+      tr
+        td Freikarten:
+        td
+          - if @coupon.free_tickets > 0
+            = @coupon.free_tickets
+          - else
+            em keine
+      - if @coupon.purchased_with_order.present?
+        tr
+          td Bestellt in:
+          td = link_to "Bestellung #{@coupon.purchased_with_order.number}", ticketing_order_path(@coupon.purchased_with_order)
+      tr
+        td Eingelöst in Bestellungen:
+        td
+          - if @coupon.orders.any?
+            ul
+              - @coupon.orders.each do |order|
+                li #{link_to order.number, ticketing_order_path(order)} | #{l(order.created_at, format: :medium)} | #{number_to_currency(order.total)}
+          - else
+            em keine
+
+    thead
+      tr: th colspan=2 Gutschein verschicken
+    tbody
+      tr
+        td Empfänger:
+        td = text_field_tag :recipient, @coupon.recipient
+      tr
+        td E-Mail-Adresse:
+        td = email_field_tag :email
+      tr
+        td Mitglied:
+        td
+          = collection_select(:member, :id, @members, :id, proc { |member| member.name.sorted }, prompt: '')
+          div
+            = check_box_tag :member_is_recipient, true
+            = label_tag :member_is_recipient, 'Mitglied auch als Empfänger des Codes eintragen'
+      tr
+        td Betreff:
+        td = text_field_tag :subject, (session[:coupon_sending] ||= {})[:subject]
+      tr
+        td Nachricht:
+        td = text_area_tag :text, session[:coupon_sending][:text]
+
+  .submit = submit_tag 'senden'
+
+= render 'application/ticketing/log_events', events: @coupon.log_events
+= render 'application/ticketing/billing_transactions', record: @coupon, title: 'Gutscheinwertprotokoll'

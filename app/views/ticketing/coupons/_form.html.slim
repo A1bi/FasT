@@ -1,28 +1,16 @@
-<%= form_for @coupon do |f| %>
-  <table class="rounded show">
-    <thead>
-      <tr>
-        <th colspan="2">Gutschein <%= title %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Empfänger:</td>
-        <td><%= f.text_field :recipient %></td>
-      </tr>
-      <tr>
-        <td>Firma / Gruppe / Zugehörigkeit:</td>
-        <td><%= f.text_field :affiliation %></td>
-      </tr>
-      <tr>
-        <td>Freikarten:</td>
-        <td>
-          <%= f.number_field :free_tickets, class: :numberField %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="hcen submit">
-    <%= f.submit "speichern" %>
-  </div>
-<% end %>
+= form_for @coupon do |f|
+  table.rounded.show
+    thead
+      tr: th colspan=2 Gutschein #{title}
+    tbody
+      tr
+        td Empfänger:
+        td = f.text_field :recipient
+      tr
+        td Firma / Gruppe / Zugehörigkeit:
+        td = f.text_field :affiliation
+      tr
+        td Freikarten:
+        td = f.number_field :free_tickets, class: :numberField
+
+  .hcen.submit = f.submit 'speichern'
