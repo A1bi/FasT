@@ -3,7 +3,13 @@
 module Ticketing
   module TicketingHelper
     def format_billing_amount(amount)
-      (amount.positive? ? '+' : '') + number_to_currency(amount)
+      sign_number(amount, number_to_currency(amount))
+    end
+
+    def format_free_tickets_count(count, signed: false)
+      formatted_count = "#{count.to_i} " +
+                        t('ticketing.coupons.free_ticket', count: count.abs)
+      signed ? sign_number(count, formatted_count) : formatted_count
     end
 
     def event_logo(event, image_options: {}, fallback_tag: :h2,
@@ -37,6 +43,10 @@ module Ticketing
 
     def translate_billing_transaction_note(key)
       Ticketing::Billing::Transaction.human_enum_name(:notes, key)
+    end
+
+    def sign_number(number, formatted_number)
+      "#{number.positive? ? '+' : ''}#{formatted_number}"
     end
   end
 end

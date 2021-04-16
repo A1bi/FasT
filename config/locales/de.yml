@@ -169,6 +169,9 @@ de:
       created: Die Zahlung wurde verbucht.
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
+      free_ticket:
+        one: Freikarte
+        other: Freikarten
     reservation_groups:
       created: "Die Vorreservierungsgruppe wurde erfolgreich erstellt."
       destroyed: "Die Vorreservierungsgruppe wurde gelöscht."

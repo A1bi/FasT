@@ -1,0 +1,4 @@
+- if record.is_a?(Ticketing::Coupon) && record.free_tickets_value?
+  = format_free_tickets_count(amount, signed: true)
+- else
+  = format_billing_amount(amount)

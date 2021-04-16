@@ -10,12 +10,12 @@ table.rounded.entries.billing-log.details
       tr
         td.date = l(transaction.created_at, format: :medium)
         td = translate_billing_transaction(transaction)
-        td = format_billing_amount(transaction.amount)
+        td = render 'application/ticketing/billing_transactions_amount', record: record, amount: transaction.amount
     tr
       td
       td Saldo
       td class=(record.billing_account.outstanding? ? 'negative' : 'positive')
-        = format_billing_amount(record.billing_account.balance)
+        = render 'application/ticketing/billing_transactions_amount', record: record, amount: record.billing_account.balance
 
   - if local_assigns[:actions]
     thead
