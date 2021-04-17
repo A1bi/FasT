@@ -22,6 +22,10 @@ table.billing-log {
     }
   }
 
+  .actions {
+    text-align: center;
+  }
+
   tbody:last-child {
     input[type=text] {
       width: 50px;

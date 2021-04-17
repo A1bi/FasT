@@ -2,18 +2,23 @@
 
 module Ticketing
   class BillingsController < BaseController
-    before_action :find_order
+    ALLOWED_BILLABLE_TYPES = %w[Order Coupon].freeze
 
     def create
-      case params[:note].to_sym
-      when :transfer_refund
-        transfer_refund
-      when :cash_refund_in_store
-        cash_refund_in_store
-      else
-        adjust_balance
+      case billable
+      when Order
+        case params[:note].to_sym
+        when :transfer_refund
+          transfer_refund
+        when :cash_refund_in_store
+          cash_refund_in_store
+        else
+          adjust_balance
+        end
+      when Coupon
+        adjust_value if params[:note] == 'correction'
       end
-      redirect_to_order_details
+      redirect_to_billable
     end
 
     private
@@ -30,28 +35,35 @@ module Ticketing
 
     def adjust_balance
       authorize :adjust_balance?
-      billing_service.adjust_balance(amount)
+      billing_service.adjust_balance(params[:amount].to_f)
     end
 
-    def find_order
-      @order = Order.find(params[:order_id])
+    def adjust_value
+      authorize :adjust_value?
+      billable.deposit_into_account(params[:amount].to_i, :correction)
+    end
+
+    def billable
+      unless ALLOWED_BILLABLE_TYPES.include?(params[:billable_type])
+        raise ActiveRecord::RecordNotFound
+      end
+
+      @billable ||=
+        "Ticketing::#{params[:billable_type]}".constantize
+                                              .find(params[:billable_id])
     end
 
     def authorize(action)
-      super @order, action, policy_class: BillingPolicy
+      super billable, action, policy_class: BillingPolicy
     end
 
     def billing_service
-      OrderBillingService.new(@order)
+      OrderBillingService.new(billable)
     end
 
-    def amount
-      params[:amount].gsub(',', '.').to_f
-    end
-
-    def redirect_to_order_details
+    def redirect_to_billable
       flash[:notice] = t(:created, scope: %i[ticketing billings])
-      redirect_to ticketing_order_path(@order)
+      redirect_to billable.becomes(billable.class.base_class)
     end
   end
 end

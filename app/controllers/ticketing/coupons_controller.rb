@@ -17,6 +17,7 @@ module Ticketing
 
     def show
       @members = Members::Member.where("email != ''").order(:last_name)
+      @billing_actions = %i[correction]
     end
 
     def new; end

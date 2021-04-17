@@ -13,5 +13,9 @@ module Ticketing
     def transfer_refund?
       user_admin?
     end
+
+    def adjust_value?
+      user_admin?
+    end
   end
 end

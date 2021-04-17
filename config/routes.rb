@@ -127,7 +127,6 @@ Rails.application.routes.draw do
               post :resend_items
               get :seats
             end
-            resources :billings, only: %i[create]
           end
         end
         scope controller: :payments, path: 'zahlungen', as: :payments do
@@ -137,6 +136,7 @@ Rails.application.routes.draw do
           post :submit
           get :submission_file, path: 'sepa-auftrag/:id'
         end
+        resources :billings, only: %i[create]
         resources :seatings, path: 'sitzpläne', only: %i[index show]
         resources :reservation_groups,
                   path: 'vorreservierungen',

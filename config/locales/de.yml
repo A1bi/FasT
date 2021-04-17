@@ -166,7 +166,7 @@ de:
         debit_remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
         transfer_remittance_information: "Erstattung zu Ihrer Bestellung mit der Nummer %{number}"
     billings:
-      created: Die Zahlung wurde verbucht.
+      created: Die Buchung wurde gespeichert.
     coupons:
       sent: "Der Gutschein wurde erfolgreich verschickt."
       free_ticket:
