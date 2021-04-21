@@ -13,14 +13,14 @@ class MoveTicketingCouponAmountToBillingAccount < ActiveRecord::Migration[6.1]
             INSERT INTO ticketing_billing_accounts
               (balance, billable_type, billable_id, created_at, updated_at)
             VALUES (#{coupon['amount']}, 'Ticketing::Coupon', #{coupon['id']},
-                    NOW(), NOW())
+                    '#{coupon['created_at']}', '#{coupon['created_at']}')
           SQL
 
           execute <<-SQL.squish
             INSERT INTO ticketing_billing_transactions
               (amount, note_key, account_id, created_at, updated_at)
             VALUES (#{coupon['amount']}, 'purchased_coupon', #{account_id},
-                    NOW(), NOW())
+                    '#{coupon['created_at']}', '#{coupon['created_at']}')
           SQL
         end
       end
