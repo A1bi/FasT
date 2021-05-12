@@ -26,6 +26,7 @@ gem 'sepa_king', '~> 0.12.0'
 gem 'simpleidn', '~> 0.2.1'
 gem 'whenever', require: false
 
+gem 'corona_presence_tracing'
 gem 'icalendar', '~> 2.7'
 gem 'jbuilder', '~> 2.10'
 gem 'prawn', '~> 2.4.0'

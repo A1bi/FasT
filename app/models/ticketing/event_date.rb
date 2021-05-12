@@ -32,11 +32,31 @@ module Ticketing
       statistics[:total]
     end
 
+    def covid19_check_in_url
+      return unless event.covid19_presence_tracing?
+
+      super || begin
+        update(covid19_check_in_url: cwa_check_in_url)
+        cwa_check_in_url
+      end
+    end
+
     private
 
     def statistics
       ticket_stats_for_event(event).dig(:total, id) ||
         { total: 0, percentage: 0 }
+    end
+
+    def cwa_check_in_url
+      @cwa_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
+        description: event.name,
+        address: event.location.squish,
+        start_time: door_time.to_datetime,
+        end_time: (date + 2.hours).to_datetime,
+        location_type: :temporary_cultural_event,
+        default_check_in_length: 120
+      ).url
     end
   end
 end
