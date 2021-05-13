@@ -7,6 +7,11 @@ module AuthenticationHelpers
     allow_any_instance_of(ApplicationController) # rubocop:disable RSpec/AnyInstance
       .to receive(:current_user).and_return(user)
   end
+
+  def sign_in_api
+    allow_any_instance_of(ApplicationController) # rubocop:disable RSpec/AnyInstance
+      .to receive(:authenticate_or_request_with_http_token)
+  end
 end
 
 RSpec.configure do |config|

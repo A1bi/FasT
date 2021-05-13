@@ -15,23 +15,12 @@ module Api
       end
 
       def create
-        ActiveRecord::Base.transaction do
-          params[:check_ins].each do |check_in|
-            ticket = ::Ticketing::Ticket.find(check_in[:ticket_id])
-            tickets = if ticket.event.covid19?
-                        ticket.order.tickets.valid
-                      else
-                        [ticket]
-                      end
-            tickets.each do |t|
-              t.check_ins.create!(check_in.permit(:date, :medium))
-            end
-          end
+        params[:check_ins].each do |check_in|
+          ::Ticketing::TicketCheckInJob.perform_later(
+            **check_in.permit(:ticket_id, :date, :medium)
+          )
         end
-
         head :created
-      rescue ActiveRecord::RecordInvalid
-        head :unprocessable_entity
       end
 
       private
