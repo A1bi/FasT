@@ -1,5 +1,21 @@
-include:
-  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - when: always
+
+.except_schedules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE != "schedule"'
+      when: always
+
+.production:
+  environment:
+    name: production
+    url: https://www.theater-kaisersesch.de
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "production"'
+      when: manual
 
 .default-tags:
   tags: [ruby-2.7]
@@ -19,10 +35,6 @@ include:
 .copy_master_key: &copy_master_key
   - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
 
-.production_env: &production_env
-  name: production
-  url: https://www.theater-kaisersesch.de
-
 stages:
   - test
   - deploy
@@ -41,33 +53,32 @@ cache:
     - public/assets
 
 rubocop:
-  extends: .default-tags
-  except:
-    - schedules
+  extends:
+    - .except_schedules
+    - .default-tags
   before_script:
     - *bundle
   script:
     - rubocop
 
 standardjs:
+  extends: .except_schedules
   tags:
     - yarn
-  except:
-    - schedules
   before_script:
     - *yarn
   script:
     - yarn run standard
 
 specs:
-  extends: .postgres
-  except:
-    - schedules
+  extends:
+    - .except_schedules
+    - .postgres
   before_script:
     - *bundle
     - *copy_master_key
   script:
-    - rails db:drop db:create db:structure:load
+    - rails db:drop db:create db:schema:load
     - rails assets:precompile
     - rspec
   artifacts:
@@ -92,32 +103,21 @@ yarn audit:
     - npx audit-ci --high
 
 deploy:
-  extends: .default-tags
-  except:
-    - schedules
+  extends:
+    - .production
+    - .default-tags
   stage: deploy
   before_script:
     - *bundle
   script:
     - ssh_wrap cap production deploy
-  environment:
-    <<: *production_env
-  only:
-    refs:
-      - production
 
 run one off task:
-  extends: .default-tags
-  except:
-    - schedules
+  extends:
+    - .production
+    - .default-tags
   stage: post-deploy
   before_script:
     - *bundle
   script:
     - ssh_wrap cap production one_off:run
-  environment:
-    <<: *production_env
-  only:
-    refs:
-      - production
-  when: manual
