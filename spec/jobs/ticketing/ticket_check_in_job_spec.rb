@@ -29,6 +29,22 @@ RSpec.describe Ticketing::TicketCheckInJob do
         expect(check_in.date).to eq(Time.zone.parse(date))
         expect(check_in.medium).to eq('web')
       end
+
+      context 'with an invalid date' do
+        let(:date) { 'foobar' }
+
+        it 'raises an error' do
+          expect { subject }.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+
+      context 'with an invalid medium' do
+        let(:medium) { 'foo' }
+
+        it 'raises an error' do
+          expect { subject }.to raise_error(ArgumentError)
+        end
+      end
     end
 
     context 'with a ticket id from a covid19 order' do

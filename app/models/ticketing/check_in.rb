@@ -6,6 +6,8 @@ module Ticketing
     belongs_to :checkpoint, optional: true
     enum medium: %i[unknown web retail passbook box_office box_office_direct]
 
+    validates :date, :medium, presence: true
+
     class << self
       def medium_index(medium)
         media.values.index(medium.to_s)

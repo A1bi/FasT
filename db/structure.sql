@@ -1186,8 +1186,9 @@ CREATE TABLE public.ticketing_check_ins (
     id bigint NOT NULL,
     ticket_id bigint,
     checkpoint_id bigint,
-    medium public.ticketing_check_in_medium,
-    date timestamp without time zone
+    medium public.ticketing_check_in_medium NOT NULL,
+    date timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -3706,6 +3707,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210320180321'),
 ('20210408155502'),
 ('20210409193803'),
-('20210512210607');
+('20210512210607'),
+('20210515212141');
 
 
