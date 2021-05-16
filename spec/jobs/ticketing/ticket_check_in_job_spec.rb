@@ -11,6 +11,21 @@ RSpec.describe Ticketing::TicketCheckInJob do
     let(:medium) { 1 }
     let(:ticket_id) { ticket.id }
 
+    shared_examples 'sending a COVID-19 check-in email' do
+      it 'sends a COVID-19 check-in email' do
+        expect { subject }
+          .to have_enqueued_mail(Ticketing::Covid19CheckInMailer, :check_in)
+          .with(a_hash_including(args: [ticket]))
+      end
+    end
+
+    shared_examples 'not sending a COVID-19 check-in email' do
+      it 'sends a COVID-19 check-in email' do
+        expect { subject }
+          .not_to have_enqueued_mail(Ticketing::Covid19CheckInMailer)
+      end
+    end
+
     context 'with an invalid ticket id' do
       let(:ticket_id) { 'foo' }
 
@@ -29,6 +44,8 @@ RSpec.describe Ticketing::TicketCheckInJob do
         expect(check_in.date).to eq(Time.zone.parse(date))
         expect(check_in.medium).to eq('web')
       end
+
+      include_examples 'not sending a COVID-19 check-in email'
 
       context 'with an invalid date' do
         let(:date) { 'foobar' }
@@ -51,7 +68,12 @@ RSpec.describe Ticketing::TicketCheckInJob do
       let(:order) do
         create(:order, :with_tickets, tickets_count: 3, event: event)
       end
-      let(:event) { create(:event, :complete, covid19: true) }
+      let(:event) do
+        create(:event, :complete, covid19: true,
+                                  covid19_presence_tracing: presence_tracing,
+                                  dates_count: 2)
+      end
+      let(:presence_tracing) { false }
       let(:ticket) { order.tickets[0] }
       let(:medium) { 2 }
 
@@ -63,6 +85,35 @@ RSpec.describe Ticketing::TicketCheckInJob do
           check_in = ticket.check_ins.last
           expect(check_in.date).to eq(Time.zone.parse(date))
           expect(check_in.medium).to eq('retail')
+        end
+      end
+
+      include_examples 'not sending a COVID-19 check-in email'
+
+      context 'with presence tracing enabled' do
+        let(:presence_tracing) { true }
+
+        context 'when no other tickets from the order have been checked' \
+                ' in yet' do
+          include_examples 'sending a COVID-19 check-in email'
+        end
+
+        context 'when a ticket with the same date has been checked in' do
+          before do
+            order.tickets[1].update(date: ticket.date)
+            order.tickets[1].check_ins.create(medium: 'web', date: Time.current)
+          end
+
+          include_examples 'not sending a COVID-19 check-in email'
+        end
+
+        context 'when a ticket with a different date has been checked in' do
+          before do
+            order.tickets[1].update(date: event.dates[1])
+            order.tickets[1].check_ins.create(medium: 'web', date: Time.current)
+          end
+
+          include_examples 'sending a COVID-19 check-in email'
         end
       end
     end
