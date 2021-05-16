@@ -146,8 +146,10 @@ store.users.create(
 ## coupons
 coupons = []
 10.times do
-  coupons << Ticketing::Coupon.create(recipient: FFaker::NameDE.name,
-                                      free_tickets: 2)
+  coupon = Ticketing::Coupon.create(recipient: FFaker::NameDE.name,
+                                    value_type: :free_tickets)
+  coupon.deposit_into_account(3, :created_coupon)
+  coupons << coupon
 end
 
 ## orders
@@ -158,15 +160,8 @@ def create_tickets(order, coupons = [])
 
   rand(1..2).times do
     ticket_type = ticket_types.pop
-    if ticket_type.price.zero?
-      coupon = coupons.pop
-      if coupon.present?
-        coupon.update(free_tickets: 0)
-        order.redeemed_coupons << coupon
-      end
-    end
 
-    rand(1..3).times do
+    (num_tickets = rand(1..3)).times do
       ticket = order.tickets.new
       ticket.type = ticket_type
       ticket.date = date
@@ -176,6 +171,13 @@ def create_tickets(order, coupons = [])
         ticket.seat = event.seating.seats.sample
         break unless ticket.seat.taken?(date)
       end
+    end
+
+    next unless ticket_type.price.zero?
+
+    if (coupon = coupons.pop).present?
+      coupon.withdraw_from_account(num_tickets, :redeemed_coupon)
+      order.redeemed_coupons << coupon
     end
   end
 end
