@@ -4,8 +4,10 @@ module Ticketing
   class TicketCheckInJob < ApplicationJob
     def perform(ticket_id:, date:, medium:)
       @ticket = Ticket.find(ticket_id)
-      send_check_in_email
-      create_check_ins(date, medium)
+      lock_order do
+        send_check_in_email
+        create_check_ins(date, medium)
+      end
     end
 
     private
@@ -31,6 +33,12 @@ module Ticketing
       @ticket.order.tickets.includes(:check_ins)
              .where(date_id: @ticket.date_id).where.not(check_ins: { id: nil })
              .none?
+    end
+
+    def lock_order(&block)
+      # acquire exclusive lock on order to avoid sending multiple emails to the
+      # same person when multiple jobs with sibling tickets run in parallel
+      @ticket.order.with_lock(true, &block)
     end
   end
 end

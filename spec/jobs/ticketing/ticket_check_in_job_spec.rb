@@ -117,5 +117,22 @@ RSpec.describe Ticketing::TicketCheckInJob do
         end
       end
     end
+
+    describe 'avoiding multiple emails to the same person' do
+      let(:order) { create(:order, :with_tickets, event: event) }
+      let(:event) { create(:event, :complete, covid19_presence_tracing: true) }
+
+      it 'does not enqueue multiple emails to the same person' do
+        expect do
+          threads = 5.times.map do
+            Thread.new do
+              described_class.perform_now(ticket_id: order.tickets[0].id,
+                                          date: date, medium: medium)
+            end
+          end
+          threads.each(&:join)
+        end.to have_enqueued_mail(Ticketing::Covid19CheckInMailer).once
+      end
+    end
   end
 end
