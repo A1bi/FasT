@@ -102,6 +102,11 @@ event_ids.each.with_index do |event_id, i|
     seating: seatings[i >= event_ids.count - 1 ? 1 : 0]
   )
 
+  if event_id == 'mit_abstand'
+    event.covid19 = true
+    event.covid19_presence_tracing = true
+  end
+
   # two most recent events will be the future
   if i > event_ids.count - 3
     event_date_base = (event_ids.count - i).months.from_now
@@ -171,6 +176,12 @@ def create_tickets(order, coupons = [])
         ticket.seat = event.seating.seats.sample
         break unless ticket.seat.taken?(date)
       end
+
+      next unless event.covid19?
+
+      ticket.build_covid19_attendee(name: 'John Doe', street: 'Foo Road',
+                                    plz: '12345', city: 'Sample City',
+                                    phone: '030 5550123')
     end
 
     next unless ticket_type.price.zero?

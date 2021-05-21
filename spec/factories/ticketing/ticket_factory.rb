@@ -8,7 +8,7 @@ FactoryBot.define do
     date factory: :event_date
 
     before(:create) do |ticket|
-      next unless ticket.date.event.covid19?
+      next unless ticket.event.covid19?
 
       ticket.covid19_attendee = build(:covid19_attendee)
     end

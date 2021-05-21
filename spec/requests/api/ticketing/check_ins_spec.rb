@@ -63,7 +63,7 @@ RSpec.describe 'Api::Ticketing::CheckInsController' do
         subject
         params[:check_ins].each do |check_in|
           expect(Ticketing::TicketCheckInJob)
-            .to have_been_enqueued.with(check_in.stringify_keys)
+            .to have_been_enqueued.with(check_in)
         end
       end
     end

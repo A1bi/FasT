@@ -17,7 +17,7 @@ module Api
       def create
         params[:check_ins].each do |check_in|
           ::Ticketing::TicketCheckInJob.perform_later(
-            **check_in.permit(:ticket_id, :date, :medium)
+            **check_in.permit(:ticket_id, :date, :medium).to_h.symbolize_keys
           )
         end
         head :created

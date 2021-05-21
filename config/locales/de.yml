@@ -139,6 +139,9 @@ de:
         tickets: Ihre Tickets
         coupons: Ihre Geschenkgutscheine
       order_with_number_html: Bestellung mit der Nummer <b>%{number}</b>
+    covid19_check_in_mailer:
+      check_in:
+        subject: Herzlich willkommen
     refund_mailer:
       customer:
         subject: Ihre Erstattung
