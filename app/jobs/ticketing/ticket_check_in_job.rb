@@ -5,18 +5,20 @@ module Ticketing
     def perform(ticket_id:, date:, medium:)
       @ticket = Ticket.find(ticket_id)
       lock_order do
-        send_check_in_email
+        send_check_in_email(date)
         create_check_ins(date, medium)
       end
     end
 
     private
 
-    def send_check_in_email
+    def send_check_in_email(date)
       return unless @ticket.event.covid19_presence_tracing? &&
-                    no_check_ins_for_date?
+                    no_check_ins_for_date? && early_enough_for_email?
 
-      Covid19CheckInMailer.check_in(@ticket).deliver_later
+      Covid19CheckInMailer.check_in(@ticket).deliver_later(
+        wait_until: 1.minute.since(DateTime.parse(date))
+      )
     end
 
     def create_check_ins(date, medium)
@@ -33,6 +35,10 @@ module Ticketing
       @ticket.order.tickets.includes(:check_ins)
              .where(date_id: @ticket.date_id).where.not(check_ins: { id: nil })
              .none?
+    end
+
+    def early_enough_for_email?
+      1.hour.since(@ticket.date.date).future?
     end
 
     def lock_order(&block)

@@ -1,21 +1,34 @@
 # frozen_string_literal: true
 
+require 'support/time'
+
 RSpec.describe Ticketing::TicketCheckInJob do
   describe '#perform_now' do
     subject do
-      described_class.perform_now(ticket_id: ticket_id, date: date,
+      described_class.perform_now(ticket_id: ticket_id, date: date.to_s,
                                   medium: medium)
     end
 
-    let(:date) { '2021-05-13 18:33:15' }
+    let(:date) do
+      ticket ? 15.minutes.since(ticket.date.door_time) : Time.current
+    end
     let(:medium) { 1 }
+    let(:ticket) { nil }
     let(:ticket_id) { ticket.id }
+    let(:current_time) do
+      date.is_a?(Time) ? 15.seconds.since(date) : Time.current
+    end
+
+    around do |example|
+      travel_to(current_time) { example.run }
+    end
 
     shared_examples 'sending a COVID-19 check-in email' do
       it 'sends a COVID-19 check-in email' do
         expect { subject }
           .to have_enqueued_mail(Ticketing::Covid19CheckInMailer, :check_in)
           .with(a_hash_including(args: [ticket]))
+          .at(date + 1.minute)
       end
     end
 
@@ -41,7 +54,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
       it 'creates a check-in for the ticket' do
         expect { subject }.to change(Ticketing::CheckIn, :count).by(1)
         check_in = ticket.check_ins.last
-        expect(check_in.date).to eq(Time.zone.parse(date))
+        expect(check_in.date).to eq(date)
         expect(check_in.medium).to eq('web')
       end
 
@@ -83,7 +96,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
         expect { subject }.to change(Ticketing::CheckIn, :count).by(2)
         order.tickets[0..1].each do |ticket|
           check_in = ticket.check_ins.last
-          expect(check_in.date).to eq(Time.zone.parse(date))
+          expect(check_in.date).to eq(date)
           expect(check_in.medium).to eq('retail')
         end
       end
@@ -115,6 +128,12 @@ RSpec.describe Ticketing::TicketCheckInJob do
 
           include_examples 'sending a COVID-19 check-in email'
         end
+
+        context 'when it is too late for an email' do
+          let(:current_time) { 2.hours.since(ticket.date.date) }
+
+          include_examples 'not sending a COVID-19 check-in email'
+        end
       end
     end
 
@@ -127,7 +146,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
           threads = 5.times.map do
             Thread.new do
               described_class.perform_now(ticket_id: order.tickets[0].id,
-                                          date: date, medium: medium)
+                                          date: date.to_s, medium: medium)
             end
           end
           threads.each(&:join)
