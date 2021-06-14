@@ -101,6 +101,7 @@ yarn audit:
     - *yarn
   script:
     - npx audit-ci --high
+  allow_failure: true
 
 deploy:
   extends:
