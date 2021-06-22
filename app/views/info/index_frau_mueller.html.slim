@@ -5,18 +5,12 @@
 
   = render 'question_answer', question: 'Welche Hygienemaßnahmen werden getroffen?' do
     ul
-      li Unsere Aufführungen finden in diesem Jahr nicht wie üblich auf der großen Bühne vor dem Alten Kino statt, sondern etwas abseits auf einem kleinen Platz neben dem Kino.
-      li Die Anzahl der Plätze ist auf etwa 30 limitiert.
-      li Zusammensitzen können ausschließlich zusammengehörige Besuchergruppen. Zwischen diesen Gruppen wird ein Abstand von 1,5 m in alle Richtungen eingehalten.
+      li Die Sitzplätze sind im Schachbrettmuster angeordnet, um genügend Abstand zwischen ihnen zu gewährleisten.
       li Es gilt eine allgemeine Maskenpflicht. Die Masken müssen getragen werden, bis Sie Ihren Platz eingenommen haben.
-      li Auf einen Verkauf von Tickets, Speisen oder Getränken vor Ort wird verzichtet. Bitte bringen Sie auch keine Speisen oder Getränke mit.
-      li Die Aufführungsdauer ist auf etwa eine Stunde begrenzt.
+      / li Auf einen Verkauf von Speisen oder Getränken vor Ort wird verzichtet. Bitte bringen Sie auch keine Speisen oder Getränke mit.
       li Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
       li Die Kontaktdaten aller Besucher werden im Voraus für den Fall einer Infektion aufgenommen. Diese Daten werden nach der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
-      li Wir empfehlen Ihnen die Installation der <a href='https://www.coronawarn.app/' target='_blank'>Corona-Warn-App</a> auf Ihrem Smartphone.
-
-  = render 'question_answer', question: 'Wer gehört zu einer Besuchergruppe?' do
-    | Zu einer Besuchergruppe zählen Angehörige des eigenen Hausstands und eine oder mehrere Personen eines weiteren Hausstands.
+      li Wir empfehlen Ihnen die Installation der <a href='https://www.coronawarn.app/' target='_blank'>Corona-Warn-App</a> auf Ihrem Smartphone. Vor Ort finden Sie auch einen QR-Code, um die Check-In-Funktion der App zu nutzen, sofern Sie dies möchten.
 
   = render 'question_answer', question: 'Ist es möglich, Getränke selbst mitzubringen?' do
     | Dies können wir Ihnen leider nicht gestatten.
@@ -28,10 +22,7 @@
     | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen. Ein Kauf in Vorverkaufsstellen ist in diesem Jahr nicht möglich.
 
   = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
-    | Nein, die Plätze können in diesem Jahr nicht vorab reserviert werden. Die Besuchergruppen werden von uns unter Einhaltung des Abstandes im Zuschauerraum verteilt. Ihre Plätze werden Ihnen dann vor Ort genannt.
-
-  = render 'question_answer', question: 'Kann ich für mehrere Besuchergruppen buchen?' do
-    | Ja, bitte geben Sie dazu einfach eine Bestellung pro Gruppe auf. Bitte beachten Sie auch, dass separate Besuchergruppen nicht zusammensitzen können. Wir werden Sie entsprechend auf den Plätzen verteilen, um den nötigen Abstand einzuhalten.
+    | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
 
   = render 'question_answer', question: 'Gibt es gehbehindertengerechte Sitzplätze?' do
     | Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.
@@ -44,7 +35,7 @@
     p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.
 
   = render 'question_answer', question: 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
-    | Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+    | Selbstverständlich. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
     p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
 
   = render 'question_answer', question: 'Lassen sich Tickets umbuchen oder stornieren?' do
@@ -64,7 +55,7 @@
     p Im Ort sollte Ihnen unser namensgebender Kirchturm eine gute Orientierungshilfe sein.
 
   = render 'question_answer', question: 'Wie reise ich mit dem Auto an?' do
-    Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgende der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
+    | Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgen der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
     p Weitere Parkmöglichkeiten sind in der obigen Karte markiert.
 
   = render 'question_answer', question: 'Wie reise ich mit öffentlichen Verkehrsmitteln an?' do
@@ -77,24 +68,28 @@
   h2 Wetter
 
   = render 'question_answer', question: 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
-    | Da die Anzahl der Zuschauer in diesem Jahr überschaubar ist, haben wir bei Regen die Möglichkeit, in das Alte Kino auszuweichen.
+    | Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Aufführung schon im Vorfeld absagen oder in der ersten Hälfte des Stücks abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
+    p Bitte prüfen Sie an Aufführungstagen mit schlechtem Wetter unsere Homepage, die wir laufend mit aktuellen Informationen versorgen werden.
+
+  = render 'question_answer', question: 'Sind die Zuschauerränge überdacht?' do
+    | Leider nicht. Wir bitten Sie daher, gegebenenfalls an wetterfeste Kleidung zu denken. Gerne erhalten Sie vor Ort aber auch Regenponchos.
 
 .trenner
 
 .section
   h2 Aufführung
 
-  = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
-    | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
+  / = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
+  /   | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
 
-  = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
-    | In diesem Jahr findet kein Verkauf von Speisen oder Getränken statt. Bitte bringen Sie auch keine eigenen Speisen oder Getränke mit.
+  / = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+  /   | In diesem Jahr findet kein Verkauf von Speisen oder Getränken statt. Bitte bringen Sie auch keine eigenen Speisen oder Getränke mit.
 
   = render 'question_answer', question: 'Wird es eine Pause geben?' do
     | Es wird keine Pause geben.
 
   = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
-    | Die Aufführung dauert etwa eine Stunde.
+    | Die Aufführung dauert etwa 110 Minuten.
 
   = render 'question_answer', question: 'Kann ich während der Aufführung fotografieren oder filmen?' do
     | Leider können wir Ihnen dies nicht gestatten.
