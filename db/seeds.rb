@@ -90,7 +90,7 @@ seatings << Ticketing::SeatingSvg::Importer.new(
 ## events
 event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
                alice_wunderland magdalena willibald sommernachtstraum herdmanns
-               gemetzel gloeckner blauer_planet mit_abstand]
+               gemetzel gloeckner blauer_planet mit_abstand frau_mueller]
 
 event_ids.each.with_index do |event_id, i|
   event = Ticketing::Event.new(
@@ -99,10 +99,11 @@ event_ids.each.with_index do |event_id, i|
     slug: "test-event-#{event_id.dasherize}",
     location: 'Testbühne',
     # the most recent event will have the seating with a plan
-    seating: seatings[i >= event_ids.count - 1 ? 1 : 0]
+    seating: seatings[i >= event_ids.count - 1 ? 1 : 0],
+    admission_duration: rand(30..60)
   )
 
-  if event_id == 'mit_abstand'
+  if event_id == 'frau_mueller'
     event.covid19 = true
     event.covid19_presence_tracing = true
   end
