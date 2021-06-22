@@ -124,7 +124,7 @@ module Ticketing
           [
             I18n.l(date.date, format: t(:date_format)),
             I18n.l(date.date, format: t(:time_format)),
-            I18n.l(date.door_time, format: t(:time_format))
+            I18n.l(date.admission_time, format: t(:time_format))
           ]
         )
       end

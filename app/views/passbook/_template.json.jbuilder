@@ -52,9 +52,9 @@ json.eventTicket do
         changeMessage: 'Der Veranstaltungsort wurde verlegt nach „%@“.'
       },
       {
-        key: 'opens',
+        key: 'admission_time',
         label: 'Einlass',
-        value: ticket.date.door_time.iso8601,
+        value: ticket.date.admission_time.iso8601,
         timeStyle: 'PKDateStyleShort'
       },
       {

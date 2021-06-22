@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe Ticketing::EventDate do
+  describe '#admission_time' do
+    subject { date.admission_time }
+
+    let(:event) { build(:event, admission_duration: 42) }
+    let(:date) do
+      build(:event_date, event: event,
+                         date: Time.zone.parse('2021-06-22 20:00'))
+    end
+
+    it { is_expected.to eq(Time.zone.parse('2021-06-22 19:18')) }
+  end
+
   describe '#covid19_check_in_url' do
     subject { date.covid19_check_in_url }
 

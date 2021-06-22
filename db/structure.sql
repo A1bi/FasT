@@ -1368,7 +1368,8 @@ CREATE TABLE public.ticketing_events (
     subtitle character varying,
     assets_identifier character varying NOT NULL,
     covid19 boolean DEFAULT false NOT NULL,
-    covid19_presence_tracing boolean DEFAULT false NOT NULL
+    covid19_presence_tracing boolean DEFAULT false NOT NULL,
+    admission_duration integer NOT NULL
 );
 
 
@@ -3708,6 +3709,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210408155502'),
 ('20210409193803'),
 ('20210512210607'),
-('20210515212141');
+('20210515212141'),
+('20210622203354');
 
 

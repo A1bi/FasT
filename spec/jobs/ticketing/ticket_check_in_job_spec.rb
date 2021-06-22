@@ -10,7 +10,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
     end
 
     let(:date) do
-      ticket ? 15.minutes.since(ticket.date.door_time) : Time.current
+      ticket ? 15.minutes.after(ticket.date.admission_time) : Time.current
     end
     let(:medium) { 1 }
     let(:ticket) { nil }

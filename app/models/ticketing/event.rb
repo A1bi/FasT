@@ -9,7 +9,8 @@ module Ticketing
     has_many :ticket_types, dependent: :destroy
     belongs_to :seating
 
-    validates :identifier, :assets_identifier, :slug, presence: true
+    validates :identifier, :assets_identifier, :slug, :admission_duration,
+              presence: true
     validates :identifier, :slug, uniqueness: true
 
     before_validation :set_assets_identifier, on: :create

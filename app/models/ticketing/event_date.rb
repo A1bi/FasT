@@ -20,8 +20,8 @@ module Ticketing
       statistics[:percentage] >= threshold
     end
 
-    def door_time
-      date - (event.covid19? ? 30.minutes : 1.hour)
+    def admission_time
+      event.admission_duration.minutes.before(date)
     end
 
     def number_of_seats
@@ -52,7 +52,7 @@ module Ticketing
       @cwa_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
         description: event.name,
         address: event.location.squish,
-        start_time: door_time.to_datetime,
+        start_time: admission_time.to_datetime,
         end_time: (date + 2.hours).to_datetime,
         location_type: :temporary_cultural_event,
         default_check_in_length: 120

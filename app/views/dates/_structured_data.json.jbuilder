@@ -7,7 +7,7 @@ json.array! event.dates.map do |date|
   json.name event.name
   json.image local_assigns[:image] ? asset_url(image) : nil
   json.startDate date.date.iso8601
-  json.doorTime date.door_time.iso8601
+  json.doorTime date.admission_time.iso8601
   json.eventStatus event_status(date)
 
   json.location do

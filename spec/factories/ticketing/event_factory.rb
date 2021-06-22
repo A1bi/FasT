@@ -6,6 +6,7 @@ FactoryBot.define do
     sequence(:identifier) { |n| "event_#{n}" }
     sequence(:slug) { |n| "event-#{n}" }
     location { 'Sample location' }
+    admission_duration { 60 }
     seating
 
     trait :with_dates do
