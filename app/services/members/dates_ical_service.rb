@@ -7,7 +7,7 @@ module Members
         calendar.event do |e|
           e.uid             = "FASTEVENT-#{date.id}"
           e.dtstart         = date.datetime
-          e.dtend           = date.datetime + 90.minutes
+          e.dtend           = 90.minutes.after(date.datetime)
           e.summary         = date.title
           e.description     = date.info
           e.location        = date.location

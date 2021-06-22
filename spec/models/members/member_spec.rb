@@ -43,7 +43,7 @@ RSpec.describe Members::Member do
 
     context 'when no membership fee payment has been made before' do
       let(:member) { create(:member) }
-      let(:paid_until) { Time.zone.yesterday + 6.months }
+      let(:paid_until) { 6.months.after(Time.zone.yesterday) }
 
       include_examples 'renewal'
     end
@@ -52,7 +52,7 @@ RSpec.describe Members::Member do
       let(:member) do
         create(:member, membership_fee_paid_until: 4.days.ago)
       end
-      let(:paid_until) { (4.days.ago + 6.months).to_date }
+      let(:paid_until) { 6.months.after(4.days.ago).to_date }
 
       include_examples 'renewal'
     end

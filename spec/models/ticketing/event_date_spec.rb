@@ -17,11 +17,12 @@ RSpec.describe Ticketing::EventDate do
     subject { date.covid19_check_in_url }
 
     let(:event) do
-      build(:event, covid19: true, covid19_presence_tracing: presence_tracing)
+      build(:event, covid19: true, covid19_presence_tracing: presence_tracing,
+                    admission_duration: 33)
     end
     let(:date) do
       build(:event_date, event: event,
-                         date: DateTime.parse('2021-05-12 20:00'),
+                         date: Time.zone.parse('2021-05-12 20:00'),
                          covid19_check_in_url: check_in_url)
     end
     let(:check_in_url) { nil }
@@ -41,8 +42,8 @@ RSpec.describe Ticketing::EventDate do
           expect(CoronaPresenceTracing::CWACheckIn).to receive(:new).with(
             description: event.name,
             address: event.location,
-            start_time: DateTime.parse('2021-05-12 19:30'),
-            end_time: DateTime.parse('2021-05-12 22:00'),
+            start_time: Time.zone.parse('2021-05-12 19:27'),
+            end_time: Time.zone.parse('2021-05-12 22:00'),
             location_type: :temporary_cultural_event,
             default_check_in_length: 120
           ).and_call_original

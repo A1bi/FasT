@@ -16,7 +16,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
     let(:ticket) { nil }
     let(:ticket_id) { ticket.id }
     let(:current_time) do
-      date.is_a?(Time) ? 15.seconds.since(date) : Time.current
+      date.is_a?(Time) ? 15.seconds.after(date) : Time.current
     end
 
     around do |example|
@@ -130,7 +130,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
         end
 
         context 'when it is too late for an email' do
-          let(:current_time) { 2.hours.since(ticket.date.date) }
+          let(:current_time) { 2.hours.after(ticket.date.date) }
 
           include_examples 'not sending a COVID-19 check-in email'
         end

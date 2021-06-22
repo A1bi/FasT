@@ -52,8 +52,8 @@ module Ticketing
       @cwa_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
         description: event.name,
         address: event.location.squish,
-        start_time: admission_time.to_datetime,
-        end_time: (date + 2.hours).to_datetime,
+        start_time: admission_time,
+        end_time: 2.hours.after(date),
         location_type: :temporary_cultural_event,
         default_check_in_length: 120
       ).url

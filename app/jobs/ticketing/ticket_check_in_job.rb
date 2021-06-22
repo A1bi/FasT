@@ -17,7 +17,7 @@ module Ticketing
                     no_check_ins_for_date? && early_enough_for_email?
 
       Covid19CheckInMailer.check_in(@ticket).deliver_later(
-        wait_until: 1.minute.since(DateTime.parse(date))
+        wait_until: 1.minute.after(Time.zone.parse(date))
       )
     end
 
@@ -38,7 +38,7 @@ module Ticketing
     end
 
     def early_enough_for_email?
-      1.hour.since(@ticket.date.date).future?
+      1.hour.after(@ticket.date.date).future?
     end
 
     def lock_order(&block)
