@@ -1,0 +1,17 @@
+- title 'Frau Müller muss weg – Termine'
+- include_css 'dates'
+
+= structured_data @event
+= render 'other_events'
+
+.frau_mueller
+  p Unser <b>Sommernachtstheater 2021 „Frau Müller muss weg“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+
+  = render 'dates'
+  = render 'prices'
+  = render 'order_link' if @event.on_sale?
+
+.trenner
+.hotline
+  .hl Informationen zu COVID-19
+  p Die Aufführungen finden unter Einhaltung <b>strenger Hygienemaßnahmen</b> statt. Weitere Informationen hierzu und zu anderen Themen finden Sie in unseren #{link_to "häufig gestellten Fragen", info_path(@event.slug)} oder rufen Sie uns an: <b>(02653) 28 27 09</b>
