@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
   end
 
   def passbook_pass
-    return head 403 if @ticket.blank?
+    return head :forbidden if @ticket.blank?
 
     send_file @ticket.passbook_pass(create: true).file_path,
               type: 'application/vnd.apple.pkpass'

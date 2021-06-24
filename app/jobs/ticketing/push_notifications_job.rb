@@ -16,7 +16,7 @@ module Ticketing
           key_id: credentials[:key_id],
           team_id: Settings.apns.team_id
         },
-        size: ENV.fetch('RAILS_MAX_THREADS', 5) # rubocop:disable Rails/EnvironmentVariableAccess
+        size: ENV.fetch('RAILS_MAX_THREADS', 5)
       ) do |connection|
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread

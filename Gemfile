@@ -15,7 +15,7 @@ gem 'bootsnap', require: false
 gem 'config', '~> 3.1'
 gem 'dalli', '~> 2.7.8'
 gem 'httparty', '~> 0.18'
-gem 'kt-paperclip', '~> 6.4'
+gem 'kt-paperclip', '~> 7.0'
 gem 'listen', '~> 3.0'
 gem 'name_of_person'
 gem 'phony_rails', '~> 0.15.0'

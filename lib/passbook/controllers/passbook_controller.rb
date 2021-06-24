@@ -17,7 +17,7 @@ module Passbook
 
         if registration.new_record?
           registration.save
-          head 201
+          head :created
         else
           head :ok
         end
@@ -30,7 +30,7 @@ module Passbook
 
       def modified_passes
         if @device.nil? || updated_passes.empty?
-          head 204
+          head :no_content
         else
           render json: {
             lastUpdated: Time.zone.now.to_i.to_s,
@@ -62,7 +62,7 @@ module Passbook
           auth_token: auth_token
         )
 
-        head 401 if @pass.nil?
+        head :unauthorized if @pass.nil?
       end
 
       def prepare_new_device
