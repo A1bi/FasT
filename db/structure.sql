@@ -2590,6 +2590,14 @@ ALTER TABLE ONLY public.ticketing_seatings
 
 
 --
+-- Name: ticketing_seats ticketing_seats_number_uniqueness; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_seats
+    ADD CONSTRAINT ticketing_seats_number_uniqueness UNIQUE (block_id, number) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
 -- Name: ticketing_seats ticketing_seats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3047,13 +3055,6 @@ CREATE INDEX index_ticketing_reservations_on_seat_id ON public.ticketing_reserva
 --
 
 CREATE INDEX index_ticketing_seats_on_block_id ON public.ticketing_seats USING btree (block_id);
-
-
---
--- Name: index_ticketing_seats_on_block_id_and_number; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_ticketing_seats_on_block_id_and_number ON public.ticketing_seats USING btree (block_id, number);
 
 
 --
@@ -3710,6 +3711,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210409193803'),
 ('20210512210607'),
 ('20210515212141'),
-('20210622203354');
+('20210622203354'),
+('20210624094725');
 
 
