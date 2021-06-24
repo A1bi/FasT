@@ -3,7 +3,7 @@
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
-  helper :mailer
+  helper :application, :mailer
 
   def mail(options = {})
     options[:to] = prepare_recipient_email(options[:to])
