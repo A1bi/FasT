@@ -6,13 +6,13 @@
   = render 'question_answer', question: 'Welche Hygienemaßnahmen werden getroffen?' do
     ul
       li Die Sitzplätze sind im Schachbrettmuster angeordnet, um genügend Abstand zwischen ihnen zu gewährleisten.
-      li Es gilt eine allgemeine Maskenpflicht. Die Masken müssen getragen werden, bis Sie Ihren Platz eingenommen haben.
-      / li Auf einen Verkauf von Speisen oder Getränken vor Ort wird verzichtet. Bitte bringen Sie auch keine Speisen oder Getränke mit.
+      li Es gilt eine allgemeine Maskenpflicht. <b>Die Masken müssen getragen werden, bis Sie Ihren Platz eingenommen haben.</b>
       li Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
       li Die Kontaktdaten aller Besucher werden im Voraus für den Fall einer Infektion aufgenommen. Diese Daten werden nach der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Aufführung vollständig wieder gelöscht.
+      li Ein negativer Coronatest oder Nachweis der vollständigen Impfung ist <b>nicht erforderlich</b>.
       li Wir empfehlen Ihnen die Installation der <a href='https://www.coronawarn.app/' target='_blank'>Corona-Warn-App</a> auf Ihrem Smartphone. Vor Ort finden Sie auch einen QR-Code, um die Check-In-Funktion der App zu nutzen, sofern Sie dies möchten.
 
-  = render 'question_answer', question: 'Ist es möglich, Getränke selbst mitzubringen?' do
+  = render 'question_answer', question: 'Ist es möglich, Getränke oder Speisen selbst mitzubringen?' do
     | Dies können wir Ihnen leider nicht gestatten.
 
 .section
@@ -82,8 +82,8 @@
   / = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
   /   | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
 
-  / = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
-  /   | In diesem Jahr findet kein Verkauf von Speisen oder Getränken statt. Bitte bringen Sie auch keine eigenen Speisen oder Getränke mit.
+  = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+    | Es wird ein kleines Angebot an Getränken geben: Bier und Radler (beides auch in der alkoholfreien Variante) sowie Wasser. Speisen werden in diesem Jahr nicht verkauft.
 
   = render 'question_answer', question: 'Wird es eine Pause geben?' do
     | Es wird keine Pause geben.
