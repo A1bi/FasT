@@ -13,11 +13,9 @@ tr.top
       = l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr'
     - if ticket.seat.present?
       td = ticket.seat.full_number
+    - elsif ticket.event.covid19?
+      td Wird vor Ort mitgeteilt
     - else
-      td
-        - if ticket.event.covid19?
-          | Wird vor Ort mitgeteilt
-        - else
-          | Freie Platzwahl
+      td Freie Platzwahl
     td = ticket.type.name
     td.amount = number_to_currency(ticket.price)

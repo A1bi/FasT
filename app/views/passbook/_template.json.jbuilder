@@ -68,7 +68,7 @@ json.eventTicket do
 
   secondary_fields = []
 
-  if ticket.date.event.seating.plan?
+  if ticket.seat.present?
     if ticket.block.entrance.present?
       secondary_fields << {
         key: 'entrance',

@@ -30,7 +30,7 @@ export default class extends Step {
         })
       })
     } else if (!this.forms[0].reportValidity) {
-      window.alert('Bitte füllen Sie alle Felder aus und akzeptieren Sie die Bedingungen.')
+      window.alert('Bitte füllen Sie alle Felder aus.')
     }
 
     return valid
