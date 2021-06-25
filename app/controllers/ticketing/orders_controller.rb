@@ -179,6 +179,7 @@ module Ticketing
     def set_event_info
       if params[:event_slug].blank?
         @events = Event.with_future_dates
+        @upcoming_event = Event.find_by('sale_start > ?', Time.current)
         if action_name == 'new' && !current_user&.admin?
           @events = @events.select(&:on_sale?)
         end

@@ -2,9 +2,15 @@
 - include_css 'ticketing/orders'
 
 .hl Tickets bestellen
-.hcen Bitte wählen Sie eine Veranstaltung.
 
-.choose-event
-  - @events.each do |event|
-    = link_to event_slug: event.slug
-      = event_logo(event)
+- if @events.any?
+  .hcen Bitte wählen Sie eine Veranstaltung.
+  .choose-event
+    - @events.each do |event|
+      = link_to event_slug: event.slug
+        = event_logo(event)
+- else
+  p.hcen Derzeit befindet sich keine Veranstaltung im Vorverkauf.
+
+- if @upcoming_event.present?
+  p.hcen Der Vorverkauf zu <b>„#{@upcoming_event.name}“</b> beginnt am <b>#{l(@upcoming_event.sale_start, format: :long)}</b>.
