@@ -12,7 +12,6 @@ module Passbook
 
     IMAGES_BASE_PATH = Rails.root.join('app/assets/passbook')
 
-    helper :passbook
     append_view_path ApplicationController.view_paths
 
     def initialize(type_id:, serial:, auth_token:,

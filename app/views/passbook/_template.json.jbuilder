@@ -18,10 +18,11 @@ json.merge!(
   voided: ticket.cancelled?,
   teamIdentifier: 'V48L6BF6M3',
   webServiceURL: api_passbook_root_url,
+  logoText: ticket.event.name,
   relevantDate: ticket.date.date.iso8601,
-  backgroundColor: rgb_color(colors[:background]),
-  foregroundColor: rgb_color(colors[:foreground]),
-  labelColor: rgb_color(colors[:label]),
+  backgroundColor: 'rgb(184, 225, 249)',
+  foregroundColor: 'rgb(0, 0, 0)',
+  labelColor: 'rgb(189, 13, 12)',
   locations: [
     {
       latitude: location[0],
@@ -52,12 +53,6 @@ json.eventTicket do
         changeMessage: 'Der Veranstaltungsort wurde verlegt nach „%@“.'
       },
       {
-        key: 'admission_time',
-        label: 'Einlass',
-        value: ticket.date.admission_time.iso8601,
-        timeStyle: 'PKDateStyleShort'
-      },
-      {
         key: 'ticket_type',
         label: 'Kategorie',
         value: ticket.type.name,
@@ -66,7 +61,14 @@ json.eventTicket do
     ]
   )
 
-  secondary_fields = []
+  secondary_fields = [
+    {
+      key: 'admission_time',
+      label: 'Einlass',
+      value: ticket.date.admission_time.iso8601,
+      timeStyle: 'PKDateStyleShort'
+    }
+  ]
 
   if ticket.seat.present?
     if ticket.block.entrance.present?
@@ -79,14 +81,13 @@ json.eventTicket do
       }
     end
 
-    if ticket.block.name.present?
-      secondary_fields << {
-        key: 'block',
-        label: 'Block',
-        value: ticket.block.name,
-        changeMessage: 'Ihr Sitzplatz befindet sich nun in Block %@.'
-      }
-    end
+    secondary_fields << {
+      key: 'seat',
+      label: 'Sitzplatz',
+      value: ticket.seat.full_number,
+      textAlignment: 'PKTextAlignmentLeft',
+      changeMessage: 'Ihr neuer Sitzplatz lautet %@.'
+    }
 
     if ticket.seat.row.present?
       secondary_fields << {
@@ -96,14 +97,6 @@ json.eventTicket do
         changeMessage: 'Ihr Sitzplatz befindet sich nun in Reihe %@.'
       }
     end
-
-    secondary_fields << {
-      key: 'seat',
-      label: 'Sitzplatz',
-      value: ticket.seat.number,
-      textAlignment: 'PKTextAlignmentLeft',
-      changeMessage: 'Ihre neue Sitznummer lautet %@.'
-    }
 
   elsif ticket.event.covid19?
     secondary_fields << {
