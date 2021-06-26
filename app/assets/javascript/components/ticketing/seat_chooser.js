@@ -72,6 +72,10 @@ export default class extends Seating {
       }
       this.setStatusForSeat(seat, status)
     }
+
+    const seats = Object.values(this.seatsInfo[this.date])
+    const exclusiveSeats = seats.some(seat => seat.exclusive)
+    this.toggleExclusiveSeatsKey(exclusiveSeats)
   }
 
   chooseSeat (seat) {

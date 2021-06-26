@@ -48,7 +48,6 @@ export default class extends Step {
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()
     }
-    this.toggleExclusiveSeatsKey(info.internal.exclusiveSeats)
   }
 
   didMoveIn () {
@@ -102,14 +101,9 @@ export default class extends Step {
       socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
       .then(res => {
-        this.toggleExclusiveSeatsKey(res.seats)
         this.resizeDelegateBox()
       })
       .finally(() => this.delegate.toggleModalSpinner(false))
-  }
-
-  toggleExclusiveSeatsKey (toggle) {
-    this.chooser.toggleExclusiveSeatsKey(toggle)
   }
 
   expire () {
