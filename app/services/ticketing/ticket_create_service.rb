@@ -18,15 +18,17 @@ module Ticketing
 
       if seating_plan?
         if seats.nil?
+          crumb = Sentry::Breadcrumb.new(
+            message: 'Unknown socket id', type: 'error', level: 'error'
+          )
           order.errors.add(:base, 'Unknown socket id')
         else
-          Sentry.add_breadcrumb(
-            Sentry::Breadcrumb.new(
-              message: 'Received chosen seats from node',
-              data: seats
-            )
+          crumb = Sentry::Breadcrumb.new(
+            message: 'Received chosen seats from node', type: 'debug',
+            data: { seats: seats.dup }
           )
         end
+        Sentry.add_breadcrumb(crumb)
       end
 
       build_tickets
