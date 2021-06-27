@@ -60,7 +60,8 @@ export default class extends Step {
       const res = await fetch(this.totalsUrl, 'post', {
         event_id: this.delegate.eventId,
         tickets: this.info.api.tickets,
-        coupon_codes: this.info.api.couponCodes
+        coupon_codes: this.info.api.couponCodes,
+        socket_id: this.delegate.getApiInfo().seats?.socketId
       })
 
       this.info.api.couponCodes = res.redeemed_coupons

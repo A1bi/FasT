@@ -55,8 +55,8 @@ module Api
       end
 
       def simulation_params
-        params.permit(:event_id, tickets: {}, coupons: %i[value number],
-                                 coupon_codes: [])
+        params.permit(:event_id, :socket_id,
+                      tickets: {}, coupons: %i[value number], coupon_codes: [])
       end
 
       def create_newsletter_subscriber

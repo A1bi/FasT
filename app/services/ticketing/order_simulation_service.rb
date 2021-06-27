@@ -17,6 +17,8 @@ module Ticketing
 
       result[:redeemed_coupons] = coupons
 
+      unlock_exclusive_seats
+
       result
     end
 
@@ -69,6 +71,23 @@ module Ticketing
 
     def event
       @event ||= Event.find(params[:event_id])
+    end
+
+    def unlock_exclusive_seats
+      return unless event.seating.plan? && params[:socket_id] &&
+                    coupon_free_tickets_sum.positive?
+
+      NodeApi.seating_request('setExclusiveSeats',
+                              { seats: exclusive_seats }, params[:socket_id])
+    end
+
+    def exclusive_seats
+      return if (group = ReservationGroup.find_by(name: 'Sponsoren')).blank?
+
+      group.reservations.where(date: event.dates)
+           .each_with_object({}) do |reservation, seats|
+        (seats[reservation.date_id] ||= []) << reservation.seat_id
+      end
     end
   end
 end
