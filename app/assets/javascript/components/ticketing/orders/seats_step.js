@@ -97,7 +97,8 @@ export default class extends Step {
 
     this.delegate.toggleModalSpinner(true)
     fetch(this.box.find('.reservationGroups').data('enable-url'), 'post', {
-      groups: groups,
+      group_ids: groups,
+      event_id: this.delegate.eventId,
       socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
       .then(res => {

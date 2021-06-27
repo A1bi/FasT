@@ -42,11 +42,15 @@ module Ticketing
     def enable_reservation_groups
       authorize Order
 
-      groups = []
-      (params[:groups] ||= []).each do |group_id|
-        groups << Ticketing::ReservationGroup.find(group_id)
+      event = Event.find(params[:event_id])
+      reservations = Reservation.where(group_id: params[:group_ids],
+                                       date: event.dates)
+      seats = reservations.each_with_object({}) do |reservation, s|
+        (s[reservation.date_id] ||= []) << reservation.seat_id
       end
-      update_exclusive_seats(:set, groups)
+
+      NodeApi.seating_request('setExclusiveSeats',
+                              { seats: seats }, params[:socket_id])
 
       render json: { seats: true }
     end
@@ -211,22 +215,6 @@ module Ticketing
       end
 
       redirect_to ticketing_order_path(prms)
-    end
-
-    def update_exclusive_seats(action, groups)
-      return false if params[:socket_id].blank?
-
-      seats = {}
-      groups.each do |reservation_group|
-        reservation_group.reservations.each do |reservation|
-          next if reservation.date.blank? || reservation.seat.blank?
-
-          (seats[reservation.date.id] ||= []) << reservation.seat.id
-        end
-      end
-      NodeApi.seating_request("#{action}ExclusiveSeats",
-                              { seats: seats }, params[:socket_id])
-      seats.any?
     end
 
     def redirect_to_order_details(notice = nil)
