@@ -16,8 +16,17 @@ module Ticketing
     def execute
       return if date.nil? || ticket_params.blank?
 
-      if seating_plan? && seats.nil?
-        order.errors.add(:base, 'Unknown socket id')
+      if seating_plan?
+        if seats.nil?
+          order.errors.add(:base, 'Unknown socket id')
+        else
+          Sentry.add_breadcrumb(
+            Sentry::Breadcrumb.new(
+              message: 'Received chosen seats from node',
+              data: seats
+            )
+          )
+        end
       end
 
       build_tickets
