@@ -15,7 +15,7 @@ export default class extends Step {
         }
 
         this.validateField('gender', 'Bitte wählen Sie eine Anrede aus.', field => {
-          return field.val() >= 0
+          return parseInt(field.val()) >= 0
         })
 
         this.validateField('email_confirmation', 'Die e-mail-Adressen stimmen nicht überein.', field => {
