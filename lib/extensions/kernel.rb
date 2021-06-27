@@ -9,7 +9,7 @@ module Kernel
     begin
       yield
     rescue *exception_classes => e
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
     end
   end
 end

@@ -16,7 +16,7 @@ module Api
       end
 
       def report_invalid_order
-        Raven.capture_message(
+        Sentry.capture_message(
           'invalid order', extra: {
             errors: @order.errors.messages
           }

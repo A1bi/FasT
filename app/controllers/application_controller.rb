@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
 
-  before_action :set_raven_context
+  before_action :set_sentry_context
   prepend_before_action :reset_goto
   after_action :verify_authorized
 
@@ -84,14 +84,13 @@ class ApplicationController < ActionController::Base
     user
   end
 
-  def set_raven_context
-    if user_signed_in?
-      Raven.user_context(
-        id: current_user.id,
-        email: current_user.email
-      )
-    end
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  def set_sentry_context
+    return unless user_signed_in?
+
+    Sentry.set_user(
+      id: current_user.id,
+      email: current_user.email
+    )
   end
 
   def user_not_authorized

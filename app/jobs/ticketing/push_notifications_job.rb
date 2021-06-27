@@ -21,7 +21,7 @@ module Ticketing
         # we must catch this exception or the whole Sidekiq process will die,
         # not just this thread
         connection.on(:error) do |exception|
-          Raven.capture_exception(exception) unless exception.is_a? SocketError
+          Sentry.capture_exception(exception) unless exception.is_a? SocketError
         end
       end
     end

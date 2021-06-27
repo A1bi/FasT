@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Raven.configure do |config|
+Sentry.init do |config|
   app = Rails.application
   config.dsn = app.credentials.sentry[:dsn] if Settings.sentry.enabled
-  config.sanitize_fields = app.config.filter_parameters.map(&:to_s)
+  config.send_default_pii = true
 end
