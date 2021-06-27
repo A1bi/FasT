@@ -27,8 +27,8 @@ module Ticketing
       create_event(:redeemed)
     end
 
-    def send(email:, name:)
-      create_event(:sent, email: email, name: name)
+    def send(email:, recipient:)
+      create_event(:sent, email: email, recipient: recipient)
     end
 
     def submit_charge
