@@ -14,7 +14,7 @@ workflow:
     name: production
     url: https://www.theater-kaisersesch.de
   rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: manual
 
 .default-tags:
@@ -112,9 +112,6 @@ deploy:
     - *bundle
   script:
     - ssh_wrap cap production deploy
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "production"'
-      when: on_success
 
 run one off task:
   extends:
