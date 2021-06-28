@@ -81,8 +81,7 @@ module Ticketing
     end
 
     def log_service
-      @log_service ||=
-        LogEventCreateService.new(@coupon, current_user: current_user)
+      @log_service ||= LogEventCreateService.new(@coupon, current_user: current_user)
     end
 
     def coupon_params

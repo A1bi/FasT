@@ -68,8 +68,7 @@ module Ticketing
     end
 
     def coupon_redeem_service
-      @coupon_redeem_service ||=
-        CouponRedeemService.new(@order, date, current_user, order_params)
+      @coupon_redeem_service ||= CouponRedeemService.new(@order, date, current_user, order_params)
     end
 
     def update_balance(&block)

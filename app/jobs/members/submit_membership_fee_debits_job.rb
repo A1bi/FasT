@@ -5,8 +5,7 @@ module Members
     def perform
       return if unsubmitted_payments.none?
 
-      submission =
-        MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
+      submission = MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
 
       Members::MembershipFeeMailer.debit_submission(submission).deliver_later
     end
@@ -14,8 +13,7 @@ module Members
     private
 
     def unsubmitted_payments
-      @unsubmitted_payments ||=
-        MembershipFeePayment.where(debit_submission_id: nil)
+      @unsubmitted_payments ||= MembershipFeePayment.where(debit_submission_id: nil)
     end
   end
 end

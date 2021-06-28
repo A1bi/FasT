@@ -20,8 +20,7 @@ module Ticketing
     validate :seat_available, if: :seat_required?
     validate :seat_exists_for_event, if: :seat_required?
     validate :type_exists_for_event
-    validates :covid19_attendee,
-              presence: { if: proc { |ticket| ticket.event.covid19? } }
+    validates :covid19_attendee, presence: { if: proc { |ticket| ticket.event.covid19? } }
 
     before_validation :update_invalidated
 
@@ -55,8 +54,7 @@ module Ticketing
     end
 
     def refundable?
-      !cancelled? && date.cancelled? &&
-        (date.date + REFUNDABLE_FOR_AFTER_DATE).future?
+      !cancelled? && date.cancelled? && (date.date + REFUNDABLE_FOR_AFTER_DATE).future?
     end
 
     def signed_info(params = {})
@@ -84,8 +82,7 @@ module Ticketing
     def seat_available
       return if seat.nil? || !seat.taken?(date)
 
-      return unless will_save_change_to_attribute?(:seat_id) ||
-                    will_save_change_to_attribute?(:date_id)
+      return unless will_save_change_to_attribute?(:seat_id) || will_save_change_to_attribute?(:date_id)
 
       errors.add :seat, 'seat not available'
     end
@@ -103,8 +100,7 @@ module Ticketing
     end
 
     def update_invalidated
-      self[:invalidated] = cancellation.present? || cancellation_id.present? ||
-                           resale
+      self[:invalidated] = cancellation.present? || cancellation_id.present? || resale
     end
 
     def update_price

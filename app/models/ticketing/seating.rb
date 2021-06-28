@@ -64,8 +64,7 @@ module Ticketing
     private
 
     def gzip_stripped_plan
-      return unless saved_change_to_attribute?(:plan_updated_at) &&
-                    plan_updated_at.present?
+      return unless saved_change_to_attribute?(:plan_updated_at) && plan_updated_at.present?
 
       Zlib::GzipWriter.open(gzip_stripped_plan_path) do |gz|
         gz.write File.read(stripped_plan_path)

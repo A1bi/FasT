@@ -10,15 +10,11 @@ module Ticketing
 
     class << self
       def with_availability_on_date(date)
-        with_availability_on_date_and_join(
-          date, Ticket.arel_table[:invalidated].eq(false)
-        )
+        with_availability_on_date_and_join(date, Ticket.arel_table[:invalidated].eq(false))
       end
 
       def with_booked_status_on_date(date)
-        with_availability_on_date_and_join(
-          date, Ticket.arel_table[:cancellation_id].eq(nil)
-        )
+        with_availability_on_date_and_join(date, Ticket.arel_table[:cancellation_id].eq(nil))
       end
 
       private

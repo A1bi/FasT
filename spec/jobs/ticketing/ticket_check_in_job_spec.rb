@@ -95,8 +95,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
       context 'with presence tracing enabled' do
         let(:presence_tracing) { true }
 
-        context 'when no other tickets from the order have been checked' \
-                ' in yet' do
+        context 'when no other tickets from the order have been checked in yet' do
           include_examples 'sending a COVID-19 check-in email'
         end
 

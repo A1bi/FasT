@@ -9,10 +9,8 @@ module Ticketing
     enum value_type: %i[free_tickets credit], _suffix: :value
 
     has_random_unique_token :code, 6
-    has_many :redemptions, class_name: 'Ticketing::CouponRedemption',
-                           dependent: :destroy
-    belongs_to :purchased_with_order, class_name: 'Ticketing::Order',
-                                      optional: true, autosave: false
+    has_many :redemptions, class_name: 'Ticketing::CouponRedemption', dependent: :destroy
+    belongs_to :purchased_with_order, class_name: 'Ticketing::Order', optional: true, autosave: false
     has_many :orders, through: :redemptions
 
     class << self

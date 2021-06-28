@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  PERMISSIONS = %i[permissions_read permissions_update members_read
-                   members_update members_destroy newsletters_read
-                   newsletters_update newsletters_approve
+  PERMISSIONS = %i[permissions_read permissions_update
+                   members_read members_update members_destroy
+                   newsletters_read newsletters_update newsletters_approve
                    internet_access_sessions_create].freeze
 
   has_secure_password
@@ -12,15 +12,8 @@ class User < ApplicationRecord
   has_many :log_events, class_name: 'Ticketing::LogEvent', dependent: :nullify
 
   validates :email, presence: true, on: :user_update
-
-  validates :email,
-            allow_blank: true,
-            uniqueness: { case_sensitive: false },
-            email_format: true
-
-  validates :password,
-            length: { minimum: 6 },
-            if: :password_digest_changed?
+  validates :email, allow_blank: true, uniqueness: { case_sensitive: false }, email_format: true
+  validates :password, length: { minimum: 6 }, if: :password_digest_changed?
 
   enum group: { member: 0, admin: 1 }, integer_column: true
 

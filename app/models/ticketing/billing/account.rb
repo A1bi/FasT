@@ -4,8 +4,7 @@ module Ticketing
   module Billing
     class Account < ApplicationRecord
       belongs_to :billable, polymorphic: true, inverse_of: :billing_account
-      has_many :transactions, -> { order(:created_at) },
-               inverse_of: :account, dependent: :destroy
+      has_many :transactions, -> { order(:created_at) }, inverse_of: :account, dependent: :destroy
 
       validates :balance, numericality: true
 
@@ -26,11 +25,8 @@ module Ticketing
 
         update_balance(-amount)
 
-        create_transaction(participant: participant, amount: -amount,
-                           note_key: note_key) do |t|
-          t.reverse_transaction =
-            reverse_transaction ||
-            participant.transfer(self, -amount, note_key, t)
+        create_transaction(participant: participant, amount: -amount, note_key: note_key) do |t|
+          t.reverse_transaction = reverse_transaction || participant.transfer(self, -amount, note_key, t)
         end
       end
 

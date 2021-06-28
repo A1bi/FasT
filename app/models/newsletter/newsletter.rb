@@ -54,9 +54,7 @@ module Newsletter
 
     def body_html_from_text
       simple_format(body_text)
-        .gsub(
-          %r{<p>((%%bild_\d+%%)+)</p>}, '<p style="text-align: center;">\1</p>'
-        )
+        .gsub(%r{<p>((%%bild_\d+%%)+)</p>}, '<p style="text-align: center;">\1</p>')
     end
 
     def fill_image_placeholder(html)
@@ -64,8 +62,7 @@ module Newsletter
         image = images.find_by(id: match.match(/\d+/).to_s)
         next '' if image.nil?
 
-        link_to(image_tag(image.image.url(:mail), alt: ''),
-                image.image.url(:big))
+        link_to(image_tag(image.image.url(:mail), alt: ''), image.image.url(:big))
       end
     end
 

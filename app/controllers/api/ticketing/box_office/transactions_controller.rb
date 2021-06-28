@@ -39,8 +39,7 @@ module Api
             .purchases
             .where('ticketing_box_office_purchases.created_at > ?', start_date)
             .includes(:items)
-            .where('ticketing_box_office_purchase_items.purchasable_type =
-              \'Ticketing::BoxOffice::Product\'')
+            .where('ticketing_box_office_purchase_items.purchasable_type = \'Ticketing::BoxOffice::Product\'')
             .group('ticketing_box_office_purchase_items.purchasable_id')
             .sum('ticketing_box_office_purchase_items.number')
             .map do |item_id, number|

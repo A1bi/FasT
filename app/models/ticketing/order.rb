@@ -15,8 +15,7 @@ module Ticketing
 
     attr_readonly :date
 
-    has_many :tickets, -> { order(:order_index) },
-             inverse_of: :order, dependent: :destroy, autosave: true
+    has_many :tickets, -> { order(:order_index) }, inverse_of: :order, dependent: :destroy, autosave: true
     belongs_to :date, class_name: 'EventDate', optional: true
     has_random_unique_number :number, min: NUMBER_MIN, max: NUMBER_MAX
     has_many :coupon_redemptions, dependent: :destroy
@@ -26,11 +25,9 @@ module Ticketing
                                  inverse_of: :purchased_with_order,
                                  dependent: :nullify, autosave: true
     has_many :exclusive_ticket_type_credit_spendings,
-             class_name: 'Members::ExclusiveTicketTypeCreditSpending',
-             dependent: :destroy, autosave: true
+             class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true
     has_many :box_office_payments,
-             class_name: 'Ticketing::BoxOffice::OrderPayment',
-             dependent: :nullify
+             class_name: 'Ticketing::BoxOffice::OrderPayment', dependent: :nullify
 
     validates :tickets, length: { maximum: NUM_TICKETS_MAX }
     validate :items_present

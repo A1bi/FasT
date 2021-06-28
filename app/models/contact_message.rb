@@ -11,8 +11,7 @@ class ContactMessage
   def mail
     return false unless valid?
 
-    ContactMessageMailer.contact_message(name, email, phone, subject, content)
-                        .deliver_later
+    ContactMessageMailer.contact_message(name, email, phone, subject, content).deliver_later
     true
   end
 end

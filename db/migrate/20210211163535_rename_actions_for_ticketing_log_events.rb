@@ -11,8 +11,7 @@ class RenameActionsForTicketingLogEvents < ActiveRecord::Migration[6.1]
       resent_tickets: :resent_items
     }
     actions.each do |old, new|
-      execute 'UPDATE ticketing_log_events ' \
-              "SET action = '#{new}' WHERE action = '#{old}'"
+      update "UPDATE ticketing_log_events SET action = '#{new}' WHERE action = '#{old}'"
     end
   end
 end

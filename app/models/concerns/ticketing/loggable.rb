@@ -6,8 +6,7 @@ module Ticketing
     include ActionView::Helpers::TranslationHelper
 
     included do
-      has_many :log_events,
-               as: :loggable, inverse_of: :loggable, dependent: :destroy
+      has_many :log_events, as: :loggable, inverse_of: :loggable, dependent: :destroy
     end
   end
 end

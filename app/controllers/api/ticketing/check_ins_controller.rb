@@ -48,11 +48,9 @@ module Api
       end
 
       def covid19_seats
-        CSV.new(covid19_seats_data,
-                col_sep: ';', headers: true, converters: :numeric)
+        CSV.new(covid19_seats_data, col_sep: ';', headers: true, converters: :numeric)
            .each_with_object({}) do |row, seats|
-          seats[row['order_number']] =
-            seat_range(row['seat_number'], row['seat_count'])
+          seats[row['order_number']] = seat_range(row['seat_number'], row['seat_count'])
         end
       end
 

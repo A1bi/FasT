@@ -19,8 +19,7 @@ module Ticketing
       private
 
       def update_total
-        # has to be called with &:total instead of :total because the total
-        # on the items might not be persisted yet
+        # has to be called with &:total instead of :total because the total on the items might not be persisted yet
         self.total = items.sum(&:total)
       end
     end

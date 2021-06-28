@@ -16,8 +16,7 @@ module Ticketing
         end
         calc_percentage_of_booked_seats(stats[:total][:total], event.dates)
 
-        scopes = [stats[:web], stats[:retail][:total],
-                  stats[:box_office][:total]]
+        scopes = [stats[:web], stats[:retail][:total], stats[:box_office][:total]]
         Retail::Store.find_each do |store|
           scopes << stats[:retail][:stores][store.id]
         end
@@ -66,9 +65,7 @@ module Ticketing
           scopes << store_scope
           scopes << stats[:retail][:total]
         when BoxOffice::Order
-          store_scope =
-            stats[:box_office][:box_offices][ticket.order.box_office_id] ||=
-              {}
+          store_scope = stats[:box_office][:box_offices][ticket.order.box_office_id] ||= {}
           scopes << store_scope
           scopes << stats[:box_office][:total]
         end
@@ -94,8 +91,7 @@ module Ticketing
     def calc_percentage_of_all_sales(scope, total_number_of_tickets)
       return if scope.blank?
 
-      scope[:total][:percentage] =
-        (scope[:total][:total] / total_number_of_tickets.to_f * 100).floor
+      scope[:total][:percentage] = (scope[:total][:total] / total_number_of_tickets.to_f * 100).floor
     end
 
     def increment_values_for_ticket_in_scopes(ticket, scopes)

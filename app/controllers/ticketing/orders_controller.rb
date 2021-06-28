@@ -16,8 +16,7 @@ module Ticketing
       return if current_user&.admin?
 
       if !@event.sale_started?
-        alert = t('.not_yet_available', event: @event.name, start:
-                  l(@event.sale_start, format: :long))
+        alert = t('.not_yet_available', event: @event.name, start: l(@event.sale_start, format: :long))
       elsif @event.sale_ended?
         alert = t('.sale_ended', event: @event.name)
       elsif @event.sale_disabled?
@@ -43,14 +42,12 @@ module Ticketing
       authorize Order
 
       event = Event.find(params[:event_id])
-      reservations = Reservation.where(group_id: params[:group_ids],
-                                       date: event.dates)
+      reservations = Reservation.where(group_id: params[:group_ids], date: event.dates)
       seats = reservations.each_with_object({}) do |reservation, s|
         (s[reservation.date_id] ||= []) << reservation.seat_id
       end
 
-      NodeApi.seating_request('setExclusiveSeats',
-                              { seats: seats }, params[:socket_id])
+      NodeApi.seating_request('setExclusiveSeats', { seats: seats }, params[:socket_id])
 
       render json: { seats: true }
     end
@@ -77,9 +74,7 @@ module Ticketing
       end
 
       @orders.each_value do |orders|
-        orders
-          .includes!(:tickets)
-          .order!(created_at: :desc)
+        orders.includes!(:tickets).order!(created_at: :desc)
       end
     end
 
@@ -145,8 +140,7 @@ module Ticketing
     def seats
       authorize @order
 
-      render_cached_json([:ticketing, :orders, :show, @order,
-                          @order.date.tickets]) do
+      render_cached_json([:ticketing, :orders, :show, @order, @order.date.tickets]) do
         [[:chosen, @order], [:taken, @order.date]]
           .each_with_object({}) do |type, seats|
           seats[type.first] = type.last.tickets.where(invalidated: false)
@@ -169,13 +163,10 @@ module Ticketing
       @type = :retail
       @max_tickets = 35
 
-      if !current_user.store.sale_enabled
-        return redirect_to ticketing_orders_path,
-                           alert: t('.sale_disabled_for_store')
-      elsif @event.covid19?
-        return redirect_to ticketing_orders_path,
-                           alert: t('.sale_web_only_covid19')
+      unless current_user.store.sale_enabled
+        return redirect_to ticketing_orders_path, alert: t('.sale_disabled_for_store')
       end
+      return redirect_to ticketing_orders_path, alert: t('.sale_web_only_covid19') if @event.covid19?
 
       render :new_retail
     end
@@ -192,15 +183,11 @@ module Ticketing
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.upcoming
-      @ticket_types = @event.ticket_types.except_box_office
-                            .ordered_by_availability_and_price
+      @ticket_types = @event.ticket_types.except_box_office.ordered_by_availability_and_price
     end
 
     def search_orders
-      Ticketing::OrderSearchService.new(
-        params[:q],
-        scope: order_scope
-      ).execute
+      Ticketing::OrderSearchService.new(params[:q], scope: order_scope).execute
     end
 
     def redirect_order_number_match(orders, ticket)
@@ -250,14 +237,12 @@ module Ticketing
     end
 
     def log_service
-      @log_service ||=
-        LogEventCreateService.new(@order, current_user: current_user)
+      @log_service ||= LogEventCreateService.new(@order, current_user: current_user)
     end
 
     def update_order_params
       params.require(:ticketing_order)
-            .permit(:gender, :first_name, :last_name, :affiliation, :email,
-                    :phone, :plz, :pay_method)
+            .permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
     end
   end
 end

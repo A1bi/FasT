@@ -12,8 +12,7 @@ module Passbook
       before_action :prepare_device, only: %i[unregister_device modified_passes]
 
       def register_device
-        registration = @device.registrations.where(pass: @pass)
-                              .first_or_initialize
+        registration = @device.registrations.where(pass: @pass).first_or_initialize
 
         if registration.new_record?
           registration.save
@@ -66,8 +65,7 @@ module Passbook
       end
 
       def prepare_new_device
-        @device = Passbook::Models::Device.where(device_id: params[:device_id],
-                                                 push_token: params[:pushToken])
+        @device = Passbook::Models::Device.where(device_id: params[:device_id], push_token: params[:pushToken])
                                           .first_or_create
       rescue ActiveRecord::RecordNotUnique
         retry
@@ -82,9 +80,7 @@ module Passbook
       end
 
       def updated_passes
-        @updated_passes ||=
-          @device.passes
-                 .where('passbook_passes.updated_at > ?', passes_updated_since)
+        @updated_passes ||= @device.passes.where('passbook_passes.updated_at > ?', passes_updated_since)
       end
 
       def passes_updated_since

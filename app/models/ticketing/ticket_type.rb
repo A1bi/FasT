@@ -2,15 +2,12 @@
 
 module Ticketing
   class TicketType < ApplicationRecord
-    has_many :tickets, foreign_key: :type_id, inverse_of: :type,
-                       dependent: :nullify
+    has_many :tickets, foreign_key: :type_id, inverse_of: :type, dependent: :nullify
     belongs_to :event
     has_one :exclusive_ticket_type_credit,
-            class_name: 'Members::ExclusiveTicketTypeCredit',
-            dependent: :destroy
+            class_name: 'Members::ExclusiveTicketTypeCredit', dependent: :destroy
     has_many :exclusive_ticket_type_credit_spendings,
-             class_name: 'Members::ExclusiveTicketTypeCredit',
-             dependent: :destroy
+             class_name: 'Members::ExclusiveTicketTypeCredit', dependent: :destroy
 
     enum availability: %i[universal exclusive box_office]
 

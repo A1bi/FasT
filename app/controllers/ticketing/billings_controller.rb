@@ -46,9 +46,7 @@ module Ticketing
     def billable
       raise ActiveRecord::RecordNotFound unless ALLOWED_BILLABLE_TYPES.include?(params[:billable_type])
 
-      @billable ||=
-        "Ticketing::#{params[:billable_type]}".constantize
-                                              .find(params[:billable_id])
+      @billable ||= "Ticketing::#{params[:billable_type]}".constantize.find(params[:billable_id])
     end
 
     def authorize(action)

@@ -8,16 +8,13 @@ module Ticketing
       enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge',
                             as: :chargeable, validate: true, dependent: :destroy
-      belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode,
-                               inverse_of: false, optional: true
+      belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
 
       auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
       phony_normalize :phone, default_country_code: 'DE'
-      is_anonymizable columns: %i[email first_name last_name gender affiliation
-                                  phone]
+      is_anonymizable columns: %i[email first_name last_name gender affiliation phone]
 
-      validates :email, :gender, :first_name, :last_name, :plz,
-                presence: { on: :unprivileged_order }
+      validates :email, :gender, :first_name, :last_name, :plz, presence: { on: :unprivileged_order }
       validates :gender, inclusion: { in: 0..1, allow_blank: true }
       validates :plz, format: { with: /\A\d{5}\z/, allow_blank: true }
       validates :email, allow_blank: true, email_format: true
@@ -29,8 +26,7 @@ module Ticketing
         charge_payment
           .includes(:billing_account, :bank_charge)
           .where('ticketing_billing_accounts.balance < 0')
-          .where(ticketing_bank_charges: { approved: approved,
-                                           submission_id: nil })
+          .where(ticketing_bank_charges: { approved: approved, submission_id: nil })
       end
 
       def update_total

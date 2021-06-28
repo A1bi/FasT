@@ -6,10 +6,8 @@ module Ticketing
     include Statistics
 
     belongs_to :event, touch: true
-    has_many :tickets, dependent: :nullify, foreign_key: :date_id,
-                       inverse_of: :date
-    has_many :reservations, dependent: :destroy, foreign_key: :date_id,
-                            inverse_of: :date
+    has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
+    has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
     def self.upcoming
       where('date > ?', Time.current)
@@ -44,8 +42,7 @@ module Ticketing
     private
 
     def statistics
-      ticket_stats_for_event(event).dig(:total, id) ||
-        { total: 0, percentage: 0 }
+      ticket_stats_for_event(event).dig(:total, id) || { total: 0, percentage: 0 }
     end
 
     def cwa_check_in_url

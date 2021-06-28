@@ -13,8 +13,7 @@ module Ticketing
 
     def execute
       ActiveRecord::Base.transaction do
-        @updated_tickets =
-          valid_tickets.filter_map { |ticket| update_ticket(ticket) }
+        @updated_tickets = valid_tickets.filter_map { |ticket| update_ticket(ticket) }
 
         return if updated_tickets.none?
         return unless order.save

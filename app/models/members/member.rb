@@ -14,12 +14,10 @@ module Members
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
     phony_normalize :phone, default_country_code: 'DE'
 
-    validates :first_name, :last_name, :gender, :number, :joined_at,
-              presence: true
+    validates :first_name, :last_name, :gender, :number, :joined_at, presence: true
     validates :number, uniqueness: true
     validates :membership_fee, numericality: { greater_than_or_equal_to: 0 }
-    validates :plz, numericality: { only_integer: true, less_than: 100_000 },
-                    allow_blank: true
+    validates :plz, numericality: { only_integer: true, less_than: 100_000 }, allow_blank: true
 
     after_initialize :set_number
     before_validation :set_default_membership_fee, on: :create
@@ -85,15 +83,13 @@ module Members
     end
 
     def destroy_family_if_empty
-      return unless saved_change_to_family_id? &&
-                    family_id_before_last_save.present?
+      return unless saved_change_to_family_id? && family_id_before_last_save.present?
 
       Members::Family.find(family_id_before_last_save).destroy_if_empty
     end
 
     def next_membership_fee_paid_until
-      (membership_fee_paid_until || Time.zone.yesterday) +
-        Settings.members.membership_renewal_after_months.months
+      (membership_fee_paid_until || Time.zone.yesterday) + Settings.members.membership_renewal_after_months.months
     end
   end
 end

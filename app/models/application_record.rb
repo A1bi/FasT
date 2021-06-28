@@ -15,8 +15,7 @@ class ApplicationRecord < ActiveRecord::Base
     end
 
     def human_enum_name(name, value)
-      I18n.t("activerecord.attributes.#{model_name.i18n_key}" \
-             ".#{name.to_s.pluralize}.#{value}")
+      I18n.t("activerecord.attributes.#{model_name.i18n_key}.#{name.to_s.pluralize}.#{value}")
     end
   end
 end
