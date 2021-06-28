@@ -27,10 +27,10 @@
             em nicht angegeben
       tr
         td Ursprünglicher Wert:
-        td = render 'value', coupon: @coupon, initial: true
+        td = coupon_value(@coupon, initial: true)
       tr
         td Restwert:
-        td = render 'value', coupon: @coupon
+        td = coupon_value(@coupon)
       - if @coupon.purchased_with_order.present?
         tr
           td Bestellt in:

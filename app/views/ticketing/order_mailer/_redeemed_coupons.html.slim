@@ -3,6 +3,6 @@
     | Eingelöste Gutscheine:
     - @order.redeemed_coupons.each do |coupon|
       span.coupon-code<> = coupon.code
-      | (Restwert: #{number_to_currency(coupon.billing_account.balance)})
+      | (Restwert: #{coupon_value(coupon)})
       - if coupon != @order.redeemed_coupons.last
         | ,

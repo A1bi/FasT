@@ -12,6 +12,15 @@ module Ticketing
       signed ? sign_number(count, formatted_count) : formatted_count
     end
 
+    def coupon_value(coupon, initial: false)
+      value = initial ? coupon.initial_value : coupon.value
+      if coupon.free_tickets_value?
+        format_free_tickets_count(value)
+      else
+        number_to_currency(value)
+      end
+    end
+
     def event_logo(event, image_options: {}, fallback_tag: :h2,
                    fallback_options: {})
       path = "theater/#{event.assets_identifier}/ticket_header.svg"
