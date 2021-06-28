@@ -36,8 +36,7 @@ RSpec.describe Members::DestroyTerminatedMembersJob do
 
       it 'destroys the correct member' do
         subject
-        expect { cancelled_member1.reload }
-          .to raise_error(ActiveRecord::RecordNotFound)
+        expect { cancelled_member1.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

@@ -4,20 +4,13 @@ require 'support/time'
 
 RSpec.describe Ticketing::TicketCheckInJob do
   describe '#perform_now' do
-    subject do
-      described_class.perform_now(ticket_id: ticket_id, date: date.to_s,
-                                  medium: medium)
-    end
+    subject { described_class.perform_now(ticket_id: ticket_id, date: date.to_s, medium: medium) }
 
-    let(:date) do
-      ticket ? 15.minutes.after(ticket.date.admission_time) : Time.current
-    end
+    let(:date) { ticket ? 15.minutes.after(ticket.date.admission_time) : Time.current }
     let(:medium) { 1 }
     let(:ticket) { nil }
     let(:ticket_id) { ticket.id }
-    let(:current_time) do
-      date.is_a?(Time) ? 15.seconds.after(date) : Time.current
-    end
+    let(:current_time) { date.is_a?(Time) ? 15.seconds.after(date) : Time.current }
 
     around do |example|
       travel_to(current_time) { example.run }
@@ -78,13 +71,9 @@ RSpec.describe Ticketing::TicketCheckInJob do
     end
 
     context 'with a ticket id from a covid19 order' do
-      let(:order) do
-        create(:order, :with_tickets, tickets_count: 3, event: event)
-      end
+      let(:order) { create(:order, :with_tickets, tickets_count: 3, event: event) }
       let(:event) do
-        create(:event, :complete, covid19: true,
-                                  covid19_presence_tracing: presence_tracing,
-                                  dates_count: 2)
+        create(:event, :complete, covid19: true, covid19_presence_tracing: presence_tracing, dates_count: 2)
       end
       let(:presence_tracing) { false }
       let(:ticket) { order.tickets[0] }

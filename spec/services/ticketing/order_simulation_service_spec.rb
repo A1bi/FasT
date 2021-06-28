@@ -107,8 +107,7 @@ RSpec.describe Ticketing::OrderSimulationService do
     let(:coupons) { [] }
 
     it 'returns the correct totals' do
-      total = (event.ticket_types[0].price + event.ticket_types[1].price) * 2 +
-              3
+      total = (event.ticket_types[0].price + event.ticket_types[1].price) * 2 + 3
       expect(subject[:subtotal]).to eq(total)
       expect(subject[:total]).to eq(total)
       expect(subject[:total_after_coupons]).to eq(total)

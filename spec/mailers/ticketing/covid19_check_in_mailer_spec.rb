@@ -12,8 +12,7 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
       let(:check_in_url) { 'https://foobar.com' }
 
       before do
-        allow(ticket.date)
-          .to receive(:covid19_check_in_url).and_return(check_in_url)
+        allow(ticket.date).to receive(:covid19_check_in_url).and_return(check_in_url)
       end
 
       it 'renders the headers' do

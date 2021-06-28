@@ -55,15 +55,13 @@ RSpec.describe 'Api::Ticketing::CheckInsController' do
       end
 
       it 'enqueues only as many jobs as there are check-ins' do
-        expect { subject }
-          .to have_enqueued_job(Ticketing::TicketCheckInJob).exactly(4).times
+        expect { subject }.to have_enqueued_job(Ticketing::TicketCheckInJob).exactly(4).times
       end
 
       it 'enqueues check-in jobs for all ticket ids' do
         subject
         params[:check_ins].each do |check_in|
-          expect(Ticketing::TicketCheckInJob)
-            .to have_been_enqueued.with(check_in)
+          expect(Ticketing::TicketCheckInJob).to have_been_enqueued.with(check_in)
         end
       end
     end

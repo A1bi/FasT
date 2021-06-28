@@ -5,9 +5,7 @@ require_shared_examples 'pdf'
 RSpec.shared_context 'when rendering tickets pdf' do
   let(:event) { build(:event, :complete) }
   let(:tickets_count) { 1 }
-  let(:order) do
-    create(:order, :with_tickets, tickets_count: tickets_count, event: event)
-  end
+  let(:order) { create(:order, :with_tickets, tickets_count: tickets_count, event: event) }
 
   let(:tickets_pdf) { described_class.new }
   let(:pdf) do
@@ -19,9 +17,7 @@ RSpec.shared_context 'when rendering tickets pdf' do
 
   let(:images_path) { Rails.root.join('app/assets/images') }
   let(:logo_path) { images_path.join('pdf/logo_bw.svg') }
-  let(:event_header_path) do
-    images_path.join("theater/#{event.identifier}/ticket_header.svg")
-  end
+  let(:event_header_path) { images_path.join("theater/#{event.identifier}/ticket_header.svg") }
 
   before do
     # speed up PDF generation by skipping barcode
@@ -52,8 +48,7 @@ end
 
 RSpec.shared_examples 'renders the correct event information' do
   it 'renders the correct event information' do
-    expect(text_analysis.strings)
-      .to include(event.location).exactly(tickets_count).times
+    expect(text_analysis.strings).to include(event.location).exactly(tickets_count).times
   end
 end
 

@@ -16,15 +16,12 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
       end
 
       it 'anonymizes the corresponding bank charge' do
-        expect { subject }
-          .to change { order.bank_charge.reload.anonymized? }.to(true)
+        expect { subject }.to change { order.bank_charge.reload.anonymized? }.to(true)
       end
     end
 
     context 'with an already anonymized order' do
-      let(:order) do
-        create(:web_order, :with_tickets, :anonymized)
-      end
+      let(:order) { create(:web_order, :with_tickets, :anonymized) }
 
       include_examples 'does not anonymize order'
     end

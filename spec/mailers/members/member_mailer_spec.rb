@@ -40,8 +40,7 @@ RSpec.describe Members::MemberMailer do
       let(:gender) { :female }
 
       it 'includes a female address' do
-        expect(mail.body.encoded)
-          .to include("Sehr geehrte Frau #{member.last_name},")
+        expect(mail.body.encoded).to include("Sehr geehrte Frau #{member.last_name},")
       end
     end
 
@@ -49,8 +48,7 @@ RSpec.describe Members::MemberMailer do
       let(:gender) { :male }
 
       it 'includes a male address' do
-        expect(mail.body.encoded)
-          .to include("Sehr geehrter Herr #{member.last_name},")
+        expect(mail.body.encoded).to include("Sehr geehrter Herr #{member.last_name},")
       end
     end
 
@@ -58,8 +56,7 @@ RSpec.describe Members::MemberMailer do
       let(:gender) { :diverse }
 
       it 'includes a diverse address' do
-        expect(mail.body.encoded)
-          .to include("Hallo #{member.name.full},")
+        expect(mail.body.encoded).to include("Hallo #{member.name.full},")
       end
     end
   end
@@ -67,17 +64,14 @@ RSpec.describe Members::MemberMailer do
   shared_examples 'activation link' do
     it 'contains a link to activate the account' do
       member.set_activation_code
-      expect(mail.body.encoded)
-        .to match(%r{https?://.+code=#{member.activation_code}})
+      expect(mail.body.encoded).to match(%r{https?://.+code=#{member.activation_code}})
     end
   end
 
   describe '#welcome' do
     subject(:mail) { mailer.welcome }
 
-    let(:member) do
-      create(:member, :with_sepa_mandate, gender: gender, membership_fee: 13.4)
-    end
+    let(:member) { create(:member, :with_sepa_mandate, gender: gender, membership_fee: 13.4) }
     let(:subject) { 'Willkommen' }
 
     it_behaves_like 'an email addressed to a member'

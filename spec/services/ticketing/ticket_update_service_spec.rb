@@ -6,9 +6,7 @@ RSpec.describe Ticketing::TicketUpdateService do
   subject { service.execute }
 
   let(:service) { described_class.new(tickets, params: params) }
-  let(:orders) do
-    create_list(:order, 3, :with_tickets, tickets_count: 3, event: event)
-  end
+  let(:orders) { create_list(:order, 3, :with_tickets, tickets_count: 3, event: event) }
   let(:tickets) { Ticketing::Ticket.where(order: orders) }
   let(:event) { create(:event, :complete) }
   let(:ticket_type) { create(:ticket_type, price: 34, event: event) }

@@ -20,28 +20,23 @@ RSpec.describe Members::RenewMembershipsJob do
     subject { described_class.perform_now }
 
     it 'renews members without a payment yet' do
-      expect { subject }
-        .to(change { new_member.reload.membership_fee_paid_until })
+      expect { subject }.to(change { new_member.reload.membership_fee_paid_until })
     end
 
     it 'renews members due for renewal' do
-      expect { subject }
-        .to(change { member_due.reload.membership_fee_paid_until })
+      expect { subject }.to(change { member_due.reload.membership_fee_paid_until })
     end
 
     it 'does not renew a cancelled member' do
-      expect { subject }
-        .not_to(change { cancelled_member.reload.membership_fee_paid_until })
+      expect { subject }.not_to(change { cancelled_member.reload.membership_fee_paid_until })
     end
 
     it 'does not renew a member with paused payments' do
-      expect { subject }
-        .not_to(change { paused_member.reload.membership_fee_paid_until })
+      expect { subject }.not_to(change { paused_member.reload.membership_fee_paid_until })
     end
 
     it 'does not renew a member not yet due for renewal' do
-      expect { subject }
-        .not_to(change { member_not_due.reload.membership_fee_paid_until })
+      expect { subject }.not_to(change { member_not_due.reload.membership_fee_paid_until })
     end
 
     it 'creates membership fee payments' do
@@ -49,8 +44,7 @@ RSpec.describe Members::RenewMembershipsJob do
     end
 
     it 'enqueues a debits submission job' do
-      expect { subject }
-        .to have_enqueued_job(Members::SubmitMembershipFeeDebitsJob)
+      expect { subject }.to have_enqueued_job(Members::SubmitMembershipFeeDebitsJob)
     end
   end
 end

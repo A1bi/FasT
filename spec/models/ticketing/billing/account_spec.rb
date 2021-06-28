@@ -16,8 +16,7 @@ RSpec.describe Ticketing::Billing::Account do
 
   shared_examples 'updates the balance' do
     it 'updates the balance' do
-      expect { subject }
-        .to change { account.reload.balance }.by(transferred_amount)
+      expect { subject }.to change { account.reload.balance }.by(transferred_amount)
     end
   end
 
@@ -151,8 +150,7 @@ RSpec.describe Ticketing::Billing::Account do
 
       it 'sets the reverse transaction' do
         subject
-        expect(account.transactions.last.reverse_transaction)
-          .to eq(participant.transactions.last)
+        expect(account.transactions.last.reverse_transaction).to eq(participant.transactions.last)
       end
 
       context 'when recipient is sender' do

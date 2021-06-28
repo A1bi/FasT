@@ -11,19 +11,15 @@ RSpec.describe Ticketing::TicketsWebPdf do
   shared_examples 'renders the correct ticket information' do
     it 'renders the correct ticket information' do
       order.tickets.each.with_index do |ticket, i|
-        expect(page_analysis.pages[i / 3][:strings])
-          .to include(ticket.number, ticket.type.name)
+        expect(page_analysis.pages[i / 3][:strings]).to include(ticket.number, ticket.type.name)
       end
     end
 
     it 'renders the correct ticket barcodes' do
       order.tickets.size.times do |i|
-        expect(tickets_pdf).to receive(:print_qr_code)
-          .with(unauthenticated_content(i), any_args).once
-        expect(tickets_pdf).not_to receive(:print_qr_code)
-          .with(authenticated_content(i), any_args)
-        expect(tickets_pdf).to receive(:link_annotate)
-          .with(authenticated_content(i), any_args).once
+        expect(tickets_pdf).to receive(:print_qr_code).with(unauthenticated_content(i), any_args).once
+        expect(tickets_pdf).not_to receive(:print_qr_code).with(authenticated_content(i), any_args)
+        expect(tickets_pdf).to receive(:link_annotate).with(authenticated_content(i), any_args).once
       end
       pdf
     end

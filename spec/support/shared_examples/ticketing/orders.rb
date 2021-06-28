@@ -26,9 +26,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     it { is_expected.to have_many(:coupon_redemptions).dependent(:destroy) }
 
     it {
-      expect(subject)
-        .to have_many(:redeemed_coupons)
-        .through(:coupon_redemptions).source(:coupon)
+      expect(subject).to have_many(:redeemed_coupons).through(:coupon_redemptions).source(:coupon)
     }
 
     it {
@@ -111,9 +109,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     end
 
     context 'with tickets and coupons present' do
-      let(:order) do
-        create(order_factory, :with_tickets, :with_purchased_coupons)
-      end
+      let(:order) { create(order_factory, :with_tickets, :with_purchased_coupons) }
 
       it { is_expected.to eq(order.tickets + order.purchased_coupons) }
     end

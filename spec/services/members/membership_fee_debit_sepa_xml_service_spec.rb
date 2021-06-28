@@ -6,12 +6,8 @@ RSpec.describe Members::MembershipFeeDebitSepaXmlService do
   subject { service.xml }
 
   let(:service) { described_class.new(submission: submission) }
-  let(:submission) do
-    create(:membership_fee_debit_submission, payments: payments)
-  end
-  let(:payments) do
-    create_list(:membership_fee_payment, 3, :with_sepa_mandate)
-  end
+  let(:submission) { create(:membership_fee_debit_submission, payments: payments) }
+  let(:payments) { create_list(:membership_fee_payment, 3, :with_sepa_mandate) }
 
   before do
     # create another payment not associated with this submission
@@ -48,21 +44,16 @@ RSpec.describe Members::MembershipFeeDebitSepaXmlService do
     expect(subject).to have_xml("#{scope}[2]/PmtTpInf/SeqTp", 'RCUR')
   end
 
-  # rubocop:disable RSpec/ExampleLength
   it 'adds transactions with the correct data' do
     payments.each.with_index do |payment, i|
       mandate = payment.member.sepa_mandate
       scope = "//Document/CstmrDrctDbtInitn/PmtInf[#{i / 2 + 1}]" \
               "/DrctDbtTxInf[#{i % 2 + 1}]"
 
-      expect(subject).to have_xml("#{scope}/InstdAmt",
-                                  format('%.2f', payment.amount))
+      expect(subject).to have_xml("#{scope}/InstdAmt", format('%.2f', payment.amount))
       expect(subject).to have_xml("#{scope}/Dbtr/Nm", mandate.debtor_name)
       expect(subject).to have_xml("#{scope}/DbtrAcct/Id/IBAN", mandate.iban)
-      expect(subject)
-        .to have_xml("#{scope}/RmtInf/Ustrd",
-                     /Jahresmitgliedsbeitrag.*#{payment.member.name.full}/)
+      expect(subject).to have_xml("#{scope}/RmtInf/Ustrd", /Jahresmitgliedsbeitrag.*#{payment.member.name.full}/)
     end
   end
-  # rubocop:enable RSpec/ExampleLength
 end

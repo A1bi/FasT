@@ -3,8 +3,7 @@
 RSpec.shared_examples 'loggable' do
   describe 'associations' do
     it {
-      expect(subject)
-        .to have_many(:log_events).inverse_of(:loggable).dependent(:destroy)
+      expect(subject).to have_many(:log_events).inverse_of(:loggable).dependent(:destroy)
     }
   end
 end

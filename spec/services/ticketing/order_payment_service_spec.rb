@@ -24,9 +24,7 @@ RSpec.describe Ticketing::OrderPaymentService do
     subject { service.approve_charge }
 
     context 'with an order with charge payment' do
-      let(:order) do
-        create(:web_order, :with_purchased_coupons, :charge_payment)
-      end
+      let(:order) { create(:web_order, :with_purchased_coupons, :charge_payment) }
 
       include_examples 'creates a log event', :approved
 
@@ -89,15 +87,12 @@ RSpec.describe Ticketing::OrderPaymentService do
 
     shared_examples 'marks as paid' do
       it 'updates the balance' do
-        expect { subject }
-          .to change { order.billing_account.reload.outstanding? }.to(false)
+        expect { subject }.to change { order.billing_account.reload.outstanding? }.to(false)
       end
 
       it 'creates a billing' do
-        expect { subject }
-          .to change(Ticketing::Billing::Transaction, :count).by(1)
-        expect(order.billing_account.transactions.first.note_key)
-          .to eq('payment_received')
+        expect { subject }.to change(Ticketing::Billing::Transaction, :count).by(1)
+        expect(order.billing_account.transactions.first.note_key).to eq('payment_received')
       end
     end
 
@@ -121,8 +116,7 @@ RSpec.describe Ticketing::OrderPaymentService do
       include_examples 'does not send an email'
 
       it 'does not create a billing' do
-        expect { subject }
-          .not_to change(Ticketing::Billing::Transaction, :count)
+        expect { subject }.not_to change(Ticketing::Billing::Transaction, :count)
       end
     end
   end

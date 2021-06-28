@@ -8,9 +8,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
     subject { described_class.perform_later(order, admin: admin) }
 
     it {
-      expect { subject }
-        .to have_enqueued_job(described_class)
-        .with(order, admin: admin)
+      expect { subject }.to have_enqueued_job(described_class).with(order, admin: admin)
     }
   end
 
@@ -23,8 +21,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
     before do
       allow(Ticketing::PushNotifications::Device)
         .to receive(:where).with(app: :stats).and_return(device_collection)
-      allow(device_collection)
-        .to receive(:find_each).and_yield(devices[0]).and_yield(devices[1])
+      allow(device_collection).to receive(:find_each).and_yield(devices[0]).and_yield(devices[1])
     end
 
     context 'with ticket order' do

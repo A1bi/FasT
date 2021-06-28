@@ -47,8 +47,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
     context 'when free ticket type does not exist' do
       it {
-        expect { subject }.to raise_error(Ticketing::CouponRedeemService::
-                                          FreeTicketTypeMissingError)
+        expect { subject }.to raise_error(Ticketing::CouponRedeemService::FreeTicketTypeMissingError)
       }
     end
 
@@ -66,18 +65,15 @@ RSpec.describe Ticketing::CouponRedeemService do
 
       context 'when free tickets should be used' do
         it 'changes the ticket type to free, tickets w/ highest price first' do
-          expect { subject }
-            .to change { tickets.map(&:type).uniq }.to([free_ticket_type])
+          expect { subject }.to change { tickets.map(&:type).uniq }.to([free_ticket_type])
         end
 
         it 'decreases the remaining free tickets' do
-          expect { subject }
-            .to change { coupons.last.reload.free_tickets }.to(0)
+          expect { subject }.to change { coupons.last.reload.free_tickets }.to(0)
         end
 
         it 'creates a transaction for the redeemed free tickets' do
-          expect { subject }
-            .to change(coupons.last.billing_account.transactions, :count).by(1)
+          expect { subject }.to change(coupons.last.billing_account.transactions, :count).by(1)
           transaction = coupons.last.billing_account.transactions.last
           expect(transaction.amount).to eq(-2)
           expect(transaction.note_key).to eq('redeemed_coupon')
@@ -90,8 +86,7 @@ RSpec.describe Ticketing::CouponRedeemService do
           end
 
           it 'decreases the remaining free tickets' do
-            expect { subject }
-              .to change { coupons.last.reload.free_tickets }.to(1)
+            expect { subject }.to change { coupons.last.reload.free_tickets }.to(1)
           end
         end
 
@@ -150,8 +145,7 @@ RSpec.describe Ticketing::CouponRedeemService do
     before { order.billing_account.balance = -33 }
 
     it 'adds the coupon credit to the order account' do
-      expect { subject }
-        .to change(order.billing_account, :balance).from(-33).to(-8)
+      expect { subject }.to change(order.billing_account, :balance).from(-33).to(-8)
     end
 
     it 'updates the coupon credit' do
@@ -175,8 +169,7 @@ RSpec.describe Ticketing::CouponRedeemService do
       end
 
       it 'adds the coupon credit to the order account' do
-        expect { subject }
-          .to change(order.billing_account, :balance).from(-33).to(0)
+        expect { subject }.to change(order.billing_account, :balance).from(-33).to(0)
       end
 
       it 'updates the coupon credit' do

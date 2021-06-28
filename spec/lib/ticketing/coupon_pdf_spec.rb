@@ -17,8 +17,7 @@ RSpec.describe Ticketing::CouponPdf do
   include_examples 'all pages have the correct layout'
 
   it 'contains the correct coupon information' do
-    expect(text_analysis.strings)
-      .to include('Gutschein', coupon.code, '12,34 ', '€')
+    expect(text_analysis.strings).to include('Gutschein', coupon.code, '12,34 ', '€')
   end
 
   context 'with generic theme' do

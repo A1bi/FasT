@@ -6,13 +6,9 @@ RSpec.describe 'ContactMessages' do
   describe 'POST #create' do
     subject { post contact_messages_path(params) }
 
-    let(:message_params) do
-      { name: 'Foo', subject: 'Bar', email: 'foo@bar.com', content: 'foobar' }
-    end
+    let(:message_params) { { name: 'Foo', subject: 'Bar', email: 'foo@bar.com', content: 'foobar' } }
     let(:comment) { '' }
-    let(:params) do
-      { contact_message: message_params, comment: comment }
-    end
+    let(:params) { { contact_message: message_params, comment: comment } }
 
     context 'with valid params' do
       let(:message) { double.as_null_object }
@@ -20,8 +16,7 @@ RSpec.describe 'ContactMessages' do
       before { allow(ContactMessage).to receive(:new).and_return(message) }
 
       it 'sends a contact message notification' do
-        expect(ContactMessage)
-          .to receive(:new).with(message_params.stringify_keys)
+        expect(ContactMessage).to receive(:new).with(message_params.stringify_keys)
         expect(message).to receive(:mail)
         subject
       end

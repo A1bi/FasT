@@ -10,8 +10,7 @@ RSpec.describe Ticketing::OrderBillingService do
 
   shared_examples 'money transfer' do
     it 'creates a transaction' do
-      expect { subject }
-        .to change(order.billing_account.transactions, :count).by(1)
+      expect { subject }.to change(order.billing_account.transactions, :count).by(1)
       transaction = order.billing_account.transactions.last
       expect(transaction.amount).to eq(amount)
       expect(transaction.note_key).to eq(note)
@@ -54,8 +53,7 @@ RSpec.describe Ticketing::OrderBillingService do
       end
 
       it 'deducts the cancelled ticket price from the balance' do
-        expect { subject }
-          .to change(order.billing_account, :balance).by(ticket_price)
+        expect { subject }.to change(order.billing_account, :balance).by(ticket_price)
       end
 
       include_examples 'money transfer' do
@@ -74,8 +72,7 @@ RSpec.describe Ticketing::OrderBillingService do
       let(:diff) { ticket_price - ticket_price_after }
 
       it 'deducts the difference of new and old price from the balance' do
-        expect { subject }
-          .to change(order.billing_account, :balance).by(diff)
+        expect { subject }.to change(order.billing_account, :balance).by(diff)
       end
 
       include_examples 'money transfer' do
@@ -89,9 +86,7 @@ RSpec.describe Ticketing::OrderBillingService do
 
     shared_examples 'settles balance' do
       it 'changes the balance to 0' do
-        expect { subject }
-          .to change(order.billing_account, :balance)
-          .from(previous_balance).to(0)
+        expect { subject }.to change(order.billing_account, :balance).from(previous_balance).to(0)
       end
 
       include_examples 'money transfer' do
@@ -136,10 +131,8 @@ RSpec.describe Ticketing::OrderBillingService do
     context 'with a positive balance' do
       it 'deposits the positive balance into the store billing account' do
         expect { subject }.to(
-          change { order.billing_account.reload.balance }.from(previous_balance)
-                                                         .to(0)
-          .and(change { order.store.billing_account.reload.balance }
-                .from(20).to(20 + previous_balance))
+          change { order.billing_account.reload.balance }.from(previous_balance).to(0)
+          .and(change { order.store.billing_account.reload.balance }.from(20).to(20 + previous_balance))
         )
       end
     end
@@ -171,9 +164,7 @@ RSpec.describe Ticketing::OrderBillingService do
 
       context 'with a positive balance' do
         it 'settles the balance' do
-          expect { subject }
-            .to change(order.billing_account, :balance).from(previous_balance)
-                                                       .to(0)
+          expect { subject }.to change(order.billing_account, :balance).from(previous_balance).to(0)
         end
 
         include_examples 'sets transaction note', 'cash_refund_in_store'

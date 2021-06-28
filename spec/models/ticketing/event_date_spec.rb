@@ -5,10 +5,7 @@ RSpec.describe Ticketing::EventDate do
     subject { date.admission_time }
 
     let(:event) { build(:event, admission_duration: 42) }
-    let(:date) do
-      build(:event_date, event: event,
-                         date: Time.zone.parse('2021-06-22 20:00'))
-    end
+    let(:date) { build(:event_date, event: event, date: Time.zone.parse('2021-06-22 20:00')) }
 
     it { is_expected.to eq(Time.zone.parse('2021-06-22 19:18')) }
   end
@@ -34,8 +31,7 @@ RSpec.describe Ticketing::EventDate do
         before do
           check_in = instance_double('CoronaPresenceTracing::CWACheckIn',
                                      url: 'https://barfoo')
-          allow(CoronaPresenceTracing::CWACheckIn)
-            .to receive(:new).and_return(check_in)
+          allow(CoronaPresenceTracing::CWACheckIn).to receive(:new).and_return(check_in)
         end
 
         it 'creates a new check-in URL' do
@@ -55,8 +51,7 @@ RSpec.describe Ticketing::EventDate do
         end
 
         it 'saves the check-in URL' do
-          expect { subject }
-            .to change { date[:covid19_check_in_url] }.to('https://barfoo')
+          expect { subject }.to change { date[:covid19_check_in_url] }.to('https://barfoo')
         end
       end
 

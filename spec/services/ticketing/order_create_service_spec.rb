@@ -63,8 +63,7 @@ RSpec.describe Ticketing::OrderCreateService do
         subject
         total = event.ticket_types[0].price
         expect(order.total).to eq(total)
-        expect(order.billing_account.balance)
-          .to eq(-total + coupons.first.value)
+        expect(order.billing_account.balance).to eq(-total + coupons.first.value)
       end
 
       it 'sends a confirmation' do
@@ -85,8 +84,7 @@ RSpec.describe Ticketing::OrderCreateService do
       let(:address) { super().merge(email: 'foo') }
 
       it 'does not send a confirmation' do
-        expect { subject }
-          .not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
+        expect { subject }.not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
       end
     end
   end

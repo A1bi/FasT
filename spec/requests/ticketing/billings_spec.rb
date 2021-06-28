@@ -16,8 +16,7 @@ RSpec.describe 'Ticketing::BillingsController' do
     let(:billable_id) { billable.id }
     let(:billing_service) do
       instance_double(Ticketing::OrderBillingService,
-                      settle_balance: nil, refund_in_retail_store: nil,
-                      adjust_balance: nil)
+                      settle_balance: nil, refund_in_retail_store: nil, adjust_balance: nil)
     end
     let(:sign_in_user) { sign_in(admin: true) }
 
@@ -44,8 +43,7 @@ RSpec.describe 'Ticketing::BillingsController' do
       end
 
       before do
-        allow(Ticketing::OrderBillingService)
-          .to receive(:new).with(billable).and_return(billing_service)
+        allow(Ticketing::OrderBillingService).to receive(:new).with(billable).and_return(billing_service)
       end
 
       context 'with note = transfer_refund' do
@@ -53,8 +51,7 @@ RSpec.describe 'Ticketing::BillingsController' do
 
         context 'with an admin user' do
           it 'call the billing service' do
-            expect(billing_service)
-              .to receive(:settle_balance).with(:transfer_refund)
+            expect(billing_service).to receive(:settle_balance).with(:transfer_refund)
             subject
           end
 

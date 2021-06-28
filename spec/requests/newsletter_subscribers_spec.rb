@@ -6,13 +6,9 @@ RSpec.describe 'NewsletterSubscribers' do
   describe 'POST #create' do
     subject { post newsletter_subscriber_path(params) }
 
-    let(:subscriber_params) do
-      { last_name: 'Foo', gender: 0, email: 'foo@bar.com', privacy_terms: 1 }
-    end
+    let(:subscriber_params) { { last_name: 'Foo', gender: 0, email: 'foo@bar.com', privacy_terms: 1 } }
     let(:comment) { '' }
-    let(:params) do
-      { newsletter_subscriber: subscriber_params, comment: comment }
-    end
+    let(:params) { { newsletter_subscriber: subscriber_params, comment: comment } }
 
     # rubocop:disable RSpec/BeforeAfterAll
     before(:context) { create(:newsletter_subscriber_list, id: 1) }

@@ -5,9 +5,7 @@ require 'support/authentication'
 
 RSpec.describe 'Api::Ticketing::OrdersController' do
   describe 'POST #totals' do
-    subject do
-      post_json totals_api_ticketing_orders_path, params: params
-    end
+    subject { post_json totals_api_ticketing_orders_path, params: params }
 
     let(:params) do
       {

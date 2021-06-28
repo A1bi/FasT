@@ -16,13 +16,11 @@ RSpec.describe Members::Member do
 
     shared_examples 'renewal' do
       it 'renews the membership' do
-        expect { subject }
-          .to change(member, :membership_fee_paid_until).to(paid_until)
+        expect { subject }.to change(member, :membership_fee_paid_until).to(paid_until)
       end
 
       it 'does not create a membership fee payment' do
-        expect { subject }
-          .to change(Members::MembershipFeePayment, :count).by(1)
+        expect { subject }.to change(Members::MembershipFeePayment, :count).by(1)
         payment = member.membership_fee_payments.last
         expect(payment.paid_until).to eq(paid_until)
         expect(payment.amount).to eq(member.membership_fee)
@@ -49,9 +47,7 @@ RSpec.describe Members::Member do
     end
 
     context 'when membership is due for renewal' do
-      let(:member) do
-        create(:member, membership_fee_paid_until: 4.days.ago)
-      end
+      let(:member) { create(:member, membership_fee_paid_until: 4.days.ago) }
       let(:paid_until) { 6.months.after(4.days.ago).to_date }
 
       include_examples 'renewal'

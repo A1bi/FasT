@@ -4,9 +4,7 @@ RSpec.describe Ticketing::DebitSubmitService do
   subject { service.execute }
 
   let(:service) { described_class.new(orders, current_user: user) }
-  let(:orders) do
-    create_list(:web_order, 4, :with_purchased_coupons, :charge_payment)
-  end
+  let(:orders) { create_list(:web_order, 4, :with_purchased_coupons, :charge_payment) }
   let(:user) { create(:user) }
 
   before do
@@ -17,8 +15,7 @@ RSpec.describe Ticketing::DebitSubmitService do
 
   it 'only submits approved and unsubmitted debits' do
     orders[0..1].each do |order|
-      expect(Ticketing::OrderPaymentService)
-        .to receive(:new).with(order, current_user: user).and_call_original
+      expect(Ticketing::OrderPaymentService).to receive(:new).with(order, current_user: user).and_call_original
     end
     subject
   end

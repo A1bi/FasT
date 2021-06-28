@@ -4,9 +4,7 @@ require 'support/authentication'
 
 RSpec.describe 'Admin::MembershipFeePaymentsController' do
   describe 'PATCH #mark_as_failed' do
-    subject do
-      patch mark_as_failed_admin_members_membership_fee_payment_path(payment)
-    end
+    subject { patch mark_as_failed_admin_members_membership_fee_payment_path(payment) }
 
     let(:member) { create(:member, :membership_fee_paid) }
     let(:payment) { create(:membership_fee_payment, member: member) }
@@ -18,28 +16,20 @@ RSpec.describe 'Admin::MembershipFeePaymentsController' do
     end
 
     it 'pauses payments for the corresponding member' do
-      expect { subject }
-        .to change { member.reload.membership_fee_payments_paused }.to(true)
+      expect { subject }.to change { member.reload.membership_fee_payments_paused }.to(true)
     end
 
     context 'when a previous payment exists' do
-      let!(:previous_payment) do
-        create(:membership_fee_payment,
-               member: member, paid_until: 2.months.from_now)
-      end
+      let!(:previous_payment) { create(:membership_fee_payment, member: member, paid_until: 2.months.from_now) }
 
       it "updates the member's paid_until" do
-        expect { subject }
-          .to change { member.reload.membership_fee_paid_until }
-          .to(previous_payment.paid_until)
+        expect { subject }.to change { member.reload.membership_fee_paid_until }.to(previous_payment.paid_until)
       end
     end
 
     context 'when a previous payment does not exist' do
       it "removes the member's paid_until" do
-        expect { subject }
-          .to change { member.reload.membership_fee_paid_until }
-          .to(nil)
+        expect { subject }.to change { member.reload.membership_fee_paid_until }.to(nil)
       end
     end
 
