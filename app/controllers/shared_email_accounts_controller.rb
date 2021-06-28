@@ -27,9 +27,7 @@ class SharedEmailAccountsController < ApplicationController
   private
 
   def email_authorizing_for
-    if params[:email].present? && params[:email].in?(user_shared_email_accounts)
-      return params[:email]
-    end
+    return params[:email] if params[:email].present? && params[:email].in?(user_shared_email_accounts)
 
     user_shared_email_accounts.first if user_shared_email_accounts.count == 1
   end

@@ -2,11 +2,13 @@
 
 class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
   def up
-    migrate_integer_to_enum(:newsletter_newsletters, :status, :newsletter_newsletter_status, Newsletter::Newsletter.statuses, :draft)
+    migrate_integer_to_enum(:newsletter_newsletters, :status, :newsletter_newsletter_status,
+                            Newsletter::Newsletter.statuses, :draft)
     migrate_integer_to_enum(:ticketing_check_ins, :medium, :ticketing_check_in_medium, Ticketing::CheckIn.media)
     migrate_integer_to_enum(:ticketing_orders, :pay_method, :ticketing_pay_method, Ticketing::Web::Order.pay_methods)
 
-    migrate_integer_to_enum(:ticketing_orders, :type, :ticketing_order_type, %i[Ticketing::Web::Order Ticketing::Retail::Order Ticketing::BoxOffice::Order])
+    migrate_integer_to_enum(:ticketing_orders, :type, :ticketing_order_type,
+                            %i[Ticketing::Web::Order Ticketing::Retail::Order Ticketing::BoxOffice::Order])
     migrate_integer_to_enum(:users, :type, :user_type, %i[User Members::Member])
   end
 

@@ -227,9 +227,7 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
 
   order.save
 
-  unless order.charge_payment? || [true, false].sample
-    Ticketing::OrderPaymentService.new(order).mark_as_paid
-  end
+  Ticketing::OrderPaymentService.new(order).mark_as_paid unless order.charge_payment? || [true, false].sample
 end
 
 ### retail orders

@@ -30,9 +30,7 @@ module Ticketing
           if first_seat_index.nil?
             first_seat_index = i
             # use its row as base row for the following rows
-            if seat.previous_element.present?
-              previous_row = seat.previous_element['data-row'].to_i
-            end
+            previous_row = seat.previous_element['data-row'].to_i if seat.previous_element.present?
           end
 
           row = previous_row + (i - first_seat_index) / seats_per_row + 1

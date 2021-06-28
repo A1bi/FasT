@@ -12,7 +12,11 @@ class ChangeBoxOfficeRefundsAndTickets < ActiveRecord::Migration[6.0]
       change.up do
         update 'UPDATE ticketing_box_office_order_payments SET amount = amount * -1'
 
-        update "UPDATE ticketing_box_office_purchase_items SET purchasable_type = 'Ticketing::BoxOffice::OrderPayment' WHERE purchasable_type = 'Ticketing::BoxOffice::Refund'"
+        update <<-SQL.squish
+          UPDATE ticketing_box_office_purchase_items
+          SET purchasable_type = 'Ticketing::BoxOffice::OrderPayment'
+          WHERE purchasable_type = 'Ticketing::BoxOffice::Refund'
+        SQL
 
         update "UPDATE ticketing_tickets SET invalidated = #{quoted_true} WHERE cancellation_id IS NOT NULL"
       end
@@ -20,7 +24,11 @@ class ChangeBoxOfficeRefundsAndTickets < ActiveRecord::Migration[6.0]
       change.down do
         update 'UPDATE ticketing_box_office_order_payments SET amount = amount * -1'
 
-        update "UPDATE ticketing_box_office_purchase_items SET purchasable_type = 'Ticketing::BoxOffice::Refund' WHERE purchasable_type = 'Ticketing::BoxOffice::OrderPayment'"
+        update <<-SQL.squish
+          UPDATE ticketing_box_office_purchase_items
+          SET purchasable_type = 'Ticketing::BoxOffice::Refund'
+          WHERE purchasable_type = 'Ticketing::BoxOffice::OrderPayment'
+        SQL
       end
     end
   end

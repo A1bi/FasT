@@ -15,12 +15,14 @@ class AddMissingIndices < ActiveRecord::Migration[6.0]
 
     add_index :photos, :gallery_id
 
-    add_index :ticketing_bank_charges, %i[chargeable_id chargeable_type], name: :index_ticketing_bank_charges_on_chargeable
+    add_index :ticketing_bank_charges, %i[chargeable_id chargeable_type],
+              name: :index_ticketing_bank_charges_on_chargeable
     add_index :ticketing_bank_charges, :approved
     add_index :ticketing_bank_charges, :submission_id
 
     add_index :ticketing_box_office_purchase_items, :purchase_id
-    add_index :ticketing_box_office_purchase_items, %i[purchasable_id purchasable_type], name: :index_ticketing_box_office_purchase_items_on_purchasable
+    add_index :ticketing_box_office_purchase_items, %i[purchasable_id purchasable_type],
+              name: :index_ticketing_box_office_purchase_items_on_purchasable
 
     add_index :ticketing_box_office_purchases, :box_office_id
 
@@ -29,7 +31,8 @@ class AddMissingIndices < ActiveRecord::Migration[6.0]
     add_index :ticketing_check_ins, :medium
 
     add_index :ticketing_coupons_reservation_groups, :coupon_id
-    add_index :ticketing_coupons_reservation_groups, :reservation_group_id, name: :index_ticketing_coupons_reservation_groups_on_group_id
+    add_index :ticketing_coupons_reservation_groups, :reservation_group_id,
+              name: :index_ticketing_coupons_reservation_groups_on_group_id
 
     add_index :ticketing_event_dates, :event_id
 
@@ -44,7 +47,8 @@ class AddMissingIndices < ActiveRecord::Migration[6.0]
 
     add_index :ticketing_push_notifications_devices, %i[app token], unique: true
 
-    add_index :ticketing_reservations, %i[date_id seat_id group_id], unique: true, name: :index_ticketing_reservations_on_date_seat_group_id
+    add_index :ticketing_reservations, %i[date_id seat_id group_id],
+              unique: true, name: :index_ticketing_reservations_on_date_seat_group_id
     add_index :ticketing_reservations, %i[date_id seat_id]
     add_index :ticketing_reservations, :date_id
     add_index :ticketing_reservations, :seat_id
@@ -61,7 +65,8 @@ class AddMissingIndices < ActiveRecord::Migration[6.0]
     add_index :ticketing_tickets, :order_id
     add_index :ticketing_tickets, :type_id
     add_index :ticketing_tickets, %i[seat_id date_id]
-    add_index :ticketing_tickets, %i[seat_id date_id], unique: true, where: 'NOT invalidated', name: :index_ticketing_tickets_on_seat_id_and_date_id_unique
+    add_index :ticketing_tickets, %i[seat_id date_id],
+              unique: true, where: 'NOT invalidated', name: :index_ticketing_tickets_on_seat_id_and_date_id_unique
     add_index :ticketing_tickets, :seat_id
     add_index :ticketing_tickets, :date_id
 

@@ -9,11 +9,6 @@ AllCops:
   - 'node_modules/**/*'
   - 'vendor/**/*'
 
-Layout/LineLength:
-  Max: 80
-  Exclude:
-    - db/migrate/*.rb
-
 Lint/EmptyBlock:
   Exclude:
     - lib/tasks/one_off.rake

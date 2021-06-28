@@ -56,9 +56,7 @@ module Ticketing
         member = Members::Member.find(params[:member][:id])
         recipient = member.name.full
         email = member.email
-        if params[:member_is_recipient].present?
-          @coupon.update(recipient: recipient)
-        end
+        @coupon.update(recipient: recipient) if params[:member_is_recipient].present?
       end
 
       Ticketing::CouponsMailer.coupon(@coupon,

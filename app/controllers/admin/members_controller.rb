@@ -131,11 +131,8 @@ module Admin
         end
 
       else
-        # do not change the IBAN if it is still obfuscated and therefore
-        # has not been changed by the user
-        if sepa_mandate_params[:iban].include? 'XXX'
-          sepa_mandate_params.delete(:iban)
-        end
+        # do not change the IBAN if it is still obfuscated and therefore has not been changed by the user
+        sepa_mandate_params.delete(:iban) if sepa_mandate_params[:iban].include? 'XXX'
 
         @member.sepa_mandate.update(sepa_mandate_params)
       end

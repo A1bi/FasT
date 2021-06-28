@@ -22,9 +22,7 @@ class NewsletterSubscribersController < ApplicationController
   def edit; end
 
   def update
-    if @subscriber.update(newsletter_params)
-      flash.notice = t('application.saved_changes')
-    end
+    flash.notice = t('application.saved_changes') if @subscriber.update(newsletter_params)
     redirect_to root_path
   end
 

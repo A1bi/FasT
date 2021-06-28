@@ -12,9 +12,7 @@ module Api
 
         def index
           @orders = ::Ticketing::Order.order(:last_name, :first_name)
-          unless %i[event_today unpaid q].any? { |key| params[key].present? }
-            return @orders = @orders.none
-          end
+          return @orders = @orders.none unless %i[event_today unpaid q].any? { |key| params[key].present? }
 
           @orders = @orders.event_today if params[:event_today].present?
           @orders = @orders.unpaid if params[:unpaid].present?
@@ -34,9 +32,7 @@ module Api
         end
 
         def destroy
-          unless @order.is_a? ::Ticketing::BoxOffice::Order
-            return head :forbidden
-          end
+          return head :forbidden unless @order.is_a? ::Ticketing::BoxOffice::Order
 
           ::Ticketing::OrderDestroyService.new(@order).execute
           head :no_content

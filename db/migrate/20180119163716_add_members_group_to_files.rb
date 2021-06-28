@@ -5,9 +5,7 @@ class AddMembersGroupToFiles < ActiveRecord::Migration[6.0]
     rename_table :members_files, :documents
     add_column :documents, :members_group, :integer, default: 0
 
-    if File.exist?(old_path) && !File.exist?(new_path)
-      FileUtils.mv(old_path, new_path)
-    end
+    FileUtils.mv(old_path, new_path) if File.exist?(old_path) && !File.exist?(new_path)
 
     change_column_default :members_members, :group, 0
     execute 'UPDATE members_members SET "group" = "group" - 1'
@@ -17,9 +15,7 @@ class AddMembersGroupToFiles < ActiveRecord::Migration[6.0]
     rename_table :documents, :members_files
     remove_column :members_files, :members_group
 
-    if File.exist?(new_path) && !File.exist?(old_path)
-      FileUtils.mv(new_path, old_path)
-    end
+    FileUtils.mv(new_path, old_path) if File.exist?(new_path) && !File.exist?(old_path)
 
     execute 'UPDATE members_members SET "group" = "group" + 1'
   end

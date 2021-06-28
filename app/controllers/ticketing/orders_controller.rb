@@ -184,9 +184,7 @@ module Ticketing
       if params[:event_slug].blank?
         @events = Event.with_future_dates
         @upcoming_event = Event.find_by('sale_start > ?', Time.current)
-        if action_name == 'new' && !current_user&.admin?
-          @events = @events.select(&:on_sale?)
-        end
+        @events = @events.select(&:on_sale?) if action_name == 'new' && !current_user&.admin?
         return redirect_to event_slug: @events.first.slug if @events.count == 1
 
         return render 'new_choose_event'
@@ -234,9 +232,7 @@ module Ticketing
       @billing_actions = []
       if @order.billing_account.balance.positive?
         @billing_actions << :transfer_refund if current_user.admin?
-        if @order.is_a? Ticketing::Retail::Order
-          @billing_actions << :cash_refund_in_store
-        end
+        @billing_actions << :cash_refund_in_store if @order.is_a? Ticketing::Retail::Order
       end
       @billing_actions << :correction if current_user.admin?
     end

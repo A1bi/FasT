@@ -30,9 +30,7 @@ module Ticketing
 
     # add another production pool even if in development
     # -> passbook notifications only support production
-    if Rails.env.development?
-      CONNECTION_POOL_PRODUCTION = create_pool(force_production: true)
-    end
+    CONNECTION_POOL_PRODUCTION = create_pool(force_production: true) if Rails.env.development?
 
     def perform(device, body: nil, title: nil, badge: nil, sound: nil,
                 force_production_gateway: false)

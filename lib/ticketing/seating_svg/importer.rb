@@ -74,9 +74,7 @@ module Ticketing
                       "with id=#{seat.id} is missing from the SVG file " \
                       'and will therefore be removed.'
 
-          if seat.tickets.any?
-            raise 'This seat cannot be removed due to existing tickets.'
-          end
+          raise 'This seat cannot be removed due to existing tickets.' if seat.tickets.any?
 
           seat.destroy
         end
@@ -89,9 +87,7 @@ module Ticketing
       end
 
       def log_created_record(record, association = nil)
-        if association
-          assoc_info = " (#{association.class.name} with id=#{association.id})"
-        end
+        assoc_info = " (#{association.class.name} with id=#{association.id})" if association
 
         Rails.logger.info "#{record.class.name} with id=#{record.id}" \
                     "#{assoc_info} created."

@@ -10,9 +10,7 @@ module MailerHelper
       "#{Rails.root}/public/images/mail/#{filename}"
     )
 
-    if options[:height]
-      options[:style] = "height:#{options[:height]}px;width:auto"
-    end
+    options[:style] = "height:#{options[:height]}px;width:auto" if options[:height]
 
     image_tag attachments[name].url, options
   end

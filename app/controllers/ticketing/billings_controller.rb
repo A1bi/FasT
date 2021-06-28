@@ -44,9 +44,7 @@ module Ticketing
     end
 
     def billable
-      unless ALLOWED_BILLABLE_TYPES.include?(params[:billable_type])
-        raise ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound unless ALLOWED_BILLABLE_TYPES.include?(params[:billable_type])
 
       @billable ||=
         "Ticketing::#{params[:billable_type]}".constantize

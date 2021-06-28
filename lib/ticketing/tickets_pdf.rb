@@ -100,12 +100,8 @@ module Ticketing
           image = File.read(images_path.join('theater', event.assets_identifier,
                                              'ticket_header.svg'))
           svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
-
           svg.resize(width: bounds.width)
-          if svg.sizing.output_height > bounds.height
-            svg.resize(height: bounds.height)
-          end
-
+          svg.resize(height: bounds.height) if svg.sizing.output_height > bounds.height
           svg.draw
         end
       end

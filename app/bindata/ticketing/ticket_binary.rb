@@ -10,9 +10,7 @@ module Ticketing
     bit12     :seat_id
 
     def self.from_ticket(ticket)
-      unless ticket.is_a?(Ticketing::Ticket)
-        raise 'ticket must be an instance of Ticketing::Ticket'
-      end
+      raise 'ticket must be an instance of Ticketing::Ticket' unless ticket.is_a?(Ticketing::Ticket)
 
       new(
         id: ticket.id,

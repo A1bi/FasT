@@ -13,7 +13,5 @@ json.ticket_types @ticket_types, :id, :name
 json.changed_tickets @changed_tickets do |ticket|
   json.call(ticket, :id, :date_id, :number, :type_id, :seat_id)
   json.cancelled ticket.cancelled?
-  if ticket.event.covid19?
-    json.seat_range @covid19_seats[ticket.order.number].to_a
-  end
+  json.seat_range @covid19_seats[ticket.order.number].to_a if ticket.event.covid19?
 end

@@ -44,16 +44,9 @@ module Ticketing
     private
 
     def validate_event
-      if sale_disabled?
-        @order.errors.add(:event, 'Ticket sale currently disabled')
-      end
-
-      if sale_disabled_for_store?
-        @order.errors.add(:store, 'Ticket sale disabled for this retail store')
-      end
-
+      @order.errors.add(:event, 'Ticket sale currently disabled') if sale_disabled?
+      @order.errors.add(:store, 'Ticket sale disabled for this retail store') if sale_disabled_for_store?
       @order.errors.add(:date, 'Date is cancelled') if date_cancelled?
-
       @order.errors.add(:event, 'Sold out') if sold_out?
     end
 
