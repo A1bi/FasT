@@ -123,7 +123,6 @@ Rails.application.routes.draw do
               post :send_pay_reminder
               post :resend_confirmation
               patch :mark_as_paid
-              patch :approve
               post :resend_items
               get :seats
             end
@@ -132,7 +131,6 @@ Rails.application.routes.draw do
         scope controller: :payments, path: 'zahlungen', as: :payments do
           get '/', action: :index
           patch :mark_as_paid
-          patch :approve
           post :submit
           get :submission_file, path: 'sepa-auftrag/:id'
         end

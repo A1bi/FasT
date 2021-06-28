@@ -72,8 +72,7 @@
           if @order.charge_payment? && @order.bank_charge
             payment.concat [
               ["Kontoinhaber", @order.bank_charge.name],
-              ["IBAN", obfuscated_iban(@order.bank_charge.iban)],
-              ["geprüft", @order.bank_charge.approved ? "ja" : "nein"]
+              ["IBAN", obfuscated_iban(@order.bank_charge.iban)]
             ]
           end
         end
@@ -105,9 +104,6 @@
                   <% if @order.transfer_payment? && @order.email.present? %>
                     <div><%= link_to "Zahlungserinnerung senden", { action: :send_pay_reminder }, method: :post, data: { confirm: "Möchten Sie wirklich eine Zahlungserinnerung senden?" } %></div>
                   <% end %>
-                <% end %>
-                <% if @order.bank_charge && !@order.bank_charge.approved %>
-                  <div><%= link_to "als geprüft markieren", { action: :approve }, method: :patch %></div>
                 <% end %>
               <% end %>
               <% if current_user.retail? %>

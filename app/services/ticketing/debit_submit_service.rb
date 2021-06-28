@@ -11,8 +11,7 @@ module Ticketing
       submission = BankSubmission.new
       submission.transaction do
         @orders.each do |order|
-          next unless order.bank_charge.approved? &&
-                      !order.bank_charge.submitted?
+          next if order.bank_charge.submitted?
 
           payment_service(order).submit_charge
           submission.charges << order.bank_charge

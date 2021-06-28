@@ -7,16 +7,8 @@ module Ticketing
       @current_user = current_user
     end
 
-    def approve_charge
-      return unless charge? && !@order.bank_charge.approved
-
-      @order.bank_charge.update(approved: true)
-      log_service.approve
-    end
-
     def submit_charge
-      return unless charge? && @order.bank_charge.approved &&
-                    !@order.bank_charge.submitted?
+      return unless charge? && !@order.bank_charge.submitted?
 
       @order.bank_charge.amount = -@order.billing_account.balance
       billing_service.settle_balance(:bank_charge_submitted)

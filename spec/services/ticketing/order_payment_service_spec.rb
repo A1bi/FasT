@@ -20,26 +20,6 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
   end
 
-  describe '#approve_charge' do
-    subject { service.approve_charge }
-
-    context 'with an order with charge payment' do
-      let(:order) { create(:web_order, :with_purchased_coupons, :charge_payment) }
-
-      include_examples 'creates a log event', :approved
-
-      it 'approves the bank charge' do
-        expect { subject }.to change(order.bank_charge, :approved).to(true)
-      end
-    end
-
-    context 'with an order without charge payment' do
-      let(:order) { create(:web_order, :with_purchased_coupons) }
-
-      include_examples 'does not create a log event'
-    end
-  end
-
   describe '#submit_charge' do
     subject { service.submit_charge }
 
@@ -47,33 +27,25 @@ RSpec.describe Ticketing::OrderPaymentService do
       create(:web_order, :with_purchased_coupons, :charge_payment)
     end
 
-    context 'with an approved charge' do
-      before { order.bank_charge.update(approved: true) }
+    context 'with an unsubmitted charge' do
+      before { order.billing_account.update(balance: -50) }
 
-      context 'with an unsubmitted charge' do
-        before { order.billing_account.update(balance: -50) }
+      include_examples 'creates a log event', :submitted_charge
 
-        include_examples 'creates a log event', :submitted_charge
-
-        it "sets the charge's amount" do
-          expect { subject }.to change(order.bank_charge, :amount).to(50)
-        end
-
-        it "settles the order's balance" do
-          expect { subject }.to change(order.billing_account, :balance).to(0)
-        end
+      it "sets the charge's amount" do
+        expect { subject }.to change(order.bank_charge, :amount).to(50)
       end
 
-      context 'with an already submitted charge' do
-        before do
-          Ticketing::BankSubmission.create(charges: [order.bank_charge])
-        end
-
-        include_examples 'does not create a log event'
+      it "settles the order's balance" do
+        expect { subject }.to change(order.billing_account, :balance).to(0)
       end
     end
 
-    context 'with an unapproved bank charge' do
+    context 'with an already submitted charge' do
+      before do
+        Ticketing::BankSubmission.create(charges: [order.bank_charge])
+      end
+
       include_examples 'does not create a log event'
     end
   end

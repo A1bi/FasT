@@ -4,9 +4,8 @@ module Ticketing
   class OrdersController < BaseController
     before_action :prepare_new, only: %i[new new_privileged]
     before_action :set_event_info, only: %i[new new_privileged]
-    before_action :find_order, only: %i[show edit update mark_as_paid
-                                        send_pay_reminder resend_confirmation
-                                        resend_items approve seats]
+    before_action :find_order, only: %i[show edit update mark_as_paid send_pay_reminder
+                                        resend_confirmation resend_items seats]
     before_action :prepare_billing_actions, only: %i[show]
 
     def new
@@ -111,12 +110,6 @@ module Ticketing
       authorize @order
       order_payment_service.mark_as_paid
       redirect_to_order_details :marked_as_paid
-    end
-
-    def approve
-      authorize @order.bank_charge
-      order_payment_service.approve_charge
-      redirect_to_order_details :approved
     end
 
     def send_pay_reminder

@@ -37,44 +37,6 @@
     </tbody>
   </table>
 <% end %>
-<% cache [:unapproved, @orders[:unapproved]] do %>
-  <%= form_tag ticketing_payments_approve_path, method: :patch do %>
-    <table class="rounded entries details">
-      <thead>
-        <tr>
-          <th colspan="7">Ungeprüfte Lastschriften</th>
-        </tr>
-        <% if @orders[:unapproved].any? %>
-          <tr>
-            <th class="checkbox"><%= check_box_tag "orders_all" %></th>
-            <th>Bestellung</th>
-            <th>Kontoinhaber</th>
-            <th>IBAN</th>
-            <th>Betrag</th>
-          </tr>
-        <% end %>
-      </thead>
-      <tbody class="hover">
-        <% @orders[:unapproved].each do |order| %>
-          <% charge = order.bank_charge %>
-          <tr data-controller="linked-row" data-linked-row-path="<%= ticketing_order_path(order) %>">
-            <td class="checkbox"><%= check_box_tag "orders[]", order.id %></td>
-            <td class="number"><%= link_to order.number, ticketing_order_path(order) %></td>
-            <td class="name"><%= charge.name %></td>
-            <td><%= obfuscated_iban(charge.iban) %></td>
-            <td class="amount"><%= number_to_currency -order.billing_account.balance %></td>
-          </tr>
-        <% end %>
-        <% if @orders[:unapproved].empty? %>
-          <tr>
-            <td colspan="5" class="empty">Keine Lastschriften vorhanden.</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= render "index_submit", text: "als geprüft markieren", orders: @orders[:unapproved] %>
-  <% end %>
-<% end %>
 <% cache [:unpaid, @orders[:unpaid]] do %>
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders] do %>
     <% additional_columns = %i[checkbox balance] %>

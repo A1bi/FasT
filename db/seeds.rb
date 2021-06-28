@@ -218,8 +218,7 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
   if order.charge_payment?
     order.build_bank_charge(
       name: FFaker::NameDE.name,
-      iban: 'DE89370400440532013000',
-      approved: [true, false].sample
+      iban: 'DE89370400440532013000'
     )
   end
 

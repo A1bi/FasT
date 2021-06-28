@@ -106,7 +106,6 @@ de:
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
-      approved: "Die Bestellung wurde als geprüft markiert."
       resent_items: "Die Artikel wurden dem Käufer erneut zugesendet."
       resent_confirmation: "Die Bestellbestätigung wurde dem Käufer erneut zugesendet."
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
@@ -324,7 +323,6 @@ de:
           ticketing/order:
             created: Bestellung aufgegeben
             updated: Bestellung bearbeitet
-            approved: Bestellung als geprüft markiert
             sent_pay_reminder: Zahlungserinnerung gesendet
             marked_as_paid: Bestellung als bezahlt markiert
             submitted_charge: Lastschrift bei der Bank eingereicht

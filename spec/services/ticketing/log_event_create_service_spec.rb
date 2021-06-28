@@ -36,12 +36,6 @@ RSpec.describe Ticketing::LogEventCreateService do
     include_examples 'creates a log event', :marked_as_paid
   end
 
-  describe '#approve' do
-    subject { service.approve }
-
-    include_examples 'creates a log event', :approved
-  end
-
   describe '#redeem' do
     subject { service.redeem }
 

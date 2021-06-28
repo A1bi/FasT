@@ -796,7 +796,6 @@ CREATE TABLE public.ticketing_bank_charges (
     chargeable_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    approved boolean DEFAULT false,
     submission_id bigint,
     amount numeric DEFAULT 0.0 NOT NULL,
     anonymized_at timestamp without time zone
@@ -2778,13 +2777,6 @@ CREATE INDEX index_photos_on_gallery_id ON public.photos USING btree (gallery_id
 
 
 --
--- Name: index_ticketing_bank_charges_on_approved; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_bank_charges_on_approved ON public.ticketing_bank_charges USING btree (approved);
-
-
---
 -- Name: index_ticketing_bank_charges_on_chargeable; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3712,6 +3704,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210512210607'),
 ('20210515212141'),
 ('20210622203354'),
-('20210624094725');
+('20210624094725'),
+('20210628190951');
 
 

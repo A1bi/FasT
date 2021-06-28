@@ -2,7 +2,7 @@
 
 module Ticketing
   class PaymentsController < BaseController
-    before_action :find_orders, only: %i[mark_as_paid approve]
+    before_action :find_orders, only: %i[mark_as_paid]
     before_action :find_charges_to_submit, only: %i[index submit]
 
     def index
@@ -17,7 +17,6 @@ module Ticketing
             pay_method: %i[transfer cash box_office]
           )
         },
-        unapproved: Web::Order.charges_to_submit(false),
         outstanding_credit: orders_with_outstanding_credit
       }
 
@@ -29,14 +28,6 @@ module Ticketing
         payment_service(authorize(order)).mark_as_paid
       end
       redirect_to_overview(:marked_as_paid)
-    end
-
-    def approve
-      @orders.each do |order|
-        authorize order.bank_charge
-        payment_service(order).approve_charge
-      end
-      redirect_to_overview(:approved)
     end
 
     def submit
@@ -62,7 +53,7 @@ module Ticketing
     end
 
     def find_charges_to_submit
-      @unsubmitted_charges = Web::Order.charges_to_submit(true)
+      @unsubmitted_charges = Web::Order.charges_to_submit
     end
 
     def find_unpaid_orders(web: true)

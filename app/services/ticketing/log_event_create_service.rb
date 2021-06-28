@@ -19,10 +19,6 @@ module Ticketing
       create_event(:marked_as_paid)
     end
 
-    def approve
-      create_event(:approved)
-    end
-
     def redeem
       create_event(:redeemed)
     end
