@@ -54,6 +54,7 @@ export default class extends Seating {
 
     console.log('Updating seating plan')
     updatedSeats = updatedSeats[this.date]
+    if (!updatedSeats) return
 
     for (const seatId in updatedSeats) {
       const seat = this.seats[seatId]
