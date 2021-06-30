@@ -10,9 +10,8 @@
           = prepopulated_text_field(f, :first_name)
         = render layout: 'field', locals: { name: 'Nachname' }
           = prepopulated_text_field(f, :last_name)
-        - unless @event&.covid19?
-          = render layout: 'field', locals: { name: 'Firma / Gruppe / Zugehörigkeit' }
-            = f.text_field :affiliation, class: 'field'
+        = render layout: 'field', locals: { name: 'Firma / Gruppe / Zugehörigkeit' }
+          = f.text_field :affiliation, class: 'field'
         = render layout: 'field', locals: { name: 'PLZ' }
           = f.text_field :plz, class: 'field', maxlength: 5
         = render layout: 'field', locals: { name: 'Telefonnummer' }
