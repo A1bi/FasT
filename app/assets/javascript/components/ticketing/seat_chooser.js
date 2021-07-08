@@ -181,17 +181,21 @@ export default class extends Seating {
       this.delegate.seatChooserIsReady()
     })
 
-    this.node.on('connect_error', () => {
-      if (this.socketId) return
-      this.connectionFailed()
-      this.delegate.seatChooserCouldNotConnect()
+    this.node.on('connect_error', error => {
+      if (!this.socketId) {
+        this.connectionFailed()
+        this.delegate.seatChooserCouldNotConnect()
+      } else if (error.type !== 'TransportError') {
+        this.connectionFailed()
+        this.delegate.seatChooserCouldNotReconnect()
+      }
     })
 
-    this.node.on('reconnecting', () => {
+    this.node.io.on('reconnect_attempt', () => {
       this.delegate.seatChooserIsReconnecting()
     })
 
-    this.node.on('reconnect_failed', () => {
+    this.node.io.on('reconnect_failed', () => {
       this.connectionFailed()
       this.delegate.seatChooserDisconnected()
     })
@@ -199,17 +203,6 @@ export default class extends Seating {
     this.node.on('updateSeats', res => {
       console.log('Seat updates received')
       this.updateSeats(res.seats)
-    })
-
-    this.node.on('error', error => {
-      if (error instanceof Object) return
-
-      this.connectionFailed()
-      if (this.socketId) {
-        this.delegate.seatChooserCouldNotReconnect()
-      } else {
-        this.delegate.seatChooserCouldNotConnect()
-      }
     })
 
     this.node.on('expired', () => {
