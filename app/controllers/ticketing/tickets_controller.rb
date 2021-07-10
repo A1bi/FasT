@@ -42,8 +42,7 @@ module Ticketing
 
       return :unprocessable_entity unless ticket_transfer_service.execute
 
-      flash[:notice] = t('.edited',
-                         count: ticket_transfer_service.updated_tickets.count)
+      flash[:notice] = t('.updated')
       head :ok
     end
 
