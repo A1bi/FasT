@@ -74,17 +74,19 @@
       tr
         td Jahresbeitrag:
         td = number_to_currency(@member.membership_fee)
-      - last_payment = @member.membership_fee_payments.last
       tr
         td zuletzt bezahlt:
         td
-          = last_membership_fee_payment_date(@member)
-          - if last_payment.failed?
-            .small.failed Zahlung fehlgeschlagen
-          - elsif policy(last_payment).mark_as_failed?
-            .small = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
-          - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
-            .small = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
+          - if (last_payment = @member.membership_fee_payments.last).present?
+            = l last_payment.created_at.to_date, format: :long
+            - if last_payment.failed?
+              .small.failed Zahlung fehlgeschlagen
+            - elsif policy(last_payment).mark_as_failed?
+              .small = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
+            - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
+              .small = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
+          - else
+            em = t('admin.members.membership_fee_never_paid')
       - if @member.membership_fee_paid_until.present?
         tr
           td bezahlt bis:
