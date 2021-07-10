@@ -2,10 +2,17 @@
 
 module Ticketing
   module OrdersHelper
-    def prepopulated_text_field(form, name, key = name, type = :text)
+    def prepopulated_text_field(form, name, key: name, type: :text, options: {})
       value = action_name.in?(%w[new new_coupons]) ? current_user.try(key) : nil
-      form.send("#{type}_field", name,
-                class: 'field', value: value.to_s)
+      options[:class] = 'field'
+      options[:value] = value.to_s
+      form.send("#{type}_field", name, options)
+    end
+
+    def preselected_gender
+      return nil unless action_name.in?(%w[new new_coupons]) && user_signed_in? && current_user.member?
+
+      Members::Member.genders.index(current_user.gender.to_sym)
     end
 
     def tickets_colspan(show_check_ins)

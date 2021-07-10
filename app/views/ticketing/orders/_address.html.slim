@@ -5,7 +5,7 @@
         tr: th colspan='2' Ihre Angaben
       tbody
         = render layout: 'field', locals: { name: 'Anrede' }
-          = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]]))
+          = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], preselected_gender))
         = render layout: 'field', locals: { name: 'Vorname' }
           = prepopulated_text_field(f, :first_name)
         = render layout: 'field', locals: { name: 'Nachname' }
@@ -13,12 +13,12 @@
         = render layout: 'field', locals: { name: 'Firma / Gruppe / Zugehörigkeit' }
           = f.text_field :affiliation, class: 'field'
         = render layout: 'field', locals: { name: 'PLZ' }
-          = f.text_field :plz, class: 'field', maxlength: 5
+          = prepopulated_text_field(f, :plz, options: { maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code' })
         = render layout: 'field', locals: { name: 'Telefonnummer' }
-          = f.text_field :phone, class: 'field'
+          = prepopulated_text_field(f, :phone, type: :telephone)
         = render layout: 'field', locals: { name: 'e-mail-Adresse' }
-          = prepopulated_text_field(f, :email, :email, :email)
+          = prepopulated_text_field(f, :email, type: :email)
         - if action_name.in? ['new', 'new_coupons']
           = render layout: 'field', locals: { name: 'e-mail-Adresse Bestätigung' }
-            = prepopulated_text_field(f, :email_confirmation, :email, :email)
+            = prepopulated_text_field(f, :email_confirmation, key: :email, type: :email)
             .small Noch einmal zur Sicherheit, um Tippfehler auszuschließen.
