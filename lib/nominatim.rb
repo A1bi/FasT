@@ -19,8 +19,8 @@ class Nominatim
 
       places.each do |place|
         address = place[:address]
-        info[:cities] << (address[:city] || address[:town] || address[:village])
-        info[:districts] << (address[:suburb] || address[:city_district])
+        info[:cities] << address.values_at(:city, :town, :village, :municipality).compact.first
+        info[:districts] << address.values_at(:suburb, :city_district).compact.first
       end
 
       %i[cities districts].each { |key| info[key] = info[key].compact.uniq }
