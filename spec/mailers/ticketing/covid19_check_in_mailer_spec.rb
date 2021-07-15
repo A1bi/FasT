@@ -5,7 +5,14 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
     subject(:mail) { described_class.check_in(ticket) }
 
     let(:ticket) { order.tickets[0] }
-    let(:event) { create(:event, :complete, covid19_presence_tracing: true) }
+    let(:event) { create(:event, :complete) }
+
+    shared_examples 'not sending the email' do
+      it 'does not process the email' do
+        expect(order).not_to receive(:email)
+        expect(mail.message).to be_a(ActionMailer::Base::NullMail)
+      end
+    end
 
     context 'with a web order' do
       let(:order) { create(:web_order, :with_tickets, event: event) }
@@ -27,6 +34,12 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
         expect(mail.text_part.body).to include(check_in_url)
         expect(mail.html_part.body).to include(check_in_url)
       end
+
+      context 'with presence tracing emails disabled' do
+        before { allow(Settings.covid19).to receive(:presence_tracing_email).and_return(false) }
+
+        include_examples 'not sending the email'
+      end
     end
 
     context 'without a web order' do
@@ -36,10 +49,7 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
         stub_const('Ticketing::TicketsRetailPdf', double.as_null_object)
       end
 
-      it 'does not process the email' do
-        expect(order).not_to receive(:email)
-        expect(mail.message).to be_a(ActionMailer::Base::NullMail)
-      end
+      include_examples 'not sending the email'
     end
   end
 end

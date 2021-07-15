@@ -27,8 +27,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
 
     shared_examples 'not sending a COVID-19 check-in email' do
       it 'sends a COVID-19 check-in email' do
-        expect { subject }
-          .not_to have_enqueued_mail(Ticketing::Covid19CheckInMailer)
+        expect { subject }.not_to have_enqueued_mail(Ticketing::Covid19CheckInMailer)
       end
     end
 
@@ -72,14 +71,15 @@ RSpec.describe Ticketing::TicketCheckInJob do
 
     context 'with a ticket id from a covid19 order' do
       let(:order) { create(:order, :with_tickets, tickets_count: 3, event: event) }
-      let(:event) do
-        create(:event, :complete, covid19: true, covid19_presence_tracing: presence_tracing, dates_count: 2)
-      end
-      let(:presence_tracing) { false }
+      let(:event) { create(:event, :complete, covid19: true, dates_count: 2) }
+      let(:presence_tracing_email) { false }
       let(:ticket) { order.tickets[0] }
       let(:medium) { 2 }
 
-      before { create(:cancellation, tickets: [order.tickets.last]) }
+      before do
+        allow(Settings.covid19).to receive(:presence_tracing_email).and_return(presence_tracing_email)
+        create(:cancellation, tickets: [order.tickets.last])
+      end
 
       it 'creates a check-in for the ticket all of its valid order siblings' do
         expect { subject }.to change(Ticketing::CheckIn, :count).by(2)
@@ -92,8 +92,8 @@ RSpec.describe Ticketing::TicketCheckInJob do
 
       include_examples 'not sending a COVID-19 check-in email'
 
-      context 'with presence tracing enabled' do
-        let(:presence_tracing) { true }
+      context 'with presence tracing email enabled' do
+        let(:presence_tracing_email) { true }
 
         context 'when no other tickets from the order have been checked in yet' do
           include_examples 'sending a COVID-19 check-in email'
@@ -127,7 +127,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
 
     describe 'avoiding multiple emails to the same person' do
       let(:order) { create(:order, :with_tickets, event: event) }
-      let(:event) { create(:event, :complete, covid19_presence_tracing: true) }
+      let(:event) { create(:event, :complete, covid19: true) }
 
       it 'does not enqueue multiple emails to the same person' do
         expect do

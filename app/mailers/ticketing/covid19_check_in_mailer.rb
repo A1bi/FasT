@@ -8,7 +8,8 @@ module Ticketing
     def check_in(ticket)
       @ticket = ticket
       return unless (@order = ticket.order).is_a?(Web::Order) &&
-                    ticket.event.covid19_presence_tracing?
+                    Settings.covid19.presence_tracing_email &&
+                    ticket.date.covid19_check_in_url.present?
 
       @check_in_url = ticket.date.covid19_check_in_url
       mail

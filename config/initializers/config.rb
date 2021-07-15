@@ -36,5 +36,9 @@ Config.setup do |config|
     required(:shared_email_accounts).schema do
       required(:redirect_url).filled
     end
+
+    required(:covid19).schema do
+      required(:presence_tracing_email).filled(:bool)
+    end
   end
 end

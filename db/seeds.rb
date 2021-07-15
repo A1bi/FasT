@@ -103,10 +103,7 @@ event_ids.each.with_index do |event_id, i|
     admission_duration: rand(30..60)
   )
 
-  if event_id == 'frau_mueller'
-    event.covid19 = true
-    event.covid19_presence_tracing = true
-  end
+  event.covid19 = true if event_id == 'frau_mueller'
 
   # two most recent events will be the future
   if i > event_ids.count - 3

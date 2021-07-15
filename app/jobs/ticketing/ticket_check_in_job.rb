@@ -13,7 +13,7 @@ module Ticketing
     private
 
     def send_check_in_email(date)
-      return unless @ticket.event.covid19_presence_tracing? &&
+      return unless covid19_presence_tracing_email? &&
                     no_check_ins_for_date? && early_enough_for_email?
 
       Covid19CheckInMailer.check_in(@ticket).deliver_later(
@@ -29,6 +29,10 @@ module Ticketing
 
     def tickets_to_check_in
       @ticket.event.covid19? ? @ticket.order.tickets.valid : [@ticket]
+    end
+
+    def covid19_presence_tracing_email?
+      Settings.covid19.presence_tracing_email && @ticket.event.covid19?
     end
 
     def no_check_ins_for_date?
