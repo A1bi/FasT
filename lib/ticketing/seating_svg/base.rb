@@ -24,8 +24,7 @@ module Ticketing
       def save_svg
         # create a backup
         ext = File.extname(@path)
-        backup_path = "#{File.dirname(@path)}/#{File.basename(@path, ext)}" \
-                   "_original#{ext}"
+        backup_path = "#{File.dirname(@path)}/#{File.basename(@path, ext)}_original#{ext}"
         FileUtils.copy_file(@path, backup_path)
 
         File.open(@path, 'w') { |f| f.write(svg.to_xml) }

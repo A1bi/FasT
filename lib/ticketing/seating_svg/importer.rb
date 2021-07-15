@@ -70,9 +70,8 @@ module Ticketing
         return if block.new_record?
 
         block.seats.where.not(id: seats.map(&:id)).each do |seat|
-          Rails.logger.info "Seat '#{seat.number}' in Block '#{block.name}' " \
-                      "with id=#{seat.id} is missing from the SVG file " \
-                      'and will therefore be removed.'
+          Rails.logger.info "Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is " \
+                            'missing from the SVG file and will therefore be removed.'
 
           raise 'This seat cannot be removed due to existing tickets.' if seat.tickets.any?
 
@@ -88,9 +87,7 @@ module Ticketing
 
       def log_created_record(record, association = nil)
         assoc_info = " (#{association.class.name} with id=#{association.id})" if association
-
-        Rails.logger.info "#{record.class.name} with id=#{record.id}" \
-                    "#{assoc_info} created."
+        Rails.logger.info "#{record.class.name} with id=#{record.id}#{assoc_info} created."
       end
 
       def log_saved_changes(record)
