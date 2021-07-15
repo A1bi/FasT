@@ -9,6 +9,8 @@ module Ticketing
     has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
+    before_validation :set_covid19_check_in_url
+
     def self.upcoming
       where('date > ?', Time.current)
     end
@@ -30,23 +32,16 @@ module Ticketing
       statistics[:total]
     end
 
-    def covid19_check_in_url
-      return unless event.covid19_presence_tracing?
-
-      super || begin
-        update(covid19_check_in_url: cwa_check_in_url)
-        cwa_check_in_url
-      end
-    end
-
     private
 
     def statistics
       ticket_stats_for_event(event).dig(:total, id) || { total: 0, percentage: 0 }
     end
 
-    def cwa_check_in_url
-      @cwa_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
+    def set_covid19_check_in_url
+      return unless event.covid19?
+
+      self.covid19_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
         description: event.name,
         address: event.location.squish,
         start_time: admission_time,
