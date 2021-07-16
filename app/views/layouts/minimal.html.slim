@@ -7,7 +7,7 @@ html
     = csrf_meta_tag
 
     = stylesheet_link_tag 'minimal', media: 'all'
-    = javascript_pack_tag 'application'
+    = javascript_packs_with_chunks_tag 'application'
 
     = stylesheet_link_tag yield(:css_file), media: 'all' if content_for?(:css_file)
 
