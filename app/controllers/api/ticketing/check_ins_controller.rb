@@ -40,7 +40,7 @@ module Api
       def changed_tickets
         ::Ticketing::Ticket.where(date: dates)
                            .where('created_at != updated_at')
-                           .or(::Ticketing::Ticket.where(date: covid19_dates))
+                           .or(::Ticketing::Ticket.where(seat: nil, date: covid19_dates))
       end
 
       def seatings
