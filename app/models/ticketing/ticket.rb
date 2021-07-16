@@ -20,12 +20,13 @@ module Ticketing
     validate :seat_available, if: :seat_required?
     validate :seat_exists_for_event, if: :seat_required?
     validate :type_exists_for_event
-    validates :covid19_attendee, presence: { if: proc { |ticket| ticket.event.covid19? } }
+    validates :covid19_attendee, presence: { if: :covid19_attendee_required? }
 
     before_validation :update_invalidated
 
     delegate :event, to: :date, allow_nil: true
     delegate :block, to: :seat, allow_nil: true
+    delegate :seating, to: :event, allow_nil: true
 
     class << self
       def valid
@@ -107,8 +108,8 @@ module Ticketing
       self[:price] = type.price
     end
 
-    def seating
-      event&.seating
+    def covid19_attendee_required?
+      event.covid19? && !order.is_a?(BoxOffice::Order)
     end
   end
 end
