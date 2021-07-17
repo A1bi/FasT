@@ -5,7 +5,7 @@
   <div class="edit box">
     <div class="top">Reihenfolge der Fotos bearbeiten</div>
     <div class="con">
-      <%= render "new_button", action: "neues Foto", url: new_gallery_photo_path(@gallery) %>
+      <%= render "new_button", action: "neue Fotos", url: new_gallery_photo_path(@gallery) %>
       <div id="photos">
         <%= div_for @gallery.photos do |photo| %>
           <% cache photo, version: photo.updated_at do %>

@@ -1,0 +1,8 @@
+- include_css 'galleries'
+- title 'Fotogalerie – Neue Fotos hochladen'
+
+.box
+  .top Neue Fotos hochladen
+  .con
+    = form_for [@gallery, @photo] do |f|
+      = render 'filepond', form: f, edit: false

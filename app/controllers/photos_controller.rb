@@ -12,10 +12,7 @@ class PhotosController < ApplicationController
 
   def create
     @photo = authorize @photos.new(photo_params)
-
-    return render :new unless @photo.save
-
-    redirect_to edit_gallery_path(@gallery)
+    head @photo.save ? :no_content : :unprocessable_entity
   end
 
   def show
@@ -25,9 +22,15 @@ class PhotosController < ApplicationController
   def edit; end
 
   def update
-    return render :edit unless @photo.update(photo_params)
+    success = @photo.update(photo_params)
+    respond_to do |format|
+      format.json { head success ? :no_content : :unprocessable_entity }
+      format.html do
+        return render :edit unless success
 
-    redirect_to edit_gallery_path(params[:gallery_id])
+        redirect_to edit_gallery_photo_path(@photo.gallery, @photo), notice: t('application.saved_changes')
+      end
+    end
   end
 
   def destroy
@@ -47,6 +50,7 @@ class PhotosController < ApplicationController
   end
 
   def photo_params
+    params[:photo][:image] = params[:photo][:image].last if params.dig(:photo, :image).is_a? Array
     params.require(:photo).permit(:gallery_id, :position, :text, :image)
   end
 end
