@@ -8,9 +8,11 @@ module Ticketing
     end
 
     def execute(send_customer_email: true)
+      return if uncancelled_tickets_by_order.none?
+
       cancellation = Cancellation.create(reason: @reason)
 
-      valid_tickets_by_order.each do |order, tickets|
+      uncancelled_tickets_by_order.each do |order, tickets|
         update_order_balance(order, :cancellation) do
           cancellation.tickets += tickets
         end
@@ -23,6 +25,10 @@ module Ticketing
     end
 
     private
+
+    def uncancelled_tickets_by_order
+      @uncancelled_tickets_by_order = scoped_tickets_by_order(:uncancelled)
+    end
 
     def log_cancellation(order, tickets)
       log_service(order).cancel_tickets(tickets, reason: @reason)

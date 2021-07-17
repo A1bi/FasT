@@ -2,10 +2,12 @@
 
 module Ticketing
   class TicketsController < BaseController
-    before_action :find_tickets_with_order
+    before_action :find_order
+    before_action :find_tickets, except: %i[cancel printable]
     before_action :find_event, only: %i[transfer finish_transfer]
 
     def cancel
+      find_tickets(ticket_scope: @order.tickets.uncancelled)
       cancel_tickets
       refund_in_retail_store
 
@@ -47,6 +49,7 @@ module Ticketing
     end
 
     def printable
+      find_tickets(ticket_scope: Ticket.valid)
       pdf = TicketsWebPdf.new
       pdf.add_tickets(@tickets)
       send_data pdf.render, type: 'application/pdf', disposition: 'inline'
@@ -59,24 +62,15 @@ module Ticketing
       redirect_to ticketing_order_path(params[:order_id])
     end
 
-    def find_tickets_with_order
-      if action_name == 'printable'
-        ticket_scope = Ticket
-
-      else
-        @order = Ticketing::Order.find(params[:order_id])
-        ticket_scope = @order.tickets
-      end
-
-      return redirect_to_order_details unless params[:ticket_ids]&.any?
-
-      @tickets = ticket_scope.valid.where(id: params[:ticket_ids]).to_a
-
-      authorize_tickets
+    def find_order
+      @order = Ticketing::Order.find(params[:order_id])
     end
 
-    def authorize_tickets
-      @tickets.each { |ticket| authorize ticket }
+    def find_tickets(ticket_scope: @order.tickets.valid)
+      @tickets = ticket_scope.where(id: params[:ticket_ids]).to_a
+      return redirect_to_order_details if @tickets.none?
+
+      @tickets.each { |ticket| authorize(ticket) }
     end
 
     def find_event
@@ -92,20 +86,17 @@ module Ticketing
     end
 
     def cancel_tickets
-      TicketCancelService.new(@tickets, reason: params[:reason],
-                                        current_user: current_user).execute
+      TicketCancelService.new(@tickets, reason: params[:reason], current_user: current_user).execute
     end
 
     def refund_in_retail_store
       return unless params[:refund]
 
-      OrderPaymentService.new(@order, current_user: current_user)
-                         .refund_in_retail_store
+      OrderPaymentService.new(@order, current_user: current_user).refund_in_retail_store
     end
 
     def update_tickets(params)
-      TicketUpdateService.new(@tickets, params: params,
-                                        current_user: current_user).execute
+      TicketUpdateService.new(@tickets, params: params, current_user: current_user).execute
     end
 
     def node_seats

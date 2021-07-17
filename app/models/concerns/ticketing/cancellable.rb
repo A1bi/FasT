@@ -16,6 +16,10 @@ module Ticketing
       def cancelled
         where.not(cancellation_id: nil)
       end
+
+      def uncancelled
+        where(cancellation_id: nil)
+      end
     end
   end
 end
