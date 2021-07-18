@@ -10,6 +10,9 @@ workflow:
       when: always
 
 .production:
+  extends:
+    - .default-tags
+    - .except_schedules
   environment:
     name: production
     url: https://www.theater-kaisersesch.de
@@ -106,7 +109,6 @@ yarn audit:
 deploy:
   extends:
     - .production
-    - .default-tags
   stage: deploy
   before_script:
     - *bundle
@@ -116,7 +118,6 @@ deploy:
 run one off task:
   extends:
     - .production
-    - .default-tags
   stage: post-deploy
   before_script:
     - *bundle
