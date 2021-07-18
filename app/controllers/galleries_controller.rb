@@ -4,7 +4,7 @@ class GalleriesController < ApplicationController
   before_action :find_gallery, only: %i[show edit update destroy]
 
   def index
-    @galleries = authorize Gallery.order(:position)
+    @galleries = authorize Gallery.order(position: :desc)
   end
 
   def show
@@ -17,6 +17,7 @@ class GalleriesController < ApplicationController
 
   def create
     @gallery = authorize(Gallery.new(gallery_params))
+    @gallery.position = (Gallery.maximum(:position) || 0) + 1
 
     if @gallery.save
       redirect_to edit_gallery_path(@gallery)
@@ -46,6 +47,6 @@ class GalleriesController < ApplicationController
   end
 
   def gallery_params
-    params.require(:gallery).permit(:disclaimer, :position, :title)
+    params.require(:gallery).permit(:disclaimer, :title)
   end
 end
