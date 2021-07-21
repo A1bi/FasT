@@ -41,10 +41,10 @@ export default class extends Controller {
       if (box.checked) groups.push(box.getAttribute('name'))
     })
 
-    const url =
-      this.element.querySelector('.reservationGroups').dataset.enableUrl
+    const url = this.element.querySelector('.reservationGroups').dataset.enableUrl
     fetch(url, 'post', {
       groups: groups,
+      event_id: this.element.dataset.eventId,
       socket_id: this.chooser.socketId
     })
       .then(res => this.chooser.toggleExclusiveSeatsKey(res.seats))
