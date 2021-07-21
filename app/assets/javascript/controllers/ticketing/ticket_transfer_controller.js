@@ -43,7 +43,7 @@ export default class extends Controller {
 
     const url = this.element.querySelector('.reservationGroups').dataset.enableUrl
     fetch(url, 'post', {
-      groups: groups,
+      group_ids: groups,
       event_id: this.element.dataset.eventId,
       socket_id: this.chooser.socketId
     })
