@@ -6,6 +6,7 @@ module Ticketing
 
     has_many :dates, -> { order(:date) }, class_name: 'EventDate', inverse_of: :event
     has_many :ticket_types, dependent: :destroy
+    belongs_to :location
     belongs_to :seating
 
     validates :identifier, :assets_identifier, :slug, :admission_duration, presence: true

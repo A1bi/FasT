@@ -1360,14 +1360,14 @@ CREATE TABLE public.ticketing_events (
     identifier character varying NOT NULL,
     sale_start timestamp without time zone,
     seating_id bigint DEFAULT 1 NOT NULL,
-    location character varying,
     slug character varying NOT NULL,
     archived boolean DEFAULT false,
     sale_disabled_message character varying,
     subtitle character varying,
     assets_identifier character varying NOT NULL,
     covid19 boolean DEFAULT false NOT NULL,
-    admission_duration integer NOT NULL
+    admission_duration integer NOT NULL,
+    location_id bigint NOT NULL
 );
 
 
@@ -1422,6 +1422,41 @@ CREATE SEQUENCE public.ticketing_geolocations_id_seq
 --
 
 ALTER SEQUENCE public.ticketing_geolocations_id_seq OWNED BY public.ticketing_geolocations.id;
+
+
+--
+-- Name: ticketing_locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_locations (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    street character varying NOT NULL,
+    postcode character varying NOT NULL,
+    city character varying NOT NULL,
+    coordinates point NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_locations_id_seq OWNED BY public.ticketing_locations.id;
 
 
 --
@@ -2128,6 +2163,13 @@ ALTER TABLE ONLY public.ticketing_geolocations ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: ticketing_locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_locations ALTER COLUMN id SET DEFAULT nextval('public.ticketing_locations_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_log_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2532,6 +2574,14 @@ ALTER TABLE ONLY public.ticketing_geolocations
 
 
 --
+-- Name: ticketing_locations ticketing_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_locations
+    ADD CONSTRAINT ticketing_locations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ticketing_log_events ticketing_log_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2920,6 +2970,13 @@ CREATE INDEX index_ticketing_events_on_archived ON public.ticketing_events USING
 --
 
 CREATE UNIQUE INDEX index_ticketing_events_on_identifier ON public.ticketing_events USING btree (identifier);
+
+
+--
+-- Name: index_ticketing_events_on_location_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_events_on_location_id ON public.ticketing_events USING btree (location_id);
 
 
 --
@@ -3487,6 +3544,14 @@ ALTER TABLE ONLY public.members_membership_fee_payments
 
 
 --
+-- Name: ticketing_events fk_rails_c3b480c2c6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_events
+    ADD CONSTRAINT fk_rails_c3b480c2c6 FOREIGN KEY (location_id) REFERENCES public.ticketing_locations(id);
+
+
+--
 -- Name: members_exclusive_ticket_type_credit_spendings fk_rails_c6eb01b535; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3705,6 +3770,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210622203354'),
 ('20210624094725'),
 ('20210628190951'),
-('20210715171413');
+('20210715171413'),
+('20210730155259');
 
 

@@ -81,6 +81,15 @@ end
 
 # ticket system
 
+## locations
+location = Ticketing::Location.create(
+  name: 'Testbühne',
+  street: 'Teststraße 1',
+  postcode: '12345',
+  city: 'Testhausen',
+  coordinates: [50.7992, 6.8828]
+)
+
 ## seatings
 seatings = []
 seatings << Ticketing::Seating.create(name: 'Dummy', number_of_seats: 20)
@@ -98,7 +107,7 @@ event_ids.each.with_index do |event_id, i|
     name: "Testevent #{event_id.humanize.titleize}",
     identifier: event_id,
     slug: "test-event-#{event_id.dasherize}",
-    location: 'Testbühne',
+    location: location,
     # the most recent event will have the seating with a plan
     seating: seatings[i >= event_ids.count - 1 ? 1 : 0],
     admission_duration: rand(30..60)
