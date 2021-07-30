@@ -7,6 +7,9 @@
         div = alert_info[:title]
         = alert_info[:text].html_safe
 
+  = render 'dates/teaser_dates'
+  .trenner
+
   - @events.each do |event|
     .teaser class=event.identifier
       = image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name
@@ -22,14 +25,6 @@
           - else
             li = link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier)
     .trenner
-
-  .crowdfunding
-    .hl Unser Crowdfunding-Projekt
-    a href='https://www.vr-coc.de/buehnendach' = image_tag 'misc/crowdfunding.jpg', alt: 'Jetzt unterstützen'
-    p Unser <a href="https://www.vr-coc.de/buehnendach">Crowdfunding-Projekt</a> zur Dachsanierung der Kleinkunstbühne „Altes Wasserwerk“ wurde mehr als erfolgreich beendet.
-    p Wir haben hierüber eine Spendensumme von insgesamt <b>6.255 €</b> erzielt. Darin ist eine Spende von <b>1.500 €</b> der Volksbanken Raiffeisenbanken im Landkreis Cochem-Zell enthalten. Das Geld reicht, um den hinteren Teil des Daches, der besonders reparaturbedürftig ist, zu sanieren.
-    p.hcen: b Wir danken allen unseren Spendern und den Volksbanken Raiffeisenbanken im Landkreis für die großartige Unterstützung.
-  .trenner
 
   .coupons
     .hl Jetzt neu: Geschenkgutscheine
