@@ -2,10 +2,7 @@
 <% include_css 'dates' %>
 <% cache [@event, @ticket_types, @event.on_sale?, Ticketing::Ticket.all] do %>
   <script type="application/ld+json">
-    <%= raw render('structured_data.json', event_type: 'MusicEvent',
-                                           location_type: 'EventVenue',
-                                           location_name: 'Sporthalle Kaisersesch',
-                                           location_address: 'Schwalbenweg, 56759 Kaisersesch') %>
+    <%= raw render('structured_data.json', event_type: 'MusicEvent') %>
   </script>
 
   <%= render 'other_events' %>

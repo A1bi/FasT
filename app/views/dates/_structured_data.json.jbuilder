@@ -11,13 +11,16 @@ json.array! event.dates.map do |date|
   json.eventStatus event_status(date)
 
   json.location do
-    json.set! '@type', local_assigns.fetch(:location_type,
-                                           'PerformingArtsTheater')
-    json.name local_assigns.fetch(:location_name,
-                                  'Freilichtbühne am schiefen Turm')
+    json.set! '@type', local_assigns.fetch(:location_type, 'EventVenue')
+    json.name event.location.name
+    json.address do
+      json.streetAddress event.location.street
+      json.postalCode event.location.postcode
+      json.addressCountry 'DE'
+    end
+    json.latitude event.location.coordinates.x
+    json.longitude event.location.coordinates.y
     json.sameAs root_url
-    json.address local_assigns.fetch(:location_address,
-                                     'Burgstraße, 56759 Kaisersesch')
   end
 
   json.offers event.ticket_types.except_exclusive do |type|

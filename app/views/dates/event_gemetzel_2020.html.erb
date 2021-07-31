@@ -2,10 +2,7 @@
 <% include_css 'dates' %>
 <% cache [@event, @ticket_types, @event.on_sale?, Ticketing::Ticket.all] do %>
   <script type="application/ld+json">
-    <%= raw render('structured_data.json', image: 'theater/gemetzel/title.svg',
-                                           location_type: 'EventVenue',
-                                           location_name: 'Altes Wasserwerk',
-                                           location_address: 'Auf der Wacht 9, 56759 Kaisersesch') %>
+    <%= raw render('structured_data.json', image: 'theater/gemetzel/title.svg') %>
   </script>
 
   <%= render 'other_events' %>
