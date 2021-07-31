@@ -9,7 +9,7 @@ barcode = {
 
 json.merge!(
   formatVersion: 1,
-  description: "Ticket für das Theaterstück „#{ticket.date.event.name}“",
+  description: "Ticket für das Theaterstück „#{ticket.event.name}“",
   organizationName: 'Freilichtbühne am schiefen Turm',
   passTypeIdentifier: @type_id,
   serialNumber: @serial,
@@ -25,8 +25,8 @@ json.merge!(
   labelColor: 'rgb(189, 13, 12)',
   locations: [
     {
-      latitude: location[0],
-      longitude: location[1]
+      latitude: ticket.event.location.coordinates.x,
+      longitude: ticket.event.location.coordinates.y
     }
   ],
   barcode: barcode,
@@ -49,7 +49,7 @@ json.eventTicket do
       {
         key: 'location',
         label: 'Veranstaltungsort',
-        value: ticket.date.event.location,
+        value: "#{ticket.event.location.name}\n#{ticket.event.location.address}",
         changeMessage: 'Der Veranstaltungsort wurde verlegt nach „%@“.'
       },
       {
@@ -136,18 +136,16 @@ json.eventTicket do
     }
   ]
 
-  if location_address.present?
-    maps_url = "http://maps.apple.com/?ll=#{location[0]},#{location[1]}" \
-               "&q=#{url_encode(local_assigns[:location_label])}"
-    back_fields << {
-      key: 'locationAddress',
-      label: 'Adresse des Veranstaltungsortes',
-      attributedValue: "<a href=\"#{maps_url}\">#{location_address}</a>. " \
-                       'Eine Karte mit Parkmöglichkeiten finden Sie ' \
-                       "<a href=\"#{info_url(ticket.event.slug)}\">hier</a>.",
-      value: location_address
-    }
-  end
+  coordinates = ticket.event.location.coordinates.to_a.join(',')
+  maps_url = "http://maps.apple.com/?ll=#{coordinates}&q=#{url_encode(ticket.event.location.name)}"
+  back_fields << {
+    key: 'locationAddress',
+    label: 'Adresse des Veranstaltungsortes',
+    attributedValue: "<a href=\"#{maps_url}\">#{ticket.event.location.address}</a>. " \
+                     'Eine Karte mit Parkmöglichkeiten finden Sie ' \
+                     "<a href=\"#{info_url(ticket.event.slug)}\">hier</a>.",
+    value: ticket.event.location.address
+  }
 
   json.merge!(backFields: back_fields)
 end
