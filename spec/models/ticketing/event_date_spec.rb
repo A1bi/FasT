@@ -39,7 +39,7 @@ RSpec.describe Ticketing::EventDate do
         it 'creates a new check-in URL' do
           expect(CoronaPresenceTracing::CWACheckIn).to receive(:new).with(
             description: event.name,
-            address: event.location,
+            address: event.location.address,
             start_time: Time.zone.parse('2021-05-12 19:27'),
             end_time: Time.zone.parse('2021-05-12 22:00'),
             location_type: :temporary_cultural_event,

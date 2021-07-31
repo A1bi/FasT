@@ -5,7 +5,7 @@ FactoryBot.define do
     name { 'Event' }
     sequence(:identifier) { |n| "event_#{n}" }
     sequence(:slug) { |n| "event-#{n}" }
-    location { 'Sample location' }
+    location
     admission_duration { 60 }
     seating
 

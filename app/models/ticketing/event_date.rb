@@ -43,7 +43,7 @@ module Ticketing
 
       self.covid19_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
         description: event.name,
-        address: event.location.squish,
+        address: event.location.address,
         start_time: admission_time,
         end_time: 2.hours.after(date),
         location_type: :temporary_cultural_event,

@@ -48,7 +48,7 @@ end
 
 RSpec.shared_examples 'renders the correct event information' do
   it 'renders the correct event information' do
-    expect(text_analysis.strings).to include(event.location).exactly(tickets_count).times
+    expect(text_analysis.strings).to include(event.location.address).exactly(tickets_count).times
   end
 end
 

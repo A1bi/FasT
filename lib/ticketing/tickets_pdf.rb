@@ -154,16 +154,9 @@ module Ticketing
       values = []
       additional = []
 
-      if ticket.event.location.present?
-        labels << :location
-        ticket.event.location.split("\n").each_with_index do |part, i|
-          if i.zero?
-            values << part
-          else
-            additional << part
-          end
-        end
-      end
+      labels << :location
+      values << ticket.event.location.name
+      additional << ticket.event.location.address
 
       if ticket.seat.present?
         labels += %i[entrance block row seat]
