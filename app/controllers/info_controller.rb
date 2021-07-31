@@ -19,9 +19,6 @@ class InfoController < ApplicationController
   end
 
   def map
-    return if params[:identifier].blank?
-
-    template = "map_#{params[:identifier]}"
-    render template if template_exists?("info/#{template}")
+    @event = Ticketing::Event.current.find(params[:event_id])
   end
 end

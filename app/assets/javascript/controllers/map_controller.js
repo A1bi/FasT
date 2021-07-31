@@ -21,7 +21,7 @@ export default class extends Controller {
   }
 
   async fetchMapInformation () {
-    const path = `/faq/map.json?identifier=${this.data.get('identifier')}`
+    const path = `/faq/map.json?event_id=${this.data.get('event-id')}`
     return await fetch(path)
   }
 
@@ -50,7 +50,7 @@ export default class extends Controller {
   }
 
   addMarkers (markers) {
-    this.markerBounds = new this.mapboxgl.LngLatBounds()
+    this.markers = []
 
     markers.forEach(markerInfo => {
       let el
@@ -70,7 +70,7 @@ export default class extends Controller {
       popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc}`)
       marker.setPopup(popup)
 
-      this.markerBounds.extend(markerInfo.loc)
+      this.markers.push(marker)
     })
   }
 
@@ -80,12 +80,13 @@ export default class extends Controller {
   }
 
   fitToMarkersIfInView () {
-    if (!this.markerBounds) return
+    if (!this.markers) return
 
     const scrollY = window.pageYOffset + window.innerHeight * 0.6
     if (scrollY < this.mapTarget.offsetTop) return
 
-    this.map.fitBounds(this.markerBounds, { padding: 30, maxZoom: 15 })
+    const center = this.markers[this.markers.length - 1].getLngLat()
+    this.map.flyTo({ center: center, zoom: 14 })
 
     window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }
