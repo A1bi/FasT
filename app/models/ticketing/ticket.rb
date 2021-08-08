@@ -62,10 +62,6 @@ module Ticketing
       SigningKey.random_active.sign_ticket(self, params)
     end
 
-    def passbook_file_identifier
-      event.identifier
-    end
-
     def passbook_assets_identifier
       event.assets_identifier
     end

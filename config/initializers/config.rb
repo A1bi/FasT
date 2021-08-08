@@ -20,10 +20,14 @@ Config.setup do |config|
     end
 
     required(:passbook).schema do
-      required(:path).filled
+      required(:destination_path).filled
       required(:wwdr_ca_path).filled
-      required(:certificate_paths).filled
-      required(:pass_type_ids).filled
+      required(:models).array(:hash) do
+        required(:name).filled
+        required(:template).filled
+        required(:pass_type_id).filled
+        required(:certificate_path).filled
+      end
     end
 
     required(:apns).schema do

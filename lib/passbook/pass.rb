@@ -14,19 +14,19 @@ module Passbook
 
     append_view_path ApplicationController.view_paths
 
-    def initialize(type_id:, serial:, auth_token:,
-                   ressources_identifier:, assets_identifier:, template_locals:)
+    def initialize(type_id:, certificate_path:, serial:, auth_token:, template:, assets_identifier:, template_locals:)
       super()
       @type_id = type_id
+      @certificate_path = certificate_path
       @serial = serial
       @auth_token = auth_token
-      @ressources_identifier = ressources_identifier
+      @template = template
       @assets_identifier = assets_identifier
       @template_locals = template_locals
     end
 
     def save(filename)
-      path = Passbook.options[:path]
+      path = Passbook.destination_path
       FileUtils.mkdir_p(path)
       path = File.join(path, filename)
 
@@ -46,8 +46,7 @@ module Passbook
     end
 
     def create_pass_info
-      info = render_to_string(template: "passbook/#{@ressources_identifier}",
-                              format: :json, locals: @template_locals)
+      info = render_to_string(template: "passbook/#{@template}.json", locals: @template_locals)
       write_json_file(info, 'pass.json')
     end
 
@@ -72,14 +71,10 @@ module Passbook
     end
 
     def sign
-      p12 = OpenSSL::PKCS12.new(
-        File.read(Passbook.options[:certificate_paths][@type_id])
-      )
-      wwdr = OpenSSL::X509::Certificate.new(
-        File.read(Passbook.options[:wwdr_ca_path])
-      )
-
+      p12 = OpenSSL::PKCS12.new(File.read(@certificate_path))
+      wwdr = OpenSSL::X509::Certificate.new(File.read(Passbook.wwdr_ca_path))
       manifest = File.read(path_in_working_dir('manifest.json'))
+
       signature = OpenSSL::PKCS7.sign(
         p12.certificate, p12.key, manifest, [wwdr],
         OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED

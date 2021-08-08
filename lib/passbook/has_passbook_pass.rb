@@ -18,15 +18,13 @@ module Passbook
 
     module LocalInstanceMethods
       def passbook_pass(create: false)
-        if super().blank? && create
-          type_id = Settings.passbook.pass_type_ids[model_name.i18n_key]
-          create_passbook_pass(type_id: type_id)
-        end
-        super()
+        return super() unless super().nil? && create
+
+        create_passbook_pass
       end
 
       def update_passbook_pass
-        passbook_pass.touch if passbook_pass.present?
+        passbook_pass.update_file if passbook_pass.present?
       end
     end
   end

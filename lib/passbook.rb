@@ -1,18 +1,28 @@
 # frozen_string_literal: true
 
 module Passbook
+  class << self
+    attr_accessor :destination_path, :wwdr_ca_path
+    attr_reader :models
+
+    def configure
+      @models = {}
+      yield self
+    end
+
+    def register_model(model, template:, pass_type_id:, certificate_path:)
+      @models[model] = {
+        template: template,
+        pass_type_id: pass_type_id,
+        certificate_path: certificate_path
+      }
+    end
+  end
+
   module Models
     def self.table_name_prefix
       'passbook_'
     end
-  end
-
-  def self.options
-    @options ||= {}
-  end
-
-  def self.options=(options)
-    @options = options
   end
 end
 
