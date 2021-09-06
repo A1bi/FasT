@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class ContactMessagesController < ApplicationController
-  include SpamHoneypot
+  include SpamFiltering
 
   skip_authorization
 
   filters_spam_through_honeypot only: :create
+  filters_spam_in_param proc { |params| params[:contact_message][:name] }, only: :create
 
   def index
     @message = ContactMessage.new

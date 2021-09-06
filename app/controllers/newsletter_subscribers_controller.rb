@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class NewsletterSubscribersController < ApplicationController
-  include SpamHoneypot
+  include SpamFiltering
 
   filters_spam_through_honeypot only: :create
+  filters_spam_in_param proc { |params| params[:newsletter_subscriber][:last_name] }, only: :create
 
   before_action :find_subscriber, except: :create
 

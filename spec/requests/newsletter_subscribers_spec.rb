@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_shared_examples 'spam_honeypot'
+require_shared_examples 'spam_filtering'
 
 RSpec.describe 'NewsletterSubscribers' do
   describe 'POST #create' do
@@ -21,8 +21,7 @@ RSpec.describe 'NewsletterSubscribers' do
         expect { subject }.to change(Newsletter::Subscriber, :count).by(1)
         subscriber = Newsletter::Subscriber.last
         expect(subscriber.attributes)
-          .to include(subscriber_params.slice(:last_name, :email, :gender)
-                                       .stringify_keys)
+          .to include(subscriber_params.slice(:last_name, :email, :gender).stringify_keys)
       end
 
       it 'redirects to the frontpage' do
@@ -41,5 +40,6 @@ RSpec.describe 'NewsletterSubscribers' do
     end
 
     it_behaves_like 'spam honeypot', Newsletter::Subscriber
+    it_behaves_like 'spam param filter', Newsletter::Subscriber, :last_name
   end
 end

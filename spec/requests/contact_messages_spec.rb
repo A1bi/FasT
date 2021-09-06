@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_shared_examples 'spam_honeypot'
+require_shared_examples 'spam_filtering'
 
 RSpec.describe 'ContactMessages' do
   describe 'POST #create' do
@@ -36,6 +36,7 @@ RSpec.describe 'ContactMessages' do
       end
     end
 
-    it_behaves_like 'spam honeypot'
+    it_behaves_like 'spam honeypot', ContactMessage
+    it_behaves_like 'spam param filter', ContactMessage, :name
   end
 end
