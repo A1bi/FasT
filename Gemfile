@@ -16,7 +16,6 @@ gem 'config', '~> 3.1'
 gem 'dalli', '~> 2.7.8'
 gem 'httparty', '~> 0.18'
 gem 'kt-paperclip', '~> 7.0'
-gem 'listen', '~> 3.0'
 gem 'name_of_person'
 gem 'phony_rails', '~> 0.15.0'
 gem 'pundit', '~> 2.1.0'
@@ -42,11 +41,6 @@ gem 'sass-rails', '~> 6.0.0'
 gem 'slim'
 gem 'sprockets-rails', '~> 3.2.0'
 gem 'webpacker', '~> 5.0'
-
-group :development do
-  gem 'spring', '~> 2.1.0'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-end
 
 group :development, :test do
   gem 'byebug'

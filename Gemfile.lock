@@ -188,9 +188,6 @@ GEM
       marcel (~> 1.0.1)
       mime-types
       terrapin (~> 0.6.0)
-    listen (3.7.0)
-      rb-fsevent (~> 0.10, >= 0.10.3)
-      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.12.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -286,9 +283,6 @@ GEM
       thor (~> 1.0)
     rainbow (3.0.0)
     rake (13.0.6)
-    rb-fsevent (0.11.0)
-    rb-inotify (0.10.1)
-      ffi (~> 1.0)
     record_tag_helper (1.0.1)
       actionview (>= 5)
     redis (4.4.0)
@@ -388,10 +382,6 @@ GEM
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
-    spring (2.1.1)
-    spring-watcher-listen (2.0.1)
-      listen (>= 2.7, < 4.0)
-      spring (>= 1.2, < 3.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -448,7 +438,6 @@ DEPENDENCIES
   icalendar (~> 2.7)
   jbuilder (~> 2.10)
   kt-paperclip (~> 7.0)
-  listen (~> 3.0)
   name_of_person
   pdf-inspector
   pg
@@ -478,11 +467,9 @@ DEPENDENCIES
   simplecov
   simpleidn (~> 0.2.1)
   slim
-  spring (~> 2.1.0)
-  spring-watcher-listen (~> 2.0.0)
   sprockets-rails (~> 3.2.0)
   webpacker (~> 5.0)
   whenever
 
 BUNDLED WITH
-   2.2.21
+   2.2.27
