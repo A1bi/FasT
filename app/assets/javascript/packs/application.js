@@ -23,7 +23,7 @@ require('@rails/ujs').start()
 
 if (process.env.NODE_ENV !== 'development') {
   initSentry({
-    dsn: 'https://1ba66cdff88948a8a0784eaeb89c5dc2@sentry.a0s.de/2',
+    dsn: 'https://2d0c454fb3414c4dafe0ac4736913ec3@glitchtip.a0s.de/1',
     environment: process.env.NODE_ENV
   })
 }
