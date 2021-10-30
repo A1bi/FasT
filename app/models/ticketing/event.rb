@@ -4,7 +4,7 @@ module Ticketing
   class Event < ApplicationRecord
     include Statistics
 
-    has_many :dates, -> { order(:date) }, class_name: 'EventDate', inverse_of: :event
+    has_many :dates, -> { order(:date) }, class_name: 'EventDate', inverse_of: :event, dependent: :destroy
     has_many :ticket_types, dependent: :destroy
     belongs_to :location
     belongs_to :seating

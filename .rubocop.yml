@@ -9,6 +9,9 @@ AllCops:
   - 'node_modules/**/*'
   - 'vendor/**/*'
 
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
+
 Lint/EmptyBlock:
   Exclude:
     - lib/tasks/one_off.rake

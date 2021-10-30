@@ -72,7 +72,7 @@ RSpec.describe Members::MemberMailer do
     subject(:mail) { mailer.welcome }
 
     let(:member) { create(:member, :with_sepa_mandate, gender: gender, membership_fee: 13.4) }
-    let(:subject) { 'Willkommen' }
+    let(:subject) { 'Willkommen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
 
@@ -89,7 +89,7 @@ RSpec.describe Members::MemberMailer do
   describe '#activation' do
     subject(:mail) { mailer.activation }
 
-    let(:subject) { 'Aktivierung' }
+    let(:subject) { 'Aktivierung' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
     include_examples 'activation link'
@@ -98,7 +98,7 @@ RSpec.describe Members::MemberMailer do
   describe '#reset_password' do
     subject(:mail) { mailer.reset_password }
 
-    let(:subject) { 'Passwort zurücksetzen' }
+    let(:subject) { 'Passwort zurücksetzen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
     include_examples 'activation link'
