@@ -1,6 +1,6 @@
 <div class="other-events">
   <% %w[].each do |identifier| %>
     <% next if @event&.identifier == identifier %>
-    <p>Termine zu <%= image_tag "theater/#{identifier}/ticket_header.svg", height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(identifier) %>.</p>
+    <p>Termine zu <%= image_tag "theater/#{identifier}/title.svg", height: 50, valign: 'middle' %> finden Sie <%= link_to 'hier', dates_event_identifier_path(identifier) %>.</p>
   <% end %>
 </div>

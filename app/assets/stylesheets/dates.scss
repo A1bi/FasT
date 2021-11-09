@@ -22,17 +22,18 @@
   }
 }
 
-.blauer_planet {
+.abba {
   .hl, .hl .small, .prices table td.price, .dates td {
-    color: #bfd66a;
+    color: #001E7C;
     text-shadow: none;
   }
 
   .title {
-    padding-top: 50px !important;
+    padding-top: 60px !important;
 
     img {
-      width: 260px;
+      width: 270px;
+      padding-right: 20px;
     }
   }
 }

@@ -1,0 +1,81 @@
+= render 'top'
+
+.section
+  h2 COVID-19
+
+  = render 'question_answer', question: 'Welche Regelung bezüglich COVID-19 gilt?' do
+    ul
+      li <b>Sofern die Regelung zum Zeitpunkt des Konzerts noch Anwendung findet, gilt bei dieser Veranstaltung 2G. Dies bedeutet, dass Sie beim Einlass einen Nachweis über Ihren vollständigen COVID-19-Impfschutz oder -Genesung vorweisen müssen.</b> Bitte halten Sie diesen möglichst als QR-Code auf Ihrem Handy oder ausgedruckt sowie Ihren Lichtbildausweis bereit.
+      li Innerhalb der Sporthalle gilt weder eine Masken- noch eine Abstandspflicht.
+      li Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
+      li Die Kontaktdaten aller Besucher werden im Voraus während des Ticketbestellvorgangs für das Gesundheitsamt aufgenommen. Diese Daten werden nach der vorgeschriebenen Aufbewahrungszeit von vier Wochen nach der Veranstaltung vollständig wieder gelöscht.
+      li Wir empfehlen Ihnen die Installation der <a href='https://www.coronawarn.app/' target='_blank'>Corona-Warn-App</a> auf Ihrem Smartphone.
+      li Sollten sich diese Bestimmungen zwischenzeitlich ändern, werden wir Sie rechtzeitig informieren.
+
+.section
+  h2 Vorverkauf
+
+  = render 'question_answer', question: 'Wo erhalte ich Tickets?' do
+    | Tickets lassen sich bequem von zu Hause aus <b>#{link_to 'online', new_ticketing_order_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b> bestellen.
+
+  = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
+    | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
+
+  = render 'question_answer', question: 'Sind die Sitzplätze barrierefrei erreichbar?' do
+    | Alle Plätze auf dem Parkett sind barrierefrei zu erreichen. Dedizierte Plätze für Rollstuhlfahrer lassen sich über unsere Hotline buchen: <b>(02653) 28 27 09</b>.
+
+  = render 'question_answer', question: 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
+    | Wir akzeptieren SEPA-Lastschrift und Vorkasse per Überweisung.
+
+  = render 'question_answer', question: 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
+    | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+    p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie am Abend der Veranstaltung bei der Einlasskontrolle auf Ihrem Handy oder in ausgedruckter Form vorzeigen.
+
+  = render 'question_answer', question: 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
+    | Selbstverständlich. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+    p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
+
+  = render 'question_answer', question: 'Lassen sich Tickets umbuchen oder stornieren?' do
+    p Sitzplätze lassen sich jederzeit umbuchen.
+    p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
+    p In beiden Fällen kontaktieren Sie uns bitte telefonisch: <b>(02653) 28 27 09</b>. In Zukunft werden wir den Umbuchungsservice auch online anbieten.
+
+
+.trenner
+
+.section
+  h2 Anfahrt
+
+  = render 'map'
+
+  = render 'question_answer', question: 'Wo finde ich die Sporthalle?' do
+    | Die Sporthalle in Kaisersesch ist über den Schwalbenweg zu erreichen. In dieser Straße befinden sich einige Parkmöglichkeiten.
+
+.trenner
+
+.section
+  h2 Veranstaltung
+
+  = render 'question_answer', question: 'Ich habe Tickets kurzfristig abzugeben. Kann ich diese an der Abendkasse zurückgeben?' do
+    | Ja, das ist möglich. Sofern wir einen neuen Besitzer für Ihre Tickets finden können, erhalten Sie den vollen Betrag zurück.
+
+  = render 'question_answer', question: 'Kann ich an der Abendkasse mit EC- oder Kreditkarte bezahlen?' do
+    | Ja, das ist möglich, gerne auch bei kleinen Beträgen. Kontaktlose Zahlungen akzeptieren wir ebenfalls.
+    p Bitte beachten Sie, dass die Snack- und Getränkestände hingegen nur Bargeld akzeptieren.
+
+  = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+    | Ja, an unseren Ständen bieten wir gepflegte Getränke und leckere Kleinigkeiten an.
+
+  / = render 'question_answer', question: 'Wird es eine Pause geben?' do
+    | Ja, sie wird circa eine halbe Stunde dauern. In dieser Zeit sind unsere Snack- und Getränkestände für Sie geöffnet.
+
+  / = render 'question_answer', question: 'Wie lange dauert das Konzert?' do
+    | Inklusive Pause beträgt die Spielzeit etwa zweieinhalb Stunden.
+
+  = render 'question_answer', question: 'Darf ich während des Konzerts fotografieren oder filmen?' do
+    | Sofern Ihre Aufnahmen für rein private Zwecke bestimmt sind, ist dies kein Problem.
+
+  = render 'question_answer', question: 'Gibt es ein Rauchverbot?' do
+    | Rauchen innerhalb der Sporthalle ist nicht gestatten.
+
+= render 'further_questions'
