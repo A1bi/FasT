@@ -47,7 +47,7 @@ json.markers do
   end
 
   json.array! [@event.location] do |location|
-    json.loc location.coordinates.to_a
+    json.loc location.coordinates.to_a.reverse
     json.title location.name
     json.desc location.address
   end
