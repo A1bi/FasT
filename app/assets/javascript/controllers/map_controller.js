@@ -67,7 +67,7 @@ export default class extends Controller {
       marker.addTo(this.map)
 
       const popup = new this.mapboxgl.Popup({ offset: el ? 12 : 40 })
-      popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc}`)
+      popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc || ''}`)
       marker.setPopup(popup)
 
       this.markers.push(marker)
