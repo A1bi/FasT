@@ -7,9 +7,6 @@
         div = alert_info[:title]
         = alert_info[:text].html_safe
 
-  = render 'dates/teaser_dates'
-  .trenner
-
   - @events.each do |event|
     .teaser class=event.identifier
       = image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name

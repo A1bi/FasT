@@ -6,7 +6,7 @@ class StaticController < ApplicationController
   skip_authorization
 
   def index
-    @events = Ticketing::Event.where(identifier: %i[])
+    @events = Ticketing::Event.where(identifier: %i[abba])
   end
 
   private
