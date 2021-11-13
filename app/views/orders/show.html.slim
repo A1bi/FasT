@@ -1,6 +1,8 @@
 - title "Ihre Bestellung ##{@order.number}"
 - include_css 'ticketing/orders'
 
+= structured_data @order
+
 .hl Ihre Bestellung #{@order.number}
 
 - if @authenticated

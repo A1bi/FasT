@@ -15,6 +15,7 @@ table#items
   - if @order.covid19?
     = render 'covid19'
 
+  = structured_data(@order)
   = render 'tickets_notes'
 
 - if attach_coupons?

@@ -16,6 +16,7 @@ json.array! event.dates.map do |date|
     json.address do
       json.streetAddress event.location.street
       json.postalCode event.location.postcode
+      json.addressLocality event.location.city
       json.addressCountry 'DE'
     end
     json.latitude event.location.coordinates.x
