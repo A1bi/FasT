@@ -24,7 +24,7 @@ class AddCustomDataTypesForEnums < ActiveRecord::Migration[6.0]
   private
 
   def migrate_integer_to_enum(table_name, column_name, enum_name, enum, default = nil)
-    enum = enum.map { |val| [val, val] }.to_h if column_name == :type
+    enum = enum.to_h { |val| [val, val] } if column_name == :type
 
     if default
       execute <<-SQL.squish

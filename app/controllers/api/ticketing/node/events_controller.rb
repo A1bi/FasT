@@ -9,7 +9,7 @@ module Api
           dates = events.collect(&:dates).flatten
 
           render json: {
-            events: events.map { |event| event_info(event) }.to_h,
+            events: events.to_h { |event| event_info(event) },
             seats: dates.filter_map { |date| date_info(date) }.to_h
           }
         end

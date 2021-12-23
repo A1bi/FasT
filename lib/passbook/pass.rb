@@ -80,9 +80,7 @@ module Passbook
         OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED
       )
 
-      File.open(path_in_working_dir('signature'), 'wb') do |file|
-        file.write(signature.to_der)
-      end
+      File.write(path_in_working_dir('signature'), signature.to_der)
     end
 
     def zip(path)
@@ -112,9 +110,7 @@ module Passbook
     end
 
     def write_json_file(content, file)
-      File.open(path_in_working_dir(file), 'w') do |f|
-        f.write(content.is_a?(Hash) ? content.to_json : content)
-      end
+      File.write(path_in_working_dir(file), content.is_a?(Hash) ? content.to_json : content)
     end
   end
 end
