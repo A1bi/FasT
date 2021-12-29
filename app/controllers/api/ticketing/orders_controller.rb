@@ -47,10 +47,7 @@ module Api
               ],
               payment: %i[method name iban]
             }
-          ],
-          covid19: {
-            attendees: %i[name street plz city phone]
-          }
+          ]
         )
       end
 

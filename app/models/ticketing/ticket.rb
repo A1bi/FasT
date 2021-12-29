@@ -12,7 +12,6 @@ module Ticketing
     belongs_to :date, class_name: 'EventDate'
     has_passbook_pass
     has_many :check_ins, dependent: :nullify
-    has_one :covid19_attendee, validate: true, dependent: :destroy
 
     validates :seat, presence: { if: :seat_required? },
                      inclusion: { in: [nil], unless: :seat_required? }
@@ -20,7 +19,6 @@ module Ticketing
     validate :seat_available, if: :seat_required?
     validate :seat_exists_for_event, if: :seat_required?
     validate :type_exists_for_event
-    validates :covid19_attendee, presence: { if: :covid19_attendee_required? }
 
     before_validation :update_invalidated
 
@@ -102,10 +100,6 @@ module Ticketing
 
     def update_price
       self[:price] = type.price
-    end
-
-    def covid19_attendee_required?
-      event.covid19? && !order.is_a?(BoxOffice::Order)
     end
   end
 end

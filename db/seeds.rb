@@ -186,10 +186,6 @@ def create_tickets(order, coupons = [])
       end
 
       next unless event.covid19?
-
-      ticket.build_covid19_attendee(name: 'John Doe', street: 'Foo Road',
-                                    plz: '12345', city: 'Sample City',
-                                    phone: '030 5550123')
     end
 
     next unless ticket_type.price.zero?
