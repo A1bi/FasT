@@ -3,7 +3,6 @@ import TicketsStep from '../../components/ticketing/orders/tickets_step'
 import CouponsStep from '../../components/ticketing/orders/coupons_step'
 import SeatsStep from '../../components/ticketing/orders/seats_step'
 import AddressStep from '../../components/ticketing/orders/address_step'
-import Covid19Step from '../../components/ticketing/orders/covid19_step'
 import PaymentStep from '../../components/ticketing/orders/payment_step'
 import ConfirmationStep from '../../components/ticketing/orders/confirmation_step'
 import FinishStep from '../../components/ticketing/orders/finish_step'
@@ -35,10 +34,6 @@ export default class extends Controller {
       steps = { CouponsStep, AddressStep, PaymentStep, ConfirmationStep, FinishStep }
     } else if (this.retail) {
       steps = { TicketsStep, SeatsStep, ConfirmationStep, FinishStep }
-    } else if (this.element.dataset.covid19) {
-      steps = {
-        TicketsStep, SeatsStep, AddressStep, Covid19Step, PaymentStep, ConfirmationStep, FinishStep
-      }
     } else {
       steps = {
         TicketsStep, SeatsStep, AddressStep, PaymentStep, ConfirmationStep, FinishStep

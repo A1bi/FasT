@@ -132,8 +132,7 @@ export default class extends Step {
       order: orderInfo,
       type: this.delegate.type,
       socket_id: apiInfo.seats?.socketId,
-      newsletter: apiInfo.confirm.newsletter,
-      covid19: apiInfo.covid19
+      newsletter: apiInfo.confirm.newsletter
     }
 
     fetch('/api/ticketing/orders', 'post', info)

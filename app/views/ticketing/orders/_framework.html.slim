@@ -12,8 +12,6 @@
     - else
       | Aufführung
   .step.address Adresse
-  - if @event.covid19?
-    .step.covid19 COVID-19
   .step.payment Bezahlen
   .step.confirm Bestätigen
 
@@ -22,7 +20,7 @@
   ul
     li.plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
-= content_tag :div, class: [:stepBox, @type], data: { controller: 'ticketing--orders', type: @type, event_id: @event.id, order_path: ticketing_order_path(':id'), covid19: @event.covid19? || nil }
+= content_tag :div, class: [:stepBox, @type], data: { controller: 'ticketing--orders', type: @type, event_id: @event.id, order_path: ticketing_order_path(':id') }
   .modalAlert
     .messages.alert
       .icon
