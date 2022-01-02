@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module DatesHelper
-  def structured_data(event, options = {})
-    options[:event] = event
-    options[:image] = "theater/#{event.identifier}/title.svg"
+  def structured_data(event, locals = {})
+    locals[:event] = event
+    locals[:image] = "theater/#{event.identifier}/title.svg"
 
     tag.script type: 'application/ld+json' do
-      raw render('structured_data.json', options) # rubocop:disable Rails/OutputSafety
+      raw render(partial: 'dates/structured_data', formats: :json, locals: locals) # rubocop:disable Rails/OutputSafety
     end
   end
 

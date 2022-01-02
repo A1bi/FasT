@@ -14,7 +14,6 @@ require 'active_job/railtie'
 # require 'action_mailbox/engine'
 # require 'action_text/engine'
 # require 'rails/test_unit/railtie'
-require 'sprockets/railtie'
 
 Bundler.require(*Rails.groups)
 
@@ -32,7 +31,7 @@ module FasT
 
     config.encoding = 'utf-8'
 
-    config.load_defaults 6.0
+    config.load_defaults 7.0
 
     config.active_support.escape_html_entities_in_json = true
 
