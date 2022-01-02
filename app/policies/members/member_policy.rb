@@ -55,13 +55,13 @@ module Members
     end
 
     def permitted_attributes
-      attrs = if user_admin?
-                %i[email first_name last_name nickname gender title street plz
-                   city phone birthday family_member_id family_id joined_at
-                   group sepa_mandate_id membership_fee]
-              else
-                %i[email password password_confirmation]
-              end
+      attrs = %i[email password password_confirmation]
+
+      if user_admin?
+        attrs += %i[first_name last_name nickname gender title street plz
+                    city phone birthday family_member_id family_id joined_at
+                    group sepa_mandate_id membership_fee]
+      end
 
       attrs << { permissions: [], shared_email_accounts_authorized_for: [] } if update_permissions?
 
