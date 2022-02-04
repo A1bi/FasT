@@ -11,8 +11,6 @@ module Ticketing
 
     enum availability: %i[universal exclusive box_office]
 
-    validates :event, presence: true
-
     class << self
       def ordered_by_availability_and_price
         order(availability: :asc, price: :desc)
