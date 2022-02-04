@@ -64,5 +64,5 @@
     .box
       .top Neues Foto hochladen
       .con = form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f|
-        = f.file_field :image, required: true
+        = f.file_field :image, required: true, accept: 'image/png, image/jpeg, image/webp, image/heic, image/heif'
         p.hcen = f.submit 'hochladen'
