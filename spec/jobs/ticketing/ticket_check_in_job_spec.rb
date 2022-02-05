@@ -20,8 +20,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
       it 'sends a COVID-19 check-in email' do
         expect { subject }
           .to have_enqueued_mail(Ticketing::Covid19CheckInMailer, :check_in)
-          .with(a_hash_including(args: [ticket]))
-          .at(date + 1.minute)
+          .with(ticket).at(date + 1.minute)
       end
     end
 
