@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
 
   before_action :set_sentry_context
   prepend_before_action :reset_goto
