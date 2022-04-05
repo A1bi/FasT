@@ -45,7 +45,7 @@ gem 'webpacker', '~> 5.0'
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
-  gem 'rspec-rails', '~> 5.0'
+  gem 'rspec-rails', '~> 6.0.0.rc1'
 end
 
 group :test do
