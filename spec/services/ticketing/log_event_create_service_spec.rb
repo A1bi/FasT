@@ -43,7 +43,7 @@ RSpec.describe Ticketing::LogEventCreateService do
   end
 
   describe '#send' do
-    subject { service.send(params) }
+    subject { service.send(**params) }
 
     let(:params) { { email: 'foo@bar.com', recipient: 'foobar' } }
 

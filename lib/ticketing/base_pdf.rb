@@ -76,7 +76,7 @@ module Ticketing
 
     def t(key, options = {})
       options[:scope] ||= i18n_scope
-      I18n.t(key, options)
+      I18n.t(key, **options)
     end
 
     def svg_image(path, options)

@@ -53,7 +53,7 @@ module Members
 
     def translate(key, options = {})
       options[:scope] = %i[members membership_fee_payments debit_submissions]
-      I18n.t(key, options)
+      I18n.t(key, **options)
     end
   end
 end

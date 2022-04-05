@@ -5,9 +5,9 @@ class ApplicationRecord < ActiveRecord::Base
 
   class << self
     def enum(definitions)
-      return super if definitions.delete(:integer_column)
+      return super(**definitions) if definitions.delete(:integer_column)
 
-      super(definitions.transform_values do |values|
+      super(**definitions.transform_values do |values|
         next values unless values.is_a? Array
 
         values.index_with(&:to_s)
