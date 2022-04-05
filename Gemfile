@@ -30,6 +30,7 @@ gem 'whenever', require: false
 gem 'corona_presence_tracing'
 gem 'icalendar', '~> 2.7'
 gem 'jbuilder', '~> 2.10'
+gem 'matrix' # needed for prawn
 gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.32.0'
