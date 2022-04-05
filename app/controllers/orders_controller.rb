@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
 
     else
       if params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
-        flash.alert = 'Bitte überprüfen Sie Ihre eingegebenen Bankdaten.'
+        flash.alert = t('.incorrect_bank_details')
         return redirect_to order_overview_path(params[:signed_info])
       end
       bank_details = params.permit(:name, :iban).to_h
@@ -53,7 +53,7 @@ class OrdersController < ApplicationController
     mailer.internal.deliver_later
 
     redirect_to order_overview_path(params[:signed_info]),
-                notice: 'Ihre Erstattung wurde erfolgreich beantragt.'
+                notice: t('.refund_requested')
   end
 
   private

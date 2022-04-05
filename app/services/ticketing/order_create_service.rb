@@ -77,17 +77,17 @@ module Ticketing
     def finalize_order
       ActiveRecord::Base.transaction do
         contexts = [:create, (:unprivileged_order unless admin?)]
-        return unless @order.save(context: contexts)
+        next unless @order.save(context: contexts)
 
         log_order_creation
 
         update_node_seats
-      end
 
-      send_confirmation
+        send_confirmation
 
-      suppress_in_production(StandardError) do
-        send_push_notifications
+        suppress_in_production(StandardError) do
+          send_push_notifications
+        end
       end
     end
 

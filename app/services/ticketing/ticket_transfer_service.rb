@@ -15,14 +15,14 @@ module Ticketing
       ActiveRecord::Base.transaction do
         @updated_tickets = valid_tickets.filter_map { |ticket| update_ticket(ticket) }
 
-        return if updated_tickets.none?
-        return unless order.save
+        next if updated_tickets.none?
+        next unless order.save
 
         create_log_event
         update_seats_with_node
-      end
 
-      true
+        true
+      end
     end
 
     private
