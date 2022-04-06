@@ -5,7 +5,7 @@ module Ticketing
     belongs_to :user, optional: true
     belongs_to :loggable, polymorphic: true
 
-    enum action: {
+    enum :action, {
       created: 1,
       updated: 2,
       approved: 3,

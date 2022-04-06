@@ -5,7 +5,7 @@ module Ticketing
     class Order < Ticketing::Order
       include Anonymizable
 
-      enum pay_method: %i[charge transfer cash box_office], _suffix: :payment
+      enum :pay_method, %i[charge transfer cash box_office], suffix: :payment
       has_one :bank_charge, class_name: 'Ticketing::BankCharge',
                             as: :chargeable, validate: true, dependent: :destroy
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true

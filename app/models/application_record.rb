@@ -4,14 +4,11 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   class << self
-    def enum(definitions)
-      return super(**definitions) if definitions.delete(:integer_column)
+    def enum(name = nil, values = nil, **options)
+      raise 'old enum syntax not supported' if name.nil?
 
-      super(**definitions.transform_values do |values|
-        next values unless values.is_a? Array
-
-        values.index_with(&:to_s)
-      end)
+      values = values.index_with(&:to_s) unless values.is_a?(Hash) || options.delete(:integer_column)
+      super
     end
 
     def human_enum_name(name, value)

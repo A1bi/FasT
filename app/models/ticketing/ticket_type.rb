@@ -9,7 +9,7 @@ module Ticketing
     has_many :exclusive_ticket_type_credit_spendings,
              class_name: 'Members::ExclusiveTicketTypeCredit', dependent: :destroy
 
-    enum availability: %i[universal exclusive box_office]
+    enum :availability, %i[universal exclusive box_office]
 
     class << self
       def ordered_by_availability_and_price

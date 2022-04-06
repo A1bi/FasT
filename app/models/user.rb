@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { case_sensitive: false }, email_format: true
   validates :password, length: { minimum: 6 }, if: :password_digest_changed?
 
-  enum group: { member: 0, admin: 1 }, integer_column: true
+  enum :group, { member: 0, admin: 1 }, integer_column: true
 
   def self.alphabetically
     order(:last_name, :first_name)

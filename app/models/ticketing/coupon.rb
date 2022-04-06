@@ -6,7 +6,7 @@ module Ticketing
     include Billable
     include Loggable
 
-    enum value_type: %i[free_tickets credit], _suffix: :value
+    enum :value_type, %i[free_tickets credit], suffix: :value
 
     has_random_unique_token :code, 6
     has_many :redemptions, class_name: 'Ticketing::CouponRedemption', dependent: :destroy

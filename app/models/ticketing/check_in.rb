@@ -4,7 +4,7 @@ module Ticketing
   class CheckIn < ApplicationRecord
     belongs_to :ticket, touch: true
     belongs_to :checkpoint, optional: true
-    enum medium: %i[unknown web retail passbook box_office box_office_direct]
+    enum :medium, %i[unknown web retail passbook box_office box_office_direct]
 
     validates :date, :medium, presence: true
 

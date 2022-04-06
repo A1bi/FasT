@@ -10,7 +10,7 @@ module Newsletter
     has_many :subscribers, -> { confirmed }, through: :subscriber_lists
     has_many :images, dependent: :destroy
 
-    enum status: %i[draft review sent]
+    enum :status, %i[draft review sent]
 
     alias_attribute :recipients, :subscribers
 

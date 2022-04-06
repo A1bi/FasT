@@ -14,5 +14,5 @@ class Document < ApplicationRecord
                                                  audio/mp3]
                               }
 
-  enum members_group: Members::Member.groups, integer_column: true
+  enum :members_group, Members::Member.groups, integer_column: true
 end
