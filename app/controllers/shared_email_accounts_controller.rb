@@ -11,7 +11,7 @@ class SharedEmailAccountsController < ApplicationController
     return if email_authorizing_for.blank?
 
     token = SharedEmailAccountToken.create(email: email_authorizing_for)
-    redirect_to redirect_url(token.id)
+    redirect_to redirect_url(token.id), allow_other_host: true
   end
 
   def credentials
