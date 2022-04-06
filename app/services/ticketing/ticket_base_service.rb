@@ -36,8 +36,8 @@ module Ticketing
       tickets.public_send(scope).includes(:order).load
     end
 
-    def update_order_balance(order, note, &block)
-      OrderBillingService.new(order).update_balance(note, &block)
+    def update_order_balance(order, note, &)
+      OrderBillingService.new(order).update_balance(note, &)
     end
 
     def log_service(loggable)

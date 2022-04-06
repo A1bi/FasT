@@ -12,7 +12,7 @@ FactoryBot.define do
 
       before(:create) do |order, evaluator|
         order.tickets = create_list(:ticket, evaluator.tickets_count,
-                                    order: order,
+                                    order:,
                                     date: evaluator.event.dates.first,
                                     type: evaluator.event.ticket_types.first)
       end

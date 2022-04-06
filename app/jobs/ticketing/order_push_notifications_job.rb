@@ -19,8 +19,8 @@ module Ticketing
 
     def notification_data
       {
-        title: title,
-        body: body,
+        title:,
+        body:,
         badge: badge_number,
         sound: 'cash.aif'
       }
@@ -42,7 +42,7 @@ module Ticketing
         count: @order.items.count,
         store: @order.try(:store)&.name,
         box_office: @order.try(:box_office)&.name,
-        date: date
+        date:
       )
     end
 

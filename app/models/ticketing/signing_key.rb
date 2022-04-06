@@ -25,11 +25,11 @@ module Ticketing
     end
 
     def sign_ticket(ticket, params = {})
-      sign_record(params.merge(ticket: ticket))
+      sign_record(params.merge(ticket:))
     end
 
     def sign_order(order, params = {})
-      sign_record(params.merge(order: order))
+      sign_record(params.merge(order:))
     end
 
     def self.verify_info(data)

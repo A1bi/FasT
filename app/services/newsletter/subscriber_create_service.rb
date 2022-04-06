@@ -14,7 +14,7 @@ module Newsletter
 
       if subscriber.persisted?
         subscriber.send_confirmation_instructions(
-          after_order: after_order,
+          after_order:,
           delay: after_order ? 30.minutes : nil
         )
       end

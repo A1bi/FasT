@@ -11,7 +11,7 @@ module Ticketing
 
       def printable_path(absolute: false)
         number_hash = Digest::SHA1.hexdigest(number.to_s)
-        "#{printable_dir_path(absolute: absolute)}/tickets-#{number_hash}.pdf"
+        "#{printable_dir_path(absolute:)}/tickets-#{number_hash}.pdf"
       end
 
       private

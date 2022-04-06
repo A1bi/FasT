@@ -4,7 +4,7 @@ module Ticketing
   module CouponsMailerHelper
     def prepare_body(body, coupon:, recipient:, html: false)
       body = insert_recipient(body, recipient)
-      body = insert_code(body, coupon, html: html)
+      body = insert_code(body, coupon, html:)
       return body unless html
 
       simple_format(body)

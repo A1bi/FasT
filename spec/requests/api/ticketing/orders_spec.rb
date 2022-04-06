@@ -5,7 +5,7 @@ require 'support/authentication'
 
 RSpec.describe 'Api::Ticketing::OrdersController' do
   describe 'POST #totals' do
-    subject { post_json totals_api_ticketing_orders_path, params: params }
+    subject { post_json totals_api_ticketing_orders_path, params: }
 
     let(:params) do
       {
@@ -23,7 +23,7 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     let(:coupons) { [] }
     let(:user) { build(:user) }
 
-    before { sign_in(user: user) }
+    before { sign_in(user:) }
 
     shared_examples 'renders totals' do
       it 'renders totals' do

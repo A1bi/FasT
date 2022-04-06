@@ -6,7 +6,7 @@ RSpec.describe Ticketing::CouponCreateService do
   subject { service.execute }
 
   let(:order) { build(:order) }
-  let(:service) { described_class.new(order, nil, { coupons: coupons }) }
+  let(:service) { described_class.new(order, nil, { coupons: }) }
 
   context 'with no coupons provided' do
     let(:coupons) { nil }

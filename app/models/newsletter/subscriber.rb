@@ -42,7 +42,7 @@ module Newsletter
     def send_confirmation_instructions(after_order: false, delay: nil)
       return if new_record?
 
-      NewsletterMailer.with(subscriber: self, after_order: after_order)
+      NewsletterMailer.with(subscriber: self, after_order:)
                       .confirmation_instructions
                       .deliver_later(wait: delay)
     end

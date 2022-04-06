@@ -5,7 +5,7 @@ require_shared_examples 'pdf'
 RSpec.describe Ticketing::CouponPdf do
   let(:coupon) { create(:coupon, :credit, value: 12.34) }
   let(:theme) { :generic }
-  let(:pdf) { described_class.new(coupon, theme: theme).render }
+  let(:pdf) { described_class.new(coupon, theme:).render }
   let(:text_analysis) { PDF::Inspector::Text.analyze(pdf) }
   let(:page_analysis) { PDF::Inspector::Page.analyze(pdf) }
   let(:page_layout) { [841.89, 595.28] }

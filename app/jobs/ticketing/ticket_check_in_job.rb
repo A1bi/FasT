@@ -23,7 +23,7 @@ module Ticketing
 
     def create_check_ins(date, medium)
       tickets_to_check_in.each do |t|
-        t.check_ins.create!(date: date, medium: medium)
+        t.check_ins.create!(date:, medium:)
       end
     end
 
@@ -45,10 +45,10 @@ module Ticketing
       1.hour.after(@ticket.date.date).future?
     end
 
-    def lock_order(&block)
+    def lock_order(&)
       # acquire exclusive lock on order to avoid sending multiple emails to the
       # same person when multiple jobs with sibling tickets run in parallel
-      @ticket.order.with_lock(true, &block)
+      @ticket.order.with_lock(true, &)
     end
   end
 end

@@ -7,7 +7,7 @@ RSpec.describe 'Admin::MembershipFeePaymentsController' do
     subject { patch mark_as_failed_admin_members_membership_fee_payment_path(payment) }
 
     let(:member) { create(:member, :membership_fee_paid) }
-    let(:payment) { create(:membership_fee_payment, member: member) }
+    let(:payment) { create(:membership_fee_payment, member:) }
 
     before { sign_in(permissions: %i[members_update]) }
 
@@ -20,7 +20,7 @@ RSpec.describe 'Admin::MembershipFeePaymentsController' do
     end
 
     context 'when a previous payment exists' do
-      let!(:previous_payment) { create(:membership_fee_payment, member: member, paid_until: 2.months.from_now) }
+      let!(:previous_payment) { create(:membership_fee_payment, member:, paid_until: 2.months.from_now) }
 
       it "updates the member's paid_until" do
         expect { subject }.to change { member.reload.membership_fee_paid_until }.to(previous_payment.paid_until)

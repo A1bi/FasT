@@ -5,15 +5,15 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
   let(:order) { create(:order, :complete) }
 
   describe '#perform_later' do
-    subject { described_class.perform_later(order, admin: admin) }
+    subject { described_class.perform_later(order, admin:) }
 
     it {
-      expect { subject }.to have_enqueued_job(described_class).with(order, admin: admin)
+      expect { subject }.to have_enqueued_job(described_class).with(order, admin:)
     }
   end
 
   describe '#perform_now' do
-    subject { described_class.perform_now(order, admin: admin) }
+    subject { described_class.perform_now(order, admin:) }
 
     let(:devices) { create_list(:push_notifications_device, 2, :stats) }
     let(:device_collection) { double }

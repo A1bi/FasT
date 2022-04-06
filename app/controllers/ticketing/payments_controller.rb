@@ -33,8 +33,7 @@ module Ticketing
     def submit
       @unsubmitted_charges.each { |order| authorize order.bank_charge }
 
-      DebitSubmitService.new(@unsubmitted_charges, current_user: current_user)
-                        .execute
+      DebitSubmitService.new(@unsubmitted_charges, current_user:).execute
 
       redirect_to_overview(:submitted)
     end
@@ -68,7 +67,7 @@ module Ticketing
     end
 
     def payment_service(order)
-      OrderPaymentService.new(order, current_user: current_user)
+      OrderPaymentService.new(order, current_user:)
     end
 
     def redirect_to_overview(notice = nil)

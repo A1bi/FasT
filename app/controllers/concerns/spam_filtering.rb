@@ -3,7 +3,7 @@
 module SpamFiltering
   extend ActiveSupport::Concern
 
-  SPAM_PARAM_PATTERN = %r{https?://}.freeze
+  SPAM_PARAM_PATTERN = %r{https?://}
 
   class_methods do
     def filters_spam_through_honeypot(options = {})

@@ -7,7 +7,7 @@ module Members
     validates :ticket_type, uniqueness: true
 
     def spendings
-      ExclusiveTicketTypeCreditSpending.where(ticket_type: ticket_type)
+      ExclusiveTicketTypeCreditSpending.where(ticket_type:)
     end
 
     def credit_left_for_member(member)

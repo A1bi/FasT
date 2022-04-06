@@ -6,8 +6,7 @@ module Newsletter
 
     def perform(newsletter)
       newsletter.recipients.each do |recipient|
-        NewsletterMailer.with(newsletter: newsletter, subscriber: recipient)
-                        .newsletter.deliver_later
+        NewsletterMailer.with(newsletter:, subscriber: recipient).newsletter.deliver_later
       end
     end
   end

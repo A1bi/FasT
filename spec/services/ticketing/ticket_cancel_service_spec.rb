@@ -5,7 +5,7 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::TicketCancelService do
   subject { service.execute }
 
-  let(:service) { described_class.new(tickets, reason: reason) }
+  let(:service) { described_class.new(tickets, reason:) }
   let(:orders) { create_list(:web_order, 2, :with_tickets, tickets_count: 3) }
   let(:tickets) { orders.map(&:tickets).flatten.first(5) }
   let(:reason) { 'foo' }
@@ -52,21 +52,21 @@ RSpec.describe Ticketing::TicketCancelService do
     it 'sends a cancellation confirmation email once per order' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-        .with(a_hash_including(params: { reason: reason, order: orders[0] }))
+        .with(a_hash_including(params: { reason:, order: orders[0] }))
         .and(
           have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-            .with(a_hash_including(params: { reason: reason, order: orders[1] }))
+            .with(a_hash_including(params: { reason:, order: orders[1] }))
         )
     end
 
     include_examples 'creates a log event', :cancelled_tickets do
       let(:loggable) { orders.first }
-      let(:info) { { count: 3, reason: reason } }
+      let(:info) { { count: 3, reason: } }
     end
 
     include_examples 'creates a log event', :cancelled_tickets do
       let(:loggable) { orders.last }
-      let(:info) { { count: 1, reason: reason } }
+      let(:info) { { count: 1, reason: } }
     end
   end
 

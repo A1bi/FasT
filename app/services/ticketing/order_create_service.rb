@@ -68,9 +68,9 @@ module Ticketing
       @coupon_redeem_service ||= CouponRedeemService.new(@order, date, current_user, order_params)
     end
 
-    def update_balance(&block)
+    def update_balance(&)
       service = OrderBillingService.new(@order)
-      service.update_balance(:order_created, &block)
+      service.update_balance(:order_created, &)
       service.settle_balance_with_retail_account
     end
 
@@ -92,7 +92,7 @@ module Ticketing
     end
 
     def log_order_creation
-      LogEventCreateService.new(@order, current_user: current_user).create
+      LogEventCreateService.new(@order, current_user:).create
     end
 
     def send_confirmation

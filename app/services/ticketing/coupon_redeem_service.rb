@@ -16,8 +16,7 @@ module Ticketing
     def execute(free_tickets: true, credit: true)
       coupons.each do |coupon|
         next if coupon.expired? || order.redeemed_coupons.include?(coupon) ||
-                !redeem_coupon(coupon, free_tickets: free_tickets,
-                                       credit: credit)
+                !redeem_coupon(coupon, free_tickets:, credit:)
 
         order.redeemed_coupons << coupon
         log_redemption(coupon)
@@ -53,7 +52,7 @@ module Ticketing
     end
 
     def log_redemption(coupon)
-      LogEventCreateService.new(coupon, current_user: current_user).redeem
+      LogEventCreateService.new(coupon, current_user:).redeem
     end
 
     def coupons

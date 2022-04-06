@@ -46,7 +46,7 @@ module Passbook
 
       def log
         (params[:logs] ||= []).each do |message|
-          Passbook::Models::Log.create(message: message)
+          Passbook::Models::Log.create(message:)
         end
 
         head :ok
@@ -58,7 +58,7 @@ module Passbook
         @pass = Passbook::Models::Pass.find_by(
           type_id: params[:pass_type_id],
           serial_number: params[:serial_number],
-          auth_token: auth_token
+          auth_token:
         )
 
         head :unauthorized if @pass.nil?

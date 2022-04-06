@@ -6,13 +6,12 @@ class Nominatim
 
   class << self
     def cities_and_districts_for_postcode(postcode, country: 'DE')
-      places = places_for_postcode(postcode,
-                                   country: country, address_details: true)
+      places = places_for_postcode(postcode, country:, address_details: true)
       return if places.empty?
 
       info = {
         **places.first.slice(:lat, :lon, :country_code),
-        postcode: postcode,
+        postcode:,
         cities: [],
         districts: []
       }
@@ -28,8 +27,7 @@ class Nominatim
     end
 
     def places_for_postcode(postcode, country: 'DE', address_details: false)
-      get('/search', postalcode: postcode, country: country,
-                     addressdetails: address_details)
+      get('/search', postalcode: postcode, country:, addressdetails: address_details)
     end
 
     private

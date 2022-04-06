@@ -25,7 +25,7 @@ FactoryBot.define do
 
     trait :with_free_ticket_type do
       after(:create) do |event|
-        create(:ticket_type, :free, event: event)
+        create(:ticket_type, :free, event:)
       end
     end
 

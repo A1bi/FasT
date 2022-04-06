@@ -41,8 +41,7 @@ module DocumentManagement
   private
 
   def find_document
-    @document = authorize Document.where(members_group: members_group)
-                                  .find(params[:id])
+    @document = authorize Document.where(members_group:).find(params[:id])
   end
 
   def document_params

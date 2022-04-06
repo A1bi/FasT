@@ -44,12 +44,12 @@ module Passbook
       private
 
       def pass_file
-        @pass_file ||= Passbook::Pass.new(type_id: type_id,
-                                          certificate_path: certificate_path,
+        @pass_file ||= Passbook::Pass.new(type_id:,
+                                          certificate_path:,
                                           serial: serial_number,
-                                          auth_token: auth_token,
-                                          template: template,
-                                          assets_identifier: assets_identifier,
+                                          auth_token:,
+                                          template:,
+                                          assets_identifier:,
                                           template_locals: pass_file_info)
       end
 

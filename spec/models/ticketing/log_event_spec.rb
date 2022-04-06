@@ -13,7 +13,7 @@ RSpec.describe Ticketing::LogEvent do
   describe '#info' do
     subject { event.info }
 
-    let(:event) { build(:log_event, info: info) }
+    let(:event) { build(:log_event, info:) }
 
     context 'when info column is NULL' do
       let(:info) { nil }

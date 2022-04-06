@@ -5,11 +5,11 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::TicketUpdateService do
   subject { service.execute }
 
-  let(:service) { described_class.new(tickets, params: params) }
-  let(:orders) { create_list(:order, 3, :with_tickets, tickets_count: 3, event: event) }
+  let(:service) { described_class.new(tickets, params:) }
+  let(:orders) { create_list(:order, 3, :with_tickets, tickets_count: 3, event:) }
   let(:tickets) { Ticketing::Ticket.where(order: orders) }
   let(:event) { create(:event, :complete) }
-  let(:ticket_type) { create(:ticket_type, price: 34, event: event) }
+  let(:ticket_type) { create(:ticket_type, price: 34, event:) }
   let(:params) do
     {
       orders[0].tickets[0].id => { resale: true },

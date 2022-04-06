@@ -53,11 +53,11 @@ module Ticketing
 
           if (id = seat_element['data-id']).present?
             seat = Ticketing::Seat.find(id)
-            seat.update(block: block, row: row, number: number)
+            seat.update(block:, row:, number:)
             log_saved_changes(seat)
 
           else
-            seat = block.seats.create(row: row, number: number)
+            seat = block.seats.create(row:, number:)
             seat_element['data-id'] = seat.id
             log_created_record(seat, block)
           end

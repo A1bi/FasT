@@ -5,7 +5,7 @@ require 'support/authentication'
 
 RSpec.describe 'Api::Ticketing::CheckInsController' do
   describe 'POST #create' do
-    subject { post_json api_ticketing_check_ins_path, params: params }
+    subject { post_json api_ticketing_check_ins_path, params: }
 
     let(:params) do
       {

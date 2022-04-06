@@ -46,8 +46,7 @@ module Admin
         notice = t('application.saved_changes')
       end
 
-      redirect_to admin_members_member_path(@member),
-                  notice: notice
+      redirect_to admin_members_member_path(@member), notice:
     end
 
     def destroy

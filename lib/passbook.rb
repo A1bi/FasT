@@ -12,9 +12,9 @@ module Passbook
 
     def register_model(model, template:, pass_type_id:, certificate_path:)
       @models[model] = {
-        template: template,
-        pass_type_id: pass_type_id,
-        certificate_path: certificate_path
+        template:,
+        pass_type_id:,
+        certificate_path:
       }
     end
   end

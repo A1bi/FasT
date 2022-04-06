@@ -8,7 +8,7 @@ RSpec.describe Members::MembershipFeeMailer do
   describe '#debit_submission' do
     subject(:mail) { described_class.debit_submission(submission) }
 
-    let(:submission) { create(:membership_fee_debit_submission, payments: payments) }
+    let(:submission) { create(:membership_fee_debit_submission, payments:) }
     let(:payments) { create_list(:membership_fee_payment, 2, :with_sepa_mandate) }
     let(:xml_content) { 'foo' }
 
@@ -16,7 +16,7 @@ RSpec.describe Members::MembershipFeeMailer do
       xml_service = instance_double('Members::MembershipFeeDebitSepaXmlService',
                                     xml: xml_content)
       allow(Members::MembershipFeeDebitSepaXmlService)
-        .to receive(:new).with(submission: submission).and_return(xml_service)
+        .to receive(:new).with(submission:).and_return(xml_service)
     end
 
     it 'sends the mail to the configured person' do

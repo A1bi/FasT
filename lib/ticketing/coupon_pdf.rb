@@ -167,9 +167,9 @@ module Ticketing
       end
     end
 
-    def pad_quarter(&block)
+    def pad_quarter(&)
       pad QUARTER_MARGIN + 10 do
-        indent QUARTER_MARGIN, QUARTER_MARGIN, &block
+        indent(QUARTER_MARGIN, QUARTER_MARGIN, &)
       end
     end
 

@@ -24,7 +24,7 @@ module Ticketing
     def draw_ticket(ticket)
       y = cursor - TICKET_MARGIN
       height = @ticket_height - TICKET_MARGIN * 2
-      bounding_box([0, y], width: TICKET_WIDTH, height: height) do
+      bounding_box([0, y], width: TICKET_WIDTH, height:) do
         indent(25, 25) do
           draw_header
           move_down 15
@@ -96,7 +96,7 @@ module Ticketing
           move_down 10
         end
 
-        bounding_box([0, cursor], width: width, height: height) do
+        bounding_box([0, cursor], width:, height:) do
           image = File.read(images_path.join('theater', event.assets_identifier,
                                              'ticket_header.svg'))
           svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
@@ -239,12 +239,12 @@ module Ticketing
 
     def barcode_link_for_ticket(ticket, medium: nil, authenticated: false)
       Settings.ticket_barcode_base_url +
-        ticket.signed_info(medium: medium, authenticated: authenticated)
+        ticket.signed_info(medium:, authenticated:)
     end
 
     def barcode_content_for_ticket(ticket)
       medium = Ticketing::CheckIn.media[signed_info_medium]
-      barcode_link_for_ticket(ticket, medium: medium)
+      barcode_link_for_ticket(ticket, medium:)
     end
 
     def signed_info_medium

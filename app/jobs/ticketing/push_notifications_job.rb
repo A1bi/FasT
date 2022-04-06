@@ -38,8 +38,8 @@ module Ticketing
         notification       = Apnotic::Notification.new(device.token)
         notification.topic = device.topic
         notification.alert = {
-          title: title,
-          body: body
+          title:,
+          body:
         }
         notification.badge = badge
         notification.sound = sound

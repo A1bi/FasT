@@ -44,7 +44,7 @@ module Ticketing
         local_instrument: LOCAL_INSTRUMENT,
         sequence_type: SEQUENCE_TYPE,
         batch_booking: BATCH_BOOKING,
-        requested_date: requested_date
+        requested_date:
       }
     end
 

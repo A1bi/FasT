@@ -38,7 +38,7 @@ class NodeApi
   end
 
   def self.update_seats(seats)
-    seating_request('updateSeats', seats: seats)
+    seating_request('updateSeats', seats:)
   end
 
   def self.update_seats_from_records(records)

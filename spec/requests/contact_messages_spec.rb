@@ -8,7 +8,7 @@ RSpec.describe 'ContactMessages' do
 
     let(:message_params) { { name: 'Foo', subject: 'Bar', email: 'foo@bar.com', content: 'foobar' } }
     let(:comment) { '' }
-    let(:params) { { contact_message: message_params, comment: comment } }
+    let(:params) { { contact_message: message_params, comment: } }
 
     context 'with valid params' do
       let(:message) { double.as_null_object }

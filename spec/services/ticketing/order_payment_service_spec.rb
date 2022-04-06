@@ -16,7 +16,7 @@ RSpec.describe Ticketing::OrderPaymentService do
     it 'sends an email' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, action)
-        .with(a_hash_including(params: { order: order }))
+        .with(a_hash_including(params: { order: }))
     end
   end
 

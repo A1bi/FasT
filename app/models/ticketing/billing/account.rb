@@ -13,7 +13,7 @@ module Ticketing
 
         update_balance(amount)
 
-        create_transaction(amount: amount, note_key: note_key)
+        create_transaction(amount:, note_key:)
       end
 
       def withdraw(amount, note_key)
@@ -25,7 +25,7 @@ module Ticketing
 
         update_balance(-amount)
 
-        create_transaction(participant: participant, amount: -amount, note_key: note_key) do |t|
+        create_transaction(participant:, amount: -amount, note_key:) do |t|
           t.reverse_transaction = reverse_transaction || participant.transfer(self, -amount, note_key, t)
         end
       end

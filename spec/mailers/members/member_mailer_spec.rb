@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe Members::MemberMailer do
-  let(:member) { create(:member, gender: gender) }
+  let(:member) { create(:member, gender:) }
   let(:gender) { :female }
-  let(:mailer) { described_class.with(member: member) }
+  let(:mailer) { described_class.with(member:) }
 
   shared_examples 'an email addressed to a member' do
     context 'when member has own email address' do
@@ -71,7 +71,7 @@ RSpec.describe Members::MemberMailer do
   describe '#welcome' do
     subject(:mail) { mailer.welcome }
 
-    let(:member) { create(:member, :with_sepa_mandate, gender: gender, membership_fee: 13.4) }
+    let(:member) { create(:member, :with_sepa_mandate, gender:, membership_fee: 13.4) }
     let(:subject) { 'Willkommen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'

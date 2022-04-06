@@ -24,7 +24,7 @@ module Ticketing
     end
 
     def send(email:, recipient:)
-      create_event(:sent, email: email, recipient: recipient)
+      create_event(:sent, email:, recipient:)
     end
 
     def submit_charge
@@ -48,7 +48,7 @@ module Ticketing
     end
 
     def cancel_tickets(tickets, reason: nil)
-      create_event_with_tickets(:cancelled_tickets, tickets, reason: reason)
+      create_event_with_tickets(:cancelled_tickets, tickets, reason:)
     end
 
     def transfer_tickets(tickets)
@@ -62,8 +62,7 @@ module Ticketing
     private
 
     def create_event(action, info = {})
-      event = @loggable.log_events.new(action: action, user: @current_user,
-                                       info: info)
+      event = @loggable.log_events.new(action:, user: @current_user, info:)
       event.save if @loggable.persisted?
     end
 

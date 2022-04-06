@@ -107,7 +107,7 @@ event_ids.each.with_index do |event_id, i|
     name: "Testevent #{event_id.humanize.titleize}",
     identifier: event_id,
     slug: "test-event-#{event_id.dasherize}",
-    location: location,
+    location:,
     # the most recent event will have the seating with a plan
     seating: seatings[i >= event_ids.count - 1 ? 1 : 0],
     admission_duration: rand(30..60)
@@ -159,8 +159,7 @@ store.users.create(
 ## coupons
 coupons = []
 10.times do
-  coupon = Ticketing::Coupon.create(recipient: FFaker::NameDE.name,
-                                    value_type: :free_tickets)
+  coupon = Ticketing::Coupon.create(recipient: FFaker::NameDE.name, value_type: :free_tickets)
   coupon.deposit_into_account(3, :created_coupon)
   coupons << coupon
 end

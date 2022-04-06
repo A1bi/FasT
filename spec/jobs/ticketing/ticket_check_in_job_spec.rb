@@ -4,7 +4,7 @@ require 'support/time'
 
 RSpec.describe Ticketing::TicketCheckInJob do
   describe '#perform_now' do
-    subject { described_class.perform_now(ticket_id: ticket_id, date: date.to_s, medium: medium) }
+    subject { described_class.perform_now(ticket_id:, date: date.to_s, medium:) }
 
     let(:date) { ticket ? 15.minutes.after(ticket.date.admission_time) : Time.current }
     let(:medium) { 1 }
@@ -69,7 +69,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
     end
 
     context 'with a ticket id from a covid19 order' do
-      let(:order) { create(:order, :with_tickets, tickets_count: 3, event: event) }
+      let(:order) { create(:order, :with_tickets, tickets_count: 3, event:) }
       let(:event) { create(:event, :complete, covid19: true, dates_count: 2) }
       let(:presence_tracing_email) { false }
       let(:ticket) { order.tickets[0] }
@@ -125,15 +125,14 @@ RSpec.describe Ticketing::TicketCheckInJob do
     end
 
     describe 'avoiding multiple emails to the same person' do
-      let(:order) { create(:order, :with_tickets, event: event) }
+      let(:order) { create(:order, :with_tickets, event:) }
       let(:event) { create(:event, :complete, covid19: true) }
 
       it 'does not enqueue multiple emails to the same person' do
         expect do
           threads = 5.times.map do
             Thread.new do
-              described_class.perform_now(ticket_id: order.tickets[0].id,
-                                          date: date.to_s, medium: medium)
+              described_class.perform_now(ticket_id: order.tickets[0].id, date: date.to_s, medium:)
             end
           end
           threads.each(&:join)

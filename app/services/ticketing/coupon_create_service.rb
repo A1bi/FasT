@@ -30,7 +30,7 @@ module Ticketing
     end
 
     def log_coupon_creation(coupon)
-      LogEventCreateService.new(coupon, current_user: current_user).create
+      LogEventCreateService.new(coupon, current_user:).create
     end
   end
 end

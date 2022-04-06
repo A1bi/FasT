@@ -3,7 +3,7 @@
 module OrdersHelper
   def structured_data(order)
     tag.script type: 'application/ld+json' do
-      raw render(partial: 'orders/structured_data', formats: :json, locals: { order: order }) # rubocop:disable Rails/OutputSafety
+      raw render(partial: 'orders/structured_data', formats: :json, locals: { order: }) # rubocop:disable Rails/OutputSafety
     end
   end
 

@@ -3,7 +3,7 @@
 module Ticketing
   class TicketUpdateService < TicketBaseService
     def initialize(tickets, params:, current_user: nil)
-      super(tickets, current_user: current_user)
+      super(tickets, current_user:)
       @params = params.except(:cancelled)
     end
 

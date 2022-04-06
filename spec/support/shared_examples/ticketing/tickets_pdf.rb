@@ -5,7 +5,7 @@ require_shared_examples 'pdf'
 RSpec.shared_context 'when rendering tickets pdf' do
   let(:event) { build(:event, :complete) }
   let(:tickets_count) { 1 }
-  let(:order) { create(:order, :with_tickets, tickets_count: tickets_count, event: event) }
+  let(:order) { create(:order, :with_tickets, tickets_count:, event:) }
 
   let(:tickets_pdf) { described_class.new }
   let(:pdf) do

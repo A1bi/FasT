@@ -2,7 +2,7 @@
 
 RSpec.describe Ticketing::OrderMailer do
   let(:mailer) { described_class.with(params) }
-  let(:params) { { order: order } }
+  let(:params) { { order: } }
   let(:order) { create(:web_order, :with_purchased_coupons) }
 
   shared_examples 'basic email properties' do |subject|

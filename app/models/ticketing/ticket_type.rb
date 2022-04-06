@@ -19,7 +19,7 @@ module Ticketing
       # create scopes except_exclusive and except_box_office
       %i[exclusive box_office].each do |availability|
         define_method "except_#{availability}" do
-          where.not(availability: availability)
+          where.not(availability:)
         end
       end
     end

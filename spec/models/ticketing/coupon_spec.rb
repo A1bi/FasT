@@ -6,8 +6,7 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::Coupon do
   it {
     expect(subject)
-      .to define_enum_for(:value_type).with_values(free_tickets: 'free_tickets',
-                                                   credit: 'credit')
+      .to define_enum_for(:value_type).with_values(free_tickets: 'free_tickets', credit: 'credit')
                                       .with_suffix(:value)
                                       .backed_by_column_of_type(:enum)
   }

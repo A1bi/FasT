@@ -44,7 +44,7 @@ module Ticketing
                   []
                 end
 
-        { seats: seats }
+        { seats: }
       end
     end
 

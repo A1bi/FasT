@@ -8,7 +8,7 @@ RSpec.describe 'NewsletterSubscribers' do
 
     let(:subscriber_params) { { last_name: 'Foo', gender: 0, email: 'foo@bar.com', privacy_terms: 1 } }
     let(:comment) { '' }
-    let(:params) { { newsletter_subscriber: subscriber_params, comment: comment } }
+    let(:params) { { newsletter_subscriber: subscriber_params, comment: } }
 
     # rubocop:disable RSpec/BeforeAfterAll
     before(:context) { create(:newsletter_subscriber_list, id: 1) }

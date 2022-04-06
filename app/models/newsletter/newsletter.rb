@@ -17,7 +17,7 @@ module Newsletter
     validates :subject, presence: true
     validates :body_text, presence: true
 
-    IMAGE_REGEXP = /%%bild_(\d+)%%/.freeze
+    IMAGE_REGEXP = /%%bild_(\d+)%%/
 
     def review!
       return unless draft?

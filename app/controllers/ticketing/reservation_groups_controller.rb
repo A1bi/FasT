@@ -40,9 +40,7 @@ module Ticketing
       ActiveRecord::Base.transaction do
         params.fetch(:seats, {}).each do |date_id, seat_ids|
           seat_ids.each do |seat_id|
-            reservations << @group.reservations
-                                  .where(date_id: date_id, seat_id: seat_id)
-                                  .first_or_create
+            reservations << @group.reservations.where(date_id:, seat_id:).first_or_create
           end
         end
 

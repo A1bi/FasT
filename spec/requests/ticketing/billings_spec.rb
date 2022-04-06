@@ -6,13 +6,7 @@ RSpec.describe 'Ticketing::BillingsController' do
   describe 'POST #create' do
     subject { post ticketing_billings_path(params) }
 
-    let(:params) do
-      {
-        billable_id: billable_id,
-        billable_type: billable_type,
-        note: note
-      }
-    end
+    let(:params) { { billable_id:, billable_type:, note: } }
     let(:billable_id) { billable.id }
     let(:billing_service) do
       instance_double(Ticketing::OrderBillingService,
@@ -111,7 +105,7 @@ RSpec.describe 'Ticketing::BillingsController' do
 
       context 'with note = correction' do
         let(:note) { :correction }
-        let(:params) { super().merge(amount: amount) }
+        let(:params) { super().merge(amount:) }
         let(:amount) { 20 }
 
         context 'with an admin user' do
@@ -151,7 +145,7 @@ RSpec.describe 'Ticketing::BillingsController' do
 
       context 'with note = correction' do
         let(:note) { :correction }
-        let(:params) { super().merge(amount: amount) }
+        let(:params) { super().merge(amount:) }
         let(:amount) { 2 }
 
         shared_examples 'does not change the balance' do

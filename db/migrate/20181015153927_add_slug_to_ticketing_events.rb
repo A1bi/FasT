@@ -20,7 +20,7 @@ class AddSlugToTicketingEvents < ActiveRecord::Migration[6.0]
 
         Ticketing::Event.find_each do |event|
           slug = mapping.fetch(event.identifier.to_sym, event.identifier)
-          event.update(slug: slug)
+          event.update(slug:)
         end
       end
     end

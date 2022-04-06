@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
 
   before_action :find_records
 
-  WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/.freeze
+  WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/
 
   helper Ticketing::TicketingHelper
 

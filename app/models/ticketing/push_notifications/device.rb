@@ -10,9 +10,7 @@ module Ticketing
 
       def push(body: nil, title: nil, badge: nil, sound: nil)
         sound = nil if settings[:sound_enabled].blank?
-        Ticketing::PushNotificationsJob.perform_later(
-          self, body: body, title: title, badge: badge, sound: sound
-        )
+        Ticketing::PushNotificationsJob.perform_later(self, body:, title:, badge:, sound:)
       end
 
       def topic

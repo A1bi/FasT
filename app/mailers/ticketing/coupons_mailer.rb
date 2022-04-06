@@ -10,7 +10,7 @@ module Ticketing
       @recipient = recipient
       @skip_ending = true
 
-      mail to: email, subject: subject
+      mail to: email, subject:
     end
   end
 end

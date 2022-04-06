@@ -78,7 +78,7 @@ module Ticketing
       number.times do
         ticket = order.tickets.new(
           type: ticket_type,
-          date: date
+          date:
         )
         ticket.seat = next_seat if seating_plan?
       end
@@ -95,7 +95,7 @@ module Ticketing
     def build_exclusive_ticket_type_credit_spending(ticket_type, number)
       order.exclusive_ticket_type_credit_spendings.build(
         member: current_user,
-        ticket_type: ticket_type,
+        ticket_type:,
         value: number
       )
     end

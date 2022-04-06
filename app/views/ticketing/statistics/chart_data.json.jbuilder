@@ -2,7 +2,7 @@
 
 json.labels(@chart_dates.map.with_index do |date, index|
   format = (index % 7).zero? ? '%a %-d. %B' : '%a %-d.'
-  l(date, format: format)
+  l(date, format:)
 end)
 
 json.datasets @chart_datasets do |order_type, data|

@@ -6,7 +6,7 @@ module Api
       class TransactionsController < BaseController
         def index
           render json: {
-            products: products,
+            products:,
             billings: transactions,
             balance: billing_account.balance
           }
@@ -45,7 +45,7 @@ module Api
             .map do |item_id, number|
             {
               name: ::Ticketing::BoxOffice::Product.find(item_id).name,
-              number: number
+              number:
             }
           end
         end

@@ -5,7 +5,7 @@ module Ticketing
     attr_accessor :updated_tickets
 
     def initialize(tickets, new_date_id:, order_id:, socket_id:, current_user:)
-      super(tickets, current_user: current_user)
+      super(tickets, current_user:)
       @new_date_id = new_date_id
       @order_id = order_id
       @socket_id = socket_id

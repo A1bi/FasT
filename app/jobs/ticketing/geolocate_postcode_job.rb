@@ -3,7 +3,7 @@
 module Ticketing
   class GeolocatePostcodeJob < ApplicationJob
     def perform(postcode)
-      return if postcode.blank? || Geolocation.where(postcode: postcode).any?
+      return if postcode.blank? || Geolocation.where(postcode:).any?
 
       location = Nominatim.cities_and_districts_for_postcode(postcode)
       return if location.blank?

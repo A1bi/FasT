@@ -18,22 +18,20 @@ RSpec.describe Ticketing::CouponRedeemService do
 
   context 'with a free tickets coupon' do
     let!(:tickets) do
-      type = create(:ticket_type, event: event, price: 1000)
-      type2 = create(:ticket_type, event: event, price: 999)
+      type = create(:ticket_type, event:, price: 1000)
+      type2 = create(:ticket_type, event:, price: 999)
       event.ticket_types += [type, type2]
 
-      ticket = build(:ticket, order: order, date: date, type: type)
-      ticket2 = build(:ticket, order: order, date: date, type: type2)
+      ticket = build(:ticket, order:, date:, type:)
+      ticket2 = build(:ticket, order:, date:, type: type2)
 
       # mix expensive tickets with cheaper tickets
       order.tickets = [
-        build(:ticket, order: order, date: date,
-                       type: event.ticket_types.first),
+        build(:ticket, order:, date:, type: event.ticket_types.first),
         ticket,
-        build(:ticket, order: order, date: date,
-                       type: event.ticket_types.first),
+        build(:ticket, order:, date:, type: event.ticket_types.first),
         ticket2,
-        build(:ticket, order: order, date: date, type: event.ticket_types.first)
+        build(:ticket, order:, date:, type: event.ticket_types.first)
       ]
 
       [ticket, ticket2]
@@ -53,7 +51,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
     context 'when free ticket type exists' do
       let!(:free_ticket_type) do
-        type = create(:ticket_type, :free, event: event)
+        type = create(:ticket_type, :free, event:)
         event.ticket_types << type
         type
       end
@@ -81,8 +79,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
         context 'when more free tickets than ordered tickets are available' do
           let(:tickets) do
-            order.tickets = [build(:ticket, order: order, date: date,
-                                            type: event.ticket_types.first)]
+            order.tickets = [build(:ticket, order:, date:, type: event.ticket_types.first)]
           end
 
           it 'decreases the remaining free tickets' do
@@ -218,15 +215,13 @@ RSpec.describe Ticketing::CouponRedeemService do
     end
 
     before do
-      type = create(:ticket_type, event: event, price: 10)
-      type2 = create(:ticket_type, event: event, price: 20)
-      type3 = create(:ticket_type, :free, event: event)
+      type = create(:ticket_type, event:, price: 10)
+      type2 = create(:ticket_type, event:, price: 20)
+      type3 = create(:ticket_type, :free, event:)
       event.ticket_types += [type, type2, type3]
 
-      order.tickets += build_list(:ticket, 2, order: order, date: date,
-                                              type: type)
-      order.tickets += build_list(:ticket, 2, order: order, date: date,
-                                              type: type2)
+      order.tickets += build_list(:ticket, 2, order:, date:, type:)
+      order.tickets += build_list(:ticket, 2, order:, date:, type: type2)
 
       order.billing_account.balance = -20
     end

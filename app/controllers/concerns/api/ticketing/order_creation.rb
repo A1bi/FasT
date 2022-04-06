@@ -10,7 +10,7 @@ module Api
       def create_order(box_office: nil)
         ::Ticketing::OrderCreateService.new(
           order_params,
-          current_user: current_user,
+          current_user:,
           current_box_office: box_office
         ).execute
       end

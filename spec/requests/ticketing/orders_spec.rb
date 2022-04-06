@@ -10,7 +10,7 @@ RSpec.describe 'Ticketing::OrdersController' do
   before { sign_in(admin: true) }
 
   describe 'PATCH #update' do
-    subject { patch ticketing_order_path(order), params: params }
+    subject { patch ticketing_order_path(order), params: }
 
     let(:params) { { ticketing_order: { foo: :bar } } }
 
@@ -23,7 +23,7 @@ RSpec.describe 'Ticketing::OrdersController' do
     it 'resends a confirmation' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
-        .with(a_hash_including(params: { order: order }))
+        .with(a_hash_including(params: { order: }))
     end
 
     include_examples 'creates a log event', :resent_confirmation
@@ -35,7 +35,7 @@ RSpec.describe 'Ticketing::OrdersController' do
     it 'resends an email with the purchased items' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, :resend_items)
-        .with(a_hash_including(params: { order: order }))
+        .with(a_hash_including(params: { order: }))
     end
 
     include_examples 'creates a log event', :resent_items

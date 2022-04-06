@@ -5,7 +5,7 @@ RSpec.describe Ticketing::EventDate do
     subject { date.admission_time }
 
     let(:event) { build(:event, admission_duration: 42) }
-    let(:date) { build(:event_date, event: event, date: Time.zone.parse('2021-06-22 20:00')) }
+    let(:date) { build(:event_date, event:, date: Time.zone.parse('2021-06-22 20:00')) }
 
     it { is_expected.to eq(Time.zone.parse('2021-06-22 19:18')) }
   end
@@ -13,9 +13,9 @@ RSpec.describe Ticketing::EventDate do
   describe '#covid19_check_in_url' do
     subject { date.covid19_check_in_url }
 
-    let(:event) { create(:event, covid19: covid19, admission_duration: 33) }
+    let(:event) { create(:event, covid19:, admission_duration: 33) }
     let(:date) do
-      create(:event_date, event: event, date: Time.zone.parse('2021-05-12 20:00'),
+      create(:event_date, event:, date: Time.zone.parse('2021-05-12 20:00'),
                           covid19_check_in_url: check_in_url)
     end
     let(:check_in_url) { nil }

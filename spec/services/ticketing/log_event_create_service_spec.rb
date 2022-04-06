@@ -95,12 +95,12 @@ RSpec.describe Ticketing::LogEventCreateService do
   end
 
   describe '#cancel_tickets' do
-    subject { service.cancel_tickets(order.tickets, reason: reason) }
+    subject { service.cancel_tickets(order.tickets, reason:) }
 
     let(:reason) { 'foooo' }
 
     include_examples 'creates a log event', :cancelled_tickets do
-      let(:info) { { count: order.tickets.count, reason: reason } }
+      let(:info) { { count: order.tickets.count, reason: } }
     end
   end
 

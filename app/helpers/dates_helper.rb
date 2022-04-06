@@ -6,7 +6,7 @@ module DatesHelper
     locals[:image] = "theater/#{event.identifier}/title.svg"
 
     tag.script type: 'application/ld+json' do
-      raw render(partial: 'dates/structured_data', formats: :json, locals: locals) # rubocop:disable Rails/OutputSafety
+      raw render(partial: 'dates/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety
     end
   end
 

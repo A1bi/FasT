@@ -14,7 +14,7 @@ namespace :roundcube do
     client = Mysql2::Client.new(
       host: 'fd00::1',
       username: 'roundcube',
-      password: password,
+      password:,
       database: 'roundcube'
     )
 

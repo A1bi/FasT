@@ -56,16 +56,16 @@ module Ticketing
         member = Members::Member.find(params[:member][:id])
         recipient = member.name.full
         email = member.email
-        @coupon.update(recipient: recipient) if params[:member_is_recipient].present?
+        @coupon.update(recipient:) if params[:member_is_recipient].present?
       end
 
       Ticketing::CouponsMailer.coupon(@coupon,
-                                      email: email,
-                                      recipient: recipient,
+                                      email:,
+                                      recipient:,
                                       subject: params[:subject],
                                       body: params[:text]).deliver_later
 
-      log_service.send(email: email, recipient: recipient)
+      log_service.send(email:, recipient:)
 
       redirect_to @coupon, notice: t('.sent')
     end
@@ -81,7 +81,7 @@ module Ticketing
     end
 
     def log_service
-      @log_service ||= LogEventCreateService.new(@coupon, current_user: current_user)
+      @log_service ||= LogEventCreateService.new(@coupon, current_user:)
     end
 
     def coupon_params

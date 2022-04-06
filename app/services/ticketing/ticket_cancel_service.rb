@@ -3,7 +3,7 @@
 module Ticketing
   class TicketCancelService < TicketBaseService
     def initialize(tickets, reason:, current_user: nil)
-      super(tickets, current_user: current_user)
+      super(tickets, current_user:)
       @reason = reason
     end
 
@@ -35,8 +35,7 @@ module Ticketing
     end
 
     def send_email(order)
-      OrderMailer.with(order: order, reason: @reason.to_s)
-                 .cancellation.deliver_later
+      OrderMailer.with(order:, reason: @reason.to_s).cancellation.deliver_later
     end
   end
 end

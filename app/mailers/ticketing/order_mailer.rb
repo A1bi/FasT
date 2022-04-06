@@ -47,7 +47,7 @@ module Ticketing
         subject = t("ticketing.order_mailer.item_subjects.#{item_type}")
       end
 
-      super subject: subject
+      super subject:
     end
 
     def prepare_tickets

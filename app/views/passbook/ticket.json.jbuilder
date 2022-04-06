@@ -29,7 +29,7 @@ json.merge!(
       longitude: ticket.event.location.coordinates.y
     }
   ],
-  barcode: barcode,
+  barcode:,
   barcodes: [barcode]
 )
 

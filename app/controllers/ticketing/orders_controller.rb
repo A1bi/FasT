@@ -46,7 +46,7 @@ module Ticketing
         (s[reservation.date_id] ||= []) << reservation.seat_id
       end
 
-      NodeApi.seating_request('setExclusiveSeats', { seats: seats }, params[:socket_id])
+      NodeApi.seating_request('setExclusiveSeats', { seats: }, params[:socket_id])
 
       render json: { seats: true }
     end
@@ -222,7 +222,7 @@ module Ticketing
     end
 
     def order_payment_service
-      OrderPaymentService.new(@order, current_user: current_user)
+      OrderPaymentService.new(@order, current_user:)
     end
 
     def order_mailer
@@ -230,7 +230,7 @@ module Ticketing
     end
 
     def log_service
-      @log_service ||= LogEventCreateService.new(@order, current_user: current_user)
+      @log_service ||= LogEventCreateService.new(@order, current_user:)
     end
 
     def update_order_params

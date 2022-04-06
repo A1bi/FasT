@@ -40,12 +40,12 @@ module Ticketing
       "#{key}_#{record ? record.id : 'default'}"
     end
 
-    def create_stamp(key, record, &block)
+    def create_stamp(key, record, &)
       if (@stamps[key] ||= {})[record].nil?
         outer_start = y
         float do
           start = cursor
-          super(stamp_name(key, record), &block)
+          super(stamp_name(key, record), &)
           height = start - cursor
 
           @stamps[key][record] = [outer_start, height]
@@ -55,8 +55,8 @@ module Ticketing
       @stamps[key][record]
     end
 
-    def draw_stamp(key, record, offset, &block)
-      start, height = create_stamp(key, record, &block)
+    def draw_stamp(key, record, offset, &)
+      start, height = create_stamp(key, record, &)
       stamp_at(stamp_name(key, record), [0, offset ? y - start : 0])
       move_down height
     end

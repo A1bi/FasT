@@ -5,10 +5,10 @@ require_shared_examples 'ticketing/loggable'
 RSpec.describe Ticketing::OrderCreateService do
   subject { service.execute }
 
-  let(:service) { described_class.new(params, current_user: current_user) }
+  let(:service) { described_class.new(params, current_user:) }
   let(:params) do
     {
-      type: type,
+      type:,
       order: order_params
     }
   end
@@ -20,7 +20,7 @@ RSpec.describe Ticketing::OrderCreateService do
     }
   end
   let(:event) { create(:event, :complete) }
-  let!(:free_ticket_type) { create(:ticket_type, :free, event: event) }
+  let!(:free_ticket_type) { create(:ticket_type, :free, event:) }
   let(:date_id) { event.dates.first.id }
   let(:ticket_params) { { event.ticket_types[0].id => 2 } }
   let(:coupons) do
@@ -34,7 +34,7 @@ RSpec.describe Ticketing::OrderCreateService do
     let(:type) { :web }
     let(:order_params) do
       super().merge(
-        address: address,
+        address:,
         payment: {
           method: :transfer
         }
@@ -92,7 +92,7 @@ RSpec.describe Ticketing::OrderCreateService do
   context 'with a retail order' do
     let(:type) { :retail }
     let(:store) { create(:retail_store) }
-    let(:current_user) { create(:retail_user, store: store) }
+    let(:current_user) { create(:retail_user, store:) }
 
     before do
       pdf = double.as_null_object

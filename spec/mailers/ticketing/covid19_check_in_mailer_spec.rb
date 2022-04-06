@@ -15,7 +15,7 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
     end
 
     context 'with a web order' do
-      let(:order) { create(:web_order, :with_tickets, event: event) }
+      let(:order) { create(:web_order, :with_tickets, event:) }
       let(:check_in_url) { 'https://foobar.com' }
 
       before do
@@ -43,7 +43,7 @@ RSpec.describe Ticketing::Covid19CheckInMailer do
     end
 
     context 'without a web order' do
-      let(:order) { create(:retail_order, :with_tickets, event: event) }
+      let(:order) { create(:retail_order, :with_tickets, event:) }
 
       before do
         stub_const('Ticketing::TicketsRetailPdf', double.as_null_object)

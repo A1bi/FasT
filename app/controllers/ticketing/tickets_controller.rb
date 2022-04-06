@@ -40,7 +40,7 @@ module Ticketing
                                   new_date_id: params[:date_id],
                                   order_id: params[:order_id],
                                   socket_id: params[:socket_id],
-                                  current_user: current_user)
+                                  current_user:)
 
       return :unprocessable_entity unless ticket_transfer_service.execute
 
@@ -86,17 +86,17 @@ module Ticketing
     end
 
     def cancel_tickets
-      TicketCancelService.new(@tickets, reason: params[:reason], current_user: current_user).execute
+      TicketCancelService.new(@tickets, reason: params[:reason], current_user:).execute
     end
 
     def refund_in_retail_store
       return unless params[:refund]
 
-      OrderPaymentService.new(@order, current_user: current_user).refund_in_retail_store
+      OrderPaymentService.new(@order, current_user:).refund_in_retail_store
     end
 
     def update_tickets(params)
-      TicketUpdateService.new(@tickets, params: params, current_user: current_user).execute
+      TicketUpdateService.new(@tickets, params:, current_user:).execute
     end
 
     def node_seats

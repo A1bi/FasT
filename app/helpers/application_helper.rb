@@ -78,7 +78,7 @@ module ApplicationHelper
   private
 
   def event_identifier_path(identifier, path_method)
-    event = Ticketing::Event.find_by(identifier: identifier)
+    event = Ticketing::Event.find_by(identifier:)
     event.present? ? method(path_method).call(event.slug) : nil
   end
 end
