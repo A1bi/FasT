@@ -4,7 +4,7 @@ module Ticketing
   class BadgeResetPushNotificationsJob < ApplicationJob
     def perform
       devices.find_each do |device|
-        device.push(notification_data)
+        device.push(badge: 0)
       end
     end
 
@@ -12,10 +12,6 @@ module Ticketing
 
     def devices
       Ticketing::PushNotifications::Device.where(app: :stats)
-    end
-
-    def notification_data
-      { badge: 0 }
     end
   end
 end

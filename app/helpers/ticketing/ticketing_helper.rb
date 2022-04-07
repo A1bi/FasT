@@ -34,7 +34,7 @@ module Ticketing
       options[:scope] = [:activerecord, :attributes,
                          event.model_name.i18n_key, :actions,
                          event.loggable.class.base_class.model_name.i18n_key]
-      t(event.action, options)
+      t(event.action, **options)
     end
 
     def translate_billing_transaction(transaction)

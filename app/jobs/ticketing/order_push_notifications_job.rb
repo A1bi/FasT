@@ -7,7 +7,7 @@ module Ticketing
       @admin = admin
 
       devices.find_each do |device|
-        device.push(notification_data)
+        device.push(title:, body:, badge: badge_number, sound: 'cash.aif')
       end
     end
 
@@ -15,15 +15,6 @@ module Ticketing
 
     def devices
       Ticketing::PushNotifications::Device.where(app: :stats)
-    end
-
-    def notification_data
-      {
-        title:,
-        body:,
-        badge: badge_number,
-        sound: 'cash.aif'
-      }
     end
 
     def title
