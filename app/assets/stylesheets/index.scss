@@ -81,7 +81,7 @@
   }
 }
 
-.partner {
+.partners {
   margin: 30px 10px 0px 10px;
   text-align: center;
 
@@ -100,11 +100,15 @@
 
     li {
       display: inline;
-      margin: 0 15px;
 
       img {
         height: 80px;
         max-width: 250px;
+        margin: 10px 15px;
+      }
+
+      &.small img {
+        max-width: 150px;
       }
     }
   }
