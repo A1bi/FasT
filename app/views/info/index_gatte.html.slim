@@ -1,24 +1,10 @@
 = render 'top'
 
 .section
-  h2 COVID-19
-
-  = render 'question_answer', question: 'Welche Hygienemaßnahmen werden getroffen?' do
-    ul
-      li Die Sitzplätze sind im Schachbrettmuster angeordnet, um genügend Abstand zwischen ihnen zu gewährleisten.
-      li Es gilt eine allgemeine Maskenpflicht. <b>Die Masken müssen getragen werden, bis Sie Ihren Platz eingenommen haben.</b>
-      li Gästen mit Symptomen einer Atemwegsinfektion wird der Zugang verwehrt.
-      li Ein negativer Coronatest oder Nachweis der vollständigen Impfung ist <b>nicht erforderlich</b>.
-      li Wir empfehlen Ihnen die Installation der <a href='https://www.coronawarn.app/' target='_blank'>Corona-Warn-App</a> auf Ihrem Smartphone. Vor Ort finden Sie auch einen QR-Code, um die Check-In-Funktion der App zu nutzen, sofern Sie dies möchten.
-
-  = render 'question_answer', question: 'Ist es möglich, Getränke oder Speisen selbst mitzubringen?' do
-    | Dies können wir Ihnen leider nicht gestatten.
-
-.section
   h2 Vorverkauf
 
   = render 'question_answer', question: 'Wo erhalte ich Tickets?' do
-    | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen. Ein Kauf in Vorverkaufsstellen ist in diesem Jahr nicht möglich.
+    | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen.
 
   = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
     | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
@@ -81,14 +67,14 @@
   / = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
   /   | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
 
-  = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
-    | Es wird ein kleines Angebot an Getränken geben: Bier und Radler (beides auch in der alkoholfreien Variante) sowie Wasser. Speisen werden in diesem Jahr nicht verkauft.
+  / = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+  /   | Es wird ein kleines Angebot an Getränken geben: Bier und Radler (beides auch in der alkoholfreien Variante) sowie Wasser. Speisen werden in diesem Jahr nicht verkauft.
 
-  = render 'question_answer', question: 'Wird es eine Pause geben?' do
-    | Es wird keine Pause geben.
+  / = render 'question_answer', question: 'Wird es eine Pause geben?' do
+  /   | Es wird keine Pause geben.
 
-  = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
-    | Die Aufführung dauert etwa 110 Minuten.
+  / = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
+  /   | Die Aufführung dauert etwa 110 Minuten.
 
   = render 'question_answer', question: 'Kann ich während der Aufführung fotografieren oder filmen?' do
     | Leider können wir Ihnen dies nicht gestatten.

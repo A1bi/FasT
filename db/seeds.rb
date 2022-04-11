@@ -100,7 +100,7 @@ seatings << Ticketing::SeatingSvg::Importer.new(
 ## events
 event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
                alice_wunderland magdalena willibald sommernachtstraum herdmanns
-               gemetzel gloeckner blauer_planet mit_abstand frau_mueller abba]
+               gemetzel gloeckner blauer_planet mit_abstand frau_mueller abba gatte]
 
 event_ids.each.with_index do |event_id, i|
   event = Ticketing::Event.new(

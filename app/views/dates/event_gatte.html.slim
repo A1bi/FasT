@@ -1,0 +1,12 @@
+- title "#{@event.name} – Termine"
+- include_css 'dates'
+
+= structured_data @event
+= render 'other_events'
+
+.gatte
+  p Unser <b>Sommernachtstheater 2022 „Ein idealer Gatte“</b> wird auf der Freilichtbühne im Historischen Ortskern von Kaisersesch an folgenden Tagen aufgeführt:
+
+  = render 'dates'
+  = render 'prices'
+  = render 'order_link' if @event.on_sale?

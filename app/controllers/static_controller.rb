@@ -2,11 +2,14 @@
 
 class StaticController < ApplicationController
   ALERT_FILE_PATH = Rails.root.join('public/uploads/index_alert.json')
+  FEATURED_EVENTS = %i[gatte abba].freeze
 
   skip_authorization
 
   def index
-    @events = Ticketing::Event.where(identifier: %i[abba])
+    @events =
+      Ticketing::Event.where(identifier: FEATURED_EVENTS)
+                      .order(Arel.sql("position(identifier in '#{FEATURED_EVENTS.join(',')}')"))
   end
 
   private
