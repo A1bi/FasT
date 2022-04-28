@@ -32,7 +32,7 @@ RSpec.describe Ticketing::EventDate do
 
       context 'when check-in URL has not been generated and saved yet' do
         before do
-          check_in = instance_double('CoronaPresenceTracing::CWACheckIn', url: 'https://barfoo')
+          check_in = instance_double(CoronaPresenceTracing::CWACheckIn, url: 'https://barfoo')
           allow(CoronaPresenceTracing::CWACheckIn).to receive(:new).and_return(check_in)
         end
 

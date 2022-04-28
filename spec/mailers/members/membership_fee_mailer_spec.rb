@@ -13,8 +13,7 @@ RSpec.describe Members::MembershipFeeMailer do
     let(:xml_content) { 'foo' }
 
     before do
-      xml_service = instance_double('Members::MembershipFeeDebitSepaXmlService',
-                                    xml: xml_content)
+      xml_service = instance_double(Members::MembershipFeeDebitSepaXmlService, xml: xml_content)
       allow(Members::MembershipFeeDebitSepaXmlService)
         .to receive(:new).with(submission:).and_return(xml_service)
     end
