@@ -23,7 +23,7 @@ gem 'rubyzip', '~> 2.0'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sentry-sidekiq'
-gem 'sepa_king', '~> 0.12.0'
+gem 'sepa_king', '~> 0.13.0'
 gem 'simpleidn', '~> 0.2.1'
 gem 'whenever', require: false
 
