@@ -54,7 +54,7 @@ module Ticketing
 
     def translate(key, options = {})
       options[:scope] = %i[ticketing payments submissions]
-      I18n.t(key, options)
+      I18n.t(key, **options)
     end
   end
 end
