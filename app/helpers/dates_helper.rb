@@ -3,7 +3,7 @@
 module DatesHelper
   def structured_data(event, locals = {})
     locals[:event] = event
-    locals[:image] = "theater/#{event.identifier}/title.svg"
+    locals[:image] = "theater/#{event.assets_identifier}/title.svg"
 
     tag.script type: 'application/ld+json' do
       raw render(partial: 'dates/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety

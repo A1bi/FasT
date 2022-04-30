@@ -100,7 +100,7 @@ seatings << Ticketing::SeatingSvg::Importer.new(
 ## events
 event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
                alice_wunderland magdalena willibald sommernachtstraum herdmanns
-               gemetzel gloeckner blauer_planet mit_abstand frau_mueller abba gatte]
+               gloeckner blauer_planet mit_abstand frau_mueller abba gatte gemetzel]
 
 event_ids.each.with_index do |event_id, i|
   event = Ticketing::Event.new(
@@ -115,8 +115,8 @@ event_ids.each.with_index do |event_id, i|
 
   event.covid19 = true if i == event_ids.count - 1
 
-  # two most recent events will be the future
-  if i > event_ids.count - 3
+  # three most recent events will be the future
+  if i > event_ids.count - 4
     event_date_base = (event_ids.count - i).months.from_now
   # older events will be in the past
   else

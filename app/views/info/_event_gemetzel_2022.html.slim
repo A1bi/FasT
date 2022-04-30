@@ -1,13 +1,8 @@
-= render 'top'
-
 .section
   h2 Vorverkauf
 
   = question_answer 'Wo erhalte ich Tickets?' do
-    | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
-    ul
-      li Buchhandlung Walgenbach, Kaisersesch
-      li Buchhandlung Layaa-Laulhé, Cochem
+    | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen.
 
   = question_answer 'Gibt es Platzreservierungen?' do
     | Bei diesem Stück wird es keine Platzreservierung geben.
@@ -23,8 +18,8 @@
     p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.
 
   = question_answer 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
-    | Ja, das ist kein Problem. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
-    p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to "Wallet Passes", "https://play.google.com/store/apps/details?id=io.walletpasses.android", target: "_blank"}“ möglich.
+    | Selbstverständlich. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+    p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
 
   = question_answer 'Lassen sich Tickets umbuchen oder stornieren?' do
     p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
@@ -34,7 +29,7 @@
 .section
   h2 Anfahrt
 
-  = render 'map'
+  = render 'info/map'
 
   = question_answer 'Wo finde ich das „Alte Wasserwerk“?' do
     | Unsere kleine Bühne im „Alten Wasserwerk“ finden Sie unter der Adresse „Auf der Wacht 9“ in Kaisersesch.
@@ -55,4 +50,4 @@
   = question_answer 'Gibt es ein Rauchverbot?' do
     | Rauchen innerhalb des Gebäudes können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.
 
-= render 'further_questions'
+= render 'info/further_questions'

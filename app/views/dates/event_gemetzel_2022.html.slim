@@ -1,0 +1,15 @@
+- title "#{@event.name} – Termine"
+- include_css 'dates'
+- include_css 'info'
+
+= structured_data @event
+= render 'other_events'
+
+.gemetzel
+  p Unser Kammerensemble führt <b>„Der Gott des Gemetzels“</b> auf der kleinen Bühne „Altes Wasserwerk“ (Auf der Wacht 9, Kaisersesch) an folgenden Tagen auf:
+
+  = render 'dates'
+  = render 'prices'
+  = render 'order_link' if @event.on_sale?
+  = render 'faq'
+  = render 'restaurants'
