@@ -1,5 +1,3 @@
-= render 'top'
-
 .section
   h2 COVID-19
 
@@ -45,7 +43,7 @@
 .section
   h2 Anfahrt
 
-  = render 'map'
+  = render 'info/map'
 
   = question_answer 'Wo finde ich die Sporthalle?' do
     | Die Sporthalle in Kaisersesch ist über den Schwalbenweg zu erreichen. In dieser Straße befinden sich einige Parkmöglichkeiten.
@@ -77,4 +75,4 @@
   = question_answer 'Gibt es ein Rauchverbot?' do
     | Rauchen innerhalb der Sporthalle ist nicht gestatten.
 
-= render 'further_questions'
+= render 'info/further_questions'

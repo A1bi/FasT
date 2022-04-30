@@ -1,5 +1,6 @@
 - title "#{@event.name} – Termine"
 - include_css 'dates'
+- include_css 'info'
 
 = structured_data @event
 = render 'other_events'
@@ -10,3 +11,5 @@
   = render 'dates'
   = render 'prices'
   = render 'order_link' if @event.on_sale?
+  = render 'faq'
+  = render 'restaurants'

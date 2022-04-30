@@ -3,6 +3,8 @@
 class DatesController < ApplicationController
   skip_authorization
 
+  helper :info
+
   def index
     event = Ticketing::Event.with_future_dates.last || Ticketing::Event.last
     redirect_to dates_event_path(event.slug)

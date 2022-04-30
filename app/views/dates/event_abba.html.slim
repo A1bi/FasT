@@ -1,5 +1,6 @@
 - title 'One Night with ABBA – Termine'
 - include_css 'dates'
+- include_css 'info'
 
 = structured_data @event, event_type: 'MusicEvent'
 = render 'other_events'
@@ -10,11 +11,5 @@
   = render 'dates'
   = render 'prices'
   = render 'order_link' if @event.on_sale?
-
-  .trenner
-  .hotline
-    .hl Informationen zu COVID-19
-    p <b>Bei dieser Veranstaltung gilt die 2G-Regelung.</b> Weitere Informationen hierzu und zu anderen Themen finden Sie in unseren #{link_to "häufig gestellten Fragen", info_path(@event.slug)} oder rufen Sie uns an: <b>(02653) 28 27 09</b>
-
-  = render 'questions'
+  = render 'faq'
   = render 'restaurants', event_type: 'Konzert'
