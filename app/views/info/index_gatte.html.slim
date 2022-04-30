@@ -3,27 +3,27 @@
 .section
   h2 Vorverkauf
 
-  = render 'question_answer', question: 'Wo erhalte ich Tickets?' do
+  = question_answer 'Wo erhalte ich Tickets?' do
     | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen.
 
-  = render 'question_answer', question: 'Gibt es Platzreservierungen?' do
+  = question_answer 'Gibt es Platzreservierungen?' do
     | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
 
-  = render 'question_answer', question: 'Gibt es gehbehindertengerechte Sitzplätze?' do
+  = question_answer 'Gibt es gehbehindertengerechte Sitzplätze?' do
     | Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.
 
-  = render 'question_answer', question: 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
+  = question_answer 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
     | Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
 
-  = render 'question_answer', question: 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
+  = question_answer 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
     | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
     p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Aufführung bei der Einlasskontrolle vorzuzeigen.
 
-  = render 'question_answer', question: 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
+  = question_answer 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
     | Selbstverständlich. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
     p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
 
-  = render 'question_answer', question: 'Lassen sich Tickets umbuchen oder stornieren?' do
+  = question_answer 'Lassen sich Tickets umbuchen oder stornieren?' do
     p Sitzplätze lassen sich jederzeit umbuchen.
     p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
     p In beiden Fällen kontaktieren Sie uns bitte telefonisch: <b>(02653) 28 27 09</b>. In Zukunft werden wir den Umbuchungsservice auch online anbieten.
@@ -35,15 +35,15 @@
 
   = render 'map'
 
-  = render 'question_answer', question: 'Wo finde ich die Freilichtbühne?' do
+  = question_answer 'Wo finde ich die Freilichtbühne?' do
     | Unser Freilichttheater findet im Historischen Ortskern von Kaisersesch statt. Dieser befindet sich in der Burgstraße, direkt an der Hauptstraße, bzw. neben der Kirche.
     p Im Ort sollte Ihnen unser namensgebender Kirchturm eine gute Orientierungshilfe sein.
 
-  = render 'question_answer', question: 'Wie reise ich mit dem Auto an?' do
+  = question_answer 'Wie reise ich mit dem Auto an?' do
     | Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgen der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
     p Weitere Parkmöglichkeiten sind in der obigen Karte markiert.
 
-  = render 'question_answer', question: 'Wie reise ich mit öffentlichen Verkehrsmitteln an?' do
+  = question_answer 'Wie reise ich mit öffentlichen Verkehrsmitteln an?' do
     | Möchten Sie mit der Bahn anreisen, fahren Sie von Andernach kommend mit der Regionalbahn der DB Regio bis zum Bahnhof Kaisersesch. Von dort folgen Sie der Bahnhofstraße abwärts in den Ort bis zum Zentralplatz (Sparkasse).
     p Mit dem Bus fahren Sie bis zum Balduinplatz.
 
@@ -52,11 +52,11 @@
 .section
   h2 Wetter
 
-  = render 'question_answer', question: 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
+  = question_answer 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
     | Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Aufführung schon im Vorfeld absagen oder in der ersten Hälfte des Stücks abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
     p Bitte prüfen Sie an Aufführungstagen mit schlechtem Wetter unsere Homepage, die wir laufend mit aktuellen Informationen versorgen werden.
 
-  = render 'question_answer', question: 'Sind die Zuschauerränge überdacht?' do
+  = question_answer 'Sind die Zuschauerränge überdacht?' do
     | Leider nicht. Wir bitten Sie daher, gegebenenfalls an wetterfeste Kleidung zu denken. Gerne erhalten Sie vor Ort aber auch Regenponchos.
 
 .trenner
@@ -64,25 +64,25 @@
 .section
   h2 Aufführung
 
-  / = render 'question_answer', question: 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
+  / = question_answer 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
   /   | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
 
-  / = render 'question_answer', question: 'Werden vor Ort Speisen und Getränke angeboten?' do
+  / = question_answer 'Werden vor Ort Speisen und Getränke angeboten?' do
   /   | Es wird ein kleines Angebot an Getränken geben: Bier und Radler (beides auch in der alkoholfreien Variante) sowie Wasser. Speisen werden in diesem Jahr nicht verkauft.
 
-  / = render 'question_answer', question: 'Wird es eine Pause geben?' do
+  / = question_answer 'Wird es eine Pause geben?' do
   /   | Es wird keine Pause geben.
 
-  / = render 'question_answer', question: 'Wie lange dauert die Aufführung?' do
+  / = question_answer 'Wie lange dauert die Aufführung?' do
   /   | Die Aufführung dauert etwa 110 Minuten.
 
-  = render 'question_answer', question: 'Kann ich während der Aufführung fotografieren oder filmen?' do
+  = question_answer 'Kann ich während der Aufführung fotografieren oder filmen?' do
     | Leider können wir Ihnen dies nicht gestatten.
 
-  = render 'question_answer', question: 'Gibt es ein Rauchverbot?' do
+  = question_answer 'Gibt es ein Rauchverbot?' do
     | Rauchen ist während der Aufführung nicht gestattet.
 
-  = render 'question_answer', question: 'Werden Sitzkissen zur Ausleihe gestellt?' do
+  = question_answer 'Werden Sitzkissen zur Ausleihe gestellt?' do
     | Leider stehen keine Sitzkissen zur Ausleihe zur Verfügung. Gerne können Sie sich eigene Kissen mitbringen.
 
 = render 'further_questions'
