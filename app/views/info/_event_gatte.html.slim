@@ -2,7 +2,10 @@
   h2 Vorverkauf
 
   = question_answer 'Wo erhalte ich Tickets?' do
-    | Tickets können Sie bequem von zu Hause aus #{link_to "online", new_ticketing_order_path} bestellen.
+    | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
+    ul
+      li: a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
+      li: a href='http://layaa.de' Buchhandlung Layaa-Laulhé, Cochem
 
   = question_answer 'Gibt es Platzreservierungen?' do
     | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
@@ -56,17 +59,21 @@
 .section
   h2 Aufführung
 
-  / = question_answer 'Wird es einen Kartenverkauf an der Abendkasse geben?' do
-  /   | Nein, die Karten werden in diesem Jahr ausschließlich online verkauft.
+  = question_answer 'Ich habe Tickets kurzfristig abzugeben. Kann ich diese an der Abendkasse zurückgeben?'
+    | Ja, das ist möglich. Sofern wir einen neuen Besitzer für Ihre Tickets finden können, erhalten Sie den vollen Betrag zurück.
 
-  / = question_answer 'Werden vor Ort Speisen und Getränke angeboten?' do
-  /   | Es wird ein kleines Angebot an Getränken geben: Bier und Radler (beides auch in der alkoholfreien Variante) sowie Wasser. Speisen werden in diesem Jahr nicht verkauft.
+  = question_answer 'Kann ich an der Abendkasse mit EC- oder Kreditkarte bezahlen?'
+    | Ja, das ist möglich, gerne auch bei kleinen Beträgen. Kontaktlose Zahlungen akzeptieren wir ebenfalls.
+    p Bitte beachten Sie, dass die Essens- und Getränkestände hingegen nur Bargeld akzeptieren.
 
-  / = question_answer 'Wird es eine Pause geben?' do
-  /   | Es wird keine Pause geben.
+  = question_answer 'Werden vor Ort Speisen und Getränke angeboten?'
+    | Ja, an unseren Ständen bieten wir gepflegte Getränke und leckere Kleinigkeiten an.
 
-  / = question_answer 'Wie lange dauert die Aufführung?' do
-  /   | Die Aufführung dauert etwa 110 Minuten.
+  = question_answer 'Wird es eine Pause geben?' do
+    | Nach der ersten Hälfte des Stücks werden wir eine Pause von etwa 30 Minuten einlegen. In dieser Zeit sind unsere Essens- und Getränkestände für Sie geöffnet.
+
+  = question_answer 'Wie lange dauert die Aufführung?' do
+    | Die Aufführung dauert etwa 120 Minuten (exklusive Pause).
 
   = question_answer 'Kann ich während der Aufführung fotografieren oder filmen?' do
     | Leider können wir Ihnen dies nicht gestatten.
