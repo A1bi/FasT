@@ -49,7 +49,7 @@ module Ticketing
     end
 
     def requested_date
-      2.days.from_now.to_date
+      Date.tomorrow
     end
 
     def translate(key, options = {})
