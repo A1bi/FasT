@@ -34,11 +34,8 @@ module Ticketing
     private
 
     def set_order
-      return if (@order = params[:order]).is_a? Web::Order
-
       # prevent delivery and action processing if order is not a web order
-      self.perform_deliveries = false
-      self.response_body = :null
+      self.response_body = :null unless (@order = params[:order]).is_a? Web::Order
     end
 
     def mail(item_subject: false)
