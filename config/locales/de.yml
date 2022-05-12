@@ -222,7 +222,7 @@ de:
     creator: "www.theater-kaisersesch.de"
   tickets_pdf:
     title: "Tickets"
-    date_format: "%A, %-d. %B"
+    date_format: "%A, %-d. %B %Y"
     time_format: "%H:%M Uhr"
     ticket: "Ticket"
     order: "Bestellung"
