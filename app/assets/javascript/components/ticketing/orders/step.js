@@ -20,7 +20,7 @@ export default class {
     this.box.show()
     const props = { left: '0%' }
     if (animate) {
-      this.box.animate(props, this.didMoveIn)
+      this.box.animate(props, this.didMoveIn.bind(this))
     } else {
       this.box.css(props)
       this.didMoveIn()
