@@ -17,6 +17,13 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 
 --
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
 -- Name: coupon_value_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1048,7 +1055,8 @@ CREATE TABLE public.ticketing_box_office_products (
     name character varying,
     price double precision,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    vat_rate_id bigint NOT NULL
 );
 
 
@@ -1740,7 +1748,8 @@ CREATE TABLE public.ticketing_ticket_types (
     updated_at timestamp(6) without time zone NOT NULL,
     info character varying,
     availability public.ticketing_ticket_type_availability DEFAULT 'universal'::public.ticketing_ticket_type_availability,
-    event_id bigint
+    event_id bigint,
+    vat_rate_id bigint NOT NULL
 );
 
 
@@ -1801,6 +1810,37 @@ CREATE SEQUENCE public.ticketing_tickets_id_seq
 --
 
 ALTER SEQUENCE public.ticketing_tickets_id_seq OWNED BY public.ticketing_tickets.id;
+
+
+--
+-- Name: ticketing_vat_rates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_vat_rates (
+    id bigint NOT NULL,
+    rate numeric(3,1) NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_vat_rates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_vat_rates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_vat_rates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_vat_rates_id_seq OWNED BY public.ticketing_vat_rates.id;
 
 
 --
@@ -2194,6 +2234,13 @@ ALTER TABLE ONLY public.ticketing_ticket_types ALTER COLUMN id SET DEFAULT nextv
 --
 
 ALTER TABLE ONLY public.ticketing_tickets ALTER COLUMN id SET DEFAULT nextval('public.ticketing_tickets_id_seq'::regclass);
+
+
+--
+-- Name: ticketing_vat_rates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_vat_rates ALTER COLUMN id SET DEFAULT nextval('public.ticketing_vat_rates_id_seq'::regclass);
 
 
 --
@@ -2620,6 +2667,14 @@ ALTER TABLE ONLY public.ticketing_tickets
 
 
 --
+-- Name: ticketing_vat_rates ticketing_vat_rates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_vat_rates
+    ADD CONSTRAINT ticketing_vat_rates_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2814,6 +2869,13 @@ CREATE INDEX index_ticketing_blocks_on_seating_id ON public.ticketing_blocks USI
 --
 
 CREATE INDEX index_ticketing_box_office_order_payments_on_order_id ON public.ticketing_box_office_order_payments USING btree (order_id);
+
+
+--
+-- Name: index_ticketing_box_office_products_on_vat_rate_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_box_office_products_on_vat_rate_id ON public.ticketing_box_office_products USING btree (vat_rate_id);
 
 
 --
@@ -3069,6 +3131,13 @@ CREATE INDEX index_ticketing_ticket_types_on_event_id ON public.ticketing_ticket
 
 
 --
+-- Name: index_ticketing_ticket_types_on_vat_rate_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_ticket_types_on_vat_rate_id ON public.ticketing_ticket_types USING btree (vat_rate_id);
+
+
+--
 -- Name: index_ticketing_tickets_on_date_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3295,6 +3364,14 @@ ALTER TABLE ONLY public.ticketing_tickets
 
 
 --
+-- Name: ticketing_ticket_types fk_rails_355f204079; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_ticket_types
+    ADD CONSTRAINT fk_rails_355f204079 FOREIGN KEY (vat_rate_id) REFERENCES public.ticketing_vat_rates(id);
+
+
+--
 -- Name: members_exclusive_ticket_type_credits fk_rails_3e7429e082; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3324,6 +3401,14 @@ ALTER TABLE ONLY public.ticketing_billing_transactions
 
 ALTER TABLE ONLY public.members_membership_fee_payments
     ADD CONSTRAINT fk_rails_55946908e0 FOREIGN KEY (member_id) REFERENCES public.users(id);
+
+
+--
+-- Name: ticketing_box_office_products fk_rails_5a9a4ef390; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_box_office_products
+    ADD CONSTRAINT fk_rails_5a9a4ef390 FOREIGN KEY (vat_rate_id) REFERENCES public.ticketing_vat_rates(id);
 
 
 --
@@ -3699,6 +3784,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210628190951'),
 ('20210715171413'),
 ('20210730155259'),
-('20211229183000');
+('20211229183000'),
+('20220526150631');
 
 

@@ -4,6 +4,7 @@ module Ticketing
   class TicketType < ApplicationRecord
     has_many :tickets, foreign_key: :type_id, inverse_of: :type, dependent: :nullify
     belongs_to :event
+    belongs_to :vat_rate
     has_one :exclusive_ticket_type_credit,
             class_name: 'Members::ExclusiveTicketTypeCredit', dependent: :destroy
     has_many :exclusive_ticket_type_credit_spendings,

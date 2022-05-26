@@ -3,6 +3,7 @@
 module Ticketing
   module BoxOffice
     class Product < ApplicationRecord
+      belongs_to :vat_rate
     end
   end
 end
