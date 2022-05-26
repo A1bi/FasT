@@ -1052,8 +1052,8 @@ ALTER SEQUENCE public.ticketing_box_office_order_payments_id_seq OWNED BY public
 
 CREATE TABLE public.ticketing_box_office_products (
     id bigint NOT NULL,
-    name character varying,
-    price double precision,
+    name character varying NOT NULL,
+    price numeric(8,2) NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     vat_rate_id bigint NOT NULL
@@ -3785,6 +3785,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210715171413'),
 ('20210730155259'),
 ('20211229183000'),
-('20220526150631');
+('20220526150631'),
+('20220526162603');
 
 
