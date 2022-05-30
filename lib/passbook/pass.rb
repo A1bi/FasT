@@ -46,7 +46,7 @@ module Passbook
     end
 
     def create_pass_info
-      info = render_to_string(template: "passbook/#{@template}.json", locals: @template_locals)
+      info = render_to_string(template: "passbook/#{@template}", locals: @template_locals)
       write_json_file(info, 'pass.json')
     end
 
@@ -80,7 +80,7 @@ module Passbook
         OpenSSL::PKCS7::BINARY | OpenSSL::PKCS7::DETACHED
       )
 
-      File.write(path_in_working_dir('signature'), signature.to_der)
+      File.write(path_in_working_dir('signature'), signature.to_der.force_encoding('utf-8'))
     end
 
     def zip(path)
