@@ -971,7 +971,8 @@ CREATE TABLE public.ticketing_box_office_box_offices (
     id bigint NOT NULL,
     name character varying,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    tse_client_id character varying
 );
 
 
@@ -2830,6 +2831,13 @@ CREATE INDEX index_ticketing_blocks_on_seating_id ON public.ticketing_blocks USI
 
 
 --
+-- Name: index_ticketing_box_office_box_offices_on_tse_client_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_ticketing_box_office_box_offices_on_tse_client_id ON public.ticketing_box_office_box_offices USING btree (tse_client_id);
+
+
+--
 -- Name: index_ticketing_box_office_order_payments_on_order_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3722,6 +3730,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211229183000'),
 ('20220526150631'),
 ('20220526162603'),
+('20220530153820'),
 ('20220601123414');
 
 
