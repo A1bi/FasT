@@ -40,3 +40,7 @@ hide_it_recht_content: false
 
 covid19:
   presence_tracing_email: true
+
+tse:
+  host: tse.a0s.de
+  port: 10001
