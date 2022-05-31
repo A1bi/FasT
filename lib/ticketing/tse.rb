@@ -3,6 +3,7 @@
 module Ticketing
   class Tse
     class Error < StandardError; end
+    class NotConnectedError < Error; end
 
     class ResponseError < Error
       attr_reader :response
@@ -16,21 +17,12 @@ module Ticketing
     STX = [2].pack('C')
     ETX = [3].pack('C')
 
-    CONNECTION_POOL = ConnectionPool.new(size: 3) do
-      establish_connection
-    end
-
     class << self
-      def establish_connection
-        socket = TCPSocket.new Settings.tse.host, Settings.tse.port
-
-        ctx = OpenSSL::SSL::SSLContext.new
-        ctx.set_params(verify_mode: OpenSSL::SSL::VERIFY_PEER)
-
-        tls_socket = OpenSSL::SSL::SSLSocket.new(socket, ctx)
-        tls_socket.sync_close = true
-        tls_socket.connect
-        tls_socket
+      def connect(client_id)
+        tse = new(client_id)
+        tse.connect
+        yield tse
+        tse.disconnect
       end
     end
 
@@ -58,24 +50,40 @@ module Ticketing
       }
       payload[:ClientID] = @client_id unless params.key?(:ClientID)
 
-      response = nil
+      socket.puts STX + payload.to_json + ETX
 
-      CONNECTION_POOL.with do |socket|
-        socket.puts STX + payload.to_json + ETX
+      loop do
+        data = socket.gets
+        json = data[(data.index(STX) + 1)...data.index(ETX)] # faster than regex
+        response = JSON.parse(json, symbolize_names: true)
+        next unless response[:PingPong] == command_id
 
-        loop do
-          data = socket.gets
-          json = data[(data.index(STX) + 1)...data.index(ETX)] # faster than regex
-          response = JSON.parse(json, symbolize_names: true)
-          next unless response[:PingPong] == command_id
+        raise(ResponseError, response) unless response[:Status] == 'ok'
 
-          raise(ResponseError, response) unless response[:Status] == 'ok'
-
-          break
-        end
+        break response
       end
+    end
 
-      response
+    def connect
+      tcp_socket = TCPSocket.new Settings.tse.host, Settings.tse.port
+
+      ctx = OpenSSL::SSL::SSLContext.new
+      ctx.set_params(verify_mode: OpenSSL::SSL::VERIFY_PEER)
+
+      @socket = OpenSSL::SSL::SSLSocket.new(tcp_socket, ctx)
+      @socket.sync_close = true
+      @socket.connect
+    end
+
+    def disconnect
+      socket.close
+      @socket = nil
+    end
+
+    def socket
+      raise NotConnectedError if @socket.nil?
+
+      @socket
     end
 
     def password_for(role)
