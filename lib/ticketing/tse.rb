@@ -64,7 +64,9 @@ module Ticketing
         socket.puts STX + payload.to_json + ETX
 
         loop do
-          response = JSON.parse(socket.gets[1..-2], symbolize_names: true)
+          data = socket.gets
+          json = data[(data.index(STX) + 1)...data.index(ETX)] # faster than regex
+          response = JSON.parse(json, symbolize_names: true)
           next unless response[:PingPong] == command_id
 
           raise(ResponseError, response) unless response[:Status] == 'ok'

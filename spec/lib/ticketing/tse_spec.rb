@@ -52,7 +52,7 @@ RSpec.describe Ticketing::Tse do
     described_class::CONNECTION_POOL.reload { |_| } # no need to shut down the socket
 
     allow(tls_socket).to receive(:gets).and_return(
-      *responses.map { |res| described_class::STX + res.to_json + described_class::ETX }
+      *responses.map { |res| "#{described_class::STX}#{res.to_json}#{described_class::ETX} " }
     )
 
     allow(SecureRandom).to receive(:hex).and_return(command_id)
