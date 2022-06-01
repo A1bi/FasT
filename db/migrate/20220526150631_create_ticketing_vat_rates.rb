@@ -7,7 +7,7 @@ class CreateTicketingVatRates < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    insert <<-SQL.squish # rubocop:disable Rails/SkipsModelValidations
+    insert <<-SQL.squish
       INSERT INTO ticketing_vat_rates
                   (rate, created_at, updated_at)
       VALUES      (0, NOW(), NOW())

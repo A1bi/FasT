@@ -15,7 +15,7 @@ class CreateTicketingLocations < ActiveRecord::Migration[6.1]
 
     remove_column :ticketing_events, :location, :string
 
-    insert <<-SQL.squish # rubocop:disable Rails/SkipsModelValidations
+    insert <<-SQL.squish
       INSERT INTO ticketing_locations
                   (name, street, postcode, city, coordinates, created_at, updated_at)
       VALUES      ('Test', 'foo', '12345', 'foo', '(123, 123)', NOW(), NOW())

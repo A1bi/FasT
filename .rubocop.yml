@@ -59,6 +59,8 @@ Rails/RakeEnvironment:
 
 Rails/SkipsModelValidations:
   AllowedMethods: ['touch']
+  Exclude:
+    - 'db/migrate/*.rb'
 
 RSpec/ExampleLength:
   Max: 10

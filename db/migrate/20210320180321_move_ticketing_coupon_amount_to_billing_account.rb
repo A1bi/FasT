@@ -9,7 +9,7 @@ class MoveTicketingCouponAmountToBillingAccount < ActiveRecord::Migration[6.1]
         )
 
         coupons.each do |coupon|
-          account_id = insert <<-SQL.squish # rubocop:disable Rails/SkipsModelValidations
+          account_id = insert <<-SQL.squish
             INSERT INTO ticketing_billing_accounts
               (balance, billable_type, billable_id, created_at, updated_at)
             VALUES (#{coupon['amount']}, 'Ticketing::Coupon', #{coupon['id']},

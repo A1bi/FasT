@@ -6,7 +6,7 @@ class AddArchivedToTicketingEvents < ActiveRecord::Migration[6.0]
 
     reversible do |dir|
       dir.up do
-        Ticketing::Event.update_all(archived: true) # rubocop:disable Rails/SkipsModelValidations
+        Ticketing::Event.update_all(archived: true)
       end
     end
   end
