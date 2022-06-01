@@ -138,7 +138,10 @@ event_ids.each.with_index do |event_id, i|
       { name: 'Erwachsene', price: 12.5 },
       { name: 'Freikarte', price: 0, availability: :exclusive }
     ].each do |type|
-      event.ticket_types.build(type)
+      event.ticket_types.build(
+        **type,
+        vat_rate: :reduced
+      )
     end
   end
 

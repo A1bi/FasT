@@ -3,7 +3,7 @@
 module Ticketing
   module BoxOffice
     class Product < ApplicationRecord
-      belongs_to :vat_rate
+      include HasVatRate
 
       validates :name, presence: true
       validates :price, numericality: { greater_than: 0 }

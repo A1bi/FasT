@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :ticket_type, class: 'Ticketing::TicketType' do
     name { 'Sample type' }
     price { 13 }
-    vat_rate
+    vat_rate { :reduced }
     event
 
     trait :free do
