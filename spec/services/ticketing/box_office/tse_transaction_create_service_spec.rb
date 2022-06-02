@@ -3,7 +3,8 @@
 RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
   let(:box_office) { create(:box_office, tse_client_id: client_id) }
   let(:client_id) { nil }
-  let(:purchase) { create(:box_office_purchase, :with_items, box_office:) }
+  let(:purchase) { create(:box_office_purchase, :with_items, items_count: 3, box_office:, pay_method:) }
+  let(:pay_method) { 'cash' }
   let(:service) { described_class.new(purchase) }
   let(:tse) { instance_double(Ticketing::Tse, send_admin_command: true, send_time_admin_command: true) }
 
@@ -53,9 +54,107 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
       end
     end
 
+    describe 'process data' do
+      shared_examples 'starts a transaction' do
+        it 'starts a transaction with the correct process type and data' do
+          expect(tse).to receive(:send_time_admin_command) do |command, params|
+            expect(command).to eq('StartTransaction')
+            expect(params[:Typ]).to eq('Kassenbeleg-V1')
+            expect(params[:Data]).to eq("Beleg^#{vat_totals}^#{payments}")
+          end
+          subject
+        end
+      end
+
+      shared_context 'with specific VAT rates' do
+        before do
+          3.times.each do |i|
+            purchase.items[i].purchasable.update(vat_rate:)
+            purchase.items[i].update(total: 9.01 * (i + 1))
+          end
+          purchase.update(total: 54.06)
+        end
+      end
+
+      context 'with the standard VAT rate' do
+        include_context 'with specific VAT rates' do
+          let(:vat_rate) { :standard }
+        end
+
+        let(:vat_totals) { '54.06_0.00_0.00_0.00_0.00' }
+        let(:payments) { '54.06:Bar' }
+
+        include_examples 'starts a transaction'
+      end
+
+      context 'with the reduced VAT rate' do
+        include_context 'with specific VAT rates' do
+          let(:vat_rate) { :reduced }
+        end
+
+        let(:vat_totals) { '0.00_54.06_0.00_0.00_0.00' }
+        let(:payments) { '54.06:Bar' }
+
+        include_examples 'starts a transaction'
+      end
+
+      context 'with the zero VAT rate' do
+        include_context 'with specific VAT rates' do
+          let(:vat_rate) { :zero }
+        end
+
+        let(:vat_totals) { '0.00_0.00_0.00_0.00_54.06' }
+        let(:payments) { '54.06:Bar' }
+
+        include_examples 'starts a transaction'
+      end
+
+      context 'with multiple different VAT rates' do
+        before do
+          purchase.items[..1].each do |item|
+            item.purchasable.update(vat_rate: :standard)
+            item.update(total: 5.09)
+          end
+          purchase.items[2].purchasable.update(vat_rate: :reduced)
+          purchase.items[2].update(total: 24.11)
+          purchase.update(total: 34.29)
+        end
+
+        let(:vat_totals) { '10.18_24.11_0.00_0.00_0.00' }
+        let(:payments) { '34.29:Bar' }
+
+        include_examples 'starts a transaction'
+      end
+
+      describe 'payments' do
+        let(:vat_totals) { '7.38_0.00_0.00_0.00_0.00' }
+
+        before do
+          3.times.each do |i|
+            purchase.items[i].purchasable.update(vat_rate: :standard)
+            purchase.items[i].update(total: 1.23 * (i + 1))
+          end
+          purchase.update(total: 7.38)
+        end
+
+        context 'with cash payment' do
+          let(:payments) { '7.38:Bar' }
+
+          include_examples 'starts a transaction'
+        end
+
+        context 'with cashless payment' do
+          let(:pay_method) { 'electronic_cash' }
+          let(:payments) { '7.38:Unbar' }
+
+          include_examples 'starts a transaction'
+        end
+      end
+    end
+
     context 'when the command fails' do
       before do
-        allow(tse).to receive(:send_admin_command).and_raise(Ticketing::Tse::ResponseError, {})
+        allow(tse).to receive(:send_time_admin_command).and_raise(Ticketing::Tse::ResponseError, {})
       end
 
       it 'raises an error' do

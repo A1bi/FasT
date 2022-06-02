@@ -6,6 +6,8 @@ module Ticketing
       belongs_to :purchase
       belongs_to :purchasable, polymorphic: true, autosave: true
 
+      delegate :vat_rate, to: :purchasable
+
       def number
         self[:number] || 0
       end

@@ -6,6 +6,10 @@ module Ticketing
       attr_accessor :purchase
 
       CLIENT_ID_PREFIX = 'FasT-POS'
+      PROCESS_TYPE = 'Kassenbeleg-V1'
+      TRANSACTION_TYPE = 'Beleg'
+      PAYMENT_CASH = 'Bar'
+      PAYMENT_CASHLESS = 'Unbar'
 
       delegate :box_office, to: :purchase
 
@@ -16,6 +20,7 @@ module Ticketing
       def execute
         connect_to_tse do |tse|
           register_client_id(tse)
+          start_transaction(tse)
         end
       end
 
@@ -26,6 +31,28 @@ module Ticketing
 
         tse.send_admin_command('RegisterClientID', ClientID: client_id)
         box_office.update(tse_client_id: client_id)
+      end
+
+      def start_transaction(tse)
+        tse.send_time_admin_command('StartTransaction', Typ: PROCESS_TYPE, Data: process_data)
+      end
+
+      def process_data
+        "#{TRANSACTION_TYPE}^#{vat_totals}^#{payments}"
+      end
+
+      def vat_totals
+        totals = purchase.items.group_by(&:vat_rate).transform_values { |v| v.sum(&:total) }
+        [totals['standard'], totals['reduced'], 0, 0, totals['zero']].map { |t| format('%.2f', t || 0) }.join('_')
+      end
+
+      def payments
+        payment_method = purchase.pay_method == 'cash' ? PAYMENT_CASH : PAYMENT_CASHLESS
+        "#{format_total(purchase.total)}:#{payment_method}"
+      end
+
+      def format_total(total)
+        format('%.2f', total || 0)
       end
 
       def client_id

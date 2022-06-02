@@ -5,8 +5,12 @@ FactoryBot.define do
     box_office
 
     trait :with_items do
-      before(:create) do |purchase|
-        purchase.items = create_list(:box_office_purchase_item, 2, purchase:)
+      transient do
+        items_count { 2 }
+      end
+
+      before(:create) do |purchase, evaluator|
+        purchase.items = create_list(:box_office_purchase_item, evaluator.items_count, purchase:)
       end
     end
   end
