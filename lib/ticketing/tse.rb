@@ -30,17 +30,17 @@ module Ticketing
       @client_id = client_id
     end
 
-    def send_admin_command(command, params)
+    def send_admin_command(command, params = {})
       params[:Password] = password_for(:admin)
       send_command(command, params)
     end
 
-    def send_time_admin_command(command, params)
+    def send_time_admin_command(command, params = {})
       params[:Password] = password_for(:time_admin)
       send_command(command, params)
     end
 
-    def send_command(command, params)
+    def send_command(command, params = {})
       command_id = SecureRandom.hex
 
       payload = {

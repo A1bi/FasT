@@ -10,7 +10,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
   let(:start_time) { 10.seconds.ago.round }
   let(:end_time) { 5.seconds.ago.round }
   let(:start_response) do
-    { TransactionNumber: 4711, SerialNumber: 'hello', LogTime: start_time.iso8601 }
+    { TransactionNumber: 4711, LogTime: start_time.iso8601 }
   end
   let(:finish_response) do
     { SignatureCounter: 345, Signature: 'foofoo', LogTime: end_time.iso8601 }
@@ -18,7 +18,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
 
   before do
     allow(Ticketing::Tse).to receive(:connect).and_yield(tse)
-    allow(tse).to receive(:send_time_admin_command).with('StartTransaction', anything).and_return(start_response)
+    allow(tse).to receive(:send_time_admin_command).with('StartTransaction').and_return(start_response)
     allow(tse).to receive(:send_time_admin_command).with('FinishTransaction', anything).and_return(finish_response)
   end
 
@@ -65,13 +65,30 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
     end
 
     describe 'starting the transaction' do
-      shared_examples 'starts a transaction' do
-        it 'starts a transaction with the correct process type and data' do
+      it 'starts a transaction' do
+        expect(tse).to receive(:send_time_admin_command).with('StartTransaction')
+        subject
+      end
+    end
+
+    describe 'finishing the transaction' do
+      shared_examples 'finishes the transaction' do
+        it 'finishes the transaction with the correct transaction number' do
+          expect(tse).to receive(:send_time_admin_command).with('StartTransaction').ordered
           expect(tse).to receive(:send_time_admin_command) do |command, params|
-            expect(command).to eq('StartTransaction')
+            expect(command).to eq('FinishTransaction')
+            expect(params[:TransactionNumber]).to eq(4711)
+          end.and_return(finish_response)
+          subject
+        end
+
+        it 'finishes the transaction with the correct process type and data' do
+          expect(tse).to receive(:send_time_admin_command).with('StartTransaction').ordered
+          expect(tse).to receive(:send_time_admin_command) do |command, params|
+            expect(command).to eq('FinishTransaction')
             expect(params[:Typ]).to eq('Kassenbeleg-V1')
             expect(params[:Data]).to eq("Beleg^#{vat_totals}^#{payments}")
-          end.and_return(start_response)
+          end.and_return(finish_response)
           subject
         end
       end
@@ -94,7 +111,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '54.06_0.00_0.00_0.00_0.00' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'starts a transaction'
+        include_examples 'finishes the transaction'
       end
 
       context 'with the reduced VAT rate' do
@@ -105,7 +122,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '0.00_54.06_0.00_0.00_0.00' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'starts a transaction'
+        include_examples 'finishes the transaction'
       end
 
       context 'with the zero VAT rate' do
@@ -116,7 +133,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '0.00_0.00_0.00_0.00_54.06' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'starts a transaction'
+        include_examples 'finishes the transaction'
       end
 
       context 'with multiple different VAT rates' do
@@ -133,7 +150,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '10.18_24.11_0.00_0.00_0.00' }
         let(:payments) { '34.29:Bar' }
 
-        include_examples 'starts a transaction'
+        include_examples 'finishes the transaction'
       end
 
       describe 'payments' do
@@ -150,32 +167,20 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         context 'with cash payment' do
           let(:payments) { '7.38:Bar' }
 
-          include_examples 'starts a transaction'
+          include_examples 'finishes the transaction'
         end
 
         context 'with cashless payment' do
           let(:pay_method) { 'electronic_cash' }
           let(:payments) { '7.38:Unbar' }
 
-          include_examples 'starts a transaction'
+          include_examples 'finishes the transaction'
         end
-      end
-    end
-
-    describe 'finishing the transaction' do
-      it 'finishes the transaction' do
-        expect(tse).to receive(:send_time_admin_command).with('StartTransaction', anything).ordered
-        expect(tse).to receive(:send_time_admin_command) do |command, params|
-          expect(command).to eq('FinishTransaction')
-          expect(params[:TransactionNumber]).to eq(4711)
-        end.and_return(finish_response)
-        subject
       end
 
       it 'persists the TSE info to the database' do
         expect { subject }.to change(purchase, :tse_info).to(
           'transaction_number' => 4711,
-          'serial_number' => 'hello',
           'signature_counter' => 345,
           'signature' => 'foofoo',
           'start_time' => start_time,

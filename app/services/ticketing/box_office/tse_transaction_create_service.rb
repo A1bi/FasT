@@ -35,18 +35,20 @@ module Ticketing
       end
 
       def start_transaction(tse)
-        response = tse.send_time_admin_command('StartTransaction', Typ: PROCESS_TYPE, Data: process_data)
+        response = tse.send_time_admin_command('StartTransaction')
 
         @transaction_info = {
           transaction_number: response[:TransactionNumber],
-          serial_number: response[:SerialNumber],
           start_time: Time.iso8601(response[:LogTime])
         }
       end
 
       def finish_transaction(tse)
-        response = tse.send_time_admin_command('FinishTransaction',
-                                               TransactionNumber: @transaction_info[:transaction_number])
+        response = tse.send_time_admin_command(
+          'FinishTransaction',
+          TransactionNumber: @transaction_info[:transaction_number],
+          Typ: PROCESS_TYPE, Data: process_data
+        )
 
         @transaction_info[:signature] = response[:Signature]
         @transaction_info[:signature_counter] = response[:SignatureCounter]
