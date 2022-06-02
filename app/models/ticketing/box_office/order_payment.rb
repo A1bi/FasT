@@ -8,6 +8,12 @@ module Ticketing
       def total
         amount
       end
+
+      def vat_rate
+        return order.tickets.first.vat_rate if order.tickets.any?
+
+        :zero
+      end
     end
   end
 end

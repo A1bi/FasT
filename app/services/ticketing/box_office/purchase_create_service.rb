@@ -35,6 +35,7 @@ module Ticketing
           next unless purchase.save
 
           PurchaseBillService.new(purchase).execute
+          TseTransactionCreateService.new(purchase).execute
 
           @orders.uniq.each(&:save)
         end

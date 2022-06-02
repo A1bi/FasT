@@ -25,6 +25,7 @@ module Ticketing
     delegate :event, to: :date, allow_nil: true
     delegate :block, to: :seat, allow_nil: true
     delegate :seating, to: :event, allow_nil: true
+    delegate :vat_rate, to: :type
 
     class << self
       def valid
