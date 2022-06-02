@@ -6,10 +6,20 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
   let(:purchase) { create(:box_office_purchase, :with_items, items_count: 3, box_office:, pay_method:) }
   let(:pay_method) { 'cash' }
   let(:service) { described_class.new(purchase) }
-  let(:tse) { instance_double(Ticketing::Tse, send_admin_command: true, send_time_admin_command: true) }
+  let(:tse) { instance_double(Ticketing::Tse, send_admin_command: true) }
+  let(:start_time) { 10.seconds.ago.round }
+  let(:end_time) { 5.seconds.ago.round }
+  let(:start_response) do
+    { TransactionNumber: 4711, SerialNumber: 'hello', LogTime: start_time.iso8601 }
+  end
+  let(:finish_response) do
+    { SignatureCounter: 345, Signature: 'foofoo', LogTime: end_time.iso8601 }
+  end
 
   before do
     allow(Ticketing::Tse).to receive(:connect).and_yield(tse)
+    allow(tse).to receive(:send_time_admin_command).with('StartTransaction', anything).and_return(start_response)
+    allow(tse).to receive(:send_time_admin_command).with('FinishTransaction', anything).and_return(finish_response)
   end
 
   describe '#execute' do
@@ -54,14 +64,14 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
       end
     end
 
-    describe 'process data' do
+    describe 'starting the transaction' do
       shared_examples 'starts a transaction' do
         it 'starts a transaction with the correct process type and data' do
           expect(tse).to receive(:send_time_admin_command) do |command, params|
             expect(command).to eq('StartTransaction')
             expect(params[:Typ]).to eq('Kassenbeleg-V1')
             expect(params[:Data]).to eq("Beleg^#{vat_totals}^#{payments}")
-          end
+          end.and_return(start_response)
           subject
         end
       end
@@ -149,6 +159,28 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
 
           include_examples 'starts a transaction'
         end
+      end
+    end
+
+    describe 'finishing the transaction' do
+      it 'finishes the transaction' do
+        expect(tse).to receive(:send_time_admin_command).with('StartTransaction', anything).ordered
+        expect(tse).to receive(:send_time_admin_command) do |command, params|
+          expect(command).to eq('FinishTransaction')
+          expect(params[:TransactionNumber]).to eq(4711)
+        end.and_return(finish_response)
+        subject
+      end
+
+      it 'persists the TSE info to the database' do
+        expect { subject }.to change(purchase, :tse_info).to(
+          'transaction_number' => 4711,
+          'serial_number' => 'hello',
+          'signature_counter' => 345,
+          'signature' => 'foofoo',
+          'start_time' => start_time,
+          'end_time' => end_time
+        )
       end
     end
 

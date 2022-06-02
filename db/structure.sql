@@ -1136,7 +1136,8 @@ CREATE TABLE public.ticketing_box_office_purchases (
     total double precision,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    pay_method character varying
+    pay_method character varying,
+    tse_info jsonb
 );
 
 
@@ -3731,6 +3732,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220526150631'),
 ('20220526162603'),
 ('20220530153820'),
-('20220601123414');
+('20220601123414'),
+('20220602124536');
 
 

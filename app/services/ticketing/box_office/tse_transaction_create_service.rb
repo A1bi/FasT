@@ -21,6 +21,7 @@ module Ticketing
         connect_to_tse do |tse|
           register_client_id(tse)
           start_transaction(tse)
+          finish_transaction(tse)
         end
       end
 
@@ -34,7 +35,24 @@ module Ticketing
       end
 
       def start_transaction(tse)
-        tse.send_time_admin_command('StartTransaction', Typ: PROCESS_TYPE, Data: process_data)
+        response = tse.send_time_admin_command('StartTransaction', Typ: PROCESS_TYPE, Data: process_data)
+
+        @transaction_info = {
+          transaction_number: response[:TransactionNumber],
+          serial_number: response[:SerialNumber],
+          start_time: Time.iso8601(response[:LogTime])
+        }
+      end
+
+      def finish_transaction(tse)
+        response = tse.send_time_admin_command('FinishTransaction',
+                                               TransactionNumber: @transaction_info[:transaction_number])
+
+        @transaction_info[:signature] = response[:Signature]
+        @transaction_info[:signature_counter] = response[:SignatureCounter]
+        @transaction_info[:end_time] = Time.iso8601(response[:LogTime])
+
+        purchase.update(tse_info: @transaction_info)
       end
 
       def process_data
