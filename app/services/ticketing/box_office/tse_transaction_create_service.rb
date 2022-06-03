@@ -38,6 +38,7 @@ module Ticketing
         response = tse.send_time_admin_command('StartTransaction')
 
         @transaction_info = {
+          client_id:,
           transaction_number: response[:TransactionNumber],
           start_time: Time.iso8601(response[:LogTime])
         }
@@ -50,6 +51,8 @@ module Ticketing
           Typ: PROCESS_TYPE, Data: process_data
         )
 
+        @transaction_info[:process_type] = PROCESS_TYPE
+        @transaction_info[:process_data] = process_data
         @transaction_info[:signature] = response[:Signature]
         @transaction_info[:signature_counter] = response[:SignatureCounter]
         @transaction_info[:end_time] = Time.iso8601(response[:LogTime])
@@ -58,7 +61,7 @@ module Ticketing
       end
 
       def process_data
-        "#{TRANSACTION_TYPE}^#{vat_totals}^#{payments}"
+        @process_data ||= "#{TRANSACTION_TYPE}^#{vat_totals}^#{payments}"
       end
 
       def vat_totals
@@ -76,7 +79,7 @@ module Ticketing
       end
 
       def client_id
-        box_office.tse_client_id || new_client_id
+        @client_id ||= box_office.tse_client_id || new_client_id
       end
 
       def new_client_id

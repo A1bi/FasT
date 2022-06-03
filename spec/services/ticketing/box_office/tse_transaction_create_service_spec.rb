@@ -2,7 +2,7 @@
 
 RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
   let(:box_office) { create(:box_office, tse_client_id: client_id) }
-  let(:client_id) { nil }
+  let(:client_id) { 'foobar_id' }
   let(:purchase) { create(:box_office_purchase, :with_items, items_count: 3, box_office:, pay_method:) }
   let(:pay_method) { 'cash' }
   let(:service) { described_class.new(purchase) }
@@ -28,6 +28,8 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
     let(:new_client_id) { "FasT-POS-DEV-#{box_office.id}" }
 
     context 'when box office does not have a client id yet' do
+      let(:client_id) { nil }
+
       it 'connects to the TSE with a new client id' do
         expect(Ticketing::Tse).to receive(:connect).with(new_client_id)
         subject
@@ -47,8 +49,6 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
     end
 
     context 'when box office does already have a registered client id' do
-      let(:client_id) { 'foobar_id' }
-
       it 'connects to the TSE with the existing client id' do
         expect(Ticketing::Tse).to receive(:connect).with(client_id)
         subject
@@ -73,6 +73,8 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
 
     describe 'finishing the transaction' do
       shared_examples 'finishes the transaction' do
+        let(:process_data) { "Beleg^#{vat_totals}^#{payments}" }
+
         it 'finishes the transaction with the correct transaction number' do
           expect(tse).to receive(:send_time_admin_command).with('StartTransaction').ordered
           expect(tse).to receive(:send_time_admin_command) do |command, params|
@@ -87,9 +89,22 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
           expect(tse).to receive(:send_time_admin_command) do |command, params|
             expect(command).to eq('FinishTransaction')
             expect(params[:Typ]).to eq('Kassenbeleg-V1')
-            expect(params[:Data]).to eq("Beleg^#{vat_totals}^#{payments}")
+            expect(params[:Data]).to eq(process_data)
           end.and_return(finish_response)
           subject
+        end
+
+        it 'persists the TSE info to the database' do
+          expect { subject }.to change(purchase, :tse_info).to(
+            'client_id' => client_id,
+            'process_type' => 'Kassenbeleg-V1',
+            'process_data' => process_data,
+            'transaction_number' => 4711,
+            'signature_counter' => 345,
+            'signature' => 'foofoo',
+            'start_time' => start_time,
+            'end_time' => end_time
+          )
         end
       end
 
@@ -176,16 +191,6 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
 
           include_examples 'finishes the transaction'
         end
-      end
-
-      it 'persists the TSE info to the database' do
-        expect { subject }.to change(purchase, :tse_info).to(
-          'transaction_number' => 4711,
-          'signature_counter' => 345,
-          'signature' => 'foofoo',
-          'start_time' => start_time,
-          'end_time' => end_time
-        )
       end
     end
 
