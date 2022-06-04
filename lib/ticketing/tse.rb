@@ -4,6 +4,7 @@ module Ticketing
   class Tse
     class Error < StandardError; end
     class NotConnectedError < Error; end
+    class TseDisabledError < Error; end
 
     class ResponseError < Error
       attr_reader :response
@@ -65,6 +66,8 @@ module Ticketing
     end
 
     def connect
+      raise TseDisabledError unless Settings.tse.enabled
+
       tcp_socket = TCPSocket.new Settings.tse.host, Settings.tse.port
 
       ctx = OpenSSL::SSL::SSLContext.new

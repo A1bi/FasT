@@ -31,7 +31,7 @@ RSpec.describe Ticketing::Tse do
 
   before do
     allow(Settings).to receive(:tse).and_return(
-      Struct.new(:host, :port).new('tse.example.com', 3456)
+      Struct.new(:enabled, :host, :port).new(true, 'tse.example.com', 3456)
     )
 
     socket = instance_double(TCPSocket)
