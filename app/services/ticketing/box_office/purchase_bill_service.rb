@@ -22,7 +22,7 @@ module Ticketing
           when Product
             product_total += item.total
           when OrderPayment
-            transfer_to_order(purchasable)
+            transfer_to_order(purchasable.order, purchasable.amount)
           when Ticketing::Ticket
             ticket_totals[purchasable.order] += purchasable.price
           end
@@ -38,30 +38,26 @@ module Ticketing
       def transfer_payment
         case purchase.pay_method
         when 'cash'
-          transfer_to_account(purchase.box_office, -purchase.total,
-                              payment_note)
+          purchase.transfer_to_account(purchase.box_office, -purchase.total, payment_note)
         when 'electronic_cash'
           purchase.deposit_into_account(purchase.total, payment_note)
         end
       end
 
-      def transfer_to_order(purchasable)
-        note = if purchasable.amount.negative?
+      def transfer_to_orders(totals)
+        totals.each do |order, total|
+          transfer_to_order(order, total)
+        end
+      end
+
+      def transfer_to_order(order, amount)
+        note = if amount.negative?
                  :cash_refund_at_box_office
                else
                  payment_note
                end
-        transfer_to_account(purchasable.order, purchasable.amount, note)
-      end
-
-      def transfer_to_orders(totals)
-        totals.each do |order, total|
-          transfer_to_account(order, total, payment_note)
-        end
-      end
-
-      def transfer_to_account(account, amount, note)
-        purchase.transfer_to_account(account, amount, note)
+        OrderBillingService.new(order)
+                           .transfer_from_box_office_purchase(purchase, amount, note)
       end
 
       def payment_note

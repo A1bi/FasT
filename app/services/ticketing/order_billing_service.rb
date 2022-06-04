@@ -42,6 +42,10 @@ module Ticketing
       transfer_to_account(coupon, amount, :redeemed_coupon)
     end
 
+    def transfer_from_box_office_purchase(purchase, amount, note)
+      transfer_to_account(purchase, -amount, note)
+    end
+
     private
 
     def deposit_into_account(amount, note)
