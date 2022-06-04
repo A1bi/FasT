@@ -9,8 +9,10 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
   let(:tse) { instance_double(Ticketing::Tse, send_admin_command: true) }
   let(:start_time) { 10.seconds.ago.round }
   let(:end_time) { 5.seconds.ago.round }
+  let(:tse_device) { create(:tse_device) }
+  let(:tse_serial_number) { tse_device&.serial_number }
   let(:start_response) do
-    { TransactionNumber: 4711, LogTime: start_time.iso8601 }
+    { TransactionNumber: 4711, LogTime: start_time.iso8601, SerialNumber: tse_serial_number }
   end
   let(:finish_response) do
     { SignatureCounter: 345, Signature: 'foofoo', LogTime: end_time.iso8601 }
@@ -68,6 +70,41 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
       it 'starts a transaction' do
         expect(tse).to receive(:send_time_admin_command).with('StartTransaction')
         subject
+      end
+
+      context 'when TSE device is not yet known' do
+        let(:tse_device) { nil }
+        let(:tse_serial_number) { 'serialfoo' }
+
+        before do
+          allow(tse)
+            .to receive(:send_command).with('GetDeviceData', Name: 'PublicKey', Format: 'Base64')
+            .and_return(Value: 'fookey')
+        end
+
+        it 'fetches the public key from the TSE device' do
+          expect(tse).to receive(:send_command).with('GetDeviceData', Name: 'PublicKey', Format: 'Base64')
+          subject
+        end
+
+        it 'creates a new TSE device' do
+          expect { subject }.to change(Ticketing::TseDevice, :count).by(1)
+        end
+
+        it 'fill the new TSE device with the correct public key' do
+          subject
+          expect(purchase.tse_device.public_key).to eq('fookey')
+        end
+      end
+
+      context 'when TSE device is already known' do
+        it 'does not create a new TSE device' do
+          expect { subject }.not_to change(Ticketing::TseDevice, :count)
+        end
+
+        it 'set the correct TSE device on the purchase' do
+          expect { subject }.to change(purchase, :tse_device).to(tse_device)
+        end
       end
     end
 

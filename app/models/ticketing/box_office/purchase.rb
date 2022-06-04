@@ -6,6 +6,7 @@ module Ticketing
       include Ticketing::Billable
 
       belongs_to :box_office
+      belongs_to :tse_device, optional: true
       has_many :items, class_name: 'PurchaseItem', dependent: :destroy
 
       validates :items, length: { minimum: 1 }

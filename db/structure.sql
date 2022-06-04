@@ -1137,7 +1137,8 @@ CREATE TABLE public.ticketing_box_office_purchases (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     pay_method character varying,
-    tse_info jsonb
+    tse_info jsonb,
+    tse_device_id bigint
 );
 
 
@@ -1826,6 +1827,38 @@ ALTER SEQUENCE public.ticketing_tickets_id_seq OWNED BY public.ticketing_tickets
 
 
 --
+-- Name: ticketing_tse_devices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_tse_devices (
+    id bigint NOT NULL,
+    serial_number character varying NOT NULL,
+    public_key text NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_tse_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_tse_devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_tse_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_tse_devices_id_seq OWNED BY public.ticketing_tse_devices.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2216,6 +2249,13 @@ ALTER TABLE ONLY public.ticketing_ticket_types ALTER COLUMN id SET DEFAULT nextv
 --
 
 ALTER TABLE ONLY public.ticketing_tickets ALTER COLUMN id SET DEFAULT nextval('public.ticketing_tickets_id_seq'::regclass);
+
+
+--
+-- Name: ticketing_tse_devices id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_tse_devices ALTER COLUMN id SET DEFAULT nextval('public.ticketing_tse_devices_id_seq'::regclass);
 
 
 --
@@ -2642,6 +2682,14 @@ ALTER TABLE ONLY public.ticketing_tickets
 
 
 --
+-- Name: ticketing_tse_devices ticketing_tse_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_tse_devices
+    ADD CONSTRAINT ticketing_tse_devices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2864,6 +2912,13 @@ CREATE INDEX index_ticketing_box_office_purchase_items_on_purchase_id ON public.
 --
 
 CREATE INDEX index_ticketing_box_office_purchases_on_box_office_id ON public.ticketing_box_office_purchases USING btree (box_office_id);
+
+
+--
+-- Name: index_ticketing_box_office_purchases_on_tse_device_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_box_office_purchases_on_tse_device_id ON public.ticketing_box_office_purchases USING btree (tse_device_id);
 
 
 --
@@ -3147,6 +3202,13 @@ CREATE INDEX index_ticketing_tickets_on_type_id ON public.ticketing_tickets USIN
 
 
 --
+-- Name: index_ticketing_tse_devices_on_serial_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_ticketing_tse_devices_on_serial_number ON public.ticketing_tse_devices USING btree (serial_number);
+
+
+--
 -- Name: index_users_on_activation_code; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3401,6 +3463,14 @@ ALTER TABLE ONLY public.ticketing_log_events
 
 ALTER TABLE ONLY public.ticketing_bank_charges
     ADD CONSTRAINT fk_rails_684a6280d2 FOREIGN KEY (submission_id) REFERENCES public.ticketing_bank_submissions(id);
+
+
+--
+-- Name: ticketing_box_office_purchases fk_rails_704ee856cc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_box_office_purchases
+    ADD CONSTRAINT fk_rails_704ee856cc FOREIGN KEY (tse_device_id) REFERENCES public.ticketing_tse_devices(id);
 
 
 --
@@ -3733,6 +3803,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220526162603'),
 ('20220530153820'),
 ('20220601123414'),
-('20220602124536');
+('20220602124536'),
+('20220604133306');
 
 

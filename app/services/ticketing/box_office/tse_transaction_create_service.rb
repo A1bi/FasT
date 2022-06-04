@@ -37,6 +37,11 @@ module Ticketing
       def start_transaction(tse)
         response = tse.send_time_admin_command('StartTransaction')
 
+        @tse_device = Ticketing::TseDevice.find_or_create_by(serial_number: response[:SerialNumber]) do |d|
+          res = tse.send_command('GetDeviceData', Name: 'PublicKey', Format: 'Base64')
+          d.public_key = res[:Value]
+        end
+
         @transaction_info = {
           client_id:,
           transaction_number: response[:TransactionNumber],
@@ -57,7 +62,7 @@ module Ticketing
         @transaction_info[:signature_counter] = response[:SignatureCounter]
         @transaction_info[:end_time] = Time.iso8601(response[:LogTime])
 
-        purchase.update(tse_info: @transaction_info)
+        purchase.update(tse_device: @tse_device, tse_info: @transaction_info)
       end
 
       def process_data
