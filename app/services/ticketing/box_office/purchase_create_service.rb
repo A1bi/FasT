@@ -16,8 +16,6 @@ module Ticketing
           pay_method: params[:pay_method]
         )
 
-        @orders = []
-
         params[:items].each do |item_info|
           item = purchase.items.new
 
@@ -36,8 +34,6 @@ module Ticketing
 
           PurchaseBillService.new(purchase).execute
           TseTransactionCreateService.new(purchase).execute if Settings.tse.enabled
-
-          @orders.uniq.each(&:save)
         end
 
         purchase
@@ -50,7 +46,6 @@ module Ticketing
         ticket.update(picked_up: true)
         item.purchasable = ticket
         item.number = 1
-        @orders << ticket.order
       end
 
       def add_product(item_info, item)
@@ -64,7 +59,6 @@ module Ticketing
         item.purchasable.order = order
         item.purchasable.amount = item_info[:amount]
         item.number = 1
-        @orders << order
       end
     end
   end
