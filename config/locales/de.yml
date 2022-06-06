@@ -247,6 +247,14 @@ de:
     recipient: "für:"
     value: über <b>%{value}</b>
     disclaimer: "Dieser Gutschein ist online auf www.theater-kaisersesch.de und in teilnehmenden Vorverkaufsstellen einlösbar.\nDie Verjährung Ihrer Ansprüche richtet sich nach der gesetzlichen Regelung."
+  box_office:
+    purchase_receipt:
+      title: Kassenbeleg
+      header: "Freilichtbühne am schiefen Turm e. V.\nMasburger Straße 1c\n56759 Kaisersesch\nTel: (02653) 28 27 09\ninfo@theater-kaisersesch.de"
+      article: Artikel
+      total: Summe
+      ticket: Ticket
+      order_payment: Differenz zu Bestellung
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"
