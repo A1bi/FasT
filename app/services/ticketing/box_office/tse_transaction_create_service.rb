@@ -70,8 +70,13 @@ module Ticketing
       end
 
       def vat_totals
-        totals = purchase.items.group_by(&:vat_rate).transform_values { |v| v.sum(&:total) }
-        [totals['standard'], totals['reduced'], 0, 0, totals['zero']].map { |t| format('%.2f', t || 0) }.join('_')
+        totals = purchase.totals_by_vat_rate
+        [
+          totals[:standard][:gross],
+          totals[:reduced][:gross],
+          0, 0,
+          totals[:zero][:gross]
+        ].map { |t| format('%.2f', t) }.join('_')
       end
 
       def payments

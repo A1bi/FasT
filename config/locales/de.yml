@@ -255,6 +255,10 @@ de:
       total: Summe
       ticket: Ticket
       order_payment: Differenz zu Bestellung
+      vat: MwSt
+      vat_rate: MwSt-Satz
+      net: Netto
+      gross: Brutto
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"

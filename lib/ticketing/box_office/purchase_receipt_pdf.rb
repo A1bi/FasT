@@ -7,10 +7,10 @@ module Ticketing
     class PurchaseReceiptPdf < BasePdf
       attr_reader :purchase
 
-      VAT_RATES = {
-        standard: { letter: 'A', rate: 19 },
-        reduced: { letter: 'B', rate: 7 },
-        zero: { letter: 'C', rate: 0 }
+      VAT_RATE_LETTERS = {
+        standard: 'A',
+        reduced: 'B',
+        zero: 'C'
       }.freeze
 
       def initialize(purchase)
@@ -24,6 +24,7 @@ module Ticketing
 
         draw_header
         draw_items_table
+        draw_vat_table
       end
 
       private
@@ -41,7 +42,7 @@ module Ticketing
 
         rows += purchase.items.map do |item|
           first_column = [item_description(item), number_description(item)].compact.join("\n")
-          [first_column, format_amount(item.total), VAT_RATES[item.vat_rate.to_sym][:letter]]
+          [first_column, format_amount(item.total), VAT_RATE_LETTERS[item.vat_rate.to_sym]]
         end
 
         rows << [t(:total), format_amount(purchase.total), nil]
@@ -77,6 +78,31 @@ module Ticketing
         return unless item.number > 1
 
         "#{spaces(2)}#{item.number} x #{format_amount(item.purchasable.price)}"
+      end
+
+      def draw_vat_table
+        rows = [[t(:vat_rate), t(:net), t(:vat), t(:gross)]]
+
+        rows += purchase.totals_by_vat_rate.each_with_object([]) do |(rate_id, totals), r|
+          next if totals[:gross].zero?
+
+          description = if rate_id == :total
+                          t(:total)
+                        else
+                          "#{VAT_RATE_LETTERS[rate_id]} = #{format_percentage(Purchase::VAT_RATES[rate_id])}"
+                        end
+          r << [
+            description,
+            *totals.values_at(:net, :vat, :gross).map { |amount| format_amount(amount) }
+          ]
+        end.compact
+
+        table(rows, width: bounds.width) do
+          cells.size = 7
+          cells.borders = []
+          cells.padding = [1, 3]
+          columns(1..3).align = :right
+        end
       end
 
       def format_amount(amount)
