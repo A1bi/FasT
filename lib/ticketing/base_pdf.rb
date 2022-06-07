@@ -80,6 +80,10 @@ module Ticketing
       I18n.t(key, **options)
     end
 
+    def l(date, options = {})
+      I18n.l(date, **options)
+    end
+
     def svg_image(path, options)
       file = File.read(images_path.join(path))
       svg file, options

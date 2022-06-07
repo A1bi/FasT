@@ -19,6 +19,10 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
     purchase.items.new(number: 1, purchasable: tickets[1])
     purchase.items.new(number: 2, purchasable: product)
     purchase.items.new(number: 1, purchasable: order_payment)
+
+    allow(purchase).to receive(:created_at).and_return(DateTime.new(2022, 6, 7, 12, 34, 56))
+    allow(purchase).to receive(:id).and_return(9236)
+    allow(purchase.box_office).to receive(:id).and_return(67)
   end
 
   def spaces(number)
@@ -78,6 +82,24 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
 
     it 'contains the totals for all VAT rates' do
       expect(text_analysis.strings).to include('8,28', '0,82', '9,10')
+    end
+  end
+
+  describe 'footer' do
+    it 'contains the correct date' do
+      expect(text_analysis.strings).to include('07.06.2022')
+    end
+
+    it 'contains the correct time' do
+      expect(text_analysis.strings).to include('12:34:56')
+    end
+
+    it 'contains the correct box office id' do
+      expect(text_analysis.strings).to include('67')
+    end
+
+    it 'contains the correct purchase id' do
+      expect(text_analysis.strings).to include('9236')
     end
   end
 end

@@ -25,6 +25,7 @@ module Ticketing
         draw_header
         draw_items_table
         draw_vat_table
+        draw_footer
       end
 
       private
@@ -33,7 +34,7 @@ module Ticketing
         svg_image 'pdf/logo_bw.svg', width: bounds.width * 0.40, position: :center
         move_down 10
 
-        text t(:header), align: :center
+        text t(:header), align: :center, inline_format: true
         move_down 20
       end
 
@@ -102,7 +103,31 @@ module Ticketing
           cells.borders = []
           cells.padding = [1, 3]
           columns(1..3).align = :right
+          row(-1).font_style = :bold
         end
+
+        move_down 20
+      end
+
+      def draw_footer
+        rows = [
+          [t(:date), t(:time), t(:box_office), t(:transaction)],
+          [
+            l(purchase.created_at, format: '%d.%m.%Y'),
+            l(purchase.created_at, format: '%H:%M:%S'),
+            purchase.box_office.id,
+            purchase.id
+          ]
+        ]
+
+        table(rows, width: bounds.width) do
+          cells.borders = []
+          cells.padding = [1, 3]
+          columns(2..3).align = :right
+        end
+        move_down 20
+
+        text t(:footer), align: :center
       end
 
       def format_amount(amount)
