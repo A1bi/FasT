@@ -13,18 +13,21 @@ module Ticketing
         zero: 'C'
       }.freeze
 
-      def initialize(purchase)
-        @purchase = purchase
-
+      def initialize
         super(margin: 5.mm, page_size: [80.mm, 200.mm], page_layout: :portrait)
 
         font_size 8
         stroke_color '000000'
+      end
+
+      def purchase=(purchase)
+        @purchase = purchase
 
         draw_header
         draw_items_table
         draw_vat_table
         draw_footer
+        draw_tse_info
       end
 
       private
@@ -130,12 +133,32 @@ module Ticketing
         text t(:footer), align: :center
       end
 
+      def draw_tse_info
+        move_down 20
+        text t(:tse_info), size: 7, align: :center
+        print_qr_code tse_data, stroke: false, align: :center
+      end
+
+      def tse_data
+        [
+          'V0', purchase.box_office.tse_client_id,
+          *purchase.tse_info.values_at('process_type', 'process_data', 'transaction_number', 'signature_counter'),
+          *purchase.tse_info.values_at('start_time', 'end_time').map { |time| format_tse_time(time) },
+          'ecdsa-plain-SHA384', 'unixTime',
+          purchase.tse_info['signature'], purchase.tse_device.public_key
+        ].join(';')
+      end
+
       def format_amount(amount)
         number_to_currency(amount, format: '%n')
       end
 
       def format_percentage(percentage)
         number_to_percentage(percentage, precision: 2, format: '%n %', separator: ',')
+      end
+
+      def format_tse_time(time)
+        DateTime.parse(time).utc.iso8601(3)
       end
 
       def spaces(number)

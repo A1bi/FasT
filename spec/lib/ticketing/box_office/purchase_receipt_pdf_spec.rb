@@ -3,14 +3,31 @@
 require_shared_examples 'pdf'
 
 RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
+  subject do
+    pdf.purchase = purchase
+    pdf.render
+  end
+
   let(:order) { create(:order, :with_tickets, tickets_count: 2) }
   let(:tickets) { order.tickets }
-  let(:purchase) { build(:box_office_purchase, total: 7.87) }
+  let(:purchase) { build(:box_office_purchase, :with_tse_device, total: 7.87, box_office:, tse_info:) }
+  let(:box_office) { build(:box_office, id: 67, tse_client_id: 'fooby') }
   let(:product) { create(:box_office_product, price: 1.23, vat_rate: :standard) }
   let(:order_payment) { create(:box_office_order_payment, order:, amount: 1.11) }
-  let(:pdf) { described_class.new(purchase).render }
-  let(:text_analysis) { PDF::Inspector::Text.analyze(pdf) }
-  let(:page_analysis) { PDF::Inspector::Page.analyze(pdf) }
+  let(:pdf) { described_class.new }
+  let(:text_analysis) { PDF::Inspector::Text.analyze(subject) }
+  let(:page_analysis) { PDF::Inspector::Page.analyze(subject) }
+  let(:tse_info) do
+    {
+      'process_type' => 'receipy',
+      'process_data' => 'foo^bar^foo',
+      'transaction_number' => 234,
+      'signature_counter' => 456,
+      'start_time' => DateTime.new(2022, 6, 7, 23, 34, 56),
+      'end_time' => DateTime.new(2022, 6, 7, 23, 35, 7),
+      'signature' => 'siggy+/sigsig'
+    }
+  end
 
   before do
     tickets[0].update(price: 3.21)
@@ -22,7 +39,9 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
 
     allow(purchase).to receive(:created_at).and_return(DateTime.new(2022, 6, 7, 12, 34, 56))
     allow(purchase).to receive(:id).and_return(9236)
-    allow(purchase.box_office).to receive(:id).and_return(67)
+    # speed up PDF generation by skipping SVG and barcode rendering
+    allow(pdf).to receive(:svg_image)
+    allow(pdf).to receive(:print_qr_code)
   end
 
   def spaces(number)
@@ -101,6 +120,17 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
 
     it 'contains the correct purchase id' do
       expect(text_analysis.strings).to include('9236')
+    end
+  end
+
+  describe 'TSE information' do
+    it 'draws a QR code with all TSE data' do
+      expect(pdf).to receive(:print_qr_code).with(
+        'V0;fooby;receipy;foo^bar^foo;234;456;2022-06-07T23:34:56.000Z;2022-06-07T23:35:07.000Z;' \
+        "ecdsa-plain-SHA384;unixTime;siggy+/sigsig;#{purchase.tse_device.public_key}",
+        anything
+      )
+      subject
     end
   end
 end

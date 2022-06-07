@@ -13,5 +13,9 @@ FactoryBot.define do
         purchase.items = create_list(:box_office_purchase_item, evaluator.items_count, purchase:)
       end
     end
+
+    trait :with_tse_device do
+      tse_device
+    end
   end
 end
