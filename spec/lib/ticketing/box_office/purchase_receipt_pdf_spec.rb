@@ -45,7 +45,8 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
 
   describe 'product items' do
     it 'contains descriptions for product items' do
-      expect(text_analysis.strings).to include(product.name, "#{spaces(2)}2 x 1,23")
+      # for some reason the description gets split up into three strings when using the x character
+      expect(text_analysis.strings).to include(product.name, "#{spaces(2)}2 ", '× ', '1,23')
     end
 
     it 'contains totals for product items' do

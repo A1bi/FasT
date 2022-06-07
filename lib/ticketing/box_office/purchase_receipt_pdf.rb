@@ -20,7 +20,6 @@ module Ticketing
 
         font_size 8
         stroke_color '000000'
-        font 'Courier'
 
         draw_header
         draw_items_table
@@ -48,10 +47,11 @@ module Ticketing
 
         rows << [t(:total), format_amount(purchase.total), nil]
 
+        width = bounds.width
         table(rows, width: bounds.width) do
           cells.borders = []
           cells.padding = [2, 3]
-          columns(0).width = 150
+          columns(0).width = width * 0.8
           columns(1..2).align = :right
           row(0).borders = [:bottom]
           row(0).border_width = 0.5
@@ -78,7 +78,7 @@ module Ticketing
       def number_description(item)
         return unless item.number > 1
 
-        "#{spaces(2)}#{item.number} x #{format_amount(item.purchasable.price)}"
+        "#{spaces(2)}#{item.number} × #{format_amount(item.purchasable.price)}"
       end
 
       def draw_vat_table

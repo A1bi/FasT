@@ -263,7 +263,7 @@ de:
       time: Uhrzeit
       box_office: Kasse
       transaction: Transaktion
-      footer: Wir bedanken uns und wünschen Ihnen viel Spaß bei unserer Veranstaltung!
+      footer: "Wir bedanken uns und wünschen Ihnen viel Spaß bei unserer Veranstaltung!\n\nwww.theater-kaisersesch.de"
   contact_message_mailer:
     contact_message:
       subject: "Neue Nachricht über das Kontaktformular"
