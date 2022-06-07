@@ -14,7 +14,7 @@ module Ticketing
       }.freeze
 
       def initialize
-        super(margin: 5.mm, page_size: [80.mm, 200.mm], page_layout: :portrait)
+        super(margin: 5.mm, page_size: [80.mm, 1.m], page_layout: :portrait)
 
         font_size 8
         stroke_color '000000'
@@ -28,6 +28,7 @@ module Ticketing
         draw_vat_table
         draw_footer
         draw_tse_info
+        adjust_page_height
       end
 
       private
@@ -137,6 +138,14 @@ module Ticketing
         move_down 20
         text t(:tse_info), size: 7, align: :center
         print_qr_code tse_data, stroke: false, align: :center
+      end
+
+      def adjust_page_height
+        page.dictionary.data[:MediaBox] = [
+          0, y - page.margins[:bottom],
+          bounds.width + page.margins[:left] + page.margins[:right],
+          bounds.height + page.margins[:top] + page.margins[:bottom]
+        ]
       end
 
       def tse_data
