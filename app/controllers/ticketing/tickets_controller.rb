@@ -92,7 +92,7 @@ module Ticketing
     def refund_in_retail_store
       return unless params[:refund]
 
-      OrderPaymentService.new(@order, current_user:).refund_in_retail_store
+      OrderBillingService.new(@order).refund_in_retail_store
     end
 
     def update_tickets(params)

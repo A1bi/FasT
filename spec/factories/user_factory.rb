@@ -3,5 +3,9 @@
 FactoryBot.define do
   factory :user do
     password { SecureRandom.hex }
+
+    trait :admin do
+      group { :admin }
+    end
   end
 end
