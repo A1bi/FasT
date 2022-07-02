@@ -1138,7 +1138,8 @@ CREATE TABLE public.ticketing_box_office_purchases (
     updated_at timestamp(6) without time zone NOT NULL,
     pay_method character varying,
     tse_info jsonb,
-    tse_device_id bigint
+    tse_device_id bigint,
+    receipt_token uuid DEFAULT gen_random_uuid() NOT NULL
 );
 
 
@@ -2915,6 +2916,13 @@ CREATE INDEX index_ticketing_box_office_purchases_on_box_office_id ON public.tic
 
 
 --
+-- Name: index_ticketing_box_office_purchases_on_receipt_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_box_office_purchases_on_receipt_token ON public.ticketing_box_office_purchases USING btree (receipt_token);
+
+
+--
 -- Name: index_ticketing_box_office_purchases_on_tse_device_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3804,6 +3812,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220530153820'),
 ('20220601123414'),
 ('20220602124536'),
-('20220604133306');
+('20220604133306'),
+('20220702154140');
 
 

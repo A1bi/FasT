@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
   class << self
     protected
 
-    def skip_authorization
-      before_action :skip_authorization
+    def skip_authorization(options = {})
+      before_action :skip_authorization, options
     end
 
     def ignore_authenticity_token

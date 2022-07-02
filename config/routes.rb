@@ -150,6 +150,12 @@ Rails.application.routes.draw do
         get 'geschenkgutscheine/bestellen', action: :new_coupons,
                                             as: :new_coupons, on: :member
       end
+
+      namespace :box_office, path: 'ticketing/box_office' do
+        resources :purchases, param: :token, only: [] do
+          get :show, on: :member
+        end
+      end
     end
 
     scope controller: :orders, path: 'tickets' do
