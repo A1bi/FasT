@@ -1,0 +1,35 @@
+[data-controller='ticketing--box-office--front-display']
+  display: flex
+  flex-direction: column
+  height: 100vh
+  text-align: center
+
+  .slides
+    position: relative
+    margin: 30px
+    flex: 1 1 0%
+
+  [data-target='ticketing--box-office--front-display.tips'], [data-target='ticketing--box-office--front-display.qrCode']
+    position: absolute
+    height: 100%
+    width: 100%
+    opacity: 0
+    transition: opacity 1s
+
+    display: flex
+    flex-direction: column
+
+    &.visible
+      opacity: 1
+
+    &.qr-code-visible
+      transition: opacity .3s
+
+    img
+      flex: 1 1 0%
+      max-height: 100%
+      max-width: 100%
+
+    p
+      font-size: 30px
+      margin: 30px 0

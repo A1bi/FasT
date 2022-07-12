@@ -155,6 +155,8 @@ Rails.application.routes.draw do
         resources :purchases, param: :token, only: [] do
           get :show, on: :member
         end
+
+        get 'front_display' => 'front_display#index'
       end
     end
 
