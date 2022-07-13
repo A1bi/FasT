@@ -15,17 +15,13 @@
     width: 100%
     opacity: 0
     transition: opacity 1s
-
     display: flex
     flex-direction: column
 
     &.visible
       opacity: 1
 
-    &.qr-code-visible
-      transition: opacity .3s
-
-    img
+    img, svg
       flex: 1 1 0%
       max-height: 100%
       max-width: 100%
@@ -33,3 +29,7 @@
     p
       font-size: 30px
       margin: 30px 0
+
+  [data-target='ticketing--box-office--front-display.qrCode']
+    background: white
+    transition-duration: .3s
