@@ -135,6 +135,8 @@ module Ticketing
       end
 
       def draw_tse_info
+        return if purchase.tse_info.nil?
+
         move_down 20
         text t(:tse_info), size: 7, align: :center
         print_qr_code tse_data, stroke: false, align: :center

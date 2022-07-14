@@ -132,5 +132,14 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
       )
       subject
     end
+
+    context 'when tse_info is not present' do
+      let(:tse_info) { nil }
+
+      it 'does not draw the QR code' do
+        expect(pdf).not_to receive(:print_qr_code)
+        subject
+      end
+    end
   end
 end
