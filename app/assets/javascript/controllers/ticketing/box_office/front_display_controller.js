@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus'
+import { createSubscription } from '../../../components/actioncable'
 import QRCode from 'qrcode-svg'
 
 import '../../../styles/ticketing/box_office/front_display_controller.sass'
@@ -8,8 +9,9 @@ export default class extends Controller {
 
   initialize () {
     this.currentTipIndex = -1
+    this.receiptUrl = this.data.get('receipt-url')
+    this.subscribe()
     this.timeNextTipCycle(0)
-    window.setTimeout(() => this.showQrCode('foobar839398'), 1000)
   }
 
   cycleTips () {
@@ -22,6 +24,20 @@ export default class extends Controller {
     } else {
       this.showNextTip()
     }
+  }
+
+  subscribe () {
+    this.subscription = createSubscription({
+      channel: 'Ticketing::BoxOffice::FrontDisplayChannel',
+      box_office_id: '1'
+    }, {
+      received: data => this.processPurchase(data)
+    })
+  }
+
+  processPurchase (info) {
+    const url = this.receiptUrl.replace('#token#', info.token)
+    this.showQrCode(url)
   }
 
   showQrCode (content) {
