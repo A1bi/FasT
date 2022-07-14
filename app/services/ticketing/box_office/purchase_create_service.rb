@@ -11,13 +11,13 @@ module Ticketing
       end
 
       def execute
-        purchase = Ticketing::BoxOffice::Purchase.new(
+        @purchase = Ticketing::BoxOffice::Purchase.new(
           box_office: current_box_office,
           pay_method: params[:pay_method]
         )
 
         params[:items].each do |item_info|
-          item = purchase.items.new
+          item = @purchase.items.new
 
           case item_info[:type]
           when 'ticket'
@@ -30,13 +30,15 @@ module Ticketing
         end
 
         ActiveRecord::Base.transaction do
-          next unless purchase.save
+          next unless @purchase.save
 
-          PurchaseBillService.new(purchase).execute
-          TseTransactionCreateService.new(purchase).execute if Settings.tse.enabled
+          PurchaseBillService.new(@purchase).execute
+          TseTransactionCreateService.new(@purchase).execute if Settings.tse.enabled
         end
 
-        purchase
+        notify_front_display
+
+        @purchase
       end
 
       private
@@ -59,6 +61,13 @@ module Ticketing
         item.purchasable.order = order
         item.purchasable.amount = item_info[:amount]
         item.number = 1
+      end
+
+      def notify_front_display
+        @purchase.reload
+        FrontDisplayChannel.broadcast_to(
+          current_box_office, id: @purchase.id, token: @purchase.receipt_token
+        )
       end
     end
   end
