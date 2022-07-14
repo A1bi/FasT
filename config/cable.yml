@@ -1,0 +1,10 @@
+development:
+  adapter: async
+
+test:
+  adapter: test
+
+production:
+  adapter: redis
+  url: unix:///var/run/redis/redis.sock
+  channel_prefix: channel
