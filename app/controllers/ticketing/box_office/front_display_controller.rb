@@ -6,7 +6,9 @@ module Ticketing
       skip_authorization only: :index
       layout 'minimal'
 
-      def index; end
+      def index
+        @events = Ticketing::Event.with_future_dates
+      end
     end
   end
 end

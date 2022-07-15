@@ -66,7 +66,7 @@ export default class extends Controller {
     if (this.tipsTargets.length < 2) return
 
     this.afterCurrentTransition(() => {
-      this.timeNextTipCycle(3000)
+      this.timeNextTipCycle(10000)
     })
   }
 

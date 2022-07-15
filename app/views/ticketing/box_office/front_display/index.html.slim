@@ -4,6 +4,10 @@ div data-controller='ticketing--box-office--front-display' data-ticketing--box-o
   .slides
     div data-target='ticketing--box-office--front-display.tips'
       = image_tag 'logo.svg'
+    - @events.each do |event|
+      div data-target='ticketing--box-office--front-display.tips'
+        = image_tag "theater/#{event.assets_identifier}/title.svg"
+        p Tickets hier erhältlich
     div data-target='ticketing--box-office--front-display.tips'
       p Wir akzeptieren
       = image_tag 'ticketing/box_office/cashless.svg'
