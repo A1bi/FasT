@@ -82,4 +82,20 @@ export default class extends Controller {
   timeNextTipCycle (delay) {
     window.setTimeout(this.cycleTips.bind(this), delay)
   }
+
+  toggleFullscreen () {
+    if (document.fullscreen || document.webkitIsFullScreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      }
+    } else {
+      if (this.element.requestFullscreen) {
+        this.element.requestFullscreen()
+      } else if (this.element.webkitRequestFullscreen) {
+        this.element.webkitRequestFullscreen()
+      }
+    }
+  }
 }
