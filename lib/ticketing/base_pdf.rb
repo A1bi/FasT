@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/DotSeparatedKeys
 module Ticketing
   class BasePdf < Prawn::Document
     include ActionView::Helpers::NumberHelper
@@ -93,3 +94,4 @@ module Ticketing
     end
   end
 end
+# rubocop:enable Rails/DotSeparatedKeys

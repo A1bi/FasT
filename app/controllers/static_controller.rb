@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StaticController < ApplicationController
-  ALERT_FILE_PATH = Rails.root.join('public/uploads/index_alert.json')
+  ALERT_FILE_PATH = Rails.public_path.join('uploads/index_alert.json')
   FEATURED_EVENTS = %i[gatte abba].freeze
 
   skip_authorization

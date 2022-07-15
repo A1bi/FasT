@@ -58,7 +58,7 @@ module Ticketing
     end
 
     def redirect_to_billable
-      flash[:notice] = t(:created, scope: %i[ticketing billings])
+      flash[:notice] = t('ticketing.billings.created')
       redirect_to billable.becomes(billable.class.base_class)
     end
   end
