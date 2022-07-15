@@ -62,5 +62,5 @@ Rails.application.configure do
 
   config.cache_store = :mem_cache_store, '/tmp/memcached.sock'
 
-  config.action_cable.allowed_request_origins = [Settings.host]
+  config.action_cable.allowed_request_origins = ["#{Settings.url_options.protocol}://#{Settings.url_options.host}"]
 end
