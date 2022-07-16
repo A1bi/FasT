@@ -38,6 +38,7 @@ module FasT
     config.active_support.halt_callback_chains_on_return_false = false
 
     config.active_record.schema_format = :sql
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
 
     config.action_controller.include_all_helpers = false
 
