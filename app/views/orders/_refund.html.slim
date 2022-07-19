@@ -1,5 +1,4 @@
-- tickets = @order.tickets.valid
-- if @order.is_a?(Ticketing::Web::Order) && tickets.any?(&:refundable?)
+- if @order_refundable
   h2.hcen Erstattung Ihrer Tickets
   p Da die Veranstaltung entfällt, erhalten Sie selbstverständlich eine Erstattung des Ticketpreises. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
 
@@ -30,7 +29,7 @@
 
     p.hcen = f.submit 'Erstattung beantragen'
 
-- elsif tickets.any?
+- elsif @valid_tickets.any?
   p.hcen
     | Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
     | <b>(02653) 28 27 09</b><br>

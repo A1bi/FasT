@@ -18,6 +18,8 @@ module Ticketing
     end
 
     def internal
+      return unless @order.billing_account.credit?
+
       attachments['refund.xml'] = transfer.to_xml
       mail to: 'albrecht@oster.online'
     end
@@ -26,6 +28,7 @@ module Ticketing
 
     def transfer
       transfer = SEPA::CreditTransfer.new(creditor_info)
+      transfer.message_identification = "FasT/#{@order.id}/#{SecureRandom.hex(8)}"
       transfer.add_transaction(
         name: params[:name],
         iban: params[:iban],

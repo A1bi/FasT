@@ -9,7 +9,12 @@ class OrdersController < ApplicationController
 
   helper Ticketing::TicketingHelper
 
-  def show; end
+  def show
+    refundable_sum = refundable_tickets.sum(&:price)
+    balance_after_refund = @order.balance + refundable_sum
+    @order_refundable = @order.is_a?(Ticketing::Web::Order) && balance_after_refund.positive?
+    @valid_tickets = valid_tickets
+  end
 
   def check_email
     return redirect_to authenticated_overview_path if email_correct?
@@ -43,8 +48,7 @@ class OrdersController < ApplicationController
 
     bank_details[:iban].delete!(' ')
 
-    tickets = @order.tickets.filter(&:refundable?)
-    Ticketing::TicketCancelService.new(tickets, reason: :date_cancelled)
+    Ticketing::TicketCancelService.new(refundable_tickets, reason: :date_cancelled)
                                   .execute(send_customer_email: false)
 
     mailer = Ticketing::RefundMailer.with(order: @order,
@@ -71,6 +75,14 @@ class OrdersController < ApplicationController
     end
 
     @authenticated = info.authenticated.nonzero? || !web_order?
+  end
+
+  def valid_tickets
+    @order.tickets.valid
+  end
+
+  def refundable_tickets
+    valid_tickets.filter(&:refundable?)
   end
 
   def seats_hash
