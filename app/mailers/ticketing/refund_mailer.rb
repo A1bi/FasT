@@ -40,7 +40,7 @@ module Ticketing
     end
 
     def creditor_info
-      %i[name iban].index_with do |key|
+      %i[name iban bic].index_with do |key|
         I18n.t(key, scope: 'ticketing.payments.submissions')
       end
     end
