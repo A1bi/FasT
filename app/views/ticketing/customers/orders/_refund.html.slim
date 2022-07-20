@@ -1,6 +1,20 @@
+- if @transferable
+  hr
+  h2.hcen Umbuchung Ihrer Tickets
+  p Sie haben die Möglichkeit Ihre Tickets auf ein anderes Datum #{@event.seating.plan? ? 'und/oder einen anderen Sitzplatz ' : '' }umzubuchen. Klicken Sie dazu bitte auf folgenden Link:
+  p.hcen = link_to 'Tickets umbuchen', ticket_transfer_path
+  p Gerne erreichen Sie uns bei weiteren Fragen oder besonderen Umbuchungswünschen auch auf folgenden Wegen:<br>
+  p.hcen
+    <b>(02653) 28 27 09</b><br>
+    = mail_to('info@theater-kaisersesch.de')
+
 - if @order_refundable
-  h2.hcen Erstattung Ihrer Tickets
-  p Da die Veranstaltung entfällt, erhalten Sie selbstverständlich eine Erstattung des Ticketpreises. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
+  hr
+  h2.hcen Stornierung Ihrer Tickets
+  p
+    - if @transferable
+      ' Falls eine Umbuchung für Sie nicht infrage kommt, können Sie Ihre Tickets selbstverständlich auch stornieren.
+    | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
 
   = form_with url: order_overview_refund_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
     - if @order.charge_payment?
@@ -21,17 +35,10 @@
 
     table data-target='ticketing--refund.bankDetails' class=('visible' unless @order.charge_payment?)
       tr
-        td = f.label :name, 'Kontoinhaber'
+        td = f.label :name, 'Kontoinhaber:'
         td = f.text_field :name
       tr
-        td = f.label :iban, 'IBAN'
+        td = f.label :iban, 'IBAN:'
         td = f.text_field :iban
 
     p.hcen = f.submit 'Erstattung beantragen'
-
-- elsif @valid_tickets.any?
-  p.hcen
-    | Bei Umbuchungs- oder Stornierungswünschen rufen Sie uns gerne an:<br>
-    | <b>(02653) 28 27 09</b><br>
-    | oder kontaktieren Sie uns per Mail:<br>
-    = mail_to('info@theater-kaisersesch.de')

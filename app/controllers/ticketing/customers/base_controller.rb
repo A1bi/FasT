@@ -19,11 +19,16 @@ module Ticketing
           return redirect_to root_url
         end
 
+        @event = @order.event
         @authenticated = signed_info.authenticated.nonzero? || !web_order?
       end
 
       def signed_info
         @signed_info ||= Ticketing::SigningKey.verify_info(params[:signed_info])
+      end
+
+      def valid_tickets
+        @order.tickets.valid
       end
 
       def web_order?
@@ -32,6 +37,10 @@ module Ticketing
 
       def redirect_unauthenticated
         redirect_to order_overview_path(params[:signed_info]) unless @authenticated
+      end
+
+      def redirect_to_order_overview(options = {})
+        redirect_to order_overview_path(params[:signed_info]), options
       end
     end
   end

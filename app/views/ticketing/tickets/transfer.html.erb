@@ -17,6 +17,6 @@
   <% end %>
   <div class="submit">
     <%= button_tag "abbrechen", data: { action: 'ticketing--ticket-transfer#returnToOrder' } %>
-    <%= button_tag "umbuchen", data: { confirm: "Möchten Sie die Tickets wirklich umbuchen?", action: 'ticketing--ticket-transfer#finishTransfer' } %>
+    <%= button_tag "umbuchen", data: { 'confirm-msg' => "Möchten Sie die Tickets wirklich umbuchen?", action: 'ticketing--ticket-transfer#finishTransfer' } %>
   </div>
 <% end %>

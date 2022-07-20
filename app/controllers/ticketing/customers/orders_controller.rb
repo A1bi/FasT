@@ -16,8 +16,9 @@ module Ticketing
 
         refundable_sum = refundable_tickets.sum(&:price)
         balance_after_refund = @order.balance + refundable_sum
-        @order_refundable = @order.is_a?(Ticketing::Web::Order) && balance_after_refund.positive?
-        @valid_tickets = valid_tickets
+        changeable = @order.is_a?(Ticketing::Web::Order) && valid_tickets.any?
+        @order_refundable = changeable && balance_after_refund.positive?
+        @transferable = changeable && @order.date.date.future? && @event.dates.upcoming.any?
       end
 
       def check_email
@@ -38,15 +39,17 @@ module Ticketing
       end
 
       def refund
+        return redirect_to_order_overview if refundable_tickets.none?
+
         if web_order? && @order.charge_payment? &&
            params[:use_bank_charge] == 'true'
           bank_details = @order.bank_charge.slice(:name, :iban)
 
         else
           if params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
-            flash.alert = t('.incorrect_bank_details')
-            return redirect_to order_overview_path(params[:signed_info])
+            return redirect_to_order_overview alert: t('.incorrect_bank_details')
           end
+
           bank_details = params.permit(:name, :iban).to_h
         end
 
@@ -60,15 +63,10 @@ module Ticketing
         mailer.customer.deliver_later
         mailer.internal.deliver_later
 
-        redirect_to order_overview_path(params[:signed_info]),
-                    notice: t('.refund_requested')
+        redirect_to_order_overview notice: t('.refund_requested')
       end
 
       private
-
-      def valid_tickets
-        @order.tickets.valid
-      end
 
       def refundable_tickets
         valid_tickets.filter(&:refundable?)

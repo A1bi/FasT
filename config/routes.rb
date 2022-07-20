@@ -167,6 +167,12 @@ Rails.application.routes.draw do
           get '/wallet', action: :passbook_pass, as: :wallet
           get '/seats', action: :seats
         end
+
+        scope controller: :ticket_transfer, path: 'umbuchen', as: :ticket_transfer do
+          get '/', action: :index
+          post :init
+          patch :finish
+        end
       end
     end
 

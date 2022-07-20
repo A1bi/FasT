@@ -50,7 +50,9 @@ export default class extends Controller {
       .then(res => this.chooser.toggleExclusiveSeatsKey(res.seats))
   }
 
-  finishTransfer () {
+  finishTransfer (event) {
+    if (!window.confirm(event.currentTarget.dataset.confirmMsg)) return
+
     if (!this.chooser || this.chooser.validate()) {
       this.makeRequestWithAction('update', 'patch')
         .then(() => this.returnToOrder())

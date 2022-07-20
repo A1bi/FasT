@@ -209,6 +209,9 @@ de:
         wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."
         incorrect_bank_details: "Bitte überprüfen Sie Ihre eingegebenen Bankdaten."
         refund_requested: "Ihre Erstattung wurde erfolgreich beantragt."
+      ticket_transfer:
+        finish:
+          success: "Ihre Tickets wurden erfolgreich umgebucht. Sie erhalten eine Bestätigungs-E-Mail mit Ihren neuen Tickets."
   tickets:
     errors:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
