@@ -3,7 +3,7 @@
 module Ticketing
   class OrderMailer < ApplicationMailer
     helper TicketingHelper
-    helper ::OrdersHelper
+    helper Customers::OrdersHelper
 
     before_action :set_order
     before_action :prepare_tickets, :prepare_coupons

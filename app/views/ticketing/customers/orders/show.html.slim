@@ -40,7 +40,7 @@
             - if show_wallet?
               td.wallet
                 - unless ticket.cancelled?
-                  = link_to order_overview_wallet_path(ticket.signed_info)
+                  = link_to order_overview_wallet_path(ticket.signed_info(authenticated: true))
                     = image_tag("add_to_wallet.png")
       - if @order.tickets.first.seat.present?
         thead

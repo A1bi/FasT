@@ -143,14 +143,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :order, path: '', type: :web, only: [] do
-        scope path: 'tickets' do
-          get 'bestellen/(:event_slug)', action: :new, as: :new, on: :member
-        end
-        get 'geschenkgutscheine/bestellen', action: :new_coupons,
-                                            as: :new_coupons, on: :member
-      end
-
       namespace :box_office, path: 'ticketing/box_office' do
         resources :purchases, param: :token, only: [] do
           get :show, on: :member
@@ -160,21 +152,25 @@ Rails.application.routes.draw do
       end
     end
 
-    scope controller: :orders, path: 'tickets' do
+    scope path: 'tickets', module: :ticketing do
+      get 'bestellen/(:event_slug)' => 'orders#new', as: :new_ticketing_order, type: :web
+
       max_length = Ticketing::SigningKey.max_info_length
       info_regex = Regexp.new(/[A-Za-z0-9\-_]{1,#{max_length}}/)
 
-      scope path: ':signed_info', constraints: { signed_info: info_regex },
-            as: :order_overview do
-        get '/', action: :passbook_pass,
-                 constraints: { user_agent: /(Passbook|Wallet)/ }
-        get '/', action: :show
-        post '/', action: :check_email
-        post :refund
-        get '/wallet', action: :passbook_pass, as: :wallet
-        get '/seats', action: :seats
+      scope path: ':signed_info', constraints: { signed_info: info_regex }, module: :customers do
+        scope controller: :orders, as: :order_overview do
+          get '/', action: :passbook_pass, constraints: { user_agent: /(Passbook|Wallet)/ }
+          get '/', action: :show
+          post '/', action: :check_email
+          post :refund
+          get '/wallet', action: :passbook_pass, as: :wallet
+          get '/seats', action: :seats
+        end
       end
     end
+
+    get 'geschenkgutscheine/bestellen' => 'ticketing/orders#new_coupons', as: :new_coupons_ticketing_order, type: :web
 
     namespace :members, path: 'mitglieder' do
       resource :member, path: 'mitgliedschaft', controller: :member,

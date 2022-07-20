@@ -204,10 +204,11 @@ de:
         body:
           one: "Es wurde ein Geschenkgutschein bestellt."
           other: "Es wurden %{count} Geschenkgutscheine bestellt."
-  orders:
-    wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."
-    incorrect_bank_details: "Bitte überprüfen Sie Ihre eingegebenen Bankdaten."
-    refund_requested: "Ihre Erstattung wurde erfolgreich beantragt."
+    customers:
+      orders:
+        wrong_email: "Die eingegebene E-Mail-Adresse stimmt nicht mit der Ihrer Bestellung überein."
+        incorrect_bank_details: "Bitte überprüfen Sie Ihre eingegebenen Bankdaten."
+        refund_requested: "Ihre Erstattung wurde erfolgreich beantragt."
   tickets:
     errors:
       seat_not_found: "Der gewählte Sitzplatz wurde nicht gefunden."
