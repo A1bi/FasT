@@ -23,6 +23,8 @@ module Ticketing
                                                             current_user:)
         return :unprocessable_entity unless ticket_transfer_service.execute
 
+        OrderMailer.with(order: @order).tickets_changed.deliver_later
+
         flash[:notice] = t('.success')
         head :ok
       end

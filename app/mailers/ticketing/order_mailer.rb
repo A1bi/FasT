@@ -31,6 +31,10 @@ module Ticketing
       mail
     end
 
+    def tickets_changed
+      mail
+    end
+
     private
 
     def set_order
