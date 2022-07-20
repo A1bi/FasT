@@ -12,6 +12,8 @@ module Ticketing
       helper Ticketing::TicketingHelper
 
       def show
+        return render :email_form unless @authenticated
+
         refundable_sum = refundable_tickets.sum(&:price)
         balance_after_refund = @order.balance + refundable_sum
         @order_refundable = @order.is_a?(Ticketing::Web::Order) && balance_after_refund.positive?

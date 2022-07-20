@@ -5,7 +5,10 @@
 
 .hl Ihre Bestellung #{@order.number}
 
-- if @authenticated
+- if @order.try(:anonymized?)
+  p Diese Bestellung wurde gemäß unserer #{link_to 'Datenschutzerklärung', privacy_path} nach Ablauf der Aufbewahrungsfrist anonymisiert. Die Bestelldetails sind daher nicht mehr einsehbar.
+
+- else
   - if @order.tickets.any?
     table.rounded.entries.details
       thead
@@ -64,12 +67,3 @@
               b = number_to_currency coupon.initial_value
 
   = render 'refund'
-
-- elsif @order.try(:anonymized?)
-  p Diese Bestellung wurde gemäß unserer #{link_to 'Datenschutzerklärung', privacy_path} nach Ablauf der Aufbewahrungsfrist anonymisiert. Die Bestelldetails sind daher nicht mehr einsehbar.
-
-- else
-  p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
-  = form_tag order_overview_path(params[:signed_info]), method: :post, class: :hcen
-    | E-Mail-Adresse: #{email_field_tag :email}
-    p = submit_tag :absenden

@@ -1,0 +1,9 @@
+- title 'Ihre Bestellung'
+- include_css 'ticketing/orders'
+
+.hl Ihre Bestellung
+
+p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
+= form_tag order_overview_path(params[:signed_info]), method: :post, class: :hcen
+  | E-Mail-Adresse: #{email_field_tag :email}
+  p = submit_tag :absenden
