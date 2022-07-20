@@ -65,7 +65,7 @@ export default class extends Controller {
   }
 
   makeRequestWithAction (action, method) {
-    const url = this.element.dataset[`${action}-path`]
+    const url = this.element.dataset[`${action}Path`]
     return fetch(url, method, {
       ticket_ids: this.tickets,
       date_id: this.date,
@@ -99,6 +99,6 @@ export default class extends Controller {
   }
 
   returnToOrder () {
-    window.location = this.element.dataset['order-path']
+    window.location = this.element.dataset.orderPath
   }
 }
