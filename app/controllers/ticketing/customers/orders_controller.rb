@@ -28,10 +28,7 @@ module Ticketing
       end
 
       def passbook_pass
-        return head :forbidden if @ticket.blank?
-
-        send_file @ticket.passbook_pass(create: true).file_path,
-                  type: 'application/vnd.apple.pkpass'
+        send_file @ticket.passbook_pass(create: true).file_path, type: 'application/vnd.apple.pkpass'
       end
 
       def seats
