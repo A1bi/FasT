@@ -39,7 +39,8 @@ module Ticketing
       end
 
       def check_printable
-        return unless @update_printable
+        # TODO: remove printable logic and generate PDF on demand
+        # return unless @update_printable
 
         update_printable
         @update_printable = false
