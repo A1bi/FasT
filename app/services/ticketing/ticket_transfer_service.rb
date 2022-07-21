@@ -12,6 +12,8 @@ module Ticketing
     end
 
     def execute
+      return if new_date.cancelled?
+
       ActiveRecord::Base.transaction do
         @updated_tickets = valid_tickets.filter_map { |ticket| update_ticket(ticket) }
 

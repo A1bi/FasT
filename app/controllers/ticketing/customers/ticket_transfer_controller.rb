@@ -21,7 +21,7 @@ module Ticketing
                                                             order_id: @order.id,
                                                             socket_id: params[:socket_id],
                                                             current_user:)
-        return :unprocessable_entity unless ticket_transfer_service.execute
+        return head :unprocessable_entity unless ticket_transfer_service.execute
 
         OrderMailer.with(order: @order).tickets_changed.deliver_later
 

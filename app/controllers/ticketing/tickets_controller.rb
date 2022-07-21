@@ -42,7 +42,7 @@ module Ticketing
                                   socket_id: params[:socket_id],
                                   current_user:)
 
-      return :unprocessable_entity unless ticket_transfer_service.execute
+      return head :unprocessable_entity unless ticket_transfer_service.execute
 
       flash[:notice] = t('.updated')
       head :ok
