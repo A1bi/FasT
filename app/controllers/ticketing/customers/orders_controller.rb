@@ -16,7 +16,7 @@ module Ticketing
 
         @cancellable = web_order? && refundable_tickets.any?
         @refundable = @cancellable && credit_after_cancellation?
-        @transferable = web_order? && valid_tickets.any? && @order.date.date.future?
+        @transferable = transferable
       end
 
       def check_email
@@ -64,6 +64,12 @@ module Ticketing
           refundable_sum = refundable_tickets.sum(&:price)
           (@order.balance + refundable_sum).positive?
         end
+      end
+
+      def transferable
+        web_order? && valid_tickets.any? &&
+          ((@order.date.cancelled? && @order.event.dates.uncancelled.upcoming.any?) ||
+            (!@order.date.cancelled? && @order.date.admission_time.future?))
       end
 
       def prepare_bank_details
