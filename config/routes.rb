@@ -162,7 +162,7 @@ Rails.application.routes.draw do
         scope controller: :orders, as: :order_overview do
           get '/', action: :show
           post '/', action: :check_email
-          post :refund
+          post :cancel
           get '/wallet', action: :passbook_pass, as: :wallet
           get '/seats', action: :seats
         end

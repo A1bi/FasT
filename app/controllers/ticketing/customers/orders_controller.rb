@@ -14,11 +14,9 @@ module Ticketing
       def show
         return render :email_form unless @authenticated
 
-        refundable_sum = refundable_tickets.sum(&:price)
-        balance_after_refund = @order.balance + refundable_sum
-        changeable = @order.is_a?(Ticketing::Web::Order) && valid_tickets.any?
-        @order_refundable = changeable && balance_after_refund.positive?
-        @transferable = changeable && @order.date.date.future? && @event.dates.upcoming.any?
+        @cancellable = web_order? && refundable_tickets.any?
+        @refundable = @cancellable && credit_after_cancellation?
+        @transferable = web_order? && valid_tickets.any? && @order.date.date.future?
       end
 
       def check_email
@@ -35,38 +33,52 @@ module Ticketing
         render json: seats_hash
       end
 
-      def refund
+      def cancel
         return redirect_to_order_overview if refundable_tickets.none?
 
-        if web_order? && @order.charge_payment? &&
-           params[:use_bank_charge] == 'true'
-          bank_details = @order.bank_charge.slice(:name, :iban)
-
-        else
-          if params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
-            return redirect_to_order_overview alert: t('.incorrect_bank_details')
-          end
-
-          bank_details = params.permit(:name, :iban).to_h
+        if credit_after_cancellation?
+          bank_details = prepare_bank_details
+          return if bank_details.nil?
         end
 
-        bank_details[:iban].delete!(' ')
-
         Ticketing::TicketCancelService.new(refundable_tickets, reason: :date_cancelled)
-                                      .execute(send_customer_email: false)
+                                      .execute(send_customer_email: !credit_after_cancellation?)
 
-        mailer = Ticketing::RefundMailer.with(order: @order,
-                                              **bank_details.symbolize_keys)
-        mailer.customer.deliver_later
-        mailer.internal.deliver_later
+        if credit_after_cancellation?
+          mailer = Ticketing::RefundMailer.with(order: @order, **bank_details.symbolize_keys)
+          mailer.customer.deliver_later
+          mailer.internal.deliver_later
+        end
 
-        redirect_to_order_overview notice: t('.refund_requested')
+        redirect_to_order_overview notice: t('.tickets_cancelled')
       end
 
       private
 
       def refundable_tickets
         valid_tickets.filter(&:refundable?)
+      end
+
+      def credit_after_cancellation?
+        @credit_after_cancellation ||= begin
+          refundable_sum = refundable_tickets.sum(&:price)
+          (@order.balance + refundable_sum).positive?
+        end
+      end
+
+      def prepare_bank_details
+        bank_details = params.permit(:name, :iban).to_h
+
+        if web_order? && @order.charge_payment? && params[:use_bank_charge] == 'true'
+          bank_details = @order.bank_charge.slice(:name, :iban)
+
+        elsif params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
+          redirect_to_order_overview alert: t('.incorrect_bank_details')
+          return
+        end
+
+        bank_details[:iban].delete!(' ')
+        bank_details
       end
 
       def seats_hash

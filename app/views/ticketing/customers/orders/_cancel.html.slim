@@ -1,22 +1,15 @@
-- if @transferable
-  hr
-  h2.hcen Umbuchung Ihrer Tickets
-  p Sie haben die Möglichkeit Ihre Tickets auf ein anderes Datum #{@event.seating.plan? ? 'und/oder einen anderen Sitzplatz ' : '' }umzubuchen. Klicken Sie dazu bitte auf folgenden Link:
-  p.hcen = link_to 'Tickets umbuchen', ticket_transfer_path
-  p Gerne erreichen Sie uns bei weiteren Fragen oder besonderen Umbuchungswünschen auch auf folgenden Wegen:<br>
-  p.hcen
-    <b>(02653) 28 27 09</b><br>
-    = mail_to('info@theater-kaisersesch.de')
-
-- if @order_refundable
-  hr
-  h2.hcen Stornierung Ihrer Tickets
-  p
-    - if @transferable
-      ' Falls eine Umbuchung für Sie nicht infrage kommt, können Sie Ihre Tickets selbstverständlich auch stornieren.
+hr
+h2.hcen Stornierung Ihrer Tickets
+p
+  - if @transferable
+    ' Falls eine Umbuchung für Sie nicht infrage kommt, können Sie Ihre Tickets selbstverständlich auch stornieren.
+  - if @refundable
     | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
+  - else
+    | Durch ein Klick auf folgenden Button werden Ihre Tickets storniert.
 
-  = form_with url: order_overview_refund_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
+= form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
+  - if @refundable
     - if @order.charge_payment?
       table
         tr
@@ -41,4 +34,4 @@
         td = f.label :iban, 'IBAN:'
         td = f.text_field :iban
 
-    p.hcen = f.submit 'Erstattung beantragen'
+  p.hcen = f.submit 'Tickets stornieren'

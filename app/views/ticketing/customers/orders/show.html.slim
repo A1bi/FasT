@@ -66,4 +66,5 @@
               ' Gutschein über
               b = number_to_currency coupon.initial_value
 
-  = render 'refund'
+  = render 'transfer' if @transferable
+  = render 'cancel' if @cancellable
