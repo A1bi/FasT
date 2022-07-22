@@ -1,3 +1,7 @@
-Neuer Termin: <%= select_tag :date, options_for_select(dates.map do |date|
-  [l(date.date, format: "%A, den %d. %B um %H.%M Uhr"), date.id]
-end, selected: preselected_date.id, disabled: dates.cancelled.pluck(:id)), data: local_assigns[:data] %>
+<%
+  options = dates.map do |date|
+    [l(date.date, format: "%A, den %d. %B um %H.%M Uhr"), date.id]
+  end
+  options.unshift [nil, nil] if local_assigns[:preselected_date].nil?
+%>
+Neuer Termin: <%= select_tag :date, options_for_select(options, selected: local_assigns[:preselected_date]&.id, disabled: dates.cancelled.pluck(:id)), data: local_assigns[:data] %>

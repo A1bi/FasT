@@ -5,12 +5,13 @@
 
 = content_tag :div, class: :transfer, data: { controller: 'ticketing--ticket-transfer', tickets: @tickets.map { |t| t.id }, event_id: @event.id, init_path: ticket_transfer_init_path(params[:signed_info]), update_path: ticket_transfer_finish_path(params[:signed_info]), order_path: order_overview_path(params[:signed_info]) }
   .date
-    = render 'application/ticketing/date_select', dates: @dates, preselected_date: @order.date, data: { target: 'ticketing--ticket-transfer.date', action: 'ticketing--ticket-transfer#updateDate' }
+    p Bitte wählen Sie das Datum, auf das Sie umbuchen möchten.
+    = render 'application/ticketing/date_select', dates: @dates, data: { target: 'ticketing--ticket-transfer.date', action: 'ticketing--ticket-transfer#updateDate' }
 
   - if @event.seating.plan?
-    p Ihre bisherigen Plätze: #{@tickets.map { |t| content_tag(:b, t.seat.full_number)}.join(', ').html_safe }.
-    p Bitte wählen Sie <b>#{pluralize(@tickets.count, 'neuen Platz', plural: 'neue Plätze')}</b>.
-    = render 'application/ticketing/seating', class: %i[chooser stage], event: @order.event, error_box: true, key: true, mode: :chooser, controller_target: 'ticketing--ticket-transfer.seating'
+    div data-target='ticketing--ticket-transfer.seatTransfer'
+      p.hcen Ihre bisherigen Plätze: #{@tickets.map { |t| content_tag(:b, t.seat.full_number)}.join(', ').html_safe }. Bitte wählen Sie <b>#{pluralize(@tickets.count, 'neuen Platz', plural: 'neue Plätze')}</b>.
+      = render 'application/ticketing/seating', class: %i[chooser stage], event: @order.event, error_box: true, key: true, mode: :chooser, controller_target: 'ticketing--ticket-transfer.seating'
 
   .submit
     = button_tag 'abbrechen', data: { action: 'ticketing--ticket-transfer#returnToOrder' }

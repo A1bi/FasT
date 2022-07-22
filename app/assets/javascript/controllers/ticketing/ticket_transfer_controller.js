@@ -3,10 +3,12 @@ import SeatChooser from '../../components/ticketing/seat_chooser'
 import { fetch } from '../../components/utils'
 
 export default class extends Controller {
-  static targets = ['date', 'seating']
+  static targets = ['date', 'seatTransfer', 'seating']
 
   initialize () {
     if (this.hasSeatingTarget) {
+      this.seatTransferVisible = false
+
       this.chooser = new SeatChooser(this.seatingTarget, this)
       this.chooser.init()
 
@@ -27,8 +29,17 @@ export default class extends Controller {
     return JSON.parse(this.element.dataset.tickets)
   }
 
+  set seatTransferVisible (toggle) {
+    if (!this.hasSeatTransferTarget) return
+
+    this.seatTransferTarget.style.display = toggle ? 'block' : 'none'
+  }
+
   updateDate () {
     if (!this.chooser) return
+
+    this.seatTransferVisible = !!this.date
+    if (!this.date) return
 
     this.chooser.setDateAndNumberOfSeats(
       this.date, this.tickets.length, () => {}
@@ -51,6 +62,13 @@ export default class extends Controller {
   }
 
   finishTransfer (event) {
+    if (!this.date) return window.alert('Bitte wählen Sie ein neues Datum aus.')
+
+    if (this.chooser && this.chooser.getSeatsYetToChoose() > 0) {
+      const msg = this.tickets.length > 1 ? `${this.tickets.length} neue Sitzplätze` : 'Ihren neuen Sitzplatz'
+      return window.alert(`Bitte wählen Sie ${msg}.`)
+    }
+
     if (!window.confirm(event.currentTarget.dataset.confirmMsg)) return
 
     if (!this.chooser || this.chooser.validate()) {
