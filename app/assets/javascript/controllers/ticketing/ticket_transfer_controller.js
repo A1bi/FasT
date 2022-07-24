@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import SeatChooser from '../../components/ticketing/seat_chooser'
-import { fetch } from '../../components/utils'
+import { fetch, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
   static targets = ['date', 'seatTransfer', 'seating']
@@ -32,7 +32,7 @@ export default class extends Controller {
   set seatTransferVisible (toggle) {
     if (!this.hasSeatTransferTarget) return
 
-    this.seatTransferTarget.style.display = toggle ? 'block' : 'none'
+    toggleDisplay(this.seatTransferTarget, toggle)
   }
 
   updateDate () {
