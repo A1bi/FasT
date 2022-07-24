@@ -67,8 +67,8 @@ module Ticketing
     end
 
     def find_tickets(ticket_scope: @order.tickets.valid)
-      @tickets = ticket_scope.where(id: params[:ticket_ids]).to_a
-      return redirect_to_order_details if @tickets.none?
+      @tickets = ticket_scope.where(id: params[:ticket_ids])
+      raise ActiveRecord::RecordNotFound if @tickets.none?
 
       @tickets.each { |ticket| authorize(ticket) }
     end
