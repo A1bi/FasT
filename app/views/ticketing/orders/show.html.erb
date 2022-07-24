@@ -128,7 +128,7 @@
             <th colspan="<%= tickets_colspan(@show_check_ins) %>">Bestellte Tickets</th>
           </tr>
           <tr>
-            <th></th>
+            <th><%= check_box_tag "all_tickets", nil, nil, disabled: @order.tickets.uncancelled.none?, data: { action: 'ticketing--tickets-table#toggleAllCheckBoxes' } %></th>
             <th>Nummer</th>
             <th>Kategorie</th>
             <th>Preis</th>

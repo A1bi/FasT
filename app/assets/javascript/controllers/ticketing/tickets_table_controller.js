@@ -11,6 +11,13 @@ export default class extends Controller {
     this.toggleReason()
   }
 
+  toggleAllCheckBoxes (event) {
+    this.ticketCheckBoxTargets.forEach(box => {
+      box.checked = event.currentTarget.checked
+    })
+    this.toggleForm()
+  }
+
   toggleForm () {
     const anyChecked = this.ticketCheckBoxTargets.some(box => box.checked)
     toggleDisplay(this.noTicketsMessageTarget, !anyChecked)
