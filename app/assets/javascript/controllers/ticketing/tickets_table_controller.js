@@ -2,12 +2,19 @@ import { Controller } from 'stimulus'
 import { getAuthenticityToken, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
-  static targets = ['action', 'reason']
+  static targets = ['ticketCheckBox', 'noTicketsMessage', 'form', 'action', 'reason']
 
   initialize () {
     this.element.querySelector("[name='authenticity_token']").value =
       getAuthenticityToken()
+    this.toggleForm()
     this.toggleReason()
+  }
+
+  toggleForm () {
+    const anyChecked = this.ticketCheckBoxTargets.some(box => box.checked)
+    toggleDisplay(this.noTicketsMessageTarget, !anyChecked)
+    toggleDisplay(this.formTarget, anyChecked)
   }
 
   toggleReason () {
