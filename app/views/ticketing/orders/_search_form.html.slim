@@ -1,8 +1,7 @@
-<form action="<%= ticketing_orders_path %>" method="GET">
-  <table class="rounded entries details search">
-    <tr>
-      <th>Bestellung suchen</th>
-      <th><%= text_field_tag :q, params[:q], placeholder: current_user.admin? ? "Bestell-, Ticketnummer oder Name des Bestellers" : "Bestell- oder Ticketnummer" %> <%= submit_tag "suchen", name: nil %></th>
-    </tr>
-  </table>
-</form>
+form action=ticketing_orders_path method='GET'
+  table.rounded.entries.details.search
+    tr
+      th Bestellung suchen
+      th
+        = text_field_tag :q, params[:q], placeholder: current_user.admin? ? 'Bestell-, Ticketnummer oder Name des Bestellers' : 'Bestell- oder Ticketnummer'
+        =< submit_tag 'suchen', name: nil
