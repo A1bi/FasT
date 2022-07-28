@@ -19,12 +19,16 @@ export default class extends Controller {
   }
 
   toggleForm () {
+    if (!this.hasNoTicketsMessageTarget) return
+
     const anyChecked = this.ticketCheckBoxTargets.some(box => box.checked)
     toggleDisplay(this.noTicketsMessageTarget, !anyChecked)
     toggleDisplay(this.formTarget, anyChecked)
   }
 
   toggleReason () {
+    if (!this.hasReasonTarget) return
+
     toggleDisplay(this.reasonTarget, this.actionTarget.value === 'cancel', 'inline')
   }
 
