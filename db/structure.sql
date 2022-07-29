@@ -833,6 +833,72 @@ ALTER SEQUENCE public.ticketing_bank_charges_id_seq OWNED BY public.ticketing_ba
 
 
 --
+-- Name: ticketing_bank_refund_submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_bank_refund_submissions (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_bank_refund_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_bank_refund_submissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_bank_refund_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_bank_refund_submissions_id_seq OWNED BY public.ticketing_bank_refund_submissions.id;
+
+
+--
+-- Name: ticketing_bank_refunds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_bank_refunds (
+    id bigint NOT NULL,
+    name character varying,
+    iban character varying,
+    amount numeric DEFAULT 0.0 NOT NULL,
+    order_id bigint,
+    submission_id bigint,
+    anonymized_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_bank_refunds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_bank_refunds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_bank_refunds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_bank_refunds_id_seq OWNED BY public.ticketing_bank_refunds.id;
+
+
+--
 -- Name: ticketing_bank_submissions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2050,6 +2116,20 @@ ALTER TABLE ONLY public.ticketing_bank_charges ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: ticketing_bank_refund_submissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refund_submissions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_bank_refund_submissions_id_seq'::regclass);
+
+
+--
+-- Name: ticketing_bank_refunds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refunds ALTER COLUMN id SET DEFAULT nextval('public.ticketing_bank_refunds_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_bank_submissions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2440,6 +2520,22 @@ ALTER TABLE ONLY public.shared_email_account_tokens
 
 ALTER TABLE ONLY public.ticketing_bank_charges
     ADD CONSTRAINT ticketing_bank_charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ticketing_bank_refund_submissions ticketing_bank_refund_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refund_submissions
+    ADD CONSTRAINT ticketing_bank_refund_submissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ticketing_bank_refunds ticketing_bank_refunds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refunds
+    ADD CONSTRAINT ticketing_bank_refunds_pkey PRIMARY KEY (id);
 
 
 --
@@ -2850,6 +2946,20 @@ CREATE INDEX index_ticketing_bank_charges_on_chargeable ON public.ticketing_bank
 --
 
 CREATE INDEX index_ticketing_bank_charges_on_submission_id ON public.ticketing_bank_charges USING btree (submission_id);
+
+
+--
+-- Name: index_ticketing_bank_refunds_on_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_bank_refunds_on_order_id ON public.ticketing_bank_refunds USING btree (order_id);
+
+
+--
+-- Name: index_ticketing_bank_refunds_on_submission_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_bank_refunds_on_submission_id ON public.ticketing_bank_refunds USING btree (submission_id);
 
 
 --
@@ -3530,6 +3640,14 @@ ALTER TABLE ONLY public.ticketing_orders
 
 
 --
+-- Name: ticketing_bank_refunds fk_rails_9f2736ddbb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refunds
+    ADD CONSTRAINT fk_rails_9f2736ddbb FOREIGN KEY (order_id) REFERENCES public.ticketing_orders(id);
+
+
+--
 -- Name: members_exclusive_ticket_type_credit_spendings fk_rails_a1412571c0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3631,6 +3749,14 @@ ALTER TABLE ONLY public.ticketing_orders
 
 ALTER TABLE ONLY public.ticketing_check_ins
     ADD CONSTRAINT fk_rails_e666ea82e7 FOREIGN KEY (ticket_id) REFERENCES public.ticketing_tickets(id);
+
+
+--
+-- Name: ticketing_bank_refunds fk_rails_f9bc29755d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_refunds
+    ADD CONSTRAINT fk_rails_f9bc29755d FOREIGN KEY (submission_id) REFERENCES public.ticketing_bank_refund_submissions(id);
 
 
 --
@@ -3813,6 +3939,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220601123414'),
 ('20220602124536'),
 ('20220604133306'),
-('20220702154140');
+('20220702154140'),
+('20220729060500');
 
 
