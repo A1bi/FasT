@@ -18,6 +18,10 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
       it 'anonymizes the corresponding bank charge' do
         expect { subject }.to change { order.bank_charge.reload.anonymized? }.to(true)
       end
+
+      it 'anonymizes the corresponding bank refunds' do
+        expect { subject }.to change { order.bank_refunds.first.reload.anonymized? }.to(true)
+      end
     end
 
     context 'with an already anonymized order' do
@@ -28,7 +32,7 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
 
     context 'when there is one date and it is at least 6 weeks past' do
       let(:order) do
-        order = create(:web_order, :with_tickets, :charge_payment)
+        order = create(:web_order, :with_tickets, :charge_payment, :with_bank_refunds)
         order.tickets.first.date.update(date: 7.weeks.ago)
         order
       end
@@ -38,8 +42,7 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
 
     context 'when there are multiple dates and all are at least 6 weeks past' do
       let(:order) do
-        order = create(:web_order, :with_tickets, :charge_payment,
-                       tickets_count: 2)
+        order = create(:web_order, :with_tickets, :charge_payment, :with_bank_refunds, tickets_count: 2)
         order.tickets.first.date.update(date: 7.weeks.ago)
         order.tickets.second.update(date: order.tickets.first.date.dup)
         order.tickets.second.date.update(date: 8.weeks.ago)

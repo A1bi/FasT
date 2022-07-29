@@ -10,6 +10,7 @@ module Ticketing
 
         order.anonymize!
         order.bank_charge&.anonymize!
+        order.bank_refunds.each(&:anonymize!)
       end
     end
 

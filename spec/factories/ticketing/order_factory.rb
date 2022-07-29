@@ -33,5 +33,11 @@ FactoryBot.define do
     trait :complete do
       with_purchased_coupons
     end
+
+    trait :with_bank_refunds do
+      after(:create) do |order|
+        order.bank_refunds = create_list(:bank_refund, 1, order:)
+      end
+    end
   end
 end
