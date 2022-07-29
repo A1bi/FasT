@@ -58,7 +58,7 @@ module Ticketing
     private
 
     def redirect_to_order_details(notice = nil)
-      flash.notice = t(".#{notice}", count: @tickets.count) if notice
+      flash.notice = t(".#{notice}", count: @tickets.size) if notice
       redirect_to ticketing_order_path(params[:order_id])
     end
 
