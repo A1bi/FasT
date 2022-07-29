@@ -18,6 +18,8 @@ class DatesController < ApplicationController
 
     @ticket_types = @event.ticket_types.except_exclusive
                           .ordered_by_availability_and_price
+    @other_events = Ticketing::Event.with_future_dates.where.not(id: @event)
+
     render template
   end
 end

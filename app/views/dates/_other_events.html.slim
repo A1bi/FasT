@@ -1,4 +1,4 @@
 .other-events
-  - %w[abba gatte].each do |identifier|
-    - next if @event&.identifier == identifier
-    p Termine zu #{image_tag "theater/#{identifier}/title.svg", height: 50, valign: 'middle'} finden Sie #{link_to 'hier', dates_event_identifier_path(identifier)}.
+  - @other_events.each do |event|
+    - if event_image_exists?(event) && dates_event_identifier_path_exists?(event.identifier)
+      p Termine zu #{image_tag event_image_path(event), height: 50, valign: 'middle'} finden Sie #{link_to 'hier', dates_event_identifier_path(event.identifier)}.
