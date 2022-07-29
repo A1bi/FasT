@@ -5,23 +5,24 @@
     - cache [:alert, alert_mtime]
       .alert
         div = alert_info[:title]
-        = alert_info[:text].html_safe
+        == alert_info[:text]
 
   - @events.each do |event|
-    .teaser class=event.identifier
-      = image_tag "theater/#{event.assets_identifier}/title.svg", alt: event.name
-      ul.links
-        - if theater_play_path_exists?(event)
-          li = link_to 'Über das Stück', theater_play_path(event.slug)
-        li = link_to 'Termine', dates_event_identifier_path(event.identifier)
-        - if !event.sale_started?
-          li Tickets ab #{l(event.sale_start, format: '%-d. %B')}
-        - elsif event.on_sale?
-          - if event.sold_out?
-            li Derzeit ausverkauft
-          - else
-            li = link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier)
-    .trenner
+    - if event_image_exists?(event)
+      .teaser class=event.identifier
+        = image_tag event_image_path(event), alt: event.name
+        ul.links
+          - if theater_play_path_exists?(event)
+            li = link_to 'Über das Stück', theater_play_path(event.slug)
+          li = link_to 'Termine', dates_event_identifier_path(event.identifier)
+          - if !event.sale_started?
+            li Tickets ab #{l(event.sale_start, format: '%-d. %B')}
+          - elsif event.on_sale?
+            - if event.sold_out?
+              li Derzeit ausverkauft
+            - else
+              li = link_to 'Tickets bestellen', new_ticketing_order_identifier_path(event.identifier)
+      .trenner
 
   .coupons
     .hl Jetzt neu: Geschenkgutscheine

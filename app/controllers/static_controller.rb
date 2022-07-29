@@ -14,10 +14,6 @@ class StaticController < ApplicationController
 
   private
 
-  def theater_play_path_exists?(event)
-    template_exists?("theater/#{event.identifier}")
-  end
-
   def show_alert?
     File.exist? ALERT_FILE_PATH
   end
@@ -30,6 +26,5 @@ class StaticController < ApplicationController
     JSON.parse(File.read(ALERT_FILE_PATH), symbolize_names: true)
   end
 
-  helper_method :theater_play_path_exists?, :show_alert?, :alert_mtime,
-                :alert_info
+  helper_method :show_alert?, :alert_mtime, :alert_info
 end

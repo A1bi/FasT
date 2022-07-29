@@ -24,12 +24,28 @@ module ApplicationHelper
     event_identifier_path(identifier, :dates_event_path)
   end
 
+  def dates_event_identifier_path_exists?(identifier)
+    lookup_context.template_exists?("dates/event_#{identifier}")
+  end
+
   def new_ticketing_order_identifier_path(identifier)
     event_identifier_path(identifier, :new_ticketing_order_path)
   end
 
   def info_identifier_path(identifier)
     event_identifier_path(identifier, :info_path)
+  end
+
+  def event_image_exists?(event)
+    asset_exists?(event_image_path(event))
+  end
+
+  def event_image_path(event)
+    "theater/#{event.assets_identifier}/title.svg"
+  end
+
+  def theater_play_path_exists?(event)
+    lookup_context.template_exists?("theater/#{event.identifier}")
   end
 
   def asset_exists?(path)
