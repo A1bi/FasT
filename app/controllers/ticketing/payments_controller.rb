@@ -20,7 +20,7 @@ module Ticketing
         outstanding_credit: orders_with_outstanding_credit
       }
 
-      @submissions = BankSubmission.order(created_at: :desc).limit(10)
+      @submissions = BankChargeSubmission.order(created_at: :desc).limit(10)
     end
 
     def mark_as_paid

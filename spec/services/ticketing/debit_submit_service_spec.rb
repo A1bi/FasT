@@ -9,7 +9,7 @@ RSpec.describe Ticketing::DebitSubmitService do
 
   before do
     orders.each { |order| order.billing_account.update(balance: -20) }
-    Ticketing::BankSubmission.create(charges: [orders[2].bank_charge])
+    Ticketing::BankChargeSubmission.create(charges: [orders[2].bank_charge])
   end
 
   it 'only submits unsubmitted debits' do
@@ -20,8 +20,8 @@ RSpec.describe Ticketing::DebitSubmitService do
   end
 
   it 'creates a new bank submission' do
-    expect { subject }.to change(Ticketing::BankSubmission, :count).by(1)
+    expect { subject }.to change(Ticketing::BankChargeSubmission, :count).by(1)
     charges = orders[0..1].map(&:bank_charge)
-    expect(Ticketing::BankSubmission.last.charges).to include(*charges)
+    expect(Ticketing::BankChargeSubmission.last.charges).to include(*charges)
   end
 end

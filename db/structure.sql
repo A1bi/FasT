@@ -796,6 +796,36 @@ CREATE TABLE public.shared_email_account_tokens (
 
 
 --
+-- Name: ticketing_bank_charge_submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_bank_charge_submissions (
+    id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_bank_charge_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_bank_charge_submissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_bank_charge_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_bank_charge_submissions_id_seq OWNED BY public.ticketing_bank_charge_submissions.id;
+
+
+--
 -- Name: ticketing_bank_charges; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -896,36 +926,6 @@ CREATE SEQUENCE public.ticketing_bank_refunds_id_seq
 --
 
 ALTER SEQUENCE public.ticketing_bank_refunds_id_seq OWNED BY public.ticketing_bank_refunds.id;
-
-
---
--- Name: ticketing_bank_submissions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.ticketing_bank_submissions (
-    id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: ticketing_bank_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.ticketing_bank_submissions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: ticketing_bank_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.ticketing_bank_submissions_id_seq OWNED BY public.ticketing_bank_submissions.id;
 
 
 --
@@ -2109,6 +2109,13 @@ ALTER TABLE ONLY public.photos ALTER COLUMN id SET DEFAULT nextval('public.photo
 
 
 --
+-- Name: ticketing_bank_charge_submissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_charge_submissions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_bank_charge_submissions_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_bank_charges id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2127,13 +2134,6 @@ ALTER TABLE ONLY public.ticketing_bank_refund_submissions ALTER COLUMN id SET DE
 --
 
 ALTER TABLE ONLY public.ticketing_bank_refunds ALTER COLUMN id SET DEFAULT nextval('public.ticketing_bank_refunds_id_seq'::regclass);
-
-
---
--- Name: ticketing_bank_submissions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ticketing_bank_submissions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_bank_submissions_id_seq'::regclass);
 
 
 --
@@ -2515,6 +2515,14 @@ ALTER TABLE ONLY public.shared_email_account_tokens
 
 
 --
+-- Name: ticketing_bank_charge_submissions ticketing_bank_charge_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_charge_submissions
+    ADD CONSTRAINT ticketing_bank_charge_submissions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ticketing_bank_charges ticketing_bank_charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2536,14 +2544,6 @@ ALTER TABLE ONLY public.ticketing_bank_refund_submissions
 
 ALTER TABLE ONLY public.ticketing_bank_refunds
     ADD CONSTRAINT ticketing_bank_refunds_pkey PRIMARY KEY (id);
-
-
---
--- Name: ticketing_bank_submissions ticketing_bank_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ticketing_bank_submissions
-    ADD CONSTRAINT ticketing_bank_submissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3580,7 +3580,7 @@ ALTER TABLE ONLY public.ticketing_log_events
 --
 
 ALTER TABLE ONLY public.ticketing_bank_charges
-    ADD CONSTRAINT fk_rails_684a6280d2 FOREIGN KEY (submission_id) REFERENCES public.ticketing_bank_submissions(id);
+    ADD CONSTRAINT fk_rails_684a6280d2 FOREIGN KEY (submission_id) REFERENCES public.ticketing_bank_charge_submissions(id);
 
 
 --
@@ -3940,6 +3940,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220602124536'),
 ('20220604133306'),
 ('20220702154140'),
-('20220729060500');
+('20220729060500'),
+('20220729061721');
 
 

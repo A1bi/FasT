@@ -8,7 +8,7 @@ module Ticketing
     end
 
     def execute
-      submission = BankSubmission.new
+      submission = BankChargeSubmission.new
       submission.transaction do
         @orders.each do |order|
           next if order.bank_charge.submitted?

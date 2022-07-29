@@ -22,7 +22,7 @@ module Ticketing
     end
 
     def submission
-      @submission ||= BankSubmission.find(@submission_id)
+      @submission ||= BankChargeSubmission.find(@submission_id)
     end
 
     private

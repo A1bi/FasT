@@ -43,7 +43,7 @@ RSpec.describe Ticketing::OrderPaymentService do
 
     context 'with an already submitted charge' do
       before do
-        Ticketing::BankSubmission.create(charges: [order.bank_charge])
+        Ticketing::BankChargeSubmission.create(charges: [order.bank_charge])
       end
 
       include_examples 'does not create a log event'
