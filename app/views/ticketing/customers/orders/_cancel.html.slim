@@ -6,7 +6,7 @@ p
   - if @refundable
     | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
   - else
-    | Durch ein Klick auf folgenden Button werden Ihre Tickets storniert.
+    | Durch einen Klick auf folgenden Button werden Ihre Tickets storniert.
 
 = form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
   - if @refundable

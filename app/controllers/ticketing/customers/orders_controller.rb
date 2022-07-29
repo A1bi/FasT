@@ -37,18 +37,14 @@ module Ticketing
         return redirect_to_order_overview if refundable_tickets.none?
 
         if credit_after_cancellation?
-          bank_details = prepare_bank_details
-          return if bank_details.nil?
+          refund = @order.bank_refunds.create(bank_details)
+          return redirect_to_order_overview alert: t('.incorrect_bank_details') unless refund.valid?
         end
 
         Ticketing::TicketCancelService.new(refundable_tickets, reason: :date_cancelled)
                                       .execute(send_customer_email: !credit_after_cancellation?)
 
-        if credit_after_cancellation?
-          mailer = Ticketing::RefundMailer.with(order: @order, **bank_details.symbolize_keys)
-          mailer.customer.deliver_later
-          mailer.internal.deliver_later
-        end
+        Ticketing::RefundMailer.with(refund:).customer.deliver_later if credit_after_cancellation?
 
         redirect_to_order_overview notice: t('.tickets_cancelled')
       end
@@ -72,19 +68,12 @@ module Ticketing
             (!@order.date.cancelled? && @order.date.admission_time.future?))
       end
 
-      def prepare_bank_details
-        bank_details = params.permit(:name, :iban).to_h
-
+      def bank_details
         if web_order? && @order.charge_payment? && params[:use_bank_charge] == 'true'
-          bank_details = @order.bank_charge.slice(:name, :iban)
-
-        elsif params[:name].blank? || !IBANTools::IBAN.valid?(params[:iban])
-          redirect_to_order_overview alert: t('.incorrect_bank_details')
-          return
+          @order.bank_charge.slice(:name, :iban)
+        else
+          params.permit(:name, :iban)
         end
-
-        bank_details[:iban].delete!(' ')
-        bank_details
       end
 
       def seats_hash

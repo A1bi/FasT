@@ -148,8 +148,6 @@ de:
         subject: Ihre Erstattung
       notification:
         subject: Ihre gebuchte Aufführung fällt leider aus
-      internal:
-        subject: Neue Erstattung
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."

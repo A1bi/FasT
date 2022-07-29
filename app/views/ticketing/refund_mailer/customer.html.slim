@@ -4,9 +4,9 @@ p
   table
     tr
       td Kontoinhaber:
-      td = params[:name]
+      td = @refund.name
     tr
       td IBAN:
-      td = obfuscated_iban(params[:iban])
+      td = obfuscated_iban(@refund.iban)
 
 p Mit freundlichen Grüßen

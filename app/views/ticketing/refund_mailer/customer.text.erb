@@ -2,7 +2,7 @@ hiermit bestätigen wir Ihnen die Erstattung zu Ihrer Bestellung mit der Nummer 
 
 Der Betrag von <%= number_to_currency(@order.balance) %> wird in den kommenden Tagen folgendem Konto gutgeschrieben:
 
-Kontoinhaber: <%= params[:name] %>
-IBAN: <%= obfuscated_iban(params[:iban]) %>
+Kontoinhaber: <%= @refund.name %>
+IBAN: <%= obfuscated_iban(@refund.iban) %>
 
 Mit freundlichen Grüßen
