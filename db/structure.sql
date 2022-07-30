@@ -833,8 +833,7 @@ CREATE TABLE public.ticketing_bank_charges (
     id bigint NOT NULL,
     name character varying,
     iban character varying,
-    chargeable_type character varying,
-    chargeable_id bigint,
+    order_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     submission_id bigint,
@@ -2935,10 +2934,10 @@ CREATE INDEX index_photos_on_gallery_id ON public.photos USING btree (gallery_id
 
 
 --
--- Name: index_ticketing_bank_charges_on_chargeable; Type: INDEX; Schema: public; Owner: -
+-- Name: index_ticketing_bank_charges_on_order_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_ticketing_bank_charges_on_chargeable ON public.ticketing_bank_charges USING btree (chargeable_id, chargeable_type);
+CREATE INDEX index_ticketing_bank_charges_on_order_id ON public.ticketing_bank_charges USING btree (order_id);
 
 
 --
@@ -3712,6 +3711,14 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 
 
 --
+-- Name: ticketing_bank_charges fk_rails_d1b3471c1f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_charges
+    ADD CONSTRAINT fk_rails_d1b3471c1f FOREIGN KEY (order_id) REFERENCES public.ticketing_orders(id);
+
+
+--
 -- Name: ticketing_box_office_purchase_items fk_rails_d8c37e6117; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3941,6 +3948,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220604133306'),
 ('20220702154140'),
 ('20220729060500'),
-('20220729061721');
+('20220729061721'),
+('20220730095639');
 
 

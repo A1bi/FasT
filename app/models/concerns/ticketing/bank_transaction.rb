@@ -7,6 +7,8 @@ module Ticketing
     include Anonymizable
 
     included do
+      belongs_to :order
+
       auto_strip_attributes :name, squish: true
       auto_strip_attributes :iban, delete_whitespaces: true
       is_anonymizable columns: %i[name iban]

@@ -6,8 +6,7 @@ module Ticketing
       include Anonymizable
 
       enum :pay_method, %i[charge transfer cash box_office], suffix: :payment
-      has_one :bank_charge, class_name: 'Ticketing::BankCharge',
-                            as: :chargeable, validate: true, dependent: :destroy
+      has_one :bank_charge, validate: true, dependent: :destroy
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
 
       auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
