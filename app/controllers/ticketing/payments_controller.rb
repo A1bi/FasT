@@ -17,7 +17,7 @@ module Ticketing
             pay_method: %i[transfer cash box_office]
           )
         },
-        outstanding_credit: orders_with_outstanding_credit
+        credit: orders_with_credit
       }
 
       @submissions = BankChargeSubmission.order(created_at: :desc).limit(10)
@@ -60,10 +60,8 @@ module Ticketing
       klass.includes(:billing_account).unpaid.order(:number)
     end
 
-    def orders_with_outstanding_credit
-      Order.joins(:billing_account)
-           .where('ticketing_billing_accounts.balance > 0')
-           .order(:number)
+    def orders_with_credit
+      Order.with_credit.order(:number)
     end
 
     def payment_service(order)

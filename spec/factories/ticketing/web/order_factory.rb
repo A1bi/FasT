@@ -10,6 +10,10 @@ FactoryBot.define do
     plz { '13403' }
     phone { '0305550123' }
 
+    trait :transfer_payment do
+      pay_method { :transfer }
+    end
+
     trait :charge_payment do
       pay_method { :charge }
       bank_charge

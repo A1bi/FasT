@@ -8,6 +8,16 @@ module Ticketing
 
       validates :balance, numericality: true
 
+      class << self
+        def debt
+          where('balance < 0')
+        end
+
+        def credit
+          where('balance > 0')
+        end
+      end
+
       def deposit(amount, note_key)
         return if amount.zero?
 

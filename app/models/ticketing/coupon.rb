@@ -15,15 +15,11 @@ module Ticketing
 
     class << self
       def valid
-        joins(:billing_account)
-          .where('expires_at IS NULL OR expires_at > ?', Time.current)
-          .where('ticketing_billing_accounts.balance > 0')
+        with_credit.where('expires_at IS NULL OR expires_at > ?', Time.current)
       end
 
       def expired
-        joins(:billing_account)
-          .where('expires_at < ?', Time.current)
-          .or(where('ticketing_billing_accounts.balance <= 0'))
+        valid.invert_where
       end
 
       def with_codes(codes)

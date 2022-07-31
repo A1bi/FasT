@@ -58,15 +58,11 @@ module Ticketing
     end
 
     def coupon_free_tickets_sum
-      @coupon_free_tickets_sum ||= coupon_value_sum(coupons.free_tickets_value)
+      @coupon_free_tickets_sum ||= coupons.free_tickets_value.balance_sum
     end
 
     def coupon_credit_sum
-      @coupon_credit_sum ||= coupon_value_sum(coupons.credit_value)
-    end
-
-    def coupon_value_sum(coupons)
-      coupons.joins(:billing_account).sum('ticketing_billing_accounts.balance')
+      @coupon_credit_sum ||= coupons.credit_value.balance_sum
     end
 
     def event

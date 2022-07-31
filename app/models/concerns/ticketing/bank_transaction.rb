@@ -18,6 +18,12 @@ module Ticketing
       validates_with SEPA::IBANValidator, unless: :anonymized?
     end
 
+    class_methods do
+      def unsubmitted
+        where(submission_id: nil)
+      end
+    end
+
     def amount=(val)
       # allow changes only it has not been submitted yet
       return if attribute_in_database(:submission_id).present?

@@ -12,6 +12,20 @@ module Ticketing
       after_initialize :build_billing_account, if: :new_record?
     end
 
+    class_methods do
+      def with_debt
+        joins(:billing_account).merge(Billing::Account.debt)
+      end
+
+      def with_credit
+        joins(:billing_account).merge(Billing::Account.credit)
+      end
+
+      def balance_sum
+        joins(:billing_account).sum('ticketing_billing_accounts.balance')
+      end
+    end
+
     def withdraw_from_account(amount, note_key)
       billing_account.withdraw(amount, note_key)
     end

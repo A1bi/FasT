@@ -39,5 +39,12 @@ FactoryBot.define do
         order.bank_refunds = create_list(:bank_refund, 1, order:)
       end
     end
+
+    trait :with_balance do
+      after(:create) do |order|
+        service = Ticketing::OrderBillingService.new(order)
+        service.update_balance(:foo) {} # rubocop:disable Lint/EmptyBlock
+      end
+    end
   end
 end

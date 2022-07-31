@@ -21,11 +21,10 @@ module Ticketing
 
       after_save :schedule_geolocation
 
-      def self.charges_to_submit
-        charge_payment
-          .includes(:billing_account, :bank_charge)
-          .where('ticketing_billing_accounts.balance < 0')
-          .where(ticketing_bank_charges: { submission_id: nil })
+      class << self
+        def charges_to_submit
+          charge_payment.with_debt.joins(:bank_charge).merge(BankCharge.unsubmitted)
+        end
       end
 
       def update_total
