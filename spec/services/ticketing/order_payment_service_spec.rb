@@ -23,13 +23,9 @@ RSpec.describe Ticketing::OrderPaymentService do
   describe '#submit_charge' do
     subject { service.submit_charge }
 
-    let(:order) do
-      create(:web_order, :with_purchased_coupons, :charge_payment)
-    end
+    let(:order) { create(:web_order, :complete, :with_balance, :charge_payment) }
 
     context 'with an unsubmitted charge' do
-      before { order.billing_account.update(balance: -50) }
-
       include_examples 'creates a log event', :submitted_charge
 
       it "sets the charge's amount" do
@@ -42,9 +38,7 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
 
     context 'with an already submitted charge' do
-      before do
-        Ticketing::BankChargeSubmission.create(charges: [order.bank_charge])
-      end
+      let(:order) { create(:web_order, :complete, :with_balance, :submitted_charge_payment) }
 
       include_examples 'does not create a log event'
     end
@@ -53,9 +47,7 @@ RSpec.describe Ticketing::OrderPaymentService do
   describe '#mark_as_paid' do
     subject { service.mark_as_paid }
 
-    let(:order) { create(:web_order, :with_purchased_coupons, :unpaid) }
-
-    before { order.billing_account.update(balance: -30) }
+    let(:order) { create(:web_order, :complete, :with_balance, :unpaid) }
 
     shared_examples 'marks as paid' do
       it 'updates the balance' do
@@ -64,7 +56,7 @@ RSpec.describe Ticketing::OrderPaymentService do
 
       it 'creates a billing' do
         expect { subject }.to change(Ticketing::Billing::Transaction, :count).by(1)
-        expect(order.billing_account.transactions.first.note_key).to eq('payment_received')
+        expect(order.billing_account.transactions.last.note_key).to eq('payment_received')
       end
     end
 
@@ -75,14 +67,14 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
 
     context 'with a retail order' do
-      let(:order) { create(:retail_order, :with_purchased_coupons, :unpaid) }
+      let(:order) { create(:retail_order, :complete, :with_balance, :unpaid) }
 
       include_examples 'marks as paid'
       include_examples 'creates a log event', :marked_as_paid
     end
 
     context 'with an already paid order' do
-      let(:order) { create(:web_order, :with_purchased_coupons) }
+      let(:order) { create(:web_order, :complete) }
 
       include_examples 'does not create a log event'
       include_examples 'does not send an email'
@@ -97,21 +89,21 @@ RSpec.describe Ticketing::OrderPaymentService do
     subject { service.send_reminder }
 
     context 'with a web order' do
-      let(:order) { create(:web_order, :with_purchased_coupons, :unpaid) }
+      let(:order) { create(:web_order, :complete, :unpaid) }
 
       include_examples 'creates a log event', :sent_pay_reminder
       include_examples 'sends an email', :pay_reminder
     end
 
     context 'with a retail order' do
-      let(:order) { create(:retail_order, :with_purchased_coupons, :unpaid) }
+      let(:order) { create(:retail_order, :complete, :unpaid) }
 
       include_examples 'does not create a log event'
       include_examples 'does not send an email'
     end
 
     context 'with an already paid order' do
-      let(:order) { create(:web_order, :with_purchased_coupons) }
+      let(:order) { create(:web_order, :complete) }
 
       include_examples 'does not create a log event'
       include_examples 'does not send an email'

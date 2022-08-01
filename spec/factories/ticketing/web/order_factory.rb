@@ -19,6 +19,11 @@ FactoryBot.define do
       bank_charge
     end
 
+    trait :submitted_charge_payment do
+      charge_payment
+      association :bank_charge, :submitted, amount: 20
+    end
+
     trait :anonymized do
       after(:create, &:anonymize!)
     end
