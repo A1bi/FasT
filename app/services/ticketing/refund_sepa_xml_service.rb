@@ -26,7 +26,7 @@ module Ticketing
     private
 
     def transfer_info
-      %i[name iban].index_with { |key| translate(key) }
+      %i[name iban bic].index_with { |key| translate(key) }
     end
 
     def transaction_from_refund(refund)
