@@ -43,6 +43,8 @@ module Ticketing
     def submit_refunds
       @unsubmitted_refunds.each { |order| authorize(order.bank_refunds.last, :submit?) }
 
+      RefundSubmitService.new(@unsubmitted_refunds, current_user:).execute
+
       redirect_to_overview(:submitted)
     end
 

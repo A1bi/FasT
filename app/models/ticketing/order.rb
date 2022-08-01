@@ -100,6 +100,10 @@ module Ticketing
       tickets + purchased_coupons
     end
 
+    def open_bank_refund
+      bank_refunds.unsubmitted.first
+    end
+
     private
 
     def items_present

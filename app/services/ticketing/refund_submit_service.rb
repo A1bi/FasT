@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
 module Ticketing
-  class DebitSubmitService
+  class RefundSubmitService
     def initialize(orders, current_user: nil)
       @orders = orders
       @current_user = current_user
     end
 
     def execute
-      submission = BankChargeSubmission.new
+      submission = BankRefundSubmission.new
       submission.transaction do
         @orders.each do |order|
-          # TODO: check if order is in debt
-          next if order.bank_charge.submitted?
+          next if order.open_bank_refund.nil?
 
-          payment_service(order).submit_charge
-          submission.charges << order.bank_charge
+          payment_service(order).submit_refund
+          submission.refunds << order.open_bank_refund
         end
         submission.save!
       end

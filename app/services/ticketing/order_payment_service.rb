@@ -16,6 +16,14 @@ module Ticketing
       @order.save
     end
 
+    def submit_refund
+      return if @order.open_bank_refund.nil?
+
+      @order.open_bank_refund.update(amount: @order.billing_account.balance)
+      billing_service.settle_balance(:transfer_refund)
+      @order.save
+    end
+
     def mark_as_paid
       return if @order.cancelled? || @order.paid?
 
