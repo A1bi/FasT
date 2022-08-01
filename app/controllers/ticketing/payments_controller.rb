@@ -48,11 +48,16 @@ module Ticketing
       redirect_to_overview(:submitted)
     end
 
-    def submission_file
+    def charge_submission_file
       service = DebitSepaXmlService.new(submission_id: params[:id])
-      authorize service.submission
-      send_data service.xml, filename: "sepa-#{service.submission.id}.xml",
-                             type: 'application/xml'
+      authorize service.submission, :submission_file?
+      send_data service.xml, filename: "sepa-#{service.submission.id}.xml", type: 'application/xml'
+    end
+
+    def refund_submission_file
+      service = RefundSepaXmlService.new(submission_id: params[:id])
+      authorize service.submission, :submission_file?
+      send_data service.xml, filename: "sepa-#{service.submission.id}.xml", type: 'application/xml'
     end
 
     private

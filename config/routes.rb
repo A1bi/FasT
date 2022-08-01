@@ -132,7 +132,8 @@ Rails.application.routes.draw do
           patch :mark_as_paid
           post :submit_charges
           post :submit_refunds
-          get :submission_file, path: 'sepa-auftrag/:id'
+          get :charge_submission_file, path: 'debit-sepa-auftrag/:id'
+          get :refund_submission_file, path: 'transfer-sepa-auftrag/:id'
         end
         resources :billings, only: %i[create]
         resources :seatings, path: 'sitzpläne', only: %i[index show]
