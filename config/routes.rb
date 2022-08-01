@@ -130,7 +130,8 @@ Rails.application.routes.draw do
         scope controller: :payments, path: 'zahlungen', as: :payments do
           get '/', action: :index
           patch :mark_as_paid
-          post :submit
+          post :submit_charges
+          post :submit_refunds
           get :submission_file, path: 'sepa-auftrag/:id'
         end
         resources :billings, only: %i[create]

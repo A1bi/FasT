@@ -2,7 +2,6 @@
 <% include_css "ticketing/orders" %>
 
 <div class="hl">Zahlungsverwaltung</div>
-<% cache [@unsubmitted_charges, @submissions] do %>
   <table class="rounded entries details">
     <thead>
       <tr>
@@ -13,7 +12,7 @@
       <tr>
         <% if @unsubmitted_charges.any? %>
           <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td><td><%= number_to_currency -@unsubmitted_charges.balance_sum %></td>
-          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
+          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_charges_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
         <% else %>
           <td colspan="4" class="empty">Keine Lastschriften einzureichen.</td>
         <% end %>
@@ -25,7 +24,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @submissions.each do |submission| %>
+      <% @charge_submissions.each do |submission| %>
         <tr>
           <td><%= submission.charges.count %> Lastschriften</td>
           <td><%= number_to_currency submission.charges.sum(:amount) %></td>
@@ -35,8 +34,38 @@
         </tr>
       <% end %>
     </tbody>
+    <thead>
+      <tr>
+        <th colspan="4">Einzureichende Erstattungen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% if @unsubmitted_refunds.any? %>
+          <td colspan="2"><%= @unsubmitted_refunds.count %> Erstattungen einzureichen.</td><td><%= number_to_currency @unsubmitted_refunds.balance_sum %></td>
+          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_refunds_path, method: :post, confirm: "Möchten Sie die Erstattungen bei der Bank wirklich einreichen?" %></td>
+        <% else %>
+          <td colspan="4" class="empty">Keine Erstattungen einzureichen.</td>
+        <% end %>
+      </tr>
+    </tbody>
+    <thead>
+      <tr>
+        <th colspan="4">Vergangene Einreichungen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @refund_submissions.each do |submission| %>
+        <tr>
+          <td><%= submission.refunds.count %> Erstattungen</td>
+          <td><%= number_to_currency submission.refunds.sum(:amount) %></td>
+          <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if Time.now - submission.created_at > 1.day %>
+          <td><%= link_to "Sammelauftragsdatei", ticketing_payments_submission_file_path(submission.id), options %></td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
-<% end %>
 <% cache [:unpaid, @orders[:unpaid]] do %>
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders] do %>
     <% additional_columns = %i[checkbox balance] %>

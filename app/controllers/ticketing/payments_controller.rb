@@ -3,7 +3,8 @@
 module Ticketing
   class PaymentsController < BaseController
     before_action :find_orders, only: %i[mark_as_paid]
-    before_action :find_charges_to_submit, only: %i[index submit]
+    before_action :find_charges_to_submit, only: %i[index submit_charges]
+    before_action :find_refunds_to_submit, only: %i[index submit_refunds]
 
     def index
       authorize Ticketing::Order, :mark_as_paid?
@@ -20,7 +21,8 @@ module Ticketing
         credit: orders_with_credit
       }
 
-      @submissions = BankChargeSubmission.order(created_at: :desc).limit(10)
+      @charge_submissions = BankChargeSubmission.order(created_at: :desc).limit(10)
+      @refund_submissions = BankRefundSubmission.order(created_at: :desc).limit(10)
     end
 
     def mark_as_paid
@@ -30,10 +32,16 @@ module Ticketing
       redirect_to_overview(:marked_as_paid)
     end
 
-    def submit
-      @unsubmitted_charges.each { |order| authorize order.bank_charge }
+    def submit_charges
+      @unsubmitted_charges.each { |order| authorize(order.bank_charge, :submit?) }
 
       DebitSubmitService.new(@unsubmitted_charges, current_user:).execute
+
+      redirect_to_overview(:submitted)
+    end
+
+    def submit_refunds
+      @unsubmitted_refunds.each { |order| authorize(order.bank_refunds.last, :submit?) }
 
       redirect_to_overview(:submitted)
     end
@@ -53,6 +61,10 @@ module Ticketing
 
     def find_charges_to_submit
       @unsubmitted_charges = Web::Order.charges_to_submit
+    end
+
+    def find_refunds_to_submit
+      @unsubmitted_refunds = Web::Order.refunds_to_submit
     end
 
     def find_unpaid_orders(web: true)
