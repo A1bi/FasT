@@ -46,5 +46,11 @@ FactoryBot.define do
         service.update_balance(:foo) {} # rubocop:disable Lint/EmptyBlock
       end
     end
+
+    trait :with_credit do
+      after(:create) do |order|
+        order.billing_account.update(balance: 123)
+      end
+    end
   end
 end

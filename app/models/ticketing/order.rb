@@ -61,6 +61,10 @@ module Ticketing
         merge(where.missing(:date).invert_where)
       end
 
+      def refunds_to_submit
+        with_credit.joins(:bank_refunds).merge(BankRefund.unsubmitted)
+      end
+
       def policy_class
         OrderPolicy
       end

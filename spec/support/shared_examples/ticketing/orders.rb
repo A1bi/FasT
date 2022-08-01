@@ -81,6 +81,21 @@ RSpec.shared_examples 'generic order' do |order_factory|
     end
   end
 
+  describe '.refunds_to_submit' do
+    subject { described_class.refunds_to_submit }
+
+    let!(:unsubmitted_orders) { create_list(order_factory, 2, :complete, :with_credit, :with_bank_refunds) }
+
+    before do
+      create(:web_order, :complete, :with_balance, :transfer_payment)
+      refund = build(:bank_refund, :with_amount, :submitted)
+      create(:web_order, :complete)
+      create(:web_order, :complete, :with_credit, bank_refunds: [refund])
+    end
+
+    it { is_expected.to contain_exactly(*unsubmitted_orders) }
+  end
+
   describe '.policy_class' do
     subject { described_class.policy_class }
 
