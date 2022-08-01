@@ -14,11 +14,11 @@ module Ticketing
 
     module ClassMethods
       def cancelled
-        where.not(cancellation_id: nil)
+        merge(uncancelled.invert_where)
       end
 
       def uncancelled
-        where(cancellation_id: nil)
+        where.missing(:cancellation)
       end
     end
   end

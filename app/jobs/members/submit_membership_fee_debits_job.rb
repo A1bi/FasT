@@ -13,7 +13,7 @@ module Members
     private
 
     def unsubmitted_payments
-      @unsubmitted_payments ||= MembershipFeePayment.where(debit_submission_id: nil)
+      @unsubmitted_payments ||= MembershipFeePayment.unsubmitted
     end
   end
 end

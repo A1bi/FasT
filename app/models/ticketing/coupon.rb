@@ -19,7 +19,7 @@ module Ticketing
       end
 
       def expired
-        valid.invert_where
+        merge(valid.invert_where)
       end
 
       def with_codes(codes)

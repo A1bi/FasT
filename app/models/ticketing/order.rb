@@ -57,6 +57,10 @@ module Ticketing
           .distinct
       end
 
+      def with_tickets
+        merge(where.missing(:date).invert_where)
+      end
+
       def policy_class
         OrderPolicy
       end

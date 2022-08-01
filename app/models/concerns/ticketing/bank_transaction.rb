@@ -20,7 +20,7 @@ module Ticketing
 
     class_methods do
       def unsubmitted
-        where(submission_id: nil)
+        where.missing(:submission)
       end
     end
 
