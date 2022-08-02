@@ -11,7 +11,7 @@ module Members
     end
 
     def credit_left_for_member(member)
-      return 0 if value.zero? || member&.id.nil?
+      return 0 if value.zero? || member&.id.nil? || !member.member?
 
       members = member.in_family? ? member.family.members : [member]
       remaining = value * members.count
