@@ -93,7 +93,7 @@ module Ticketing
       end
 
       def show_wallet?
-        @show_wallet ||= request.user_agent.match(WALLET_PATTERN).present?
+        @show_wallet ||= request.user_agent&.match?(WALLET_PATTERN)
       end
       helper_method :show_wallet?
     end
