@@ -83,5 +83,11 @@
               ' Gutschein über
               b = number_to_currency coupon.initial_value
 
-  = render 'transfer' if @transferable
-  = render 'cancel' if @cancellable
+  - if @order.is_a?(Ticketing::Web::Order)
+    = render 'transfer' if @transferable
+    = render 'cancel' if @cancellable
+
+  - else
+    p Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
+    p Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
+
