@@ -62,6 +62,17 @@ table.details {
       text-align: left;
     }
 
+    &.date.cancelled {
+      .date {
+        text-decoration: line-through;
+      }
+
+      .cancellation {
+        color: red;
+        font-weight: bold;
+      }
+    }
+
     &.amount {
       text-align: right;
       width: 12%;

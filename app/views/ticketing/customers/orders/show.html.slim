@@ -10,6 +10,21 @@
 
 - else
   - if @order.tickets.any?
+    - if @order.date.cancelled?
+      .messages.warning
+        .icon
+        ul
+          li Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
+          - if @transferable || @cancellable
+            li
+              ' Sie haben die Möglichkeit einer
+              - if @transferable && @cancellable
+                ' Umbuchung oder Stornierung
+              - elsif @transferable
+                ' Umbuchung
+              - else
+                ' Stornierung
+              | Ihrer Tickets.
     table.rounded.entries.details
       thead
         tr
@@ -26,9 +41,11 @@
           - classes = [:cancelled] if ticket.cancelled?
           tr class=classes
             td.number = ticket.number
-            td.date
+            td.date class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
               | „#{ticket.event.name}“<br>
-              = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
+              .date = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
+              - if !ticket.cancelled? && ticket.date.cancelled?
+                .cancellation Termin entfällt
             td.name
               = ticket.type.name
               br
