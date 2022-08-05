@@ -1,0 +1,15 @@
+- title "#{@event.name} – Termine"
+- include_css 'dates'
+- include_css 'info'
+
+= structured_data @event
+= render 'other_events'
+
+.gemetzel
+  p Unser Kammerensemble führt <b>„Frau Müller muss weg“</b> als Gastspiel in der Musikschmiede Kail (Hauptstr. 10, 56829 Kail) an folgendem Tag auf:
+
+  = render 'dates'
+  = render 'prices'
+  = render 'order_link' if @event.on_sale?
+  = render 'faq'
+  = render 'restaurants'

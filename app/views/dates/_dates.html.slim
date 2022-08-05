@@ -17,4 +17,4 @@
               span.line_through
                 = l date.date, format: '%-d. %B ' + (date.date > Time.current.end_of_year ? '%Y' : '')
               .line_through.time = l date.date, format: '%H.%M Uhr'
-      p.hcen Einlass #{@event.admission_duration == 60 ? 'eine Stunde' : "#{@event.admission_duration} Minuten"} vor Beginn
+      p.hcen Einlass #{admission_time(@event)} vor Beginn

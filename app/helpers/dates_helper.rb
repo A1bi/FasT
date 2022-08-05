@@ -32,4 +32,12 @@ module DatesHelper
   def schema_context
     'http://schema.org'
   end
+
+  def admission_time(event)
+    if (event.admission_duration % 60).zero?
+      t('dates.hours', count: event.admission_duration / 60)
+    else
+      "#{event.admission_duration} Minuten"
+    end
+  end
 end
