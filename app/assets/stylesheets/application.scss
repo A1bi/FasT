@@ -372,10 +372,15 @@ h3 {
   color: lighten(black, 40%);
 }
 .trenner {
-  background: url(asset_path("trenner.png")) no-repeat;
+  background: url(asset_path('trenner.png')) center/contain no-repeat;
   width: 578px;
   height: 6px;
   margin: 30px auto;
+
+  &.light {
+    width: 400px;
+    opacity: .5;
+  }
 }
 .inner {
   width: 60%;

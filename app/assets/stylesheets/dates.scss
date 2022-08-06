@@ -1,9 +1,12 @@
 .other-events {
-  margin-bottom: 20px;
-  text-align: right;
+  text-align: center;
 
   img {
     padding: 0 10px;
+  }
+
+  + .trenner {
+    margin-top: 0;
   }
 }
 
