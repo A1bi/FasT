@@ -6,7 +6,6 @@ module Ticketing
       include Anonymizable
 
       enum :pay_method, %i[charge transfer cash box_office], suffix: :payment
-      has_one :bank_charge, validate: true, dependent: :destroy
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
 
       auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
@@ -23,7 +22,7 @@ module Ticketing
 
       class << self
         def charges_to_submit
-          charge_payment.with_debt.joins(:bank_charge).merge(BankCharge.unsubmitted)
+          charge_payment.with_debt.joins(:bank_transactions).merge(BankTransaction.unsubmitted)
         end
       end
 
@@ -39,7 +38,7 @@ module Ticketing
 
       def update_paid
         super
-        self.paid ||= bank_charge.present? && !bank_charge.submitted?
+        self.paid ||= open_bank_transaction.present?
       end
 
       private

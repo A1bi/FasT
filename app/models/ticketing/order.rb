@@ -28,7 +28,7 @@ module Ticketing
              class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true
     has_many :box_office_payments,
              class_name: 'Ticketing::BoxOffice::OrderPayment', dependent: :nullify
-    has_many :bank_refunds, dependent: :nullify
+    has_many :bank_transactions, dependent: :nullify
 
     validates :tickets, length: { maximum: NUM_TICKETS_MAX }
     validate :items_present
@@ -62,7 +62,7 @@ module Ticketing
       end
 
       def refunds_to_submit
-        with_credit.joins(:bank_refunds).merge(BankRefund.unsubmitted)
+        with_credit.joins(:bank_transactions).merge(BankTransaction.unsubmitted)
       end
 
       def policy_class
@@ -100,8 +100,8 @@ module Ticketing
       tickets + purchased_coupons
     end
 
-    def open_bank_refund
-      bank_refunds.unsubmitted.first
+    def open_bank_transaction
+      bank_transactions.unsubmitted.first
     end
 
     private

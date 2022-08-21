@@ -9,8 +9,7 @@ module Ticketing
         next unless order_anonymizable?(order)
 
         order.anonymize!
-        order.bank_charge&.anonymize!
-        order.bank_refunds.each(&:anonymize!)
+        order.bank_transactions.each(&:anonymize!)
       end
     end
 

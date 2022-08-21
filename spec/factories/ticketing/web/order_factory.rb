@@ -16,12 +16,16 @@ FactoryBot.define do
 
     trait :charge_payment do
       pay_method { :charge }
-      bank_charge
+      after(:create) do |order|
+        create(:bank_debit, order:)
+      end
     end
 
     trait :submitted_charge_payment do
       charge_payment
-      association :bank_charge, :submitted, amount: 20
+      after(:create) do |order|
+        create(:bank_debit, :with_amount, :submitted, order:)
+      end
     end
 
     trait :anonymized do
