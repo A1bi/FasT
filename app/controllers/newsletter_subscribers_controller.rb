@@ -4,7 +4,7 @@ class NewsletterSubscribersController < ApplicationController
   include SpamFiltering
 
   filters_spam_through_honeypot only: :create
-  filters_spam_in_param proc { |params| params[:newsletter_subscriber][:last_name] }, only: :create
+  filters_spam_in_param proc { |params| params[:newsletter_subscriber][:last_name] }, max_length: 50, only: :create
 
   before_action :find_subscriber, except: :create
 

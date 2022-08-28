@@ -6,7 +6,7 @@ class ContactMessagesController < ApplicationController
   skip_authorization
 
   filters_spam_through_honeypot only: :create
-  filters_spam_in_param proc { |params| params[:contact_message][:name] }, only: :create
+  filters_spam_in_param proc { |params| params[:contact_message][:name] }, max_length: 50, only: :create
 
   def index
     @message = ContactMessage.new

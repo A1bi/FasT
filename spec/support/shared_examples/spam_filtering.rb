@@ -29,7 +29,7 @@ RSpec.shared_examples 'spam honeypot' do |model|
   end
 end
 
-RSpec.shared_examples 'spam param filter' do |model, field_name|
+RSpec.shared_examples 'spam param filter' do |model, field_name, max_length|
   context 'with spam request' do
     let(:params) do
       params = super()
@@ -41,6 +41,14 @@ RSpec.shared_examples 'spam param filter' do |model, field_name|
       let(:value) { 'hello foo https://example.com hey' }
 
       include_examples 'spam request handling', model
+    end
+
+    if max_length
+      context 'when field is longer than max_length' do
+        let(:value) { "hello foo #{'a' * max_length}" }
+
+        include_examples 'spam request handling', model
+      end
     end
   end
 end

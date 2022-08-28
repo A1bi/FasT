@@ -11,7 +11,7 @@ module SpamFiltering
     end
 
     def filters_spam_in_param(param_proc, options = {})
-      before_action -> { filter_spam_in_param(param_proc) }, options
+      before_action -> { filter_spam_in_param(param_proc, options.slice(:max_length)) }, options.except(:max_length)
     end
   end
 
@@ -24,7 +24,11 @@ module SpamFiltering
     redirect_to root_path
   end
 
-  def filter_spam_in_param(param_proc)
-    redirect_to root_path if param_proc.call(params)&.match?(SPAM_PARAM_PATTERN)
+  def filter_spam_in_param(param_proc, options)
+    value = param_proc.call(params)
+    return if value.nil?
+
+    redirect_to root_path if value.match?(SPAM_PARAM_PATTERN) ||
+                             (options[:max_length] && value.size > options[:max_length])
   end
 end

@@ -37,6 +37,6 @@ RSpec.describe 'ContactMessages' do
     end
 
     it_behaves_like 'spam honeypot', ContactMessage
-    it_behaves_like 'spam param filter', ContactMessage, :name
+    it_behaves_like 'spam param filter', ContactMessage, :name, 50
   end
 end

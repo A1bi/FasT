@@ -40,6 +40,6 @@ RSpec.describe 'NewsletterSubscribers' do
     end
 
     it_behaves_like 'spam honeypot', Newsletter::Subscriber
-    it_behaves_like 'spam param filter', Newsletter::Subscriber, :last_name
+    it_behaves_like 'spam param filter', Newsletter::Subscriber, :last_name, 50
   end
 end
