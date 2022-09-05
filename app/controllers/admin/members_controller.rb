@@ -101,7 +101,7 @@ module Admin
 
     def update_member
       attrs = permitted_attributes(@member)
-      attrs[:permissions] ||= []
+      attrs[:permissions] ||= [] if attrs[:permissions]
       attrs[:shared_email_accounts_authorized_for] ||= []
       @member.assign_attributes(attrs)
 
