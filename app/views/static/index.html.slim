@@ -7,18 +7,8 @@
         div = alert_info[:title]
         == alert_info[:text]
 
-  .teaser
-    = image_tag 'theater/frau_mueller/title.svg', alt: 'Frau Müller muss weg'
-    p.subtitle Gastspiel in Bad Bertrich
-    ul.links
-      li: a href='https://www.ticket-regional.de/events_info.php?eventID=183558' Informationen und Tickets
-  .trenner.light
-
-  .teaser
-    p Bitte beachten Sie, dass unser geplantes <b>Gastspiel in Kail</b> leider <b>nicht stattfindet</b>.
-  .trenner
-
-  = render 'event_teaser', event: @events.find_by(identifier: :abba)
+  - @events.each do |event|
+    = render 'event_teaser', event: event
 
   .coupons
     .hl Jetzt neu: Geschenkgutscheine
