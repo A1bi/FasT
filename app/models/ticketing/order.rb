@@ -106,6 +106,10 @@ module Ticketing
       @open_bank_transaction ||= (persisted? ? bank_transactions.unsubmitted : bank_transactions).first
     end
 
+    def most_recent_bank_transaction
+      @most_recent_bank_transaction ||= bank_transactions.order(created_at: :desc).last
+    end
+
     private
 
     def items_present

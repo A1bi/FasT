@@ -1,11 +1,8 @@
 –––––––––––––––––––––––––––––––––
 Gesamt: <%= number_to_currency(@order.total) %>
-<% if @order.total != -@order.billing_account.balance %>
 ---------------------------------
-<% @order.billing_account.transactions.each do |transaction| %>
-<% next if transaction.note_key == 'order_created' %>
+<% @billing_transactions.each do |transaction| %>
 <%= translate_billing_transaction(transaction) %>: <%= number_to_currency(-transaction.amount) %>
 <% end %>
 =================================
 Noch zu zahlen: <%= order_balance(@order) %>
-<% end %>

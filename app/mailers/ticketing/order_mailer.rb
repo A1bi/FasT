@@ -7,10 +7,13 @@ module Ticketing
 
     before_action :set_order
     before_action :prepare_tickets, :prepare_coupons
+    before_action :prepare_billing, only: %i[confirmation pay_reminder cancellation]
 
     default to: -> { @order.email }
 
     def confirmation
+      @pending_charge = @order.charge_payment? && @order.open_bank_transaction.present? &&
+                        @order.open_bank_transaction.amount.positive?
       mail
     end
 
@@ -86,6 +89,10 @@ module Ticketing
 
     def attach_items?
       @order.paid || @order.charge_payment?
+    end
+
+    def prepare_billing
+      @billing_transactions = @order.billing_account.transactions.where.not(note_key: %i[order_created])
     end
 
     def overview_url
