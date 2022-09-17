@@ -32,6 +32,7 @@ module Ticketing
         redeem_coupons(credit: false)
       end
       redeem_coupons(free_tickets: false)
+      settle_balance
 
       finalize_order
 
@@ -69,10 +70,12 @@ module Ticketing
     end
 
     def update_balance(&)
-      service = OrderBillingService.new(@order)
-      service.update_balance(:order_created, &)
-      service.settle_balance_with_bank_transaction
-      service.settle_balance_with_retail_account
+      billing_service.update_balance(:order_created, &)
+    end
+
+    def settle_balance
+      billing_service.settle_balance_with_bank_transaction
+      billing_service.settle_balance_with_retail_account
     end
 
     def finalize_order
@@ -108,6 +111,10 @@ module Ticketing
       return unless date&.event&.seating&.plan?
 
       NodeApi.update_seats_from_records(@order.tickets)
+    end
+
+    def billing_service
+      @billing_service ||= OrderBillingService.new(@order)
     end
 
     def order_class
