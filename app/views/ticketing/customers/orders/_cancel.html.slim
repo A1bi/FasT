@@ -4,13 +4,16 @@ p
   - if @transferable
     ' Falls eine Umbuchung für Sie nicht infrage kommt, können Sie Ihre Tickets selbstverständlich auch stornieren.
   - if @refundable
-    | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet. Bitte geben Sie dazu im Folgenden ein Konto an, auf das wir den Betrag zurücküberweisen können.
+    | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet.
   - else
     | Durch einen Klick auf folgenden Button werden Ihre Tickets storniert.
 
-= form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', bank_charge: @order.charge_payment? } do |f|
+= form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund' } do |f|
   - if @refundable
-    - if @order.charge_payment?
+    - if @order.open_bank_transaction.present?
+      p Der zu erstattende Betrag wird auf das ursprüngliche Konto zurücküberwiesen.
+    - elsif @order.most_recent_bank_transaction.present?
+      p Bitte geben Sie ein Konto an, auf das wir den zu erstattenden Betrag überweisen dürfen.
       table
         tr
           td = f.radio_button :use_bank_charge, true, required: true,
@@ -18,20 +21,20 @@ p
           td
             = f.label :use_bank_charge, value: true
               | Bankkonto der ursprünglichen Lastschrift verwenden
-              .small Kontoinhaber: #{@order.bank_charge&.name}
-              .small IBAN: #{obfuscated_iban(@order.bank_charge&.iban)}
+              .small Kontoinhaber: #{@order.most_recent_bank_transaction.name}
+              .small IBAN: #{obfuscated_iban(@order.most_recent_bank_transaction.iban)}
         tr
           td = f.radio_button :use_bank_charge, false, required: true,
             data: { action: 'ticketing--refund#toggleBankDetails' }
           td = f.label :use_bank_charge, value: false
             | Anderes Bankkonto verwenden
 
-    table data-target='ticketing--refund.bankDetails' class=('visible' unless @order.charge_payment?)
-      tr
-        td = f.label :name, 'Kontoinhaber:'
-        td = f.text_field :name
-      tr
-        td = f.label :iban, 'IBAN:'
-        td = f.text_field :iban
+      table data-target='ticketing--refund.bankDetails' class=('visible' unless @order.most_recent_bank_transaction.present?)
+        tr
+          td = f.label :name, 'Kontoinhaber:'
+          td = f.text_field :name
+        tr
+          td = f.label :iban, 'IBAN:'
+          td = f.text_field :iban
 
   p.hcen = f.submit 'Tickets stornieren'

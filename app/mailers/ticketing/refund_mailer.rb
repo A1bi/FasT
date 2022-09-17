@@ -8,8 +8,8 @@ module Ticketing
     layout 'ticketing/order_mailer'
 
     def customer
-      @refund = params[:refund]
-      @order = @refund.order
+      @bank_transaction = params[:bank_transaction]
+      @order = @bank_transaction.order
       mail
     end
 

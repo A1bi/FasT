@@ -37,14 +37,15 @@ module Ticketing
         return redirect_to_order_overview if refundable_tickets.none?
 
         if credit_after_cancellation?
-          refund = @order.bank_refunds.create(bank_details)
-          return redirect_to_order_overview alert: t('.incorrect_bank_details') unless refund.valid?
+          transaction = @order.open_bank_transaction || @order.bank_transactions.create(bank_details)
+          return redirect_to_order_overview alert: t('.incorrect_bank_details') unless transaction.valid?
         end
 
         Ticketing::TicketCancelService.new(refundable_tickets, reason: :date_cancelled)
                                       .execute(send_customer_email: !credit_after_cancellation?)
+        Ticketing::OrderBillingService.new(@order.reload).settle_balance_with_bank_transaction
 
-        Ticketing::RefundMailer.with(refund:).customer.deliver_later if credit_after_cancellation?
+        Ticketing::RefundMailer.with(bank_transaction: transaction).customer.deliver_later if credit_after_cancellation?
 
         redirect_to_order_overview notice: t('.tickets_cancelled')
       end
