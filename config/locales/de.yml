@@ -382,7 +382,8 @@ de:
           cash_refund_in_store: Barrückzahlung in Vorverkaufsstelle
           transfer_refund: Rückzahlung per Überweisung
           payment_received: Zahlung erhalten
-          bank_charge_submitted: Lastschrift bei der Bank eingereicht
+          bank_charge_submitted: Lastschrift bei der Bank eingereicht # for historic records
+          bank_charge_payment: Zahlung per Lastschrift
           ticket_types_edited: Ticketkategorien umgebucht
           correction: Korrektur
           cash_at_box_office: Barzahlung an Abendkasse

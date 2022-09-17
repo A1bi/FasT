@@ -101,7 +101,9 @@ module Ticketing
     end
 
     def open_bank_transaction
-      bank_transactions.unsubmitted.first
+      # invalidate memoization if the transaction has since been submitted
+      @open_bank_transaction = nil if @open_bank_transaction&.submitted?
+      @open_bank_transaction ||= (persisted? ? bank_transactions.unsubmitted : bank_transactions).first
     end
 
     private

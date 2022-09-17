@@ -36,11 +36,6 @@ module Ticketing
         total
       end
 
-      def update_paid
-        super
-        self.paid ||= open_bank_transaction.present?
-      end
-
       private
 
       def schedule_geolocation

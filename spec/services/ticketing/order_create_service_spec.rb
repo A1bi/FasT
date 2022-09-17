@@ -30,6 +30,13 @@ RSpec.describe Ticketing::OrderCreateService do
   let(:current_user) { nil }
   let(:order) { Ticketing::Order.last }
 
+  shared_examples 'marks order as paid' do |paid|
+    it 'marks order as paid' do
+      subject
+      expect(order.paid).to eq(paid)
+    end
+  end
+
   context 'with a web order' do
     let(:type) { :web }
     let(:order_params) do
@@ -87,6 +94,43 @@ RSpec.describe Ticketing::OrderCreateService do
         expect { subject }.not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
       end
     end
+
+    context 'with a transfer payment' do
+      include_examples 'marks order as paid', false
+    end
+
+    context 'with charge payment' do
+      let(:order_params) do
+        super().merge(
+          payment: {
+            method: :charge,
+            **attributes_for(:bank_debit).slice(:name, :iban)
+          }
+        )
+      end
+
+      it 'creates a bank transaction' do
+        expect { subject }.to change(Ticketing::BankTransaction, :count).by(1)
+      end
+
+      it 'sets the correct bank debit details' do
+        subject
+        expect(order.open_bank_transaction.attributes)
+          .to include(order_params[:payment].slice(:name, :iban).stringify_keys)
+      end
+
+      it 'adds the total to the bank transaction' do
+        subject
+        expect(order.open_bank_transaction.amount).to eq(order.total)
+      end
+
+      it 'settles the order\'s balance' do
+        subject
+        expect(order.balance).to eq(0)
+      end
+
+      include_examples 'marks order as paid', true
+    end
   end
 
   context 'with a retail order' do
@@ -104,5 +148,7 @@ RSpec.describe Ticketing::OrderCreateService do
       expect(order.billing_account.balance).to eq(0)
       expect(store.billing_account.balance).to eq(-order.total)
     end
+
+    include_examples 'marks order as paid', true
   end
 end

@@ -52,7 +52,7 @@ module Ticketing
       return unless @order.charge_payment?
 
       charge_params = order_params[:payment].slice(:name, :iban)
-      @order.build_bank_charge(charge_params)
+      @order.bank_transactions.new(charge_params)
     end
 
     def create_items
@@ -71,6 +71,7 @@ module Ticketing
     def update_balance(&)
       service = OrderBillingService.new(@order)
       service.update_balance(:order_created, &)
+      service.settle_balance_with_bank_transaction
       service.settle_balance_with_retail_account
     end
 

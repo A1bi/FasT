@@ -105,10 +105,37 @@ RSpec.describe Ticketing::OrderBillingService do
     end
   end
 
+  describe '#settle_balance_with_bank_transaction' do
+    subject { service.settle_balance_with_bank_transaction }
+
+    let(:order) { create(:web_order, :complete, :charge_payment) }
+
+    it 'adds the total to the bank transaction' do
+      expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(-previous_balance)
+    end
+
+    it 'settles the order\'s balance' do
+      expect { subject }.to change(order, :balance).to(0)
+    end
+
+    include_examples 'sets transaction note', 'bank_charge_payment'
+
+    context 'without an open bank transaction' do
+      before do
+        order.open_bank_transaction.update(amount: 10)
+        create(:bank_submission, transactions: [order.open_bank_transaction])
+      end
+
+      it 'does not change the order\'s balance' do
+        expect { subject }.not_to change(order, :balance)
+      end
+    end
+  end
+
   describe '#settle_balance_with_retail_account' do
     subject { service.settle_balance_with_retail_account }
 
-    let(:order) { create(:retail_order, :with_purchased_coupons) }
+    let(:order) { create(:retail_order, :complete) }
 
     before do
       order.store.billing_account.update(balance: 20) if order.try(:store)
