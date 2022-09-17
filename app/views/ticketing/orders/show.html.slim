@@ -65,12 +65,6 @@ ruby:
           payment = [
             ['Zahlungsart', t(@order.pay_method, scope: (scope + [:pay_methods]))]
           ]
-          if @order.charge_payment? && @order.bank_charge
-            payment.concat [
-              ['Kontoinhaber', @order.bank_charge.name],
-              ['IBAN', obfuscated_iban(@order.bank_charge.iban)]
-            ]
-          end
         end
       end
 
@@ -181,4 +175,30 @@ ruby:
 
 = render 'application/ticketing/log_events', events: @order.log_events
 = render 'application/ticketing/billing_transactions', record: @order, actions: true
+
+table.rounded.entries.details
+  thead
+    tr: th colspan=5 Banktransaktionen
+    tr
+      th Kontoinhaber
+      th IBAN
+      th Typ
+      th Betrag
+      th eingereicht
+  tbody.log
+    - if @order.bank_transactions.any?
+      - @order.bank_transactions.each do |transaction|
+        tr
+          td = transaction.name
+          td = obfuscated_iban(transaction.iban)
+          td = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
+          td.amount = number_to_currency(transaction.amount.abs)
+          td.date
+            - if transaction.submitted?
+              = l(transaction.submission.created_at, format: :medium)
+            - else
+              em noch nicht
+    - else
+      tr: td(colspan=5): em Keine Transaktionen vorhanden.
+
 = render 'application/ticketing/print_notification'
