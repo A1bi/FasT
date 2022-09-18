@@ -39,9 +39,9 @@ module Ticketing
     end
 
     def bank_submission_file
-      service = DebitSepaXmlService.new(submission_id: params[:id])
-      authorize service.submission, :submission_file?
-      send_data service.xml, filename: "sepa-#{service.submission.id}.xml", type: 'application/xml'
+      submission = authorize(BankSubmission.find(params[:id]), :file?)
+      service = BankSubmissionZipService.new(submission)
+      send_data service.zip, filename: "sepa-#{submission.id}.zip", type: 'application/zip'
     end
 
     private
