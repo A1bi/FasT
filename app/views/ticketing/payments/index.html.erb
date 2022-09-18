@@ -5,16 +5,24 @@
   <table class="rounded entries details">
     <thead>
       <tr>
-        <th colspan="4">Einzureichende Lastschriften</th>
+        <th colspan="4">Einzureichende Banktransaktionen</th>
+      </tr>
+      <tr>
+        <th></th>
+        <th>Lastschriften</th>
+        <th>Erstattungen</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <% if @unsubmitted_charges.any? %>
-          <td colspan="2"><%= @unsubmitted_charges.count %> Lastschriften einzureichen.</td><td><%= number_to_currency -@unsubmitted_charges.balance_sum %></td>
-          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_charges_path, method: :post, confirm: "Möchten Sie die Lastschriften bei der Bank wirklich einreichen?" %></td>
+        <% if @submittable_transactions.any? %>
+          <td><%= @submittable_transactions.count %> Transaktionen einzureichen.</td>
+          <td><%= number_to_currency(@submittable_transactions.debits.sum(:amount).abs) %></td>
+          <td><%= number_to_currency(@submittable_transactions.transfers.sum(:amount).abs) %></td>
+          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_transactions_path, method: :post, confirm: "Möchten Sie die Transaktionen bei der Bank wirklich einreichen?" %></td>
         <% else %>
-          <td colspan="4" class="empty">Keine Lastschriften einzureichen.</td>
+          <td colspan="4" class="empty">Keine Transaktionen einzureichen.</td>
         <% end %>
       </tr>
     </tbody>
@@ -24,44 +32,13 @@
       </tr>
     </thead>
     <tbody>
-      <% @charge_submissions.each do |submission| %>
+      <% @bank_submissions.each do |submission| %>
         <tr>
-          <td><%= submission.charges.count %> Lastschriften</td>
-          <td><%= number_to_currency submission.charges.sum(:amount) %></td>
-          <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if Time.now - submission.created_at > 1.day %>
-          <td><%= link_to "Sammelauftragsdatei", ticketing_payments_charge_submission_file_path(submission.id), options %></td>
-        </tr>
-      <% end %>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="4">Einzureichende Erstattungen</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <% if @unsubmitted_refunds.any? %>
-          <td colspan="2"><%= @unsubmitted_refunds.count %> Erstattungen einzureichen.</td><td><%= number_to_currency @unsubmitted_refunds.balance_sum %></td>
-          <td><%= link_to "Jetzt einreichen", ticketing_payments_submit_refunds_path, method: :post, confirm: "Möchten Sie die Erstattungen bei der Bank wirklich einreichen?" %></td>
-        <% else %>
-          <td colspan="4" class="empty">Keine Erstattungen einzureichen.</td>
-        <% end %>
-      </tr>
-    </tbody>
-    <thead>
-      <tr>
-        <th colspan="4">Vergangene Einreichungen</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @refund_submissions.each do |submission| %>
-        <tr>
-          <td><%= submission.refunds.count %> Erstattungen</td>
-          <td><%= number_to_currency submission.refunds.sum(:amount) %></td>
-          <td class="date"><%= l submission.created_at, format: "%d.%m.%y, %H:%M" %></td>
-          <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if Time.now - submission.created_at > 1.day %>
-          <td><%= link_to "Sammelauftragsdatei", ticketing_payments_refund_submission_file_path(submission.id), options %></td>
+          <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if submission.created_at.before?(1.day.ago) %>
+          <td><%= submission.transactions.count %> Transaktionen</td>
+          <td><%= number_to_currency(submission.transactions.debits.sum(:amount).abs) %></td>
+          <td><%= number_to_currency(submission.transactions.transfers.sum(:amount).abs) %></td>
+          <td class="date"><%= link_to(l(submission.created_at, format: '%d.%m.%y, %H:%M'), ticketing_payments_bank_submission_file_path(submission), options) %></td>
         </tr>
       <% end %>
     </tbody>

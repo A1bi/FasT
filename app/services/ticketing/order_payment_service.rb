@@ -7,23 +7,6 @@ module Ticketing
       @current_user = current_user
     end
 
-    def submit_charge
-      return unless charge? && !@order.bank_charge.submitted?
-
-      @order.bank_charge.amount = -@order.billing_account.balance
-      billing_service.settle_balance(:bank_charge_submitted)
-      log_service.submit_charge
-      @order.save
-    end
-
-    def submit_refund
-      return if @order.open_bank_refund.nil?
-
-      @order.open_bank_refund.update(amount: @order.billing_account.balance)
-      billing_service.settle_balance(:transfer_refund)
-      @order.save
-    end
-
     def mark_as_paid
       return if @order.cancelled? || @order.paid?
 
@@ -53,10 +36,6 @@ module Ticketing
 
     def log_service
       LogEventCreateService.new(@order, current_user: @current_user)
-    end
-
-    def charge?
-      web_order? && @order.charge_payment?
     end
 
     def web_order?

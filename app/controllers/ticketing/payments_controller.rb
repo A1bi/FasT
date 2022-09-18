@@ -3,8 +3,7 @@
 module Ticketing
   class PaymentsController < BaseController
     before_action :find_orders, only: %i[mark_as_paid]
-    before_action :find_charges_to_submit, only: %i[index submit_charges]
-    before_action :find_refunds_to_submit, only: %i[index submit_refunds]
+    before_action :find_transactions_to_submit, only: %i[index submit_transactions]
 
     def index
       authorize Ticketing::Order, :mark_as_paid?
@@ -21,8 +20,7 @@ module Ticketing
         credit: orders_with_credit
       }
 
-      @charge_submissions = BankChargeSubmission.order(created_at: :desc).limit(10)
-      @refund_submissions = BankRefundSubmission.order(created_at: :desc).limit(10)
+      @bank_submissions = BankSubmission.order(created_at: :desc).limit(10)
     end
 
     def mark_as_paid
@@ -32,30 +30,16 @@ module Ticketing
       redirect_to_overview(:marked_as_paid)
     end
 
-    def submit_charges
-      @unsubmitted_charges.each { |order| authorize(order.bank_charge, :submit?) }
-
-      DebitSubmitService.new(@unsubmitted_charges, current_user:).execute
-
-      redirect_to_overview(:submitted)
-    end
-
-    def submit_refunds
-      @unsubmitted_refunds.each { |order| authorize(order.bank_refunds.last, :submit?) }
-
-      RefundSubmitService.new(@unsubmitted_refunds, current_user:).execute
+    def submit_transactions
+      BankSubmission.create(
+        transactions: @submittable_transactions.each { |transaction| authorize(transaction, :submit?) }
+      )
 
       redirect_to_overview(:submitted)
     end
 
-    def charge_submission_file
+    def bank_submission_file
       service = DebitSepaXmlService.new(submission_id: params[:id])
-      authorize service.submission, :submission_file?
-      send_data service.xml, filename: "sepa-#{service.submission.id}.xml", type: 'application/xml'
-    end
-
-    def refund_submission_file
-      service = RefundSepaXmlService.new(submission_id: params[:id])
       authorize service.submission, :submission_file?
       send_data service.xml, filename: "sepa-#{service.submission.id}.xml", type: 'application/xml'
     end
@@ -66,12 +50,8 @@ module Ticketing
       @orders = Web::Order.find(params[:orders])
     end
 
-    def find_charges_to_submit
-      @unsubmitted_charges = Web::Order.charges_to_submit
-    end
-
-    def find_refunds_to_submit
-      @unsubmitted_refunds = Web::Order.refunds_to_submit
+    def find_transactions_to_submit
+      @submittable_transactions = BankTransaction.submittable
     end
 
     def find_unpaid_orders(web: true)

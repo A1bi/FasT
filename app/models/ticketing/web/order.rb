@@ -20,12 +20,6 @@ module Ticketing
 
       after_save :schedule_geolocation
 
-      class << self
-        def charges_to_submit
-          charge_payment.with_debt.joins(:bank_transactions).merge(BankTransaction.unsubmitted)
-        end
-      end
-
       def update_total
         old_total = total
         super

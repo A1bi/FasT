@@ -20,54 +20,6 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
   end
 
-  describe '#submit_charge' do
-    subject { service.submit_charge }
-
-    let(:order) { create(:web_order, :complete, :with_balance, :charge_payment) }
-
-    context 'with an unsubmitted charge' do
-      include_examples 'creates a log event', :submitted_charge
-
-      it "sets the charge's amount" do
-        expect { subject }.to change(order.bank_charge, :amount).to(50)
-      end
-
-      it "settles the order's balance" do
-        expect { subject }.to change(order.billing_account, :balance).to(0)
-      end
-    end
-
-    context 'with an already submitted charge' do
-      let(:order) { create(:web_order, :complete, :with_balance, :submitted_charge_payment) }
-
-      include_examples 'does not create a log event'
-    end
-  end
-
-  describe '#submit_refund' do
-    subject { service.submit_refund }
-
-    let(:order) { create(:web_order, :complete, :with_credit, :with_bank_refunds) }
-
-    context 'with an unsubmitted refund' do
-      it "sets the refund's amount" do
-        expect { subject }.to change { order.open_bank_refund.reload.amount }.to(123)
-      end
-
-      it "settles the order's balance" do
-        expect { subject }.to change(order.billing_account, :balance).to(0)
-      end
-    end
-
-    context 'with an already submitted refund' do
-      before { order.open_bank_refund.update(amount: 12, submission: build(:bank_refund_submission)) }
-
-      it "does not touch the order's balance" do
-        expect { subject }.not_to change(order.billing_account, :balance)
-      end
-    end
-  end
-
   describe '#mark_as_paid' do
     subject { service.mark_as_paid }
 

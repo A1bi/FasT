@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ticketing
-  class BankRefundPolicy < ApplicationPolicy
+  class BankTransactionPolicy < ApplicationPolicy
     def submit?
       user_admin?
     end

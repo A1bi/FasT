@@ -12,12 +12,24 @@ module Ticketing
     is_anonymizable columns: %i[name iban]
 
     validates :name, presence: true, unless: :anonymized?
-    validates :amount, numericality: { greater_than: 0, if: proc { |c| c.submission.present? } }
+    validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
     validates_with SEPA::IBANValidator, unless: :anonymized?
 
     class << self
       def unsubmitted
         where.missing(:submission)
+      end
+
+      def submittable
+        unsubmitted.where('amount != 0')
+      end
+
+      def transfers
+        where('amount < 0')
+      end
+
+      def debits
+        where('amount > 0')
       end
     end
 

@@ -29,6 +29,8 @@ RSpec.describe Ticketing::OrderCreateService do
   end
   let(:current_user) { nil }
   let(:order) { Ticketing::Order.last }
+  let(:total) { event.ticket_types[0].price }
+  let(:total_after_discount) { total - coupons.first.value }
 
   shared_examples 'marks order as paid' do |paid|
     it 'marks order as paid' do
@@ -68,9 +70,8 @@ RSpec.describe Ticketing::OrderCreateService do
 
       it 'redeems credit coupons' do
         subject
-        total = event.ticket_types[0].price
         expect(order.total).to eq(total)
-        expect(order.billing_account.balance).to eq(-total + coupons.first.value)
+        expect(order.billing_account.balance).to eq(-total_after_discount)
       end
 
       it 'sends a confirmation' do
@@ -121,7 +122,7 @@ RSpec.describe Ticketing::OrderCreateService do
 
       it 'adds the total to the bank transaction' do
         subject
-        expect(order.open_bank_transaction.amount).to eq(order.total)
+        expect(order.open_bank_transaction.amount).to eq(total_after_discount)
       end
 
       it 'settles the order\'s balance' do
@@ -146,7 +147,7 @@ RSpec.describe Ticketing::OrderCreateService do
     it 'withdraws from the retail billing account' do
       subject
       expect(order.billing_account.balance).to eq(0)
-      expect(store.billing_account.balance).to eq(-order.total)
+      expect(store.billing_account.balance).to eq(-total_after_discount)
     end
 
     include_examples 'marks order as paid', true
