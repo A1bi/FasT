@@ -3,7 +3,9 @@
 module Ticketing
   module OrderMailerHelper
     def order_with_number(order)
-      t('ticketing.order_mailer.order_with_number_html', number: order.number)
+      text = t('ticketing.order_mailer.order_with_number_html', number: order.number)
+      text = strip_tags(text) unless formats.include?(:html)
+      text
     end
 
     def order_balance(order)
