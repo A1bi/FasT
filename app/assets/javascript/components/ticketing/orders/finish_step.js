@@ -27,10 +27,6 @@ export default class extends Step {
         printer.printTicketsWithNotification(orderInfo.printable_path)
       }, 2000)
     } else {
-      const email = this.delegate.getApiInfo().address.email
-      const isGmail = /@(gmail|googlemail)\./.test(email)
-      this.box.find('.gmail-warning').toggle(isGmail)
-
       this.box.find('.order-number b').text(orderInfo.number)
       this.trackPiwikGoal(1, orderInfo.total)
     }

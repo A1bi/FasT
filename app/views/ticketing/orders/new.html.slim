@@ -25,7 +25,7 @@ ruby:
     p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="items">Ihren Tickets und </span>allen Informationen zu Ihrer Bestellung.
     p In den #{link_to 'FAQ', info_path(@event.slug)} finden Sie übrigens weitere hilfreiche Informationen zu unseren Veranstaltungen.
 
-  = render 'gmail_warning'
+  = render 'spam_note'
   = render 'dates/restaurants'
 
 - content_for :steps
