@@ -19,7 +19,7 @@ export default class extends Step {
     this.seatingBox.hide()
 
     this.dates = this.box.find('.date td').click(event => {
-      this.choseDate($(event.currentTarget))
+      this.choseDate($(event.currentTarget), true)
     })
     this.skipDateSelection = this.dates.length < 2 && this.hasSeatingPlan
     this.box.find('.note').first().toggle(!this.skipDateSelection)
@@ -48,15 +48,13 @@ export default class extends Step {
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()
     }
-  }
 
-  didMoveIn () {
     if (this.skipDateSelection) {
-      this.choseDate(this.dates.first())
+      this.choseDate(this.dates.first(), false)
     }
   }
 
-  choseDate ($this) {
+  choseDate ($this, animate) {
     if ($this.is('.selected') || $this.is('.disabled')) return
     $this.parents('table').find('.selected').removeClass('selected')
     $this.addClass('selected')
@@ -66,7 +64,11 @@ export default class extends Step {
     this.info.internal.localizedDate = $this.text()
 
     if (this.hasSeatingPlan) {
-      this.slideToggle(this.seatingBox, true)
+      if (animate) {
+        this.slideToggle(this.seatingBox, true)
+      } else {
+        this.seatingBox.show()
+      }
       this.updateSeatingPlan()
 
       $('html, body').animate({ scrollTop: this.seatingBox.offset().top }, 500)
