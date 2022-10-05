@@ -18,12 +18,12 @@ module Ticketing
       deposit_into_account(-order_balance, note)
     end
 
-    def settle_balance_with_bank_transaction
-      return if @order.open_bank_transaction.nil?
+    def settle_balance_with_bank_transaction(transaction = @order.open_bank_transaction)
+      return if transaction.nil?
 
-      @order.open_bank_transaction.amount -= order_balance
-      @order.open_bank_transaction.save if @order.open_bank_transaction.persisted?
-      settle_balance(@order.open_bank_transaction.amount.positive? ? :bank_charge_payment : :transfer_refund)
+      transaction.amount -= order_balance
+      transaction.save if transaction.persisted?
+      settle_balance(transaction.amount.positive? ? :bank_charge_payment : :transfer_refund)
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)

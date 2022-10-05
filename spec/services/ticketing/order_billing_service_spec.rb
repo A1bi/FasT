@@ -139,6 +139,20 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.not_to change(order, :balance)
       end
     end
+
+    context 'with a specific bank transaction' do
+      subject { service.settle_balance_with_bank_transaction(bank_transaction) }
+
+      let(:bank_transaction) { create(:bank_transaction, order:) }
+
+      it 'does not touch the other bank transaction' do
+        expect { subject }.not_to(change { order.bank_transactions.first.amount })
+      end
+
+      it 'adds the total to the bank transaction' do
+        expect { subject }.to change { bank_transaction.reload.amount }.to eq(25)
+      end
+    end
   end
 
   describe '#settle_balance_with_retail_account' do
