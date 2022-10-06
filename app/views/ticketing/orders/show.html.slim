@@ -174,7 +174,7 @@ ruby:
           td.amount = number_to_currency coupon.initial_value
 
 = render 'application/ticketing/log_events', events: @order.log_events
-= render 'application/ticketing/billing_transactions', record: @order, actions: true
+= render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'
 
 table.rounded.entries.details
   thead

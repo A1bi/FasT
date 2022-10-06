@@ -19,9 +19,7 @@ module Ticketing
     private
 
     def bank_transaction
-      @bank_transaction ||= if @params[:bank_transaction][:open]
-                              @order.open_bank_transaction
-                            elsif @params[:bank_transaction][:previous]
+      @bank_transaction ||= if @params[:use_most_recent]
                               bank_transaction_from_most_recent
                             else
                               bank_transaction_from_new_params
@@ -29,13 +27,14 @@ module Ticketing
     end
 
     def bank_transaction_from_most_recent
+      return @order.open_bank_transaction if @order.open_bank_transaction.present?
       return if (previous = @order.most_recent_bank_transaction).nil?
 
       build_bank_transaction(previous.attributes.slice('name', 'iban'))
     end
 
     def bank_transaction_from_new_params
-      build_bank_transaction(@params[:bank_transaction].slice(:name, :iban))
+      build_bank_transaction(@params.slice(:name, :iban))
     end
 
     def build_bank_transaction(transaction_params)

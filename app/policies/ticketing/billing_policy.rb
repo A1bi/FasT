@@ -10,7 +10,7 @@ module Ticketing
       user_admin? || (user_retail? && record.is_a?(Retail::Order))
     end
 
-    def transfer_refund?
+    def refund?
       user_admin?
     end
 

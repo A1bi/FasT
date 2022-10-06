@@ -4,7 +4,7 @@ table.rounded.entries.billing-log.details
     tr
       th Datum
       th Anmerkung
-      th Betrag
+      th = amount_label
   tbody.log
     - record.billing_account.transactions.each do |transaction|
       tr
@@ -17,20 +17,22 @@ table.rounded.entries.billing-log.details
       td class=(record.billing_account.outstanding? ? 'negative' : 'positive')
         = render 'application/ticketing/billing_transactions_amount', record: record, amount: record.billing_account.balance
 
-  - if local_assigns[:actions]
-    thead
-      tr: th colspan=3 Neue Buchung vornehmen
-    tbody.actions
-      tr
-        td colspan=3
-          - if @billing_actions.empty?
-            | Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
-          - else
-            = form_tag ticketing_billings_path, method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Buchung wirklich vornehmen?' }
-              = hidden_field_tag :billable_id, record.id
-              = hidden_field_tag :billable_type, record.class.base_class.name.demodulize
-              = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount' }
-              span<> data-target='ticketing--transactions-table.amount'
-                ' Betrag:
-                = number_field_tag :amount, nil, placeholder: '-1,00', step: 'any'
-              = submit_tag 'buchen'
+  thead
+    tr: th colspan=3 Neue Buchung vornehmen
+  tbody.actions
+    tr
+      td colspan=3
+        - if @billing_actions.empty?
+          | Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
+        - else
+          = form_tag ticketing_billings_path, method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Buchung wirklich vornehmen?' }
+            = hidden_field_tag :billable_id, record.id
+            = hidden_field_tag :billable_type, record.class.base_class.name.demodulize
+            = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
+            span<> data-target='ticketing--transactions-table.amount'
+              ' #{amount_label}:
+              = number_field_tag :amount, nil, placeholder: number_placeholder, step: number_step
+            span<> data-target='ticketing--transactions-table.bankDetails'
+              => text_field_tag :name, nil, placeholder: 'Name'
+              = text_field_tag :iban, nil, placeholder: 'IBAN'
+            = submit_tag 'buchen'

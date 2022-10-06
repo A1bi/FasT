@@ -8,8 +8,10 @@ module Ticketing
       case billable
       when Order
         case params[:note].to_sym
-        when :transfer_refund
-          transfer_refund
+        when :refund_to_most_recent_bank_account
+          refund_to_bank_account(use_most_recent: true)
+        when :refund_to_new_bank_account
+          refund_to_bank_account(params.permit(:name, :iban))
         when :cash_refund_in_store
           cash_refund_in_store
         else
@@ -23,9 +25,9 @@ module Ticketing
 
     private
 
-    def transfer_refund
-      authorize :transfer_refund?
-      billing_service.settle_balance(:transfer_refund)
+    def refund_to_bank_account(params)
+      authorize :refund?
+      OrderRefundService.new(billable).execute(params)
     end
 
     def cash_refund_in_store

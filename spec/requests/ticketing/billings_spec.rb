@@ -12,6 +12,7 @@ RSpec.describe 'Ticketing::BillingsController' do
       instance_double(Ticketing::OrderBillingService,
                       settle_balance: nil, refund_in_retail_store: nil, adjust_balance: nil)
     end
+    let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: nil) }
     let(:sign_in_user) { sign_in(admin: true) }
 
     before { sign_in_user }
@@ -27,25 +28,27 @@ RSpec.describe 'Ticketing::BillingsController' do
         end
       end
 
-      shared_examples 'does not call billing service' do
+      shared_examples 'does not call any service' do
         it 'does not call the billing service' do
           %i[settle_balance refund_in_retail_store adjust_balance].each do |msg|
             expect(billing_service).not_to receive(msg)
           end
+          expect(refund_service).not_to receive(:execute)
           subject
         end
       end
 
       before do
         allow(Ticketing::OrderBillingService).to receive(:new).with(billable).and_return(billing_service)
+        allow(Ticketing::OrderRefundService).to receive(:new).with(billable).and_return(refund_service)
       end
 
-      context 'with note = transfer_refund' do
-        let(:note) { :transfer_refund }
+      context 'with note = refund_to_most_recent_bank_account' do
+        let(:note) { :refund_to_most_recent_bank_account }
 
         context 'with an admin user' do
-          it 'call the billing service' do
-            expect(billing_service).to receive(:settle_balance).with(:transfer_refund)
+          it 'calls the refund service' do
+            expect(refund_service).to receive(:execute).with(use_most_recent: true)
             subject
           end
 
@@ -55,7 +58,33 @@ RSpec.describe 'Ticketing::BillingsController' do
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not call billing service'
+          include_examples 'does not call any service'
+        end
+
+        context 'when unauthenticated' do
+          let(:sign_in_user) { nil }
+
+          include_examples 'redirect unauthenticated'
+        end
+      end
+
+      context 'with note = refund_to_new_bank_account' do
+        let(:note) { :refund_to_new_bank_account }
+        let(:params) { super().merge(name: 'Foo', iban: 'Bar') }
+
+        context 'with an admin user' do
+          it 'calls the refund service' do
+            expect(refund_service).to receive(:execute).with('name' => 'Foo', 'iban' => 'Bar')
+            subject
+          end
+
+          include_examples 'redirects to order details'
+        end
+
+        context 'with a retail user' do
+          let(:sign_in_user) { sign_in(user: create(:retail_user)) }
+
+          include_examples 'does not call any service'
         end
 
         context 'when unauthenticated' do
@@ -85,7 +114,7 @@ RSpec.describe 'Ticketing::BillingsController' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
           context 'with a web order' do
-            include_examples 'does not call billing service'
+            include_examples 'does not call any service'
             include_examples 'redirect unauthorized'
           end
 
@@ -120,7 +149,7 @@ RSpec.describe 'Ticketing::BillingsController' do
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not call billing service'
+          include_examples 'does not call any service'
           include_examples 'redirect unauthorized'
         end
 

@@ -381,6 +381,8 @@ de:
           cancellation: Stornierung
           cash_refund_in_store: Barrückzahlung in Vorverkaufsstelle
           transfer_refund: Rückzahlung per Überweisung
+          refund_to_most_recent_bank_account: Rückzahlung auf bekanntes Bankkonto
+          refund_to_new_bank_account: Rückzahlung auf neues Bankkonto
           payment_received: Zahlung erhalten
           bank_charge_submitted: Lastschrift bei der Bank eingereicht # for historic records
           bank_charge_payment: Zahlung per Lastschrift
