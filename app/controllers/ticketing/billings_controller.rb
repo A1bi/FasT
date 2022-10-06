@@ -5,6 +5,17 @@ module Ticketing
     ALLOWED_BILLABLE_TYPES = %w[Order Coupon].freeze
 
     def create
+      if create_billing
+        flash.notice = t('.created')
+      else
+        flash.alert = t('.not_created')
+      end
+      redirect_to billable.becomes(billable.class.base_class)
+    end
+
+    private
+
+    def create_billing
       case billable
       when Order
         case params[:note].to_sym
@@ -20,10 +31,7 @@ module Ticketing
       when Coupon
         adjust_value if params[:note] == 'correction'
       end
-      redirect_to_billable
     end
-
-    private
 
     def refund_to_bank_account(params)
       authorize :refund?
@@ -57,11 +65,6 @@ module Ticketing
 
     def billing_service
       OrderBillingService.new(billable)
-    end
-
-    def redirect_to_billable
-      flash[:notice] = t('ticketing.billings.created')
-      redirect_to billable.becomes(billable.class.base_class)
     end
   end
 end
