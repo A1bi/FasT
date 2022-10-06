@@ -4,7 +4,7 @@ module Ticketing
   class DebitSepaXmlService
     LOCAL_INSTRUMENT = 'COR1'
     SEQUENCE_TYPE = 'OOFF'
-    BATCH_BOOKING = true
+    BATCH_BOOKING = false
 
     def initialize(submission)
       @submission = submission
@@ -14,7 +14,7 @@ module Ticketing
       return if transactions.none?
 
       debit = SEPA::DirectDebit.new(debit_info)
-      debit.message_identification = "FasT/#{@submission.id}"
+      debit.message_identification = "FasT/#{@submission.id}/debit"
 
       transactions.each do |transaction|
         debit.add_transaction(transaction_info(transaction))

@@ -2,7 +2,7 @@
 
 module Ticketing
   class TransferSepaXmlService
-    BATCH_BOOKING = true
+    BATCH_BOOKING = false
 
     def initialize(submission)
       @submission = submission
@@ -12,7 +12,7 @@ module Ticketing
       return if transactions.none?
 
       transfer = SEPA::CreditTransfer.new(transfer_info)
-      transfer.message_identification = "FasT/#{@submission.id}"
+      transfer.message_identification = "FasT/#{@submission.id}/transfer"
 
       transactions.each do |transaction|
         transfer.add_transaction(transaction_info(transaction))
@@ -38,13 +38,8 @@ module Ticketing
         amount: -transaction.amount,
         instruction: transaction.id,
         remittance_information: translate(:transfer_remittance_information, number: transaction.order.number),
-        batch_booking: BATCH_BOOKING,
-        requested_date:
+        batch_booking: BATCH_BOOKING
       }
-    end
-
-    def requested_date
-      Date.tomorrow
     end
 
     def translate(key, options = {})
