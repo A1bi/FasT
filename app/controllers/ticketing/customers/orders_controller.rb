@@ -14,7 +14,7 @@ module Ticketing
       def show
         return render :email_form unless @authenticated
 
-        @cancellable = web_order? && refundable_tickets.any?
+        @cancellable = web_order? && cancellable_tickets.any?
         @refundable = @cancellable && credit_after_cancellation?
         @transferable = transferable
       end
@@ -34,14 +34,14 @@ module Ticketing
       end
 
       def cancel
-        return redirect_to_order_overview if refundable_tickets.none?
+        return redirect_to_order_overview if cancellable_tickets.none?
 
         if credit_after_cancellation?
           transaction = @order.open_bank_transaction || @order.bank_transactions.create(bank_details)
           return redirect_to_order_overview alert: t('.incorrect_bank_details') unless transaction.valid?
         end
 
-        Ticketing::TicketCancelService.new(refundable_tickets, reason: :date_cancelled)
+        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :date_cancelled)
                                       .execute(send_customer_email: !credit_after_cancellation?)
         Ticketing::OrderBillingService.new(@order.reload).settle_balance_with_bank_transaction
 
@@ -52,13 +52,13 @@ module Ticketing
 
       private
 
-      def refundable_tickets
-        valid_tickets.filter(&:refundable?)
+      def cancellable_tickets
+        valid_tickets.filter(&:customer_cancellable?)
       end
 
       def credit_after_cancellation?
         @credit_after_cancellation ||= begin
-          refundable_sum = refundable_tickets.sum(&:price)
+          refundable_sum = cancellable_tickets.sum(&:price)
           (@order.balance + refundable_sum).positive?
         end
       end
