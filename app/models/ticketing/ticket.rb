@@ -61,6 +61,13 @@ module Ticketing
       )
     end
 
+    def customer_transferable?
+      !cancelled? && (
+        (!date.cancelled? && date.admission_time.future?) ||
+        (date.cancelled? && date.event.dates.uncancelled.upcoming.any?)
+      )
+    end
+
     def signed_info(params = {})
       SigningKey.random_active.sign_ticket(self, params)
     end
