@@ -36,16 +36,16 @@ module Ticketing
       def cancel
         return redirect_to_order_overview if cancellable_tickets.none?
 
-        if credit_after_cancellation?
-          transaction = @order.open_bank_transaction || @order.bank_transactions.create(bank_details)
-          return redirect_to_order_overview alert: t('.incorrect_bank_details') unless transaction.valid?
+        refund_params = params.permit(:name, :iban)
+        refund_params[:use_most_recent] = params[:use_most_recent] == 'true'
+
+        unless refund_params[:use_most_recent] ||
+               BankTransaction.new(order: @order, **params.permit(:name, :iban)).valid?
+          return redirect_to_order_overview alert: t('.incorrect_bank_details')
         end
 
-        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :date_cancelled)
-                                      .execute(send_customer_email: !credit_after_cancellation?)
-        Ticketing::OrderBillingService.new(@order.reload).settle_balance_with_bank_transaction
-
-        Ticketing::RefundMailer.with(bank_transaction: transaction).customer.deliver_later if credit_after_cancellation?
+        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :cancelled_by_customer)
+                                      .execute(refund: refund_params)
 
         redirect_to_order_overview notice: t('.tickets_cancelled')
       end
@@ -64,14 +64,6 @@ module Ticketing
         @credit_after_cancellation ||= begin
           refundable_sum = cancellable_tickets.sum(&:price)
           (@order.balance + refundable_sum).positive?
-        end
-      end
-
-      def bank_details
-        if web_order? && @order.charge_payment? && params[:use_bank_charge] == 'true'
-          @order.bank_charge.slice(:name, :iban)
-        else
-          params.permit(:name, :iban)
         end
       end
 
