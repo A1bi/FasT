@@ -3,11 +3,17 @@
   ' Ihre
 - else
   ' ein Teil Ihrer
-' #{order_with_number(@order)} aus folgendem Grund storniert wurde:
-- if @reason.present?
-  = @reason
-- else
-  em Kein Grund angegeben.
+' #{order_with_number(@order)} storniert wurde.
+
+- if @bank_transaction.present? && @bank_transaction.amount.negative?
+  p Der Betrag von <b>#{number_to_currency(-@bank_transaction.amount)}</b> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
+  table
+    tr
+      td Kontoinhaber:
+      td = @bank_transaction.name
+    tr
+      td IBAN:
+      td = obfuscated_iban(@bank_transaction.iban)
 
 p Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
 

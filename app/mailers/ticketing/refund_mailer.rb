@@ -7,12 +7,6 @@ module Ticketing
     default to: -> { @order.email }
     layout 'ticketing/order_mailer'
 
-    def customer
-      @bank_transaction = params[:bank_transaction]
-      @order = @bank_transaction.order
-      mail
-    end
-
     def notification
       @order = params[:order]
       mail

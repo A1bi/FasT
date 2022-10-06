@@ -1,4 +1,11 @@
-wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> aus folgendem Grund storniert wurde: <%= @reason.presence || 'Kein Grund angegeben.' %>
+wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> storniert wurde.
+
+<% if @bank_transaction.present? && @bank_transaction.amount.negative? %>
+Der Betrag von <%= number_to_currency(-@bank_transaction.amount) %> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
+
+Kontoinhaber: <%= @bank_transaction.name %>
+IBAN: <%= obfuscated_iban(@bank_transaction.iban) %>
+<% end %>
 
 Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
 

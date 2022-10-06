@@ -148,8 +148,6 @@ de:
       check_in:
         subject: Herzlich willkommen
     refund_mailer:
-      customer:
-        subject: Ihre Erstattung
       notification:
         subject: Ihre gebuchte Veranstaltung wird verschoben
     tickets:
