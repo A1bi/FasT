@@ -9,6 +9,23 @@ RSpec.describe Ticketing::TicketCancelService do
   let(:orders) { create_list(:web_order, 2, :with_tickets, tickets_count: 3) }
   let(:tickets) { orders.map(&:tickets).flatten.first(5) }
   let(:reason) { 'foo' }
+  let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: :foo_transaction) }
+
+  before do
+    allow(Ticketing::OrderRefundService).to receive(:new).and_return(refund_service)
+  end
+
+  shared_examples 'cancellation confirmation sending' do |bank_transaction|
+    it 'sends a cancellation confirmation email once per order with a bank transaction' do
+      expect { subject }
+        .to have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
+        .with(a_hash_including(params: { reason:, order: orders[0], bank_transaction: }))
+        .and(
+          have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
+            .with(a_hash_including(params: { reason:, order: orders[1], bank_transaction: }))
+        )
+    end
+  end
 
   context 'when some tickets are already invalid' do
     let(:valid_tickets) { tickets.first(3) }
@@ -49,14 +66,26 @@ RSpec.describe Ticketing::TicketCancelService do
       )
     end
 
-    it 'sends a cancellation confirmation email once per order' do
-      expect { subject }
-        .to have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-        .with(a_hash_including(params: { reason:, order: orders[0] }))
-        .and(
-          have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-            .with(a_hash_including(params: { reason:, order: orders[1] }))
-        )
+    context 'without refund requested' do
+      it 'does not refund the orders' do
+        expect(Ticketing::OrderRefundService).not_to receive(:new)
+        subject
+      end
+
+      include_examples 'cancellation confirmation sending', nil
+    end
+
+    context 'with refund requested' do
+      subject { service.execute(refund: :foo) }
+
+      it 'refunds all of the orders' do
+        expect(Ticketing::OrderRefundService).to receive(:new).with(orders[0])
+        expect(Ticketing::OrderRefundService).to receive(:new).with(orders[1])
+        expect(refund_service).to receive(:execute).with(:foo).twice
+        subject
+      end
+
+      include_examples 'cancellation confirmation sending', :foo_transaction
     end
 
     include_examples 'creates a log event', :cancelled_tickets do
