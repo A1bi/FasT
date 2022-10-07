@@ -1,6 +1,15 @@
-hr
-h2.hcen Umbuchung Ihrer Tickets
-p Sie haben die Möglichkeit, Ihre Tickets auf ein anderes Datum #{@event.seating.plan? ? 'und/oder einen anderen Sitzplatz ' : '' }umzubuchen. Klicken Sie dazu bitte auf folgenden Link:
+.trenner
+h3.hcen Umbuchung Ihrer Tickets
+p
+  ' Sie haben die Möglichkeit, Ihre Tickets auf
+  - other_dates = @event.dates.uncancelled.upcoming.count > 1
+  - if other_dates && @event.seating.plan?
+    ' ein anderes Datum und/oder einen anderen Sitzplatz
+  - elsif other_dates
+    ' ein anderes Datum
+  - elsif @event.seating.plan?
+    ' einen anderen Sitzplatz
+  | umzubuchen. Klicken Sie dazu bitte auf folgenden Link:
 p.hcen = link_to 'Tickets umbuchen', ticket_transfer_path
 p Gerne erreichen Sie uns bei weiteren Fragen oder besonderen Umbuchungswünschen auch auf folgenden Wegen:<br>
 p.hcen

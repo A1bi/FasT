@@ -39,7 +39,7 @@ module Ticketing
         refund_params = params.permit(:name, :iban)
         refund_params[:use_most_recent] = params[:use_most_recent] == 'true'
 
-        unless refund_params[:use_most_recent] ||
+        unless !credit_after_cancellation? || refund_params[:use_most_recent] ||
                BankTransaction.new(order: @order, **params.permit(:name, :iban)).valid?
           return redirect_to_order_overview alert: t('.incorrect_bank_details')
         end
