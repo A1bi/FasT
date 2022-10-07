@@ -149,7 +149,7 @@ de:
         subject: Herzlich willkommen
     refund_mailer:
       notification:
-        subject: Ihre gebuchte Veranstaltung wird verschoben
+        subject: Ersatztermin für das Konzert
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
