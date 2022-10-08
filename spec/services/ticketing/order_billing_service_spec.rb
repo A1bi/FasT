@@ -110,24 +110,29 @@ RSpec.describe Ticketing::OrderBillingService do
 
     let(:order) { create(:web_order, :complete, :charge_payment) }
     let(:previous_balance) { -25 }
-    let(:previous_amount) { 10 }
 
-    before { order.open_bank_transaction.update(amount: previous_amount) }
-
-    it 'adds the total to the bank transaction' do
-      expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(35)
-    end
+    before { order.open_bank_transaction.update(amount: 10) }
 
     it 'settles the order\'s balance' do
       expect { subject }.to change(order, :balance).to(0)
     end
 
-    context 'with a final positive amount' do
+    context 'with a negative order balance' do
+      let(:previous_balance) { -25 }
+
+      it 'adds the order balance to the bank transaction' do
+        expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(35)
+      end
+
       include_examples 'sets transaction note', 'bank_charge_payment'
     end
 
-    context 'with a final negative amount' do
-      let(:previous_amount) { -100 }
+    context 'with a positive order balance' do
+      let(:previous_balance) { 25 }
+
+      it 'subtracts the order balance from the bank transaction' do
+        expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(-15)
+      end
 
       include_examples 'sets transaction note', 'transfer_refund'
     end
