@@ -86,7 +86,7 @@ module Ticketing
     end
 
     def cancel_tickets
-      refund = params.permit(:use_most_recent, :iban, :name) if params[:transfer_refund]
+      refund = params.permit(:use_most_recent, :iban, :name) if current_user.admin? && params[:transfer_refund]
       TicketCancelService.new(@tickets, reason: params[:reason], current_user:).execute(refund:)
     end
 

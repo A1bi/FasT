@@ -45,6 +45,33 @@ RSpec.describe 'Ticketing::TicketsController' do
       let(:order) { create(:order, :with_tickets, tickets_count: 3) }
       let(:order2) { create(:order, :with_tickets, tickets_count: 1) }
 
+      context 'without a refund requested' do
+        it 'does not call refund service' do
+          expect(Ticketing::OrderRefundService).not_to receive(:new)
+          subject
+        end
+      end
+
+      context 'with a refund requested' do
+        let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: nil) }
+
+        before do
+          params[:transfer_refund] = true
+          params[:use_most_recent] = true
+          params[:name] = 'bar'
+          params[:iban] = 'foo'
+          allow(Ticketing::OrderRefundService).to receive(:new).and_return(refund_service)
+        end
+
+        it 'calls refund service' do
+          expect(refund_service).to receive(:execute) do |params|
+            expect(params.to_h.slice(:use_most_recent, :name, :iban))
+              .to include(use_most_recent: 'true', name: 'bar', iban: 'foo')
+          end
+          subject
+        end
+      end
+
       include_examples 'general cancellation'
     end
 
@@ -58,7 +85,7 @@ RSpec.describe 'Ticketing::TicketsController' do
       include_examples 'general cancellation'
 
       context 'with refund wanted' do
-        before { params[:refund] = true }
+        before { params[:retail_refund] = true }
 
         it 'transfers the refund from the retail store account' do
           expect { subject }.to(change { user.store.billing_account.reload.balance }.to(-60))
