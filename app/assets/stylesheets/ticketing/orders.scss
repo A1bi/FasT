@@ -105,6 +105,19 @@ table.details {
   }
 }
 
+[data-target='ticketing--tickets-table.cancellation'] {
+  margin: 10px 0;
+
+  td {
+    text-align: left !important;
+    border-radius: 0 !important;
+
+    input[type='text'] {
+      width: 200px;
+    }
+  }
+}
+
 .unpaid_orders {
   table.transfer, table.cash {
     margin-bottom: 0;

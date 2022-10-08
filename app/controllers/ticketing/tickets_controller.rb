@@ -86,11 +86,12 @@ module Ticketing
     end
 
     def cancel_tickets
-      TicketCancelService.new(@tickets, reason: params[:reason], current_user:).execute
+      refund = params.permit(:use_most_recent, :iban, :name) if params[:transfer_refund]
+      TicketCancelService.new(@tickets, reason: params[:reason], current_user:).execute(refund:)
     end
 
     def refund_in_retail_store
-      return unless params[:refund]
+      return unless params[:retail_refund] && current_user.retail?
 
       OrderBillingService.new(@order).refund_in_retail_store
     end

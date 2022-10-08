@@ -2,13 +2,14 @@ import { Controller } from 'stimulus'
 import { getAuthenticityToken, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
-  static targets = ['ticketCheckBox', 'noTicketsMessage', 'form', 'action', 'reason']
+  static targets = ['ticketCheckBox', 'noTicketsMessage', 'form', 'action', 'cancellation',
+    'refundDetails', 'bankDetails', 'submitButton', 'bankDetailsCheckbox']
 
   initialize () {
     this.element.querySelector("[name='authenticity_token']").value =
       getAuthenticityToken()
     this.toggleForm()
-    this.toggleReason()
+    this.toggleCancellationForm()
   }
 
   toggleAllCheckBoxes (event) {
@@ -24,12 +25,32 @@ export default class extends Controller {
     const anyChecked = this.ticketCheckBoxTargets.some(box => box.checked)
     toggleDisplay(this.noTicketsMessageTarget, !anyChecked)
     toggleDisplay(this.formTarget, anyChecked)
+    this.toggleBankDetails()
   }
 
-  toggleReason () {
-    if (!this.hasReasonTarget) return
+  toggleCancellationForm () {
+    if (!this.hasCancellationTarget) return
 
-    toggleDisplay(this.reasonTarget, this.actionTarget.value === 'cancel', 'inline')
+    const label = this.actionTarget.selectedOptions[0].dataset.submitLabel ||
+      this.submitButtonTarget.dataset.defaultLabel
+    this.submitButtonTarget.value = label
+    toggleDisplay(this.cancellationTarget, this.actionTarget.value === 'cancel')
+  }
+
+  toggleRefundDetails (checkbox) {
+    this.toggleBankDetails()
+    this.refundDetailsTargets.forEach(target => {
+      toggleDisplay(target, checkbox.currentTarget.checked, 'table-row')
+    })
+  }
+
+  toggleBankDetails (checkbox) {
+    const toggle =
+      this.hasBankDetailsCheckboxTarget ? !this.bankDetailsCheckboxTarget.checked : true
+
+    this.bankDetailsTargets.forEach(target => {
+      toggleDisplay(target, toggle, 'table-row')
+    })
   }
 
   submit (event) {
