@@ -2,11 +2,7 @@
 
 module Ticketing
   class TicketCancelService < TicketBaseService
-    class TicketsFromDifferentOrdersError < StandardError; end
-
     def initialize(tickets, reason:, current_user: nil)
-      raise TicketsFromDifferentOrdersError if tickets.pluck(:order_id).uniq.count > 1
-
       super(tickets, current_user:)
       @reason = reason
     end
@@ -14,7 +10,7 @@ module Ticketing
     def execute(refund: nil, send_customer_email: true)
       return if uncancelled_tickets.none?
 
-      update_order_balance(order, :cancellation) do
+      update_order_balance(:cancellation) do
         Cancellation.create(
           reason: @reason,
           tickets: uncancelled_tickets
@@ -26,7 +22,7 @@ module Ticketing
       transaction = refund_order(refund) if refund.present?
       send_email(transaction) if send_customer_email
 
-      update_node_with_tickets(@tickets)
+      update_node_with_tickets
     end
 
     private
@@ -38,10 +34,6 @@ module Ticketing
     def uncancelled_tickets
       # cannot use valid_tickets because resale tickets are invalid but still cancellable
       @uncancelled_tickets ||= scoped_tickets(:uncancelled)
-    end
-
-    def order
-      tickets.first.order
     end
 
     def log_cancellation

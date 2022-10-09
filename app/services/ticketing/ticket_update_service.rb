@@ -8,22 +8,21 @@ module Ticketing
     end
 
     def execute
-      valid_tickets_by_order.each do |order, tickets|
-        update_order_balance(order, :ticket_types_edited) do
-          update_tickets_for_order(order, tickets)
-        end
+      update_order_balance(:ticket_types_edited) do
+        update_tickets_for_order
+        order.tickets.reload
       end
 
-      update_node
+      update_node_with_tickets
     end
 
     private
 
-    def update_tickets_for_order(order, tickets)
+    def update_tickets_for_order
       tickets_resale = []
       tickets_updated_type = []
 
-      tickets.each do |ticket|
+      valid_tickets.each do |ticket|
         next if (ticket_params = @params[ticket.id]).blank?
         next unless ticket.update(ticket_params)
 
@@ -33,10 +32,6 @@ module Ticketing
 
       log_service(order).update_ticket_types(tickets_updated_type)
       log_service(order).enable_resale_for_tickets(tickets_resale)
-    end
-
-    def update_node
-      update_node_with_tickets(@tickets)
     end
 
     def updated_attr?(ticket, attr)
