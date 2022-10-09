@@ -69,7 +69,7 @@ module Ticketing
     def create_event_with_tickets(action, tickets, info = {})
       return if tickets.none?
 
-      info[:count] = tickets.count
+      info[:count] = tickets.size
       create_event(action, info)
     end
 

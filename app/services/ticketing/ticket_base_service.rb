@@ -31,8 +31,6 @@ module Ticketing
     end
 
     def scoped_tickets(scope)
-      # need to load and memoize because the valid tickets will be invalid after
-      # the first step of cancelling them (see execute method)
       tickets.public_send(scope).includes(:order).load
     end
 

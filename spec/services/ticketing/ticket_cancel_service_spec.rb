@@ -6,8 +6,8 @@ RSpec.describe Ticketing::TicketCancelService do
   subject { service.execute }
 
   let(:service) { described_class.new(tickets, reason:) }
-  let(:orders) { create_list(:web_order, 2, :with_tickets, tickets_count: 3) }
-  let(:tickets) { orders.map(&:tickets).flatten.first(5) }
+  let(:order) { create(:web_order, :with_tickets, tickets_count: 4) }
+  let(:tickets) { order.tickets }
   let(:reason) { 'foo' }
   let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: :foo_transaction) }
 
@@ -19,25 +19,19 @@ RSpec.describe Ticketing::TicketCancelService do
     it 'sends a cancellation confirmation email once per order with a bank transaction' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-        .with(a_hash_including(params: { reason:, order: orders[0], bank_transaction: }))
-        .and(
-          have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-            .with(a_hash_including(params: { reason:, order: orders[1], bank_transaction: }))
-        )
+        .with(a_hash_including(params: { reason:, order:, bank_transaction: }))
     end
   end
 
   context 'when some tickets are already invalid' do
-    let(:valid_tickets) { tickets.first(3) }
+    let(:valid_tickets) { tickets[0..1] }
     let!(:invalid_ticket) do
-      ticket = tickets[-1]
-      create(:cancellation, tickets: [ticket])
-      ticket
+      create(:cancellation, tickets: [tickets[3]])
+      tickets[3]
     end
     let!(:resale_ticket) do
-      ticket = tickets[-2]
-      ticket.update(resale: true)
-      ticket
+      tickets[2].update(resale: true)
+      tickets[2]
     end
 
     it 'creates a cancellation' do
@@ -53,21 +47,14 @@ RSpec.describe Ticketing::TicketCancelService do
     end
 
     it "updates the order's balance" do
-      orders.each do |order|
-        order.tickets.update(price: 10)
-        order.billing_account.save
-      end
-      orders[0].update(total: 30)
-      orders[1].update(total: 20)
+      order.tickets.update(price: 10)
+      order.update(total: 30)
 
-      expect { subject }.to(
-        change { orders[0].billing_account.reload.balance }.by(30)
-        .and(change { orders[1].billing_account.reload.balance }.by(10))
-      )
+      expect { subject }.to change { order.billing_account.reload.balance }.by(30)
     end
 
     context 'without refund requested' do
-      it 'does not refund the orders' do
+      it 'does not refund the order' do
         expect(Ticketing::OrderRefundService).not_to receive(:new)
         subject
       end
@@ -78,10 +65,9 @@ RSpec.describe Ticketing::TicketCancelService do
     context 'with refund requested' do
       subject { service.execute(refund: :foo) }
 
-      it 'refunds all of the orders' do
-        expect(Ticketing::OrderRefundService).to receive(:new).with(orders[0])
-        expect(Ticketing::OrderRefundService).to receive(:new).with(orders[1])
-        expect(refund_service).to receive(:execute).with(:foo).twice
+      it 'refunds the order' do
+        expect(Ticketing::OrderRefundService).to receive(:new).with(order)
+        expect(refund_service).to receive(:execute).with(:foo)
         subject
       end
 
@@ -89,13 +75,8 @@ RSpec.describe Ticketing::TicketCancelService do
     end
 
     include_examples 'creates a log event', :cancelled_tickets do
-      let(:loggable) { orders.first }
+      let(:loggable) { order }
       let(:info) { { count: 3, reason: } }
-    end
-
-    include_examples 'creates a log event', :cancelled_tickets do
-      let(:loggable) { orders.last }
-      let(:info) { { count: 1, reason: } }
     end
   end
 
@@ -104,6 +85,15 @@ RSpec.describe Ticketing::TicketCancelService do
 
     it 'does not create an empty cancellation' do
       expect { subject }.not_to change(Ticketing::Cancellation, :count)
+    end
+  end
+
+  context 'when not all tickets are from the same order' do
+    let(:orders) { create_list(:web_order, 2, :with_tickets, tickets_count: 2) }
+    let(:tickets) { orders.map(&:tickets).flatten }
+
+    it 'does raise an error' do
+      expect { subject }.to raise_error(described_class::TicketsFromDifferentOrdersError)
     end
   end
 end
