@@ -1,0 +1,33 @@
+- title 'Statistik'
+- include_css 'ticketing/statistics'
+- cache [Ticketing::Ticket.all, current_user.store, @transactions]
+  .stats
+    .hl Ticket-Statistik
+    - @events.each do |event|
+      - stats = stats_for_event(event)
+      h4.hcen = event.name
+      .table.active
+        = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', scope: stats_for_event(event)[:retail][:stores][current_user.store.id] }], event: event, retail: true
+    .hl Kassenstand
+    table.rounded.billing-log
+      thead
+        tr
+          th Datum
+          th Anmerkung
+          th Bestellung
+          th Betrag
+      tbody.log
+        - @transactions.each do |transaction|
+          tr
+            td.date = l(transaction.created_at, format: :medium)
+            td = translate_billing_transaction(transaction)
+            td
+              - if (participant = transaction.participant ? transaction.participant.billable : nil).is_a?(Ticketing::Order)
+                = link_to "##{participant.number}", ticketing_order_path(participant)
+            td.amount class=(-transaction.amount < 0 ? 'negative' : 'positive')
+              = format_billing_amount(-transaction.amount)
+        tr.total
+          td
+          td colspan=2 Saldo
+          td.amount class=(!current_user.store.billing_account.outstanding? ? 'negative' : 'positive')
+            = format_billing_amount(-current_user.store.billing_account.balance)

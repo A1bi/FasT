@@ -1,0 +1,49 @@
+- title 'Statistik'
+- include_css 'ticketing/statistics'
+
+- cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all]
+  .hl Ticket-Statistik
+  .stats data-controller='ticketing--statistics-table'
+    .box.chooser
+      .top
+        ' Verkaufszahlen anzeigen:
+        span.selected data-action='click->ticketing--statistics-table#switchTable' data-table='total' gesamt
+        ' |
+        span data-action='click->ticketing--statistics-table#switchTable' data-table='web' online
+        ' |
+        span data-action='click->ticketing--statistics-table#switchTable' data-table='retail' Vorverkaufsstellen
+        ' |
+        span data-action='click->ticketing--statistics-table#switchTable' data-table='box_office' Abendkassen
+    - @events.each do |event|
+      - stats = stats_for_event(event)
+      h4.hcen = event.name
+      .total.table.active
+        = render 'stats_table', scopes: [{ title: 'Gesamt', scope: stats[:total] }], event: event, total: true
+      .web.table
+        = render 'stats_table', scopes: [{ title: 'Online-Bestellungen', scope: stats[:web] }], event: event
+      .retail.table
+        - (scopes ||= []) << { title: 'Vorverkaufsstellen gesamt', scope: stats[:retail][:total] }
+        - @stores.each do |store|
+          - scopes << { title: store.name, scope: stats[:retail][:stores][store.id] }
+        = render 'stats_table', scopes: scopes, event: event
+      .box_office.table
+        - (scopes = []) << { title: 'Abendkassen gesamt', scope: stats[:box_office][:total] }
+        - @box_offices.each do |box_office|
+          - scopes << { title: box_office.name, scope: stats[:box_office][:box_offices][box_office.id] }
+        = render 'stats_table', scopes: scopes, event: event, box_office: true
+
+    .trenner
+    table.rounded data-controller='ticketing--statistics-chart' data-ticketing--statistics-chart-data-path=ticketing_statistics_chart_data_path
+      thead: tr: th Tägliche Verkaufszahlen
+      tbody: tr: td
+        canvas data-target='ticketing--statistics-chart.canvas'
+
+- cache Ticketing::Seat.all
+  .hl Sitzauslastung
+  - @events.each do |event|
+    - next unless event.seating.plan?
+    h4.hcen = event.name
+    - event.dates.each do |date|
+      .box
+        .top = l date.date, format: '%A, %d. %B, %H:%M'
+        = render 'application/ticketing/seating', event: event, seats_path: ticketing_statistics_seats_path(date), class: %i[standalone availability]

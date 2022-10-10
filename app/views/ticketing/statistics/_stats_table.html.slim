@@ -1,0 +1,35 @@
+table.rounded
+  - ticket_types = event.ticket_types
+  - ticket_types = ticket_types.except_box_office unless local_assigns[:box_office]
+  - scopes.each do |scope|
+    thead
+      tr
+        th colspan=(ticket_types.count + 4) = scope[:title]
+      tr
+        th Termin
+        - ticket_types.each do |type|
+          th = type.name
+        th.total.first colspan=2 Gesamt
+        - if local_assigns[:retail].blank?
+          th Umsatz
+    tbody
+      - event.dates.each do |date|
+        tr class=(:cancelled if date.cancelled?)
+          td = l date.date, format: '%a, %-d. %B'
+          - ticket_types.each do |type|
+            td = ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0
+          td.total.first colspan=(local_assigns[:total] ? 1 : 2) = scope[:scope][date.id][:total] || 0
+          - if local_assigns[:total]
+            td.total title='Auslastung der Aufführung (geblockte Plätze ausgenommen)' #{scope[:scope][date.id][:percentage] || 0} %
+          - if local_assigns[:retail].blank?
+            td.total = number_to_currency (scope[:scope][date.id][:revenue] || 0)
+      tr.total
+        td
+        - ticket_types.each do |type|
+          td = (scope[:scope][:total] ||= {})[type.id] || 0
+        td.total.first colspan=(local_assigns[:retail].blank? ? 1 : 2) = scope[:scope][:total][:total] || 0
+        - if local_assigns[:retail].blank?
+          - title = local_assigns[:total] ? 'Gesamtauslastung' : 'Anteil an allen Verkäufen'
+          td.total title=title #{scope[:scope][:total][:percentage] || 0} %
+        - if local_assigns[:retail].blank?
+          td.total = number_to_currency (scope[:scope][:total][:revenue] || 0)
