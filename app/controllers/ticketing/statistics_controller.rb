@@ -11,9 +11,13 @@ module Ticketing
     ].freeze
 
     before_action :authorize
-    before_action :find_events, only: :index
 
     def index
+      @events = Event.all
+      return redirect_to slug: @events.last.slug if params[:slug].nil?
+
+      @event = Ticketing::Event.find_by!(slug: params[:slug])
+
       if current_user.admin?
         @stores = Retail::Store.all
         @box_offices = BoxOffice::BoxOffice.all
@@ -64,10 +68,6 @@ module Ticketing
       ticket_stats_for_event event
     end
     helper_method :stats_for_event
-
-    def find_events
-      @events = Event.current
-    end
 
     def chart_dates
       @chart_dates ||= 18.days.ago.to_date..Time.zone.today

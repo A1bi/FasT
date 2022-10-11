@@ -126,23 +126,23 @@ event_ids.each.with_index do |event_id, i|
 
   event.sale_start = event_date_base - 1.month
 
-  unless event.archived
-    4.times do |j|
-      ### dates
-      event.dates.build(date: event_date_base + j.weeks)
-    end
+  4.times do |j|
+    ### dates
+    event.dates.build(date: event_date_base + j.weeks)
+    break if event.archived?
+  end
 
-    ### ticket types
-    [
-      { name: 'Ermäßigt', info: 'Kinder und so', price: 8.5 },
-      { name: 'Erwachsene', price: 12.5 },
-      { name: 'Freikarte', price: 0, availability: :exclusive }
-    ].each do |type|
-      event.ticket_types.build(
-        **type,
-        vat_rate: :reduced
-      )
-    end
+  ### ticket types
+  [
+    { name: 'Ermäßigt', info: 'Kinder und so', price: 8.5 },
+    { name: 'Erwachsene', price: 12.5 },
+    { name: 'Freikarte', price: 0, availability: :exclusive }
+  ].each do |type|
+    event.ticket_types.build(
+      **type,
+      vat_rate: :reduced
+    )
+    break if event.archived?
   end
 
   event.save

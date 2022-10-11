@@ -1,13 +1,16 @@
 - title 'Statistik'
 - include_css 'ticketing/statistics'
+
+.hl Ticket-Statistik
+
 - cache [Ticketing::Ticket.all, current_user.store, @transactions]
   .stats
-    .hl Ticket-Statistik
-    - @events.each do |event|
-      - stats = stats_for_event(event)
-      h4.hcen = event.name
-      .table.active
-        = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', scope: stats_for_event(event)[:retail][:stores][current_user.store.id] }], event: event, retail: true
+    = render 'filter_options', sale_filter: false
+
+    - stats = stats_for_event(@event)
+    .table.active
+      = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', scope: stats_for_event(@event)[:retail][:stores][current_user.store.id] }], event: @event, retail: true
+
     .hl Kassenstand
     table.rounded.billing-log
       thead

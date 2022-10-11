@@ -100,9 +100,9 @@ Rails.application.routes.draw do
 
       scope path: 'vorverkauf' do
         scope controller: :statistics, path: 'statistik', as: :statistics do
-          get '/', action: :index
           get 'seats/:date_id', action: :seats, as: :seats
           get 'chart_data', action: :chart_data, as: :chart_data
+          get '/(:slug)', action: :index
         end
         scope path: 'bestellungen' do
           resource :order, path: '', only: [] do

@@ -1,0 +1,17 @@
+.box.chooser
+  .top
+    table
+      tr
+        td Veranstaltung
+        td = select_tag(:event_id, options_for_events(@events, @event))
+      - if local_assigns.fetch(:sale_filter, true)
+        tr
+          td Verkaufszahlen
+          td
+            span.selected data-action='click->ticketing--statistics-table#switchTable' data-table='total' gesamt
+            ' |
+            span data-action='click->ticketing--statistics-table#switchTable' data-table='web' online
+            ' |
+            span data-action='click->ticketing--statistics-table#switchTable' data-table='retail' Vorverkaufsstellen
+            ' |
+            span data-action='click->ticketing--statistics-table#switchTable' data-table='box_office' Abendkassen

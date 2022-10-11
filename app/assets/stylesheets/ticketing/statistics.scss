@@ -8,7 +8,6 @@ $total-border: 2px $light-blue solid;
   margin: 10px 0px;
 
   .chooser {
-    text-align: center;
     width: 100%;
 
     .top {
@@ -33,7 +32,7 @@ $total-border: 2px $light-blue solid;
     }
   }
 
-  table {
+  table.numbers {
     tr {
       td, th {
         &:not(:first-child) {
@@ -50,10 +49,6 @@ $total-border: 2px $light-blue solid;
 
       &.total td {
         border-top: $total-border;
-      }
-
-      &:last-child td {
-        padding: 5px;
       }
 
       &.cancelled td:first-child {

@@ -6,6 +6,7 @@ module Ticketing
 
     has_many :dates, -> { order(:date) }, class_name: 'EventDate', inverse_of: :event, dependent: :destroy
     has_many :ticket_types, dependent: :destroy
+    has_many :tickets, through: :ticket_types
     belongs_to :location
     belongs_to :seating
 
