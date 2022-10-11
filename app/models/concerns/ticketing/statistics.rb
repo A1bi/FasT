@@ -5,8 +5,7 @@ module Ticketing
     extend ActiveSupport::Concern
 
     def ticket_stats_for_event(event)
-      Rails.cache.fetch [:ticketing, :statistics, event, Ticket.all,
-                         Reservation.all] do
+      Rails.cache.fetch [:ticketing, :statistics, event, event.tickets, event.reservations] do
         @stats = nil
 
         calc_ticket_numbers(event.dates)

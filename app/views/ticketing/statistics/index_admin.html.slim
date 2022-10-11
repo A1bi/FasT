@@ -4,10 +4,9 @@
 .hl Ticket-Statistik
 
 .stats data-controller='ticketing--statistics-table'
-  - cache [:event_select, @event, Ticketing::Ticket.all, Ticketing::Event.all]
-    = render 'filter_options'
+  = render 'filter_options'
 
-  - cache [Ticketing::Ticket.all, Ticketing::Seat.all, Ticketing::Reservation.all]
+  - cache [:ticketing, :statistics, :numbers, @event, @event.tickets, @event.reservations]
     - stats = stats_for_event(@event)
     .total.table.active
       = render 'stats_table', scopes: [{ title: 'Gesamt', scope: stats[:total] }], event: @event, total: true
@@ -30,8 +29,9 @@
       tbody: tr: td
         canvas data-target='ticketing--statistics-chart.canvas'
 
-- cache Ticketing::Seat.all
+- cache [:ticketing, :statistics, :seats, @event]
   - next unless @event.seating.plan?
+  .trenner
   .hl Sitzauslastung
   - @event.dates.each do |date|
     .box

@@ -1,17 +1,18 @@
-.box.chooser
-  .top
-    table
-      tr data-controller='ticketing--statistics-event-filter' data-event-url=url_for(slug: ':slug')
-        td Veranstaltung
-        td = select_tag(:event_id, options_for_events(@events, @event), 'data-action': 'ticketing--statistics-event-filter#selectEvent')
-      - if local_assigns.fetch(:sale_filter, true)
-        tr
-          td Verkaufszahlen
-          td
-            span.selected data-action='click->ticketing--statistics-table#switchTable' data-table='total' gesamt
-            ' |
-            span data-action='click->ticketing--statistics-table#switchTable' data-table='web' online
-            ' |
-            span data-action='click->ticketing--statistics-table#switchTable' data-table='retail' Vorverkaufsstellen
-            ' |
-            span data-action='click->ticketing--statistics-table#switchTable' data-table='box_office' Abendkassen
+- cache [:ticketing, :statistics, :events, @events, @event, local_assigns.fetch(:sale_filter, true)]
+  .box.chooser
+    .top
+      table
+        tr data-controller='ticketing--statistics-event-filter' data-event-url=url_for(slug: ':slug')
+          td Veranstaltung
+          td = select_tag(:event_id, options_for_events(@events, @event), 'data-action': 'ticketing--statistics-event-filter#selectEvent')
+        - if local_assigns.fetch(:sale_filter, true)
+          tr
+            td Verkaufszahlen
+            td
+              span.selected data-action='click->ticketing--statistics-table#switchTable' data-table='total' gesamt
+              ' |
+              span data-action='click->ticketing--statistics-table#switchTable' data-table='web' online
+              ' |
+              span data-action='click->ticketing--statistics-table#switchTable' data-table='retail' Vorverkaufsstellen
+              ' |
+              span data-action='click->ticketing--statistics-table#switchTable' data-table='box_office' Abendkassen
