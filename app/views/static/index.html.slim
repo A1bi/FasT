@@ -10,6 +10,13 @@
   - @events.each do |event|
     = render 'event_teaser', event: event
 
+  .teaser
+    = image_tag 'theater/gemetzel/title.svg', alt: 'Der Gott des Gemetzels'
+    p.subtitle Gastspiel im Kapuzinerkloster Cochem
+    ul.links
+      li: a href='https://buchungssystem.stadtcochem.de/ticketdetails.aspx?ceid=146' Termine und Tickets
+    .trenner
+
   .coupons
     .hl Jetzt neu: Geschenkgutscheine
     = link_to new_coupons_ticketing_order_path
