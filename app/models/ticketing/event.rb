@@ -16,12 +16,18 @@ module Ticketing
 
     before_validation :set_assets_identifier, on: :create
 
-    def self.current
-      where(archived: false)
-    end
+    class << self
+      def current
+        where(archived: false)
+      end
 
-    def self.with_future_dates
-      joins(:dates).merge(EventDate.upcoming.uncancelled).merge(where.missing(:dates).invert_where).distinct
+      def with_future_dates
+        joins(:dates).merge(EventDate.upcoming.uncancelled).merge(where.missing(:dates).invert_where).distinct
+      end
+
+      def ordered_by_dates(order = :asc)
+        joins(:dates).order("MIN(ticketing_event_dates.date) #{order}").group(:id)
+      end
     end
 
     def sold_out?

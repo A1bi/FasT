@@ -13,10 +13,10 @@ module Ticketing
     before_action :authorize
 
     def index
-      @events = Event.all
+      @events = Event.ordered_by_dates(:desc)
       return redirect_to slug: @events.last.slug if params[:slug].nil?
 
-      @event = Ticketing::Event.find_by!(slug: params[:slug])
+      @event = Event.find_by!(slug: params[:slug])
 
       if current_user.admin?
         @stores = Retail::Store.all
