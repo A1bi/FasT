@@ -10,7 +10,7 @@ module Ticketing
         [year, "#{year} – #{event.name}", event.slug]
       end
       events.sort_by! { |event| event[0] }.reverse!
-      options_for_select(events.map { |event| event[1..2] }, selected: current_event.id, disabled:)
+      options_for_select(events.map { |event| event[1..2] }, selected: current_event.slug, disabled:)
     end
   end
 end
