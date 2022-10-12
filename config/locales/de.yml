@@ -354,6 +354,9 @@ de:
             cancelled_tickets:
               one: "Ein Ticket storniert (Grund: %{reason})"
               other: "%{count} Tickets storniert (Grund: %{reason})"
+            cancelled_tickets_no_reason:
+              one: "Ein Ticket storniert (kein Grund angegeben)"
+              other: "%{count} Tickets storniert (kein Grund angegeben)"
             enabled_resale_for_tickets:
               one: Ein Ticket zum Weiterverkauf freigegeben
               other: "%{count} Tickets zum Weiterverkauf freigegeben"

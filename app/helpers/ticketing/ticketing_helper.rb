@@ -30,11 +30,17 @@ module Ticketing
     end
 
     def translate_log_event(event)
+      additional_info = event.info.except(:count)
+      action = if additional_info.any? && additional_info.values.first.blank?
+                 "#{event.action}_no_#{additional_info.keys.first}"
+               else
+                 event.action
+               end
       options = event.info.dup
       options[:scope] = [:activerecord, :attributes,
                          event.model_name.i18n_key, :actions,
                          event.loggable.class.base_class.model_name.i18n_key]
-      t(event.action, **options)
+      t(action, **options)
     end
 
     def translate_billing_transaction(transaction)
