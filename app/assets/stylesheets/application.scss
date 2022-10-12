@@ -22,6 +22,14 @@ body {
     family: "Arial", "DejaVu Sans";
     size: 15px;
   }
+
+  &.development {
+    background: #EE8A01;
+
+    #sky {
+      background: none !important;
+    }
+  }
 }
 img {
   border: none;
