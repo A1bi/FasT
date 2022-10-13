@@ -92,6 +92,8 @@ ruby:
               - if current_user.retail?
                 div data-controller='ticketing--ticket-printer'
                   = link_to 'Tickets drucken', nil, class: :'print-tickets', data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path }
+              - if Rails.env.development?
+                div = link_to 'Customer Self Service', order_overview_path(@order.signed_info(authenticated: true))
 
 - if @order.tickets.any?
   a#tickets
