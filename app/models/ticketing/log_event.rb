@@ -19,7 +19,11 @@ module Ticketing
       resent_confirmation: 11,
       resent_items: 12,
       sent: 13,
-      redeemed: 14
+      redeemed: 14,
+      cancelled_tickets_by_customer: 15,
+      cancelled_tickets_at_box_office: 16,
+      cancelled_tickets_without_reason: 17,
+      transferred_tickets_by_customer: 18
     }
 
     validates :action, presence: true

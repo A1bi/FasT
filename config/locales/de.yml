@@ -354,15 +354,21 @@ de:
             cancelled_tickets:
               one: "Ein Ticket storniert (Grund: %{reason})"
               other: "%{count} Tickets storniert (Grund: %{reason})"
-            cancelled_tickets_no_reason:
+            cancelled_tickets_without_reason:
               one: "Ein Ticket storniert (kein Grund angegeben)"
               other: "%{count} Tickets storniert (kein Grund angegeben)"
+            cancelled_tickets_by_customer:
+              one: "Ein Ticket durch Käufer selbst storniert"
+              other: "%{count} Tickets durch Käufer selbst storniert"
             enabled_resale_for_tickets:
               one: Ein Ticket zum Weiterverkauf freigegeben
               other: "%{count} Tickets zum Weiterverkauf freigegeben"
             transferred_tickets:
               one: Aufführung oder Sitzplatz eines Tickets umgebucht
               other: "Aufführung oder Sitzplatz von %{count} Tickets umgebucht"
+            transferred_tickets_by_customer:
+              one: Aufführung oder Sitzplatz eines Tickets durch Käufer selbst umgebucht
+              other: "Aufführung oder Sitzplatz von %{count} Tickets durch Käufer selbst umgebucht"
             updated_ticket_types:
               one: Ticketkategorie eines Tickets umgebucht
               other: "Ticketkategorien von %{count} Tickets umgebucht"

@@ -20,6 +20,7 @@ module Ticketing
                                                             new_date_id: params[:date_id],
                                                             order_id: @order.id,
                                                             socket_id: params[:socket_id],
+                                                            by_customer: true,
                                                             current_user:)
         return head :unprocessable_entity unless ticket_transfer_service.execute
 

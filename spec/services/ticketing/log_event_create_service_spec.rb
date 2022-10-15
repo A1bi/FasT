@@ -52,12 +52,6 @@ RSpec.describe Ticketing::LogEventCreateService do
     end
   end
 
-  describe '#submit_charge' do
-    subject { service.submit_charge }
-
-    include_examples 'creates a log event', :submitted_charge
-  end
-
   describe '#resend_confirmation' do
     subject { service.resend_confirmation }
 
@@ -97,10 +91,36 @@ RSpec.describe Ticketing::LogEventCreateService do
   describe '#cancel_tickets' do
     subject { service.cancel_tickets(order.tickets, reason:) }
 
-    let(:reason) { 'foooo' }
+    let(:reason) { nil }
 
-    include_examples 'creates a log event', :cancelled_tickets do
-      let(:info) { { count: order.tickets.count, reason: } }
+    context 'without a reason' do
+      include_examples 'creates a log event', :cancelled_tickets_without_reason do
+        let(:info) { { count: order.tickets.count } }
+      end
+    end
+
+    context 'with a reason' do
+      let(:reason) { 'foooo' }
+
+      include_examples 'creates a log event', :cancelled_tickets do
+        let(:info) { { count: order.tickets.count, reason: } }
+      end
+    end
+
+    context 'with a self-service cancellation by customer' do
+      let(:reason) { :self_service }
+
+      include_examples 'creates a log event', :cancelled_tickets_by_customer do
+        let(:info) { { count: order.tickets.count } }
+      end
+    end
+
+    context 'with a cancellation at box office' do
+      let(:reason) { :box_office }
+
+      include_examples 'creates a log event', :cancelled_tickets_at_box_office do
+        let(:info) { { count: order.tickets.count } }
+      end
     end
   end
 
@@ -109,6 +129,14 @@ RSpec.describe Ticketing::LogEventCreateService do
 
     include_examples 'creates a log event', :transferred_tickets do
       let(:info) { { count: order.tickets.count } }
+    end
+
+    context 'with a transfer by customer' do
+      subject { service.transfer_tickets(order.tickets, by_customer: true) }
+
+      include_examples 'creates a log event', :transferred_tickets_by_customer do
+        let(:info) { { count: order.tickets.count } }
+      end
     end
   end
 

@@ -34,14 +34,11 @@ module Api
         end
 
         def update_tickets
-          ::Ticketing::TicketUpdateService.new(@tickets, params: ticket_params)
-                                          .execute
+          ::Ticketing::TicketUpdateService.new(@tickets, params: ticket_params).execute
         end
 
         def cancel_tickets
-          ::Ticketing::TicketCancelService.new(
-            @tickets, reason: :cancellation_at_box_office
-          ).execute(send_customer_email: false)
+          ::Ticketing::TicketCancelService.new(@tickets, reason: :box_office).execute(send_customer_email: false)
         end
       end
     end

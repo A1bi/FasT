@@ -2,7 +2,7 @@
 
 module Ticketing
   class TicketCancelService < TicketBaseService
-    def initialize(tickets, reason:, current_user: nil)
+    def initialize(tickets, reason: nil, current_user: nil)
       super(tickets, current_user:)
       @reason = reason
     end

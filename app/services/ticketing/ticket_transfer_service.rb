@@ -4,11 +4,12 @@ module Ticketing
   class TicketTransferService < TicketBaseService
     attr_accessor :updated_tickets
 
-    def initialize(tickets, new_date_id:, order_id:, socket_id:, current_user:)
+    def initialize(tickets, new_date_id:, order_id:, socket_id:, current_user:, by_customer: false)
       super(tickets, current_user:)
       @new_date_id = new_date_id
       @order_id = order_id
       @socket_id = socket_id
+      @by_customer = by_customer
     end
 
     def execute
@@ -67,7 +68,7 @@ module Ticketing
     end
 
     def create_log_event
-      log_service(order).transfer_tickets(updated_tickets)
+      log_service(order).transfer_tickets(updated_tickets, by_customer: @by_customer)
     end
 
     def update_seats_with_node

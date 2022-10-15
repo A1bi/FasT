@@ -27,10 +27,6 @@ module Ticketing
       create_event(:sent, email:, recipient:)
     end
 
-    def submit_charge
-      create_event(:submitted_charge)
-    end
-
     def resend_confirmation
       create_event(:resent_confirmation) if web_order?
     end
@@ -48,11 +44,22 @@ module Ticketing
     end
 
     def cancel_tickets(tickets, reason: nil)
-      create_event_with_tickets(:cancelled_tickets, tickets, reason:)
+      info = {}
+      action = if reason == :box_office
+                 :cancelled_tickets_at_box_office
+               elsif reason == :self_service
+                 :cancelled_tickets_by_customer
+               elsif reason.blank?
+                 :cancelled_tickets_without_reason
+               else
+                 info = { reason: }
+                 :cancelled_tickets
+               end
+      create_event_with_tickets(action, tickets, info)
     end
 
-    def transfer_tickets(tickets)
-      create_event_with_tickets(:transferred_tickets, tickets)
+    def transfer_tickets(tickets, by_customer: false)
+      create_event_with_tickets(by_customer ? :transferred_tickets_by_customer : :transferred_tickets, tickets)
     end
 
     def enable_resale_for_tickets(tickets)

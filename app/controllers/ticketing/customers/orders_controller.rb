@@ -44,8 +44,7 @@ module Ticketing
           return redirect_to_order_overview alert: t('.incorrect_bank_details')
         end
 
-        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :cancelled_by_customer)
-                                      .execute(refund: refund_params)
+        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :self_service).execute(refund: refund_params)
 
         redirect_to_order_overview notice: t('.tickets_cancelled')
       end

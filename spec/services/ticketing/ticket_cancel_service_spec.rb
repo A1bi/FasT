@@ -78,6 +78,15 @@ RSpec.describe Ticketing::TicketCancelService do
       let(:loggable) { order }
       let(:info) { { count: 3, reason: } }
     end
+
+    context 'with a cancellation by customer' do
+      let(:reason) { :self_service }
+
+      include_examples 'creates a log event', :cancelled_tickets_by_customer do
+        let(:loggable) { order }
+        let(:info) { { count: 3 } }
+      end
+    end
   end
 
   context 'when all tickets are already invalid' do
