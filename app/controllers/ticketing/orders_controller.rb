@@ -8,21 +8,30 @@ module Ticketing
                                         resend_confirmation resend_items seats]
     before_action :prepare_billing_actions, only: %i[show]
 
-    def new
-      @type = :web
-      @max_tickets = 25
+    def index
+      authorize Ticketing::Order
 
-      return if current_user&.admin?
+      @orders = {}
 
-      if !@event.sale_started?
-        alert = t('.not_yet_available', event: @event.name, start: l(@event.sale_start, format: :long))
-      elsif @event.sale_ended?
-        alert = t('.sale_ended', event: @event.name)
-      elsif @event.sale_disabled?
-        alert = @event.sale_disabled_message
+      if params[:q].present?
+        found_orders, ticket = search_orders
+        return if redirect_order_number_match(found_orders, ticket)
+
+        @orders[:search] = found_orders
+
+      else
+        if current_user.admin?
+          @orders[:web] = Ticketing::Web::Order.unanonymized
+          @orders[:retail] = Ticketing::Retail::Order.all
+        else
+          @orders[:retail] = order_scope.includes(:store)
+        end
+        @orders.each_value { |orders| orders.limit!(20) }
       end
 
-      redirect_to root_path, alert: alert if alert
+      @orders.each_value do |orders|
+        orders.includes!(:tickets).order!(created_at: :desc)
+      end
     end
 
     def new_privileged
@@ -51,38 +60,29 @@ module Ticketing
       render json: { seats: true }
     end
 
-    def index
-      authorize Ticketing::Order
-
-      @orders = {}
-
-      if params[:q].present?
-        found_orders, ticket = search_orders
-        return if redirect_order_number_match(found_orders, ticket)
-
-        @orders[:search] = found_orders
-
-      else
-        if current_user.admin?
-          @orders[:web] = Ticketing::Web::Order.unanonymized
-          @orders[:retail] = Ticketing::Retail::Order.all
-        else
-          @orders[:retail] = order_scope.includes(:store)
-        end
-        @orders.each_value { |orders| orders.limit!(20) }
-      end
-
-      @orders.each_value do |orders|
-        orders.includes!(:tickets).order!(created_at: :desc)
-      end
-    end
-
     def show
       authorize @order
 
       @show_check_ins = current_user.admin? && @order.tickets.any? do |t|
         t.check_ins.any? || t.date.date.past?
       end
+    end
+
+    def new
+      @type = :web
+      @max_tickets = 25
+
+      return if current_user&.admin?
+
+      if !@event.sale_started?
+        alert = t('.not_yet_available', event: @event.name, start: l(@event.sale_start, format: :long))
+      elsif @event.sale_ended?
+        alert = t('.sale_ended', event: @event.name)
+      elsif @event.sale_disabled?
+        alert = @event.sale_disabled_message
+      end
+
+      redirect_to root_path, alert: alert if alert
     end
 
     def edit

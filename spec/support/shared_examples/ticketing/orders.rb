@@ -51,11 +51,9 @@ RSpec.shared_examples 'generic order' do |order_factory|
   end
 
   describe 'validations' do
-    it {
-      # TODO: wait for the following issue to get fixed
-      # https://github.com/thoughtbot/shoulda-matchers/issues/1007
-      # is_expected.to validate_length_of(:tickets).is_at_most(max_tickets)
-    }
+    # TODO: wait for the following issue to get fixed
+    # https://github.com/thoughtbot/shoulda-matchers/issues/1007
+    # it { is_expected.to validate_length_of(:tickets).is_at_most(max_tickets) }
 
     describe 'items presence' do
       subject { build(order_factory) }

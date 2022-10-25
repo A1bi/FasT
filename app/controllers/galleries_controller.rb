@@ -15,6 +15,8 @@ class GalleriesController < ApplicationController
     @gallery = authorize(Gallery.new)
   end
 
+  def edit; end
+
   def create
     @gallery = authorize(Gallery.new(gallery_params))
     @gallery.position = (Gallery.maximum(:position) || 0) + 1
@@ -25,8 +27,6 @@ class GalleriesController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     return render :edit unless @gallery.update(gallery_params)

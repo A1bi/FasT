@@ -8,6 +8,8 @@ class NewsletterSubscribersController < ApplicationController
 
   before_action :find_subscriber, except: :create
 
+  def edit; end
+
   def create
     authorize Newsletter::Subscriber
 
@@ -19,8 +21,6 @@ class NewsletterSubscribersController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     flash.notice = t('application.saved_changes') if @subscriber.update(newsletter_params)

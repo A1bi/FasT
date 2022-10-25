@@ -13,7 +13,7 @@ RSpec.describe Ticketing::Tse do
     subject
   end
 
-  def test_payload_param(name, expected_value)
+  def expect_payload_param(name, expected_value)
     test_payload do |json|
       expect(json[name]).to eq(expected_value)
     end
@@ -112,19 +112,19 @@ RSpec.describe Ticketing::Tse do
 
     shared_examples 'common command sending' do
       it 'sends the client id' do
-        test_payload_param(:ClientID, client_id)
+        expect_payload_param(:ClientID, client_id)
       end
 
       context 'when client id is part of the command params' do
         before { params[:ClientID] = 'customID' }
 
         it 'sends the client id from the params instead of the instance variable' do
-          test_payload_param(:ClientID, 'customID')
+          expect_payload_param(:ClientID, 'customID')
         end
       end
 
       it 'sends the command name' do
-        test_payload_param(:Command, command_name)
+        expect_payload_param(:Command, command_name)
       end
 
       it 'sends the additional parameters' do
@@ -181,7 +181,7 @@ RSpec.describe Ticketing::Tse do
       include_examples 'common command sending'
 
       it 'sends the base64 encoded admin password as part of the params' do
-        test_payload_param(:Password, 'Zm9vYWRtaW4=')
+        expect_payload_param(:Password, 'Zm9vYWRtaW4=')
       end
     end
 
@@ -191,7 +191,7 @@ RSpec.describe Ticketing::Tse do
       include_examples 'common command sending'
 
       it 'sends the base64 encoded time admin password as part of the params' do
-        test_payload_param(:Password, 'YmFydGltZQ==')
+        expect_payload_param(:Password, 'YmFydGltZQ==')
       end
     end
   end

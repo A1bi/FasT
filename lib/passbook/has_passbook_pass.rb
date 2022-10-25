@@ -30,4 +30,4 @@ module Passbook
   end
 end
 
-ActiveRecord::Base.include Passbook::HasPassbookPass
+ActiveSupport.on_load(:active_record) { include Passbook::HasPassbookPass }

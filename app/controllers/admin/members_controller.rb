@@ -14,7 +14,11 @@ module Admin
       @members = authorize Members::Member.alphabetically
     end
 
+    def show; end
+
     def new; end
+
+    def edit; end
 
     def create
       update_member
@@ -26,10 +30,6 @@ module Admin
 
       redirect_to admin_members_member_path(@member), notice: t('.created')
     end
-
-    def show; end
-
-    def edit; end
 
     def update
       case params[:members_member][:cancelled]

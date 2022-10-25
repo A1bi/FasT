@@ -21,6 +21,8 @@ module Ticketing
 
     def new; end
 
+    def edit; end
+
     def create
       if @coupon.update(coupon_params)
         @coupon.deposit_into_account(params[:ticketing_coupon][:value].to_f,
@@ -29,8 +31,6 @@ module Ticketing
       end
       redirect_to @coupon
     end
-
-    def edit; end
 
     def update
       log_service.update if @coupon.update(coupon_params)

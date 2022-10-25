@@ -11,13 +11,13 @@ module Admin
       @newsletters = authorize Newsletter::Newsletter.order(created_at: :desc)
     end
 
-    def new; end
-
-    def create; end
-
     def show; end
 
+    def new; end
+
     def edit; end
+
+    def create; end
 
     def update; end
 

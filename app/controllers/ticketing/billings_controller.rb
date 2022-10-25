@@ -35,7 +35,7 @@ module Ticketing
 
     def refund_to_bank_account(params)
       authorize :refund?
-      OrderRefundService.new(billable).execute(params)
+      OrderRefundService.new(billable).execute(**params)
     end
 
     def cash_refund_in_store

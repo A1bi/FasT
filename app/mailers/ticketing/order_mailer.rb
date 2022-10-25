@@ -78,9 +78,7 @@ module Ticketing
         attachments["Gutschein #{i + 1}.pdf"] = pdf.render
       end
 
-      attachments['Faltanleitung.pdf'] = File.read(
-        Rails.root.join('app/assets/images/misc/coupon_instructions.pdf')
-      )
+      attachments['Faltanleitung.pdf'] = Rails.root.join('app/assets/images/misc/coupon_instructions.pdf').read
     end
 
     def attach_coupons?

@@ -6,20 +6,20 @@ class PhotosController < ApplicationController
 
   def index; end
 
+  def show
+    send_file @photo.image.path
+  end
+
   def new
     @photo = authorize @photos.new
   end
+
+  def edit; end
 
   def create
     @photo = authorize @photos.new(photo_params)
     head @photo.save ? :no_content : :unprocessable_entity
   end
-
-  def show
-    send_file @photo.image.path
-  end
-
-  def edit; end
 
   def update
     success = @photo.update(photo_params)
