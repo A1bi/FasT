@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'pg'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.0'
 gem 'rails', '~> 7.0.0'
 gem 'sidekiq', '~> 6.2'
 
@@ -23,7 +23,7 @@ gem 'rubyzip', '~> 2.0'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sentry-sidekiq'
-gem 'sepa_king', '~> 0.13.0'
+gem 'sepa_king', '~> 0.14.0'
 gem 'simpleidn', '~> 0.2.1'
 gem 'whenever', require: false
 
