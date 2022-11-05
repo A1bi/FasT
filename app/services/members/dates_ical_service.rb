@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+require 'icalendar/tzinfo'
+
 module Members
   class DatesIcalService
     def ics
       dates.find_each do |date|
         calendar.event do |e|
           e.uid             = "FASTEVENT-#{date.id}"
-          e.dtstart         = date.datetime
-          e.dtend           = 90.minutes.after(date.datetime)
+          e.dtstart         = cal_date(date.datetime)
+          e.dtend           = cal_date(90.minutes.after(date.datetime))
           e.summary         = date.title
           e.description     = date.info
           e.location        = date.location
@@ -36,12 +38,23 @@ module Members
         cal.x_wr_calname = translation(:calname)
         cal.x_wr_caldesc = translation(:caldesc)
         cal.x_published_ttl = 'PT1D'
+        cal.add_timezone(timezone)
         cal.publish
-        cal.timezone do |t|
-          t.tzid = Rails.application.config.time_zone
-        end
         cal
       end
+    end
+
+    def cal_date(date)
+      Icalendar::Values::DateTime.new(date, tzid:)
+    end
+
+    def timezone
+      zone = TZInfo::Timezone.get(tzid)
+      zone.ical_timezone(dates.first.datetime)
+    end
+
+    def tzid
+      Rails.application.config.time_zone
     end
 
     def translation(key)
