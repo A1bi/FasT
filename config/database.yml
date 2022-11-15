@@ -17,7 +17,7 @@ test:
 
 production:
   <<: *default
-  host: 'fd00::9'
+  host: <%= Rails.application.credentials.database[:host] %>
   database: fast_production
   username: fast_production
   password: '<%= Rails.application.credentials.database[:password] %>'
