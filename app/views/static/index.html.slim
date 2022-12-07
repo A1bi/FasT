@@ -10,14 +10,6 @@
   - @events.each do |event|
     = render 'event_teaser', event: event
 
-  .teaser
-    p Viktorianischer Adventszauber
-    p.subtitle Charles Dickens „Eine Weihnachtsgeschichte“
-    p Unser Gastspiel in der Reichsburg Cochem
-    ul.links
-      li: a href='https://reichsburg-cochem.ticketfritz.de/Event/Kalender/10545/29041?Typ=Vorlage' Termine und Tickets
-    .trenner
-
   .coupons
     .hl Jetzt neu: Geschenkgutscheine
     = link_to new_coupons_ticketing_order_path
