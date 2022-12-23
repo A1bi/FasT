@@ -789,3 +789,16 @@ textarea.honeypot {
   width: 1px;
   overflow: hidden;
 }
+
+.imagefilm {
+  width: 90%;
+  margin: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: translateZ(0);
+
+  video {
+    max-width: 100%;
+    display: block;
+  }
+}

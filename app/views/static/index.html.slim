@@ -10,6 +10,9 @@
   - @events.each do |event|
     = render 'event_teaser', event: event
 
+  = render 'theater/imagefilm'
+  .trenner
+
   .coupons
     .hl Jetzt neu: Geschenkgutscheine
     = link_to new_coupons_ticketing_order_path
