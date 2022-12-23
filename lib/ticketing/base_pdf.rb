@@ -15,7 +15,7 @@ module Ticketing
     def initialize(margin: nil, page_size: nil, page_layout: nil)
       @stamps = {}
 
-      super page_size: page_size, page_layout: page_layout, margin: margin,
+      super page_size:, page_layout:, margin:,
             info: {
               Title: t(:title),
               Author: t(:author, scope: :base_pdf),

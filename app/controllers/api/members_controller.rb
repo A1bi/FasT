@@ -34,7 +34,7 @@ module Api
     end
 
     def cache?
-      (params.keys & SEARCHABLE_COLUMNS).empty?
+      !params.keys.intersect?(SEARCHABLE_COLUMNS)
     end
     helper_method :cache?
   end

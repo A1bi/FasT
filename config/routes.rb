@@ -255,13 +255,13 @@ Rails.application.routes.draw do
       Sidekiq::Web.use Rack::Auth::Basic do |username, password|
         credentials = Rails.application.credentials.sidekiq
         ActiveSupport::SecurityUtils.secure_compare(
-          ::Digest::SHA256.hexdigest(username),
-          ::Digest::SHA256.hexdigest(credentials.dig(:web, :username) ||
+          Digest::SHA256.hexdigest(username),
+          Digest::SHA256.hexdigest(credentials.dig(:web, :username) ||
                                      SecureRandom.hex)
         ) &&
           ActiveSupport::SecurityUtils.secure_compare(
-            ::Digest::SHA256.hexdigest(password),
-            ::Digest::SHA256.hexdigest(credentials.dig(:web, :password) ||
+            Digest::SHA256.hexdigest(password),
+            Digest::SHA256.hexdigest(credentials.dig(:web, :password) ||
                                        SecureRandom.hex)
           )
       end
