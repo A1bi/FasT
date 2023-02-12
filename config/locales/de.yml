@@ -254,7 +254,7 @@ de:
   box_office:
     purchase_receipt:
       title: Kassenbeleg
-      header: "<b>Freilichtbühne am schiefen Turm e. V.</b>\nMasburger Straße 1c\n56759 Kaisersesch\nTel: (02653) 28 27 09\ninfo@theater-kaisersesch.de\nUSt-IdNr: DE295892528"
+      header: "<b>TheaterKultur Kaisersesch e. V.</b>\nMasburger Straße 1c\n56759 Kaisersesch\nTel: (02653) 28 27 09\ninfo@theater-kaisersesch.de\nUSt-IdNr: DE295892528"
       article: Artikel
       total: Summe
       ticket: Ticket
