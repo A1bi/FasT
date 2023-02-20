@@ -35,9 +35,6 @@ workflow:
 .yarn: &yarn
   - yarn install --pure-lockfile
 
-.copy_master_key: &copy_master_key
-  - cp $RAILS_CREDENTIALS_MASTER_KEY config/master.key
-
 stages:
   - test
   - deploy
@@ -79,7 +76,6 @@ specs:
     - .postgres
   before_script:
     - *bundle
-    - *copy_master_key
   script:
     - rails db:drop db:create db:schema:load
     - rails assets:precompile
