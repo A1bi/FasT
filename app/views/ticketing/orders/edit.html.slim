@@ -12,7 +12,7 @@
       tr
         td.label Anrede:
         td = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], @order.gender))
-      - [[:first_name, 'Vorname'], [:last_name, 'Nachname'], [:affiliation, 'Zugehörigkeit'], [:email, 'e-mail'], [:phone, 'Telefon'], [:plz, 'PLZ']].each do |column|
+      - [[:first_name, 'Vorname'], [:last_name, 'Nachname'], [:affiliation, 'Zugehörigkeit'], [:email, 'E-Mail'], [:phone, 'Telefon'], [:plz, 'PLZ']].each do |column|
         tr
           td.label #{column[1]}:
           td = f.text_field column[0]

@@ -16,9 +16,9 @@
           = prepopulated_text_field(f, :plz, options: { maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code' })
         = render layout: 'field', locals: { name: 'Telefonnummer' }
           = prepopulated_text_field(f, :phone, type: :telephone)
-        = render layout: 'field', locals: { name: 'e-mail-Adresse' }
+        = render layout: 'field', locals: { name: 'E-Mail-Adresse' }
           = prepopulated_text_field(f, :email, type: :email)
         - if action_name.in? ['new', 'new_coupons']
-          = render layout: 'field', locals: { name: 'e-mail-Adresse Bestätigung' }
+          = render layout: 'field', locals: { name: 'E-Mail-Adresse Bestätigung' }
             = prepopulated_text_field(f, :email_confirmation, key: :email, type: :email)
             .small Noch einmal zur Sicherheit, um Tippfehler auszuschließen.

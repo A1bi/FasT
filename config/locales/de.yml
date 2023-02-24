@@ -405,7 +405,7 @@ de:
           credit: Guthaben
   attributes:
     title: "Titel"
-    email: "e-mail-Adresse"
+    email: "E-Mail-Adresse"
     first_name: "Vorname"
     last_name: "Nachname"
     gender: Geschlecht

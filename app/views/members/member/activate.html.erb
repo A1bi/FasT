@@ -1,9 +1,9 @@
 <% title "Mitgliedskonto aktivieren" %>
-<div class="hl">Willkommen im Mitgliederbereich!</div>
-<p><b>Hallo <%= @member.nickname %>!</b></p>
+<div class="hl">Willkommen im Mitgliederbereich</div>
+<p><b>Hallo <%= @member.name.full %>!</b></p>
 <p>
   <% if @member.last_login %>
-    Sie können nun ein neues Passwort für Ihr Migliedskonto festlegen.
+    Sie können nun ein neues Passwort für Ihr Mitgliedskonto festlegen.
   <% else %>
     Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.
   <% end %>
