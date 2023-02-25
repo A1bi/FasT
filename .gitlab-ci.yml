@@ -21,11 +21,11 @@ workflow:
       when: manual
 
 .default-tags:
-  tags: [ruby-3.1]
+  tags: [ruby-3.2]
 
 .postgres:
   tags:
-    - ruby-3.1
+    - ruby-3.2
     - postgres
 
 .bundle: &bundle
