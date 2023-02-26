@@ -183,6 +183,10 @@ de:
           ticketing/web/order: Online
           ticketing/retail/order: Vorverkaufsstelle
           ticketing/box_office/order: Abendkasse
+    bank_submission_file:
+      sepa: SEPA
+      debits: Lastschriften
+      transfers: Überweisungen
     push_notifications:
       tickets_sold:
         title: "„%{event}”"

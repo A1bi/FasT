@@ -15,10 +15,10 @@ module Ticketing
         prefix = 'sepa'
         extension = 'zip'
       else
-        prefix = debit_xml.present? ? 'debits' : 'transfers'
+        prefix = debit_xml.present? ? :debits : :transfers
         extension = 'xml'
       end
-      "#{prefix}-#{@submission.id}.#{extension}"
+      "#{translated_prefix(prefix)}-#{@submission.id}.#{extension}"
     end
 
     def file_type
@@ -32,9 +32,9 @@ module Ticketing
 
       @zip_file ||= begin
         zip = Zip::OutputStream.write_buffer do |f|
-          f.put_next_entry('debits.xml')
+          f.put_next_entry("#{translated_prefix(:debits)}.xml")
           f.write(debit_xml)
-          f.put_next_entry('transfers.xml')
+          f.put_next_entry("#{translated_prefix(:transfers)}.xml")
           f.write(transfer_xml)
         end
         zip.rewind
@@ -48,6 +48,10 @@ module Ticketing
 
     def transfer_xml
       @transfer_xml ||= TransferSepaXmlService.new(@submission).xml
+    end
+
+    def translated_prefix(prefix)
+      I18n.t("ticketing.bank_submission_file.#{prefix}")
     end
   end
 end

@@ -31,11 +31,13 @@ RSpec.describe Ticketing::BankSubmissionFileService do
     context 'with both debits and refunds' do
       subject { Zip::File.open_buffer(service.file) }
 
+      before { Zip.force_entry_names_encoding = 'UTF-8' }
+
       let(:submission) { create(:bank_submission, :with_debits, :with_refunds) }
       let(:files) { subject.entries.map(&:name) }
 
       it 'contains both debits and transfers file' do
-        expect(files).to contain_exactly('debits.xml', 'transfers.xml')
+        expect(files).to contain_exactly('Lastschriften.xml', 'Überweisungen.xml')
       end
     end
   end
@@ -46,19 +48,19 @@ RSpec.describe Ticketing::BankSubmissionFileService do
     context 'with debits' do
       let(:submission) { create(:bank_submission, :with_debits) }
 
-      it { is_expected.to eq("debits-#{submission.id}.xml") }
+      it { is_expected.to eq("Lastschriften-#{submission.id}.xml") }
     end
 
     context 'with refunds' do
       let(:submission) { create(:bank_submission, :with_refunds) }
 
-      it { is_expected.to eq("transfers-#{submission.id}.xml") }
+      it { is_expected.to eq("Überweisungen-#{submission.id}.xml") }
     end
 
     context 'with both debits and refunds' do
       let(:submission) { create(:bank_submission, :with_debits, :with_refunds) }
 
-      it { is_expected.to eq("sepa-#{submission.id}.zip") }
+      it { is_expected.to eq("SEPA-#{submission.id}.zip") }
     end
   end
 
