@@ -48,7 +48,7 @@ RSpec.describe 'Ticketing::BillingsController' do
 
         context 'with an admin user' do
           it 'calls the refund service' do
-            expect(refund_service).to receive(:execute).with(use_most_recent: true)
+            expect(refund_service).to receive(:execute).with({ use_most_recent: true })
             subject
           end
 
