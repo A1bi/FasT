@@ -60,7 +60,7 @@ Rails.application.configure do
 
   config.eager_load = true
 
-  config.cache_store = :mem_cache_store, '/tmp/memcached.sock'
+  config.cache_store = :mem_cache_store, '/var/run/memcached/memcached.sock'
 
   config.action_cable.allowed_request_origins = ["#{Settings.url_options.protocol}://#{Settings.url_options.host}"]
 end
