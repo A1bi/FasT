@@ -60,8 +60,8 @@
           th colspan='2' Gutscheine
       tbody
         tr
-          td Gutscheincode einlösen:
-          td
+          td.hcen colspan='2'
+            => label_tag :code, 'Gutscheincode:'
             => text_field_tag :code, '', class: 'noKeyCatch'
             = submit_tag 'einlösen'
             .msg: .result

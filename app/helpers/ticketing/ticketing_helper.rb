@@ -24,6 +24,7 @@ module Ticketing
     def event_logo(event, image_options: {}, fallback_tag: :h2,
                    fallback_options: {})
       path = "theater/#{event.assets_identifier}/title.svg"
+      image_options[:alt] = event.name
       return image_tag path, image_options if asset_exists? path
 
       content_tag fallback_tag, event.name, fallback_options

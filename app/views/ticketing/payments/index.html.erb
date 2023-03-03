@@ -32,13 +32,19 @@
       </tr>
     </thead>
     <tbody>
-      <% @bank_submissions.each do |submission| %>
+      <% if @bank_submissions.any? %>
+        <% @bank_submissions.each do |submission| %>
+          <tr>
+            <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if submission.created_at.before?(1.day.ago) %>
+            <td><%= submission.transactions.count %> Transaktionen</td>
+            <td><%= number_to_currency(submission.transactions.debits.sum(:amount).abs) %></td>
+            <td><%= number_to_currency(submission.transactions.transfers.sum(:amount).abs) %></td>
+            <td class="date"><%= link_to(l(submission.created_at, format: '%d.%m.%y, %H:%M'), ticketing_payments_bank_submission_file_path(submission), options) %></td>
+          </tr>
+        <% end %>
+      <% else %>
         <tr>
-          <% options = { data: { confirm: "Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?" } } if submission.created_at.before?(1.day.ago) %>
-          <td><%= submission.transactions.count %> Transaktionen</td>
-          <td><%= number_to_currency(submission.transactions.debits.sum(:amount).abs) %></td>
-          <td><%= number_to_currency(submission.transactions.transfers.sum(:amount).abs) %></td>
-          <td class="date"><%= link_to(l(submission.created_at, format: '%d.%m.%y, %H:%M'), ticketing_payments_bank_submission_file_path(submission), options) %></td>
+          <td colspan="4" class="empty">Bisher keine Einreichungen.</td>
         </tr>
       <% end %>
     </tbody>
