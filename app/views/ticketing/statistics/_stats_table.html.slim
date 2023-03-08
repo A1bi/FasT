@@ -21,7 +21,7 @@ table.rounded.numbers
             td = format_number(stats.dig(date.id, type.id))
           td.total.first colspan=(local_assigns[:total] ? 1 : 2) = format_number(stats.dig(date.id, :total))
           - if local_assigns[:total]
-            td.total title='Auslastung der Aufführung (geblockte Plätze ausgenommen)' = format_percentage(stats.dig(date.id))
+            td.total title="Auslastung der Aufführung (bei max. #{format_number(stats.dig(date.id, :maximum))} ungeblockten Plätzen)" = format_percentage(stats.dig(date.id))
           - if local_assigns[:retail].blank?
             td.total = format_revenue(stats.dig(date.id))
       tr.total
@@ -30,7 +30,7 @@ table.rounded.numbers
           td = stats.dig(:total, type.id) || 0
         td.total.first colspan=(local_assigns[:retail].blank? ? 1 : 2) = format_number(stats.dig(:total, :total))
         - if local_assigns[:retail].blank?
-          - title = local_assigns[:total] ? 'Gesamtauslastung' : 'Anteil an allen Verkäufen'
+          - title = local_assigns[:total] ? "Gesamtauslastung (bei max. #{format_number(stats.dig(:total, :maximum))} Plätzen)" : 'Anteil an allen Verkäufen'
           td.total title=title = format_percentage(stats.dig(:total))
         - if local_assigns[:retail].blank?
           td.total = format_revenue(stats.dig(:total))

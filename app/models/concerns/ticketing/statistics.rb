@@ -80,6 +80,7 @@ module Ticketing
         date.event.seating.number_of_unreserved_seats_on_date(date)
       end
 
+      scope[:maximum] = number_of_seats
       scope[:percentage] = if number_of_seats.zero?
                              0
                            else
