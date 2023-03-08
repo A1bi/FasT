@@ -12,9 +12,7 @@ RSpec.describe Ticketing::TicketCheckInJob do
     let(:ticket_id) { ticket.id }
     let(:current_time) { date.is_a?(Time) ? 15.seconds.after(date) : Time.current }
 
-    around do |example|
-      travel_to(current_time) { example.run }
-    end
+    before { travel_to(current_time) }
 
     shared_examples 'sending a COVID-19 check-in email' do
       it 'sends a COVID-19 check-in email' do

@@ -9,11 +9,7 @@ RSpec.describe Ticketing::Ticket do
     let(:date) { ticket.date }
     let(:travel_to_date) { Time.current }
 
-    around do |example|
-      travel_to(travel_to_date) do
-        example.run
-      end
-    end
+    before { travel_to(travel_to_date) }
 
     describe '#customer_cancellable?' do
       subject { ticket.customer_cancellable? }

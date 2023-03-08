@@ -235,7 +235,7 @@ RSpec.describe Ticketing::CouponRedeemService do
 
     it 'creates a redemption once for each coupon' do
       subject
-      expect(order.redeemed_coupons).to contain_exactly(*coupons)
+      expect(order.redeemed_coupons).to match_array(coupons)
     end
   end
 
