@@ -9,18 +9,18 @@
   - cache [:ticketing, :statistics, :numbers, @event, @event.tickets, @event.reservations]
     - stats = stats_for_event(@event)
     .total.table.active
-      = render 'stats_table', scopes: [{ title: 'Gesamt', scope: stats[:total] }], event: @event, total: true
+      = render 'stats_table', scopes: [{ title: 'Gesamt', stats: stats[:total] }], event: @event, total: true
     .web.table
-      = render 'stats_table', scopes: [{ title: 'Online-Bestellungen', scope: stats[:web] }], event: @event
+      = render 'stats_table', scopes: [{ title: 'Online-Bestellungen', stats: stats[:web] }], event: @event
     .retail.table
-      - (scopes ||= []) << { title: 'Vorverkaufsstellen gesamt', scope: stats[:retail][:total] }
+      - (scopes ||= []) << { title: 'Vorverkaufsstellen gesamt', stats: stats[:retail][:total] }
       - @stores.each do |store|
-        - scopes << { title: store.name, scope: stats[:retail][:stores][store.id] }
+        - scopes << { title: store.name, stats: stats[:retail][:stores][store.id] }
       = render 'stats_table', scopes: scopes, event: @event
     .box_office.table
-      - (scopes = []) << { title: 'Abendkassen gesamt', scope: stats[:box_office][:total] }
+      - (scopes = []) << { title: 'Abendkassen gesamt', stats: stats[:box_office][:total] }
       - @box_offices.each do |box_office|
-        - scopes << { title: box_office.name, scope: stats[:box_office][:box_offices][box_office.id] }
+        - scopes << { title: box_office.name, stats: stats[:box_office][:box_offices][box_office.id] }
       = render 'stats_table', scopes: scopes, event: @event, box_office: true
 
     .trenner

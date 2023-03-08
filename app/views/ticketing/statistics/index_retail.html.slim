@@ -9,7 +9,7 @@
   - cache [:ticketing, :statistics, :retail, :numbers, @event, @event.tickets, @event.reservations]
     - stats = stats_for_event(@event)
     .table.active
-      = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', scope: stats_for_event(@event)[:retail][:stores][current_user.store.id] }], event: @event, retail: true
+      = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', stats: stats_for_event(@event)[:retail][:stores][current_user.store.id] }], event: @event, retail: true
 
   - cache [:ticketing, :statistics, :retail, :transactions, @transactions]
     .hl Kassenstand

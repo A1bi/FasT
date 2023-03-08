@@ -465,6 +465,9 @@ de:
         unit: "€"
         separator: ","
         delimiter: "."
+    percentage:
+      format:
+        format: "%n %"
     format:
       delimiter: "."
   i18n:

@@ -13,23 +13,24 @@ table.rounded.numbers
         - if local_assigns[:retail].blank?
           th Umsatz
     tbody
+      - stats = scope[:stats] || {}
       - event.dates.each do |date|
         tr class=(:cancelled if date.cancelled?)
           td = l date.date, format: '%a, %-d. %B'
           - ticket_types.each do |type|
-            td = ((scope[:scope] ||= {})[date.id] ||= {})[type.id] || 0
-          td.total.first colspan=(local_assigns[:total] ? 1 : 2) = scope[:scope][date.id][:total] || 0
+            td = format_number(stats.dig(date.id, type.id))
+          td.total.first colspan=(local_assigns[:total] ? 1 : 2) = format_number(stats.dig(date.id, :total))
           - if local_assigns[:total]
-            td.total title='Auslastung der Aufführung (geblockte Plätze ausgenommen)' #{scope[:scope][date.id][:percentage] || 0} %
+            td.total title='Auslastung der Aufführung (geblockte Plätze ausgenommen)' = format_percentage(stats.dig(date.id))
           - if local_assigns[:retail].blank?
-            td.total = number_to_currency (scope[:scope][date.id][:revenue] || 0)
+            td.total = format_revenue(stats.dig(date.id))
       tr.total
         td
         - ticket_types.each do |type|
-          td = (scope[:scope][:total] ||= {})[type.id] || 0
-        td.total.first colspan=(local_assigns[:retail].blank? ? 1 : 2) = scope[:scope][:total][:total] || 0
+          td = stats.dig(:total, type.id) || 0
+        td.total.first colspan=(local_assigns[:retail].blank? ? 1 : 2) = format_number(stats.dig(:total, :total))
         - if local_assigns[:retail].blank?
           - title = local_assigns[:total] ? 'Gesamtauslastung' : 'Anteil an allen Verkäufen'
-          td.total title=title #{scope[:scope][:total][:percentage] || 0} %
+          td.total title=title = format_percentage(stats.dig(:total))
         - if local_assigns[:retail].blank?
-          td.total = number_to_currency (scope[:scope][:total][:revenue] || 0)
+          td.total = format_revenue(stats.dig(:total))
