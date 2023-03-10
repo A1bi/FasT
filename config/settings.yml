@@ -1,7 +1,7 @@
 action_mailer:
   defaults:
-    from: Freilichtbühne am schiefen Turm <noreply@theater-kaisersesch.de>
-    reply_to: Freilichtbühne am schiefen Turm <info@theater-kaisersesch.de>
+    from: TheaterKultur Kaisersesch <noreply@theater-kaisersesch.de>
+    reply_to: TheaterKultur Kaisersesch <info@theater-kaisersesch.de>
   mail_to_in_development:
 
 contact_messages:
