@@ -95,7 +95,7 @@ export default class extends Step {
       if (!info) continue
       const box = this.box.find(`.${type}`)
       if (type === 'payment' && !ticketsInternal?.zeroTotal) {
-        box.removeClass('transfer charge box_office').addClass(info.api.method)
+        box.removeClass('transfer charge box_office cash').addClass(info.api.method)
       }
       for (const [key, value] of Object.entries(info.api)) {
         box.find(`.${key}`).text(value)

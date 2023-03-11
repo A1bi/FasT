@@ -1,6 +1,11 @@
 ruby:
   payment_methods = [
     {
+      name: :charge,
+      human_name: 'SEPA-Lastschrift',
+      desc: 'Der Kunde erhält seine Tickets sofort nach der Bestellung.'
+    },
+    {
       name: :transfer,
       human_name: 'Vorkasse per Überweisung',
       desc: 'Der Kunde überweist das Geld und erhält seine Tickets an der Abendkasse oder anderweitig.'
@@ -26,5 +31,6 @@ ruby:
   .stepCon.confirm
     = render 'confirm_tickets'
     = render 'confirm_address'
+    = render 'confirm_payment', admin: true
 
 = render 'framework', title: 'Neue Bestellung aufnehmen'

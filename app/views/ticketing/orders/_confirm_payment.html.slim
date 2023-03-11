@@ -2,9 +2,9 @@
   .transfer
     table.rounded.form
       thead
-        tr: th colspan='2' Bezahlung per Überweisung
-      tbody
-        tr: td Unsere Kontodaten werden Ihnen nach der Bestellung per E-Mail zugesandt.
+        tr: th Bezahlung per Überweisung
+      - unless local_assigns[:admin]
+        tbody: tr: td Unsere Kontodaten werden Ihnen nach der Bestellung per E-Mail zugesandt.
   .charge
     table.rounded.form
       thead
@@ -16,10 +16,14 @@
         tr
           td IBAN:
           td.iban
-        tr: td colspan='2' Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
+        - unless local_assigns[:admin]
+          tr: td colspan='2' Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
   .box_office
     table.rounded.form
       thead
-        tr: th colspan='2' Bezahlung an der Abendkasse
-      tbody
-        tr: td Sie erhalten Ihre Tickets an der Abendkasse nach Zahlung in bar oder per Karte.
+        tr: th Bezahlung an der Abendkasse
+      - unless local_assigns[:admin]
+        tbody: tr: td Sie erhalten Ihre Tickets an der Abendkasse nach Zahlung in bar oder per Karte.
+  .cash
+    table.rounded.form
+      thead: tr: th Barzahlung

@@ -587,11 +587,11 @@ table.details {
     .payment {
       margin-top: 10px;
 
-      .charge, .transfer, .box_office {
+      .charge, .transfer, .box_office, .cash {
         display: none;
       }
 
-      &.charge .charge, &.transfer .transfer, &.box_office .box_office {
+      &.charge .charge, &.transfer .transfer, &.box_office .box_office, &.cash .cash {
         display: block;
       }
     }
