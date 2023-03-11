@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/A1bi/net-http2.git
+  revision: 2eb2f807ba6d4c0b763b8e4bad4dd2b1eeb2cb16
+  branch: ipv6-fix
+  specs:
+    net-http2 (0.18.4)
+      http-2 (~> 0.11)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -197,8 +205,6 @@ GEM
     multi_xml (0.6.0)
     name_of_person (1.1.1)
       activesupport (>= 5.2.0)
-    net-http2 (0.18.4)
-      http-2 (~> 0.11)
     net-imap (0.3.4)
       date
       net-protocol
@@ -440,6 +446,7 @@ DEPENDENCIES
   kt-paperclip (~> 7.0)
   matrix
   name_of_person
+  net-http2!
   pdf-inspector
   pg
   phony_rails (~> 0.15.0)
