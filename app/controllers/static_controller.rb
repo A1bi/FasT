@@ -6,7 +6,7 @@ class StaticController < ApplicationController
   skip_authorization
 
   def index
-    @events = Ticketing::Event.with_future_dates.includes(:dates).order('ticketing_event_dates.date')
+    @events = Ticketing::Event.with_future_dates.ordered_by_dates
   end
 
   private

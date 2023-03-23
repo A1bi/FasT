@@ -14,7 +14,12 @@ module Ticketing
 
     def index
       @events = Event.ordered_by_dates(:desc)
-      return redirect_to slug: @events.first.slug if params[:slug].nil?
+
+      if params[:slug].nil?
+        events = Event.with_future_dates.ordered_by_dates(:asc)
+        events = @events if events.empty?
+        return redirect_to slug: events.first.slug
+      end
 
       @event = Event.find_by!(slug: params[:slug])
 
