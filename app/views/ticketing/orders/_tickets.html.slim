@@ -19,7 +19,10 @@
         p Weitere Informationen zu unserem Vorverkauf erhalten Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
 
       .trenner
-      p Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
+      p
+        | Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
+        - if @event.seating.plan?
+          |< Anschließend haben Sie im nächsten Schritt die Möglichkeit, Ihre Sitzplätze anhand des Sitzplans auszuwählen.
 
   .number.inner
     table.rounded
