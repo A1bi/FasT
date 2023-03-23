@@ -169,7 +169,7 @@ module Ticketing
         @events = Event.with_future_dates
         @upcoming_event = Event.find_by('sale_start > ?', Time.current)
         @events = @events.select(&:on_sale?) if action_name == 'new' && !current_user&.admin?
-        return redirect_to event_slug: @events.first.slug if @events.count == 1
+        return redirect_to event_slug: @events.first.slug if @events.one?
 
         return render 'new_choose_event'
       end
@@ -184,7 +184,7 @@ module Ticketing
     end
 
     def redirect_order_number_match(orders, ticket)
-      return false unless orders.count == 1
+      return false unless orders.one?
 
       prms = { id: orders.first }
       if ticket.present?
