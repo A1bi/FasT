@@ -20,7 +20,7 @@
           th Datum
     tbody.hover
       - orders.each do |order|
-        - classes = :cancelled if order.cancelled?
+        - classes = [(:cancelled if order.cancelled?), (:due if local_assigns[:show_due_state] && order.due?), (:overdue if local_assigns[:show_due_state] && order.overdue?)]
         tr class=classes data={ controller: 'linked-row', 'linked-row-path': ticketing_order_path(order) }
           - if :checkbox.in?(additional_columns)
             td.checkbox = check_box_tag 'orders[]', order.id

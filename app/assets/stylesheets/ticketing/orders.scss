@@ -34,6 +34,14 @@ table.details {
     text-decoration: line-through;
   }
 
+  tr.due td, td.due {
+    background: rgba(#FFEE0A, .3);
+  }
+
+  tr.due.overdue td, td.due.overdue {
+    background: rgba(#FC1E0A, .3);
+  }
+
   td {
     padding: 5px 8px !important;
 

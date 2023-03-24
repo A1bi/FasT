@@ -5,6 +5,9 @@ module Ticketing
     class Order < Ticketing::Order
       include Anonymizable
 
+      PAYMENT_DUE_AFTER = 1.week
+      PAYMENT_OVERDUE_AFTER = 2.weeks
+
       enum :pay_method, %i[charge transfer cash box_office], suffix: :payment
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
 
@@ -19,6 +22,14 @@ module Ticketing
       validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
       after_save :schedule_geolocation
+
+      def due?
+        !paid? && transfer_payment? && PAYMENT_DUE_AFTER.after(created_at).past?
+      end
+
+      def overdue?
+        due? && PAYMENT_OVERDUE_AFTER.after(created_at).past?
+      end
 
       def update_total
         old_total = total

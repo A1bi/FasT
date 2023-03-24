@@ -10,7 +10,7 @@ ruby:
     ['aufgegeben', l(@order.created_at, format: '%d. %B %Y, %H:%M Uhr')],
     ['Artikel', @order.items.size],
     ['Gesamtbetrag', number_to_currency(@order.total)],
-    ['bezahlt', @order.paid ? 'ja' : 'nein']
+    ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]]
   ]
 
 .topTables

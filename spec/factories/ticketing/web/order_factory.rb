@@ -14,6 +14,10 @@ FactoryBot.define do
       pay_method { :transfer }
     end
 
+    trait :cash_payment do
+      pay_method { :cash }
+    end
+
     trait :charge_payment do
       pay_method { :charge }
       after(:create) do |order|

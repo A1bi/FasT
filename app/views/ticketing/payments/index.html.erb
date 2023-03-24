@@ -52,7 +52,7 @@
 <% cache [:unpaid, @orders[:unpaid]] do %>
   <%= form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders] do %>
     <% additional_columns = %i[checkbox balance] %>
-    <%= render "application/ticketing/orders_table", table_title: ["Unbezahlte Bestellungen", "Überweisung"], orders: @orders[:unpaid][:transfer], web: true, cache_key: [:payments, :unpaid, :transfer], additional_columns: additional_columns, class: :transfer %>
+    <%= render "application/ticketing/orders_table", table_title: ["Unbezahlte Bestellungen", "Überweisung"], orders: @orders[:unpaid][:transfer], web: true, cache_key: [:payments, :unpaid, :transfer], additional_columns: additional_columns, show_due_state: true, class: :transfer %>
     <%= render "application/ticketing/orders_table", table_title: "Barzahlung", orders: @orders[:unpaid][:cash], web: true, cache_key: [:payments, :unpaid, :cash], additional_columns: additional_columns, class: :cash %>
     <%= render "application/ticketing/orders_table", table_title: "Zahlung an der Abendkasse", orders: @orders[:unpaid][:box_office], web: true, cache_key: [:payments, :unpaid, :box_office], additional_columns: additional_columns, class: :box_office %>
     <% if @orders[:unpaid][:other].any? %>
