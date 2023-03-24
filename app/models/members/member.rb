@@ -23,6 +23,12 @@ module Members
     before_validation :set_default_membership_fee, on: :create
     after_save :destroy_family_if_empty
 
+    class << self
+      def membership_cancelled
+        where.not(membership_terminates_on: nil)
+      end
+    end
+
     def plz
       super.to_s.rjust(5, '0') if super.present?
     end
