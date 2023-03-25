@@ -89,7 +89,9 @@ ruby:
                   div = link_to 'Bestellbestätigung erneut senden', { action: :resend_confirmation }, method: :post, data: { confirm: 'Möchten Sie die Bestellbestätigung wirklich erneut senden?' }
                   - if @order.transfer_payment? && @order.email.present?
                     div = link_to 'Zahlungserinnerung senden', { action: :send_pay_reminder }, method: :post, data: { confirm: 'Möchten Sie wirklich eine Zahlungserinnerung senden?' }
-              - if current_user.retail?
+              - if current_user.admin?
+                div = link_to 'Neue Bestellung mit diesen Daten', { action: :new_privileged, event_slug: @order.event.slug, template_order_id: @order }
+              - elsif current_user.retail?
                 div data-controller='ticketing--ticket-printer'
                   = link_to 'Tickets drucken', nil, class: :'print-tickets', data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path }
               - if Rails.env.development?

@@ -1,5 +1,5 @@
 .stepCon.address
-  = form_for :address, builder: Ticketing::OrderAddressFormBuilder do |f|
+  = form_for :address, builder: Ticketing::OrderAddressFormBuilder, template_order: @template_order do |f|
     table.inner.form.rounded
       thead
         tr: th colspan='2' Ihre Angaben

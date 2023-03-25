@@ -213,6 +213,7 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
   order = Ticketing::Web::Order.new(
     first_name: FFaker::NameDE.first_name,
     last_name: FFaker::NameDE.last_name,
+    gender: rand(0..1),
     email: FFaker::Internet.free_email,
     phone: FFaker::PhoneNumberDE.phone_number,
     plz: postcodes.sample,
