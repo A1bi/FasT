@@ -19,11 +19,11 @@
           tr
             th colspan='2' Ihre Bankdaten
         tbody
-          = render layout: 'field', locals: { name: 'Kontoinhaber' }
+          = render layout: 'field', locals: { label: 'Kontoinhaber' }
             = f.text_field :name, class: :field
-          = render layout: 'field', locals: { name: 'IBAN' }
+          = render layout: 'field', locals: { label: 'IBAN' }
             = f.text_field :iban, class: :field
-          = render layout: 'field', locals: { name: 'Zahlungsempfänger' }
+          = render layout: 'field', locals: { label: 'Zahlungsempfänger' }
             | TheaterKultur Kaisersesch e. V.
             <br>Gläubiger-ID: DE21ZZZ00001271843
           tr

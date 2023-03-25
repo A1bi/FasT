@@ -1,24 +1,15 @@
 .stepCon.address
-  = form_for :address do |f|
+  = form_for :address, builder: Ticketing::OrderAddressFormBuilder do |f|
     table.inner.form.rounded
       thead
         tr: th colspan='2' Ihre Angaben
       tbody
-        = render layout: 'field', locals: { name: 'Anrede' }
-          = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], preselected_gender))
-        = render layout: 'field', locals: { name: 'Vorname' }
-          = prepopulated_text_field(f, :first_name)
-        = render layout: 'field', locals: { name: 'Nachname' }
-          = prepopulated_text_field(f, :last_name)
-        = render layout: 'field', locals: { name: 'Firma / Gruppe / Zugehörigkeit' }
-          = f.text_field :affiliation, class: 'field'
-        = render layout: 'field', locals: { name: 'PLZ' }
-          = prepopulated_text_field(f, :plz, options: { maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code' })
-        = render layout: 'field', locals: { name: 'Telefonnummer' }
-          = prepopulated_text_field(f, :phone, type: :telephone)
-        = render layout: 'field', locals: { name: 'E-Mail-Adresse' }
-          = prepopulated_text_field(f, :email, type: :email)
+        = f.gender_select
+        = f.text_field :first_name
+        = f.text_field :last_name
+        = f.text_field :affiliation
+        = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code'
+        = f.text_field :phone, type: :telephone
+        = f.text_field :email, type: :email
         - if action_name.in? ['new', 'new_coupons']
-          = render layout: 'field', locals: { name: 'E-Mail-Adresse Bestätigung' }
-            = prepopulated_text_field(f, :email_confirmation, key: :email, type: :email)
-            .small Noch einmal zur Sicherheit, um Tippfehler auszuschließen.
+          = f.text_field :email_confirmation, type: :email

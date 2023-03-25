@@ -346,6 +346,13 @@ de:
         debtor_name: Kontoinhaber
         iban: IBAN
         number: Mandatsnummer
+      ticketing/order:
+        gender: Anrede
+        genders:
+          - Frau
+          - Herr
+        affiliation: Firma / Gruppe / Zugehörigkeit
+        plz: PLZ
       ticketing/log_event:
         actions:
           ticketing/order:
@@ -410,6 +417,7 @@ de:
   attributes:
     title: "Titel"
     email: "E-Mail-Adresse"
+    phone: Telefonnummer
     first_name: "Vorname"
     last_name: "Nachname"
     gender: Geschlecht
