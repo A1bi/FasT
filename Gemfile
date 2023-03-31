@@ -43,8 +43,6 @@ gem 'slim'
 gem 'sprockets-rails', '~> 3.4'
 gem 'webpacker', '~> 5.0'
 
-gem 'net-http2', git: 'https://github.com/A1bi/net-http2.git', branch: 'ipv6-fix'
-
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
