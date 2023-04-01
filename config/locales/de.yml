@@ -226,7 +226,7 @@ de:
         created: "Die Bestellung wurde erfolgreich aufgenommen."
         created_email: "Die Bestellung wurde erfolgreich aufgenommen und dem Käufer eine Bestätigung zugesendet."
   base_pdf:
-    author: "Freilichtbühne am schiefen Turm e.V."
+    author: "TheaterKultur Kaisersesch e. V."
     creator: "www.theater-kaisersesch.de"
   tickets_pdf:
     title: "Tickets"
