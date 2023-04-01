@@ -3,5 +3,5 @@ form action=ticketing_orders_path method='GET'
     tr
       th Bestellung suchen
       th
-        = text_field_tag :q, params[:q], placeholder: current_user.admin? ? 'Bestell-, Ticketnummer oder Name des Bestellers' : 'Bestell- oder Ticketnummer'
+        = text_field_tag :q, params[:q], placeholder: current_user.admin? ? 'Bestell-, Ticketnummer oder Name des Bestellers' : 'Bestell- oder Ticketnummer', minlength: controller.class::SEARCH_QUERY_MIN_LENGTH
         =< submit_tag 'suchen', name: nil

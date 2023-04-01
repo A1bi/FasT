@@ -2,6 +2,8 @@
 
 module Ticketing
   class OrdersController < BaseController
+    SEARCH_QUERY_MIN_LENGTH = 3
+
     before_action :prepare_new, only: %i[new new_privileged]
     before_action :set_event_info, only: %i[new new_privileged]
     before_action :find_order, only: %i[show edit update mark_as_paid send_pay_reminder
@@ -13,7 +15,7 @@ module Ticketing
 
       @orders = {}
 
-      if params[:q].present?
+      if search_query.present?
         found_orders, ticket = search_orders
         return if redirect_order_number_match(found_orders, ticket)
 
@@ -180,8 +182,12 @@ module Ticketing
       @ticket_types = @event.ticket_types.except_box_office.ordered_by_availability_and_price
     end
 
+    def search_query
+      params[:q] if params[:q].present? && params[:q].length >= SEARCH_QUERY_MIN_LENGTH
+    end
+
     def search_orders
-      Ticketing::OrderSearchService.new(params[:q], scope: order_scope).execute
+      Ticketing::OrderSearchService.new(search_query, scope: order_scope).execute
     end
 
     def redirect_order_number_match(orders, ticket)
