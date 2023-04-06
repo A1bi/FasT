@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'pg'
 gem 'puma', '~> 6.0'
 gem 'rails', '~> 7.0.0'
+gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 7.0'
 
 gem 'apnotic', '~> 1.7.0'
