@@ -9,5 +9,5 @@
         = f.text_field :last_name
         = f.text_field :affiliation
         = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code'
-        = f.text_field :phone, type: :telephone
-        = f.text_field :email, type: :email
+        = f.phone_field :phone
+        = f.email_field :email

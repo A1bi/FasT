@@ -2,11 +2,14 @@
 
 module Ticketing
   class OrderAddressFormBuilder < ActionView::Helpers::FormBuilder
-    def text_field(attribute, input_options = {})
-      input_options[:value] = prepopulated_value(attribute)
-      input_options[:class] = :field
-      render_field_view(attribute) do
-        super(attribute, input_options)
+    %i[text phone].each do |type|
+      define_method("#{type}_field") do |attribute, input_options = {}|
+        input_options[:value] = prepopulated_value(attribute)
+        input_options[:class] = :field
+
+        render_field_view(attribute) do
+          super(attribute, input_options)
+        end
       end
     end
 
