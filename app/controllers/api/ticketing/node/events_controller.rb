@@ -23,7 +23,7 @@ module Api
         def date_info(date)
           return if date.event.seating.nil?
 
-          [date.id, seats_for_date(date).map(&:node_hash).to_h]
+          [date.id, seats_for_date(date).to_h(&:node_hash)]
         end
 
         def seats_for_date(date)

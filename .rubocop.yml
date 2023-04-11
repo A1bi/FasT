@@ -62,6 +62,10 @@ Rails/SkipsModelValidations:
   Exclude:
     - 'db/migrate/*.rb'
 
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - 'db/migrate/201*.rb'
+
 RSpec/ExampleLength:
   Max: 10
 
