@@ -12,10 +12,11 @@ module Api
 
         def index
           @orders = ::Ticketing::Order.with_tickets.order(:last_name, :first_name)
-          return @orders = @orders.none unless %i[event_today unpaid q].any? { |key| params[key].present? }
+          return @orders = @orders.none unless params.keys.intersect?(%w[event_today unpaid recent q])
 
           @orders = @orders.event_today if params[:event_today].present?
           @orders = @orders.unpaid if params[:unpaid].present?
+          @orders = recent_orders if params[:recent].present?
           @orders, @ticket = search_orders if params[:q].present?
         end
 
@@ -42,6 +43,10 @@ module Api
 
         def find_order
           @order = ::Ticketing::Order.find(params[:id])
+        end
+
+        def recent_orders
+          @orders.where(box_office_id: current_box_office).order(created_at: :desc).limit(30)
         end
 
         def search_orders
