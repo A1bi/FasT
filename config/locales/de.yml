@@ -370,6 +370,9 @@ de:
             cancelled_tickets_by_customer:
               one: "Ein Ticket durch Käufer selbst storniert"
               other: "%{count} Tickets durch Käufer selbst storniert"
+            cancelled_tickets_at_box_office:
+              one: "Ein Ticket an der Abendkasse storniert"
+              other: "%{count} Tickets an der Abendkasse storniert"
             enabled_resale_for_tickets:
               one: Ein Ticket zum Weiterverkauf freigegeben
               other: "%{count} Tickets zum Weiterverkauf freigegeben"

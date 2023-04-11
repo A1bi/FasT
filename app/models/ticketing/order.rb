@@ -106,6 +106,14 @@ module Ticketing
       @most_recent_bank_transaction ||= bank_transactions.order(created_at: :desc).last
     end
 
+    def due?
+      false
+    end
+
+    def overdue?
+      false
+    end
+
     private
 
     def items_present
