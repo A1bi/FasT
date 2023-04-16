@@ -6,11 +6,6 @@ export default class extends Seating {
   constructor (container, delegate, zoomable, privileged) {
     super(container, delegate, zoomable)
 
-    this.date = null
-    this.seatsInfo = {}
-    this.numberOfSeats = 0
-    this.node = null
-    this.socketId = null
     this.errorBox = this.container.find('.error')
     this.noErrors = false
     this.privileged = privileged
@@ -18,6 +13,11 @@ export default class extends Seating {
 
   async init () {
     await super.init()
+
+    this.date = null
+    this.seatsInfo = {}
+    this.numberOfSeats = 0
+    this.socketId = null
 
     this.node = io('/seating', {
       path: '/node',
