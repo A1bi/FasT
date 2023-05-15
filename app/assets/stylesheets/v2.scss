@@ -1,0 +1,149 @@
+/* maven-pro-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Maven Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(asset_path('maven-pro-v32-latin-regular.woff2')) format('woff2'),
+       url(asset_path('maven-pro-v32-latin-regular.woff')) format('woff');
+}
+/* maven-pro-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Maven Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: url(asset_path('maven-pro-v32-latin-500.woff2')) format('woff2'),
+       url(asset_path('maven-pro-v32-latin-500.woff')) format('woff');
+}
+/* maven-pro-900 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Maven Pro';
+  font-style: normal;
+  font-weight: 900;
+  src: url(asset_path('maven-pro-v32-latin-900.woff2')) format('woff2'),
+       url(asset_path('maven-pro-v32-latin-900.woff')) format('woff');
+}
+/* lora-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  src: url(asset_path('lora-v32-latin-regular.woff2')) format('woff2'),
+       url(asset_path('lora-v32-latin-regular.woff')) format('woff');
+}
+/* lora-italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  src: url(asset_path('lora-v32-latin-italic.woff2')) format('woff2'),
+       url(asset_path('lora-v32-latin-italic.woff')) format('woff');
+}
+/* lora-700italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 700;
+  src: url(asset_path('lora-v32-latin-700italic.woff2')) format('woff2'),
+       url(asset_path('lora-v32-latin-700italic.woff')) format('woff');
+}
+
+$font-size-base: 1rem;
+$heading-size-multiplier: 1.618;
+
+$green: #78ff1f;
+$red: #ff5c5c;
+$black: #1F2034;
+$dark-gray: #666666;
+$light-gray: #f2f2f2;
+$white: #ffffff;
+
+.ff-m {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+.ff-l {
+  font-family: 'Lora', sans-serif;
+}
+
+.f-mb {
+  @extend .ff-m;
+  font-weight: 900;
+}
+
+.f-li {
+  @extend .ff-l;
+  font-style: italic;
+}
+
+.f-lbi {
+  @extend .f-li;
+  font-weight: 700;
+}
+
+.my-1 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  @extend .ff-m;
+  font-size: $font-size-base;
+  color: $black;
+}
+
+h1, h2, h3 {
+  @extend .my-1;
+}
+
+h1 {
+  @extend .f-lbi;
+  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier * $heading-size-multiplier;
+}
+
+h2 {
+  @extend .f-li;
+  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier;
+  font-weight: 400;
+}
+
+h3 {
+  @extend .f-mb;
+  font-size: 1rem;
+}
+
+p {
+  @extend .my-1;
+}
+
+.caption {
+  @extend .f-lbi;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-red {
+  color: $red;
+}
+
+@media (min-width: 768px) {
+  // medium
+  html {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  // large
+}

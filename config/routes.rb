@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'v2' => 'v2#index'
+
   # dates
   scope controller: :dates, path: 'termine', as: :dates do
     root action: :index, as: ''
