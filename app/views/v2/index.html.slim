@@ -1,3 +1,4 @@
+h1 Typo
 p Dies ist der Textstyle unserer Bodycopy BMR. Wir verwenden diesen Style mehr als alle anderen Styles, immer dann wenn mit Fließtext gearbeitet wird.
 p Foo 123
 
@@ -17,8 +18,32 @@ p.text-green Ambient Akzent Grün
 p.text-red Call to Action
 
 hr
-= image_tag 'logo_v2.svg'
+
+h1 Logo
+p.my-2.text-center = image_tag 'logo_v2.svg', class: 'w-50'
+p.my-2.text-center = image_tag 'logo_v2_mid.svg', class: 'w-50'
+p.my-2.text-center = image_tag 'logo_v2_horizontal.svg', class: 'w-50'
+
 hr
-= image_tag 'logo_v2_mid.svg'
-hr
-= image_tag 'logo_v2_horizontal.svg'
+
+h1 Elemente
+h2 Button
+button.btn Klick mich
+
+h2 Container
+.container
+  .text Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
+  .caption Herr Autor
+
+h2 Karte
+.card
+  .text
+    p Auch Karten können verschiedenste Container hosten.
+    p Hier zum Beispiel einen Text Container.
+.card.shadow
+  .text
+    p Karte mit Schattenwurf
+.card.shadow.w-33
+  .text
+    p Karte mit Button
+  button.btn.expand mehr...

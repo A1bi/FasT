@@ -91,14 +91,25 @@ $white: #ffffff;
   margin-bottom: 1rem;
 }
 
+.my-2 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
 html {
   font-size: 16px;
 }
 
 body {
   @extend .ff-m;
+  margin: 1rem;
   font-size: $font-size-base;
   color: $black;
+  background: $light-gray;
 }
 
 h1, h2, h3 {
@@ -127,6 +138,7 @@ p {
 
 .caption {
   @extend .f-lbi;
+  font-size: 1rem / $heading-size-multiplier;
 }
 
 .text-green {
@@ -135,6 +147,70 @@ p {
 
 .text-red {
   color: $red;
+}
+
+.shadow {
+  box-shadow: 0 0 13px 0 rgba($black, 0.23);
+}
+
+.w-33 {
+  width: 33%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.container {
+  .text {
+    padding: 1rem;
+  }
+  .caption {
+    padding-right: 1rem;
+    text-align: right;
+  }
+}
+
+.card {
+  margin: 1rem;
+  padding: 1rem;
+  background: $white;
+
+  p:first-child {
+    margin-top: 0;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  > *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.btn {
+  @extend .f-lbi;
+  @extend .shadow;
+  padding: 1rem;
+  border: 0;
+  font-size: 1rem;
+  background: $red;
+  color: $white;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:hover {
+    background: darken($red, 10%);
+  }
+
+  &.expand {
+    @extend .w-100;
+  }
 }
 
 @media (min-width: 768px) {
