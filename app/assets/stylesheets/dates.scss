@@ -10,37 +10,6 @@
   }
 }
 
-.gemetzel {
-  .hl, .hl .small, .prices table td.price, .dates td {
-    color: black;
-    text-shadow: none;
-  }
-
-  .title {
-    padding-top: 30px !important;
-
-    img {
-      width: 275px;
-    }
-  }
-}
-
-.abba {
-  .hl, .hl .small, .prices table td.price, .dates td {
-    color: #001E7C;
-    text-shadow: none;
-  }
-
-  .title {
-    padding-top: 10px !important;
-
-    img {
-      width: 270px;
-      padding-right: 20px;
-    }
-  }
-}
-
 .gatte {
   .hl, .hl .small, .prices table td.price, .dates td {
     color: #2150a3;
@@ -160,21 +129,3 @@
 .hotline {
   margin-top: 30px;
 }
-
-.teaser {
-  text-align: center;
-
-  img {
-    width: 70%;
-  }
-
-  h2 {
-    margin-top: 40px;
-  }
-
-  p {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-}
-
