@@ -25,6 +25,21 @@
   }
 }
 
+.arschlings {
+  .hl, .hl .small, .prices table td.price, .dates td {
+    color: #B60013;
+    text-shadow: none;
+  }
+
+  .title {
+    padding-top: 10px !important;
+
+    img {
+      width: 270px;
+    }
+  }
+}
+
 .container {
   overflow: auto;
   margin: 20px 0px;
