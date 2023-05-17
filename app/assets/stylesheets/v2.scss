@@ -100,6 +100,12 @@ $white: #ffffff;
   text-align: center;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 16px;
 }
@@ -153,8 +159,34 @@ p {
   box-shadow: 0 0 13px 0 rgba($black, 0.23);
 }
 
-.w-33 {
-  width: 33%;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: -.5rem;
+  margin-left: -.5rem;
+}
+
+@mixin col($width) {
+  width: $width;
+  max-width: 600px;
+  padding: .5rem;
+}
+
+.row > * {
+  @extend .col;
+}
+
+.col {
+  @include col(100%);
+}
+
+.col-33 {
+  @include col(33.33333333%);
+}
+
+.col-50 {
+  @include col(50%);
 }
 
 .w-50 {
@@ -166,20 +198,12 @@ p {
 }
 
 .container {
-  .text {
-    padding: 1rem;
-  }
-  .caption {
-    padding-right: 1rem;
-    text-align: right;
-  }
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.card {
-  margin: 1rem;
-  padding: 1rem;
-  background: $white;
-
+.plane {
   p:first-child {
     margin-top: 0;
   }
@@ -191,6 +215,18 @@ p {
   > *:not(:last-child) {
     margin-bottom: 1rem;
   }
+
+  ~ .caption {
+    padding-top: 1rem;
+    padding-right: .5rem;
+    text-align: right;
+  }
+}
+
+.card {
+  @extend .plane;
+  padding: 1rem;
+  background: $white;
 }
 
 .btn {
@@ -213,13 +249,21 @@ p {
   }
 }
 
+// medium
 @media (min-width: 768px) {
-  // medium
   html {
     font-size: 20px;
   }
+
+  .container {
+    max-width: 1000px;
+  }
+
+  .col-md-50 {
+    @include col(50%);
+  }
 }
 
+// large
 @media (min-width: 992px) {
-  // large
 }
