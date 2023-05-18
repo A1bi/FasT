@@ -86,14 +86,19 @@ $white: #ffffff;
   font-weight: 700;
 }
 
-.my-1 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
+@for $i from 1 through 4 {
+  .mt-#{$i} {
+    margin-top: #{$i}rem;
+  }
 
-.my-2 {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  .mb-#{$i} {
+    margin-bottom: #{$i}rem;
+  }
+
+  .my-#{$i} {
+    @extend .mt-#{$i};
+    @extend .mb-#{$i};
+  }
 }
 
 .text-center {
@@ -112,7 +117,7 @@ html {
 
 body {
   @extend .ff-m;
-  margin: 1rem;
+  margin: 0;
   font-size: $font-size-base;
   color: $black;
   background: $light-gray;
@@ -142,6 +147,12 @@ p {
   @extend .my-1;
 }
 
+hr {
+  border: 0;
+  height: 4px;
+  background-image: url('data:image/svg+xml,%3csvg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"%3e%3crect width="100%25" height="200%25" fill="none" stroke="%23#{str-slice(#{$green}, 2)}" stroke-width="4" y="2" stroke-dasharray="3%2c8" stroke-linecap="round"/%3e%3c/svg%3e');
+}
+
 .caption {
   @extend .f-lbi;
   font-size: 1rem / $heading-size-multiplier;
@@ -169,8 +180,11 @@ p {
 
 @mixin col($width) {
   width: $width;
-  max-width: 600px;
   padding: .5rem;
+
+  &:not(.w-100) {
+    max-width: 600px;
+  }
 }
 
 .row > * {
@@ -198,17 +212,20 @@ p {
 }
 
 .container {
-  max-width: 100%;
+  max-width: 1000px;
+  box-sizing: content-box;
+  padding-left: 1rem;
+  padding-right: 1rem;
   margin-left: auto;
   margin-right: auto;
 }
 
 .plane {
-  p:first-child {
+  *:first-child {
     margin-top: 0;
   }
 
-  p:last-child {
+  *:last-child {
     margin-bottom: 0;
   }
 
@@ -253,10 +270,6 @@ p {
 @media (min-width: 768px) {
   html {
     font-size: 20px;
-  }
-
-  .container {
-    max-width: 1000px;
   }
 
   .col-md-50 {
