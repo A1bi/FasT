@@ -153,6 +153,72 @@ hr {
   background-image: url('data:image/svg+xml,%3csvg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"%3e%3crect width="100%25" height="200%25" fill="none" stroke="%23#{str-slice(#{$green}, 2)}" stroke-width="4" y="2" stroke-dasharray="3%2c8" stroke-linecap="round"/%3e%3c/svg%3e');
 }
 
+header {
+  position: sticky;
+  top: 0;
+  background: #9FF3C6;
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    background: $red;
+    position: relative;
+    cursor: pointer;
+    transition: transform .3s;
+
+    &:after {
+      @extend .ff-l;
+      @extend .text-center;
+      position: absolute;
+      content: '...';
+      color: $white;
+      font-size: 2rem;
+      width: 100%;
+      margin-top: -12px;
+    }
+
+    &:not(:hover) {
+      transform: rotate(90deg);
+    }
+  }
+
+  .logo {
+    flex: 1;
+
+    img {
+      display: block;
+      padding: .5rem;
+      margin: auto;
+      max-height: 2.5rem;
+    }
+  }
+}
+
+.container.nav {
+  position: sticky;
+  top: 2.5rem;
+}
+
+nav {
+  width: 100%;
+  background: $white;
+
+  ul {
+    @extend .f-li;
+    list-style: none;
+    margin: 0;
+    padding: .5rem 1rem;
+    font-size: 2rem;
+    font-weight: 400;
+  }
+}
+
 .caption {
   @extend .f-lbi;
   font-size: 1rem / $heading-size-multiplier;
@@ -266,6 +332,13 @@ hr {
   }
 }
 
+// small
+@media (max-width: 767px) {
+  header .container, .container.nav {
+    padding: 0;
+  }
+}
+
 // medium
 @media (min-width: 768px) {
   html {
@@ -274,6 +347,10 @@ hr {
 
   .col-md-50 {
     @include col(50%);
+  }
+
+  nav {
+    width: 30%;
   }
 }
 
