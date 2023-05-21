@@ -109,7 +109,7 @@ $cta-color-hover: darken($red, 10%);
 }
 
 :root {
-  --dynamic-color-bg: #9FF3C6;
+  --dynamic-color-0: #9FF3C6;
 }
 
 *,
@@ -167,13 +167,13 @@ a {
 hr {
   border: 0;
   height: 4px;
-  background-image: url('data:image/svg+xml,%3csvg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"%3e%3crect width="100%25" height="200%25" fill="none" stroke="%23#{str-slice(#{$green}, 2)}" stroke-width="4" y="2" stroke-dasharray="3%2c8" stroke-linecap="round"/%3e%3c/svg%3e');
+  background-image: url('data:image/svg+xml,%3csvg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"%3e%3crect width="100%25" height="200%25" fill="none" stroke="black" stroke-width="4" y="2" stroke-dasharray="3%2c8" stroke-linecap="round"/%3e%3c/svg%3e');
 }
 
 header {
   position: sticky;
   top: 0;
-  background: var(--dynamic-color-bg);
+  background: var(--dynamic-color-0);
 
   .container {
     display: flex;
@@ -184,7 +184,7 @@ header {
     width: 2.5rem;
     height: 2.5rem;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background: $red;
+    background: var(--dynamic-color-4);
     position: relative;
     cursor: pointer;
     transition: transform .3s;
@@ -208,11 +208,32 @@ header {
   .logo {
     flex: 1;
 
-    img {
+    svg {
       display: block;
       padding: .5rem;
       margin: auto;
       max-height: 2.5rem;
+
+      @for $i from 1 through 4 {
+        g:nth-of-type(#{$i}) * {
+          fill: var(--dynamic-color-#{$i}) !important;
+        }
+      }
+
+      g:nth-of-type(4) * {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: rotate-diamond 1s;
+      }
+
+      @keyframes rotate-diamond {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(180deg);
+        }
+      }
     }
   }
 }
@@ -235,7 +256,7 @@ nav {
 
 footer {
   @extend .mt-2;
-  background: var(--dynamic-color-bg);
+  background: var(--dynamic-color-0);
 
   ul {
     @extend .f-mb;
