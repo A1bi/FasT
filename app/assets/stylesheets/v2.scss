@@ -108,6 +108,10 @@ $cta-color-hover: darken($red, 10%);
   text-align: center;
 }
 
+:root {
+  --dynamic-color-bg: #9FF3C6;
+}
+
 *,
 *::before,
 *::after {
@@ -169,7 +173,7 @@ hr {
 header {
   position: sticky;
   top: 0;
-  background: #9FF3C6;
+  background: var(--dynamic-color-bg);
 
   .container {
     display: flex;
@@ -224,12 +228,38 @@ nav {
 
   ul {
     @extend .f-li;
-    list-style: none;
-    margin: 0;
-    padding: .5rem 1rem;
     font-size: 2rem;
     font-weight: 400;
   }
+}
+
+footer {
+  @extend .mt-2;
+  background: var(--dynamic-color-bg);
+
+  ul {
+    @extend .f-mb;
+
+    li {
+      margin-bottom: .3rem;
+    }
+
+    a {
+      color: black;
+      text-decoration: underline;
+
+      &:hover {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+nav ul, footer ul {
+  list-style: none;
+  margin: 0;
+  padding: .5rem 1rem;
 }
 
 .caption {
