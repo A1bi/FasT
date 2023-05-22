@@ -6,4 +6,24 @@ html
     = stylesheet_link_tag 'v2', media: 'all'
     = javascript_include_tag 'v2'
 body
-  = yield
+  header
+    .container
+      .menu-toggle
+      .logo = inline_svg 'logo_v2_horizontal'
+  .container.nav: nav
+    ul
+      li Programm
+      li Archiv
+      li Login
+  main = yield
+  footer
+    .container: .row
+      .col-md-50: ul
+        li: a href='#' Impressum
+        li: a href='#' AGB
+        li: a href='#' Widerrufsbelehrung
+        li: a href='#' Datenschutzerklärung
+      .col-md-50: ul
+        li: a href='#' Mitgliedsantrag
+        li: a href='#' Satzung
+        li: a href='#' Pressematerial
