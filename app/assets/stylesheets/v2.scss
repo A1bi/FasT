@@ -66,6 +66,8 @@ $white: #ffffff;
 $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
 
+$menu-reveal-duration: .5s;
+
 .ff-m {
   font-family: 'Maven Pro', sans-serif;
 }
@@ -187,7 +189,7 @@ header {
     background: var(--dynamic-color-4);
     position: relative;
     cursor: pointer;
-    transition: transform .3s;
+    transition: transform $menu-reveal-duration, background .3s;
 
     &:after {
       @extend .ff-l;
@@ -197,10 +199,18 @@ header {
       color: $white;
       font-size: 2rem;
       width: 100%;
-      margin-top: -12px;
+      margin-top: -10px;
     }
 
-    &:not(:hover) {
+    &:hover {
+      background: var(--dynamic-color-4-hover);
+    }
+
+    &:active, .menu-active & {
+      background: var(--dynamic-color-4-active);
+    }
+
+    .menu-active & {
       transform: rotate(90deg);
     }
   }
@@ -239,13 +249,16 @@ header {
 }
 
 .container.nav {
-  position: sticky;
-  top: 2.5rem;
+  position: relative;
 }
 
 nav {
+  position: fixed;
   width: 100%;
+  height: 0;
+  overflow: hidden;
   background: $white;
+  transition: height $menu-reveal-duration;
 
   ul {
     @extend .f-li;
@@ -405,6 +418,10 @@ nav ul, footer ul {
   header .container, .container.nav {
     padding: 0;
   }
+
+  .menu-active nav {
+    height: 100vh !important;
+  }
 }
 
 // medium
@@ -417,8 +434,12 @@ nav ul, footer ul {
     @include col(50%);
   }
 
+  header .menu-toggle:after {
+    margin-top: -12px;
+  }
+
   nav {
-    width: 30%;
+    width: 300px;
   }
 }
 

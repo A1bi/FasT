@@ -1,5 +1,5 @@
-const colorToHslCss = (color) => {
-  return `hsl(${color[0]}deg ${color[1]}% ${color[2]}%)`
+const colorToHslCss = (color, brightness) => {
+  return `hsl(${color[0]}deg ${color[1]}% ${color[2] * (brightness || 1)}%)`
 }
 
 const setCSSVariable = (name, value) => {
@@ -49,14 +49,37 @@ const generateColors = () => {
   return colors
 }
 
+const toggleMenu = (toggle) => {
+  document.body.classList.toggle('menu-active', toggle)
+  const active = document.body.classList.contains('menu-active')
+  const height = active ? document.querySelector('nav ul').offsetHeight : 0
+  document.querySelector('nav').style.height = `${height}px`
+}
+
 var colors = generateColors()
 
 document.addEventListener('DOMContentLoaded', () => {
   colors.forEach((color, i) => {
     setCSSVariable(`dynamic-color-${i}`, colorToHslCss(color))
+    setCSSVariable(`dynamic-color-${i}-hover`, colorToHslCss(color, 0.8))
+    setCSSVariable(`dynamic-color-${i}-active`, colorToHslCss(color, 0.6))
   })
 
   document.querySelectorAll('hr').forEach(el => {
     el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace('black', colorToHslCss(colors[0]))
+  })
+
+  document.querySelector('.menu-toggle').addEventListener('click', () => {
+    toggleMenu()
+  })
+
+  window.addEventListener('click', e => {
+    if (e.target.matches('.menu-toggle') || document.querySelector('nav').contains(e.target)) return
+
+    toggleMenu(false)
+  })
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') toggleMenu(false)
   })
 })
