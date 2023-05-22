@@ -56,6 +56,9 @@
 $font-size-base: 1rem;
 $heading-size-multiplier: 1.618;
 
+// column widths: 20, 33, 50, 66, 80 %
+$column-widths: 5, 3, 2, 1.5, 1.25;
+
 $green: #78ff1f;
 $red: #ff5c5c;
 $black: #1F2034;
@@ -332,34 +335,40 @@ nav ul, footer ul {
 @mixin col($width) {
   width: $width;
   padding: .5rem;
+}
+
+@mixin col-classes($device-size: null) {
+  $device-infix: if($device-size, '-#{$device-size}', '');
+
+  @each $column-width in $column-widths {
+    $width: 100 / $column-width;
+
+    .col#{$device-infix}-#{floor($width)} {
+      @include col($width * 1%);
+    }
+  }
+}
+
+.col {
+  @include col(100%);
 
   &:not(.w-100) {
     max-width: 600px;
   }
 }
 
-.row > * {
-  @extend .col;
-}
-
-.col {
+[class^='col-'] {
+  // necessary for case like this: div.col-md-50
+  // devices smaller than md will then default to 100%
   @include col(100%);
 }
 
-.col-33 {
-  @include col(33.33333333%);
-}
+@include col-classes();
 
-.col-50 {
-  @include col(50%);
-}
-
-.w-50 {
-  width: 50%;
-}
-
-.w-100 {
-  width: 100%;
+@each $width in 50, 100 {
+  .w-#{$width} {
+    width: $width * 1%;
+  }
 }
 
 .container {
@@ -423,7 +432,7 @@ nav ul, footer ul {
 
 // small
 @media (max-width: 767px) {
-  header .container, .container.nav {
+  header .container, .container.nav, footer .container {
     padding: 0;
   }
 
@@ -438,9 +447,7 @@ nav ul, footer ul {
     font-size: 20px;
   }
 
-  .col-md-50 {
-    @include col(50%);
-  }
+  @include col-classes('md');
 
   header .menu-toggle:after {
     margin-top: -12px;
