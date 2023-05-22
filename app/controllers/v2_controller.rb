@@ -6,4 +6,6 @@ class V2Controller < ApplicationController
   skip_authorization
 
   def index; end
+
+  def kitchen_sink; end
 end

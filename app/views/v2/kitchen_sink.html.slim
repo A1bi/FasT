@@ -1,0 +1,73 @@
+.container
+  h1 Typo
+  p Dies ist der Textstyle unserer Bodycopy BMR. Wir verwenden diesen Style mehr als alle anderen Styles, immer dann wenn mit Fließtext gearbeitet wird.
+  p Foo 123
+
+  h1 Headline
+  p H1LBI ist unser präferierter Headline Style. H2LBI/H3LBI/H2LI können für Unterüberschriften etc. verwendet werden.
+
+  h2 Alternative Headline
+  p Hier ein Beispiel für H2LI in Benutzung.
+
+  h3 Stückname
+  p H3MB wird in unserem Archiv verwendet um die Namen der Events hervorzuheben.
+
+  p.caption Maximiliane Mustermann
+  p C1LBI wird für Autor*innen Credits, Bildunterschriften und ähnlichem verwendet.
+
+  p.text-green Ambient Akzent Grün
+  p.text-red Call to Action
+
+  p Dies ist ein <a href="#">Link</a>, eingebettet in Text. Kann auch <b>fett</b> oder <em>kursiv</em> sein.
+
+hr
+
+.container
+  h1 Logo
+  p.my-2.text-center = image_tag 'logo_v2.svg', class: 'w-50'
+  p.my-2.text-center = image_tag 'logo_v2_mid.svg', class: 'w-50'
+  p.my-2.text-center = image_tag 'logo_v2_horizontal.svg', class: 'w-50'
+
+hr
+
+.container
+  h1 Elemente
+  h2 Button
+  button.btn Klick mich
+
+  h2 Container
+  .row: .col
+    .plane Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
+    .caption Herr Autor
+  .row
+    .col-md-50
+      .plane Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
+      .caption Herr Autor
+    .col-md-50
+      .plane Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
+      .caption Herr Autor
+  .row.mt-4: .col
+    .plane
+      h3 Test mit 4x Top-Spacing
+      p Desktop: 4 x 1rem = 4 x 20px = <b>80px</b><br>
+        Mobile: 4 x 1rem = 4 x 16px = <b>64px</b>
+    .caption Kevin Spacing
+
+  h2 Karte
+  .row: .col: .card
+    p Auch Karten können verschiedenste Container hosten.
+    p Hier zum Beispiel einen Text Container.
+  .row: .col: .card.shadow Karte mit Schattenwurf
+  .row: .col.w-100: .card.shadow Karte mit voller Breite
+  .row
+    .col-md-50: .card.shadow
+      p Karte mit Button
+      button.btn.expand mehr...
+    .col-md-50: .card.shadow
+      p Karte mit Button
+      button.btn.expand mehr...
+
+  h1 Grid
+  .row: .col Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
+  .row: .col: .card.shadow
+    p Karte mit Schattenwurf

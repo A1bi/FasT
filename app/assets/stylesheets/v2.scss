@@ -264,6 +264,14 @@ nav {
     @extend .f-li;
     font-size: 2rem;
     font-weight: 400;
+
+    a, a:hover {
+      color: $black;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -279,7 +287,7 @@ footer {
     }
 
     a {
-      color: black;
+      color: $black;
       text-decoration: underline;
 
       &:hover {

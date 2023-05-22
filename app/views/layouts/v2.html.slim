@@ -9,12 +9,13 @@ body
   header
     .container
       .menu-toggle
-      .logo = inline_svg 'logo_v2_horizontal'
+      .logo: a href='/v2' = inline_svg 'logo_v2_horizontal'
   .container.nav: nav
     ul
-      li Programm
-      li Archiv
-      li Login
+      li: a href='/v2' Programm
+      li: a href='/v2' Archiv
+      li: a href='/v2' Login
+      li: a href='/v2/kitchen-sink' Kitchen Sink
   main = yield
   footer
     .container: .row

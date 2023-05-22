@@ -2,6 +2,7 @@
 
 Rails.application.routes.draw do
   get 'v2' => 'v2#index'
+  get 'v2/kitchen-sink' => 'v2#kitchen_sink'
 
   # dates
   scope controller: :dates, path: 'termine', as: :dates do
