@@ -246,7 +246,7 @@ header {
           transform: rotate(0deg);
         }
         to {
-          transform: rotate(180deg);
+          transform: rotate(-180deg);
         }
       }
     }
@@ -255,6 +255,9 @@ header {
 
 .container.nav {
   position: relative;
+}
+
+header, .container.nav {
   z-index: 10;
 }
 
