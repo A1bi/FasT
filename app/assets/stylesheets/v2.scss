@@ -480,12 +480,8 @@ nav ul, footer ul {
       transform: translateY(100%);
     }
 
-    &:hover {
-      cursor: pointer;
-
-      svg * {
-        fill: $red;
-      }
+    &:hover a svg * {
+      fill: $red;
     }
 
     svg * {
@@ -533,6 +529,23 @@ nav ul, footer ul {
       > *:nth-child(3) {
         @extend .text-center;
       }
+    }
+  }
+}
+
+.event-header {
+  @extend .carousel;
+  height: 60vh;
+}
+
+.cast {
+  .row > * {
+    &:first-child {
+      @extend .ff-l;
+    }
+
+    &:last-child {
+      @extend .text-right;
     }
   }
 }

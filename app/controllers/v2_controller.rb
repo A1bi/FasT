@@ -8,4 +8,6 @@ class V2Controller < ApplicationController
   def index; end
 
   def kitchen_sink; end
+
+  def event; end
 end
