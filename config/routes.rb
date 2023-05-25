@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'v2' => 'v2#index'
   get 'v2/kitchen-sink' => 'v2#kitchen_sink'
   get 'v2/event' => 'v2#event'
+  get 'v2/impressum' => 'v2#impressum'
+  get 'v2/agb' => 'v2#agb'
 
   # dates
   scope controller: :dates, path: 'termine', as: :dates do
