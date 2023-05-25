@@ -40,8 +40,6 @@ const generateColors = () => {
 
     prevHues[i] = huelogo
     prevColors[i] = colors[i]
-
-    console.log(`colors[${i}] = ${colors[i]}`)
   }
 
   colors.unshift([huebg, 19.44, 88.89])
@@ -69,12 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace('black', colorToHslCss(colors[0]))
   })
 
-  document.querySelector('.menu-toggle').addEventListener('click', () => {
-    toggleMenu()
-  })
+  document.querySelector('.menu-toggle').addEventListener('click', () => toggleMenu())
 
   window.addEventListener('click', e => {
-    if (e.target.matches('.menu-toggle') || document.querySelector('nav').contains(e.target)) return
+    // close on same page + same hash
+    if (e.target.href !== window.location.href && (
+      e.target.matches('.menu-toggle') || document.querySelector('nav').contains(e.target))
+    ) return
 
     toggleMenu(false)
   })
@@ -82,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') toggleMenu(false)
   })
+
+  window.addEventListener('hashchange', () => toggleMenu(false))
 
   const carouselTitles = document.querySelectorAll('.carousel .title')
   const carouselPhotos = document.querySelectorAll('.carousel .photo')

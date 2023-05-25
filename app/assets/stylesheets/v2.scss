@@ -69,6 +69,7 @@ $white: #ffffff;
 $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
 
+$top-bar-height: 2.5rem;
 $menu-reveal-duration: .5s;
 
 .ff-m {
@@ -127,6 +128,8 @@ $menu-reveal-duration: .5s;
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: $top-bar-height;
 }
 
 body {
@@ -188,8 +191,8 @@ header {
   }
 
   .menu-toggle {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: $top-bar-height;
+    height: $top-bar-height;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     background: var(--dynamic-color-4);
     position: relative;
@@ -227,7 +230,7 @@ header {
       display: block;
       padding: .5rem;
       margin: auto;
-      max-height: 2.5rem;
+      max-height: $top-bar-height;
 
       @for $i from 1 through 4 {
         g:nth-of-type(#{$i}) * {
