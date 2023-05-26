@@ -35,14 +35,14 @@ const generateColors = () => {
     if (closestDist < 30) {
       colors[i] = closestColor
     } else {
-      colors[i] = [huelogo, 63.89, 60]
+      colors[i] = [huelogo, 70, 60]
     }
 
     prevHues[i] = huelogo
     prevColors[i] = colors[i]
   }
 
-  colors.unshift([huebg, 19.44, 88.89])
+  colors.unshift([huebg, 40, 90])
 
   return colors
 }

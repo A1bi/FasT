@@ -68,6 +68,7 @@ $white: #ffffff;
 
 $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
+$cta-color-active: darken($red, 30%);
 
 $top-bar-height: 2.5rem;
 $menu-reveal-duration: .5s;
@@ -194,7 +195,7 @@ header {
     width: $top-bar-height;
     height: $top-bar-height;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background: var(--dynamic-color-4);
+    background: $cta-color;
     position: relative;
     cursor: pointer;
     transition: transform $menu-reveal-duration, background .3s;
@@ -211,11 +212,11 @@ header {
     }
 
     &:hover {
-      background: var(--dynamic-color-4-hover);
+      background: $cta-color-hover;
     }
 
     &:active, .menu-active & {
-      background: var(--dynamic-color-4-active);
+      background: $cta-color-active;
     }
 
     .menu-active & {
@@ -418,7 +419,7 @@ nav ul, footer ul {
 .btn {
   @extend .f-lbi;
   @extend .shadow;
-  padding: 1rem;
+  padding: .5rem 1rem;
   border: 0;
   font-size: 1rem;
   background: $cta-color;
@@ -431,7 +432,7 @@ nav ul, footer ul {
   }
 
   &:active {
-    background: darken($cta-color-hover, 20%);
+    background: $cta-color-active;
   }
 
   &.expand {
@@ -483,14 +484,27 @@ nav ul, footer ul {
       transform: translateY(100%);
     }
 
-    &:hover a svg * {
-      fill: $red;
+    &:hover a svg {
+      transform: scale(1.1) rotateY(0deg);
+
+      * {
+        stroke: $cta-color-hover;
+      }
     }
 
-    svg * {
-      fill: $white;
-      stroke: $black;
-      stroke-width: .4%;
+    &:active a svg * {
+      stroke: $cta-color-active;
+    }
+
+    svg {
+      transition: transform .3s;
+
+      * {
+        fill: $white;
+        stroke: var(--dynamic-color-1);
+        stroke-width: .4%;
+        transition: stroke .2s;
+      }
     }
   }
 
