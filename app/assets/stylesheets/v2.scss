@@ -553,6 +553,38 @@ nav ul, footer ul {
   }
 }
 
+.gallery {
+  .row {
+    align-items: stretch;
+
+    [class^='col-'] {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+
+      .photo {
+        overflow: hidden;
+
+        &, img {
+          @extend .w-100;
+          height: 100%;
+        }
+
+        img {
+          display: block;
+          object-fit: cover;
+          transition: transform .3s;
+
+          &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
 // small
 @media (max-width: 767px) {
   header .container, .container.nav, footer .container {

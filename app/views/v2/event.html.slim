@@ -3,14 +3,46 @@
   .title.active = inline_svg 'theater/frau_mueller/ticket_header'
 
 .container
-  .row.mb-2: .col
+  .row: .col
     h2 Über das Stück
     .plane Frau Müller muss weg! Soviel steht fest, als sich eine Gesandtschaft besorgter Eltern zu einem außerplanmäßigen Termin mit der Klassenlehrerin Frau Müller (Gabriela Maria Schmeide) zusammenfindet. Weil die Noten schlecht sind und am Schuljahresende die Entscheidung fällt, ob die Kinder den Sprung aufs Gymnasium schaffen, sind die Eltern (Justus von Dohnányi, Anke Engelke, Ken Duken, Mina Tander, Alwara Höfels) fest entschlossen, mit der Absetzung der Lehrerin zu retten, was noch zu retten ist – koste es, was es wolle! Doch Frau Müller spielt nicht mit.Mit einem Mal brechen bei den doch so perfekten Müttern und Vätern alle Vorbehalte und Ressentiments, Zweifel und Sorgen, Gehässigkeiten und Ängste hervor. Die wahre Schlacht, die beginnt jetzt…
 
 hr
 
-.container
-  .row: .col: h2 Fotos
+ruby:
+  column_widths = [25, 33, 50]
+  column_counter_widths = { 25 => 75, 33 => 66, 50 => 50 }
+
+  photos = [
+    '824/big/DSC07893',
+    '823/big/DSC07864',
+    '821/big/DSC07836',
+    '812/big/DSC07255',
+    '814/big/DSC07772',
+    '819/big/DSC07826',
+    '822/big/DSC07849',
+    '825/big/DSC07895',
+    '830/big/DSC07908',
+    '831/big/DSC07918',
+    '832/big/DSC08017',
+    '837/big/DSC08094',
+    '840/big/DSC08166'
+  ]
+
+  def fast_photo_url(photo)
+    "https://www.theater-kaisersesch.de/system/photos/images/000/000/#{photo}.jpg"
+  end
+
+.container.gallery
+  - while photos.any?
+    .row
+      - first_column = photos.count > 1 ? column_widths.sample : 100
+      - columns = [first_column, column_counter_widths[first_column]].compact.shuffle
+      - columns.each.with_index do |column, i|
+        div class="col-#{column}"
+          - num_photos = column >= 50 ? 1 : rand(2..3)
+          - [num_photos, photos.count - (i.zero? && column < 100 ? 1 : 0)].min.times
+            .photo: img src=fast_photo_url(photos.shift)
 
 hr
 
