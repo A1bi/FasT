@@ -10,8 +10,8 @@
 hr
 
 ruby:
-  column_widths = [25, 33, 50]
-  column_counter_widths = { 25 => 75, 33 => 66, 50 => 50 }
+  max_columns = 12
+  column_widths = (3..6).to_a
 
   photos = [
     '824/big/DSC07893',
@@ -36,12 +36,12 @@ ruby:
 .container.gallery
   - while photos.any?
     .row
-      - first_column = photos.count > 1 ? column_widths.sample : 100
-      - columns = [first_column, column_counter_widths[first_column]].compact.shuffle
+      - first_column = photos.count > 1 ? column_widths.sample : max_columns
+      - columns = [first_column, max_columns - first_column].compact.shuffle
       - columns.each.with_index do |column, i|
         div class="col-#{column}"
-          - num_photos = column >= 50 ? 1 : rand(2..3)
-          - [num_photos, photos.count - (i.zero? && column < 100 ? 1 : 0)].min.times
+          - num_photos = column >= (max_columns / 2) ? 1 : rand(2..3)
+          - [num_photos, photos.count - (i.zero? && column < max_columns ? 1 : 0)].min.times
             .photo: img src=fast_photo_url(photos.shift)
 
 hr
@@ -51,27 +51,27 @@ hr
     h2 Besetzung
     h3 Die Athener
     .row
-      .col-50 Hermia
-      .col-50 Hannah Lehnen / Melissa Gasser
+      .col-6 Hermia
+      .col-6 Hannah Lehnen / Melissa Gasser
     .row
-      .col-50 Helena
-      .col-50 Carla Wink / Marie Schnadhorst
+      .col-6 Helena
+      .col-6 Carla Wink / Marie Schnadhorst
     .row
-      .col-50 Lysander
-      .col-50 Morten Roscher
+      .col-6 Lysander
+      .col-6 Morten Roscher
     .row
-      .col-50 Demetrius
-      .col-50 Jacob Heimes
+      .col-6 Demetrius
+      .col-6 Jacob Heimes
     .row
-      .col-50 Theseus, Fürst von Athen
-      .col-50 Karl-Heinz Lehner
+      .col-6 Theseus, Fürst von Athen
+      .col-6 Karl-Heinz Lehner
     h3 Elfen & Kobolde
     .row
-      .col-50 Hippolyta, die Amazonkönigin
-      .col-50 Maria Oster
+      .col-6 Hippolyta, die Amazonkönigin
+      .col-6 Maria Oster
     .row
-      .col-50 Philostrat
-      .col-50 Walter Loreth
+      .col-6 Philostrat
+      .col-6 Walter Loreth
     .row
-      .col-50 Egeus, Hermias Vater
-      .col-50 Rolf Heidorn
+      .col-6 Egeus, Hermias Vater
+      .col-6 Rolf Heidorn

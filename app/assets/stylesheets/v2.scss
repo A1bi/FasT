@@ -56,8 +56,7 @@
 $font-size-base: 1rem;
 $heading-size-multiplier: 1.618;
 
-// column widths: 20, 25, 33, 50, 66, 75, 80 %
-$column-widths: 5, 4, 3, 2, 1.5, (100/75), 1.25;
+$num-columns: 12;
 
 $green: #78ff1f;
 $red: #ff5c5c;
@@ -344,33 +343,27 @@ nav ul, footer ul {
 
 @mixin col($width) {
   width: $width;
-  padding: .5rem;
 }
 
 @mixin col-classes($device-size: null) {
   $device-infix: if($device-size, '-#{$device-size}', '');
 
-  @each $column-width in $column-widths {
-    $width: 100 / $column-width;
-
-    .col#{$device-infix}-#{floor($width)} {
-      @include col($width * 1%);
+  @for $column from 1 through $num-columns {
+    .col#{$device-infix}-#{$column} {
+      @include col(100% / $num-columns * $column);
     }
   }
 }
 
-.col {
-  @include col(100%);
-
-  &:not(.w-100) {
-    max-width: 600px;
-  }
+.col:not(.w-100) {
+  max-width: 600px;
 }
 
-[class^='col-'] {
-  // necessary for case like this: div.col-md-50
+[class^='col-'], .col {
+  // necessary for case like this: div.col-md-6
   // devices smaller than md will then default to 100%
   @include col(100%);
+  padding: .5rem;
 }
 
 @include col-classes();
