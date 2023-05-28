@@ -11,7 +11,7 @@ hr
 
 ruby:
   max_columns = 12
-  column_widths = (3..6).to_a
+  column_widths = 3..5
 
   photos = [
     '824/big/DSC07893',
@@ -34,14 +34,26 @@ ruby:
   end
 
 .container.gallery
+  - last_first_column = nil
   - while photos.any?
     .row
-      - first_column = photos.count > 1 ? column_widths.sample : max_columns
-      - columns = [first_column, max_columns - first_column].compact.shuffle
+      ruby:
+        first_column = last_first_column = loop do
+          width = photos.count > 1 ? rand(column_widths) : max_columns
+          break width if last_first_column != width
+        end
+        columns = [first_column, max_columns - first_column].shuffle - [0]
+
+        photos_per_row = photos.count == 1 ? 1 : [rand(2..5), photos.count].min
+        photos_per_row = photos_per_row + 1 if photos.count - photos_per_row == 1
+
+        photos_first_column = [1, ((1 - columns[0] / max_columns.to_f) * photos_per_row).floor].max
+        photos_first_column = photos_first_column + 1 if photos_per_row > 2 && photos_per_row / photos_first_column == 2
+        photos_per_column = [photos_first_column, photos_per_row - photos_first_column] - [0]
+
       - columns.each.with_index do |column, i|
         div class="col-#{column}"
-          - num_photos = column >= (max_columns / 2) ? 1 : rand(2..3)
-          - [num_photos, photos.count - (i.zero? && column < max_columns ? 1 : 0)].min.times
+          - photos_per_column[i].times
             .photo: img src=fast_photo_url(photos.shift)
 
 hr
