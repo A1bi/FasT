@@ -69,7 +69,10 @@ $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
 $cta-color-active: darken($red, 30%);
 
-$top-bar-height: 2.5rem;
+$top-bar-initial-logo-height: 3.5rem;
+$top-bar-initial-padding: 1rem;
+$top-bar-stuck-logo-height: 2.5rem;
+$top-bar-stuck-transition-duration: .3s;
 $menu-reveal-duration: .5s;
 
 .ff-m {
@@ -129,7 +132,11 @@ $menu-reveal-duration: .5s;
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  scroll-padding-top: $top-bar-height;
+  scroll-padding-top: $top-bar-initial-logo-height;
+
+  &.top-bar-stuck {
+    scroll-padding-top: $top-bar-stuck-logo-height;
+  }
 }
 
 body {
@@ -184,6 +191,11 @@ header {
   position: sticky;
   top: 0;
   background: var(--dynamic-color-0);
+  transition: padding $top-bar-stuck-transition-duration;
+
+  :root.top-bar-stuck & .logo svg {
+    max-height: $top-bar-stuck-logo-height;
+  }
 
   .container {
     display: flex;
@@ -191,8 +203,8 @@ header {
   }
 
   .menu-toggle {
-    width: $top-bar-height;
-    height: $top-bar-height;
+    width: $top-bar-stuck-logo-height;
+    height: $top-bar-stuck-logo-height;
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
     background: $cta-color;
     position: relative;
@@ -230,7 +242,8 @@ header {
       display: block;
       padding: .5rem;
       margin: auto;
-      max-height: $top-bar-height;
+      max-height: $top-bar-initial-logo-height;
+      transition: max-height $top-bar-stuck-transition-duration;
 
       @for $i from 1 through 4 {
         g:nth-of-type(#{$i}) * {
@@ -254,6 +267,10 @@ header {
       }
     }
   }
+}
+
+.sticky-helper {
+  height: 0;
 }
 
 .container.nav {
@@ -607,12 +624,19 @@ nav ul, footer ul {
 @media (min-width: 768px) {
   html {
     font-size: 20px;
+    scroll-padding-top: $top-bar-initial-logo-height + $top-bar-initial-padding * 2;
   }
 
   @include col-classes('md');
 
-  header .menu-toggle:after {
-    margin-top: -12px;
+  header {
+    :root:not(.top-bar-stuck) & {
+      padding: $top-bar-initial-padding 0;
+    }
+
+    .menu-toggle:after {
+      margin-top: -12px;
+    }
   }
 
   nav {

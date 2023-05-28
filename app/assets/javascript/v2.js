@@ -110,4 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (carouselTitles.length > 1) showNextCarouselItem()
+
+  const root = document.querySelector(':root')
+  const helper = document.querySelector('.sticky-helper')
+  const observer = new window.IntersectionObserver(([el]) => {
+    root.classList.toggle('top-bar-stuck', !el.isIntersecting)
+  })
+  observer.observe(helper)
 })
