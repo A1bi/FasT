@@ -2,7 +2,15 @@
   = image_tag 'carousel_1.jpg', class: %i[photo active]
   .title.active = inline_svg 'theater/frau_mueller/ticket_header'
 
-.container
+.page-nav: .container
+  ul
+    li: a href='#ueber-das-stueck' Über das Stück
+    li: a href='#fotos' Fotos
+    li: a href='#besetzung' Besetzung
+    li: a href='#tickets' Tickets
+    li: a href='#faq' FAQ
+
+.container.page-nav-anchor#ueber-das-stueck
   .row: .col
     h2 Über das Stück
     .plane Frau Müller muss weg! Soviel steht fest, als sich eine Gesandtschaft besorgter Eltern zu einem außerplanmäßigen Termin mit der Klassenlehrerin Frau Müller (Gabriela Maria Schmeide) zusammenfindet. Weil die Noten schlecht sind und am Schuljahresende die Entscheidung fällt, ob die Kinder den Sprung aufs Gymnasium schaffen, sind die Eltern (Justus von Dohnányi, Anke Engelke, Ken Duken, Mina Tander, Alwara Höfels) fest entschlossen, mit der Absetzung der Lehrerin zu retten, was noch zu retten ist – koste es, was es wolle! Doch Frau Müller spielt nicht mit.Mit einem Mal brechen bei den doch so perfekten Müttern und Vätern alle Vorbehalte und Ressentiments, Zweifel und Sorgen, Gehässigkeiten und Ängste hervor. Die wahre Schlacht, die beginnt jetzt…
@@ -33,7 +41,7 @@ ruby:
     "https://www.theater-kaisersesch.de/system/photos/images/000/000/#{photo}.jpg"
   end
 
-.container.gallery
+.container.gallery.page-nav-anchor#fotos
   - last_first_column = nil
   - while photos.any?
     .row
@@ -58,7 +66,7 @@ ruby:
 
 hr
 
-.container
+.container.page-nav-anchor#besetzung
   .row: .col.cast
     h2 Besetzung
     h3 Die Athener
@@ -87,3 +95,23 @@ hr
     .row
       .col-6 Egeus, Hermias Vater
       .col-6 Rolf Heidorn
+
+hr
+
+.container.page-nav-anchor#tickets
+  .row: .col.cast
+    h2 Tickets
+    p Foobar
+    p Foobar
+    p Foobar
+    p Foobar
+
+hr
+
+.container.page-nav-anchor#faq
+  .row: .col.cast
+    h2 FAQ
+    p Foobar
+    p Foobar
+    p Foobar
+    p Foobar

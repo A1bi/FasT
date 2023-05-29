@@ -117,4 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
     root.classList.toggle('top-bar-stuck', !el.isIntersecting)
   })
   observer.observe(helper)
+
+  const anchorsObserver = new window.IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      document.querySelector(`.page-nav li:has(a[href='#${entry.target.id}'])`)
+        .classList.toggle('active', entry.isIntersecting)
+    })
+  }, { rootMargin: '-20% 0% -80% 0%' })
+
+  const anchors = document.querySelectorAll('.page-nav-anchor')
+  anchors.forEach(anchor => anchorsObserver.observe(anchor))
 })
