@@ -4,54 +4,56 @@
   .title.active: a href='/v2/event' = inline_svg 'theater/frau_mueller/ticket_header'
   .title: a href='/v2/event' = inline_svg 'theater/herdmanns/ticket_header'
 .container
-  h1.text-center#schedule Programm:
-  .row: .col.w-100: .card.schedule
-    .row
-      .col-4.col-md-3 September
-      .col-8.col-md-9 Freilichtbühne am schiefen Turm
-    .row
-      .col-4.col-md-3 24
-      .col-8.col-md-6 Don Camillo und Peppone
-      .col-md-3.d-sm-none: button.btn Tickets
-    .row
-      .col-4.col-md-3 20:00h
-      .col-8.col-md-9 Sommernachtstheater 2023
-    .row.mt-2.d-md-none: .col
-      button.btn.expand Tickets
-  .row: .col.w-100: .card.schedule
-    .row
-      .col-12.col-md-3.text-sm-start
-        span.d-md-none> 25.
-        | September
-        span.d-md-none , 20:00h
-      .col.col-md-9 Freilichtbühne am schiefen Turm
-    .row
-      .col-md-3.d-sm-none 25
-      .col.col-md-6 Der Gott des Gemetzels
-      .col-md-3.d-sm-none: button.btn Tickets
-    .row
-      .col-md-3.d-sm-none 20:00h
-      .col.col-md-9 Sommernachtstheater 2023
-    .row.mt-2.d-md-none: .col
-      button.btn.expand Tickets
-  h1.text-center#archive Archiv:
-  .row: .col.w-100: .card.archive
-    .row
-      .col-4.col-md-3 September
-      .col-8.col-md-9 Kammerensemble
-    .row
-      .col-4.col-md-3 2022
-      .col-8.col-md-6 Der Gott des Gemetzels
-    .row
-      .col-4.col-md-3
-      .col-8.col-md-9 Kleine Bühne „Altes Wasserwerk“
-  .row: .col.w-100: .card.archive
-    .row
-      .col-4.col-md-3 Juni
-      .col-8.col-md-9 Freilichtbühne am schiefen Turm
-    .row
-      .col-4.col-md-3 2022
-      .col-8.col-md-6 Der Gott des Gemetzels
-    .row
-      .col-4.col-md-3
-      .col-8.col-md-9 Sommernachtstheater 2023
+  h1.text-center#schedule Programm
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Freitag
+      .day 24
+      | September
+    .col-9.col-md-7
+      .info
+        .location
+          svg xmlns='http://www.w3.org/2000/svg' width=16 height=16 viewBox='0 0 16 16'
+            path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
+          | Historischer Ortskern
+        .time
+          svg xmlns='http://www.w3.org/2000/svg' width=16 height=16 viewBox='0 0 16 16'
+            path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
+          | 20:00
+      .title Don Camillo und Peppone
+      .subtitle Sommernachtstheater 2023
+    .col.col-md-3.mt-sm-1: button.btn Tickets
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Samstag
+      .day 25
+      | September
+    .col-9.col-md-7
+      .info
+        .location
+          svg xmlns='http://www.w3.org/2000/svg' width=16 height=16 viewBox='0 0 16 16'
+            path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
+          | Altes Wasserwerk
+        .time
+          svg xmlns='http://www.w3.org/2000/svg' width=16 height=16 viewBox='0 0 16 16'
+            path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
+          | 19:30
+      .title Der Gott des Gemetzels
+      .subtitle Kammerensemble
+    .col.col-md-3.mt-sm-1: button.btn Tickets
+
+  h1.text-center#archive Archiv
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Juni
+      .day 2022
+    .col-9.col-md-7
+      .title Der Gott des Gemetzels
+      .subtitle Kammerensemble
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Juni
+      .day 2021
+    .col-9.col-md-7
+      .title Magdalena Himmelstürmerin
+      .subtitle Freilichtbühne am schiefen Turm

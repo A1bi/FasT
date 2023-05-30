@@ -159,7 +159,7 @@ $menu-reveal-duration: .5s;
   }
 }
 
-@each $display in (none, block) {
+@each $display in (none, block, flex) {
   .d-#{$display} {
     display: $display;
   }
@@ -585,6 +585,7 @@ nav ul, footer ul {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    font-size: .75rem;
 
     > * {
       @extend .py-0;
@@ -592,25 +593,46 @@ nav ul, footer ul {
 
     > *:nth-child(1) {
       @extend .text-center;
-      color: $red;
-    }
+      @extend .text-red;
 
-    &:nth-child(2) {
-      > *:nth-child(1) {
+      .day {
         @extend .f-li;
         @extend .m-0;
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 700;
+        margin-top: -(spacing(1));
+        margin-bottom: -(spacing(1));
+      }
+    }
+
+    > *:nth-child(2) {
+      .info {
+        @extend .d-flex;
+        flex-wrap: wrap;
+        column-gap: spacing(2);
+
+        svg {
+          height: 13px;
+          width: auto;
+          padding-right: 4px;
+        }
       }
 
-      > *:nth-child(2) {
+      .title {
         @extend .f-mb;
         @extend .m-0;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
       }
+    }
 
-      > *:nth-child(3) {
-        @extend .text-center;
+    > *:nth-child(3) {
+      @extend .text-center;
+
+      @include media-query(sm) {
+        button {
+          width: 100%;
+          margin-top: spacing(2);
+        }
       }
     }
   }
@@ -618,12 +640,6 @@ nav ul, footer ul {
 
 .archive {
   @extend .schedule;
-
-  @include media-query(sm) {
-    .row:nth-child(2) > *:nth-child(1) {
-      font-size: 2rem;
-    }
-  }
 }
 
 .event-header {
