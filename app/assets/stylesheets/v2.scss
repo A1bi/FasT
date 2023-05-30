@@ -57,6 +57,18 @@ $font-size-base: 1rem;
 $heading-size-multiplier: 1.618;
 
 $num-columns: 12;
+$spacing-steps: (
+  0: 0,
+  1: .5,
+  2: 1,
+  3: 2,
+  4: 3
+);
+$media-queries: (
+  sm: 'max-width: 767px',
+  md: 'min-width: 768px',
+  lg: 'min-width: 992px'
+);
 
 $green: #78ff1f;
 $red: #ff5c5c;
@@ -75,6 +87,16 @@ $top-bar-initial-padding: 1rem;
 $top-bar-stuck-logo-height: 2.5rem;
 $top-bar-stuck-transition-duration: .3s;
 $menu-reveal-duration: .5s;
+
+@function spacing($step) {
+  @return map-get($spacing-steps, $step) * 1rem;
+}
+
+@mixin media-query($size) {
+  @media (map-get($media-queries, $size)) {
+    @content;
+  }
+}
 
 .ff-m {
   font-family: 'Maven Pro', sans-serif;
@@ -99,25 +121,53 @@ $menu-reveal-duration: .5s;
   font-weight: 700;
 }
 
-@for $i from 1 through 4 {
-  .mt-#{$i} {
-    margin-top: #{$i}rem;
-  }
+@each $step, $factor in $spacing-steps {
+  @each $property, $abbreviation in (margin: m, padding: p) {
+    @each $side, $side-abbreviation in (top: t, bottom: b, left: s, right: e) {
+      .#{$abbreviation}#{$side-abbreviation}-#{$step} {
+        #{$property}-#{$side}: spacing($step);
+      }
+    }
 
-  .mb-#{$i} {
-    margin-bottom: #{$i}rem;
-  }
+    .#{$abbreviation}x-#{$step} {
+      @extend .#{$abbreviation}s-#{$step};
+      @extend .#{$abbreviation}e-#{$step};
+    }
 
-  .my-#{$i} {
-    @extend .mt-#{$i};
-    @extend .mb-#{$i};
+    .#{$abbreviation}y-#{$step} {
+      @extend .#{$abbreviation}t-#{$step};
+      @extend .#{$abbreviation}b-#{$step};
+    }
+
+    .#{$abbreviation}-#{$step} {
+      #{$property}: spacing($step);
+    }
   }
 }
 
-@each $alignment in center, right {
-  .text-#{$alignment} {
+@each $class, $alignment in (start: left, center: center, end: right) {
+  .text-#{$class} {
     text-align: $alignment;
   }
+}
+
+@each $display in (none, block) {
+  .d-#{$display} {
+    display: $display;
+  }
+
+  @each $size in map-keys($media-queries) {
+    @include media-query($size) {
+      .d-#{$size}-#{$display} {
+        display: $display;
+      }
+    }
+  }
+}
+
+%list-style-none {
+  @extend .m-0;
+  list-style: none;
 }
 
 :root {
@@ -142,14 +192,14 @@ html {
 
 body {
   @extend .ff-m;
-  margin: 0;
+  @extend .m-0;
   font-size: $font-size-base;
   color: $black;
   background: $body-bg;
 }
 
 h1, h2, h3 {
-  @extend .my-1;
+  @extend .my-2;
 }
 
 h1 {
@@ -169,7 +219,7 @@ h3 {
 }
 
 p {
-  @extend .my-1;
+  @extend .my-2;
 }
 
 a {
@@ -240,8 +290,8 @@ header {
     flex: 1;
 
     svg {
+      @extend .p-1;
       display: block;
-      padding: .5rem;
       margin: auto;
       max-height: $top-bar-initial-logo-height;
       transition: max-height $top-bar-stuck-transition-duration;
@@ -306,7 +356,7 @@ nav {
 }
 
 footer {
-  @extend .mt-2;
+  @extend .mt-3;
   background: var(--dynamic-color-0);
 
   ul {
@@ -328,10 +378,9 @@ footer {
   }
 }
 
-nav ul, footer ul, .page-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: .5rem 1rem;
+nav ul, footer ul {
+  @extend .py-1, .px-2;
+  @extend %list-style-none;
 }
 
 .caption {
@@ -355,8 +404,8 @@ nav ul, footer ul, .page-nav ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-right: -.5rem;
-  margin-left: -.5rem;
+  margin-right: -(spacing(1));
+  margin-left: -(spacing(1));
 }
 
 @mixin col($width) {
@@ -381,7 +430,7 @@ nav ul, footer ul, .page-nav ul {
   // necessary for case like this: div.col-md-6
   // devices smaller than md will then default to 100%
   @include col(100%);
-  padding: .5rem;
+  @extend .p-1;
 }
 
 @include col-classes();
@@ -393,44 +442,42 @@ nav ul, footer ul, .page-nav ul {
 }
 
 .container {
+  @extend .px-2;
   max-width: 1000px;
   box-sizing: content-box;
-  padding-left: 1rem;
-  padding-right: 1rem;
   margin-left: auto;
   margin-right: auto;
 }
 
 .plane {
   *:first-child {
-    margin-top: 0;
+    @extend .mt-0;
   }
 
   *:last-child {
-    margin-bottom: 0;
+    @extend .mb-0;
   }
 
-  > *:not(:last-child) {
-    margin-bottom: 1rem;
+  > *:not(.row):not(:last-child) {
+    @extend .mb-2;
   }
 
   ~ .caption {
-    padding-top: 1rem;
-    padding-right: .5rem;
-    text-align: right;
+    @extend .pt-2, .pe-1;
+    @extend .text-end;
   }
 }
 
 .card {
   @extend .plane;
-  padding: 1rem;
+  @extend .p-2;
   background: $white;
 }
 
 .btn {
   @extend .f-lbi;
   @extend .shadow;
-  padding: .5rem 1rem;
+  @extend .py-1, .px-2;
   border: 0;
   font-size: 1rem;
   background: $cta-color;
@@ -482,10 +529,10 @@ nav ul, footer ul, .page-nav ul {
   }
 
   .title {
+    @extend .m-2;
     width: calc(100% - 1rem);
     position: absolute;
     display: block;
-    margin: 1rem;
     transition: opacity $carousel-transition-duration * 0.5, transform $carousel-transition-duration * 0.8 cubic-bezier(0.33, 1, 0.68, 1);
     transform: rotateY(0deg); // Safari jitter workaround
 
@@ -520,7 +567,7 @@ nav ul, footer ul, .page-nav ul {
   }
 
   &.variant-b .title {
-    margin-bottom: 0;
+    @extend .mb-0;
     transform: translateY(50%);
   }
 }
@@ -530,10 +577,9 @@ nav ul, footer ul, .page-nav ul {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 0;
 
     > * {
-      padding: 0;
+      @extend .p-0;
     }
 
     > *:nth-child(1) {
@@ -543,14 +589,15 @@ nav ul, footer ul, .page-nav ul {
 
     &:nth-child(2) {
       > *:nth-child(1) {
-        @extend h2;
+        @extend .f-li;
+        @extend .m-0;
+        font-size: 3rem;
         font-weight: 700;
-        margin: 0;
       }
 
       > *:nth-child(2) {
-        @extend h3;
-        margin: 0;
+        @extend .f-mb;
+        @extend .m-0;
         font-size: 1.5rem;
       }
 
@@ -568,6 +615,7 @@ nav ul, footer ul, .page-nav ul {
 
 .page-nav {
   @extend .text-center;
+  @extend .py-1;
   position: sticky;
   top: $top-bar-stuck-logo-height;
   box-shadow: 0 2px 10px rgba($black, 0.07);
@@ -576,13 +624,15 @@ nav ul, footer ul, .page-nav ul {
 
   ul {
     @extend .f-lbi;
+    @extend .p-0;
+    @extend %list-style-none;
     display: inline-block;
-    padding: 0;
-    margin: .5rem;
 
     li {
+      @extend .px-1;
       display: inline-block;
-      padding: .25rem 1rem;
+      padding-top: .25rem;
+      padding-bottom: .25rem;
       transition: background .3s;
       border-radius: 10px;
 
@@ -621,7 +671,7 @@ nav ul, footer ul, .page-nav ul {
     }
 
     &:last-child {
-      @extend .text-right;
+      @extend .text-end;
     }
   }
 }
@@ -658,10 +708,9 @@ nav ul, footer ul, .page-nav ul {
   }
 }
 
-// small
-@media (max-width: 767px) {
+@include media-query(sm) {
   header .container, .container.nav, footer .container {
-    padding: 0;
+    padding: spacing(0);
   }
 
   .menu-active nav {
@@ -669,8 +718,7 @@ nav ul, footer ul, .page-nav ul {
   }
 }
 
-// medium
-@media (min-width: 768px) {
+@include media-query(md) {
   html {
     font-size: 20px;
     scroll-padding-top: $top-bar-initial-logo-height + $top-bar-initial-padding * 2;
@@ -692,13 +740,17 @@ nav ul, footer ul, .page-nav ul {
     width: 300px;
   }
 
+  .page-nav ul li {
+    padding-left: spacing(2);
+    padding-right: spacing(2);
+  }
+
   .carousel .title {
     width: 60%;
   }
 }
 
-// large
-@media (min-width: 992px) {
+@include media-query(lg) {
   .carousel .title {
     width: 50%;
   }
