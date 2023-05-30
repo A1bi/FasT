@@ -149,6 +149,14 @@ $menu-reveal-duration: .5s;
   .text-#{$class} {
     text-align: $alignment;
   }
+
+  @each $size in map-keys($media-queries) {
+    @include media-query($size) {
+      .text-#{$size}-#{$class} {
+        text-align: $alignment !important;
+      }
+    }
+  }
 }
 
 @each $display in (none, block) {
@@ -159,7 +167,7 @@ $menu-reveal-duration: .5s;
   @each $size in map-keys($media-queries) {
     @include media-query($size) {
       .d-#{$size}-#{$display} {
-        display: $display;
+        display: $display !important;
       }
     }
   }
@@ -422,7 +430,7 @@ nav ul, footer ul {
   }
 }
 
-.col:not(.w-100) {
+.container > .row > .col:not(.w-100) {
   max-width: 600px;
 }
 
@@ -579,7 +587,7 @@ nav ul, footer ul {
     justify-content: flex-start;
 
     > * {
-      @extend .p-0;
+      @extend .py-0;
     }
 
     > *:nth-child(1) {
@@ -604,6 +612,16 @@ nav ul, footer ul {
       > *:nth-child(3) {
         @extend .text-center;
       }
+    }
+  }
+}
+
+.archive {
+  @extend .schedule;
+
+  @include media-query(sm) {
+    .row:nth-child(2) > *:nth-child(1) {
+      font-size: 2rem;
     }
   }
 }
