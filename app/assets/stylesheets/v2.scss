@@ -755,3 +755,27 @@ nav ul, footer ul {
     width: 50%;
   }
 }
+
+[data-controller='content-reveal'] {
+  @extend .mb-2;
+
+  &.revealed {
+    .reveal-trigger {
+      font-weight: 500;
+    }
+
+    .revealed-content {
+      @extend .mt-2;
+    }
+  }
+
+  .reveal-trigger {
+    cursor: pointer;
+  }
+
+  .revealed-content {
+    max-height: 0px;
+    overflow-y: hidden;
+    transition: max-height .5s, margin-top .5s;
+  }
+}

@@ -17,6 +17,16 @@
     h2 Über das Stück
     .plane Frau Müller muss weg! Soviel steht fest, als sich eine Gesandtschaft besorgter Eltern zu einem außerplanmäßigen Termin mit der Klassenlehrerin Frau Müller (Gabriela Maria Schmeide) zusammenfindet. Weil die Noten schlecht sind und am Schuljahresende die Entscheidung fällt, ob die Kinder den Sprung aufs Gymnasium schaffen, sind die Eltern (Justus von Dohnányi, Anke Engelke, Ken Duken, Mina Tander, Alwara Höfels) fest entschlossen, mit der Absetzung der Lehrerin zu retten, was noch zu retten ist – koste es, was es wolle! Doch Frau Müller spielt nicht mit.Mit einem Mal brechen bei den doch so perfekten Müttern und Vätern alle Vorbehalte und Ressentiments, Zweifel und Sorgen, Gehässigkeiten und Ängste hervor. Die wahre Schlacht, die beginnt jetzt…
 
+    h3 Termine
+    ul
+      li Samstag, 1. Oktober, 17:00
+      li Sonntag, 2. Oktober, 17:00
+      li Samstag, 8. Oktober, 17:00
+      li Sonntag, 9. Oktober, 17:00
+      li Freitag, 14. Oktober, 17:00
+      li Samstag, 15. Oktober, 17:00
+    p Einlass eine Stunde vor Beginn.
+
 hr
 
 ruby:
@@ -103,17 +113,52 @@ hr
 .container.page-nav-anchor#tickets
   .row: .col.cast
     h2 Tickets
-    p Foobar
-    p Foobar
-    p Foobar
-    p Foobar
+    h3 Preise
+    ul
+      li
+        | Erwachsene<br>12 €
+      li
+        | Kinder<br>
+        small Schülerinnen und Schüler, Studierende<br>
+        | 8 €
+    h3 Vorverkauf
+    p ab 1. August 2023
+    p: button.btn Tickets bestellen
+    p oder in folgenden Vorverkaufsstellen:
+    ul
+      li Buchhandlung Walgenbach, Kaisersesch
+      li Buchhandlung Layaa-Laulhé, Cochem
 
 hr
 
 .container.page-nav-anchor#faq
   .row: .col.cast
     h2 FAQ
-    p Foobar
-    p Foobar
-    p Foobar
-    p Foobar
+
+    h3 Vorverkauf
+    = question_answer 'Wo erhalte ich Tickets?' do
+      | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
+      ul
+        li: a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
+        li: a href='http://layaa.de' Buchhandlung Layaa-Laulhé, Cochem
+
+    = question_answer 'Gibt es Platzreservierungen?' do
+      | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
+
+    = question_answer 'Gibt es gehbehindertengerechte Sitzplätze?' do
+      | Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.
+
+    h3 Anfahrt
+    = question_answer 'Wo finde ich die Freilichtbühne?' do
+      | Unser Freilichttheater findet im Historischen Ortskern von Kaisersesch statt. Dieser befindet sich in der Burgstraße, direkt an der Hauptstraße, bzw. neben der Kirche.
+      p Im Ort sollte Ihnen unser namensgebender Kirchturm eine gute Orientierungshilfe sein.
+
+    = question_answer 'Wie reise ich mit dem Auto an?' do
+      | Über die Autobahn A48 kommend fahren Sie an der Abfahrt Kaisersesch ab und folgen der Beschilderung bis Kaisersesch. Circa 200 Meter nach Ortseingang finden Sie rechts hinter dem Busbahnhof den Parkplatz „Balduinplatz“.
+
+    h3 Wetter
+    = question_answer 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
+      | Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Aufführung schon im Vorfeld absagen oder in der ersten Hälfte des Stücks abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
+
+    = question_answer 'Sind die Zuschauerränge überdacht?' do
+      | Leider nicht. Wir bitten Sie daher, gegebenenfalls an wetterfeste Kleidung zu denken. Gerne erhalten Sie vor Ort aber auch Regenponchos.

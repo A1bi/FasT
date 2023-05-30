@@ -3,6 +3,8 @@
 class V2Controller < ApplicationController
   layout 'v2'
 
+  helper :info
+
   skip_authorization
 
   def index; end

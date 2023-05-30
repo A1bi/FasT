@@ -127,4 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const anchors = document.querySelectorAll('.page-nav-anchor')
   anchors.forEach(anchor => anchorsObserver.observe(anchor))
+
+  document.querySelectorAll('[data-controller="content-reveal"]').forEach(el => {
+    const contentTarget = el.querySelector('[data-target="content-reveal.content"')
+
+    el.querySelector('[data-action="content-reveal#reveal"]').addEventListener('click', () => {
+      el.classList.toggle('revealed')
+
+      const maxHeight = contentTarget.scrollHeight
+      const style = contentTarget.style
+      style.maxHeight = `${!parseInt(style.maxHeight) ? maxHeight : 0}px`
+    })
+  })
 })
