@@ -108,6 +108,7 @@ $menu-reveal-duration: .5s;
 
 .f-mb {
   @extend .ff-m;
+  font-style: normal;
   font-weight: 900;
 }
 
@@ -349,7 +350,7 @@ nav {
   background: $white;
   transition: height $menu-reveal-duration;
 
-  ul {
+  > ul {
     @extend .f-li;
     font-size: 2rem;
     font-weight: 400;
@@ -360,6 +361,18 @@ nav {
 
     a:hover {
       text-decoration: underline;
+    }
+
+    li > ul {
+      @extend .pt-0;
+      @extend .pb-1;
+      @extend .px-2;
+
+      li {
+        @extend .f-mb;
+        padding-bottom: .25rem;
+        font-size: 1rem;
+      }
     }
   }
 }
@@ -768,7 +781,7 @@ nav ul, footer ul {
   }
 
   nav {
-    width: 300px;
+    width: 350px;
   }
 
   .page-nav ul li {
