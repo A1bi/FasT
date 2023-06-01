@@ -295,13 +295,14 @@ header {
   }
 
   .logo {
+    @extend .text-end;
     flex: 1;
 
     svg {
-      @extend .p-1;
-      display: block;
-      margin: auto;
+      @extend .py-1;
+      display: inline-block;
       max-height: $top-bar-initial-logo-height;
+      width: auto;
       transition: max-height $top-bar-stuck-transition-duration;
 
       @for $i from 1 through 4 {
@@ -551,11 +552,7 @@ nav ul, footer ul {
     }
 
     &:hover a svg {
-      transform: scale(1.1) rotateY(0deg);
-
-      * {
-        stroke: $cta-color-hover;
-      }
+      transform: scale(1.02) rotateY(0deg);
     }
 
     &:active a svg * {
