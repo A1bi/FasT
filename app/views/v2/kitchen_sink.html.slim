@@ -67,7 +67,61 @@ hr
       p Karte mit Button
       button.btn.expand mehr...
 
-  h1 Grid
+  h2 Grid
   .row: .col Dieser Container enthält einen kurzen Text. Er könnte auch andere Dinge enthalten. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempor laoreet placerat. Praesent at ligula eu lorem efficitur luctus sit amet vel mi. Suspendisse id ullamcorper ex. Vestibulum justo dolor, maximus ac erat vitae, imperdiet laoreet odio. Suspendisse vel auctor metus. Suspendisse potenti.
   .row: .col: .card.shadow
     p Karte mit Schattenwurf
+
+  h2 Form
+  .row: .col: .card.shadow
+    form novalidate=true
+      h3.mb-1 Registrierung
+      .row.mb-1
+        .col-6
+          label for='input1' Vorname
+          input#input1 type='text' placeholder='John'
+        .col-6
+          label for='input2' Nachname
+          input#input2 type='text' placeholder='Doe'
+      .mb-2
+        label for='input3'
+          ' E-Mail-Adresse
+          abbr.required title='Pflichtfeld' *
+        input#input3 type='email' placeholder='name@example.com' required=true
+        .invalid-feedback Bitte geben Sie eine gültige E-Mail-Adresse ein.
+      .mb-2
+        label for='input4'
+          ' Passwort
+          abbr.required title='Pflichtfeld' *
+        input#input4 type='password' required=true aria-describedby='password-help'
+        .form-text#password-help Mindestens 8 Zeichen und kompliziert genug.
+        .invalid-feedback Bitte geben Sie ein Passwort ein.
+      .mb-2
+        label for='input5' Persönliches Gedicht
+        textarea#input5 aria-describedby='poem-help'
+        .form-text#poem-help Für die lyrische Rafinesse.
+      .mb-2
+        label for='select' Lieblingszahl
+        select#select
+          option selected=true Bitte Auswahl treffen
+          option Eins
+          option Zwei
+          option Drei
+      .mb-2
+        label for='input6' Mitgliedsnummer
+        input#input6 type='text' value='123' disabled=true
+        .form-text Wird für Sie automatisch generiert.
+      .form-check
+        input#radio1 type='radio' name='radio'
+        label for='radio1' Option 1
+      .form-check
+        input#radio2 type='radio' name='radio'
+        label for='radio2' Option 2
+      .form-check.mb-2
+        input#radio3 type='radio' name='radio' disabled=true
+        label for='radio3' Option 3
+      .form-check.mb-2
+        input#checkbox type='checkbox'
+        label for='checkbox' Ich akzeptiere die AGB.
+      button.btn type='submit' absenden
+      button.btn.ms-2 type='submit' disabled=true deaktiviert

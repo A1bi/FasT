@@ -160,7 +160,7 @@ $menu-reveal-duration: .5s;
   }
 }
 
-@each $display in (none, block, flex) {
+@each $display in (none, block, inline, inline-block, flex) {
   .d-#{$display} {
     display: $display;
   }
@@ -515,9 +515,137 @@ nav ul, footer ul {
     background: $cta-color-active;
   }
 
+  &:disabled {
+    pointer-events: none;
+    background: rgba($dark-gray, .3);
+  }
+
   &.expand {
     @extend .w-100;
   }
+}
+
+label {
+  @extend .mb-1;
+  @extend .d-inline-block;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=checkbox],
+input[type=radio],
+textarea,
+select {
+  border: 1px solid darken($light-gray, 10%);
+  appearance: none;
+
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 13px .25rem rgba($cta-color-hover, .25);
+  }
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+textarea,
+select {
+  @extend .d-block;
+  @extend .w-100;
+  padding: .35rem .5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $black;
+  transition: box-shadow .15s;
+
+  &:disabled {
+    background-color: $light-gray;
+  }
+
+  .was-validated &:invalid {
+    border-color: darken($red, 25%);
+  }
+}
+
+abbr[title] {
+  cursor: help;
+
+  &.required {
+    color: $red;
+  }
+}
+
+.form-text, .invalid-feedback {
+  margin-top: .25rem;
+  font-size: .75em;
+}
+
+.form-text {
+  color: $dark-gray;
+}
+
+.invalid-feedback {
+  @extend .d-none;
+  @extend .w-100;
+  color: darken($red, 25%);
+
+  .was-validated :invalid ~ & {
+    @extend .d-block;
+  }
+}
+
+.form-check {
+  @extend .d-block;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+
+  input[type=checkbox],
+  input[type=radio] {
+    float: left;
+    width: 1rem;
+    height: 1rem;
+    margin-left: -1.5rem;
+    margin-top: .1rem;
+    vertical-align: top;
+    background-color: $white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    &:not(:disabled):active {
+      filter: brightness(90%);
+    }
+
+    &:checked {
+      background-color: $red;
+      border-color: $red;
+    }
+
+    &:disabled, &:disabled ~ label {
+      opacity: .4;
+    }
+  }
+
+  input[type=checkbox]:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+  }
+
+  input[type=radio] {
+    border-radius: 50%;
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    }
+  }
+}
+
+select {
+  background-color: $white;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right .5rem center;
+  background-size: 16px 12px;
 }
 
 .carousel {

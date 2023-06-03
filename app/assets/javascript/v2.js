@@ -139,4 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
       style.maxHeight = `${!parseInt(style.maxHeight) ? maxHeight : 0}px`
     })
   })
+
+  document.querySelector('form').addEventListener('submit', e => {
+    if (e.currentTarget.checkValidity()) return
+
+    e.currentTarget.classList.add('was-validated')
+    e.preventDefault()
+    e.stopPropagation()
+  })
 })
