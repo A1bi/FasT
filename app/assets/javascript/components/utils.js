@@ -44,12 +44,3 @@ export const fetch = async (url, method = 'get', data) => {
 
   return json
 }
-
-export const testWebPSupport = (callback) => {
-  return new Promise((resolve, reject) => {
-    const webP = new window.Image()
-    webP.src = 'data:image/webp;base64,UklGRi4AAABXRUJQVlA4TCEAAAAvAUAAEB8wA' +
-               'iMwAgSSNtse/cXjxyCCmrYNWPwmHRH9jwMA'
-    webP.onload = webP.onerror = () => resolve(webP.height === 2)
-  })
-}
