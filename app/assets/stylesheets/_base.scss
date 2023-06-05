@@ -43,7 +43,7 @@ h2 {
 
 h3 {
   @extend .f-mb;
-  font-size: 1rem;
+  font-size: 1rem * $heading-size-multiplier;
 }
 
 p {

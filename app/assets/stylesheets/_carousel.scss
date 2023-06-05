@@ -55,8 +55,8 @@
 
       * {
         fill: $white;
-        stroke: var(--dynamic-color-1);
-        stroke-width: .4%;
+        stroke: $black;
+        stroke-width: .3%;
         transition: stroke .2s;
       }
     }
@@ -71,6 +71,6 @@
 
 @include media-query(lg) {
   .carousel .title {
-    width: 50%;
+    width: 40%;
   }
 }

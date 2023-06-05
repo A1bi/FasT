@@ -47,11 +47,11 @@ header {
   }
 
   .logo {
-    @extend .text-end;
+    @extend .text-center;
     flex: 1;
 
     svg {
-      @extend .py-1;
+      @extend .p-1;
       display: inline-block;
       max-height: $top-bar-initial-logo-height;
       width: auto;

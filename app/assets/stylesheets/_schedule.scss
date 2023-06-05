@@ -54,6 +54,10 @@
         @extend .f-mb;
         @extend .m-0;
         font-size: 1.25rem;
+
+        @include media-query(md) {
+          font-size: 1rem * $heading-size-multiplier;
+        }
       }
     }
 

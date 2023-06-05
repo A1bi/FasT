@@ -98,7 +98,7 @@ ruby:
       .col-3.col-md-2
         = l date, format: '%B'
         .year = l date, format: '%Y'
-      .col-9.col-md-7
+      .col-9.col-md-10
         .title = event[:title]
         .subtitle = event[:subtitle]
 
@@ -117,7 +117,7 @@ hr
 hr
 
 .container
-  .row: .col: h3.text-center Mit freundlicher Unterstützung durch
+  .row: .col.w-100: h3.text-center Mit freundlicher Unterstützung durch
   .row.align-items-center
     .col-6.col-md-2 = link_to image_tag('partners/bund_kultur.svg', alt: 'Die Beauftragte der Bundesregierung für Kultur und Medien'), 'https://www.bundesregierung.de/breg-de/bundesregierung/staatsministerin-fuer-kultur-und-medien', target: '_blank'
     .col-6.col-md-2 = link_to image_tag('partners/rlp_familie.svg', alt: 'Ministerium für Familie, Frauen, Kultur und Integration'), 'https://mffki.rlp.de', target: '_blank'
