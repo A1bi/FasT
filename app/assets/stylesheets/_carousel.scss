@@ -1,7 +1,7 @@
 .carousel {
-  display: flex;
+  @extend .d-flex;
+  @extend .align-items-end;
   position: relative;
-  align-items: flex-end;
   justify-content: center;
   height: 75vh;
   overflow: hidden;

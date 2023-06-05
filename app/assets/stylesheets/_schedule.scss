@@ -1,7 +1,7 @@
 .schedule {
   .row {
-    display: flex;
-    align-items: center;
+    @extend .d-flex;
+    @extend .align-items-center;
     justify-content: flex-start;
     font-size: .75rem;
 
@@ -21,6 +21,11 @@
         margin-top: -(spacing(1));
         margin-bottom: -(spacing(1));
       }
+
+      .year {
+        @extend .day;
+        font-size: 1.75rem;
+      }
     }
 
     > *:nth-child(2) {
@@ -29,10 +34,19 @@
         flex-wrap: wrap;
         column-gap: spacing(2);
 
-        svg {
-          height: 13px;
-          width: auto;
-          padding-right: 4px;
+        .location, .time {
+          @extend .d-flex;
+          @extend .align-items-center;
+
+          svg {
+            height: .75rem;
+            width: .75rem;
+            margin-right: 5px;
+          }
+        }
+
+        .location svg {
+          margin-right: 3px;
         }
       }
 
@@ -54,8 +68,4 @@
       }
     }
   }
-}
-
-.archive {
-  @extend .schedule;
 }

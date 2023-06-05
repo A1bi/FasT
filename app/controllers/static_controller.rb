@@ -7,6 +7,7 @@ class StaticController < ApplicationController
 
   def index
     @events = Ticketing::Event.with_future_dates.ordered_by_dates
+    flash.now[:warning] = alert_info[:text].html_safe if show_alert?
   end
 
   private
@@ -15,13 +16,7 @@ class StaticController < ApplicationController
     File.exist? ALERT_FILE_PATH
   end
 
-  def alert_mtime
-    File.mtime(ALERT_FILE_PATH).to_i
-  end
-
   def alert_info
     JSON.parse(File.read(ALERT_FILE_PATH), symbolize_names: true)
   end
-
-  helper_method :show_alert?, :alert_mtime, :alert_info
 end

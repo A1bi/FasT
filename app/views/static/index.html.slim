@@ -1,34 +1,62 @@
-- include_css 'index'
+.carousel
+  = image_tag 'carousel_1.jpg', class: %i[photo active]
+  = image_tag 'carousel_2.jpg', class: :photo
+  .title.active: a href='/v2/event' = inline_svg 'theater/frau_mueller/ticket_header'
+  .title: a href='/v2/event' = inline_svg 'theater/herdmanns/ticket_header'
 
-h2.hcen TheaterKultur Kaisersesch
+.container
+  h1.text-center#programm Programm
+  svg.d-none xmlns='http://www.w3.org/2000/svg'
+    symbol#schedule-location viewBox='0 0 16 16'
+      path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
+    symbol#schedule-time viewBox='0 0 16 16'
+      path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Freitag
+      .day 24
+      | September
+    .col-9.col-md-7
+      .info
+        .location
+          svg: use xlink:href="#schedule-location"
+          | Historischer Ortskern
+        .time
+          svg: use xlink:href="#schedule-time"
+          | 20:00
+      .title Don Camillo und Peppone
+      .subtitle Sommernachtstheater 2023
+    .col.col-md-3.mt-sm-1: button.btn Tickets
 
-.index
-  - if show_alert?
-    - cache [:alert, alert_mtime]
-      .alert
-        div = alert_info[:title]
-        == alert_info[:text]
+  h1.text-center#archiv Archiv
+  .row: .col.w-100: .card.schedule: .row
+    .col-3.col-md-2
+      | Juni
+      .year 2022
+    .col-9.col-md-7
+      .title Der Gott des Gemetzels
+      .subtitle Kammerensemble
 
-  - @events.each do |event|
-    = render 'event_teaser', event: event
+hr
 
-  = render 'theater/imagefilm'
-  .trenner
-
-  .coupons
-    .hl Jetzt neu: Geschenkgutscheine
-    = link_to new_coupons_ticketing_order_path
+.container
+  h2.text-center Geschenkgutscheine
+  .row
+    .col-6.col-md-3 = link_to new_coupons_ticketing_order_path
       = image_tag 'misc/coupon.svg', alt: 'Geschenkgutschein'
-    p Die Geschenkidee zu jedem Anlass.
-    p Verschenken Sie doch schon jetzt das Kaisersescher Theatererlebnis an Ihre Familie, Freunde, Mitarbeiter oder einfach an sich selbst. Nicht nur machen Sie Anderen eine Freude, sondern leisten auch uns eine wertvolle Unterstützung.
-    p Klicken Sie #{link_to 'hier', new_coupons_ticketing_order_path} und bestellen Sie Gutscheine mit beliebigem Wert zum Selbstausdrucken. Diese können später bei einer oder mehreren Ticket-Bestellungen zu unseren Veranstaltungen eingelöst werden.
-  .trenner
+    .col.col-md-9
+      p Die Geschenkidee zu jedem Anlass.
+      p Verschenken Sie doch schon jetzt das Kaisersescher Theatererlebnis an Ihre Familie, Freunde, Mitarbeiter oder einfach an sich selbst. Nicht nur machen Sie Anderen eine Freude, sondern leisten auch uns eine wertvolle Unterstützung.
+      p Klicken Sie #{link_to 'hier', new_coupons_ticketing_order_path} und bestellen Sie Gutscheine mit beliebigem Wert zum Selbstausdrucken. Diese können später bei einer oder mehreren Ticket-Bestellungen zu unseren Veranstaltungen eingelöst werden.
 
-  .teaser
-    .hl Freundeskreis Freilichtbühne
-    p Sie möchten uns unterstützen?<br>Wir freuen uns über Ihre Teilnahme an unserem neuen Freundeskreis.
-    ul.links: li = link_to 'Alle Informationen', info_freundeskreis_path
-  .trenner
+hr
 
-  = render 'newsletter_subscribers/form'
-  = render 'partners'
+.container
+  .row: .col: h3.text-center Mit freundlicher Unterstützung durch
+  .row.align-items-center
+    .col-6.col-md-2 = link_to image_tag('partners/bund_kultur.svg', alt: 'Die Beauftragte der Bundesregierung für Kultur und Medien'), 'https://www.bundesregierung.de/breg-de/bundesregierung/staatsministerin-fuer-kultur-und-medien', target: '_blank'
+    .col-6.col-md-2 = link_to image_tag('partners/rlp_familie.svg', alt: 'Ministerium für Familie, Frauen, Kultur und Integration'), 'https://mffki.rlp.de', target: '_blank'
+    .col-6.col-md-2 = link_to image_tag('partners/dsee.svg', alt: 'Deutsche Stiftung für Engagement und Ehrenamt'), 'https://www.deutsche-stiftung-engagement-und-ehrenamt.de', target: '_blank'
+    .col-3.col-md-1 = link_to image_tag('partners/neustart_kultur.svg', alt: 'Neustart Kultur'), 'https://www.bundesregierung.de/breg-de/bundesregierung/bundeskanzleramt/staatsministerin-fuer-kultur-und-medien/neustart-kultur-startet-1767056', target: '_blank'
+    .col-3.col-md-2 = link_to image_tag('partners/dthg.svg', alt: 'Deutsche Theatertechnische Gesellschaft'), 'https://dthgev.de', target: '_blank'
+

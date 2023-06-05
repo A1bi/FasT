@@ -9,8 +9,8 @@ header {
   }
 
   .container {
-    display: flex;
-    align-items: center;
+    @extend .d-flex;
+    @extend .align-items-center;
   }
 
   .menu-toggle {

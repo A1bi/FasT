@@ -1,8 +1,8 @@
 .alert {
   @extend .d-flex;
+  @extend .align-items-center;
   @extend .mb-2;
   @extend .shadow;
-  align-items: center;
   padding: .75rem 1rem;
   background: var(--alert-bg-color);
   color: var(--alert-fg-color);
@@ -23,9 +23,10 @@
   }
 
   svg {
-    @extend .me-1;
+    @extend .me-2;
     width: 1rem;
     height: 1rem;
+    flex-shrink: 0;
     fill: var(--alert-fg-color);
   }
 }

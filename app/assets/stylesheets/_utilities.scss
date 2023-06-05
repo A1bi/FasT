@@ -50,6 +50,12 @@
   }
 }
 
+@each $alignment in (start, center, end, stretch) {
+  .align-items-#{$alignment} {
+    align-items: $alignment;
+  }
+}
+
 %list-style-none {
   @extend .m-0;
   list-style: none;

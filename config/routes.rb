@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'v2' => 'v2#index'
   get 'v2/kitchen-sink' => 'v2#kitchen_sink'
   get 'v2/event' => 'v2#event'
   get 'v2/impressum' => 'v2#impressum'
