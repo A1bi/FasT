@@ -9,8 +9,6 @@ module Members
       @files = Document.member
     end
 
-    def videos; end
-
     private
 
     def authorize

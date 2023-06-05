@@ -202,7 +202,6 @@ Rails.application.routes.draw do
 
       scope controller: :dashboard do
         get '/', action: :index, as: :root
-        get :videos
       end
     end
   end

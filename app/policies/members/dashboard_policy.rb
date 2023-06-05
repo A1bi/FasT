@@ -5,9 +5,5 @@ module Members
     def index?
       user.try(:member?)
     end
-
-    def videos?
-      index?
-    end
   end
 end
