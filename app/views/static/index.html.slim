@@ -1,3 +1,62 @@
+ruby:
+  events = [
+    {
+      title: 'Ein idealer Gatte',
+      subtitle: 'Sommernachtstheater 2023',
+      location: 'Historischer Ortskern',
+      dates: [
+        '14.07.2023 20:00',
+        '15.07.2023 20:00',
+        '21.07.2023 20:00',
+        '22.07.2023 20:00'
+      ]
+    },
+    {
+      title: 'Ein idealer Gatte',
+      subtitle: 'Gastspiel in Cochem',
+      location: 'Reichsburg Cochem',
+      dates: [
+        '29.07.2023 20:00'
+      ]
+    },
+    {
+      title: 'Arschlinks heißt von hinten herwärts!',
+      subtitle: 'Gastspiel des Muh-Theaters Kliding',
+      location: 'Altes Wasserwerk',
+      dates: [
+        '22.09.2023 19:30'
+      ]
+    }
+  ]
+
+  archive = [
+    {
+      title: 'Ein idealer Gatte',
+      date: '01.07.2022',
+      subtitle: 'Sommernachtstheater 2022'
+    },
+    {
+      title: 'Frau Müller muss weg',
+      date: '01.07.2021',
+      subtitle: 'Sommernachtstheater 2021'
+    },
+    {
+      title: 'Mit Abstand das Beste...',
+      date: '01.07.2020',
+      subtitle: '...eine virale Satirerevue'
+    },
+    {
+      title: 'Der Gott des Gemetzels',
+      date: '01.01.2020',
+      subtitle: 'Gastspiel in Cochem'
+    },
+    {
+      title: 'Die Geschichte vom blauen Planeten',
+      date: '01.10.2019',
+      subtitle: 'Kinder- und Jugendtheater'
+    },
+  ]
+
 .carousel
   = image_tag 'carousel_1.jpg', class: %i[photo active]
   = image_tag 'carousel_2.jpg', class: :photo
@@ -11,31 +70,37 @@
       path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
     symbol#schedule-time viewBox='0 0 16 16'
       path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
-  .row: .col.w-100: .card.schedule: .row
-    .col-3.col-md-2
-      | Freitag
-      .day 24
-      | September
-    .col-9.col-md-7
-      .info
-        .location
-          svg: use xlink:href="#schedule-location"
-          | Historischer Ortskern
-        .time
-          svg: use xlink:href="#schedule-time"
-          | 20:00
-      .title Don Camillo und Peppone
-      .subtitle Sommernachtstheater 2023
-    .col.col-md-3.mt-sm-1: button.btn Tickets
+
+  - events.each do |event|
+    - event[:dates].each do |date|
+      - date = Time.parse(date)
+      .row: .col.w-100: .card.schedule: .row
+        .col-3.col-md-2
+          = l date, format: '%A'
+          .day = l date, format: '%-d'
+          = l date, format: '%B'
+        .col-9.col-md-7
+          .info
+            .location
+              svg: use xlink:href="#schedule-location"
+              = event[:location]
+            .time
+              svg: use xlink:href="#schedule-time"
+              = l date, format: '%H:%M'
+          .title = event[:title]
+          .subtitle = event[:subtitle]
+        .col.col-md-3.mt-sm-1: button.btn Tickets
 
   h1.text-center#archiv Archiv
-  .row: .col.w-100: .card.schedule: .row
-    .col-3.col-md-2
-      | Juni
-      .year 2022
-    .col-9.col-md-7
-      .title Der Gott des Gemetzels
-      .subtitle Kammerensemble
+  - archive.each do |event|
+    - date = Time.parse(event[:date])
+    .row: .col.w-100: .card.schedule: .row
+      .col-3.col-md-2
+        = l date, format: '%B'
+        .year = l date, format: '%Y'
+      .col-9.col-md-7
+        .title = event[:title]
+        .subtitle = event[:subtitle]
 
 hr
 
