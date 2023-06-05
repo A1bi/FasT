@@ -1,21 +1,26 @@
 doctype html
-html
+html lang=I18n.locale
   head
     meta charset='utf-8'
     meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0'
-    title TheaterKultur Kaisersesch e. V.
+    title
+      - if content_for?(:title)
+        ' #{yield(:title)} –
+      | TheaterKultur Kaisersesch e. V.
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_packs_with_chunks_tag 'application'
-body
+    = csrf_meta_tag
+
+body class=('development' if Rails.env.development?)
   .sticky-helper
   header
     .container
       .menu-toggle
-      .logo: a href='/v2' = inline_svg 'logo_v2_horizontal'
+      .logo = link_to inline_svg('logo_v2_horizontal'), root_path
   .container.nav: nav
     ul
-      li: a href='/v2#schedule' Programm
-      li: a href='/v2#archive' Archiv
+      li = link_to 'Programm', root_path(anchor: :programm)
+      li = link_to 'Archiv', root_path(anchor: :archiv)
       li
         a href='/v2#archive' TheaterKultur
         ul
@@ -23,17 +28,33 @@ body
           li: a href='/v2' Kammerensemble
           li: a href='/v2' Kinder- und Jugendtheater
       li: a href='/v2/content' Freundeskreis
-      li: a href='/v2' Mitglieder-Login
-      li: a href='/v2/kitchen-sink' Kitchen Sink
+      li
+        - if user_signed_in?
+          = link_to 'Mitgliederbereich', members_root_path
+          ul
+            li = link_to 'Meine Mitgliedsdaten', edit_members_member_path
+            li = link_to 'Logout', logout_path
+        - else
+          = link_to 'Mitglieder-Login', login_path
+
   main = yield
+
   footer
     .container: .row
       .col-md-6: ul
-        li: a href='/v2/impressum' Impressum
-        li: a href='/v2/agb' AGB
-        li: a href='#' Widerrufsbelehrung
-        li: a href='#' Datenschutzerklärung
+        li = link_to 'Impressum', impressum_path
+        - unless Settings.hide_it_recht_content
+          li = link_to 'AGB', agb_path
+          li = link_to 'Widerrufsbelehrung', widerruf_path
+        li = link_to 'Datenschutzerklärung', privacy_path
       .col-md-6: ul
-        li: a href='#' Mitgliedsantrag
-        li: a href='#' Satzung
-        li: a href='#' Pressematerial
+        li href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
+        li = link_to 'Satzung', satzung_path
+        li = link_to 'Pressematerial', press_material_path
+
+  - if Rails.env.production?
+    - as_site = 6
+    - base_url = 'https://analytics.a0s.de'
+    script var as_site = #{as_site};
+    = javascript_include_tag "#{base_url}/stats.js"
+    noscript = image_tag "#{base_url}/stats#{as_site.to_s}.png", alt: ''
