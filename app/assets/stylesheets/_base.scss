@@ -1,0 +1,148 @@
+:root {
+  --dynamic-color-0: #9FF3C6;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: $top-bar-initial-logo-height;
+
+  &.top-bar-stuck {
+    scroll-padding-top: $top-bar-stuck-logo-height;
+  }
+}
+
+body {
+  @extend .ff-m;
+  @extend .m-0;
+  font-size: $font-size-base;
+  color: $black;
+  background: $body-bg;
+}
+
+h1, h2, h3 {
+  @extend .my-2;
+}
+
+h1 {
+  @extend .f-lbi;
+  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier * $heading-size-multiplier;
+}
+
+h2 {
+  @extend .f-li;
+  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier;
+  font-weight: 400;
+}
+
+h3 {
+  @extend .f-mb;
+  font-size: 1rem;
+}
+
+p {
+  @extend .my-2;
+}
+
+a {
+  color: $cta-color;
+  text-decoration: none;
+  transition: color .3s;
+
+  &:hover {
+    color: $cta-color-hover;
+  }
+}
+
+hr {
+  border: 0;
+  height: 4px;
+  background-image: url('data:image/svg+xml,%3csvg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"%3e%3crect width="100%25" height="200%25" fill="none" stroke="black" stroke-width="4" y="2" stroke-dasharray="3%2c8" stroke-linecap="round"/%3e%3c/svg%3e');
+}
+
+.caption {
+  @extend .f-lbi;
+  font-size: 1rem / $heading-size-multiplier;
+}
+
+.text-green {
+  color: $green;
+}
+
+.text-red {
+  color: $red;
+}
+
+.shadow {
+  box-shadow: 0 0 13px 0 rgba($black, 0.23);
+}
+
+.plane {
+  *:first-child {
+    @extend .mt-0;
+  }
+
+  *:last-child {
+    @extend .mb-0;
+  }
+
+  > *:not(.row):not(:last-child) {
+    @extend .mb-2;
+  }
+
+  ~ .caption {
+    @extend .pt-2, .pe-1;
+    @extend .text-end;
+  }
+}
+
+.card {
+  @extend .plane;
+  @extend .p-2;
+  background: $white;
+}
+
+.alert {
+  @extend .d-flex;
+  @extend .mb-2;
+  @extend .shadow;
+  align-items: center;
+  padding: .75rem 1rem;
+  background: var(--alert-bg-color);
+  color: var(--alert-fg-color);
+
+  &.alert-success {
+    --alert-bg-color: #{lighten($green, 20%)};
+    --alert-fg-color: #{darken($green, 40%)};
+  }
+
+  &.alert-warning {
+    --alert-bg-color: #{lighten(yellow, 20%)};
+    --alert-fg-color: #{darken(yellow, 40%)};
+  }
+
+  &.alert-error {
+    --alert-bg-color: #{lighten($red, 20%)};
+    --alert-fg-color: #{darken($red, 40%)};
+  }
+
+  svg {
+    @extend .me-1;
+    width: 1rem;
+    height: 1rem;
+    fill: var(--alert-fg-color);
+  }
+}
+
+@include media-query(md) {
+  html {
+    font-size: 20px;
+    scroll-padding-top: $top-bar-initial-logo-height + $top-bar-initial-padding * 2;
+  }
+}

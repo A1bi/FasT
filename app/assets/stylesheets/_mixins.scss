@@ -1,0 +1,16 @@
+@mixin font-face($family, $style, $weight, $filename) {
+  @font-face {
+    font-display: swap;
+    font-family: $family;
+    font-style: $style;
+    font-weight: $weight;
+    src: url(asset_path('#{$filename}.woff2')) format('woff2'),
+         url(asset_path('#{$filename}.woff')) format('woff');
+  }
+}
+
+@mixin media-query($size) {
+  @media (map-get($media-queries, $size)) {
+    @content;
+  }
+}

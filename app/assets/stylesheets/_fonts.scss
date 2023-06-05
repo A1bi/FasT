@@ -1,0 +1,36 @@
+/* maven-pro-regular - latin */
+@include font-face('Maven Pro', normal, 400, 'maven-pro-v32-latin-regular');
+/* maven-pro-500 - latin */
+@include font-face('Maven Pro', normal, 500, 'maven-pro-v32-latin-500');
+/* maven-pro-900 - latin */
+@include font-face('Maven Pro', normal, 900, 'maven-pro-v32-latin-900');
+/* lora-regular - latin */
+@include font-face('Lora', normal, 400, 'lora-v32-latin-regular');
+/* lora-italic - latin */
+@include font-face('Lora', italic, 400, 'lora-v32-latin-italic');
+/* lora-700italic - latin */
+@include font-face('Lora', italic, 700, 'lora-v32-latin-700italic');
+
+.ff-m {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+.ff-l {
+  font-family: 'Lora', sans-serif;
+}
+
+.f-mb {
+  @extend .ff-m;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.f-li {
+  @extend .ff-l;
+  font-style: italic;
+}
+
+.f-lbi {
+  @extend .f-li;
+  font-weight: 700;
+}

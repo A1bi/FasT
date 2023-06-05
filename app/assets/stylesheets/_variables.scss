@@ -1,0 +1,34 @@
+$font-size-base: 1rem;
+$heading-size-multiplier: 1.618;
+
+$num-columns: 12;
+$spacing-steps: (
+  0: 0,
+  1: .5,
+  2: 1,
+  3: 2,
+  4: 3
+);
+$media-queries: (
+  sm: 'max-width: 767px',
+  md: 'min-width: 768px',
+  lg: 'min-width: 992px'
+);
+
+$green: #78ff1f;
+$red: #ff5c5c;
+$black: #1F2034;
+$dark-gray: #666666;
+$light-gray: #f2f2f2;
+$white: #ffffff;
+
+$body-bg: $light-gray;
+$cta-color: $red;
+$cta-color-hover: darken($red, 10%);
+$cta-color-active: darken($red, 30%);
+
+$top-bar-initial-logo-height: 3.5rem;
+$top-bar-initial-padding: 1rem;
+$top-bar-stuck-logo-height: 2.5rem;
+$top-bar-stuck-transition-duration: .3s;
+$menu-reveal-duration: .5s;

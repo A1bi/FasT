@@ -1,0 +1,57 @@
+.page-nav {
+  @extend .text-center;
+  @extend .py-1;
+  position: sticky;
+  top: $top-bar-stuck-logo-height;
+  box-shadow: 0 2px 10px rgba($black, 0.07);
+  background: $body-bg;
+  z-index: 9;
+
+  ul {
+    @extend .f-lbi;
+    @extend .p-0;
+    @extend %list-style-none;
+    display: inline-block;
+
+    li {
+      @extend .px-1;
+      display: inline-block;
+      padding-top: .25rem;
+      padding-bottom: .25rem;
+      transition: background .3s;
+      border-radius: 10px;
+
+      &.active {
+        background: $cta-color-active;
+
+        a, a:hover {
+          color: $white;
+        }
+      }
+
+      a {
+        transition: color .3s;
+        color: $black;
+
+        &:hover {
+          color: $cta-color-hover;
+        }
+
+        &:active {
+          color: $cta-color-active;
+        }
+      }
+    }
+  }
+}
+
+.page-nav-anchor {
+  scroll-margin-top: 2.5rem;
+}
+
+@include media-query(md) {
+  .page-nav ul li {
+    padding-left: spacing(2);
+    padding-right: spacing(2);
+  }
+}

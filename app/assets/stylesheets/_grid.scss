@@ -1,0 +1,52 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: -(spacing(1));
+  margin-left: -(spacing(1));
+}
+
+@mixin col($width) {
+  width: $width;
+}
+
+@mixin col-classes($device-size: null) {
+  $device-infix: if($device-size, '-#{$device-size}', '');
+
+  @for $column from 1 through $num-columns {
+    .col#{$device-infix}-#{$column} {
+      @include col(100% / $num-columns * $column);
+    }
+  }
+}
+
+.container > .row > .col:not(.w-100) {
+  max-width: 600px;
+}
+
+[class^='col-'], .col {
+  // necessary for case like this: div.col-md-6
+  // devices smaller than md will then default to 100%
+  @include col(100%);
+  @extend .p-1;
+}
+
+@include col-classes();
+
+@each $width in 50, 100 {
+  .w-#{$width} {
+    width: $width * 1%;
+  }
+}
+
+.container {
+  @extend .px-2;
+  max-width: 1000px;
+  box-sizing: content-box;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@include media-query(md) {
+  @include col-classes('md');
+}

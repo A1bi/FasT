@@ -1,0 +1,22 @@
+footer {
+  @extend .mt-3;
+  background: var(--dynamic-color-0);
+
+  ul {
+    @extend .f-mb;
+
+    li {
+      margin-bottom: .3rem;
+    }
+
+    a {
+      color: $black;
+      text-decoration: underline;
+
+      &:hover {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  }
+}

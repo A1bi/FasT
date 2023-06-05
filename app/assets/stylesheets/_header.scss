@@ -1,0 +1,160 @@
+header {
+  position: sticky;
+  top: 0;
+  background: var(--dynamic-color-0);
+  transition: padding $top-bar-stuck-transition-duration;
+
+  :root.top-bar-stuck & .logo svg {
+    max-height: $top-bar-stuck-logo-height;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-toggle {
+    width: $top-bar-stuck-logo-height;
+    height: $top-bar-stuck-logo-height;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    background: $cta-color;
+    position: relative;
+    cursor: pointer;
+    transition: transform $menu-reveal-duration, background .3s;
+
+    &:after {
+      @extend .ff-l;
+      @extend .text-center;
+      position: absolute;
+      content: '...';
+      color: $white;
+      font-size: 2rem;
+      width: 100%;
+      margin-top: -10px;
+    }
+
+    &:hover {
+      background: $cta-color-hover;
+    }
+
+    &:active, .menu-active & {
+      background: $cta-color-active;
+    }
+
+    .menu-active & {
+      transform: rotate(90deg);
+    }
+  }
+
+  .logo {
+    @extend .text-end;
+    flex: 1;
+
+    svg {
+      @extend .py-1;
+      display: inline-block;
+      max-height: $top-bar-initial-logo-height;
+      width: auto;
+      transition: max-height $top-bar-stuck-transition-duration;
+
+      @for $i from 1 through 4 {
+        g:nth-of-type(#{$i}) * {
+          fill: var(--dynamic-color-#{$i}) !important;
+        }
+      }
+
+      g:nth-of-type(4) * {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: rotate-diamond 1s;
+      }
+
+      @keyframes rotate-diamond {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+}
+
+.sticky-helper {
+  height: 0;
+}
+
+.container.nav {
+  position: relative;
+}
+
+header, .container.nav {
+  z-index: 10;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  background: $white;
+  transition: height $menu-reveal-duration;
+
+  > ul {
+    @extend .f-li;
+    font-size: 2rem;
+    font-weight: 400;
+
+    a, a:hover {
+      color: $black;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    li > ul {
+      @extend .pt-0;
+      @extend .pb-1;
+      @extend .px-2;
+
+      li {
+        @extend .f-mb;
+        padding-bottom: .25rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+nav ul, footer ul {
+  @extend .py-1, .px-2;
+  @extend %list-style-none;
+}
+
+@include media-query(sm) {
+  header .container, .container.nav, footer .container {
+    padding: spacing(0);
+  }
+
+  .menu-active nav {
+    height: 100vh !important;
+  }
+}
+
+@include media-query(md) {
+  header {
+    :root:not(.top-bar-stuck) & {
+      padding: $top-bar-initial-padding 0;
+    }
+
+    .menu-toggle:after {
+      margin-top: -12px;
+    }
+  }
+
+  nav {
+    width: 350px;
+  }
+}

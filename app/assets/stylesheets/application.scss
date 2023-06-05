@@ -10,3 +10,21 @@
  *
  *= require_self
  */
+
+@import 'functions';
+@import 'variables';
+@import 'mixins';
+
+@import 'fonts';
+@import 'utilities';
+@import 'grid';
+@import 'base';
+@import 'forms';
+@import 'header';
+@import 'footer';
+
+@import 'page_nav';
+@import 'carousel';
+@import 'schedule';
+@import 'event';
+@import 'gallery';

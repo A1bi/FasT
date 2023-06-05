@@ -1,0 +1,3 @@
+@function spacing($step) {
+  @return map-get($spacing-steps, $step) * 1rem;
+}
