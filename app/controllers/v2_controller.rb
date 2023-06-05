@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class V2Controller < ApplicationController
-  layout 'v2'
-
   helper :info
 
   skip_authorization
