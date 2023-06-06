@@ -8,8 +8,4 @@ class V2Controller < ApplicationController
   def kitchen_sink; end
 
   def event; end
-
-  def impressum; end
-
-  def agb; end
 end

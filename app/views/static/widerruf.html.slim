@@ -1,8 +1,7 @@
 - title 'Allgemeine Geschäftsbedingungen'
-- include_css 'list'
 
-.widerruf
-  .hl Widerrufsbelehrung
+.container: .row: .col.w-100
+  h1 Widerrufsbelehrung
 
   h3 A. Widerrufsbelehrung
 
@@ -27,28 +26,30 @@
     br
     = render 'main_address_inline'
 
-  hr
+.container: .row: .col
+  .card
+    p Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf
 
-  p
-    | Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf
-    table
-      tr
-        td der folgenden Waren (*)/die Erbringung der folgenden Dienstleistung (*)
-        td
-      tr
-        td Bestellt am (*)/ erhalten am (*)
-        td
-      tr
-        td Name des/der Verbraucher(s)
-        td
-      tr
-        td Anschrift des/der Verbraucher(s)
-        td
-      tr
-        td
-        td
-      tr
-        td
-          | Unterschrift des/der Verbraucher(s)<br>(nur bei Mitteilung auf Papier)
-        td Datum
-    | (*) Unzutreffendes streichen
+    .row
+      .col-6 der folgenden Waren (*) / die Erbringung der folgenden Dienstleistung (*)
+      .col-6.d-flex: .border-b.w-100
+    .row.mt-2
+      .col-6 Bestellt am (*) / erhalten am (*)
+      .col-6.d-flex: .border-b.w-100
+    .row.mt-2
+      .col-6 Name des / der Verbraucher(s)
+      .col-6.d-flex: .border-b.w-100
+    .row.mt-2
+      .col-6 Anschrift des / der Verbraucher(s)
+      .col-6.d-flex: .border-b.w-100
+    .row.mt-3
+      .col-6
+      .col-6.d-flex: .border-b.w-100
+    .row.mt-4
+      .col-6.d-flex: .border-b.w-100
+      .col-6.d-flex: .border-b.w-100
+    .row
+      .col-6 Unterschrift des / der Verbraucher(s)<br>(nur bei Mitteilung auf Papier)
+      .col-6 Datum
+
+    p.mt-2() (*) Unzutreffendes streichen
