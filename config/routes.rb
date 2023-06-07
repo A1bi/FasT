@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     get 'satzung'
     get 'pressematerial', action: :press_material, as: :press_material
     get 'freundeskreis'
+    get 'theaterkultur'
 
     # sometimes we might pause our contract with IT-Recht when we don't sell any
     # tickets for a longer period of time

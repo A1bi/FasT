@@ -22,7 +22,7 @@ body class=('development' if Rails.env.development?)
       li = link_to 'Programm', root_path(anchor: :programm)
       li = link_to 'Archiv', root_path(anchor: :archiv)
       li
-        a href='/v2#archive' TheaterKultur
+        = link_to 'TheaterKultur', theaterkultur_path
         ul
           li: a href='/v2' Freilichtbühne
           li: a href='/v2' Kammerensemble
