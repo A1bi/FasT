@@ -3,7 +3,6 @@
 Rails.application.routes.draw do
   get 'v2/kitchen-sink' => 'v2#kitchen_sink'
   get 'v2/event' => 'v2#event'
-  get 'v2/content' => 'v2#content'
 
   # dates
   scope controller: :dates, path: 'termine', as: :dates do
@@ -20,7 +19,6 @@ Rails.application.routes.draw do
   # info
   scope controller: :info, path: 'faq', as: :info do
     get 'map'
-    get :freundeskreis
   end
   get 'info', to: redirect('faq')
 
@@ -29,6 +27,7 @@ Rails.application.routes.draw do
     get 'impressum'
     get 'satzung'
     get 'pressematerial', action: :press_material, as: :press_material
+    get 'freundeskreis'
 
     # sometimes we might pause our contract with IT-Recht when we don't sell any
     # tickets for a longer period of time

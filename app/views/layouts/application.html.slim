@@ -27,7 +27,7 @@ body class=('development' if Rails.env.development?)
           li: a href='/v2' Freilichtbühne
           li: a href='/v2' Kammerensemble
           li: a href='/v2' Kinder- und Jugendtheater
-      li: a href='/v2/content' Freundeskreis
+          li = link_to 'Freundeskreis', freundeskreis_path
       li = link_to 'Kontakt', contact_messages_path
       li
         - if user_signed_in?
@@ -63,7 +63,7 @@ body class=('development' if Rails.env.development?)
           li = link_to 'Widerrufsbelehrung', widerruf_path
         li = link_to 'Datenschutzerklärung', privacy_path
       .col-md-6: ul
-        li href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
+        li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
         li = link_to 'Satzung', satzung_path
         li = link_to 'Pressematerial', press_material_path
 
