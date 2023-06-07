@@ -115,12 +115,10 @@ nav {
     }
 
     li > ul {
-      @extend .pt-0;
-      @extend .pb-1;
+      @extend .py-0;
       @extend .px-2;
 
       li {
-        @extend .f-mb;
         padding-bottom: .25rem;
         font-size: 1rem;
       }
@@ -155,6 +153,6 @@ nav ul, footer ul {
   }
 
   nav {
-    width: 350px;
+    width: auto;
   }
 }
