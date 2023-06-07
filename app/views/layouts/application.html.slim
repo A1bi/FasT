@@ -28,6 +28,7 @@ body class=('development' if Rails.env.development?)
           li: a href='/v2' Kammerensemble
           li: a href='/v2' Kinder- und Jugendtheater
       li: a href='/v2/content' Freundeskreis
+      li = link_to 'Kontakt', contact_messages_path
       li
         - if user_signed_in?
           = link_to 'Mitgliederbereich', members_root_path

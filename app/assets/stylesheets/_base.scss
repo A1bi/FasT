@@ -28,6 +28,7 @@ body {
 
 h1, h2, h3 {
   @extend .my-2;
+  @extend .text-center;
 }
 
 h1 {

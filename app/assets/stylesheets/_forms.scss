@@ -6,6 +6,7 @@ label {
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=tel],
 input[type=checkbox],
 input[type=radio],
 textarea,
@@ -22,6 +23,7 @@ select {
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=tel],
 textarea,
 select {
   @extend .d-block;
@@ -38,6 +40,21 @@ select {
 
   .was-validated &:invalid {
     border-color: darken($red, 25%);
+  }
+}
+
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+
+  &.honeypot {
+    @extend .p-0;
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute;
+    white-space: nowrap;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
   }
 }
 
