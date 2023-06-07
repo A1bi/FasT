@@ -12,20 +12,27 @@
     > *:nth-child(1) {
       @extend .text-center;
       @extend .text-red;
+    }
 
-      .day {
-        @extend .f-li;
-        @extend .m-0;
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-top: -(spacing(1));
-        margin-bottom: -(spacing(1));
-      }
+    .day {
+      @extend .f-li;
+      @extend .m-0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-top: -(spacing(1));
+      margin-bottom: -(spacing(1));
+    }
 
-      .year {
-        @extend .day;
-        font-size: 1.75rem;
-      }
+    .year {
+      @extend .day;
+      font-size: 1.75rem;
+    }
+
+    .date {
+      @extend .f-lbi;
+      @extend .text-start;
+      color: $black;
+      font-size: 1.2rem;
     }
 
     > *:nth-child(2) {
@@ -54,6 +61,10 @@
         @extend .f-mb;
         @extend .m-0;
         font-size: 1.25rem;
+
+        a:not(:hover) {
+          color: $black;
+        }
 
         @include media-query(md) {
           font-size: 1rem * $heading-size-multiplier;

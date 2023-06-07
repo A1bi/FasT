@@ -4,12 +4,22 @@
 }
 
 .cast {
-  .row > * {
-    &:first-child {
-      @extend .ff-l;
-    }
+  $border: 1px dashed $semi-gray;
 
-    &:last-child {
+  h3 {
+    @extend .f-li;
+    @extend .text-start;
+
+    + .row {
+      border-top: $border;
+    }
+  }
+
+  .row {
+    border-bottom: $border;
+
+    > *:last-child {
+      @extend .ff-l;
       @extend .text-end;
     }
   }
@@ -24,7 +34,7 @@
     }
 
     .revealed-content {
-      @extend .mt-2;
+      @extend .mt-1;
     }
   }
 

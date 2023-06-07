@@ -15,17 +15,8 @@
 .container.page-nav-anchor#ueber-das-stueck
   .row: .col
     h2 Über das Stück
-    .plane Frau Müller muss weg! Soviel steht fest, als sich eine Gesandtschaft besorgter Eltern zu einem außerplanmäßigen Termin mit der Klassenlehrerin Frau Müller (Gabriela Maria Schmeide) zusammenfindet. Weil die Noten schlecht sind und am Schuljahresende die Entscheidung fällt, ob die Kinder den Sprung aufs Gymnasium schaffen, sind die Eltern (Justus von Dohnányi, Anke Engelke, Ken Duken, Mina Tander, Alwara Höfels) fest entschlossen, mit der Absetzung der Lehrerin zu retten, was noch zu retten ist – koste es, was es wolle! Doch Frau Müller spielt nicht mit.Mit einem Mal brechen bei den doch so perfekten Müttern und Vätern alle Vorbehalte und Ressentiments, Zweifel und Sorgen, Gehässigkeiten und Ängste hervor. Die wahre Schlacht, die beginnt jetzt…
-
-    h3 Termine
-    ul
-      li Samstag, 1. Oktober, 17:00
-      li Sonntag, 2. Oktober, 17:00
-      li Samstag, 8. Oktober, 17:00
-      li Sonntag, 9. Oktober, 17:00
-      li Freitag, 14. Oktober, 17:00
-      li Samstag, 15. Oktober, 17:00
-    p Einlass eine Stunde vor Beginn.
+    p Frau Müller muss weg! Soviel steht fest, als sich eine Gesandtschaft besorgter Eltern zu einem außerplanmäßigen Termin mit der Klassenlehrerin Frau Müller (Gabriela Maria Schmeide) zusammenfindet. Weil die Noten schlecht sind und am Schuljahresende die Entscheidung fällt, ob die Kinder den Sprung aufs Gymnasium schaffen, sind die Eltern (Justus von Dohnányi, Anke Engelke, Ken Duken, Mina Tander, Alwara Höfels) fest entschlossen, mit der Absetzung der Lehrerin zu retten, was noch zu retten ist – koste es, was es wolle! Doch Frau Müller spielt nicht mit.
+    p Mit einem Mal brechen bei den doch so perfekten Müttern und Vätern alle Vorbehalte und Ressentiments, Zweifel und Sorgen, Gehässigkeiten und Ängste hervor. Die wahre Schlacht, die beginnt jetzt…
 
 hr
 
@@ -110,29 +101,56 @@ hr
 
 hr
 
+ruby:
+  dates = [
+    '14.07.2023 20:00',
+    '15.07.2023 20:00',
+    '21.07.2023 20:00',
+    '22.07.2023 20:00'
+  ]
+
 .container.page-nav-anchor#tickets
-  .row: .col.cast
+  svg.d-none xmlns='http://www.w3.org/2000/svg'
+    symbol#schedule-location viewBox='0 0 16 16'
+      path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
+    symbol#schedule-time viewBox='0 0 16 16'
+      path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
+
+  .row: .col
     h2 Tickets
+    h3 Termine
+    - dates.each do |date|
+      - date = Time.parse(date)
+      .row: .col: .card.schedule: .row
+        .col-8: .date = l date, format: '%A, %-d. %B %Y'
+        .col-4: button.btn.expand Tickets
+    .row.d-flex.align-items-center.text-center.mt-1.mb-2
+      svg.icon.me-1: use xlink:href='#schedule-time'
+      div Einlass eine Stunde vor Beginn.
+
     h3 Preise
-    ul
-      li
-        | Erwachsene<br>12 €
-      li
-        | Kinder<br>
-        small Schülerinnen und Schüler, Studierende<br>
-        | 8 €
-    h3 Vorverkauf
-    p ab 1. August 2023
-    p: button.btn Tickets bestellen
-    p oder in folgenden Vorverkaufsstellen:
-    ul
-      li Buchhandlung Walgenbach, Kaisersesch
-      li Buchhandlung Layaa-Laulhé, Cochem
+    .row
+      .col-8 Erwachsene
+      .col-4.f-lbi.text-end 12,00 €
+    .row
+      .col-8
+        | Kinder
+        small.d-block Schülerinnen und Schüler, Studierende
+      .col-4.f-lbi.text-end 8,00 €
+
+    p.mt-2 Tickets <b>ab 1. August 2023</b> hier online oder in folgenden Vorverkaufsstellen:
+    ul.style-none.ps-2
+      li.d-flex.align-items-center
+        svg.icon.me-1: use xlink:href='#schedule-location'
+        a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
+      li.d-flex.align-items-center
+        svg.icon.me-1: use xlink:href='#schedule-location'
+        a href='https://layaa.de' Buchhandlung Layaa-Laulhé, Cochem
 
 hr
 
 .container.page-nav-anchor#faq
-  .row: .col.cast
+  .row: .col
     h2 FAQ
 
     h3 Vorverkauf

@@ -86,6 +86,10 @@ ul, ol {
       }
     }
   }
+
+  &.style-none {
+    @extend %list-style-none;
+  }
 }
 
 ol {
@@ -142,6 +146,11 @@ ol {
   @extend .plane;
   @extend .p-2;
   background: $white;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
 }
 
 @include media-query(md) {

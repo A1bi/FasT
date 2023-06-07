@@ -1,7 +1,5 @@
 import { Controller } from 'stimulus'
 
-import '../styles/content_reveal_controller.sass'
-
 export default class extends Controller {
   static targets = ['content']
 
