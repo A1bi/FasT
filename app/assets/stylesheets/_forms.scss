@@ -139,15 +139,19 @@ select {
 }
 
 .btn {
+  @extend .d-inline-block;
   @extend .f-lbi;
   @extend .shadow;
   @extend .py-1, .px-2;
   border: 0;
   font-size: 1rem;
   background: $cta-color;
-  color: $white;
   cursor: pointer;
   transition: background .3s;
+
+  &, &:hover, &:active, &:disabled {
+    color: $white;
+  }
 
   &:hover {
     background: $cta-color-hover;
@@ -164,5 +168,13 @@ select {
 
   &.expand {
     @extend .w-100;
+  }
+
+  svg {
+    fill: $white;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: -.125em;
+    margin-right: .25rem;
   }
 }

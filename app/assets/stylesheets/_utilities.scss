@@ -56,6 +56,12 @@
   }
 }
 
+@each $alignment in (middle) {
+  .align-#{$alignment} {
+    vertical-align: $alignment;
+  }
+}
+
 %list-style-none {
   @extend .m-0;
   list-style: none;

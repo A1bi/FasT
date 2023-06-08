@@ -1,8 +1,0 @@
-<% if !local_assigns[:admin_required] || current_user&.admin? %>
-  <div class="new_element">
-    <%= link_to local_assigns.fetch(:url, action: :new) do %>
-      <div class="plus">+</div>
-      <div class="action"><%= action %></div>
-    <% end %>
-  </div>
-<% end %>
