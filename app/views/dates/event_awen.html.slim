@@ -1,0 +1,26 @@
+- title "#{@event.name} – Termine"
+- include_css 'dates'
+- include_css 'info'
+
+= structured_data @event
+= render 'other_events'
+
+.awen
+  p Im Oktober begrüßen wir <b>„AWEN Celtic Voices“</b> auf unserer kleinen Bühne „Altes Wasserwerk“.
+  p Awen sind Joanne McIver & Christophe Saunière sowie Ciara Brennan & Chris Dawson, die 2018 auf der Celtic Voices Tour zusammenfanden und so begeistert aufgenommen wurden, dass sie ihre Zusammenarbeit fortsetzten. AWEN spielte unter anderem beim Celtic Festival of Gévaudan in Frankreich vor 3000 Leuten und wurde als Spektakel mit vier „Original-Kelten“ aus Irland, Schottland und Frankreich bezeichnet.
+  p Awen ist ein walisisches, kornisches und bretonisches Wort für „poetische Inspiration“ – diese merkt man den vier Profimusikern an. Ihre Texte und Kompositionen scheinen aus einer anderen Welt zu kommen: Aus der alten Welt der Legenden und Geschichten. Dazu Tempo, Rhythmus, Virtuosität und Leidenschaft der vier Vollblutmusiker lassen den Abend zu einem Ereignis werden.
+  .trenner
+
+  = render 'dates'
+  = render 'prices'
+  = render 'order_link' if @event.on_sale?
+
+  .trenner
+  .hl Besetzung
+  p <b>Joanne McIver</b> (Gesang, Dudelsäcke, Flöten) von der Insel Arran in Schottland spielt den Dudelsack seit ihrem 6. Lebensjahr und studierte klassische Musik an der Glasgow University. Sie schreibt viele ihrer Lieder selber, bleibt den alten Traditionen dabei immer treu und verbindet Alt und Neu harmonisch und sehr bewegend. Ihr Gesang verzaubert und hat schon viele Tränen fließen lassen. Dass sie schon für Queen Elizabeth gespielt hat, auf Alben von Alan Stivell und vielen anderen dabei ist, erzählt sie meist nicht, aber ihre Präsentation im Film "Ecosse, Terre de Légendes" ist ihr schon wichtig, zeigt er doch ihr schönes Heimatland, auf das sie sehr stolz ist.
+  p <b>Ciara Brennan</b> (Gesang, Fiedel, Mandoline) aus Dublin stammt aus der musikalischen  Familie und ist von Kindesbeinen an musikalisch unterwegs gewesen. Sie gewann alle Irland Titel für Viole und Sologesang. Ciara lebt teilweise in Frankreich, spielt auch in den Bands BOGHA and DYAD und ist Teil der Show KELTIAC.
+  p <b>Chris Dawson</b> (Bouzouki, Zitter, Flöten, Bodhran u.a.) aus England lebt seit über 20 Jahren in Frankreich und hat sich ganz der Folkmusik der sogenannten keltischen Gegenden verschrieben. Sein Album “Out on the Edge” wurde von FolkROOTS magazine so beschrieben: "Quality Celtic crossover folk/rock/jazz", "... sterling results !"
+  p <b>Christophe Saunière</b> (Harfe) aus Frankreich spielt Harfe sowohl in Symphonieorchestern oder am Royal Scottish National Orchestra, aber er liebt auch Jazz und Weltmusik – die Übergänge sind bei ihm fließend und selbst Zuhörern aus der Musikszene steht der Mund offen vor Begeisterung über seine professionelle Kreativität. So wurde er auch für die Soundtracks vieler Spielfilme bereits angeheuert: The English Patient, Titanic, Alien IV, Star Wars – Episode 1 etc.
+
+  = render 'faq'
+  = render 'restaurants'
