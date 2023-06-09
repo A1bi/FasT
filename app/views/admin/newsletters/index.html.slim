@@ -1,37 +1,37 @@
 - title 'Newsletter'
-- include_css 'admin/newsletters'
 
-.index
-  .hl Newsletter
-  - if policy(Newsletter::Newsletter).new?
-    = render 'new_button', action: 'neuen Newsletter erstellen', url: new_admin_newsletter_path
-  table.rounded
-    thead
-      tr
-        th Betreff
-        th Empfängergruppe
-        th gesendet
-        th.actionBtns
-    tbody
-      - @newsletters.each do |letter|
+.container
+  h1 Newsletter
+  .row: .col
+    - if policy(Newsletter::Newsletter).new?
+      = render 'new_button', action: 'Newsletter', url: new_admin_newsletter_path
+    table
+      thead
         tr
-          td = link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter)
-          td.subscriber-lists
-            - letter.subscriber_lists.each do |list|
-              div = subscriber_list_with_count(list)
-            div: b Gesamt #{number_with_delimiter(letter.subscribers.count)} Empfänger
-          td
-            - if letter.sent?
-              = l letter.sent_at, format: :long
-            - elsif letter.review?
-              - if policy(letter).approve?
-                = link_to 'final senden', approve_admin_newsletter_path(letter), method: :post, data: { confirm: 'Möchten Sie diesen Newsletter wirklich senden?' }
-              - else
-                em Newsletter wird geprüft und in Kürze gesendet.
-            - elsif policy(letter).finish?
-              = link_to 'senden', finish_admin_newsletter_path(letter), method: :post, data: { confirm: 'Möchten Sie diesen Newsletter wirklich senden?' }
-          td.actionBtns
-            - if policy(letter).edit?
-              = link_to '', edit_admin_newsletter_path(letter), class: :edit, title: 'bearbeiten'
-            - if policy(letter).destroy?
-              = link_to '', admin_newsletter_path(letter), method: :delete, data: { confirm: 'Möchten Sie diesen Newsletter wirklich löschen?' }, class: :delete, title: 'löschen'
+          th Betreff
+          th Empfängergruppe
+          th gesendet
+          th.actionBtns
+      tbody
+        - @newsletters.each do |letter|
+          tr
+            td = link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter)
+            td.subscriber-lists
+              - letter.subscriber_lists.each do |list|
+                div = subscriber_list_with_count(list)
+              div: b Gesamt #{number_with_delimiter(letter.subscribers.count)} Empfänger
+            td
+              - if letter.sent?
+                = l letter.sent_at, format: :long
+              - elsif letter.review?
+                - if policy(letter).approve?
+                  = link_to 'final senden', approve_admin_newsletter_path(letter), method: :post, data: { confirm: 'Möchten Sie diesen Newsletter wirklich senden?' }
+                - else
+                  em Newsletter wird geprüft und in Kürze gesendet.
+              - elsif policy(letter).finish?
+                = link_to 'senden', finish_admin_newsletter_path(letter), method: :post, data: { confirm: 'Möchten Sie diesen Newsletter wirklich senden?' }
+            td.actionBtns
+              - if policy(letter).edit?
+                = link_to '', edit_admin_newsletter_path(letter), class: :edit, title: 'bearbeiten'
+              - if policy(letter).destroy?
+                = link_to '', admin_newsletter_path(letter), method: :delete, data: { confirm: 'Möchten Sie diesen Newsletter wirklich löschen?' }, class: :delete, title: 'löschen'

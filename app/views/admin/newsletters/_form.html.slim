@@ -1,11 +1,10 @@
-- title "Newsletter – #{title}"
-- include_css 'admin/newsletters'
+- title "#{title} – Newsletter"
 
-.hl Newsletter
-= form_with model: @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter), local: true do |f|
-  .box
-    .top = title
-    .con
+.container
+  h1 Newsletter
+  h2 = title
+  .row: .col.w-100: .card.shadow
+    = form_with model: @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter), local: true do |f|
       = render 'errors', errors: @newsletter.errors
       table
         tr
@@ -43,26 +42,26 @@
       - else
         .submit = cond_submit f
 
-- if @newsletter.persisted?
-  .box
-    .top Hochgeladene Fotos
-    .con
-      a name='images'
-      - if @newsletter.images.any?
-        table
-          - @newsletter.images.each do |image|
-            tr
-              td = image_tag image.image.url(:thumb)
-              td
-                input type='text' value="%%bild_#{image.id}%%"
-                p Dieser Code kann an beliebiger Stelle im Text eingefügt werden und wird beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.
-                - unless @newsletter.sent?
-                  p = link_to 'Foto löschen', admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: 'Möchten Sie dieses Foto wirklich löschen?' }
-      - else
-        em Zu diesem Newsletter wurden keine Fotos hochgeladen.
-  - unless @newsletter.sent?
-    .box
-      .top Neues Foto hochladen
-      .con = form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f|
-        = f.file_field :image, required: true, accept: 'image/png, image/jpeg, image/webp, image/heic, image/heif'
-        p.hcen = f.submit 'hochladen'
+    - if @newsletter.persisted?
+      .box
+        .top Hochgeladene Fotos
+        .con
+          a name='images'
+          - if @newsletter.images.any?
+            table
+              - @newsletter.images.each do |image|
+                tr
+                  td = image_tag image.image.url(:thumb)
+                  td
+                    input type='text' value="%%bild_#{image.id}%%"
+                    p Dieser Code kann an beliebiger Stelle im Text eingefügt werden und wird beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.
+                    - unless @newsletter.sent?
+                      p = link_to 'Foto löschen', admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: 'Möchten Sie dieses Foto wirklich löschen?' }
+          - else
+            em Zu diesem Newsletter wurden keine Fotos hochgeladen.
+      - unless @newsletter.sent?
+        .box
+          .top Neues Foto hochladen
+          .con = form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f|
+            = f.file_field :image, required: true, accept: 'image/png, image/jpeg, image/webp, image/heic, image/heif'
+            p.hcen = f.submit 'hochladen'
