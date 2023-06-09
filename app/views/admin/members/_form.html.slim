@@ -1,127 +1,114 @@
-- include_css 'members/main'
-- title "Mitgliederverwaltung – #{title}"
+- title "#{title} – Mitgliederverwaltung"
 
-.hl Mitgliederverwaltung
-= form_for [:admin, @member] do |f|
-  .box
-    .top = title
-    .con
+.container
+  h1 Mitgliederverwaltung
+  h2 = title
+  .row: .col: .card.shadow
+    = form_for [:admin, @member] do |f|
       = render 'errors', errors: @member.errors
       = render 'errors', errors: @member.sepa_mandate.errors
-      table.form
-        tr
-          td width='40%' Vorname:
-          td = f.text_field :first_name, required: true
-        tr
-          td Nachname:
-          td = f.text_field :last_name, required: true
-        tr
-          td Titel:
-          td
-            = f.text_field :title
-            .small Zum Beispiel <em>Dr. med.</em>
-        tr
-          td Vorname in Anrede:
-          td
-            = f.text_field :nickname, value: @member[:nickname]
-            .small Zum Beispiel Uli statt Ulrich. Ansonsten freilassen.
-        tr
-          td Geschlecht:
-          td = f.select :gender, Members::Member.genders.map { |g| [t("genders.#{g}"), g] }
-        tr
-          td Geburtstag:
-          td = f.date_select :birthday, include_blank: true, start_year: 1910, end_year: Date.today.year
+      .mb-2
+        = f.label :first_name, 'Vorname'
+        = f.text_field :first_name, required: true
+      .mb-2
+        = f.label :last_name, 'Nachname'
+        = f.text_field :last_name, required: true
+      .mb-2
+        = f.label :title, 'Titel'
+        = f.text_field :title
+        .form-text Zum Beispiel <em>Dr. med.</em>
+      .mb-2
+        = f.label :nickname, 'Vorname in Anrede'
+        = f.text_field :nickname
+        .form-text Zum Beispiel Uli statt Ulrich. Ansonsten freilassen.
+      .mb-2
+        = f.label :gender, 'Geschlecht'
+        = f.select :gender, Members::Member.genders.map { |g| [t("genders.#{g}"), g] }
+      .mb-2
+        = f.label :birthday, 'Geburtstag'
+        = f.date_field :birthday
 
-        tr: td(colspan=2): h3 Adresse
-        tr
-          td Straße und Hausnummer:
-          td = f.text_field :street
-        tr
-          td PLZ:
-          td = f.number_field :plz, limit: 5
-        tr
-          td Stadt:
-          td = f.text_field :city
+      h3 Adresse
+      .mb-2
+        = f.label :street, 'Straße und Hausnummer'
+        = f.text_field :street
+      .row.mb-2
+        .col-5
+          = f.label :plz, 'PLZ'
+          = f.number_field :plz, limit: 5
+        .col-7
+          = f.label :city, 'Stadt'
+          = f.text_field :city
 
-        tr: td(colspan=2): h3 Kontaktdaten
-        tr
-          td E-Mail-Adresse:
-          td
-            = f.email_field :email
-            .small Diese Adresse wird für den Versand von E-Mails wie der Begrüßungs-E-Mail sowie für den Login in den Mitgliederbereich verwendet. Sollte keine eigene E-Mail-Adresse vorhanden sein, werden E-Mails stattdessen an ein eventuell verknüpftes Familienmitglied verschickt.
-        tr
-          td Telefonnummer:
-          td = f.text_field :phone
+      h3 Kontaktdaten
+      .mb-2
+        = f.label :email, 'E-Mail-Adresse'
+        = f.email_field :email
+        .form-text Diese Adresse wird für den Versand von E-Mails wie der Begrüßungs-E-Mail sowie für den Login in den Mitgliederbereich verwendet. Sollte keine eigene E-Mail-Adresse vorhanden sein, werden E-Mails stattdessen an ein eventuell verknüpftes Familienmitglied verschickt.
+      .mb-2
+        = f.label :phone, 'Telefonnummer'
+        = f.text_field :phone
 
-        tr: td(colspan="2"): h3 Bankverbindung
-        = f.fields_for @member.sepa_mandate do |ff|
-          tr
-            td Mandat wählen:
-            td
-              = f.select :sepa_mandate_id
-                option neues Mandat anlegen
-                - @sepa_mandates.each do |category, mandates|
-                  optgroup label=t(".sepa_mandates.#{category}")
-                    - if mandates.any?
-                      = options_from_collection_for_select(mandates, :id, ->(m) { "#{m.number(prefixed: true)}: #{obfuscated_mandate_iban(m)}" }, selected: ->(m) { category == :all && m.id == @member.sepa_mandate_id })
-          tr
-            td Kontoinhaber:
-            td = ff.text_field :debtor_name
-          tr
-            td IBAN:
-            td = ff.text_field :iban, value: obfuscated_mandate_iban(@member.sepa_mandate)
-          tr
-            td Mandatsnummer:
-            td = ff.text_field :number, value: @member.sepa_mandate&.number(prefixed: true)
-          tr
-            td Mandatsdatum:
-            td = ff.date_select :issued_on, start_year: 2009, end_year: Date.today.year, default: Date.today
-          tr
-            td Jahresbeitrag:
-            td #{f.number_field :membership_fee, step: 0.01, placeholder: Settings.members.default_membership_fee} Euro
-          tr
-            td.small colspan=2 Änderungen an diesem Mandat werden automatisch auch für andere Mitglieder übernommen, die ebenfalls das Mandat mit dieser Nummer nutzen.
+      h3 Bankverbindung
+      = f.fields_for @member.sepa_mandate do |ff|
+        .mb-2
+          = f.label :sepa_mandate_id, 'SEPA-Mandat'
+          = f.select :sepa_mandate_id
+            option neues Mandat anlegen
+            - @sepa_mandates.each do |category, mandates|
+              optgroup label=t(".sepa_mandates.#{category}")
+                - if mandates.any?
+                  = options_from_collection_for_select(mandates, :id, ->(m) { "#{m.number(prefixed: true)}: #{obfuscated_mandate_iban(m)}" }, selected: ->(m) { category == :all && m.id == @member.sepa_mandate_id })
+        .mb-2
+          = ff.label :debtor_name, 'Kontoinhaber'
+          = ff.text_field :debtor_name
+        .mb-2
+          = ff.label :iban, 'IBAN'
+          = ff.text_field :iban, value: obfuscated_mandate_iban(@member.sepa_mandate)
+        .mb-2
+          = ff.label :number, 'Mandatsnummer'
+          = ff.text_field :number, value: @member.sepa_mandate&.number(prefixed: true)
+        .mb-2
+          = ff.label :issued_on, 'Mandatsdatum'
+          = ff.date_field :issued_on
+        .mb-2
+          = ff.label :membership_fee, 'Jahresbeitrag'
+          | #{f.number_field :membership_fee, step: 0.01, placeholder: Settings.members.default_membership_fee} Euro
+        .mb-2
+          small.d-block Änderungen an diesem Mandat werden automatisch auch für andere Mitglieder übernommen, die ebenfalls das Mandat mit dieser Nummer nutzen.
 
-        tr: td(colspan=2): h3 Weitere Angaben
-        - if !@member.in_family?
-          tr
-            td
-              | Zu Familie hinzufügen von:
-              .small Wählen Sie ein Familienmitglied, dessen Familie dieses Mitglied zugeordnet werden soll.
-            td = f.collection_select(:family_member_id, @members, :id, ->(member) { "#{member.last_name}, #{member.first_name}" }, include_blank: true)
-        tr
-          td Beitrittsdatum:
-          td = f.date_select :joined_at, start_year: 2009, end_year: Date.today.year, default: Date.today
-        tr
-          td Gruppe:
-          td = f.select(:group, options_for_select(@groups, @member.group))
+      h3 Weitere Angaben
+      - unless @member.in_family?
+        .mb-2
+          = f.label :family_member_id, 'Familie'
+          = f.collection_select(:family_member_id, @members, :id, ->(member) { "#{member.last_name}, #{member.first_name}" }, include_blank: true)
+          .form-text Wählen Sie ein Familienmitglied, dessen Familie dieses Mitglied zugeordnet werden soll.
+      .mb-2
+        = f.label :joined_at, 'Beitrittsdatum'
+        = f.date_field :joined_at, default: Date.today
+      .mb-2
+        = f.label :group, 'Gruppe'
+        = f.select(:group, options_for_select(@groups, @member.group))
 
       - if @member.persisted? && policy(@member).update_permissions?
         h3 Berechtigungen
         - User::PERMISSIONS.each do |permission|
-          div
-            = label_tag
-              => f.check_box :permissions, { multiple: true, checked: @member.permitted?(permission) }, permission, nil
-              = t("permissions.#{permission}")
+          .form-check
+            = f.check_box :permissions, { multiple: true, checked: @member.permitted?(permission) }, permission, nil
+            = f.label :permissions, t("permissions.#{permission}"), value: permission
         - shared_email_accounts.each do |email|
-          div
-            = label_tag
-              => f.check_box :shared_email_accounts_authorized_for, { multiple: true, checked: @member.authorized_for_shared_email_account?(email) }, email, nil
-              = t('permissions.authorized_for_shared_email_account_html', email: email)
+          .form-check
+            = f.check_box :shared_email_accounts_authorized_for, { multiple: true, checked: @member.authorized_for_shared_email_account?(email) }, email, nil
+            = f.label :shared_email_accounts_authorized_for, t('permissions.authorized_for_shared_email_account_html', email: email), value: email
 
-      - if @member.new_record?
-        .submit-note
-          p Nach Anlegen dieses Mitglieds wird automatisch eine <b>Begrüßungs-E-Mail</b> sowie eine weitere <b>E-Mail zum Aktivieren des Mitgliedskontos</b> an das Mitglied versandt.
-          p Ebenfalls wird in den nächsten Tagen automatisch <b>der erste Mitgliedsbeitrag</b> vom Konto des Mitglieds eingezogen.
-      .submit = cond_submit f
+      .text-center.mt-2 = cond_submit f
 
       - if @member.persisted?
-        p
-          h3 Familie
-          - if @member.in_family?
-            ul
-              - @member.family.members.alphabetically.each do |member|
-                li = link_to member.name.full, admin_members_member_path(member)
-              p.small = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
-          - else
-            em Dieses Mitglied ist keiner Familie zugeordnet.
+        h3 Familie
+        - if @member.in_family?
+          ul
+            - @member.family.members.alphabetically.each do |member|
+              li = link_to member.name.full, admin_members_member_path(member)
+            small.d-block = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
+        - else
+          em Dieses Mitglied ist keiner Familie zugeordnet.

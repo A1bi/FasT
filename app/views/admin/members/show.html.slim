@@ -1,11 +1,10 @@
-- include_css 'members/main'
-- title "Mitgliederverwaltung – #{@member.name.full}"
+- title "#{@member.name.full} – Mitgliederverwaltung"
 
-.hl Mitgliederverwaltung
-.box
-  .top = @member.name.full
-  .con
-    .small.hright
+.container
+  h1 Mitgliederverwaltung
+  h2 = @member.name.full
+  .row: .col
+    small.d-block.text-center
       - if policy(@member).destroy?
         => link_to 'löschen', admin_members_member_path(@member), method: :delete, data: { confirm: 'Möchten Sie dieses Mitglied wirklich löschen?'}
         ' |
@@ -18,100 +17,100 @@
       - if policy(@member).edit?
         = link_to 'Daten bearbeiten', edit_admin_members_member_path(@member)
 
-    table
-      tr
-        td width='40%' Mitgliedsnummer:
-        td.monospace = @member.number
-      tr
-        td Name:
-        td
-          = @member.name.full
-          - if @member.nickname != @member.first_name
-            em<() (#{@member.nickname})
-      tr
-        td Geburtstag:
-        td
-          - if @member.birthday
-            = l @member.birthday, format: :long
-      tr
-        td Geschlecht:
-        td = t("genders.#{@member.gender}")
-      - if @member.membership_cancelled?
-        tr
-          td colspan=2
-            .cancelled Mitgliedschaft gekündigt zum #{l(@member.membership_terminates_on, format: :long)}
-            .small.hcen = link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'}
+  .row: .col: .card.shadow
+    .row
+      .col-5 width='40%' Mitgliedsnummer:
+      tt.col-7 = @member.number
+    .row
+      .col-5 Name:
+      .col-7
+        = @member.name.full
+        - if @member.nickname != @member.first_name
+          em<() (#{@member.nickname})
+    .row
+      .col-5 Geburtstag:
+      .col-7
+        - if @member.birthday
+          = l @member.birthday, format: :long
+    .row
+      .col-5 Geschlecht:
+      .col-7 = t("genders.#{@member.gender}")
+    - if @member.membership_cancelled?
+      .row: .col
+        .text-center
+          .text-red Mitgliedschaft gekündigt zum #{l(@member.membership_terminates_on, format: :long)}
+          small.d-block = link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'}
 
-      tr: td(colspan=2): h3 Kontaktdaten
-      tr
-        td Adresse:
-        td
-          = @member.street
-          br
-          | #{@member.plz} #{@member.city}
-      tr
-        td E-Mail-Adresse:
-        td = mail_to @member.email
-      tr
-        td Telefonnummer:
-        td = @member.phone
+    h3 Kontaktdaten
+    .row
+      .col-5 Adresse:
+      .col-7
+        = @member.street
+        br
+        | #{@member.plz} #{@member.city}
+    .row
+      .col-5 E-Mail-Adresse:
+      .col-7 = mail_to @member.email
+    .row
+      .col-5 Telefonnummer:
+      .col-7 = @member.phone
 
-      tr: td(colspan=2): h3 Bankverbindung
-      - if @member.sepa_mandate.present?
-        tr
-          td Kontoinhaber:
-          td = @member.sepa_mandate.debtor_name
-        tr
-          td IBAN:
-          td.monospace = obfuscated_mandate_iban(@member.sepa_mandate)
-        tr
-          td Mandat:
-          td
-            span.monospace> = @member.sepa_mandate.number(prefixed: true)
-            | (vom #{l(@member.sepa_mandate.issued_on)})
+    h3 Bankverbindung
+    - if @member.sepa_mandate.present?
+      .row
+        .col-5 Kontoinhaber:
+        .col-7 = @member.sepa_mandate.debtor_name
+      .row
+        .col-5 IBAN:
+        tt.col-7 = obfuscated_mandate_iban(@member.sepa_mandate)
+      .row
+        .col-5 Mandat:
+        .col-7
+          tt> = @member.sepa_mandate.number(prefixed: true)
+          small.d-block() (vom #{l(@member.sepa_mandate.issued_on)})
 
-      tr: td(colspan=2): h3 Mitgliedsbeitrag
-      tr
-        td Jahresbeitrag:
-        td = number_to_currency(@member.membership_fee)
-      tr
-        td zuletzt bezahlt:
-        td
-          - if (last_payment = @member.membership_fee_payments.last).present?
-            = l last_payment.created_at.to_date, format: :long
-            - if last_payment.failed?
-              .small.failed Zahlung fehlgeschlagen
-            - elsif policy(last_payment).mark_as_failed?
-              .small = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
-            - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
-              .small = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
-          - else
-            em = t('admin.members.membership_fee_never_paid')
-      - if @member.membership_fee_paid_until.present?
-        tr
-          td bezahlt bis:
-          td = l @member.membership_fee_paid_until, format: :long
+    h3 Mitgliedsbeitrag
+    .row
+      .col-5 Jahresbeitrag:
+      .col-7 = number_to_currency(@member.membership_fee)
+    .row
+      .col-5 zuletzt bezahlt:
+      .col-7
+        - if (last_payment = @member.membership_fee_payments.last).present?
+          = l last_payment.created_at.to_date, format: :long
+          - if last_payment.failed?
+            small.d-block.text-red Zahlung fehlgeschlagen
+          - elsif policy(last_payment).mark_as_failed?
+            small.d-block = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
+          - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
+            small.d-block = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
+        - else
+          em = t('admin.members.membership_fee_never_paid')
+    - if @member.membership_fee_paid_until.present?
+      .row
+        .col-5 bezahlt bis:
+        .col-7 = l @member.membership_fee_paid_until, format: :long
 
-      tr: td(colspan=2): h3 Weitere Angaben
-      tr
-        td Beitrittsdatum:
-        td = l @member.joined_at, format: :long
-      tr
-        td Im Vorstand:
-        td = @member.admin? ? 'Ja' : 'Nein'
-      tr
-        td Letzter Login
-        td = last_login_time @member
-      tr
-        td Familie
-        td
-          - if @member.in_family?
-            ul
-              - @member.family.members.alphabetically.each do |member|
-                li = link_to member.name.full, admin_members_member_path(member)
-              p.small = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
-          - else
-            em Dieses Mitglied ist keiner Familie zugeordnet.
+    h3 Weitere Angaben
+    .row
+      .col-5 Beitrittsdatum:
+      .col-7 = l @member.joined_at, format: :long
+    .row
+      .col-5 Im Vorstand:
+      .col-7 = @member.admin? ? 'Ja' : 'Nein'
+    .row
+      .col-5 Letzter Login
+      .col-7 = last_login_time @member
+    .row
+      .col-5 Familie
+      .col-7
+        - if @member.in_family?
+          ul
+            - @member.family.members.alphabetically.each do |member|
+              li = link_to member.name.full, admin_members_member_path(member)
+          small.d-block = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
+        - else
+          em Dieses Mitglied ist keiner Familie zugeordnet.
 
     - if policy(@member).show_permissions?
       h3 Berechtigungen

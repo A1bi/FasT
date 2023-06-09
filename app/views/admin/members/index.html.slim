@@ -1,30 +1,32 @@
 - title 'Mitgliederverwaltung'
 
-- cache [@members, current_user]
-  .hl Mitgliederverwaltung
-  - if policy(Members::Member).new?
-    = render 'new_button', action: 'neues Mitglied'
-  p
-    ' Aktuelle Mitgliederzahl:
-    b = @members.count
-    em.small<() (davon <b>#{@members.membership_cancelled.count}</b> gekündigt)
-  table.rounded
-    thead
-      tr
-        th
-        th Nachname
-        th Vorname
-    tbody
-      - @members.each do |member|
-        tr
-          td.hcen width='15%'
-            - if member.in_family?
-              span> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
-            - if member.admin?
-              span> title='Dieses Mitglied ist Teil des Vorstandes' 👑
-            - if member.membership_cancelled?
-              span> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
-            - if member.membership_fee_payments_paused?
-              span> title='Bei diesem Mitglied ist die letzte Zahlung des Mitgliedsbeitrages fehlgeschlagen' ‼️
-          td = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
-          td = link_to_if policy(member).show?, member.name.first, [:admin, member]
+.container
+  h1 Mitgliederverwaltung
+  .row: .col
+    p.text-center
+      ' Aktuelle Mitgliederzahl:
+      b> = @members.count
+      em() (davon <b>#{@members.membership_cancelled.count}</b> gekündigt)
+    - if policy(Members::Member).new?
+      = render 'new_button', action: 'Mitglied'
+    .card.shadow.table-responsive
+      table
+        thead
+          tr
+            th
+            th Nachname
+            th Vorname
+        tbody
+          - @members.each do |member|
+            tr
+              td.hcen width='15%'
+                - if member.in_family?
+                  span> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
+                - if member.admin?
+                  span> title='Dieses Mitglied ist Teil des Vorstandes' 👑
+                - if member.membership_cancelled?
+                  span> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
+                - if member.membership_fee_payments_paused?
+                  span> title='Bei diesem Mitglied ist die letzte Zahlung des Mitgliedsbeitrages fehlgeschlagen' ‼️
+              td = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
+              td = link_to_if policy(member).show?, member.name.first, [:admin, member]
