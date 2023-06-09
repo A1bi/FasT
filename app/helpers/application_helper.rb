@@ -13,7 +13,7 @@ module ApplicationHelper
 
   def cond_submit(form)
     action = params[:action] == :new ? :create : :save
-    form.submit value: t("application.submit.#{action}")
+    form.submit value: t("application.submit.#{action}"), class: :btn
   end
 
   def theater_play_identifier_path(identifier)

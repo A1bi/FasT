@@ -7,11 +7,15 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=tel],
+input[type=date],
+input[type=time],
+input[type=datetime-local],
 input[type=checkbox],
 input[type=radio],
 textarea,
 select {
   border: 1px solid darken($light-gray, 10%);
+  border-radius: 0;
   appearance: none;
 
   &:focus {
@@ -24,6 +28,9 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=tel],
+input[type=date],
+input[type=time],
+input[type=datetime-local],
 textarea,
 select {
   @extend .d-block;
@@ -41,6 +48,13 @@ select {
   .was-validated &:invalid {
     border-color: darken($red, 25%);
   }
+}
+
+input[type=date],
+input[type=time],
+input[type=datetime-local] {
+  // fix for Safari bottom padding
+  @extend .d-flex;
 }
 
 textarea {

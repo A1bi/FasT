@@ -1,0 +1,15 @@
+= form_for @date do |f|
+  .card.shadow
+    .mb-2
+      = f.label :datetime, 'Zeitpunkt'
+      = f.datetime_field :datetime, required: true
+    .mb-2
+      = f.label :title, 'Titel'
+      = f.text_field :title
+    .mb-2
+      = f.label :info, 'Informationen'
+      = f.text_area :info
+    .mb-2
+      = f.label :location, 'Ort'
+      = f.text_field :location
+    .text-center = cond_submit f
