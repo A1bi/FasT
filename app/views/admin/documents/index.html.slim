@@ -1,20 +1,23 @@
-- title 'Vorstandsbereich – Dokumente'
-- include_css 'members/main'
+- title 'Dokumente – Vorstandsbereich'
 
-- cache @documents
-  .hl Dokumente
-  p Diese Dokumente sind nur für den Vorstand einsehbar.
-  = render 'new_button', action: 'Neues Dokument', url: new_admin_document_path
-  - if @documents.any?
-    table.rounded.files
-      = content_tag_for :tr, @documents do |doc|
+.container
+  h1 Dokumente
+
+  .row: .col
+    p Diese Dokumente sind nur für den Vorstand einsehbar.
+    = render 'new_button', action: 'Dokument', url: new_admin_document_path
+
+    .table-responsive.card.shadow: table
+      tbody = content_tag_for :tr, @documents do |file|
         td
-          div: b = uppercase_file_extension(doc.file.path)
-          small = number_to_human_size(doc.file.size)
+          b = uppercase_file_extension(file.file.path)
+          small.d-block = number_to_human_size(file.file.size)
         td
-          = doc.title
-          .small = doc.description
-        td.download = link_to 'download', doc.file.url, target: '_blank'
-        td.actionBtns = render 'admin_actions', obj: [:admin, doc], delete_confirm: 'dieses Dokument'
-  - else
-    em Keine Dokumente vorhanden.
+          = file.title
+          small.d-block = file.description
+        td.text-end.align-middle
+          => link_to file.file.url, target: '_blank'
+            svg.icon xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 16 16'
+              path d='M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.5a.5.5 0 0 1 1 0V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0zm-.354 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V11h-1v3.293l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z'
+          - if current_user.admin?
+            = render 'admin_actions', obj: [:admin, file], delete_confirm: 'dieses Dokument'
