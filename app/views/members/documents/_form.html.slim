@@ -1,0 +1,13 @@
+= render "errors", :errors => (@document.errors.delete(:file); @document.errors)
+= form_for [:members, @document] do |f|
+  .card.shadow
+    .mb-2
+      = f.label :title, 'Titel'
+      = f.text_field :title
+    .mb-2
+      = f.label :description, 'Beschreibung'
+      = f.text_field :description
+    .mb-2
+      = f.label :file, 'Datei'
+      = f.file_field :file, required: true
+    .text-center = cond_submit f

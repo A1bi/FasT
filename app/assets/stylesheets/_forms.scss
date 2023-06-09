@@ -7,6 +7,7 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=tel],
+input[type=file],
 input[type=date],
 input[type=time],
 input[type=datetime-local],
@@ -28,6 +29,7 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=tel],
+input[type=file],
 input[type=date],
 input[type=time],
 input[type=datetime-local],
@@ -35,7 +37,7 @@ textarea,
 select {
   @extend .d-block;
   @extend .w-100;
-  padding: .35rem .5rem;
+  padding: $input-padding-y $input-padding-x;
   font-size: 1rem;
   line-height: 1.5;
   color: $black;
@@ -55,6 +57,21 @@ input[type=time],
 input[type=datetime-local] {
   // fix for Safari bottom padding
   @extend .d-flex;
+}
+
+input[type=file] {
+  overflow: hidden;
+
+  &:not(:disabled):not([readonly]) {
+    cursor: pointer;
+  }
+
+  &::file-selector-button {
+    @extend %btn-basic;
+    margin: (-$input-padding-y) (-$input-padding-x);
+    margin-inline-end: 1rem;
+    pointer-events: none;
+  }
 }
 
 textarea {
@@ -152,22 +169,20 @@ select {
   background-size: 16px 12px;
 }
 
-.btn {
-  @extend .d-inline-block;
+%btn-basic {
   @extend .f-lbi;
-  @extend .shadow;
   @extend .py-1, .px-2;
   border: 0;
   font-size: 1rem;
   background: $cta-color;
-  cursor: pointer;
   transition: background .3s;
 
-  &, &:hover, &:active, &:disabled {
+  &, &:hover {
     color: $white;
   }
 
   &:hover {
+    color: $white;
     background: $cta-color-hover;
   }
 
@@ -179,10 +194,13 @@ select {
     pointer-events: none;
     background: rgba($dark-gray, .3);
   }
+}
 
-  &.expand {
-    @extend .w-100;
-  }
+.btn {
+  @extend %btn-basic;
+  @extend .d-inline-block;
+  @extend .shadow;
+  cursor: pointer;
 
   svg {
     fill: $white;
