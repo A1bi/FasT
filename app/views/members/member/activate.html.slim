@@ -1,23 +1,24 @@
 - title 'Mitgliedskonto aktivieren'
 
-.container: .row: .col
+.container
   h1 Willkommen im Mitgliederbereich
-  p Hallo #{@member.name.full}!
-  p
-    - if @member.last_login
-      | Sie können nun ein neues Passwort für Ihr Mitgliedskonto festlegen.
-    - else
-      | Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.
+  .row: .col
+    p Hallo #{@member.name.full}!
+    p
+      - if @member.last_login
+        | Sie können nun ein neues Passwort für Ihr Mitgliedskonto festlegen.
+      - else
+        | Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.
 
-  .card.shadow.mt-2
-    = form_for @member, url: finish_activation_members_member_path do |f|
-      = render 'errors', errors: @member.errors
-      = f.hidden_field :id
-      = f.hidden_field :activation_code
-      .mb-2
-        = f.label :password, 'Neues Passwort'
-        = f.password_field :password
-      .mb-2
-        = f.label :password_confirmation, 'Neues Passwort wiederholen'
-        = f.password_field :password_confirmation
-      .text-center = f.submit 'speichern', class: :btn
+    .card.shadow.mt-2
+      = form_for @member, url: finish_activation_members_member_path do |f|
+        = render 'errors', errors: @member.errors
+        = f.hidden_field :id
+        = f.hidden_field :activation_code
+        .mb-2
+          = f.label :password, 'Neues Passwort'
+          = f.password_field :password
+        .mb-2
+          = f.label :password_confirmation, 'Neues Passwort wiederholen'
+          = f.password_field :password_confirmation
+        .text-center = f.submit 'speichern', class: :btn

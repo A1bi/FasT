@@ -1,20 +1,23 @@
 - title 'Pressematerial'
 
-.container: .row: .col
+.container
   h1 Pressematerial
 
   h2 Verein
-  ul
-    = render 'press_material_link', text: 'Logo', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo.zip'
-    = render 'press_material_link', text: 'Logo für dunkle Hintergründe', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo-hell.zip'
-    = render 'press_material_link', text: 'Vereinschronik', filename: 'Vereinschronik.pdf'
+  .row: .col
+    ul
+      = render 'press_material_link', text: 'Logo', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo.zip'
+      = render 'press_material_link', text: 'Logo für dunkle Hintergründe', disclaimer: 'Enthält Dateien im PDF- und EPS-Format', filename: 'Logo-hell.zip'
+      = render 'press_material_link', text: 'Vereinschronik', filename: 'Vereinschronik.pdf'
 
   h2 In 80 Tagen um die Welt
-  ul
-    = render 'press_material_link', text: 'Plakat', filename: '80-Tage-Plakat.pdf'
-    = render 'press_material_link', text: 'Pressetext', filename: '80-Tage-Pressetext.pdf'
+  .row: .col
+    ul
+      = render 'press_material_link', text: 'Plakat', filename: '80-Tage-Plakat.pdf'
+      = render 'press_material_link', text: 'Pressetext', filename: '80-Tage-Pressetext.pdf'
 
   h2 Der Gott des Gemetzels
-  ul
-    = render 'press_material_link', text: 'Plakat', disclaimer: 'zur Spielzeit 2019', filename: 'Gott-des-Gemetzels-Plakat.pdf'
-    = render 'press_material_link', text: 'Pressetext', filename: 'Gott-des-Gemetzels-Pressetext.pdf'
+  .row: .col
+    ul
+      = render 'press_material_link', text: 'Plakat', disclaimer: 'zur Spielzeit 2019', filename: 'Gott-des-Gemetzels-Plakat.pdf'
+      = render 'press_material_link', text: 'Pressetext', filename: 'Gott-des-Gemetzels-Pressetext.pdf'
