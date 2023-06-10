@@ -41,9 +41,6 @@ export default class extends Controller {
     }
 
     const progressSteps = this.progressBox.find('.step')
-    const width = this.progressBox.width() / (Object.keys(steps).length - 1)
-    progressSteps.css({ width: width }).filter('.bar').css({ width: Math.round(width) })
-
     for (const stepClass in steps) {
       const step = new steps[stepClass](this)
       this.steps.push(step)
@@ -54,6 +51,7 @@ export default class extends Controller {
     this.registerEvents()
     this.showNext(false)
     this.resetExpirationTimer()
+    this.updateBoxSizes()
   }
 
   toggleBtn (btn, toggle) {
@@ -86,7 +84,7 @@ export default class extends Controller {
     if ($this.is('.prev')) {
       this.showPrev()
     } else {
-      let scrollPos = this.stepBox
+      let scrollPos = $('main')
       if (this.currentStep.validate()) {
         this.currentStep.validateAsync(() => this.showNext(true))
       } else {
@@ -173,6 +171,13 @@ export default class extends Controller {
     }
   }
 
+  updateBoxSizes () {
+    this.resizeStepBox(this.currentStep.box.outerHeight(true), false)
+
+    const width = this.progressBox.width() / (Object.keys(this.steps).length - 1)
+    this.progressBox.find('.step').css({ width: width }).filter('.bar').css({ width: Math.round(width) })
+  }
+
   getStep (stepName) {
     return this.steps.find(step => step.name === stepName)
   }
@@ -239,5 +244,7 @@ export default class extends Controller {
     $('.stepBox input:not(.noKeyCatch)').keyup(event => {
       if (event.which === 13) this.goNext(nextBtn)
     })
+
+    window.addEventListener('resize', () => this.updateBoxSizes())
   }
 }

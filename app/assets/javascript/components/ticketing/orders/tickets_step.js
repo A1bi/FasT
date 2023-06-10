@@ -29,7 +29,7 @@ export default class extends Step {
       this.removeCoupon($(event.currentTarget).data('index'))
       event.preventDefault()
     })
-    this.box.find('.event-header').on('load', () => this.resizeDelegateBox(true))
+    this.box.find('.event-header').on('load', () => this.resizeDelegateBox())
   }
 
   getTypeTotal ($typeBox, number) {
@@ -80,6 +80,7 @@ export default class extends Step {
 
       this.updateDiscounts()
       this.delegate.updateNextBtn()
+      this.resizeDelegateBox()
     } finally {
       if (toggleSpinner) this.delegate.toggleModalSpinner(false)
     }

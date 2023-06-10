@@ -6,9 +6,16 @@ export default class {
     this.container = $(container)
     this.delegate = delegate
     this.zoomable = zoomable !== false
+    this.zoomScale = 1
     this.eventId = this.container.data('event-id')
     this.seats = {}
     this.key = this.container.find('.key')
+
+    window.addEventListener('resize', () => {
+      this.originalHeight = null
+      this.unzoom()
+      this.updateSvgHeight()
+    })
   }
 
   init () {
@@ -166,15 +173,15 @@ export default class {
   }
 
   zoom (scale, translateX, translateY, shield) {
-    const zoom = scale !== 1
-    let height = this.originalHeight
+    this.zoomScale = scale
+    this.zoomedShield = shield
+
+    const zoomed = scale !== 1
     const topBar = this.container.find('.top-bar')
     let blockName = 'Übersicht'
 
-    if (zoom) {
-      this.originalHeight = this.originalHeight || this.svg.height()
-      height = Math.max(this.originalHeight, shield.getBoundingClientRect().height * scale)
-      blockName = shield.querySelector('text').innerHTML
+    if (zoomed) {
+      blockName = this.zoomedShield.querySelector('text').innerHTML
 
       this.addBreadcrumb('zoomed to block', {
         name: blockName
@@ -187,8 +194,8 @@ export default class {
       }
     }
 
-    this.plan.toggleClass('zoomed', zoom)
-    this.svg.height(height)
+    this.plan.toggleClass('zoomed', zoomed)
+    this.updateSvgHeight()
     this.globalGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`
     topBar.find('.block-name').text(blockName)
 
@@ -198,7 +205,17 @@ export default class {
   }
 
   unzoom () {
+    this.zoomScale = 1
     this.zoom(1, 0, 0)
+  }
+
+  updateSvgHeight () {
+    let height = 'auto'
+    if (this.zoomScale !== 1) {
+      this.originalHeight = this.originalHeight || this.svg.height()
+      height = Math.max(this.originalHeight, this.zoomedShield.getBoundingClientRect().height * this.zoomScale)
+    }
+    this.svg.css({ height: height })
   }
 
   toggleClassesAfterZoom () {
