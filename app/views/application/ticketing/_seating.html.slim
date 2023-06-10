@@ -1,0 +1,34 @@
+ruby:
+  classes = local_assigns.fetch(:class, []) << :seating
+  data = {
+    'event-id': local_assigns[:event]&.id,
+    'plan-path': (local_assigns[:event]&.seating || seating).plan.url(:stripped),
+    'seats-path': local_assigns[:seats_path],
+    controller: 'ticketing--seating',
+    'ticketing--seating-mode': local_assigns.fetch(:mode, 'standalone'),
+    target: local_assigns[:controller_target]
+  }.compact
+
+div class=classes data=data
+  - if local_assigns[:error_box]
+    .error.plural_text
+      div Sie müssen noch <b class="number plural"><span></span></b><span class="singular">einen</span> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> auswählen.
+  .plan
+    .top-bar
+      span.block-name
+      span.unzoom – <a>zurück zur Übersicht</a>
+    .canvas
+    - if local_assigns[:key]
+      .key
+        div data-status='available'
+          .icon
+          .label Platz noch frei
+        div data-status='taken'
+          .icon
+          .label Platz vergeben
+        div data-status='chosen'
+          .icon
+          .label Ihre Auswahl
+        div data-status='exclusive'
+          .icon
+          .label exklusiv für Sie verfügbar

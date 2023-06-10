@@ -1,80 +1,69 @@
 .seating {
   position: relative;
-  width: 100%;
 
   .error {
-    margin: 10px;
-    background: red;
+    @extend .my-2;
+    @extend .d-none;
+    background: $red;
     color: white;
-    border-radius: 10px;
-    display: none;
 
     div {
       padding: 10px;
     }
   }
 
-  .unsupported-browser {
-    display: none;
-  }
-
   .plan {
     .top-bar {
-      text-align: center;
-      font-size: 14px;
+      @extend .pb-1;
+      @extend .text-center;
       font-weight: bold;
-      padding: 5px;
 
       .unzoom {
-        display: none;
+        @extend .d-none;
         cursor: pointer;
       }
     }
 
     &.zoomed {
       .unzoom {
-        display: inline;
+        @extend .d-inline;
       }
     }
 
     .key {
-      text-align: center;
+      @extend .d-flex;
+      @extend .my-2;
+      @extend .justify-content-center;
+      flex-wrap: wrap;
+      gap: spacing(1) spacing(2);
+      padding: spacing(1) spacing(2);
+      background: $red;
+      color: $white;
 
-      > div {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 15px;
-        margin: 5px 0 10px 0;
-        background: #f4f8f8;
-        border-radius: 7px;
+      [data-status] {
+        @extend .d-flex;
+        @extend .align-items-center;
+      }
 
-        .icon {
-          padding-right: 7px;
-          box-sizing: border-box;
+      .icon {
+        @extend .me-1;
+        width: auto;
+        height: auto;
 
-          svg {
-            display: block;
-            width: auto;
-            height: 15px;
-          }
-
-          &:not(:first-child) {
-            padding-left: 19px;
-          }
-        }
-
-        .label {
-          font-size: 12px;
+        svg {
+          @extend .d-block;
+          width: auto;
+          height: 15px;
         }
       }
     }
 
     .canvas {
-      border-top: 1px solid #ccc;
+      border: 1px solid $light-gray;
     }
 
     svg {
-      display: block;
+      @extend .d-block;
       width: 100%;
 
       text {
@@ -87,7 +76,7 @@
       }
 
       .shield {
-        display: none;
+        @extend .d-none;
       }
 
       .block {
@@ -115,7 +104,7 @@
 
       &.zoomable {
         .shield {
-          display: block;
+          @extend .d-block;
           opacity: 0;
           transition: opacity .2s;
           cursor: pointer;
@@ -126,7 +115,7 @@
         }
 
         .seat text {
-          display: none;
+          @extend .d-none;
         }
 
         &.zoomed-in .shield {
@@ -136,13 +125,13 @@
       }
 
       &.numbers .seat text {
-        display: inline;
+        @extend .d-inline;
       }
     }
 
     &:not(.stage) {
       .plan svg .stage {
-        display: none;
+        @extend .d-none;
       }
     }
   }

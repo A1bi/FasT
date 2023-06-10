@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import { captureMessage, addBreadcrumb } from '@sentry/browser'
-import { isIE } from '../utils'
 
 export default class {
   constructor (container, delegate, zoomable) {
@@ -9,14 +8,12 @@ export default class {
     this.zoomable = zoomable !== false
     this.eventId = this.container.data('event-id')
     this.seats = {}
-    this.key = this.container.find('.key > div')
+    this.key = this.container.find('.key')
   }
 
   init () {
     return new Promise(resolve => {
       this.plan = this.container.find('.plan')
-
-      this.container.find('.unsupported-browser').toggle(isIE())
 
       this.plan.find('.canvas').load(this.container.data('plan-path'), (response, _status, xhr) => {
         this.svg = this.container.find('svg')
@@ -33,9 +30,6 @@ export default class {
         }
 
         this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin')
-
-        // give up in case of IE, just don't bother
-        if (isIE()) return resolve()
 
         if (this.zoomable && this.svg.find('.block').length > 1) {
           const content = this.svg.find('> g, > rect, > line, > path, > text')
@@ -81,7 +75,7 @@ export default class {
           })
 
         if (this.key.length) {
-          for (const box of this.key.find('div')) {
+          for (const box of this.key.find('[data-status]')) {
             const $this = $(box)
             const status = $this.data('status')
 
@@ -91,19 +85,17 @@ export default class {
             if (status && !$this.is(`.status-${status}`)) {
               $this.addClass(`status-${status}`)
 
-              if ($this.is('.icon')) {
-                const icon = this.createSvgElement('svg')
-                const seat = this.svg.find(`#seat-${status} > *`)[0]
-                // if (status === 'available') continue
-                if (seat) {
-                  const width = seat.getAttribute('width')
-                  const height = seat.getAttribute('height')
-                  icon.setAttribute('viewBox', `0 0 ${width} ${height}`)
-                  icon.appendChild(seat.cloneNode())
-                  $this.append(icon)
-                } else {
-                  $this.hide()
-                }
+              const iconBox = $this.find('.icon')
+              const icon = this.createSvgElement('svg')
+              const seat = this.svg.find(`#seat-${status} > *`)[0]
+              if (seat) {
+                const width = seat.getAttribute('width')
+                const height = seat.getAttribute('height')
+                icon.setAttribute('viewBox', `0 0 ${width} ${height}`)
+                icon.appendChild(seat.cloneNode())
+                iconBox.append(icon)
+              } else {
+                $this.hide()
               }
             }
           }

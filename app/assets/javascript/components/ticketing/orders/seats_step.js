@@ -44,7 +44,7 @@ export default class extends Step {
     if (this.numberOfSeats !== info.internal.numberOfTickets) {
       this.numberOfSeats = info.internal.numberOfTickets
       togglePluralText(
-        this.box.find('.note.number_of_tickets'), this.numberOfSeats
+        this.box.find('.number_of_tickets'), this.numberOfSeats
       )
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()

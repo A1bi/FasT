@@ -1,6 +1,6 @@
 .stepCon.seats data-has-seating-plan=(@event.seating.plan? ? 1 : 0)
   .mb-2
-    = label_tag :date_id, 'Ihr gewünschter Termin'
+    h3 Ihr gewünschter Termin
     select#date_id
       - cancelled = []
       - sold_out = []
@@ -23,26 +23,25 @@
           - cancelled.each do |date|
             option value=date.id disabled=true
               = l date.date, format: '%A, %d. %B %Y, %H:%M'
-  - if @event.seating.plan? && @dates.count > 1
-    p Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
-
   - if @event.seating.plan?
+    - if @dates.count > 1
+      p.mb-0 Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
+
+    hr.my-2
+    h3.mt-0 Ihre Sitzplätze
     .seat_chooser
-      .note.plural_text.number_of_tickets
-        .trenner
-        | Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken.
-        p: em Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: (02653) 28 27 09.
+      .plural_text.number_of_tickets
+        .mb-2 Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken. Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: <em>(02653) 28 27 09</em>.
 
       - if @reservation_groups&.any?
-        .note
-          = content_tag :p, class: ['reservationGroups'], data: { enable_url: enable_reservation_groups_ticketing_order_path }
-            | Vorreservierungen freischalten:
-            - @reservation_groups.each do |group|
-              span
-                => check_box_tag group.id, group.id
-                = label_tag group.id, group.name
+        = content_tag :p, class: ['reservationGroups'], data: { enable_url: enable_reservation_groups_ticketing_order_path }
+          | Vorreservierungen freischalten:
+          - @reservation_groups.each do |group|
+            span
+              => check_box_tag group.id, group.id
+              = label_tag group.id, group.name
 
-      = render 'application/ticketing/seating', class: %i[chooser stage], error_box: true, key: true, mode: :chooser, event: @event
+      = render 'application/ticketing/seating', class: [:chooser, :stage, 'mt-2'], error_box: true, key: true, mode: :chooser, event: @event
 
   - elsif @event.covid19?
     .no-seating Ihre Sitzplätze werden Ihnen vor Ort mitgeteilt.

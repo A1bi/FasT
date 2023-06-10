@@ -1,5 +1,5 @@
-//= require ./_seating
-//= require ./_print_notification
+@import 'seating';
+@import 'print_notification';
 
 table.details {
   margin: 15px 0px;
@@ -294,14 +294,6 @@ table.details {
   }
 
   &.seats {
-    .seat_chooser {
-      margin-top: 10px;
-
-      > :first-child {
-        margin-top: 0px;
-      }
-    }
-
     .no-seating {
       text-align: center;
       font-style: italic;
@@ -474,6 +466,16 @@ table.details {
     &:hover {
       transform: scale(1.2);
     }
+  }
+}
+
+.plural_text {
+  .singular, .plural {
+    @extend .d-none;
+  }
+
+  &.singular .singular, &.plural .plural {
+    @extend .d-inline;
   }
 }
 
