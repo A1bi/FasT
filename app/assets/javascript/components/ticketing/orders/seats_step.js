@@ -18,11 +18,10 @@ export default class extends Step {
     }
     this.seatingBox.hide()
 
-    this.dates = this.box.find('.date td').click(event => {
-      this.choseDate($(event.currentTarget), true)
+    this.dates = this.box.find('#available_dates option')
+    this.box.find('#date_id').change(event => {
+      this.choseDate($(event.currentTarget).find(':selected'), true)
     })
-    this.skipDateSelection = this.dates.length < 2 && this.hasSeatingPlan
-    this.box.find('.note').first().toggle(!this.skipDateSelection)
 
     this.box.find('.reservationGroups :checkbox')
       .prop('checked', false).click(() => this.enableReservationGroups())
@@ -37,6 +36,8 @@ export default class extends Step {
   }
 
   willMoveIn () {
+    this.choseDate(this.dates.filter(':selected'), false)
+
     if (!this.hasSeatingPlan) return
 
     const info = this.delegate.getStepInfo('tickets')
@@ -48,16 +49,10 @@ export default class extends Step {
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()
     }
-
-    if (this.skipDateSelection) {
-      this.choseDate(this.dates.first(), false)
-    }
   }
 
   choseDate ($this, animate) {
-    if ($this.is('.selected') || $this.is('.disabled')) return
-    $this.parents('table').find('.selected').removeClass('selected')
-    $this.addClass('selected')
+    if (!$this) return
 
     this.info.api.date = $this.data('id')
     this.info.internal.boxOfficePayment = $this.data('box-office-payment')
@@ -71,7 +66,7 @@ export default class extends Step {
       }
       this.updateSeatingPlan()
 
-      $('html, body').animate({ scrollTop: this.seatingBox.offset().top }, 500)
+      window.scrollTo({ top: this.seatingBox.offset().top })
     } else {
       this.delegate.updateNextBtn()
     }

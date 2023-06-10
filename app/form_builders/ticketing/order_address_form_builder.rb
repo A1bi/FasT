@@ -5,7 +5,6 @@ module Ticketing
     %i[text phone].each do |type|
       define_method("#{type}_field") do |attribute, input_options = {}|
         input_options[:value] = prepopulated_value(attribute)
-        input_options[:class] = :field
 
         render_field_view(attribute) do
           super(attribute, input_options)
@@ -22,7 +21,7 @@ module Ticketing
     private
 
     def render_field_view(attribute, &)
-      @template.render('ticketing/orders/field', label: human_attribute_name(attribute), &)
+      @template.render('ticketing/orders/field', form: self, attribute:, label: human_attribute_name(attribute), &)
     end
 
     def gender_options

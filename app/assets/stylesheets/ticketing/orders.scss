@@ -1,8 +1,6 @@
 //= require ./_seating
 //= require ./_print_notification
 
-@import "_mixins";
-
 table.details {
   margin: 15px 0px;
 
@@ -188,73 +186,12 @@ table.details {
   }
 }
 
-.btns {
-  position: relative;
-  width: 90%;
-  margin: auto;
-  margin-top: 10px;
-  height: 50px;
-
-  &.disabled {
-    display: none;
-  }
-
-  .btn {
-    padding: 5px 20px;
-    border-radius: 20px;
-    background: linear-gradient(to bottom, #0668ec 0%, #b8e1f9 90%);
-    color: #ffffff;
-    text-decoration: none;
-    box-shadow: #666666 0px 0px 6px;
-    margin: 10px;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-      box-shadow: #666666 0px 0px 8px;
-    }
-
-    &:active {
-      box-shadow: #666666 0px 0px 4px;
-    }
-
-    &.disabled {
-      cursor: default;
-      background: #cccccc;
-
-      &:hover {
-        text-decoration: none;
-        box-shadow: #666666 0px 0px 6px;
-      }
-    }
-
-    &.prev, &.next {
-      position: absolute;
-      top: 0px;
-    }
-
-    &.prev {
-      left: 0px;
-    }
-
-    &.next {
-      right: 0px;
-    }
-  }
-}
-
 .progress, .stepBox {
   position: relative;
-  border: 1px solid #cccccc;
-  width: 600px;
   overflow: hidden;
-  margin: auto;
-  border-radius: 7px;
 }
 
 .progress {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
   border-bottom: 0;
 
   &.disabled .step {
@@ -266,14 +203,13 @@ table.details {
     float: left;
     text-align: center;
     padding: 2px 0px;
-    font-size: 12px;
     color: #cccccc;
     z-index: 2;
     display: none;
     transition: color .5s ease-in-out, opacity .5s;
 
     &.current {
-      color: #ffffff;
+      color: $white;
     }
 
     &.bar {
@@ -282,7 +218,7 @@ table.details {
       left: 0px;
       height: 100%;
       display: block;
-      background: linear-gradient(to bottom, #b8e1f9 0%, #0668ec 100%);
+      background: $red;
       transition: left .5s ease-in-out;
     }
   }
@@ -304,10 +240,6 @@ table.details {
 }
 
 .stepBox {
-  min-height: 250px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-
   .modalAlert {
     position: absolute;
     width: 100%;
@@ -332,99 +264,18 @@ table.details {
 }
 
 .stepCon {
+  @extend .px-2;
   position: absolute;
   left: 100%;
   min-height: 200px;
   width: 100%;
   display: none;
 
-  .inner, .note, .seating .error {
-    width: 90%;
-    box-sizing: border-box;
-    margin: {
-      left: auto;
-      right: auto;
-    }
-  }
-
-  .inner {
-    margin: 25px auto;
-
-    tr {
-      td {
-        transition: color, background, .5s;
-        padding: 8px;
-      }
-    }
-  }
-
-  .note {
-    font-size: 13px;
-    margin: 20px auto;
-
-    &.additional {
-      border: 2px solid #cccccc;
-      border-radius: 7px;
-      padding: 0px 7px;
-      font-style: italic;
-
-      p {
-        margin: 7px 0px;
-      }
-    }
-
-    .trenner {
-      margin: 18px -20px;
-    }
-  }
-
-  .field {
-    width: 250px;
-  }
-
-  table.form {
-    tr {
-      &.error {
-        td {
-          color: white;
-          background: red;
-
-          .msg {
-            font-size: 12px;
-            display: block;
-          }
-
-          .small {
-            display: none;
-          }
-        }
-      }
-
-      td {
-        .small {
-          margin-top: 5px;
-          color: #000000;
-        }
-
-        .msg {
-          display: none;
-          font-size: 14px;
-          padding: 2px 6px;
-        }
-
-        &:first-child {
-          padding-top: 12px;
-          width: 28%;
-        }
-      }
-    }
-  }
-
   &.tickets, &.coupons {
     .event-header {
-      display: block;
-      width: 300px;
-      margin: 20px auto;
+      @extend .d-block;
+      height: 7rem;
+      margin: spacing(2) auto;
     }
 
     .covid19 {
@@ -440,120 +291,9 @@ table.details {
         margin-bottom: 0;
       }
     }
-
-    tr.top td {
-      padding: 5px 11px;
-      font-weight: bold;
-    }
-
-    td.number {
-      width: 15%;
-    }
-
-    div.number {
-      .date_ticketing_ticket_type {
-        .type {
-          border-left: none;
-        }
-      }
-    }
-
-    .single, td.total {
-      width: 18%;
-      text-align: right;
-    }
-
-    .coupon {
-      margin-top: 30px;
-
-      .added {
-        display: none;
-      }
-
-      input[type=text] {
-        width: 80px;
-      }
-
-      .msg {
-        font-size: 13px;
-        display: none;
-
-        div {
-          margin-top: 5px;
-        }
-
-        .result {
-          color: green;
-
-          &.error {
-            color: red;
-          }
-        }
-      }
-    }
   }
 
   &.seats {
-    table.date td {
-      color: black;
-      text-align: center;
-      padding: 7px;
-
-      &:not(.selected):not(.disabled) {
-        cursor: pointer;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px solid #cccccc;
-      }
-
-      &:hover {
-        text-decoration: none;
-      }
-
-      &.selected {
-        font-weight: bold;
-      }
-
-      &:not(.disabled) {
-        &:hover, &.selected {
-          background: #d7f1fb;
-        }
-      }
-
-      &.disabled {
-        color: #cccccc;
-
-        .line_through {
-          text-decoration: line-through !important;
-        }
-      }
-
-      .unavailable {
-        color: red;
-        font-style: italic;
-      }
-
-      .seats_info {
-        font-style: italic;
-
-        span {
-          color: red;
-          font-weight: bold;
-        }
-      }
-    }
-
-    em.small {
-      color: black;
-    }
-
-    .number_of_tickets {
-      .trenner {
-        margin-top: 0;
-      }
-    }
-
     .seat_chooser {
       margin-top: 10px;
 
@@ -568,39 +308,14 @@ table.details {
     }
   }
 
-  &.address {
-
-  }
-
-  &.payment {
-    td {
-      padding-top: 10px;
-
-      .small {
-        color: #000000;
-      }
-    }
-
-    .radio {
-      width: 10%;
-      text-align: center;
-    }
-
-    .charge_data {
-      display: none;
-    }
-  }
-
   &.confirm {
     .payment {
-      margin-top: 10px;
-
       .charge, .transfer, .box_office, .cash {
-        display: none;
+        @extend .d-none;
       }
 
       &.charge .charge, &.transfer .transfer, &.box_office .box_office, &.cash .cash {
-        display: block;
+        @extend .d-block;
       }
     }
 
@@ -739,22 +454,6 @@ table.details {
       img {
         display: block;
         width: 30px;
-      }
-    }
-  }
-}
-
-.stepCon.tickets, .stepCon.coupons, .stepCon.confirm {
-  tr {
-    td.total, td.amount {
-      text-align: right;
-    }
-
-    &.total, &.subtotal {
-      font-weight: bold;
-
-      td {
-        border-top: 1px solid #cccccc;
       }
     }
   }

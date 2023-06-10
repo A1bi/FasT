@@ -1,13 +1,10 @@
 .stepCon.address
+  h3 Ihre Angaben
   = form_for :address, builder: Ticketing::OrderAddressFormBuilder, template_order: @template_order do |f|
-    table.inner.form.rounded
-      thead
-        tr: th colspan='2' Ihre Angaben
-      tbody
-        = f.gender_select
-        = f.text_field :first_name
-        = f.text_field :last_name
-        = f.text_field :affiliation
-        = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code'
-        = f.phone_field :phone
-        = f.email_field :email
+    = f.gender_select
+    = f.text_field :first_name
+    = f.text_field :last_name
+    = f.text_field :affiliation
+    = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code'
+    = f.phone_field :phone
+    = f.email_field :email

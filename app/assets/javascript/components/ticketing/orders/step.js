@@ -83,15 +83,12 @@ export default class {
     callback()
   }
 
-  validateField (key, error, validationProc) {
+  validateField (key, msg, validationProc) {
     const field = this.getFieldWithKey(key)
-    if (!validationProc(field)) {
-      this.showErrorOnField(key, error)
-    }
+    this.showErrorOnField(key, !validationProc(field), msg)
   }
 
   validateFields (beforeProc, afterProc) {
-    this.box.find('tr').removeClass('error')
     this.foundErrors = false
     beforeProc()
 
@@ -150,11 +147,13 @@ export default class {
     return field.val().match(field.attr('pattern'))
   }
 
-  showErrorOnField (key, msg) {
+  showErrorOnField (key, error, msg) {
     const input = this.getFieldWithKey(key)
-    const field = input.parents('tr').addClass('error')
-    if (msg) field.find('.msg').html(msg)
-    this.foundErrors = true
+    input.parents('form').addClass('was-validated')
+    input[0].setCustomValidity(error ? msg : '')
+    input.next('.invalid-feedback').html(msg)
+
+    this.foundErrors = this.foundErrors || error
 
     this.addBreadcrumb('form error', {
       field: key,

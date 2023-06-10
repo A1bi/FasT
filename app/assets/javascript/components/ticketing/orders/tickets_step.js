@@ -39,7 +39,7 @@ export default class extends Step {
   async updateSubtotal (toggleSpinner) {
     this.info.internal.numberOfTickets = 0
     this.tickets = []
-    this.box.find('.number tr').each((_, number) => {
+    this.box.find('.number div').each((_, number) => {
       const $this = $(number)
       if ($this.is('.date_ticketing_ticket_type')) {
         const number = parseInt($this.find('select').val())
@@ -49,7 +49,7 @@ export default class extends Step {
         }
       } else if ($this.is('.subtotal')) {
         togglePluralText(
-          $this.find('td').first(), this.info.internal.numberOfTickets
+          $this, this.info.internal.numberOfTickets
         )
       }
     })
@@ -75,7 +75,7 @@ export default class extends Step {
         discount: res.free_tickets_discount + res.credit_discount
       }
 
-      this.box.find('.number tr.subtotal .total span')
+      this.box.find('.number .subtotal .total span')
         .html(this.formatCurrency(this.info.internal.subtotal))
 
       this.updateDiscounts()
@@ -88,10 +88,10 @@ export default class extends Step {
   updateNumbers () {
     this.box.find('select').each((_, select) => {
       select = $(select)
-      const typeBox = select.parents('tr')
+      const typeBox = select.parents('.date_ticketing_ticket_type')
       const typeId = typeBox.data('id')
       const total = this.formatCurrency(this.getTypeTotal(typeBox))
-      typeBox.find('td.total span').html(total)
+      typeBox.find('.total span').html(total)
 
       this.info.api.tickets[typeId] = parseInt(select.val())
       this.info.internal.ticketTotals[typeId] = total
@@ -185,12 +185,12 @@ export default class extends Step {
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
-    this.box.find('.number tr.total .total span')
+    this.box.find('.number .total .total span')
       .html(this.formatCurrency(this.info.internal.totalAfterCoupons))
   }
 
   updateDiscountRow (klass, discount) {
-    this.box.find(`tr.discount.${klass}`)
+    this.box.find(`.discount.${klass}`)
       .toggle(discount < 0)
       .find('.amount').text(`${this.formatCurrency(discount)} €`)
   }

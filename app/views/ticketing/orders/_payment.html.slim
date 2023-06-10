@@ -1,33 +1,24 @@
 .stepCon.payment
   = form_for :payment do |f|
-    table.inner.rounded
-      thead
-        tr: th colspan='2' Zahlungsmethode
-      tbody
-        - methods.each do |method|
-          - method_id = "method#{method[:name].capitalize}".to_sym
-          tr class=method[:name]
-            td.radio: input type='radio' name='method' value=method[:name] id=method_id
-            td
-              = label_tag method_id
-                b = method[:human_name]
-              .small = label_tag method_id, method[:desc]
+    h3 Zahlungsmethode
+    - methods.each do |method|
+      - method_id = "method#{method[:name].capitalize}".to_sym
+      .form-check.mb-1 class=method[:name]
+        input type='radio' name='method' value=method[:name] id=method_id
+        = label_tag method_id
+          b = method[:human_name]
+          small.d-block = label_tag method_id, method[:desc]
 
-    .charge_data.inner
-      table.form.rounded
-        thead
-          tr
-            th colspan='2' Ihre Bankdaten
-        tbody
-          = render layout: 'field', locals: { label: 'Kontoinhaber' }
-            = f.text_field :name, class: :field
-          = render layout: 'field', locals: { label: 'IBAN' }
-            = f.text_field :iban, class: :field
-          = render layout: 'field', locals: { label: 'Zahlungsempfänger' }
-            | TheaterKultur Kaisersesch e. V.
-            <br>Gläubiger-ID: DE21ZZZ00001271843
-          tr
-            td colspan='2'
-              .small.note
-                p Ich ermächtige den Zahlungsempfänger, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Zahlungsempfänger auf mein Konto gezogenen Lastschriften einzulösen.
-                p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
+    .charge_data.d-none
+      h3 Ihre Bankdaten
+      = render layout: 'field', locals: { form: f, attribute: :name, label: 'Kontoinhaber' }
+        = f.text_field :name, class: :field
+      = render layout: 'field', locals: { form: f, attribute: :iban, label: 'IBAN' }
+        = f.text_field :iban, class: :field
+      = render layout: 'field', locals: { form: f, attribute: :creditor, label: 'Zahlungsempfänger' }
+        div
+          | TheaterKultur Kaisersesch e. V.
+          <br>Gläubiger-ID: DE21ZZZ00001271843
+      small.d-block
+        p Ich ermächtige den Zahlungsempfänger, Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von dem Zahlungsempfänger auf mein Konto gezogenen Lastschriften einzulösen.
+        p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.

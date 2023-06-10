@@ -2,72 +2,60 @@
   = event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen })
 
   - if action_name == 'new'
-    .note
-      p
-        ' Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets
-        - if @event.seating.plan?
-          ' und damit verbundene Sitzplatzreservierung
-        | für „#{@event.name}“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
+    p
+      ' Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets
+      - if @event.seating.plan?
+        ' und damit verbundene Sitzplatzreservierung
+      | für „#{@event.name}“ zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
 
-      - if @event.covid19?
-        .covid19
-          h3.hcen Einlassbedingungen
-          p <b>Diese Veranstaltung findet unter 2G-Bedingungen statt, sofern die Regelung im #{l(@event.dates.first.date, format: '%B %Y')} noch angewandt wird.</b> Dies bedeutet, dass Sie beim Einlass einen Nachweis über Ihren vollständigen COVID-19-Impfschutz oder Ihre -Genesung vorweisen müssen.
-          p Weitere Informationen erhalten Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+    - if @event.covid19?
+      .covid19
+        h3.hcen Einlassbedingungen
+        p <b>Diese Veranstaltung findet unter 2G-Bedingungen statt, sofern die Regelung im #{l(@event.dates.first.date, format: '%B %Y')} noch angewandt wird.</b> Dies bedeutet, dass Sie beim Einlass einen Nachweis über Ihren vollständigen COVID-19-Impfschutz oder Ihre -Genesung vorweisen müssen.
+        p Weitere Informationen erhalten Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
 
-      - else
-        p Weitere Informationen zu unserem Vorverkauf erhalten Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
+    - else
+      p Weitere Informationen zu unserem Vorverkauf erhalten Sie in unseren <b>#{link_to '„häufig gestellten Fragen“', info_path(@event.slug)}</b> oder telefonisch unter <b>(02653) 28 27 09</b>.
 
-      .trenner
       p
         | Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
         - if @event.seating.plan?
           |< Anschließend haben Sie im nächsten Schritt die Möglichkeit, Ihre Sitzplätze anhand des Sitzplans auszuwählen.
 
-  .number.inner
-    table.rounded
-      thead
-        tr: th colspan='4' Ihre gewünschten Tickets
-      tbody
-        - @ticket_types.each do |type|
-          - if !type.exclusive? || @type == :admin || (user_signed_in? && current_user.member? && type.exclusive_ticket_type_credit.present?)
-            = content_tag_for(:tr, type, :date, data: { id: type.id, price: type.price })
-              td.number
-                = select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(@max_tickets, type)), id: nil)
-              td.type
-                = type.name
-                .small = type.info
-                - if type.exclusive_ticket_type_credit.present?
-                  .small
-                    - if max_tickets_for_type(@max_tickets, type).zero?
-                      | Das Kontingent für dieses Mitgliedskonto und verknüpfte Familienmitglieder ist bereits aufgebraucht.
-              td.single je #{number_to_currency(type.price || 0)}
-              td.total <span></span> €
+  h3 Ihre gewünschten Tickets
+  .number
+    - @ticket_types.each do |type|
+      - next if type.exclusive? && @type != :admin && (!user_signed_in? || current_user.member? && !type.exclusive_ticket_type_credit.present?)
+      = content_tag_for(:div, type, :date, data: { id: type.id, price: type.price }, class: 'row align-items-center')
+        .col-4.number
+          = label_tag "number_#{type.id}", type.name
+          = select_tag(:number, options_for_select(Keine: 0) + options_for_select(1..max_tickets_for_type(@max_tickets, type)), id: "number_#{type.id}")
+          .form-text
+            = type.info
+            - if type.exclusive_ticket_type_credit.present? && max_tickets_for_type(@max_tickets, type).zero?
+              | Das Kontingent für dieses Mitgliedskonto und verknüpfte Familienmitglieder ist bereits aufgebraucht.
+        .col-4.text-end.single je #{number_to_currency(type.price || 0)}
+        .col-4.text-end.total: b <span></span> €
 
-        tr.subtotal
-          td.plural_text colspan='3' <span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt
-          td.total <span></span> €
-        tr.discount.free_tickets
-          td colspan='3' Abzug durch Freikartengutscheine
-          td.amount
-        tr.discount.credit
-          td colspan='3' Abzug durch Wertgutscheine
-          td.amount
-        tr.total
-          td colspan='3' Gesamt
-          td.total <span></span> €
+    .row.subtotal
+      .col-8.plural_text colspan='3' <span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt
+      .col-4.text-end.total: b <span></span> €
+    .row.discount.free_tickets
+      small.col-8 Abzug durch Freikartengutscheine
+      small.col-4.text-end.amount
+    .row.discount.credit
+      small.col-8 Abzug durch Wertgutscheine
+      small.col-4.text-end.amount
+    .row.total
+      .col-8 Gesamt
+      .col-4.text-end.total: b <span></span> €
 
-    = content_tag :table, class: [:rounded, :coupon]
-      thead
-        tr
-          th colspan='2' Gutscheine
-      tbody
-        tr
-          td.hcen colspan='2'
-            => label_tag :code, 'Gutscheincode:'
-            => text_field_tag :code, '', class: 'noKeyCatch'
-            = submit_tag 'einlösen'
-            .msg: .result
-        tr.added.hide
-          td Hinzugefügte Gutscheine:
-          td
+    .row.coupon.align-items-end.justify-content-end
+      .col-6.col-md-4
+        = label_tag :code, 'Gutscheincode'
+        = text_field_tag :code, '', class: 'noKeyCatch'
+      .col-6.col-md-3 = submit_tag 'einlösen', class: 'btn w-100'
+      .col.msg: .result
+    .added.d-none: .row.justify-content-end
+      .col.col-md-7 Hinzugefügte Gutscheine
+      .col.col-md-7

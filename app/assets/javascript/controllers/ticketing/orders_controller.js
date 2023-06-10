@@ -56,16 +56,16 @@ export default class extends Controller {
     this.resetExpirationTimer()
   }
 
-  toggleBtn (btn, toggle, styleClass = 'disabled') {
-    this.btns.filter(`.${btn}`).toggleClass(styleClass, !toggle)
+  toggleBtn (btn, toggle) {
+    this.btns.filter(`.${btn}`).prop('disabled', !toggle)
   }
 
-  toggleNextBtn (toggle, styleClass) {
-    this.toggleBtn('next', toggle, styleClass)
+  toggleNextBtn (toggle) {
+    this.toggleBtn('next', toggle)
   }
 
   setNextBtnText (text = 'weiter') {
-    this.btns.filter('.next').find('.action').text(text)
+    this.btns.filter('.next').text(text)
   }
 
   updateNextBtn () {
@@ -83,8 +83,6 @@ export default class extends Controller {
   }
 
   goNext ($this) {
-    if ($this.is('.disabled')) return
-
     if ($this.is('.prev')) {
       this.showPrev()
     } else {
@@ -92,12 +90,12 @@ export default class extends Controller {
       if (this.currentStep.validate()) {
         this.currentStep.validateAsync(() => this.showNext(true))
       } else {
-        const error = this.stepBox.find('.error:first-child')
+        const error = this.stepBox.find('.was-validated :invalid')
         if (error.length) {
           scrollPos = error
         }
       }
-      $('body').animate({ scrollTop: scrollPos.position().top })
+      window.scrollTo({ top: scrollPos.position().top })
     }
   }
 

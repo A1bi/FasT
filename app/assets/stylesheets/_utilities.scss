@@ -56,6 +56,12 @@
   }
 }
 
+@each $alignment in (start, center, end) {
+  .justify-content-#{$alignment} {
+    justify-content: $alignment !important;
+  }
+}
+
 @each $alignment in (middle) {
   .align-#{$alignment} {
     vertical-align: $alignment;
