@@ -135,8 +135,8 @@ export default class extends Controller {
     this.noFurtherErrors = true
     this.modalBox.find('.spinner').hide()
     this.killExpirationTimer()
-    this.toggleModalBox(true).find('.messages').show()
-      .find('li').first().html(msg)
+    this.toggleModalBox(true).find('.alert').show()
+      .find('.message').html(msg)
     this.hideOrderControls()
   }
 

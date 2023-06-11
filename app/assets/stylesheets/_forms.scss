@@ -202,6 +202,7 @@ select {
   @extend %btn-basic;
   @extend .d-inline-block;
   @extend .shadow;
+  @extend .text-center;
   cursor: pointer;
 
   svg {
