@@ -1,25 +1,26 @@
 - title local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
-- include_css 'ticketing/orders'
 
-.hl = local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
+.container
+  h1 = local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
 
-.progress
-  .step.bar
-  .step.current.coupons Geschenkgutscheine
-  .step.address Adresse
-  .step.payment Zahlung
-  .step.confirm Bestätigung
+  .row: .col
+    .progress.d-sm-none
+      .step.bar
+      .step.current.coupons Gutscheine
+      .step.address Adresse
+      .step.payment Zahlung
+      .step.confirm Bestätigung
 
-= content_tag :div, class: %i[stepBox web], data: { controller: 'ticketing--orders', coupons: true, type: :web }
-  .modalAlert
-    .messages.alert
-      .icon
-      ul
-        li
-        li = link_to 'Bestellvorgang neu starten', request.path, class: :btn
-    = render 'application/spinner'
-  = yield :steps
+    = content_tag :div, class: %i[stepBox web card shadow], data: { controller: 'ticketing--orders', coupons: true, type: :web }
+      .modalAlert
+        .alert.alert-alert role='alert'
+          .mb-2.message Es ist ein Fehler aufgetreten.
+          = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
+        = render 'application/spinner'
+      = yield :steps
 
-.btns
-  .btn.prev.disabled zurück
-  .btn.next.disabled: span.action weiter
+    .row.btns
+      .col-4
+        button.btn.prev disabled=true zurück
+      .col-8.text-end
+        button.btn.next disabled=true weiter

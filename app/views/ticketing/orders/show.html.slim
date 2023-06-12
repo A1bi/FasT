@@ -94,8 +94,8 @@ ruby:
             li = link_to 'Customer Self Service', order_overview_path(@order.signed_info(authenticated: true))
 
   .row: .col.w-100
-    .card.mb-2 data-controller='ticketing--tickets-table'
-      - if @order.tickets.any?
+    - if @order.tickets.any?
+      .card.mb-2 data-controller='ticketing--tickets-table'
         h3 #{tickets_colspan(@show_check_ins)} Bestellte Tickets
         = form_tag nil, method: :patch, class: :edit_tickets, data: { action: 'ticketing--tickets-table#submit' }
           .table-responsive: table#tickets
@@ -174,7 +174,7 @@ ruby:
                       = text_field_tag :iban, nil, placeholder: 'IBAN'
               .text-center = submit_tag 'absenden', name: nil, class: :btn, data: { target: 'ticketing--tickets-table.submitButton', default_label: 'absenden' }
 
-    - if @order.event.seating.plan?
+    - if @order.event&.seating&.plan?
       .card.mb-2
         h3 Sitzplätze
         = render 'application/ticketing/seating', event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen]
@@ -191,7 +191,7 @@ ruby:
             - @order.purchased_coupons.each do |coupon|
               tr
                 td: tt = link_to coupon.code, coupon
-                td = number_to_currency coupon.initial_value
+                td.text-end = number_to_currency coupon.initial_value
 
     .card.mb-2 = render 'application/ticketing/log_events', events: @order.log_events
     .card.mb-2 = render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'

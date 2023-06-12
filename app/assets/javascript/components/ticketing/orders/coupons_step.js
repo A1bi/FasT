@@ -10,7 +10,7 @@ export default class extends Step {
       coupons: []
     }
 
-    this.couponTemplate = this.box.find('tr.coupon').clone()
+    this.couponTemplate = this.box.find('.coupon').clone()
 
     this.box.on('change', 'select', () => this.updateTotals())
     this.box.find('.add-coupon').click(event => {
@@ -31,7 +31,7 @@ export default class extends Step {
     var total = 0
     var numberOfCoupons = 0
 
-    this.box.find('tr.coupon').each((_, couponRow) => {
+    this.box.find('.coupon').each((_, couponRow) => {
       couponRow = $(couponRow)
       const number = parseInt(couponRow.find('#number').val())
       const value = parseFloat(couponRow.find('#value').val())
@@ -45,22 +45,22 @@ export default class extends Step {
     })
 
     togglePluralText(
-      this.box.find('tr.total .plural_text'), numberOfCoupons
+      this.box.find('.total .plural_text'), numberOfCoupons
     )
 
     const formattedTotal = this.formatCurrency(total)
-    this.box.find('tr.total .total span').text(formattedTotal)
+    this.box.find('.total .total span').text(formattedTotal)
   }
 
   addCoupon () {
     const coupon = this.couponTemplate.clone()
-    this.box.find('tr.coupon').last().after(coupon)
+    this.box.find('.coupon').last().after(coupon)
     this.updateList()
   }
 
   removeCoupon (row) {
     row = $(row)
-    row.parents('tr').remove()
+    row.parents('.coupon').remove()
     this.updateList()
   }
 
@@ -71,7 +71,7 @@ export default class extends Step {
   }
 
   updateRemoveLinks () {
-    const multipleCoupons = this.box.find('tr.coupon').length > 1
+    const multipleCoupons = this.box.find('.coupon').length > 1
     this.box.find('.remove-coupon').toggle(multipleCoupons)
   }
 }

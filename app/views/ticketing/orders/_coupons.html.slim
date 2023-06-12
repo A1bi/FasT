@@ -1,30 +1,20 @@
 .stepCon.coupons
-  .note
-    p Unsere Geschenkgutscheine lassen sich in zukünftigen Ticket-Bestellungen auf unserer Internetseite und in teilnehmenden Vorverkaufsstellen einsetzen. Sie sind nicht personengebunden und mehrfach benutzbar, ein Restwert kann also bei weiteren Bestellungen noch verbraucht werden.
-    p Sie erhalten den Gutschein per E-Mail als PDF-Dokument zum Ausdrucken. Alternativ können Sie auch einfach nur den enthaltenen Gutscheincode weitergeben oder selbst verwenden.
+  p Unsere Geschenkgutscheine lassen sich in zukünftigen Ticket-Bestellungen auf unserer Internetseite und in teilnehmenden Vorverkaufsstellen einsetzen. Sie sind nicht personengebunden und mehrfach benutzbar, ein Restwert kann also bei weiteren Bestellungen noch verbraucht werden.
+  p Sie erhalten den Gutschein per E-Mail als PDF-Dokument zum Ausdrucken. Alternativ können Sie auch einfach nur den enthaltenen Gutscheincode weitergeben oder selbst verwenden.
+  p Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Geschenkgutscheinen und deren Wert.
 
-    .trenner
-    p Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Geschenkgutscheinen und deren Wert.
-
-  .number
-    table.rounded
-      thead
-        tr: th colspan='3' Ihre gewünschten Geschenkgutscheine
-      tbody
-        tr.top
-          td Anzahl
-          td Wert
-          td Summe
-        tr.coupon
-          td.number
-            = select_tag(:number, options_for_select(1..10))
-          td.type
-            => select_tag(:value, options_for_select((1..150).map { |value| [number_to_currency(value), value] } ))
-            a.remove-coupon href='#' entfernen
-          td.total <span></span> €
-        tr
-          td.hright colspan='3'
-            a.add-coupon href='#' Weiteren Gutscheinwert hinzufügen
-        tr.total
-          td.plural_text colspan='2' Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
-          td.total <span></span> €
+  h3 Ihre gewünschten Geschenkgutscheine
+  .row.align-items-end.coupon
+    .col-4
+      = label_tag :number, 'Anzahl'
+      = select_tag(:number, options_for_select(1..10))
+    .col-4
+      = label_tag :value, 'Wert'
+      = select_tag(:value, options_for_select((1..150).map { |value| [number_to_currency(value), value] } ))
+    .col-4.total.text-end
+      <span></span> €
+      a.d-block.remove-coupon href='#' entfernen
+  .row.total
+    .col-8.plural_text: b Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
+    .col-4.total.text-end: b <span></span> €
+  .row: .col.text-end: a.add-coupon href='#' Weiteren Gutscheinwert hinzufügen
