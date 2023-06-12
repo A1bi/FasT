@@ -17,10 +17,9 @@ export default class extends Step {
     orderInfo.total = Number.parseFloat(orderInfo.total)
 
     if (this.delegate.retail) {
-      const infoBox = this.box.find('.info')
-      infoBox.find('.total span').text(this.formatCurrency(orderInfo.total))
-      infoBox.find('.number').text(orderInfo.tickets.length)
-      infoBox.find('a.details').prop('href', confirmInfo.internal.detailsPath)
+      this.box.find('.total span').text(this.formatCurrency(orderInfo.total))
+      this.box.find('.number').text(orderInfo.tickets.length)
+      this.box.find('a.details').prop('href', confirmInfo.internal.detailsPath)
 
       const printer = new TicketPrinter()
       setTimeout(() => {

@@ -15,9 +15,8 @@ ruby:
 - content_for :finish
   .hl.note Vielen Dank für Ihre Bestellung!
 
-  .note
-    = render 'order_number'
-    p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="items">Ihren Geschenkgutscheinen und </span>allen Informationen zu Ihrer Bestellung.
+  = render 'order_number'
+  p Innerhalb der nächsten fünf Minuten erhalten Sie eine E-Mail mit <span class="items">Ihren Geschenkgutscheinen und </span>allen Informationen zu Ihrer Bestellung.
 
   = render 'spam_note'
 
@@ -27,7 +26,7 @@ ruby:
   = render 'payment', methods: payment_methods
 
   .stepCon.confirm
-    .note Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.
+    p Bitte kontrollieren Sie Ihre Bestellung noch einmal und bestätigen sie anschließend mit einem Klick auf den Button unten rechts.
     = render 'confirm_coupons'
     = render 'confirm_address'
     = render 'confirm_payment'

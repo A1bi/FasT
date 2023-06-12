@@ -1,10 +1,10 @@
-.payment
+.payment.pb-2
   .transfer
-    h4 Bezahlung per Überweisung
+    h3 Bezahlung per Überweisung
     - unless local_assigns[:admin]
       p Unsere Kontodaten werden Ihnen nach der Bestellung per E-Mail zugesandt.
   .charge
-    h4 Bezahlung per SEPA-Lastschrift
+    h3 Bezahlung per SEPA-Lastschrift
     .row
       .col Kontoinhaber
       .col.name
@@ -14,8 +14,8 @@
     - unless local_assigns[:admin]
       p Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
   .box_office
-    h4 Bezahlung an der Abendkasse
+    h3 Bezahlung an der Abendkasse
     - unless local_assigns[:admin]
       p Sie erhalten Ihre Tickets an der Abendkasse nach Zahlung in bar oder per Karte.
   .cash
-    h4 Barzahlung
+    h3 Barzahlung

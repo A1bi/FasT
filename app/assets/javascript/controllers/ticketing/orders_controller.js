@@ -77,7 +77,7 @@ export default class extends Controller {
   }
 
   hideOrderControls () {
-    $('.progress, .btns').addClass('disabled')
+    $('.progress, .btns').css('visibility', 'hidden')
   }
 
   goNext ($this) {

@@ -162,15 +162,14 @@ export default class extends Step {
   }
 
   updateCouponResult (msg, error) {
-    this.couponBox.find('.msg .result')
-      .text(msg).toggleClass('error', error).parent().toggle(!!msg)
+    this.couponBox.find('.msg').text(msg).toggleClass('text-red', error)
     this.resizeDelegateBox()
   }
 
   updateAddedCoupons () {
     const addedBox = this.couponBox.find('.added')
       .toggle(this.info.api.couponCodes.length > 0)
-      .find('td:last-child')
+      .find('span')
       .empty()
 
     this.info.api.couponCodes.forEach((code, i) => {

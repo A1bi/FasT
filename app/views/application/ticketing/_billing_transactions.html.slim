@@ -10,7 +10,7 @@ table
       tr
         td.date = l(transaction.created_at, format: :medium)
         td = translate_billing_transaction(transaction)
-        td = render 'application/ticketing/billing_transactions_amount', record: record, amount: transaction.amount
+        td.text-end = render 'application/ticketing/billing_transactions_amount', record: record, amount: transaction.amount
     tr
       td
       td Saldo
