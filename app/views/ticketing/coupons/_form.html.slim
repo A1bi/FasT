@@ -1,23 +1,18 @@
-= form_for @coupon do |f|
-  table.rounded.show
-    thead
-      tr: th colspan=2 Gutschein #{title}
-    tbody
-      tr
-        td Empfänger:
-        td = f.text_field :recipient
-      tr
-        td Firma / Gruppe / Zugehörigkeit:
-        td = f.text_field :affiliation
-
-      - if @coupon.new_record?
-        tr
-          td Gutscheinart
-          td = f.select :value_type, @coupon.class.value_types.values.map { |t| [@coupon.class.human_enum_name(:value_type, t), t] }
-        tr
-          td Wert:
-          td
-            = f.number_field :value, step: :any
-            .small Anzahl der Freikarten oder Euro-Betrag
-
-  .hcen.submit = f.submit 'speichern'
+.container: .row: .col: .card.mt-2
+  h3 Gutschein #{title}
+  = form_for @coupon do |f|
+    .mb-2
+      = f.label :recipient, 'Empfänger'
+      = f.text_field :recipient
+    .mb-2
+      = f.label :affiliation, 'Firma / Gruppe / Zugehörigkeit'
+      = f.text_field :affiliation
+    - if @coupon.new_record?
+      .mb-2
+        = f.label :value_type, 'Gutscheinart'
+        = f.select :value_type, @coupon.class.value_types.values.map { |t| [@coupon.class.human_enum_name(:value_type, t), t] }
+      .mb-2
+        = f.label :value, 'Wert'
+        = f.number_field :value, step: :any
+        .form-text Anzahl der Freikarten oder Euro-Betrag
+    .text-center = f.submit 'speichern', class: :btn

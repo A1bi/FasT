@@ -1,6 +1,6 @@
 - title 'Gutscheine'
-- include_css 'ticketing/coupons'
 
-= render 'new_button', action: 'Gutschein erstellen', url: new_ticketing_coupon_path
-= render 'index_table', coupons: @coupons, title: 'Gutscheine'
-= render 'index_table', coupons: @coupons_expired, title: 'Abgelaufene Gutscheine'
+.container: .row: .col
+  = render 'new_button', action: 'Gutschein erstellen', url: new_ticketing_coupon_path
+  = render 'index_table', coupons: @coupons, title: 'Gutscheine'
+  = render 'index_table', coupons: @coupons_expired, title: 'Abgelaufene Gutscheine'
