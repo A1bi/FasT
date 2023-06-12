@@ -20,7 +20,7 @@
   }
 }
 
-.container > .row > .col:not(.w-100) {
+.container > .row > .col:not(.w-100):not([class*='col-md']):not([class*='col-lg']) {
   max-width: 600px;
 }
 

@@ -1,10 +1,10 @@
-table.rounded.entries.billing-log.details
+h3 = local_assigns.fetch(:title, 'Zahlungsprotokoll')
+table
   thead
-    tr: th colspan=3 = local_assigns.fetch(:title, 'Zahlungsprotokoll')
     tr
       th Datum
       th Anmerkung
-      th = amount_label
+      th.text-end = amount_label
   tbody.log
     - record.billing_account.transactions.each do |transaction|
       tr
@@ -14,25 +14,29 @@ table.rounded.entries.billing-log.details
     tr
       td
       td Saldo
-      td class=(record.billing_account.outstanding? ? 'negative' : 'positive')
+      td.text-end class=(record.billing_account.outstanding? ? 'negative' : 'positive')
         = render 'application/ticketing/billing_transactions_amount', record: record, amount: record.billing_account.balance
 
-  thead
-    tr: th colspan=3 Neue Buchung vornehmen
-  tbody.actions
-    tr
-      td colspan=3
-        - if @billing_actions.empty?
-          | Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
-        - else
-          = form_tag ticketing_billings_path, method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Buchung wirklich vornehmen?' }
-            = hidden_field_tag :billable_id, record.id
-            = hidden_field_tag :billable_type, record.class.base_class.name.demodulize
-            = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
-            span<> data-target='ticketing--transactions-table.amount'
-              ' #{amount_label}:
-              = number_field_tag :amount, nil, placeholder: number_placeholder, step: number_step
-            span<> data-target='ticketing--transactions-table.bankDetails'
-              => text_field_tag :name, nil, placeholder: 'Name'
-              = text_field_tag :iban, nil, placeholder: 'IBAN'
-            = submit_tag 'buchen'
+h3 Neue Buchung vornehmen
+- if @billing_actions.empty?
+  p.text-center Keine Zahlungsbuchung möglich, da Saldo ausgeglichen. Für Korrekturen kontaktieren Sie bitte einen Verantwortlichen.
+- else
+  = form_tag ticketing_billings_path, method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Buchung wirklich vornehmen?' }
+    = hidden_field_tag :billable_id, record.id
+    = hidden_field_tag :billable_type, record.class.base_class.name.demodulize
+    .row
+      .col-6
+        = label_tag :note, 'Buchung'
+        = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
+      .col-6 data-target='ticketing--transactions-table.amount'
+        = label_tag :amount, amount_label
+        = number_field_tag :amount, nil, placeholder: number_placeholder, step: number_step
+    .row data-target='ticketing--transactions-table.bankDetails'
+      .col-6
+        = label_tag :name, 'Name'
+        = text_field_tag :name, nil, placeholder: 'Name'
+      .col-6
+        = label_tag :iban, 'IBAN'
+        = text_field_tag :iban, nil, placeholder: 'IBAN'
+    .row: .col.text-end
+      = submit_tag 'buchen', class: :btn

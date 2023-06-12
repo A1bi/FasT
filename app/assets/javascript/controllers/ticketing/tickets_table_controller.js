@@ -34,7 +34,7 @@ export default class extends Controller {
     const label = this.actionTarget.selectedOptions[0].dataset.submitLabel ||
       this.submitButtonTarget.dataset.defaultLabel
     this.submitButtonTarget.value = label
-    toggleDisplay(this.cancellationTarget, this.actionTarget.value === 'cancel')
+    this.cancellationTargets.forEach(t => toggleDisplay(t, this.actionTarget.value === 'cancel'))
   }
 
   toggleRefundDetails (checkbox) {
@@ -71,8 +71,9 @@ export default class extends Controller {
       })
     }
 
-    this.element.setAttribute('action', current.dataset.path)
-    this.element.setAttribute('method', method === 'get' ? method : 'post')
+    const form = this.element.querySelector('form')
+    form.setAttribute('action', current.dataset.path)
+    form.setAttribute('method', method === 'get' ? method : 'post')
     this.element.querySelector("[name='_method']").value = method
   }
 }

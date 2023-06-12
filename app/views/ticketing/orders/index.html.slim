@@ -1,10 +1,9 @@
 - title 'Bestellungen'
-- include_css 'ticketing/orders'
 
-.index
-  .hl Bestellungen
-  = render 'new_button', action: 'neue Bestellung aufnehmen', url: { action: :new_privileged }
+.container: .row: .col.w-100
+  h1 Bestellungen
   = render 'search_form'
+  = render 'new_button', action: 'Bestellung', url: { action: :new_privileged }
 
   - if @orders[:search]
     = render 'application/ticketing/orders_table', table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders[:search], web: true, additional_columns: %i[date]
@@ -16,10 +15,8 @@
   - elsif current_user.retail?
     = render 'application/ticketing/orders_table', table_title: 'Bisherige Bestellungen in Ihrer Vorverkaufsstelle', orders: @orders[:retail], web: false, cache_key: [:orders, :retail, current_user.store]
 
-    .hright data-controller='ticketing--ticket-printer'
-      a data-action='ticketing--ticket-printer#printTest' data-confirm-message='Möchten Sie wirklich einen Testdruck durchführen?'
-        | Testdruck
-      = ' – '
-      a data-action='ticketing--ticket-printer#openSettings' Druckeinstellungen
+    .text-end data-controller='ticketing--ticket-printer'
+      a.btn.me-2 data-action='ticketing--ticket-printer#printTest' data-confirm-message='Möchten Sie wirklich einen Testdruck durchführen?' Testdruck
+      a.btn data-action='ticketing--ticket-printer#openSettings' Druckeinstellungen
 
     = render 'application/ticketing/print_notification'

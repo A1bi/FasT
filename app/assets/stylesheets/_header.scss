@@ -128,7 +128,7 @@ nav {
 
 nav ul, footer ul {
   @extend .py-1, .px-2;
-  @extend %list-style-none;
+  @extend .list-style-none;
 }
 
 @include media-query(sm) {

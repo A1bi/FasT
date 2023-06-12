@@ -1,26 +1,21 @@
 - title "Bestellung ##{@order.number} bearbeiten"
-- include_css 'ticketing/orders'
 
-.hl Bestellung ##{@order.number} bearbeiten
+.container
+  h1 Bestellung bearbeiten
+  h2 ##{@order.number}
 
-= form_for @order, as: :ticketing_order, url: ticketing_order_path(@order) do |f|
-  table.rounded.details
-    thead
-      tr
-        th colspan=2 Kontaktdaten
-    tbody
-      tr
-        td.label Anrede:
-        td = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], @order.gender))
+  .row: .col: .card.shadow
+    = form_for @order, as: :ticketing_order, url: ticketing_order_path(@order) do |f|
+      .mb-2
+        = f.label :gender, 'Anrede'
+        = f.select(:gender, options_for_select([['', ''], ['Frau', 0], ['Herr', 1]], @order.gender))
       - [[:first_name, 'Vorname'], [:last_name, 'Nachname'], [:affiliation, 'Zugehörigkeit'], [:email, 'E-Mail'], [:phone, 'Telefon'], [:plz, 'PLZ']].each do |column|
-        tr
-          td.label #{column[1]}:
-          td = f.text_field column[0]
-    thead
-      tr
-        th colspan=2 Zahlungsdaten
-    tbody
-      tr
-        td.label Zahlungsart:
-        td = f.select(:pay_method, options_for_select(@pay_methods, @order.pay_method))
-  .hcen = f.submit 'speichern'
+        .mb-2
+          = f.label column[0], column[1]
+          = f.text_field column[0]
+
+      h3 Zahlungsdaten
+      .mb-2
+        = f.label :pay_method, 'Zahlungsart'
+        = f.select(:pay_method, options_for_select(@pay_methods, @order.pay_method))
+      .text-center = f.submit 'speichern', class: :btn

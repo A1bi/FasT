@@ -88,7 +88,7 @@ ul, ol {
   }
 
   &.style-none {
-    @extend %list-style-none;
+    @extend .list-style-none;
   }
 }
 
@@ -113,16 +113,27 @@ table {
     border-bottom: 1px solid $semi-gray;
   }
 
-  tbody tr:last-child td {
-    border-bottom-width: 0;
-  }
+  tbody {
+    &.hover tr:hover td {
+      filter: brightness(97%);
+      cursor: pointer;
+    }
 
-  thead th {
-    border-bottom-width: 2px;
-  }
+    th {
+      border-bottom-width: 2px;
+    }
 
-  tbody tr:nth-of-type(even) td {
-    background: #F9F9F9;
+    tr:nth-of-type(even) td {
+      background: #F9F9F9;
+    }
+
+    tr:nth-of-type(odd) td {
+      background: $white;
+    }
+
+    tr:last-child td {
+      border-bottom-width: 0;
+    }
   }
 }
 
@@ -191,6 +202,12 @@ table {
       fill: $cta-color-active;
     }
   }
+}
+
+.list-style-none {
+  @extend .m-0;
+  @extend .p-0;
+  list-style: none;
 }
 
 @include media-query(md) {

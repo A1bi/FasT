@@ -1,7 +1,4 @@
 - title "Bestellungsdetails ##{@order.number}"
-- include_css 'ticketing/orders'
-
-.hl Bestellungsdetails
 
 ruby:
   scope = %i[ticketing orders]
@@ -13,216 +10,216 @@ ruby:
     ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]]
   ]
 
-.topTables
-  table.rounded.details
-    - if @order.try(:anonymized?)
-      thead: tr: th.anonymized colspan=2 Diese Bestellung wurde anonymisiert.
+.container
+  h1 Bestellungsdetails
 
-    = render 'show_overview_table', title: 'Übersicht', overview: overview
+  .row
+    .col.col-md-8
+      - if @order.try(:anonymized?)
+        thead: tr: th colspan=2 Diese Bestellung wurde anonymisiert.
 
-    tbody
-      tr
-        td.label Eingelöste Gutscheine:
-        td
-          - if @order.redeemed_coupons.any?
-            - @order.redeemed_coupons.each do |coupon|
-              div = link_to_if(policy(coupon).show?, coupon.recipient.presence || "##{coupon.id}", coupon)
-          - else
-            em.small keiner
+      .card.mb-2 = render 'show_overview_table', title: 'Übersicht', overview: overview
 
-    ruby:
-      if @order.is_a? Ticketing::Retail::Order
-        title = 'Buchung in Vorverkaufsstelle'
-        overview = [
-          ['Vorverkaufsstelle', @order.store.name]
-        ]
-      elsif @order.is_a? Ticketing::BoxOffice::Order
-        title = 'Buchung an Abendkasse'
-        overview = [
-          ['Abendkasse', @order.box_office.name]
-        ]
-      elsif @order.is_a? Ticketing::Web::Order
-        title = 'Online-Bestellung'
+      .card.mb-2
+        h3 Eingelöste Gutscheine
+        - if @order.redeemed_coupons.any?
+          ul
+          - @order.redeemed_coupons.each do |coupon|
+            li = link_to_if(policy(coupon).show?, coupon.recipient.presence || "##{coupon.id}", coupon)
+        - else
+          em.d-block Es wurden keine Gutscheine eingelöst.
 
-        plz_info = @order.plz
-        if @order.geolocation.present?
-          location = @order.geolocation.cities.join(', ')
-          if @order.geolocation.districts.any?
-            location += " – #{@order.geolocation.districts[0..2].join(', ')}"
-          end
-          plz_info += " (#{location})"
-        end
-
-        overview = [
-          ['Nachname', @order.last_name],
-          ['Vorname', @order.first_name],
-          ['Zugehörigkeit', @order.affiliation],
-          ['E-Mail', @order.email],
-          ['Telefon', (@order.phone || '').phony_formatted],
-          ['PLZ', plz_info]
-        ]
-        if !@order.total.zero?
-          payment = [
-            ['Zahlungsart', t(@order.pay_method, scope: (scope + [:pay_methods]))]
+      ruby:
+        if @order.is_a? Ticketing::Retail::Order
+          title = 'Buchung in Vorverkaufsstelle'
+          overview = [
+            ['Vorverkaufsstelle', @order.store.name]
           ]
+        elsif @order.is_a? Ticketing::BoxOffice::Order
+          title = 'Buchung an Abendkasse'
+          overview = [
+            ['Abendkasse', @order.box_office.name]
+          ]
+        elsif @order.is_a? Ticketing::Web::Order
+          title = 'Online-Bestellung'
+
+          plz_info = @order.plz
+          if @order.geolocation.present?
+            location = @order.geolocation.cities.join(', ')
+            if @order.geolocation.districts.any?
+              location += " – #{@order.geolocation.districts[0..2].join(', ')}"
+            end
+            plz_info += " (#{location})"
+          end
+
+          overview = [
+            ['Nachname', @order.last_name],
+            ['Vorname', @order.first_name],
+            ['Zugehörigkeit', @order.affiliation],
+            ['E-Mail', @order.email],
+            ['Telefon', (@order.phone || '').phony_formatted],
+            ['PLZ', plz_info]
+          ]
+          if !@order.total.zero?
+            payment = [
+              ['Zahlungsart', t(@order.pay_method, scope: (scope + [:pay_methods]))]
+            ]
+          end
         end
-      end
 
-    = render 'show_overview_table', title: title, overview: overview
-    = render 'show_overview_table', title: 'Zahlung', overview: payment if payment
+      .card.mb-2 = render 'show_overview_table', title: title, overview: overview
+      .card = render 'show_overview_table', title: 'Zahlung', overview: payment if payment
 
-  .rightTables
-    table.rounded.actions.details
-      thead: tr: th Aktionen
-      tbody
-        tr
-          td
-            - if policy(@order).update?
-              div = link_to 'Daten bearbeiten', action: :edit
-            - if !@order.cancelled?
-              - if @order.is_a? Ticketing::Web::Order
-                - if @order.paid
-                  - if @order.email.present?
-                    div = link_to 'Artikel erneut zusenden', { action: :resend_items }, method: :post, data: { confirm: 'Möchten Sie die Artikel wirklich erneut zusenden?' }
-                - else
-                  div = link_to 'als bezahlt markieren', { action: :mark_as_paid }, method: :patch, data: { confirm: 'Möchten Sie diese Bestellung wirklich als bezahlt markieren?' }
-                  div = link_to 'Bestellbestätigung erneut senden', { action: :resend_confirmation }, method: :post, data: { confirm: 'Möchten Sie die Bestellbestätigung wirklich erneut senden?' }
-                  - if @order.transfer_payment? && @order.email.present?
-                    div = link_to 'Zahlungserinnerung senden', { action: :send_pay_reminder }, method: :post, data: { confirm: 'Möchten Sie wirklich eine Zahlungserinnerung senden?' }
-              - if current_user.admin? && @order.event.present?
-                div = link_to 'Neue Bestellung mit diesen Daten', { action: :new_privileged, event_slug: @order.event.slug, template_order_id: @order }
-              - elsif current_user.retail?
-                div data-controller='ticketing--ticket-printer'
-                  = link_to 'Tickets drucken', nil, class: :'print-tickets', data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path }
-              - if Rails.env.development?
-                div = link_to 'Customer Self Service', order_overview_path(@order.signed_info(authenticated: true))
-
-- if @order.tickets.any?
-  a#tickets
-  = form_tag nil, method: :patch, class: :edit_tickets, data: { controller: 'ticketing--tickets-table', action: 'ticketing--tickets-table#submit' }
-    table.rounded.entries.details
-      thead
-        tr: th colspan=tickets_colspan(@show_check_ins) Bestellte Tickets
-        tr
-          th = check_box_tag 'all_tickets', nil, nil, disabled: @order.tickets.uncancelled.none?, data: { action: 'ticketing--tickets-table#toggleAllCheckBoxes' }
-          th Nummer
-          th Kategorie
-          th Preis
-          th Termin
-          th Sitz
-          - if @show_check_ins
-            th Einlass
-      tbody
-        - @order.tickets.each do |ticket|
-          - classes = [:cancelled] if ticket.cancelled?
-          - (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.order_index
-          = content_tag_for :tr, ticket, class: classes
-            td = check_box_tag 'ticket_ids[]', ticket.id, false, disabled: ticket.cancelled?, data: { target: 'ticketing--tickets-table.ticketCheckBox', action: 'ticketing--tickets-table#toggleForm' }
-            td.number
-              = ticket.number
-              - if ticket.resale && !ticket.cancelled?
-                .small Weiterverkauf #{ticket.resold? ? 'erfolgreich' : 'möglich'}
-            td.name = ticket.type.name
-            td.amount = number_to_currency ticket.price
-            td.date
-              = l ticket.date.date, format: '%-d. %B'
-              br
-              = content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small
-            - if ticket.seat.present?
-              td = ticket.seat.full_number
+    .col.col-md-4: .card
+      h3 Aktionen
+      ul.list-style-none
+        - if policy(@order).update?
+          li = link_to 'Daten bearbeiten', action: :edit
+        - if !@order.cancelled?
+          - if @order.is_a? Ticketing::Web::Order
+            - if @order.paid
+              - if @order.email.present?
+                li = link_to 'Artikel erneut zusenden', { action: :resend_items }, method: :post, data: { confirm: 'Möchten Sie die Artikel wirklich erneut zusenden?' }
             - else
-              td Freie Platzwahl
-            - if @show_check_ins
-              td
-                - if (check_in = ticket.check_ins.first)
-                  span title="via #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}"
-                    = l check_in.date, format: '%H:%M'
-      - if @order.tickets.valid.any?
-        tbody
-          tr
-            td.actions colspan=tickets_colspan(@show_check_ins)
-              div data-target='ticketing--tickets-table.noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
-              div data-target='ticketing--tickets-table.form'
-                ruby:
-                  options = [
-                    ['stornieren', :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', submit_label: 'stornieren' }],
-                    ['Aufführung / Sitzplatz umbuchen', :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
-                    ['Kategorie umbuchen', :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
-                    ['zum Weiterverkauf freigeben', :enable_resale, { data: { path: ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?', resale: true } }],
-                    ['herunterladen', :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
-                  ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) }
-                = select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleCancellationForm' }
-                table data-target='ticketing--tickets-table.cancellation'
-                  tr
-                    td Stornierungsgrund:
-                    td = text_field_tag :reason, nil, placeholder: 'optional'
-                  - if current_user.retail?
-                    tr
-                      td colspan=2
-                        = check_box_tag :retail_refund, nil, true
-                        = label_tag :retail_refund, 'Rückzahlung direkt in Bar'
+              li = link_to 'als bezahlt markieren', { action: :mark_as_paid }, method: :patch, data: { confirm: 'Möchten Sie diese Bestellung wirklich als bezahlt markieren?' }
+              li = link_to 'Bestellbestätigung erneut senden', { action: :resend_confirmation }, method: :post, data: { confirm: 'Möchten Sie die Bestellbestätigung wirklich erneut senden?' }
+              - if @order.transfer_payment? && @order.email.present?
+                li = link_to 'Zahlungserinnerung senden', { action: :send_pay_reminder }, method: :post, data: { confirm: 'Möchten Sie wirklich eine Zahlungserinnerung senden?' }
+          - if current_user.admin? && @order.event.present?
+            li = link_to 'Neue Bestellung mit diesen Daten', { action: :new_privileged, event_slug: @order.event.slug, template_order_id: @order }
+          - elsif current_user.retail?
+            li data-controller='ticketing--ticket-printer'
+              = link_to 'Tickets drucken', nil, class: :'print-tickets', data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path }
+          - if Rails.env.development?
+            li = link_to 'Customer Self Service', order_overview_path(@order.signed_info(authenticated: true))
+
+  .row: .col.w-100
+    .card.mb-2 data-controller='ticketing--tickets-table'
+      - if @order.tickets.any?
+        h3 #{tickets_colspan(@show_check_ins)} Bestellte Tickets
+        = form_tag nil, method: :patch, class: :edit_tickets, data: { action: 'ticketing--tickets-table#submit' }
+          .table-responsive: table#tickets
+            thead
+              tr
+                th: .form-check = check_box_tag :all_tickets, nil, nil, disabled: @order.tickets.uncancelled.none?, data: { action: 'ticketing--tickets-table#toggleAllCheckBoxes' }
+                th Nummer
+                th Kategorie
+                th Preis
+                th Termin
+                th Sitz
+                - if @show_check_ins
+                  th Einlass
+            tbody
+              - @order.tickets.each do |ticket|
+                - classes = [:cancelled] if ticket.cancelled?
+                - (classes ||= []) << :highlighted if params[:ticket].to_i == ticket.order_index
+                = content_tag_for :tr, ticket, class: classes
+                  td: .form-check = check_box_tag 'ticket_ids[]', ticket.id, false, disabled: ticket.cancelled?, data: { target: 'ticketing--tickets-table.ticketCheckBox', action: 'ticketing--tickets-table#toggleForm' }
+                  td
+                    tt = ticket.number
+                    - if ticket.resale && !ticket.cancelled?
+                      small.d-block Weiterverkauf #{ticket.resold? ? 'erfolgreich' : 'möglich'}
+                  td.name = ticket.type.name
+                  td.amount = number_to_currency ticket.price
+                  td.date
+                    = l ticket.date.date, format: '%-d. %B'
+                    br
+                    = content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small
+                  - if ticket.seat.present?
+                    td = ticket.seat.full_number
                   - else
-                    tr
-                      td colspan=2
-                        => check_box_tag :transfer_refund, nil, true, 'data-action': 'ticketing--tickets-table#toggleRefundDetails'
-                        = label_tag :transfer_refund, 'Rückzahlung veranlassen'
-                    - if @order.bank_transactions.any?
-                      tr data-target='ticketing--tickets-table.refundDetails'
-                        td colspan=2
-                          => check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', target: 'ticketing--tickets-table.bankDetailsCheckbox' }
-                          = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
-                    tr data-target='ticketing--tickets-table.refundDetails ticketing--tickets-table.bankDetails'
-                      td Kontoinhaber:
-                      td = text_field_tag :name, nil, placeholder: 'Name'
-                    tr data-target='ticketing--tickets-table.refundDetails ticketing--tickets-table.bankDetails'
-                      td IBAN:
-                      td = text_field_tag :iban, nil, placeholder: 'IBAN'
-                = submit_tag 'los', name: nil, data: { target: 'ticketing--tickets-table.submitButton', default_label: 'los' }
-      - if @order.event.seating.plan?
-        thead: tr: th colspan=tickets_colspan(@show_check_ins) Sitzplätze
-        tbody: tr: td colspan=tickets_colspan(@show_check_ins)
-          = render 'application/ticketing/seating', event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen]
+                    td Freie Platzwahl
+                  - if @show_check_ins
+                    td
+                      - if (check_in = ticket.check_ins.first)
+                        span title="via #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}"
+                          = l check_in.date, format: '%H:%M'
+          - if @order.tickets.valid.any?
+            p data-target='ticketing--tickets-table.noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
+            ruby:
+              options = [
+                ['stornieren', :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', submit_label: 'stornieren' }],
+                ['Aufführung / Sitzplatz umbuchen', :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
+                ['Kategorie umbuchen', :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
+                ['zum Weiterverkauf freigeben', :enable_resale, { data: { path: ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?', resale: true } }],
+                ['herunterladen', :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
+              ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) }
+            .mb-2 data-target='ticketing--tickets-table.form'
+              .row.justify-content-start
+                .col-6
+                  = label_tag :edit_action, 'Aktion'
+                  = select_tag :edit_action, options_for_select(options), name: nil, data: { target: 'ticketing--tickets-table.action', action: 'ticketing--tickets-table#toggleCancellationForm' }
+                .col-6 data-target='ticketing--tickets-table.cancellation'
+                  = label_tag :reason, 'Stornierungsgrund'
+                  = text_field_tag :reason, nil, placeholder: 'optional'
+              .row: .col data-target='ticketing--tickets-table.cancellation'
+                - if current_user.retail?
+                  .form-check
+                    = check_box_tag :retail_refund, nil, true
+                    = label_tag :retail_refund, 'Rückzahlung direkt in Bar'
+                - else
+                  .form-check
+                    = check_box_tag :transfer_refund, nil, true, 'data-action': 'ticketing--tickets-table#toggleRefundDetails'
+                    = label_tag :transfer_refund, 'Rückzahlung veranlassen'
+                  - if @order.bank_transactions.any?
+                    .form-check.mb-2 data-target='ticketing--tickets-table.refundDetails'
+                      = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', target: 'ticketing--tickets-table.bankDetailsCheckbox' }
+                      = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
+                  .row
+                    .col-6 data-target='ticketing--tickets-table.refundDetails ticketing--tickets-table.bankDetails'
+                      = label_tag :name, 'Kontoinhaber'
+                      = text_field_tag :name, nil, placeholder: 'Name'
+                    .col-6 data-target='ticketing--tickets-table.refundDetails ticketing--tickets-table.bankDetails'
+                      = label_tag :iban, 'IBAN'
+                      = text_field_tag :iban, nil, placeholder: 'IBAN'
+              .text-center = submit_tag 'absenden', name: nil, class: :btn, data: { target: 'ticketing--tickets-table.submitButton', default_label: 'absenden' }
 
-- if @order.purchased_coupons.any?
-  table.rounded.entries.details
-    thead
-      tr
-        th colspan=2 Bestellte Geschenkgutscheine
-      tr
-        th Code
-        th Wert
-    tbody
-      - @order.purchased_coupons.each do |coupon|
-        tr
-          td.code = link_to coupon.code, coupon
-          td.amount = number_to_currency coupon.initial_value
+    - if @order.event.seating.plan?
+      .card.mb-2
+        h3 Sitzplätze
+        = render 'application/ticketing/seating', event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen]
 
-= render 'application/ticketing/log_events', events: @order.log_events
-= render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'
+    - if @order.purchased_coupons.any?
+      .card.mb-2
+        h3 Bestellte Geschenkgutscheine
+        table
+          thead
+            tr
+              th Code
+              th Wert
+          tbody
+            - @order.purchased_coupons.each do |coupon|
+              tr
+                td: tt = link_to coupon.code, coupon
+                td = number_to_currency coupon.initial_value
 
-table.rounded.entries.details
-  thead
-    tr: th colspan=5 Banktransaktionen
-    tr
-      th Kontoinhaber
-      th IBAN
-      th Typ
-      th Betrag
-      th eingereicht
-  tbody.log
-    - if @order.bank_transactions.any?
-      - @order.bank_transactions.each do |transaction|
-        tr
-          td = transaction.name
-          td = obfuscated_iban(transaction.iban)
-          td = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
-          td.amount = number_to_currency(transaction.amount.abs)
-          td.date
-            - if transaction.submitted?
-              = l(transaction.submission.created_at, format: :medium)
-            - else
-              em noch nicht
-    - else
-      tr: td(colspan=5): em Keine Transaktionen vorhanden.
+    .card.mb-2 = render 'application/ticketing/log_events', events: @order.log_events
+    .card.mb-2 = render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'
+
+    .card.mb-2
+      h3 Banktransaktionen
+      .table-responsive: table
+        thead
+          tr
+            th Kontoinhaber
+            th IBAN
+            th Typ
+            th Betrag
+            th eingereicht
+        tbody
+          - if @order.bank_transactions.any?
+            - @order.bank_transactions.each do |transaction|
+              tr
+                td = transaction.name
+                td = obfuscated_iban(transaction.iban)
+                td = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
+                td = number_to_currency(transaction.amount.abs)
+                td
+                  - if transaction.submitted?
+                    = l(transaction.submission.created_at, format: :medium)
+                  - else
+                    em noch nicht
+          - else
+            tr: td.text-center(colspan=5): em Keine Transaktionen vorhanden.
 
 = render 'application/ticketing/print_notification'

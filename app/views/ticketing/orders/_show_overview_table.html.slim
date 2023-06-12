@@ -1,6 +1,5 @@
-thead
-  tr: th colspan=2 = title
-tbody
+h3 = title
+.table-responsive: table: tbody
   - overview.each do |row|
     tr
       td.label = "#{row[0]}:"

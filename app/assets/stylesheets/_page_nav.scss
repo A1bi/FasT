@@ -10,7 +10,7 @@
   ul {
     @extend .f-lbi;
     @extend .p-0;
-    @extend %list-style-none;
+    @extend .list-style-none;
     display: inline-block;
 
     li {
