@@ -15,16 +15,14 @@
       .step.payment Zahlung
       .step.confirm Bestätigung
 
-    .messages.warning.expiration
-      .icon
-      ul
-        li.plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
+    .expiration = render 'alert', type: :warning
+      .plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
     = content_tag :div, class: [:stepBox, @type, :card, :shadow], data: { controller: 'ticketing--orders', type: @type, event_id: @event.id, order_path: ticketing_order_path(':id') }
       .modalAlert
-        .alert.alert-alert role='alert'
+        = render 'alert', type: :alert
           .mb-2.message Es ist ein Fehler aufgetreten.
-          = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
+          p = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
         = render 'application/spinner'
       = yield :steps
 

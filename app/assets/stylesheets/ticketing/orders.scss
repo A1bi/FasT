@@ -33,18 +33,7 @@
 }
 
 .expiration {
-  width: 80%;
-  display: none;
-  animation: .8s ease infinite alternate expiration;
-}
-
-@keyframes expiration {
-  from {
-    color: red;
-  }
-  to {
-    color: white;
-  }
+  @extend .d-none;
 }
 
 .stepBox {
@@ -65,8 +54,11 @@
 
     .alert {
       @extend .d-none;
-      @extend .w-50;
-      margin: spacing(4) auto;
+      @extend .m-2;
+
+      @include media-query(md) {
+        margin: spacing(4);
+      }
     }
   }
 }

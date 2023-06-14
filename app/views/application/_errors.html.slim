@@ -1,0 +1,5 @@
+- if errors.any?
+  = render 'alert', type: :alert
+    ul.ps-2
+      - errors.each do |error|
+        li = error.message

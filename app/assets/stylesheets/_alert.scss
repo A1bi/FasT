@@ -22,6 +22,11 @@
     --alert-fg-color: #{darken($red, 40%)};
   }
 
+  &.alert-info {
+    --alert-bg-color: #{lighten($white, 20%)};
+    --alert-fg-color: #{darken($black, 40%)};
+  }
+
   svg {
     @extend .me-2;
     width: 1rem;

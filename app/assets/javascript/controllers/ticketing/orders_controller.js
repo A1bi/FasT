@@ -136,7 +136,7 @@ export default class extends Controller {
     this.noFurtherErrors = true
     this.modalBox.find('.spinner').hide()
     this.killExpirationTimer()
-    this.toggleModalBox(true).find('.alert').show()
+    this.toggleModalBox(true).find('.alert').css('display', 'flex')
       .find('.message').html(msg)
     this.hideOrderControls()
   }
@@ -204,7 +204,7 @@ export default class extends Controller {
         this.expire()
         return
       }
-      togglePluralText(this.expirationBox.find('li'), seconds)
+      togglePluralText(this.expirationBox.find('.plural_text'), seconds)
     }
     this.expirationTimer.timer = setTimeout(() => {
       this.updateExpirationCounter(--seconds)
