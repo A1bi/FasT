@@ -16,6 +16,7 @@ export default class extends Controller {
     this.expirationTimer = { type: 0, timer: null, times: [420, 60] }
     this.noFurtherErrors = false
 
+    this.orderFrameBox = $('.order-framework')
     this.stepBox = $(this.element)
     this.expirationBox = $('.expiration')
     this.btns = $('.btns .btn')
@@ -152,12 +153,12 @@ export default class extends Controller {
 
     this.progressBox.find('.current').removeClass('current')
     this.progressBox.find('.step.' + this.currentStep.name).addClass('current')
-    const bar = this.progressBox.find('.bar')
-    bar.css('left', bar.width() * this.currentStepIndex)
   }
 
   moveInCurrentStep (animate) {
+    this.orderFrameBox.toggleClass('w-100', this.currentStep.needsFullWidth())
     this.currentStep.moveIn(animate)
+    this.updateBoxSizes(animate)
     this.updateBtns()
     this.updateProgress()
   }
@@ -171,11 +172,8 @@ export default class extends Controller {
     }
   }
 
-  updateBoxSizes () {
-    this.resizeStepBox(this.currentStep.box.outerHeight(true), false)
-
-    const width = this.progressBox.width() / (Object.keys(this.steps).length - 1)
-    this.progressBox.find('.step').css({ width: width }).filter('.bar').css({ width: Math.round(width) })
+  updateBoxSizes (animated) {
+    this.resizeStepBox(this.currentStep.box.outerHeight(true), animated)
   }
 
   getStep (stepName) {
@@ -234,6 +232,8 @@ export default class extends Controller {
   }
 
   registerEvents () {
+    this.orderFrameBox.on('transitionend', () => this.updateBoxSizes())
+
     this.btns.click(event => this.goNext($(event.currentTarget)))
 
     $(document)

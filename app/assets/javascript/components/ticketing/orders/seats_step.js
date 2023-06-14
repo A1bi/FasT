@@ -31,6 +31,10 @@ export default class extends Step {
     return !this.hasSeatingPlan || this.chooser.validate()
   }
 
+  needsFullWidth () {
+    return !!this.hasSeatingPlan
+  }
+
   nextBtnEnabled () {
     return !!this.info.api.date
   }

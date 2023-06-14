@@ -3,9 +3,8 @@
 .container
   h1 = local_assigns.fetch(:title, 'Tickets bestellen')
 
-  .row: .col.w-100
+  .row: .col.order-framework
     .progress.d-sm-none
-      .step.bar
       .step.current.tickets Tickets
       .step.seats
         - if @event.seating.plan?

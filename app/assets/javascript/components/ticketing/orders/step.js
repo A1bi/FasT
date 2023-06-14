@@ -25,7 +25,6 @@ export default class {
       this.box.css(props)
       this.didMoveIn()
     }
-    this.resizeDelegateBox(animate)
   }
 
   moveOut (left) {
@@ -167,6 +166,10 @@ export default class {
   didMoveIn () {}
 
   shouldBeSkipped () {
+    return false
+  }
+
+  needsFullWidth () {
     return false
   }
 

@@ -7,36 +7,29 @@
 }
 
 .progress {
-  border-bottom: 0;
-
-  &.disabled .step {
-    opacity: 0;
-  }
+  @extend .d-flex;
+  @extend .justify-content-center;
+  @extend .py-1;
+  gap: spacing(1);
 
   .step {
-    position: relative;
-    float: left;
-    text-align: center;
-    padding: 2px 0px;
-    color: #cccccc;
-    z-index: 2;
-    display: none;
-    transition: color .5s ease-in-out, opacity .5s;
+    transition: color .5s ease-in-out;
 
     &.current {
-      color: $white;
+      color: $red;
     }
 
-    &.bar {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      height: 100%;
-      display: block;
-      background: $red;
-      transition: left .5s ease-in-out;
+    &:not(:last-child):after {
+      @extend .ms-1;
+      content: '–';
+      color: $semi-gray;
     }
   }
+}
+
+.order-framework {
+  transition: max-width .5s;
+  max-width: 100%;
 }
 
 .expiration {
