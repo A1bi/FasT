@@ -162,7 +162,7 @@ export default class extends Step {
   }
 
   updateCouponResult (msg, error) {
-    this.couponBox.find('.msg').text(msg).toggleClass('text-red', error)
+    this.couponBox.find('.msg').text(msg).toggle(error).toggleClass('text-red', error)
     this.resizeDelegateBox()
   }
 

@@ -5,7 +5,7 @@
       = content_tag_for(:tr, @ticket_types, :confirm) do |type|
         td data-id=type.id = type.name
         td.single
-          b.number> 0
+          .number.d-inline> 0
           | je #{number_to_currency(type.price || 0)}
         td.total.text-end data-price=type.price <span></span> €
       tr.subtotal
@@ -17,5 +17,5 @@
         td colspan='2' Abzug durch Gutscheine
         td.total.text-end <span></span> €
       tr.total
-        td colspan='2' Gesamt
-        td.total.text-end <span></span> €
+        td colspan='2': b Gesamt
+        td.total.text-end: b <span></span> €
