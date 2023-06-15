@@ -136,7 +136,9 @@
   }
 
   &.finish {
-    @extend .text-center;
+    p {
+      @extend .text-center;
+    }
 
     .tickets {
       @extend .d-none;
@@ -220,24 +222,6 @@
         40% {
           transform: scale(1.2);
         }
-      }
-    }
-  }
-
-  .spam-note {
-    border: 1px solid #feb138;
-    margin: 25px;
-    border-radius: 7px;
-    padding: 10px;
-    text-align: left;
-
-    .icon {
-      float: left;
-      margin-right: 10px;
-
-      img {
-        display: block;
-        width: 30px;
       }
     }
   }

@@ -3,9 +3,8 @@
 .container
   h1 = local_assigns.fetch(:title, 'Geschenkgutscheine bestellen')
 
-  .row: .col
+  .row: .col.order-framework
     .progress.d-sm-none
-      .step.bar
       .step.current.coupons Gutscheine
       .step.address Adresse
       .step.payment Zahlung

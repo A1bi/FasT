@@ -11,7 +11,7 @@
           - elsif date.sold_out? && !current_user&.admin?
             - sold_out << date
           - else
-            option value=date.id data={ id: date.id, box_office_payment: 3.days.from_now > date.date && !date.event.covid19? }
+            option value=date.id data={ id: date.id, 'box-office-payment': 3.days.from_now > date.date && !date.event.covid19? }
               = l date.date, format: '%A, %d. %B %Y, %H:%M'
       - sold_out.any?
         optgroup label='Folgende Aufführungen sind derzeit ausverkauft'
