@@ -16,7 +16,7 @@
     = render 'application/ticketing/orders_table', table_title: 'Bisherige Bestellungen in Ihrer Vorverkaufsstelle', orders: @orders[:retail], web: false, cache_key: [:orders, :retail, current_user.store]
 
     .text-end data-controller='ticketing--ticket-printer'
-      a.btn.me-2 data-action='ticketing--ticket-printer#printTest' data-confirm-message='Möchten Sie wirklich einen Testdruck durchführen?' Testdruck
-      a.btn data-action='ticketing--ticket-printer#openSettings' Druckeinstellungen
+      a.btn.btn-sm.me-1 data-action='ticketing--ticket-printer#printTest' data-confirm-message='Möchten Sie wirklich einen Testdruck durchführen?' Testdruck
+      a.btn.btn-sm data-action='ticketing--ticket-printer#openSettings' Druckeinstellungen
 
-    = render 'application/ticketing/print_notification'
+= render 'application/ticketing/print_notification'

@@ -6,8 +6,8 @@
     .mb-0 Tickets
     h3.d-block.mt-0.number
   p.text-center.pb-2
-    = link_to 'zu weiteren Bestelldetails', '', class: [:details, :btn, 'me-2']
-    = link_to 'neue Bestellung aufnehmen', { action: :new_privileged }, class: :btn
+    = link_to 'zu weiteren Bestelldetails', '', class: [:details, :btn, 'd-inline-block', 'mb-1']
+    = link_to 'neue Bestellung aufnehmen', { action: :new_privileged }, class: [:btn, 'd-inline-block']
 
 = content_for :steps
   = render 'tickets'

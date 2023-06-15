@@ -67,8 +67,9 @@ ruby:
           end
         end
 
-      .card.mb-2 = render 'show_overview_table', title: title, overview: overview
-      .card = render 'show_overview_table', title: 'Zahlung', overview: payment if payment
+      .card = render 'show_overview_table', title: title, overview: overview
+      - if payment
+        .card.mt-2 = render 'show_overview_table', title: 'Zahlung', overview: payment
 
     .col.col-md-4: .card
       h3 Aktionen

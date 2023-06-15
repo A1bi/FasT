@@ -2,6 +2,7 @@ import $ from 'jquery'
 
 export default class {
   static urlScheme = 'fastprint'
+  static testDocumentPath = 'uploads/muster.pdf'
 
   notifyHelper (cmd, options) {
     let url = `${this.constructor.urlScheme}://${cmd}`
@@ -11,10 +12,6 @@ export default class {
 
   printTickets (path) {
     this.notifyHelper('print', path)
-  }
-
-  printTest () {
-    this.printTickets('uploads/muster.pdf')
   }
 
   openSettings () {
@@ -56,7 +53,6 @@ export default class {
   }
 
   printTestWithNotification () {
-    this.printTest()
-    this.showPrintNotification()
+    this.printTicketsWithNotification(this.constructor.testDocumentPath)
   }
 }

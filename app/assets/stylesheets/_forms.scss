@@ -205,6 +205,11 @@ select {
   @extend .text-center;
   cursor: pointer;
 
+  &.btn-sm {
+    padding: spacing(1) / 2 spacing(1);
+    font-size: .75rem;
+  }
+
   svg {
     fill: $white;
     width: 1rem;
