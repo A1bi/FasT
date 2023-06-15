@@ -20,7 +20,7 @@ body class=('development' if Rails.env.development?)
   .container.nav: nav
     ul
       li = link_to 'Programm', root_path(anchor: :programm)
-      li = link_to 'Archiv', root_path(anchor: :archiv)
+      / li = link_to 'Archiv', root_path(anchor: :archiv)
       li
         = link_to 'TheaterKultur', theaterkultur_path
         ul

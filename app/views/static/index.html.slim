@@ -41,33 +41,28 @@ ruby:
     }
   ]
 
-  archive = [
-    {
-      title: 'Ein idealer Gatte',
-      date: '01.07.2022',
-      subtitle: 'Sommernachtstheater 2022'
-    },
-    {
-      title: 'Frau Müller muss weg',
-      date: '01.07.2021',
-      subtitle: 'Sommernachtstheater 2021'
-    },
-    {
-      title: 'Mit Abstand das Beste...',
-      date: '01.07.2020',
-      subtitle: '...eine virale Satirerevue'
-    },
-    {
-      title: 'Der Gott des Gemetzels',
-      date: '01.01.2020',
-      subtitle: 'Gastspiel in Cochem'
-    },
-    {
-      title: 'Die Geschichte vom blauen Planeten',
-      date: '01.10.2019',
-      subtitle: 'Kinder- und Jugendtheater'
-    },
-  ]
+  # archive = [
+  #   {
+  #     title: 'Ein idealer Gatte',
+  #     date: '01.07.2022',
+  #     subtitle: 'Sommernachtstheater 2022'
+  #   },
+  #   {
+  #     title: 'Frau Müller muss weg',
+  #     date: '01.07.2021',
+  #     subtitle: 'Sommernachtstheater 2021'
+  #   },
+  #   {
+  #     title: 'Mit Abstand das Beste...',
+  #     date: '01.07.2020',
+  #     subtitle: '...eine virale Satirerevue'
+  #   },
+  #   {
+  #     title: 'Die Geschichte vom blauen Planeten',
+  #     date: '01.10.2019',
+  #     subtitle: 'Kinder- und Jugendtheater'
+  #   },
+  # ]
 
 .carousel
   = image_tag 'carousel_1.jpg', class: %i[photo active]
@@ -108,16 +103,16 @@ ruby:
           .subtitle = event[:subtitle]
         .col.col-md-3.mt-sm-1 = link_to 'Tickets', ticket_url, class: :btn
 
-  h1.text-center#archiv Archiv
-  - archive.each do |event|
-    - date = Time.parse(event[:date])
-    .row: .col.w-100: .card.schedule: .row
-      .col-3.col-md-2
-        = l date, format: '%B'
-        .year = l date, format: '%Y'
-      .col-9.col-md-10
-        .title = event[:title]
-        .subtitle = event[:subtitle]
+  / h1.text-center#archiv Archiv
+  / - archive.each do |event|
+  /   - date = Time.parse(event[:date])
+  /   .row: .col.w-100: .card.schedule: .row
+  /     .col-3.col-md-2
+  /       = l date, format: '%B'
+  /       .year = l date, format: '%Y'
+  /     .col-9.col-md-10
+  /       .title = event[:title]
+  /       .subtitle = event[:subtitle]
 
 hr
 
