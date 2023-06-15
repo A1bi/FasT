@@ -21,7 +21,7 @@ export default class extends Controller {
   }
 
   async fetchMapInformation () {
-    const path = `/faq/map.json?event_id=${this.data.get('event-id')}`
+    const path = `${window.location.pathname}/map.json`
     return await fetch(path)
   }
 

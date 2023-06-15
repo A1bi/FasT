@@ -1,0 +1,7 @@
+h3 Preise
+- @ticket_types.universal.each do |type|
+  .card.mb-2: .row
+    .col-8
+      = type.name
+      small.d-block = type.info
+    .col-4.f-lbi.text-end = number_to_currency(type.price)

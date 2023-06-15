@@ -100,7 +100,11 @@ ruby:
             .time
               svg: use xlink:href="#schedule-time"
               = l date, format: '%H:%M'
-          .title: a href='/v2/event' = event[:title]
+          .title
+            - if event[:slug].present?
+              = link_to event[:title], event_path(event[:slug])
+            - else
+              = event[:title]
           .subtitle = event[:subtitle]
         .col.col-md-3.mt-sm-1 = link_to 'Tickets', ticket_url, class: :btn
 

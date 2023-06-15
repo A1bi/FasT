@@ -54,9 +54,9 @@
       transition: transform .3s;
 
       * {
-        fill: $white;
-        stroke: $black;
-        stroke-width: .3%;
+        fill: $white !important;
+        stroke: $black !important;
+        stroke-width: .3% !important;
         transition: stroke .2s;
       }
     }

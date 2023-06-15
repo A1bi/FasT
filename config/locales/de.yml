@@ -11,7 +11,7 @@ de:
     female: weiblich
     male: männlich
     diverse: divers
-  dates:
+  events:
     hours:
       one: eine Stunde
       other: "%{count} Stunden"

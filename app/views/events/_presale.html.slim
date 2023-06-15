@@ -1,0 +1,14 @@
+p.mt-2
+  - sale_start = l(@event.sale_start, format: '%-d. %B %Y')
+  - if local_assigns[:retail]
+    | Tickets <b>ab #{sale_start}</b> hier online und in folgenden Vorverkaufsstellen:
+  - else
+    | Tickets <b>ab #{sale_start}</b> hier im Online-Vorverkauf.
+- if local_assigns[:retail]
+  ul.style-none.ps-2
+    li.d-flex.align-items-center
+      svg.icon.me-1: use xlink:href='#schedule-location'
+      a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
+    li.d-flex.align-items-center
+      svg.icon.me-1: use xlink:href='#schedule-location'
+      a href='https://layaa.de' Buchhandlung Layaa-Laulhé, Cochem

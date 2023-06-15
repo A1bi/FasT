@@ -1,0 +1,3 @@
+.event-header
+  = image_tag "events/#{@event.assets_identifier}/photos/#{photo}", class: %i[photo active]
+  .title.active = inline_svg "theater/#{@event.assets_identifier}/ticket_header"

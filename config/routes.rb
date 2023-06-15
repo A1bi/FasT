@@ -2,12 +2,11 @@
 
 Rails.application.routes.draw do
   get 'v2/kitchen-sink' => 'v2#kitchen_sink'
-  get 'v2/event' => 'v2#event'
 
-  # dates
-  scope controller: :dates, path: 'termine', as: :dates do
-    root action: :index, as: ''
-    get ':slug', action: :show_event, as: :event
+  # events
+  scope controller: :events, path: 'events' do
+    get ':slug/map', action: :map, format: :json
+    get ':slug', action: :show, as: :event
   end
 
   # theater
@@ -15,12 +14,6 @@ Rails.application.routes.draw do
     get '/', action: :index
     get ':slug', action: :show, as: :play
   end
-
-  # info
-  scope controller: :info, path: 'faq', as: :info do
-    get 'map'
-  end
-  get 'info', to: redirect('faq')
 
   # static pages
   scope controller: :static do

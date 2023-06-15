@@ -34,12 +34,16 @@ module Ticketing
       (ticket_stats_for_event(self).dig(:total, :total, :percentage) || 0) >= 100
     end
 
+    def sale_not_yet_started?
+      sale_start&.future?
+    end
+
     def sale_started?
-      sale_start.nil? || Time.current > sale_start
+      sale_start.nil? || sale_start.past?
     end
 
     def sale_ended?
-      dates.maximum(:date) < Time.current
+      dates.maximum(:date).past?
     end
 
     def on_sale?

@@ -1,0 +1,171 @@
+= render 'header', photo: '1'
+= render 'page_nav'
+
+.container.page-nav-anchor#ueber-das-stueck
+  .row: .col
+    h2 Über das Stück
+    p Das Stück wurde 1895 in London uraufgeführt und von Kritikern und Publikum gleichermaßen gefeiert, bis es bei Prozessbeginn abrupt vom Spielplan genommen wurde. „I really think it reads the best of my plays“ urteilte Wilde selbst über sein politisches und vielschichtiges letztes Bühnenwerk, das seine persönliche Erfahrung mit Erpressung und seine Angst von dem Verlust des gesellschaftlichen Ansehens verarbeitete.
+    p Es geht um Insidergeschäfte, Erpressung, Intrigen, Geheimnisverrat, Börsenschwindel und Verwicklungen. Zeitlose Themen damals wie heute. Die Aktualität ist verblüffend.
+    p Eine Intrigantin, Mrs Cheveley, die Zugang zu höchsten englischen Gesellschaftskreisen hat, versucht 1895 einen integren Politiker, Sir Robert, zu erpressen. Sie weiß genau um dessen dunkles Geheimnis am Anfang seiner Karriere und droht mit der Preisgabe dieses Geheimnisses an Presse und Gattin. Ein Freund möchte Sir Robert gerne helfen, verursacht dadurch jedoch nur noch mehr Verwicklungen.
+    p Pikanter Inhalt gepaart mit geschliffenen Dialogen, Bonmots und einer spritzigen Inszenierung, machen die Aufführungen zum Vergnügen.
+
+hr
+
+= render 'photos', gallery_id: 71
+
+hr
+
+.container.page-nav-anchor#besetzung
+  .row: .col.cast
+    h2 Besetzung
+    h3 Darsteller
+    .row
+      .col-6 Sir Robert Chiltern
+      .col-6 Gerd Röser
+    .row
+      .col-6 Lady Gertrude Chiltern
+      .col-6 Susanne Schubert
+    .row
+      .col-6 Miss Mabel Chiltern
+      .col-6 Nadine Gründer
+    .row
+      .col-6 Lord Arthur Goring
+      .col-6 Stephan Hilken
+    .row
+      .col-6 Lord Caversham
+      .col-6 Walter Loreth
+    .row
+      .col-6 Mrs Laura Cheveley
+      .col-6 Simone Spies
+    .row
+      .col-6 Lady Markby
+      .col-6 Brigitte Meier
+    .row
+      .col-6 Lady Olivia Basildon
+      .col-6 Sonja Makhlis
+    .row
+      .col-6 Mrs Margaret Marchmont
+      .col-6 Chiara Jausel
+    .row
+      .col-6 Vicomte de Nanjac
+      .col-6 Thomas Ellerich
+    .row
+      .col-6 Phipps
+      .col-6 Daniela Gödert
+    .row
+      .col-6 Mason
+      .col-6 Jörg Wronka
+    .row
+      .col-6 Staff
+      .col-6: ul.list-style-none
+        li Monika Näckel
+        li Margit Fischer
+        li Daniela Gödert
+        li Lotte Schäfer
+        li Klara Spies
+        li Jakob Ellerich
+    h3 Hinter den Kulissen
+    .row
+      .col-6 Regie
+      .col-6 Kirsten Roscher
+    .row
+      .col-6 Soufflage
+      .col-6 Helmut Mattern
+    .row
+      .col-6 Technik (Licht/Ton)
+      .col-6: ul.list-style-none
+        li Jens Krämer & Team
+        li Michael Lenz
+    .row
+      .col-6 Bühnenbild, Idee
+      .col-6 Kirsten Roscher
+    .row
+      .col-6 Bühnenbild, Malerei
+      .col-6 Willi Schrader
+    .row
+      .col-6 Kulissenbau
+      .col-6: ul.list-style-none
+        li Helmut Mattern
+        li Heinz Christ
+        li Klaus Junglas
+        li Klaus Herres
+        li Matthias Schnitzler
+        li Sigi Roscher
+        li Uli Hesse
+        li Werner Lutz
+    .row
+      .col-6 Maske/Frisuren
+      .col-6: ul.list-style-none
+        li Camelia Ellerich
+        li Christina Oster
+        li Cilli Loreth
+        li Johanna Ellerich
+        li Lea Franzke
+        li Marie Gödert
+        li Martina Steffes (Leitung)
+        li Michaela Venus
+        li Monika Weber
+        li Ursula Näckel-Bauck
+    .row
+      .col-6 Kostümwerkstatt
+      .col-6: ul.list-style-none
+        li Annemarie Taßler
+        li Elisabeth Pauken
+        li Monika Näckel
+        li Nadine Gründer
+        li Bärbel Junglas
+        li Maija-Leena Forys
+        li Susanne Schubert (Leitung)
+    .row
+      .col-6 Musikauswahl
+      .col-6: ul.list-style-none
+        li Stephan Hilken
+        li Kirsten Roscher
+    .row
+      .col-6 Piano (Einspieler)
+      .col-6 Jakob Ellerich
+    .row
+      .col-6 Ausstattung / Requisiten
+      .col-6 alle Darsteller, Fundus
+    .row
+      .col-6 Bewirtung
+      .col-6 Maria Oster & Team
+    .row
+      .col-6 Öffentlichkeitsarbeit Medienkontakt, Werbung
+      .col-6: ul.list-style-none
+        li Maria Oster
+        li Otto Krechel
+    .row
+      .col-6 Texte
+      .col-6: ul.list-style-none
+        li Kirsten Roscher
+        li Maria Oster
+        li Susanne Schubert
+    .row
+      .col-6 Fotos
+      .col-6: ul.list-style-none
+        li Susanne Schubert
+        li Mario Spies
+    .row
+      .col-6 Titelbild, Drucksachen
+      .col-6 Susanne Schubert
+
+hr
+
+.container.page-nav-anchor#tickets
+  = render 'icons'
+
+  .row: .col
+    h2 Tickets
+    = render 'dates'
+    = render 'prices'
+    = render 'presale', retail: true
+
+hr
+
+.container.page-nav-anchor#faq
+  .row: .col
+    h2 FAQ
+    = render 'faq_freilichtbuehne'
+
+= structured_data @event

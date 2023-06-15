@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
-module DatesHelper
+module EventsHelper
   def structured_data(event, locals = {})
     locals[:event] = event
     locals[:image] = "theater/#{event.assets_identifier}/title.svg"
 
     tag.script type: 'application/ld+json' do
-      raw render(partial: 'dates/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety
+      raw render(partial: 'events/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety
     end
+  end
+
+  def question_answer(question, &)
+    render 'faq_question_answer', { question: }, &
   end
 
   def item_availability(date)
@@ -35,7 +39,7 @@ module DatesHelper
 
   def admission_time(event)
     if (event.admission_duration % 60).zero?
-      t('dates.hours', count: event.admission_duration / 60)
+      t('events.hours', count: event.admission_duration / 60)
     else
       "#{event.admission_duration} Minuten"
     end

@@ -1,0 +1,51 @@
+h3 Vorverkauf
+
+= question_answer 'Wo erhalte ich Tickets?' do
+  | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path} bestellen.
+
+= question_answer 'Gibt es Platzreservierungen?' do
+  | Bei diesem Stück gilt freie Platzwahl.
+
+= question_answer 'Sind die Sitzplätze barrierefrei erreichbar?' do
+  | Alle Plätze sind barrierefrei zu erreichen.
+
+= question_answer 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
+  | Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
+
+= question_answer 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
+  | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+  p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Tag der Aufführung bei der Einlasskontrolle vorzuzeigen.
+
+= question_answer 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do
+  | Selbstverständlich. Zeigen Sie dazu einfach das PDF-Dokument auf Ihrem Handy-Display vor.
+  p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
+
+= question_answer 'Lassen sich Tickets umbuchen oder stornieren?' do
+  p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
+  p Umbuchungen oder Stornierungen können Sie selbst über den Link in Ihrer Bestellbestätigungs-E-Mail oder telefonisch unter <b>(02653) 28 27 09</b> vornehmen.
+
+h3 Anfahrt
+
+= render 'map'
+
+= question_answer 'Wo finde ich das „Alte Wasserwerk“?' do
+  | Unsere „Kulturbühne Altes Wasserwerk“ finden Sie unter der Adresse „Auf der Wacht 9“ in Kaisersesch.
+
+h3 Veranstaltung
+
+= question_answer 'Ich habe Tickets kurzfristig abzugeben. Kann ich diese an der Abendkasse zurückgeben?' do
+  | Ja, das ist möglich. Sofern wir einen neuen Besitzer für Ihre Tickets finden können, erhalten Sie den vollen Betrag zurück.
+
+= question_answer 'Werden vor Ort Speisen und Getränke angeboten?'
+  | Ja, wir bieten gepflegte Getränke und leckere Kleinigkeiten an.
+
+= question_answer 'Wird es eine Pause geben?' do
+  | Es wird nach der ersten Hälfte des Konzerts eine Pause von 20 bis 30 Minuten geben.
+
+= question_answer 'Wie lange dauert das Konzert?' do
+  | Die Spielzeit beträgt etwa 90 Minuten. Hinzu kommt eine Pause von 20 bis 30 Minuten.
+
+= question_answer 'Gibt es ein Rauchverbot?' do
+  | Rauchen innerhalb des Gebäudes können wir Ihnen auf Grund von Brandschutzbestimmungen nicht gestatten.
+
+= render 'further_questions'
