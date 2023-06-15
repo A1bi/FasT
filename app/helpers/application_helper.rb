@@ -7,45 +7,9 @@ module ApplicationHelper
     content_for :title, page_title.to_s
   end
 
-  def include_css(filename)
-    content_for :head, stylesheet_link_tag(filename.to_s, media: 'all')
-  end
-
   def cond_submit(form)
     action = params[:action] == :new ? :create : :save
     form.submit value: t("application.submit.#{action}"), class: :btn
-  end
-
-  def theater_play_identifier_path(identifier)
-    event_identifier_path(identifier, :theater_play_path)
-  end
-
-  def dates_event_identifier_path(identifier)
-    event_identifier_path(identifier, :dates_event_path)
-  end
-
-  def dates_event_identifier_path_exists?(identifier)
-    lookup_context.template_exists?("dates/event_#{identifier}")
-  end
-
-  def new_ticketing_order_identifier_path(identifier)
-    event_identifier_path(identifier, :new_ticketing_order_path)
-  end
-
-  def info_identifier_path(identifier)
-    event_identifier_path(identifier, :info_path)
-  end
-
-  def event_image_exists?(event)
-    asset_exists?(event_image_path(event))
-  end
-
-  def event_image_path(event)
-    "theater/#{event.assets_identifier}/title.svg"
-  end
-
-  def theater_play_path_exists?(event)
-    lookup_context.template_exists?("theater/#{event.identifier}")
   end
 
   def asset_exists?(path)
@@ -94,12 +58,5 @@ module ApplicationHelper
   def inline_svg(name)
     file_path = Rails.root.join("app/assets/images/#{name}.svg")
     File.read(file_path).html_safe # rubocop:disable Rails/OutputSafety
-  end
-
-  private
-
-  def event_identifier_path(identifier, path_method)
-    event = Ticketing::Event.find_by(identifier:)
-    event.present? ? method(path_method).call(event.slug) : nil
   end
 end
