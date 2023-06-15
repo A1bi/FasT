@@ -47,7 +47,7 @@ const generateColors = () => {
   return colors
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const shuffleColors = () => {
   var colors = generateColors()
 
   colors.forEach((color, i) => {
@@ -57,6 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   document.querySelectorAll('hr').forEach(el => {
-    el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace('black', colorToHslCss(colors[0]))
+    el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace(/black|hsl\(.+?\)/, colorToHslCss(colors[0]))
   })
+}
+
+document.addEventListener('DOMContentLoaded', shuffleColors)
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.altKey && e.code === 'KeyC') shuffleColors()
 })
