@@ -65,10 +65,11 @@ ruby:
   # ]
 
 .carousel
-  = image_tag 'carousel_1.jpg', class: %i[photo active]
-  = image_tag 'carousel_2.jpg', class: :photo
-  .title.active: a href='/v2/event' = inline_svg 'theater/frau_mueller/ticket_header'
-  .title: a href='/v2/event' = inline_svg 'theater/herdmanns/ticket_header'
+  - [2, 3, 1, 4].each.with_index do |photo, i|
+    = image_tag "events/gatte/photos/#{photo}", class: [:photo, (:active if i.zero?)], data: { event_identifier: :gatte }
+  .title.active data-event-identifier=:gatte
+    = link_to event_path('ein-idealer-gatte')
+      = inline_svg 'theater/gatte/ticket_header'
 
 .container
   h1.text-center#programm Programm

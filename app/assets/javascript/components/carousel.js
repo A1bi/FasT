@@ -1,28 +1,37 @@
+const showNextCarouselItem = () => {
+  setTimeout(() => {
+    const nextIndex = (Array.from(carouselPhotos).indexOf(currentPhoto) + 1) % carouselPhotos.length
+
+    currentPhoto.addEventListener('transitionend', e => {
+      e.currentTarget.classList.remove('out')
+      showNextCarouselItem()
+    }, { once: true })
+    currentPhoto.classList.remove('active')
+    currentPhoto.classList.add('out')
+    currentPhoto = carouselPhotos[nextIndex]
+    currentPhoto.classList.add('active')
+
+    const nextActiveTitle = document.querySelector(
+      `.carousel .title[data-event-identifier="${currentPhoto.dataset.eventIdentifier}"]`
+    )
+    if (activeTitle === nextActiveTitle) return
+
+    activeTitle.addEventListener('transitionend', () => {
+      nextActiveTitle.classList.add('active')
+      activeTitle = nextActiveTitle
+    }, { once: true })
+    activeTitle.classList.remove('active')
+  }, 5000)
+}
+
+var carouselPhotos
+var currentPhoto
+var activeTitle
+
 document.addEventListener('DOMContentLoaded', () => {
-  const carouselTitles = document.querySelectorAll('.carousel .title')
-  const carouselPhotos = document.querySelectorAll('.carousel .photo')
-  var currentTitle = document.querySelector('.carousel .title.active')
-  var currentPhoto = document.querySelector('.carousel .photo.active')
+  carouselPhotos = document.querySelectorAll('.carousel .photo')
+  currentPhoto = carouselPhotos[0]
+  activeTitle = document.querySelector('.carousel .title.active')
 
-  const showNextCarouselItem = () => {
-    setTimeout(() => {
-      const nextIndex = (Array.from(carouselTitles).indexOf(currentTitle) + 1) % carouselTitles.length
-      const nextTitle = carouselTitles[nextIndex]
-
-      currentTitle.addEventListener('transitionend', () => {
-        currentTitle = nextTitle
-        currentTitle.addEventListener('transitionend', showNextCarouselItem, { once: true })
-        currentTitle.classList.add('active')
-      }, { once: true })
-      currentTitle.classList.remove('active')
-
-      currentPhoto.addEventListener('transitionend', e => e.currentTarget.classList.remove('out'), { once: true })
-      currentPhoto.classList.remove('active')
-      currentPhoto.classList.add('out')
-      currentPhoto = carouselPhotos[nextIndex]
-      currentPhoto.classList.add('active')
-    }, 5000)
-  }
-
-  if (carouselTitles.length > 1) showNextCarouselItem()
+  if (carouselPhotos.length > 1) showNextCarouselItem()
 })
