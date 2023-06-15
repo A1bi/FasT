@@ -26,7 +26,6 @@ module Ticketing
       height = @ticket_height - TICKET_MARGIN * 2
       bounding_box([0, y], width: TICKET_WIDTH, height:) do
         indent(25, 25) do
-          draw_header
           move_down 15
 
           bounding_box([0, cursor], width: bounds.width, height: cursor) do
@@ -39,7 +38,7 @@ module Ticketing
             move_cursor_to bounds.top
             indent(bounds.right - 135, 0) do
               draw_barcode_for_ticket(ticket)
-              move_down 10
+              move_down 25
               draw_logo
             end
           end
@@ -59,29 +58,6 @@ module Ticketing
 
       link = barcode_link_for_ticket(ticket, authenticated: true)
       link_annotate(link, [0, -bounds.width, 0, 0])
-    end
-
-    def draw_header
-      font_size_name :small do
-        header = t(:header)
-        box_height = height_of header
-        bounding_box([0, cursor], width: bounds.width, height: box_height) do
-          text_width = 0
-          character_spacing 2 do
-            text_width = width_of header
-            text header, align: :center
-          end
-
-          move_cursor_to box_height / 2
-          line_width 0.5
-          stroke do
-            padding = 10
-            text_start = bounds.width / 2 - text_width / 2
-            horizontal_line 0, text_start - padding
-            horizontal_line text_start + text_width + padding, bounds.width
-          end
-        end
-      end
     end
 
     def create_event_info_stamp(event)
@@ -201,8 +177,8 @@ module Ticketing
 
     def draw_logo
       draw_stamp(:logo, nil, true) do
-        width_scale = 0.55
-        svg_image 'pdf/logo_bw.svg',
+        width_scale = 0.8
+        svg_image 'pdf/logo_bw_l3.svg',
                   width: bounds.width * width_scale, position: :center
 
         next unless includes_links?

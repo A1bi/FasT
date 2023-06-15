@@ -34,7 +34,7 @@ module Ticketing
       private
 
       def draw_header
-        svg_image 'pdf/logo_bw.svg', width: bounds.width * 0.40, position: :center
+        svg_image 'pdf/logo_bw_l2.svg', width: bounds.width * 0.40, position: :center
         move_down 10
 
         text t(:header), align: :center, inline_format: true

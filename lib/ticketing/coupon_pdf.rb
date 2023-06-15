@@ -70,7 +70,7 @@ module Ticketing
         text t(:title), size: 25, align: :center, styles: %i[bold]
 
         move_down 30
-        svg_image 'pdf/logo_kaisersesch.svg',
+        svg_image 'pdf/logo_bw_l2.svg',
                   height: bounds.height * 0.3, position: :center
       end
     end
@@ -86,7 +86,7 @@ module Ticketing
     def draw_back
       quarter_bounding_box([half_page_width, bounds.height], rotate: true) do
         move_down 30
-        svg_image 'pdf/logo.svg',
+        svg_image 'pdf/logo_bw_l2.svg',
                   height: bounds.height * 0.4, position: :center
 
         move_down 30

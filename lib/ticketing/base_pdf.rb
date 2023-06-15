@@ -5,8 +5,9 @@ module Ticketing
   class BasePdf < Prawn::Document
     include ActionView::Helpers::NumberHelper
 
-    FONT_NAME = 'OpenSans'
+    FONT_NAME = 'maven-pro-v32-latin'
     FONT_STYLES = %i[normal bold].freeze
+    FONT_STYLES_MAPPING = { normal: :regular, bold: '900' }.freeze
     FONT_SIZES = { normal: 14, small: 11, tiny: 8 }.freeze
 
     FG_COLOR = '000000'
@@ -27,6 +28,7 @@ module Ticketing
       stroke_color FG_COLOR
 
       paths = FONT_STYLES.index_with do |style|
+        style = FONT_STYLES_MAPPING[style]
         assets_path.join('fonts', "#{FONT_NAME}-#{style}.ttf").to_s
       end
       font_families.update(FONT_NAME => paths)

@@ -16,7 +16,7 @@ RSpec.shared_context 'when rendering tickets pdf' do
   let(:page_analysis) { PDF::Inspector::Page.analyze(pdf) }
 
   let(:images_path) { Rails.root.join('app/assets/images') }
-  let(:logo_path) { images_path.join('pdf/logo_bw.svg') }
+  let(:logo_path) { images_path.join('pdf/logo_bw_l3.svg') }
   let(:event_header_path) { images_path.join("theater/#{event.identifier}/ticket_header.svg") }
 
   before do
