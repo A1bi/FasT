@@ -1,0 +1,5 @@
+- title 'Newsletter-Abo bearbeiten'
+
+= render 'form', text: 'Hier haben Sie die Möglichkeit, Angaben zur Ihrer Anmeldung bei unserem Newsletter zu bearbeiten oder stattdessen alle weiteren Mails abzubestellen.'
+
+.text-center.mt-1 = button_to "Newsletter abbestellen", newsletter_subscriber_path(token: @subscriber.token), method: :delete, class: :btn

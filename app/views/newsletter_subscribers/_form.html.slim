@@ -1,0 +1,20 @@
+.container
+  h1 Newsletter
+  .row: .col
+    = local_assigns.fetch(:text, 'Melden Sie sich jetzt kostenlos zu unserem Newsletter an und erfahren Sie künftig alles Neue um unseren Verein sofort.')
+    .card.mt-2 = form_with model: @subscriber, url: newsletter_subscriber_path(token: @subscriber.token), local: true do |f|
+      = render 'errors', errors: (@subscriber ||= Newsletter::Subscriber.new).errors
+      = render 'form_required_caption'
+      = render 'form_field', form: f, attribute: :gender, label: 'Anrede'
+        = f.select :gender, options_for_select({ 'Frau' => 0, 'Herr' => 1 }, @subscriber.gender)
+      = render 'form_field', form: f, attribute: :last_name, label: 'Nachname'
+        = f.text_field :last_name
+      = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse', required: true
+        = f.email_field :email, disabled: @subscriber.persisted?, required: true
+      = honeypot_field
+      - if @subscriber.new_record?
+        .form-check.mb-2
+          = f.label :newsletter
+            = render 'newsletter_subscribers/privacy_terms'
+          = f.check_box :newsletter
+      .text-center = f.submit @subscriber.new_record? ? :anmelden : :speichern, class: :btn
