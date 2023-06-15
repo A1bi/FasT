@@ -9,12 +9,6 @@ Rails.application.routes.draw do
     get ':slug', action: :show, as: :event
   end
 
-  # theater
-  scope controller: :theater, path: 'theater', as: :theater do
-    get '/', action: :index
-    get ':slug', action: :show, as: :play
-  end
-
   # static pages
   scope controller: :static do
     get 'impressum'
