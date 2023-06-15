@@ -4,28 +4,40 @@ ruby:
       title: 'Ein idealer Gatte',
       subtitle: 'Sommernachtstheater 2023',
       location: 'Historischer Ortskern',
-      dates: [
-        '14.07.2023 20:00',
-        '15.07.2023 20:00',
-        '21.07.2023 20:00',
-        '22.07.2023 20:00'
-      ]
+      slug: 'ein-idealer-gatte',
+      dates: {
+        103 => '14.07.2023 20:00',
+        104 => '15.07.2023 20:00',
+        105 => '21.07.2023 20:00',
+        106 => '22.07.2023 20:00'
+      }
     },
     {
       title: 'Ein idealer Gatte',
       subtitle: 'Gastspiel in Cochem',
       location: 'Reichsburg Cochem',
-      dates: [
-        '29.07.2023 20:00'
-      ]
+      dates: {
+        0 => '29.07.2023 20:00'
+      },
+      ticket_url: 'https://buchungssystem.stadtcochem.de/tickets.aspx'
     },
     {
       title: 'Arschlinks heißt von hinten herwärts!',
       subtitle: 'Gastspiel des Muh-Theaters Kliding',
-      location: 'Altes Wasserwerk',
-      dates: [
-        '22.09.2023 19:30'
-      ]
+      location: 'Kulturbühne Altes Wasserwerk',
+      slug: 'arschlinks-heisst-von-hinten-herwaerts',
+      dates: {
+        109 => '22.09.2023 19:30'
+      }
+    },
+    {
+      title: 'AWEN Celtic Voices',
+      subtitle: 'Konzert mit keltischen Klängen',
+      location: 'Kulturbühne Altes Wasserwerk',
+      slug: 'awen-celtic-voices',
+      dates: {
+        110 => '15.10.2023 14:00'
+      }
     }
   ]
 
@@ -72,8 +84,9 @@ ruby:
       path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
 
   - events.each do |event|
-    - event[:dates].each do |date|
+    - event[:dates].each do |date_id, date|
       - date = Time.parse(date)
+      - ticket_url = event.fetch(:ticket_url, new_ticketing_order_path(event[:slug], date_id:))
       .row: .col.w-100: .card.schedule: .row
         .col-3.col-md-2
           = l date, format: '%A'
@@ -89,7 +102,7 @@ ruby:
               = l date, format: '%H:%M'
           .title: a href='/v2/event' = event[:title]
           .subtitle = event[:subtitle]
-        .col.col-md-3.mt-sm-1: button.btn Tickets
+        .col.col-md-3.mt-sm-1 = link_to 'Tickets', ticket_url, class: :btn
 
   h1.text-center#archiv Archiv
   - archive.each do |event|
