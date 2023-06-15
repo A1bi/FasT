@@ -1,15 +1,14 @@
-table.rounded.numbers
-  - ticket_types = event.ticket_types
-  - ticket_types = ticket_types.except_box_office unless local_assigns[:box_office]
-  - scopes.each do |scope|
+- ticket_types = event.ticket_types
+- ticket_types = ticket_types.except_box_office unless local_assigns[:box_office]
+- scopes.each do |scope|
+  h3 = scope[:title]
+  .card: .table-responsive: table
     thead
-      tr
-        th colspan=(ticket_types.count + 4) = scope[:title]
       tr
         th Termin
         - ticket_types.each do |type|
           th = type.name
-        th.total.first colspan=2 Gesamt
+        th Gesamt
         - if local_assigns[:retail].blank?
           th Umsatz
     tbody
@@ -18,19 +17,23 @@ table.rounded.numbers
         tr class=(:cancelled if date.cancelled?)
           td = l date.date, format: '%a, %-d. %B'
           - ticket_types.each do |type|
-            td = format_number(stats.dig(date.id, type.id))
-          td.total.first colspan=(local_assigns[:total] ? 1 : 2) = format_number(stats.dig(date.id, :total))
-          - if local_assigns[:total]
-            td.total title="Auslastung der Aufführung (bei max. #{format_number(stats.dig(date.id, :maximum))} ungeblockten Plätzen)" = format_percentage(stats.dig(date.id))
+            td.text-center = format_number(stats.dig(date.id, type.id))
+          td.text-center
+            = format_number(stats.dig(date.id, :total))
+            - if local_assigns[:total]
+              span< title="Auslastung der Aufführung (bei max. #{format_number(stats.dig(date.id, :maximum))} ungeblockten Plätzen)"
+                | (#{format_percentage(stats.dig(date.id))})
           - if local_assigns[:retail].blank?
-            td.total = format_revenue(stats.dig(date.id))
-      tr.total
+            td.text-end = format_revenue(stats.dig(date.id))
+      tr
         td
         - ticket_types.each do |type|
-          td = stats.dig(:total, type.id) || 0
-        td.total.first colspan=(local_assigns[:retail].blank? ? 1 : 2) = format_number(stats.dig(:total, :total))
+          td.text-center = stats.dig(:total, type.id) || 0
+        td.text-center
+          = format_number(stats.dig(:total, :total))
+          - if local_assigns[:retail].blank?
+            - title = local_assigns[:total] ? "Gesamtauslastung (bei max. #{format_number(stats.dig(:total, :maximum))} Plätzen)" : 'Anteil an allen Verkäufen'
+            span< title=title
+              | (#{format_percentage(stats.dig(:total))})
         - if local_assigns[:retail].blank?
-          - title = local_assigns[:total] ? "Gesamtauslastung (bei max. #{format_number(stats.dig(:total, :maximum))} Plätzen)" : 'Anteil an allen Verkäufen'
-          td.total title=title = format_percentage(stats.dig(:total))
-        - if local_assigns[:retail].blank?
-          td.total = format_revenue(stats.dig(:total))
+          td.text-end = format_revenue(stats.dig(:total))
