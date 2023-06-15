@@ -1,0 +1,7 @@
+.mb-2
+  = form.label attribute
+    = local_assigns[:label]
+    - if local_assigns[:required]
+      abbr.required< title='Pflichtfeld' *
+  = yield
+  .invalid-feedback

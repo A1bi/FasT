@@ -10,31 +10,19 @@
   p Teilen Sie uns Ihr Anliegen gerne über folgendes Kontaktformular mit und wir werden uns schnellstmöglich bei Ihnen melden.
 
   .card.shadow.mt-2
-    = form_for @message do |f|
+    = form_for @message, html: { novalidate: true } do |f|
       = render 'errors', errors: @message.errors
-      .mb-2
-        = f.label :name
-          ' Ihr Name
-          abbr.required title='Pflichtfeld' *
+      = render 'form_required_caption'
+      = render 'form_field', form: f, attribute: :name, label: 'Ihr Name', required: true
         = f.text_field :name, required: true
-      .mb-2
-        = f.label :email
-          ' Ihre E-Mail-Adresse
-          abbr.required title='Pflichtfeld' *
+      = render 'form_field', form: f, attribute: :email, label: 'Ihre E-Mail-Adresse', required: true
         = f.email_field :email, required: true
-      .mb-2
-        = f.label :phone, 'Ihre Telefonnummer'
+      = render 'form_field', form: f, attribute: :phone, label: 'Ihre Telefonnummer'
         = f.telephone_field :phone
         .form-text Falls Sie einen Rückruf wünschen.
-      .mb-2
-        = f.label :subject
-          ' Betreff
-          abbr.required title='Pflichtfeld' *
+      = render 'form_field', form: f, attribute: :subject, label: 'Betreff', required: true
         = f.text_field :subject, required: true
-      .mb-2
-        = f.label :content
-          ' Nachricht
-          abbr.required title='Pflichtfeld' *
+      = render 'form_field', form: f, attribute: :content, label: 'Nachricht', required: true
         = f.text_area :content, required: true
-        = honeypot_field
+      = honeypot_field
       .text-center = f.submit 'absenden', class: :btn

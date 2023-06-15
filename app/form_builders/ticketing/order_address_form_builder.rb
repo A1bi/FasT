@@ -5,6 +5,7 @@ module Ticketing
     %i[text phone].each do |type|
       define_method("#{type}_field") do |attribute, input_options = {}|
         input_options[:value] = prepopulated_value(attribute)
+        input_options[:required] = field_required?(attribute)
 
         render_field_view(attribute) do
           super(attribute, input_options)
@@ -14,14 +15,22 @@ module Ticketing
 
     def gender_select
       render_field_view(:gender) do
-        select(:gender, @template.options_for_select(gender_options, preselected_gender))
+        select(:gender, @template.options_for_select(gender_options, preselected_gender),
+               required: field_required?(:gender))
       end
     end
 
     private
 
     def render_field_view(attribute, &)
-      @template.render('ticketing/orders/field', form: self, attribute:, label: human_attribute_name(attribute), &)
+      @template.render('application/form_field',
+                       form: self, attribute:, label: human_attribute_name(attribute),
+                       required: field_required?(attribute),
+                       &)
+    end
+
+    def field_required?(attribute)
+      !privileged_order? && attribute.in?(%i[first_name last_name phone gender email plz])
     end
 
     def gender_options
@@ -40,8 +49,7 @@ module Ticketing
     end
 
     def prepopulate_from_template_order?
-      @template.controller.action_name.in?(%w[new_privileged]) && current_user.admin? &&
-        template_order.present?
+      privileged_order? && template_order.present?
     end
 
     def prepopulate_from_member?
@@ -59,6 +67,10 @@ module Ticketing
 
     def human_attribute_name(attribute)
       Ticketing::Web::Order.human_attribute_name(attribute)
+    end
+
+    def privileged_order?
+      @template.controller.action_name == 'new_privileged' && current_user.admin?
     end
 
     def template_order
