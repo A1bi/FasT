@@ -1,4 +1,12 @@
 .stepCon.seats data-has-seating-plan=(@event.seating.plan? ? 1 : 0)
+  = render 'events/icons'
+  h3.mt-0 Veranstaltungsort
+  .mb-2.d-flex.align-items-center
+    svg.icon.me-1: use xlink:href='#schedule-location'
+    div
+      = @event.location.name
+      small.d-block = @event.location.address
+
   .mb-2
     h3 Ihr gewünschter Termin
     select#date_id

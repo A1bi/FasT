@@ -37,6 +37,9 @@
 }
 
 .stepBox {
+  padding-top: 0;
+  padding-bottom: 0;
+
   .modalAlert {
     @extend .d-none;
     @extend .w-100;
@@ -65,7 +68,7 @@
 
 .stepCon {
   @extend .px-2;
-  @extend .pb-2;
+  @extend .py-2;
   position: absolute;
   left: 100%;
   min-height: 200px;

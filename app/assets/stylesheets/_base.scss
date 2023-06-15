@@ -175,10 +175,6 @@ table {
     @extend .mb-0;
   }
 
-  > *:not(.row):not(:last-child) {
-    @extend .mb-2;
-  }
-
   ~ .caption {
     @extend .pt-2, .pe-1;
     @extend .text-end;
