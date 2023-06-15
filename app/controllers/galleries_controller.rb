@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
 class GalleriesController < ApplicationController
-  before_action :find_gallery, only: %i[show edit update destroy]
+  before_action :find_gallery, only: %i[edit update destroy]
 
   def index
     @galleries = authorize Gallery.order(position: :desc)
-  end
-
-  def show
-    @photos = @gallery.photos
   end
 
   def new

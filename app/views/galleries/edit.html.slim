@@ -1,0 +1,13 @@
+- title 'Fotogalerie – Galerie bearbeiten'
+
+.container
+  h1 Galerie bearbeiten
+  = render 'form'
+
+  h2 Reihenfolge der Fotos bearbeiten
+  = render 'new_button', action: 'Fotos', url: new_gallery_photo_path(@gallery)
+  .row
+    - @gallery.photos.each do |photo|
+      .col-4.col-md-3
+        = image_tag photo.image.url(:thumb), alt: photo.text
+        = render 'admin_actions', obj: [@gallery, photo], delete_confirm: 'dieses Foto'

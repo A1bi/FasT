@@ -1,0 +1,10 @@
+- title 'Fotogalerien'
+
+.container
+  h1 Fotogalerien
+  = render 'new_button', action: 'Galerie', admin_required: true
+  - @galleries.each do |gallery|
+    .row
+      .col-7 = gallery.title
+      .col-3 #{gallery.photos.count} Fotos
+      .col-2.text-end  = render 'admin_actions', obj: gallery, delete_confirm: 'diese Galerie'

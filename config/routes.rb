@@ -53,7 +53,7 @@ Rails.application.routes.draw do
     resources :contact_messages, only: %i[index create], path: 'kontakt'
 
     # galleries
-    resources :galleries, path: 'galerie' do
+    resources :galleries, path: 'galerie', except: :show do
       resources :photos, path: 'fotos'
     end
 

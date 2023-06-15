@@ -2,11 +2,7 @@
 
 class GalleryPolicy < ApplicationPolicy
   def index?
-    true
-  end
-
-  def show?
-    true
+    user_admin?
   end
 
   def create?

@@ -1,16 +1,11 @@
 - title 'Fotogalerie – Foto bearbeiten'
 
-.box
-  .top Foto bearbeiten
-  .con
-    = render 'errors', errors: (@photo.errors.delete(:image); @photo.errors)
+.container
+  h1 Foto bearbeiten
+  .row: .col: .card
     = form_for [@gallery, @photo] do |f|
-      table
-        tr.name
-          td Foto ersetzen:
-          td = render 'filepond', form: f, edit: true
-        tr
-          td Beschreibung:
-          td = f.text_field :text
-      .hcen.submit
-        = cond_submit f
+      = render 'errors', errors: (@photo.errors.delete(:image); @photo.errors)
+      .mb-2 = render 'filepond', form: f, edit: true
+      = render 'form_field', form: f, attribute: :text, label: 'Beschreibung'
+        = f.text_field :text
+      .text-center = cond_submit f

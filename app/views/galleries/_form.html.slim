@@ -1,0 +1,6 @@
+.row: .col: .card
+  = form_for @gallery do |f|
+    = render 'errors', errors: @gallery.errors
+    = render 'form_field', form: f, attribute: :title, label: 'Titel', required: true
+      = f.text_field :title, required: true
+    .text-center = cond_submit f
