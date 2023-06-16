@@ -1,12 +1,18 @@
+:root {
+  --topbar-logo-height: #{$top-bar-initial-logo-height};
+  --topbar-total-height: #{$top-bar-initial-logo-height + $top-bar-initial-padding * 2};
+
+  &.top-bar-stuck {
+    --topbar-logo-height: #{$top-bar-stuck-logo-height};
+    --topbar-total-height: #{$top-bar-stuck-logo-height};
+  }
+}
+
 header {
   position: sticky;
   top: 0;
   background: var(--dynamic-color-0);
   transition: padding $top-bar-stuck-transition-duration;
-
-  :root.top-bar-stuck & .logo svg {
-    max-height: $top-bar-stuck-logo-height;
-  }
 
   .container {
     @extend .d-flex;
@@ -53,7 +59,7 @@ header {
     svg {
       @extend .p-1;
       display: inline-block;
-      max-height: $top-bar-initial-logo-height;
+      max-height: var(--topbar-logo-height);
       width: auto;
       transition: max-height $top-bar-stuck-transition-duration;
 
@@ -97,9 +103,15 @@ nav {
   position: fixed;
   width: 100%;
   height: 0;
-  overflow: hidden;
+  max-height: calc(100vh - var(--topbar-total-height));
+  overflow-y: auto;
+  scrollbar-width: 0;
   background: $white;
   transition: height $menu-reveal-duration;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   > ul {
     @extend .f-li;

@@ -76,7 +76,7 @@
       @extend .text-center;
 
       @include media-query(sm) {
-        button {
+        .btn {
           width: 100%;
           margin-top: spacing(2);
         }

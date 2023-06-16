@@ -102,7 +102,7 @@ ruby:
             - else
               = event[:title]
           .subtitle = event[:subtitle]
-        .col.col-md-3.mt-sm-1 = link_to 'Tickets', ticket_url, class: :btn
+        .col.col-md-3 = link_to 'Tickets', ticket_url, class: :btn
 
   / h1.text-center#archiv Archiv
   / - archive.each do |event|
