@@ -6,7 +6,8 @@ module Ticketing
 
     TICKET_WIDTH = 595
     TICKET_HEIGHT = 280
-    TICKET_MARGIN = 12
+    TICKET_X_MARGIN = 25
+    TICKET_Y_MARGIN = 12
 
     def initialize(margin: [14, 0], page_size: 'A4', page_layout: :portrait)
       @tickets_drawn = 0
@@ -22,29 +23,22 @@ module Ticketing
     private
 
     def draw_ticket(ticket)
-      y = cursor - TICKET_MARGIN
-      height = @ticket_height - TICKET_MARGIN * 2
-      bounding_box([0, y], width: TICKET_WIDTH, height:) do
-        indent(25, 25) do
-          move_down 15
-
-          bounding_box([0, cursor], width: bounds.width, height: cursor) do
-            indent(0, 140) do
-              draw_event_info_for_date ticket.date
-              draw_location_info ticket
-              draw_ticket_info ticket
-            end
-
-            move_cursor_to bounds.top
-            indent(bounds.right - 135, 0) do
-              draw_barcode_for_ticket(ticket)
-              move_down 25
-              draw_logo
-            end
-          end
+      y = cursor - TICKET_Y_MARGIN
+      top_padding = 15
+      height = @ticket_height - TICKET_Y_MARGIN * 2 - top_padding
+      bounding_box([TICKET_X_MARGIN, y - top_padding], width: TICKET_WIDTH - TICKET_X_MARGIN * 2, height:) do
+        indent(0, 140) do
+          draw_event_info_for_date ticket.date
+          draw_location_info ticket
+          draw_ticket_info ticket
         end
 
-        move_down TICKET_MARGIN
+        bounding_box([bounds.right - 135, bounds.top], width: 135, height: bounds.height - cursor - 2) do
+          draw_barcode_for_ticket(ticket)
+          draw_logo
+        end
+
+        move_down TICKET_Y_MARGIN
       end
 
       @tickets_drawn += 1
@@ -62,15 +56,8 @@ module Ticketing
 
     def create_event_info_stamp(event)
       create_stamp(:events, event) do
-        width = bounds.width * 0.96
-        height = bounds.height * (event.subtitle.present? ? 0.28 : 0.35)
-
-        if event.subtitle.present?
-          font_size_name :small do
-            text event.subtitle
-          end
-          move_down 10
-        end
+        width = bounds.width * 0.75
+        height = bounds.height * 0.30
 
         bounding_box([0, cursor], width:, height:) do
           image = File.read(images_path.join('theater', event.assets_identifier,
@@ -89,7 +76,7 @@ module Ticketing
       draw_stamp(:dates, date, true) do
         draw_stamp(:events, date.event, false)
 
-        move_down 5
+        move_down 15
 
         draw_info_table(
           %i[date begins opens],
@@ -177,15 +164,9 @@ module Ticketing
 
     def draw_logo
       draw_stamp(:logo, nil, true) do
-        width_scale = 0.8
-        svg_image 'pdf/logo_bw_l3.svg',
-                  width: bounds.width * width_scale, position: :center
-
-        next unless includes_links?
-
-        margin = bounds.width * (0.5 - width_scale / 2)
-        link_annotate(root_url, [margin, -bounds.height + cursor,
-                                 -margin, -bounds.height + cursor])
+        logo_y = cursor
+        width = bounds.width * 0.8
+        svg_image 'pdf/logo_bw_l3.svg', width:, position: :right, vposition: :bottom
       end
     end
 

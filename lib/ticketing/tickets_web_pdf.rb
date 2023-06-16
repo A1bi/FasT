@@ -14,7 +14,7 @@ module Ticketing
 
       return if cursor < bounds.height / 3
 
-      move_down TICKET_MARGIN
+      move_down TICKET_Y_MARGIN
       draw_cut_line
     end
 
