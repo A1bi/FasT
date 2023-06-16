@@ -62,10 +62,15 @@ html
       .header {
         text-align: center;
       }
+      .header img {
+        width: 50%;
+        min-width: 200px;
+        max-width: 350px;
+      }
       .signature {
         font-weight: bold;
       }
-      .address, .content, .signature, .footer, .imprint {
+      .header, .address, .content, .signature, .footer, .imprint {
         margin-top: 30px;
       }
       .imprint {
@@ -123,6 +128,8 @@ html
         overflow: auto;
       }
   body
+    .header = image_tag('/images/mail/logo.png')
+
     p.address = yield :address
 
     .content = yield
