@@ -29,14 +29,42 @@ body class=('development' if Rails.env.development?)
           li: a href='/v2' Kinder- und Jugendtheater
           li = link_to 'Freundeskreis', freundeskreis_path
       li = link_to 'Kontakt', contact_messages_path
-      li
-        - if user_signed_in?
+
+      - if current_user&.admin?
+        li
+          | Vorstandsbereich
+          ul
+            li = link_to 'Dokumente', admin_documents_path
+            - if policy(Members::Member).index?
+              li = link_to 'Mitglieder', admin_members_members_path
+            - if policy(Newsletter::Newsletter).index?
+              li = link_to 'Newsletter', admin_newsletters_path
+        li
+          | Vorverkauf
+          ul
+            li = link_to 'Bestellungen', ticketing_orders_path
+            li = link_to 'Zahlungen', ticketing_payments_path
+            li = link_to 'Statistik', ticketing_statistics_path
+            li = link_to 'Gutscheine', ticketing_coupons_path
+            li = link_to 'Sitzpläne', ticketing_seatings_path
+
+      - elsif current_user&.retail?
+        li
+          | Vorverkaufsstelle
+          ul
+            li = link_to 'Bestellungen', ticketing_orders_path
+            li = link_to 'Statistik', ticketing_statistics_path
+            li = link_to 'Logout', logout_path
+
+      - if current_user&.member?
+        li
           = link_to 'Mitgliederbereich', members_root_path
           ul
             li = link_to 'Meine Mitgliedsdaten', edit_members_member_path
             li = link_to 'Logout', logout_path
-        - else
-          = link_to 'Mitglieder-Login', login_path
+
+      - elsif !user_signed_in?
+        li = link_to 'Mitglieder-Login', login_path
 
   main
     - flash.each do |type, msg|
