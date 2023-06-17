@@ -50,6 +50,10 @@
       stroke: $cta-color-active;
     }
 
+    &.outline-sm svg * {
+      stroke-width: .15% !important;
+    }
+
     svg {
       transition: transform .3s;
 

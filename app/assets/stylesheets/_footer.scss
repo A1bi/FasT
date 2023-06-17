@@ -1,22 +1,18 @@
 footer {
-  @extend .mt-3;
+  @extend .mt-2;
+  @extend .py-2;
   background: var(--dynamic-color-0);
 
   ul {
-    @extend .f-mb;
+    @extend .d-flex;
+    @extend .justify-content-center;
+    @extend .ff-l;
+    @extend .list-style-none;
+    gap: spacing(2);
+    flex-wrap: wrap;
 
-    li {
-      margin-bottom: .3rem;
-    }
-
-    a {
+    a:not(:hover, :active) {
       color: $black;
-      text-decoration: underline;
-
-      &:hover {
-        color: inherit;
-        text-decoration: none;
-      }
     }
   }
 }

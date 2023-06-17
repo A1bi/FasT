@@ -24,4 +24,6 @@
       - columns.each.with_index do |column, i|
         div class="col-#{column}"
           - photos_per_column[i].times
-            .photo: img src=photos.shift.image.url(:original)
+            - photo = photos.shift
+            .photo = link_to photo.image.url(:original)
+              img src=photo.image.url(:original)

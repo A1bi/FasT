@@ -113,8 +113,13 @@ nav {
     display: none;
   }
 
-  > ul {
+  ul {
+    @extend .list-style-none;
     @extend .f-li;
+  }
+
+  > ul {
+    @extend .py-1, .px-2;
     font-size: 2rem;
     font-weight: 400;
 
@@ -127,8 +132,7 @@ nav {
     }
 
     li > ul {
-      @extend .py-0;
-      @extend .px-2;
+      @extend .py-0, .px-2;
 
       li {
         padding-bottom: .25rem;
@@ -138,13 +142,8 @@ nav {
   }
 }
 
-nav ul, footer ul {
-  @extend .py-1, .px-2;
-  @extend .list-style-none;
-}
-
 @include media-query(sm) {
-  header .container, .container.nav, footer .container {
+  header .container, .container.nav {
     padding: spacing(0);
   }
 

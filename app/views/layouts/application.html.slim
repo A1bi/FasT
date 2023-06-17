@@ -74,17 +74,14 @@ body class=('development' if Rails.env.development?)
     = yield
 
   footer
-    .container: .row
-      .col-md-6: ul
+    .container: ul
         li = link_to 'Impressum', impressum_path
         - unless Settings.hide_it_recht_content
           li = link_to 'AGB', agb_path
           li = link_to 'Widerrufsbelehrung', widerruf_path
         li = link_to 'Datenschutzerklärung', privacy_path
-      .col-md-6: ul
         li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
         li = link_to 'Satzung', satzung_path
-        li = link_to 'Pressematerial', press_material_path
 
   - if Rails.env.production?
     - as_site = 6
