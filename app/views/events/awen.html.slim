@@ -1,0 +1,28 @@
+.container: h1 AWEN Celtic Voices
+
+.container.page-nav-anchor#ueber-das-konzert
+  .row: .col
+    p Im Oktober begrüßen wir „AWEN Celtic Voices“ auf unserer „Kulturbühne Altes Wasserwerk“.
+    p Awen sind Joanne McIver & Christophe Saunière sowie Ciara Brennan & Chris Dawson, die 2018 auf der Celtic Voices Tour zusammenfanden und so begeistert aufgenommen wurden, dass sie ihre Zusammenarbeit fortsetzten. AWEN spielte unter anderem beim Celtic Festival of Gévaudan in Frankreich vor 3000 Leuten und wurde als Spektakel mit vier „Original-Kelten“ aus Irland, Schottland und Frankreich bezeichnet.
+    p Awen ist ein walisisches, kornisches und bretonisches Wort für „poetische Inspiration“ – diese merkt man den vier Profimusikern an. Ihre Texte und Kompositionen scheinen aus einer anderen Welt zu kommen: Aus der alten Welt der Legenden und Geschichten. Dazu Tempo, Rhythmus, Virtuosität und Leidenschaft der vier Vollblutmusiker lassen den Abend zu einem Ereignis werden.
+
+hr
+
+.container.page-nav-anchor#tickets
+  = render 'icons'
+
+  .row: .col
+    h2 Tickets
+    = render 'location'
+    = render 'dates'
+    = render 'prices'
+    = render 'presale'
+
+hr
+
+.container.page-nav-anchor#faq
+  .row: .col
+    h2 FAQ
+    = render 'faq_awen'
+
+= structured_data @event

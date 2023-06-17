@@ -1,0 +1,27 @@
+.container: h1 Arschlinks heißt von hinten herwärts!
+
+.container.page-nav-anchor#ueber-das-stueck
+  .row: .col
+    p Im September begrüßen wir als Gastspiel auf der „Kulturbühne Altes Wasserwerk“ das #{link_to '„Muh-Theater“', 'https://muh-theater.de'} aus Kliding mit „Arschlinks heißt von hinten herwärts!“.
+    p Karl Valentin, einer der größten deutschsprachigen Komiker, verblüfft uns mit genialer Wortakrobatik, trockenem Witz und menschlichen Wahrheiten: Sketche, Monologe, Couplets und Biographisches. Von und mit Angelika Dormeyer und Arwed Werner.
+
+hr
+
+.container.page-nav-anchor#tickets
+  = render 'icons'
+
+  .row: .col
+    h2 Tickets
+    = render 'location'
+    = render 'dates'
+    = render 'prices'
+    = render 'presale'
+
+hr
+
+.container.page-nav-anchor#faq
+  .row: .col
+    h2 FAQ
+    = render 'faq_arschlings'
+
+= structured_data @event
