@@ -2,9 +2,8 @@
   - additional_columns ||= []
   - number_of_columns = 4 + additional_columns.count
   .card.mb-2
-    - if defined? table_title
-      - Array(table_title).each do |title|
-        h3 = title
+    - if local_assigns[:table_title]
+      h3 = table_title
     - if orders.any?
       .table-responsive: table
         thead
@@ -24,7 +23,7 @@
             - classes = [(:cancelled if order.cancelled?), (:due if local_assigns[:show_due_state] && order.due?), (:overdue if local_assigns[:show_due_state] && order.overdue?)]
             tr class=classes data={ controller: 'linked-row', 'linked-row-path': ticketing_order_path(order) }
               - if :checkbox.in?(additional_columns)
-                td = check_box_tag 'orders[]', order.id
+                td: .form-check = check_box_tag 'orders[]', order.id
               td.text-center: tt = link_to order.number, ticketing_order_path(order)
               td
                 - if order.try(:anonymized?)

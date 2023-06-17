@@ -1,0 +1,49 @@
+- title 'Zahlungsverwaltung'
+
+.container
+  h1 Zahlungsverwaltung
+  h2 Lastschriften
+
+  .row: .col.w-100: .card
+    h3 Einzureichende Banktransaktionen
+    table
+      thead: tr
+        th
+        th Lastschriften
+        th Erstattungen
+        th
+      tbody
+        tr
+          - if @submittable_transactions.any?
+            td #{@submittable_transactions.count} Transaktionen einzureichen.
+            td = number_to_currency(@submittable_transactions.debits.sum(:amount).abs)
+            td = number_to_currency(@submittable_transactions.transfers.sum(:amount).abs)
+            td = link_to 'Jetzt einreichen', ticketing_payments_submit_transactions_path, method: :post, confirm: 'Möchten Sie die Transaktionen bei der Bank wirklich einreichen?', class: 'btn btn-sm'
+          - else
+            td colspan=4 Keine Transaktionen einzureichen.
+
+  .row: .col.w-100: .card
+    h3 Vergangene Einreichungen
+    table: tbody
+      - if @bank_submissions.any?
+        - @bank_submissions.each do |submission|
+          tr
+            - options = { data: { confirm: 'Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?' } } if submission.created_at.before?(1.day.ago)
+            td #{submission.transactions.count} Transaktionen
+            td = number_to_currency(submission.transactions.debits.sum(:amount).abs)
+            td = number_to_currency(submission.transactions.transfers.sum(:amount).abs)
+            td = link_to(l(submission.created_at, format: '%d.%m.%y, %H:%M'), ticketing_payments_bank_submission_file_path(submission), options)
+      - else
+        tr: td colspan=4 Bisher keine Einreichungen.
+  - cache [:unpaid, @orders[:unpaid]]
+    h2 Unbezahlte Bestellungen
+    = form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders]
+      - additional_columns = %i[checkbox balance]
+      = render 'application/ticketing/orders_table', table_title: 'Überweisung', orders: @orders[:unpaid][:transfer], web: true, cache_key: [:payments, :unpaid, :transfer], additional_columns: additional_columns, show_due_state: true, class: :transfer
+      = render 'application/ticketing/orders_table', table_title: 'Barzahlung', orders: @orders[:unpaid][:cash], web: true, cache_key: [:payments, :unpaid, :cash], additional_columns: additional_columns, class: :cash
+      = render 'application/ticketing/orders_table', table_title: 'Zahlung an der Abendkasse', orders: @orders[:unpaid][:box_office], web: true, cache_key: [:payments, :unpaid, :box_office], additional_columns: additional_columns, class: :box_office
+      - if @orders[:unpaid][:other].any?
+        = render 'application/ticketing/orders_table', table_title: 'sonstige', orders: @orders[:unpaid][:other], cache_key: [:payments, :unpaid, :other], additional_columns: additional_columns
+      .text-end.mb-2 = submit_tag 'als bezahlt markieren', data: { disable_with: 'Einen Moment bitte...', confirm: 'Möchten Sie diese Bestellungen wirklich als bezahlt markieren?' }, class: :btn
+  - cache [:credit, @orders[:credit]]
+    = render 'application/ticketing/orders_table', table_title: 'Bestellungen mit Guthaben', orders: @orders[:credit], web: true, additional_columns: %i[balance]
