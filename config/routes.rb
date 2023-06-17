@@ -14,8 +14,9 @@ Rails.application.routes.draw do
     get 'impressum'
     get 'satzung'
     get 'pressematerial', action: :press_material, as: :press_material
-    get 'freundeskreis'
     get 'theaterkultur'
+    get 'spielstaetten'
+    get 'vereinsleben'
 
     # sometimes we might pause our contract with IT-Recht when we don't sell any
     # tickets for a longer period of time

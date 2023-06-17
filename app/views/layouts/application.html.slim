@@ -24,10 +24,8 @@ body class=('development' if Rails.env.development?)
       li
         = link_to 'TheaterKultur', theaterkultur_path
         ul
-          li: a href='/v2' Freilichtbühne
-          li: a href='/v2' Kammerensemble
-          li: a href='/v2' Kinder- und Jugendtheater
-          li = link_to 'Freundeskreis', freundeskreis_path
+          li = link_to 'Spielstätten', spielstaetten_path
+          li = link_to 'Vereinsleben', vereinsleben_path
       li = link_to 'Kontakt', contact_messages_path
 
       - if current_user&.admin?
