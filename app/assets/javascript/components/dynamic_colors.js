@@ -1,5 +1,13 @@
 const colorToHslCss = (color, brightness) => {
-  return `hsl(${color[0]}deg ${color[1]}% ${color[2] * (brightness || 1)}%)`
+  var [h, s, v] = color
+  h /= 360
+  s /= 360
+  v /= 360
+
+  const l = v * (1 - (s / 2))
+  s = (l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l))
+
+  return `hsl(${h * 360}deg ${s * 100}% ${l * 100}%)`
 }
 
 const setCSSVariable = (name, value) => {
@@ -35,14 +43,14 @@ const generateColors = () => {
     if (closestDist < 30) {
       colors[i] = closestColor
     } else {
-      colors[i] = [huelogo, 70, 60]
+      colors[i] = [huelogo, 230, 360]
     }
 
     prevHues[i] = huelogo
     prevColors[i] = colors[i]
   }
 
-  colors.unshift([huebg, 40, 90])
+  colors.unshift([huebg, 70, 320])
 
   return colors
 }
