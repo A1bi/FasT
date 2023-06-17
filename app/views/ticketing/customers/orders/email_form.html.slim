@@ -1,9 +1,12 @@
 - title 'Ihre Bestellung'
-- include_css 'ticketing/orders'
 
-.hl Ihre Bestellung
+.container
+  h1 Ihre Bestellung
 
-p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
-= form_tag order_overview_path(params[:signed_info]), method: :post, class: :hcen
-  | E-Mail-Adresse: #{email_field_tag :email}
-  p = submit_tag :absenden
+  .row: .col
+    p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
+    .card
+      = form_with url: order_overview_path(params[:signed_info]), method: :post do |f|
+        = 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse'
+          = f.email :email
+        .text-center = submit_tag :absenden, class: :btn

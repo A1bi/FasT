@@ -1,22 +1,21 @@
 - title "Ihre Bestellung ##{@order.number}"
-- include_css 'ticketing/orders'
 
 = structured_data @order
 
-.hl Ihre Bestellung #{@order.number}
+.container
+  h1 Ihre Bestellung #{@order.number}
 
-- if @order.try(:anonymized?)
-  p Diese Bestellung wurde gemäß unserer #{link_to 'Datenschutzerklärung', privacy_path} nach Ablauf der Aufbewahrungsfrist anonymisiert. Die Bestelldetails sind daher nicht mehr einsehbar.
+  .row: .col
+    - if @order.try(:anonymized?)
+      = render 'alert', type: :warning
+        | Diese Bestellung wurde gemäß unserer #{link_to 'Datenschutzerklärung', privacy_path} nach Ablauf der Aufbewahrungsfrist anonymisiert. Die Bestelldetails sind daher nicht mehr einsehbar.
 
-- else
-  - if @order.tickets.any?
-    - if @order.date.cancelled?
-      .messages.warning
-        .icon
-        ul
-          li Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
-          - if @transferable || @cancellable
-            li
+    - else
+      - if @order.tickets.any?
+        - if @order.date.cancelled?
+          = render 'alert', type: :warning
+            p Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
+            - if @transferable || @cancellable
               ' Sie haben die Möglichkeit einer
               - if @transferable && @cancellable
                 ' Umbuchung oder Stornierung
@@ -25,69 +24,63 @@
               - else
                 ' Stornierung
               | Ihrer Tickets.
-    table.rounded.entries.details
-      thead
-        tr
-          th colspan=6 Ihre bestellten Tickets
-        tr
-          th Nummer
-          th Termin
-          th Kategorie
-          th Sitz
-          - if show_wallet?
-            th
-      tbody
-        - @order.tickets.each do |ticket|
-          - classes = [:cancelled] if ticket.cancelled?
-          tr class=classes
-            td.number = ticket.number
-            td.date class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
-              | „#{ticket.event.name}“<br>
-              .date = l ticket.date.date, format: '%-d. %B %Y, %H.%M Uhr'
-              - if !ticket.cancelled? && ticket.date.cancelled?
-                .cancellation Termin entfällt
-            td.name
-              = ticket.type.name
-              br
-              = number_to_currency ticket.price
-            td
-              - if ticket.seat.present?
-                = ticket.seat.full_number
-              - elsif ticket.event.covid19?
-                | Wird vor Ort mitgeteilt
-              - else
-                | Freie Platzwahl
-            - if show_wallet?
-              td.wallet
-                - unless ticket.cancelled?
-                  = link_to order_overview_wallet_path(ticket.signed_info(authenticated: true))
-                    = image_tag("add_to_wallet.png")
-      - if @order.tickets.first.seat.present?
-        thead
-          tr
-            th colspan=(show_wallet? ? 5 : 4) Sitzplätze
-        tbody
-          tr
-            td colspan=(show_wallet? ? 5 : 4)
-              = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
+        h2 Ihre bestellten Tickets
+        .card: .table-responsive: table
+          thead
+            tr
+            tr
+              th Nummer
+              th Termin
+              th Kategorie
+              th Sitz
+          tbody
+            - @order.tickets.each do |ticket|
+              - classes = [:cancelled] if ticket.cancelled?
+              tr class=classes
+                td
+                  tt = ticket.number
+                  - if show_wallet? && !ticket.cancelled?
+                    .mt-1 = link_to order_overview_wallet_path(ticket.signed_info(authenticated: true))
+                      = image_tag('add_to_wallet.png', width: '100')
+                td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
+                  | „#{ticket.event.name}“<br>
+                  div = l ticket.date.date, format: '%-d. %B %Y, %H:%M'
+                  - if !ticket.cancelled? && ticket.date.cancelled?
+                    .text-red Termin entfällt
+                td
+                  = ticket.type.name
+                  br
+                  = number_to_currency ticket.price
+                td
+                  - if ticket.seat.present?
+                    = ticket.seat.full_number
+                  - elsif ticket.event.covid19?
+                    | Wird vor Ort mitgeteilt
+                  - else
+                    | Freie Platzwahl
+        - if @order.tickets.first.seat.present?
+          h2 Sitzplätze
+          .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
 
-  - if @order.purchased_coupons.any?
-    table.rounded.entries.details
-      thead
-        tr
-          th Ihre bestellten Geschenkgutscheine
-      tbody
-        - @order.purchased_coupons.each do |coupon|
-          tr
-            td
+      - if @order.purchased_coupons.any?
+        h2 Ihre bestellten Geschenkgutscheine
+        table: tbody
+          - @order.purchased_coupons.each do |coupon|
+            tr: td
               ' Gutschein über
               b = number_to_currency coupon.initial_value
 
+- if !@order.try(:anonymized?)
   - if @order.is_a?(Ticketing::Web::Order)
-    = render 'transfer' if @transferable
-    = render 'cancel' if @cancellable
+    - if @transferable
+      hr
+      .container: .row: .col = render 'transfer' if @transferable
+    - if @cancellable
+      hr
+      .container: .row: .col = render 'cancel' if @cancellable
 
   - else
-    p Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
-    p Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
+    = render 'alert', type: :warning
+      p Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
+      p Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
 

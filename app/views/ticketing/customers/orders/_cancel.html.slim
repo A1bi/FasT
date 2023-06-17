@@ -1,5 +1,4 @@
-.trenner
-h3.hcen Stornierung Ihrer Tickets
+h2 Stornierung Ihrer Tickets
 p
   - if @refundable
     | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet.
@@ -36,4 +35,4 @@ p
         td = f.label :iban, 'IBAN:'
         td = f.text_field :iban
 
-  p.hcen = f.submit 'Tickets stornieren'
+  .text-center.mt-2 = f.submit 'Tickets stornieren', class: :btn

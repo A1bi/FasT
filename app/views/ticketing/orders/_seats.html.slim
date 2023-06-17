@@ -9,28 +9,7 @@
 
   .mb-2
     h3 Ihr gewünschter Termin
-    select#date_id
-      - cancelled = []
-      - sold_out = []
-      optgroup#available_dates label='Bitte wählen Sie einen Termin'
-        - @dates.each do |date|
-          - if date.cancelled?
-            - cancelled << date
-          - elsif date.sold_out? && !current_user&.admin?
-            - sold_out << date
-          - else
-            option value=date.id data={ id: date.id, 'box-office-payment': 3.days.from_now > date.date && !date.event.covid19? } selected=(params[:date_id].to_i == date.id)
-              = l date.date, format: '%A, %d. %B %Y, %H:%M'
-      - sold_out.any?
-        optgroup label='Folgende Aufführungen sind derzeit ausverkauft'
-          - sold_out.each do |date|
-            option value=date.id disabled=true
-              = l date.date, format: '%A, %d. %B %Y, %H:%M'
-      - cancelled.any?
-        optgroup label='Folgende Aufführungen entfallen'
-          - cancelled.each do |date|
-            option value=date.id disabled=true
-              = l date.date, format: '%A, %d. %B %Y, %H:%M'
+    = render 'application/ticketing/date_select', dates: @dates, preselected_date_id: params[:date_id]
   - if @event.seating.plan?
     - if @dates.count > 1
       p.mb-0 Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
