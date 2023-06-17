@@ -1,3 +1,4 @@
 .event-header
   = image_tag "events/#{@event.assets_identifier}/photos/#{photo}.jpg", class: %i[photo active]
-  .title.active = inline_svg "theater/#{@event.assets_identifier}/ticket_header"
+  .title.active class=('outline-sm' if local_assigns[:small_outline])
+    = inline_svg "theater/#{@event.assets_identifier}/ticket_header"

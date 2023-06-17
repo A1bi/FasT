@@ -204,6 +204,7 @@ select {
   @extend .shadow;
   @extend .text-center;
   cursor: pointer;
+  border-radius: 0; // for Safari iOS
 
   &.btn-sm {
     padding: spacing(1) / 2 spacing(1);
