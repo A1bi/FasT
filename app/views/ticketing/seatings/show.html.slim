@@ -1,0 +1,17 @@
+- title 'Sitzplan'
+
+.container
+  h1 Sitzplan
+
+  .row: .col: .card
+    h3 Sitzplan wechseln
+    .text-center = @seatings.map { |seating| link_to_if @seating != seating, seating.name, seating }.join(', ').html_safe
+
+  .row: .col: .card
+    = render 'application/ticketing/seating', class: [:stage, :standalone], seating: @seating
+
+  .row: .col: .card.text-center
+    h3 Download
+    p
+      = link_to 'PDF', { format: :pdf }, class: 'btn btn-sm me-1'
+      = link_to 'SVG', { format: :svg }, class: 'btn btn-sm'
