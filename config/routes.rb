@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'v2/kitchen-sink' => 'v2#kitchen_sink'
-
   # events
   scope controller: :events, path: 'events' do
     get ':slug/map', action: :map, format: :json
