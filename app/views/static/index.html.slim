@@ -10,7 +10,8 @@ ruby:
         104 => '15.07.2023 20:00',
         105 => '21.07.2023 20:00',
         106 => '22.07.2023 20:00'
-      }
+      },
+      sale_start: '18.06.2023 00:00'
     },
     {
       title: 'Ein idealer Gatte',
@@ -19,6 +20,7 @@ ruby:
       dates: {
         0 => '29.07.2023 20:00'
       },
+      sale_start: '18.06.2023 00:00',
       ticket_url: 'https://buchungssystem.stadtcochem.de/tickets.aspx'
     },
     {
@@ -80,6 +82,7 @@ ruby:
       path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
 
   - events.each do |event|
+    - sale_start = Time.parse(event[:sale_start]) if event[:sale_start].present?
     - event[:dates].each do |date_id, date|
       - date = Time.parse(date)
       - ticket_url = event.fetch(:ticket_url, new_ticketing_order_path(event[:slug], date_id:))
@@ -102,7 +105,11 @@ ruby:
             - else
               = event[:title]
           .subtitle = event[:subtitle]
-        .col.col-md-3 = link_to 'Tickets', ticket_url, class: :btn
+        .col.col-md-3
+          - if sale_start.nil? || sale_start.past?
+            = link_to 'Tickets', ticket_url, class: :btn
+          - else
+            .text-gray Tickets ab #{l(sale_start, format: '%-d. %B')}
 
   / h1.text-center#archiv Archiv
   / - archive.each do |event|
