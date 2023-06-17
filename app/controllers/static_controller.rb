@@ -7,7 +7,7 @@ class StaticController < ApplicationController
 
   def index
     @events = Ticketing::Event.with_future_dates.ordered_by_dates
-    flash.now[:warning] = alert_info[:text].html_safe if show_alert?
+    flash.now[:warning] = alert_info[:text].html_safe if show_alert? # rubocop:disable Rails/OutputSafety
   end
 
   private

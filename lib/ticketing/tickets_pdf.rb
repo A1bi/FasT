@@ -164,9 +164,7 @@ module Ticketing
 
     def draw_logo
       draw_stamp(:logo, nil, true) do
-        logo_y = cursor
-        width = bounds.width * 0.8
-        svg_image 'pdf/logo_bw_l3.svg', width:, position: :right, vposition: :bottom
+        svg_image 'pdf/logo_bw_l3.svg', width: bounds.width * 0.8, position: :right, vposition: :bottom
       end
     end
 
