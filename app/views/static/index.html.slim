@@ -68,7 +68,7 @@ ruby:
 
 .carousel
   - [2, 3, 1, 4].each.with_index do |photo, i|
-    = image_tag "events/gatte/photos/#{photo}", class: [:photo, (:active if i.zero?)], data: { event_identifier: :gatte }
+    = image_tag "events/gatte/photos/#{photo}.jpg", class: [:photo, (:active if i.zero?)], data: { event_identifier: :gatte }
   .title.outline-sm.active data-event-identifier=:gatte
     = link_to event_path('ein-idealer-gatte')
       = inline_svg 'theater/gatte/ticket_header'
