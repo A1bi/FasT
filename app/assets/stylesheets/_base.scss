@@ -25,7 +25,6 @@ body {
 h1, h2, h3 {
   @extend .my-2;
   @extend .text-center;
-  -webkit-hyphens: auto;
 }
 
 h1 {
@@ -47,6 +46,7 @@ h3 {
 p {
   @extend .mt-0;
   @extend .mb-2;
+  line-height: 1.4;
 }
 
 a {
