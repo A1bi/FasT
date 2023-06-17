@@ -10,7 +10,7 @@ barcode = {
 json.merge!(
   formatVersion: 1,
   description: "Ticket für das Theaterstück „#{ticket.event.name}“",
-  organizationName: 'Freilichtbühne am schiefen Turm',
+  organizationName: 'TheaterKultur Kaisersesch',
   passTypeIdentifier: @type_id,
   serialNumber: @serial,
   authenticationToken: @auth_token,

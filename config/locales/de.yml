@@ -77,8 +77,8 @@ de:
       password_changed: Ihr Passwort wurde geändert.
     dates:
       ics:
-        calname: "Freilichtbühne am schiefen Turm"
-        caldesc: "Alle vereinsinternen Termine der Freilichtbühne am schiefen Turm Kaisersesch"
+        calname: "TheaterKultur Kaisersesch"
+        caldesc: "Alle vereinsinternen Termine von TheaterKultur Kaisersesch"
     membership_fee_payments:
       debit_submissions:
         name: TheaterKultur Kaisersesch e. V.
