@@ -1,6 +1,6 @@
 = render 'errors', errors: (@document.errors.delete(:file); @document.errors)
 = form_for [local_assigns.fetch(:scope, :members), @document] do |f|
-  .card.shadow
+  .card
     .mb-2
       = f.label :title, 'Titel'
       = f.text_field :title

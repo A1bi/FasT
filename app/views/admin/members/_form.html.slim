@@ -3,7 +3,7 @@
 .container
   h1 Mitgliederverwaltung
   h2 = title
-  .row: .col: .card.shadow
+  .row: .col: .card
     = form_for [:admin, @member] do |f|
       = render 'errors', errors: @member.errors
       = render 'errors', errors: @member.sepa_mandate.errors

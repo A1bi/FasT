@@ -9,7 +9,7 @@
   p Sie haben eine Frage zu unserem Verein, den Theaterstücken oder Ihren gebuchten Tickets? Möchten Sie uns Feedback zu unseren Aufführungen geben?
   p Teilen Sie uns Ihr Anliegen gerne über folgendes Kontaktformular mit und wir werden uns schnellstmöglich bei Ihnen melden.
 
-  .card.shadow.mt-2
+  .card.mt-2
     = form_for @message, html: { novalidate: true } do |f|
       = render 'errors', errors: @message.errors
       = render 'form_required_caption'

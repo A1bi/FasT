@@ -10,7 +10,7 @@
   - if @events.any?
     p.text-center Bitte wählen Sie eine Veranstaltung.
     - @events.each do |event|
-      .row: .col: .card.shadow: .row: .col.col-md-8
+      .row: .col: .card: .row: .col.col-md-8
         = link_to event_slug: event.slug
           = event_logo(event)
   - else

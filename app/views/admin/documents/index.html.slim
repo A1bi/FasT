@@ -7,7 +7,7 @@
     p Diese Dokumente sind nur für den Vorstand einsehbar.
     = render 'new_button', action: 'Dokument', url: new_admin_document_path
 
-    .table-responsive.card.shadow: table
+    .table-responsive.card: table
       tbody = content_tag_for :tr, @documents do |file|
         td
           b = uppercase_file_extension(file.file.path)

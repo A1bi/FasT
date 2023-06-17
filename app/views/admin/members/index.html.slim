@@ -9,7 +9,7 @@
       em() (davon <b>#{@members.membership_cancelled.count}</b> gekündigt)
     - if policy(Members::Member).new?
       = render 'new_button', action: 'Mitglied'
-    .card.shadow.table-responsive
+    .card.table-responsive
       table
         thead
           tr

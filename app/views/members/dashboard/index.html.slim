@@ -4,7 +4,7 @@
   h1 Mitgliederbereich
   h2 Termine
   = render 'new_button', action: 'Termin', url: new_members_date_path, admin_required: true
-  .table-responsive.card.shadow: table
+  .table-responsive.card: table
     thead: tr
       th Zeitpunkt
       th Titel
@@ -28,7 +28,7 @@ hr
 .container: .row: .col.w-100
   h2 Downloads
   = render 'new_button', action: 'Dokument', url: new_members_document_path, admin_required: true
-  .table-responsive.card.shadow: table
+  .table-responsive.card: table
     tbody = content_tag_for :tr, @files do |file|
       td
         b = uppercase_file_extension(file.file.path)

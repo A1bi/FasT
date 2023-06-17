@@ -17,7 +17,7 @@
       - if policy(@member).edit?
         = link_to 'Daten bearbeiten', edit_admin_members_member_path(@member)
 
-  .row: .col: .card.shadow
+  .row: .col: .card
     .row
       .col-5 width='40%' Mitgliedsnummer:
       tt.col-7 = @member.number

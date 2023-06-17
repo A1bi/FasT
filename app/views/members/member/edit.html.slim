@@ -3,7 +3,7 @@
 .container
   h1 Mitgliedsdaten bearbeiten
   .row: .col
-    .card.shadow
+    .card
       .row
         .col-6 Name
         .col-6 = current_user.name.full
@@ -23,7 +23,7 @@
           = current_user.sepa_mandate.debtor_name
           br
           tt = obfuscated_iban(current_user.sepa_mandate.iban)
-    .card.shadow.mt-2
+    .card.mt-2
       = form_for current_user, url: members_member_path do |f|
         = render 'errors', errors: current_user.errors
         .mb-2

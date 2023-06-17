@@ -10,7 +10,7 @@
       .step.payment Zahlung
       .step.confirm Bestätigung
 
-    = content_tag :div, class: %i[stepBox web card shadow], data: { controller: 'ticketing--orders', coupons: true, type: :web }
+    = content_tag :div, class: %i[stepBox web card], data: { controller: 'ticketing--orders', coupons: true, type: :web }
       .modalAlert
         = render 'alert', type: :alert
           .mb-2.message Es ist ein Fehler aufgetreten.

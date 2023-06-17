@@ -10,7 +10,7 @@
       - else
         | Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.
 
-    .card.shadow.mt-2
+    .card.mt-2
       = form_for @member, url: finish_activation_members_member_path do |f|
         = render 'errors', errors: @member.errors
         = f.hidden_field :id

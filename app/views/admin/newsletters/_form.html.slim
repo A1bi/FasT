@@ -3,7 +3,7 @@
 .container
   h1 Newsletter
   h2 = title
-  .row: .col.w-100: .card.shadow
+  .row: .col.w-100: .card
     = form_with model: @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter), local: true do |f|
       = render 'errors', errors: @newsletter.errors
       table

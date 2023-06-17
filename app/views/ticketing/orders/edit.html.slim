@@ -4,7 +4,7 @@
   h1 Bestellung bearbeiten
   h2 ##{@order.number}
 
-  .row: .col: .card.shadow
+  .row: .col: .card
     = form_for @order, as: :ticketing_order, url: ticketing_order_path(@order) do |f|
       .mb-2
         = f.label :gender, 'Anrede'
