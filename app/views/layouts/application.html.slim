@@ -45,6 +45,7 @@ body class=('development' if Rails.env.development?)
             li = link_to 'Statistik', ticketing_statistics_path
             li = link_to 'Gutscheine', ticketing_coupons_path
             li = link_to 'Sitzpläne', ticketing_seatings_path
+            li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
 
       - elsif current_user&.retail?
         li

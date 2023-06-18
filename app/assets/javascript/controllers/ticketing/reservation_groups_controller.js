@@ -44,7 +44,7 @@ export default class extends Controller {
       seats: this.seats
     })
       .then(() => window.alert(
-        'Die Vorreservierungen wurden erfolgreich gespeichert.'
+        'Die Blockungen wurden erfolgreich gespeichert.'
       ))
       .catch(() => window.alert(
         'Beim Speichern ist ein unbekannter Fehler aufgetreten.'

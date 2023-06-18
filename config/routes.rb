@@ -125,9 +125,7 @@ Rails.application.routes.draw do
         end
         resources :billings, only: %i[create]
         resources :seatings, path: 'sitzpläne', only: %i[index show]
-        resources :reservation_groups,
-                  path: 'vorreservierungen',
-                  only: %i[index show create update destroy]
+        resources :reservation_groups, only: %i[index show create update destroy]
         resources :coupons, path: 'gutscheine' do
           post :mail, on: :member
         end

@@ -175,8 +175,8 @@ de:
         one: Freikarte
         other: Freikarten
     reservation_groups:
-      created: "Die Vorreservierungsgruppe wurde erfolgreich erstellt."
-      destroyed: "Die Vorreservierungsgruppe wurde gelöscht."
+      created: "Die Blockungsgruppe wurde erfolgreich erstellt."
+      destroyed: "Die Blockungsgruppe wurde gelöscht."
     statistics:
       chart_data:
         labels:

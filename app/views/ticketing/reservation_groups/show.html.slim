@@ -1,0 +1,26 @@
+- title 'Sitzplätze blocken'
+
+.container data-controller='ticketing--reservation-groups' data-seats=@seats.to_json data-show-path=ticketing_reservation_group_path('') data-update-path=ticketing_reservation_group_path(@group)
+  h1 Sitzplätze blocken
+  .row: .col: .card.mb-2
+    .mb-2
+      = label_tag :group, 'Gruppe'
+      = select_tag :group, options_from_collection_for_select(@groups, :id, :name, @group.id), data: { action: 'ticketing--reservation-groups#updateGroup' }
+      .mt-1.text-end = link_to 'Gruppe löschen', ticketing_reservation_group_path(@group), method: :delete, data: { confirm: "Möchten Sie diese Gruppe und alle damit verbundenen Sitzplatzblockungen löschen?" }, class: 'btn btn-sm'
+    .mb-2
+      = label_tag :event, 'Veranstaltung'
+      = select_tag :event, options_from_collection_for_select(@events, :id, :name, @event.id), data: { action: 'ticketing--reservation-groups#updateEvent' }
+    .mb-2
+      = label_tag :date_id, 'Termin'
+      = render 'application/ticketing/date_select', dates: @event.dates, preselected_date: @event.dates.first, data: { target: 'ticketing--reservation-groups.date', action: 'ticketing--reservation-groups#updateDate' }
+
+  .row: .col.w-100: .card.mb-2
+    = render 'application/ticketing/seating', class: [:selector], mode: :selector, event: @event, controller_target: 'ticketing--reservation-groups.seating'
+    .text-center.mt-2 = submit_tag 'speichern', class: :btn, data: { action: 'ticketing--reservation-groups#save' }
+
+  .row: .col: .card
+      h3 Neue Gruppe erstellen
+      = form_for Ticketing::ReservationGroup.new do |f|
+        = render 'form_field', form: f, attribute: :name, label: 'Name'
+          = f.text_field :name
+        .text-center = f.submit 'erstellen', class: :btn
