@@ -2,7 +2,7 @@
 
 .container
   h1 Newsletter
-  .row: .col
+  .row: .col.w-100
     - if policy(Newsletter::Newsletter).new?
       = render 'new_button', action: 'Newsletter', url: new_admin_newsletter_path
     table
@@ -11,12 +11,12 @@
           th Betreff
           th Empfängergruppe
           th gesendet
-          th.actionBtns
+          th
       tbody
         - @newsletters.each do |letter|
           tr
             td = link_to_if letter.sent?, letter.subject, admin_newsletter_path(letter)
-            td.subscriber-lists
+            td
               - letter.subscriber_lists.each do |list|
                 div = subscriber_list_with_count(list)
               div: b Gesamt #{number_with_delimiter(letter.subscribers.count)} Empfänger
@@ -30,8 +30,8 @@
                   em Newsletter wird geprüft und in Kürze gesendet.
               - elsif policy(letter).finish?
                 = link_to 'senden', finish_admin_newsletter_path(letter), method: :post, data: { confirm: 'Möchten Sie diesen Newsletter wirklich senden?' }
-            td.actionBtns
+            td
               - if policy(letter).edit?
-                = link_to '', edit_admin_newsletter_path(letter), class: :edit, title: 'bearbeiten'
+                => link_to 'bearbeiten', edit_admin_newsletter_path(letter)
               - if policy(letter).destroy?
-                = link_to '', admin_newsletter_path(letter), method: :delete, data: { confirm: 'Möchten Sie diesen Newsletter wirklich löschen?' }, class: :delete, title: 'löschen'
+                = link_to 'löschen', admin_newsletter_path(letter), method: :delete, data: { confirm: 'Möchten Sie diesen Newsletter wirklich löschen?' }

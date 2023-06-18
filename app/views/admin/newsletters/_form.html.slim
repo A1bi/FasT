@@ -3,65 +3,58 @@
 .container
   h1 Newsletter
   h2 = title
-  .row: .col.w-100: .card
-    = form_with model: @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter), local: true do |f|
-      = render 'errors', errors: @newsletter.errors
-      table
-        tr
-          td Betreff:
-          td = f.text_field :subject, required: true, readonly: @newsletter.sent?
-        tr
-          td Text (Text):
-          td
-            | Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
-            p = f.text_area :body_text, required: true, readonly: @newsletter.sent?
-            = render 'layouts/mailer_ending'
-        tr
-          td
-            | Text (HTML):<br>
-            p: em Dieses Feld bitte leer lassen, falls HTML automatisch generiert werden soll.
-          td
-            | Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
-            p = f.text_area :body_html, readonly: @newsletter.sent?
-            = render 'layouts/mailer_ending'
-        tr
-          td Empfängergruppe:
-          td = f.collection_check_boxes(:subscriber_list_ids, @subscriber_lists, :id, :name) do |b|
-            div
-              = b.label(class: 'check_box')
-                = b.check_box
+  .row: .col
+    .card.mb-2
+      = form_with model: @newsletter, url: @newsletter.new_record? ? admin_newsletters_path : admin_newsletter_path(@newsletter), local: true do |f|
+        = render 'errors', errors: @newsletter.errors
+        = render 'form_field', form: f, attribute: :subject, label: 'Betreff'
+          = f.text_field :subject, required: true, readonly: @newsletter.sent?
+        = render 'form_field', form: f, attribute: :body_text, label: 'Text (Text)'
+          .form-text Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
+          = f.text_area :body_text, required: true, readonly: @newsletter.sent?
+          .form-text = render 'layouts/mailer_ending'
+        = render 'form_field', form: f, attribute: :body_html, label: 'Text (HTML)'
+          .form-text Sehr geehrte Theaterfreundin, sehr geehrter Theaterfreund,
+          = f.text_area :body_html, readonly: @newsletter.sent?
+          .form-text = render 'layouts/mailer_ending'
+        .mb-2
+          p Empfängergruppe
+          = f.collection_check_boxes(:subscriber_list_ids, @subscriber_lists, :id, :name) do |b|
+            .form-check
+              = b.check_box
+              = b.label
                 = subscriber_list_with_count(b.object)
         - unless @newsletter.sent?
-          tr
-            td Vorschau verschicken an:
-            td
+          .row.mb-2
+            .col.col-md-6: .form-check
               = check_box_tag :send_preview_email
+              = label_tag :send_preview_email, 'Vorschau verschicken'
+            .col.col-md-6
+              = label_tag :preview_email, 'Empfänger für Vorschau'
               = email_field_tag :preview_email, current_user&.email, placeholder: 'E-Mail-Adresse'
-      - if @newsletter.sent?
-        .hcen Dieser Newsletter wurde bereits verschickt.
-      - else
-        .submit = cond_submit f
+        - if @newsletter.sent?
+          .text-center Dieser Newsletter wurde bereits verschickt.
+        - else
+          .text-center = cond_submit f
 
     - if @newsletter.persisted?
-      .box
-        .top Hochgeladene Fotos
-        .con
-          a name='images'
-          - if @newsletter.images.any?
-            table
-              - @newsletter.images.each do |image|
-                tr
-                  td = image_tag image.image.url(:thumb)
-                  td
-                    input type='text' value="%%bild_#{image.id}%%"
-                    p Dieser Code kann an beliebiger Stelle im Text eingefügt werden und wird beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.
-                    - unless @newsletter.sent?
-                      p = link_to 'Foto löschen', admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: 'Möchten Sie dieses Foto wirklich löschen?' }
-          - else
-            em Zu diesem Newsletter wurden keine Fotos hochgeladen.
+      .card#images.mb-2
+        h3 Hochgeladene Fotos
+        = render 'alert', type: :info
+          p Die angezeigten Codes können an beliebiger Stelle im Text eingefügt werden und werden beim Versenden durch das entsprechende Foto ersetzt. Das Foto links ist nur eine Vorschau und wird später in der E-Mail größer und im ursprünglichen Format angezeigt.
+        - @newsletter.images.each do |image|
+          .row
+            .col-6.col-md-3 = image_tag image.image.url(:thumb), class: 'w-100'
+            .col-6.col-md-9
+              .mb-1: input type='text' value="%%bild_#{image.id}%%"
+              - unless @newsletter.sent?
+                p = link_to 'Foto löschen', admin_newsletter_image_path(@newsletter, image), method: :delete, data: { confirm: 'Möchten Sie dieses Foto wirklich löschen?' }, class: 'btn btn-sm'
+        - if @newsletter.images.empty?
+          em Zu diesem Newsletter wurden keine Fotos hochgeladen.
+
       - unless @newsletter.sent?
-        .box
-          .top Neues Foto hochladen
-          .con = form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f|
-            = f.file_field :image, required: true, accept: 'image/png, image/jpeg, image/webp, image/heic, image/heif'
-            p.hcen = f.submit 'hochladen'
+        .card
+          h3 Neues Foto hochladen
+          = form_for Newsletter::Image.new, url: admin_newsletter_images_path(@newsletter) do |f|
+            .mb-2 = f.file_field :image, required: true, accept: 'image/png, image/jpeg, image/webp, image/heic, image/heif'
+            .text-center = f.submit 'hochladen', class: :btn
