@@ -1,38 +1,31 @@
 h2 Stornierung Ihrer Tickets
-p
-  - if @refundable
-    | Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet.
-  - else
-    | Durch einen Klick auf folgenden Button werden Ihre Tickets storniert.
+- if @refundable
+  p Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet.
+- else
+  p Durch einen Klick auf folgenden Button werden Ihre Tickets storniert.
 
 = form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund' } do |f|
   - if @refundable
     - if @order.open_bank_transaction.present?
       p Der zu erstattende Betrag wird auf das ursprüngliche Konto zurücküberwiesen.
       = f.hidden_field :use_most_recent, value: true
-    p Bitte geben Sie ein Konto an, auf das wir den zu erstattenden Betrag überweisen dürfen.
-    - if @order.most_recent_bank_transaction.present?
-      table
-        tr
-          td = f.radio_button :use_most_recent, true, required: true,
-            data: { action: 'ticketing--refund#toggleBankDetails' }
-          td
-            = f.label :use_most_recent, value: true
-              | Bankkonto der ursprünglichen Lastschrift verwenden
-              .small Kontoinhaber: #{@order.most_recent_bank_transaction.name}
-              .small IBAN: #{obfuscated_iban(@order.most_recent_bank_transaction.iban)}
-        tr
-          td = f.radio_button :use_most_recent, false, required: true,
-            data: { action: 'ticketing--refund#toggleBankDetails' }
-          td = f.label :use_most_recent, value: false
-            | Anderes Bankkonto verwenden
-
-    table data-target='ticketing--refund.bankDetails' class=('visible' unless @order.most_recent_bank_transaction.present?)
-      tr
-        td = f.label :name, 'Kontoinhaber:'
-        td = f.text_field :name
-      tr
-        td = f.label :iban, 'IBAN:'
-        td = f.text_field :iban
+    - else
+      - if @order.most_recent_bank_transaction.present?
+        p Bitte geben Sie ein Konto an, auf das wir den zu erstattenden Betrag überweisen dürfen.
+        .card
+          = render 'form_field', form: f, attribute: :use_most_recent, label: 'Bankkonto der ursprünglichen Lastschrift verwenden', value: true, class: 'form-check'
+            = f.radio_button :use_most_recent, true, required: true,
+                data: { action: 'ticketing--refund#toggleBankDetails' }
+            .form-text Kontoinhaber: #{@order.most_recent_bank_transaction.name}
+            .form-text IBAN: #{obfuscated_iban(@order.most_recent_bank_transaction.iban)}
+          = render 'form_field', form: f, attribute: :use_most_recent, label: 'Anderes Bankkonto verwenden', value: false, class: 'form-check'
+            = f.radio_button :use_most_recent, false, required: true,
+                data: { action: 'ticketing--refund#toggleBankDetails' }
+          div data-target='ticketing--refund.bankDetails' class=('d-none' if @order.most_recent_bank_transaction.present?)
+            = render 'form_required_caption'
+            = render 'form_field', form: f, attribute: :name, label: 'Kontoinhaber', required: true
+              = f.text_field :name, required: true
+            = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
+              = f.text_field :iban
 
   .text-center.mt-2 = f.submit 'Tickets stornieren', class: :btn

@@ -1,5 +1,5 @@
-.mb-2
-  = form.label attribute
+.mb-2 class=local_assigns[:class]
+  = form.label attribute, value: local_assigns[:value]
     = local_assigns[:label]
     - if local_assigns[:required]
       abbr.required< title='Pflichtfeld' *
