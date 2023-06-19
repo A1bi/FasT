@@ -74,12 +74,13 @@ body class=('development' if Rails.env.development?)
 
   footer
     .container: ul
+        li = link_to 'Newsletter', new_newsletter_subscriber_path
+        li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
         li = link_to 'Impressum', impressum_path
         - unless Settings.hide_it_recht_content
           li = link_to 'AGB', agb_path
           li = link_to 'Widerrufsbelehrung', widerruf_path
         li = link_to 'Datenschutzerklärung', privacy_path
-        li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
         li = link_to 'Satzung', satzung_path
 
   - if Rails.env.production?

@@ -50,8 +50,8 @@ Rails.application.routes.draw do
       resources :photos, path: 'fotos'
     end
 
-    resource :newsletter_subscriber, path: :newsletter,
-                                     only: %i[create edit update destroy] do
+    resource :newsletter_subscriber, path: :newsletter, only: %i[new create edit update destroy],
+                                     path_names: { new: 'anmelden' } do
       get :confirm
     end
 

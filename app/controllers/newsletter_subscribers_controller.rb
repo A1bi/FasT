@@ -6,7 +6,11 @@ class NewsletterSubscribersController < ApplicationController
   filters_spam_through_honeypot only: :create
   filters_spam_in_param proc { |params| params[:newsletter_subscriber][:last_name] }, max_length: 50, only: :create
 
-  before_action :find_subscriber, except: :create
+  before_action :find_subscriber, except: %i[new create]
+
+  def new
+    @subscriber = authorize Newsletter::Subscriber.new
+  end
 
   def edit; end
 
