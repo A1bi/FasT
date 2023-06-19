@@ -31,9 +31,6 @@ workflow:
   - bundle config set --local without development
   - bundle install -j $(sysctl -n hw.ncpu)
 
-.yarn: &yarn
-  - yarn install --pure-lockfile
-
 stages:
   - test
   - deploy
@@ -60,15 +57,6 @@ rubocop:
   script:
     - rubocop
 
-standardjs:
-  extends: .except_schedules
-  tags:
-    - yarn
-  before_script:
-    - *yarn
-  script:
-    - yarn run standard
-
 specs:
   extends:
     - .except_schedules
@@ -91,15 +79,6 @@ bundler audit:
   script:
     - gem install bundler-audit
     - bundle audit check --update
-
-yarn audit:
-  tags:
-    - yarn
-  before_script:
-    - *yarn
-  script:
-    - npx audit-ci --high
-  allow_failure: true
 
 deploy:
   extends:
