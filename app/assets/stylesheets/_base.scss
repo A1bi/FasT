@@ -58,6 +58,10 @@ a {
   &:hover {
     color: $cta-color-hover;
   }
+
+  &:active {
+    color: $cta-color-active;
+  }
 }
 
 hr {

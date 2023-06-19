@@ -8,11 +8,8 @@ footer {
     @extend .justify-content-center;
     @extend .ff-l;
     @extend .list-style-none;
-    gap: spacing(2);
+    @extend %black-links;
+    gap: spacing(1) spacing(2);
     flex-wrap: wrap;
-
-    a:not(:hover, :active) {
-      color: $black;
-    }
   }
 }

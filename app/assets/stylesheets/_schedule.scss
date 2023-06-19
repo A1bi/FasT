@@ -60,11 +60,8 @@
       .title {
         @extend .f-mb;
         @extend .m-0;
+        @extend %black-links;
         font-size: 1.25rem;
-
-        a:not(:hover) {
-          color: $black;
-        }
 
         @include media-query(md) {
           font-size: 1rem * $heading-size-multiplier;

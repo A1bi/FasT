@@ -120,16 +120,9 @@ nav {
 
   > ul {
     @extend .py-1, .px-2;
+    @extend %black-links;
     font-size: 2rem;
     font-weight: 400;
-
-    a, a:hover {
-      color: $black;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
 
     li > ul {
       @extend .py-0, .px-2;

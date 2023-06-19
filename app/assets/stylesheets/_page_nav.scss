@@ -12,15 +12,12 @@
     @extend .justify-content-center;
     @extend .ff-l;
     @extend .list-style-none;
+    @extend %black-links;
     gap: spacing(1);
 
     li {
       &.active {
         @extend .f-lbi;
-      }
-
-      a:not(:active, :hover) {
-        color: $black;
       }
     }
   }
