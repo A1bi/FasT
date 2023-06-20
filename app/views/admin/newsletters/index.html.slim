@@ -5,7 +5,7 @@
   .row: .col.w-100
     - if policy(Newsletter::Newsletter).new?
       = render 'new_button', action: 'Newsletter', url: new_admin_newsletter_path
-    table
+    .table-responsive: table
       thead
         tr
           th Betreff

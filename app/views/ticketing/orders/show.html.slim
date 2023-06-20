@@ -11,14 +11,12 @@ ruby:
   ]
 
 .container
-  h1 Bestellungsdetails
-
   .row
     .col.col-md-8
       - if @order.try(:anonymized?)
         thead: tr: th colspan=2 Diese Bestellung wurde anonymisiert.
 
-      .card.mb-2 = render 'show_overview_table', title: 'Übersicht', overview: overview
+      .card.mb-2 = render 'show_overview_table', title: 'Bestellung', overview: overview
 
       .card.mb-2
         h3 Eingelöste Gutscheine

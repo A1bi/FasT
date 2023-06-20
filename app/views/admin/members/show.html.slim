@@ -1,8 +1,7 @@
 - title "#{@member.name.full} – Mitgliederverwaltung"
 
 .container
-  h1 Mitgliederverwaltung
-  h2 = @member.name.full
+  h1 = @member.name.full
   .row: .col
     small.d-block.text-center
       - if policy(@member).destroy?

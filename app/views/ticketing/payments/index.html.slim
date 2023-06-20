@@ -1,12 +1,12 @@
 - title 'Zahlungsverwaltung'
 
 .container
-  h1 Zahlungsverwaltung
+  h1 Zahlungs&shy;verwaltung
   h2 Lastschriften
 
   .row: .col.w-100: .card
     h3 Einzureichende Banktransaktionen
-    table
+    .table-responsive: table
       thead: tr
         th
         th Lastschriften
@@ -24,7 +24,7 @@
 
   .row: .col.w-100: .card
     h3 Vergangene Einreichungen
-    table: tbody
+    .table-responsive: table: tbody
       - if @bank_submissions.any?
         - @bank_submissions.each do |submission|
           tr

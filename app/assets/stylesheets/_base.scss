@@ -26,22 +26,23 @@ body {
 h1, h2, h3 {
   @extend .my-2;
   @extend .text-center;
+  word-wrap: break-word;
 }
 
 h1 {
   @extend .f-lbi;
-  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier * $heading-size-multiplier;
+  font-size: .75rem * $heading-size-multiplier * $heading-size-multiplier * $heading-size-multiplier;
 }
 
 h2 {
   @extend .f-li;
-  font-size: 1rem * $heading-size-multiplier * $heading-size-multiplier;
+  font-size: .75rem * $heading-size-multiplier * $heading-size-multiplier;
   font-weight: 400;
 }
 
 h3 {
   @extend .f-mb;
-  font-size: 1rem * $heading-size-multiplier;
+  font-size: .75rem * $heading-size-multiplier;
 }
 
 p {
