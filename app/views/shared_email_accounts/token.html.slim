@@ -1,4 +1,7 @@
-.hcen
-  p Bitte wählen Sie die gewünschte E-Mail-Adresse, mit der Sie sich anmelden möchten.
-  - current_user.shared_email_accounts_authorized_for&.each do |email|
-    p = link_to email, email: email
+.container
+  h1 E-Mail
+  .row: .col.text-center
+    p Bitte wählen Sie die gewünschte E-Mail-Adresse, mit der Sie sich anmelden möchten.
+    .card
+      - current_user.shared_email_accounts_authorized_for&.each do |email|
+        = link_to email, { email: email }, class: 'btn w-100 d-block mb-1'
