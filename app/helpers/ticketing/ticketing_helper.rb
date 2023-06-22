@@ -22,7 +22,7 @@ module Ticketing
     end
 
     def event_logo(event, image_options: {})
-      path = "theater/#{event.assets_identifier}/title.svg"
+      path = event_logo_path(event)
       image_options[:alt] = event.name
       return image_tag path, image_options if asset_exists? path
 

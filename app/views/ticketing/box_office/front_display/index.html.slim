@@ -6,7 +6,7 @@ div data-controller='ticketing--box-office--front-display' data-ticketing--box-o
       = image_tag 'logo.svg'
     - @events.each do |event|
       div data-target='ticketing--box-office--front-display.tips'
-        = image_tag "theater/#{event.assets_identifier}/title.svg"
+        = image_tag event_logo_path(event)
         p Tickets hier erhältlich
     div data-target='ticketing--box-office--front-display.tips'
       p Wir akzeptieren

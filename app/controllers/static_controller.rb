@@ -6,7 +6,7 @@ class StaticController < ApplicationController
   skip_authorization
 
   def index
-    @events = Ticketing::Event.with_future_dates.ordered_by_dates
+    @featured_event = Ticketing::Event.find_by(identifier: :gatte_2023) # rubocop:disable Naming/VariableNumber
     flash.now[:warning] = alert_info[:text].html_safe if show_alert? # rubocop:disable Rails/OutputSafety
   end
 

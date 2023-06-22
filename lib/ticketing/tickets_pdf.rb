@@ -2,7 +2,7 @@
 
 module Ticketing
   class TicketsPdf < BasePdf
-    include Rails.application.routes.url_helpers
+    include ApplicationHelper
 
     TICKET_WIDTH = 595
     TICKET_HEIGHT = 280
@@ -60,8 +60,7 @@ module Ticketing
         height = bounds.height * 0.30
 
         bounding_box([0, cursor], width:, height:) do
-          image = File.read(images_path.join('theater', event.assets_identifier,
-                                             'ticket_header.svg'))
+          image = File.read(images_path.join(event_logo_path(event)))
           svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
           svg.resize(width: bounds.width)
           svg.resize(height: bounds.height) if svg.sizing.output_height > bounds.height

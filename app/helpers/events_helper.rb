@@ -3,7 +3,7 @@
 module EventsHelper
   def structured_data(event, locals = {})
     locals[:event] = event
-    locals[:image] = "theater/#{event.assets_identifier}/title.svg"
+    locals[:image] = event_logo_path(event)
 
     tag.script type: 'application/ld+json' do
       raw render(partial: 'events/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety

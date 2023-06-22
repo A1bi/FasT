@@ -16,7 +16,7 @@ body class=('development' if Rails.env.development?)
   header
     .container
       .menu-toggle
-      .logo = link_to inline_svg('logo_l1'), root_path
+      .logo = link_to inline_svg('logo_l1.svg'), root_path
   .container.nav: nav
     ul
       li = link_to 'Programm', root_path(anchor: :programm)

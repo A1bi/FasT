@@ -55,8 +55,12 @@ module ApplicationHelper
     iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
   end
 
-  def inline_svg(name)
-    file_path = Rails.root.join("app/assets/images/#{name}.svg")
+  def event_logo_path(event)
+    "events/#{event.assets_identifier}/title.svg"
+  end
+
+  def inline_svg(filename)
+    file_path = Rails.root.join("app/assets/images/#{filename}")
     File.read(file_path).html_safe # rubocop:disable Rails/OutputSafety
   end
 end
