@@ -42,7 +42,6 @@ gem 'roadie-rails', '~> 3.0'
 gem 'sass-rails', '~> 6.0.0'
 gem 'slim'
 gem 'sprockets-rails', '~> 3.4'
-gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug'
