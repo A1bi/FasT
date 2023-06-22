@@ -95,9 +95,9 @@ ruby:
   .row: .col.w-100
     - if @order.tickets.any?
       .card.mb-2 data-controller='ticketing--tickets-table'
-        h3 #{tickets_colspan(@show_check_ins)} Bestellte Tickets
+        h3 Bestellte Tickets
         = form_tag nil, method: :patch, class: :edit_tickets, data: { action: 'ticketing--tickets-table#submit' }
-          .table-responsive: table#tickets
+          .table-responsive.mb-1: table#tickets
             thead
               tr
                 th: .form-check = check_box_tag :all_tickets, nil, nil, disabled: @order.tickets.uncancelled.none?, data: { action: 'ticketing--tickets-table#toggleAllCheckBoxes' }
@@ -134,7 +134,7 @@ ruby:
                         span title="via #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}"
                           = l check_in.date, format: '%H:%M'
           - if @order.tickets.valid.any?
-            p data-target='ticketing--tickets-table.noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
+            small data-target='ticketing--tickets-table.noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
             ruby:
               options = [
                 ['stornieren', :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', submit_label: 'stornieren' }],
@@ -161,7 +161,7 @@ ruby:
                     = check_box_tag :transfer_refund, nil, true, 'data-action': 'ticketing--tickets-table#toggleRefundDetails'
                     = label_tag :transfer_refund, 'Rückzahlung veranlassen'
                   - if @order.bank_transactions.any?
-                    .form-check.mb-2 data-target='ticketing--tickets-table.refundDetails'
+                    .form-check data-target='ticketing--tickets-table.refundDetails'
                       = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', target: 'ticketing--tickets-table.bankDetailsCheckbox' }
                       = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
                   .row
@@ -171,7 +171,7 @@ ruby:
                     .col-6 data-target='ticketing--tickets-table.refundDetails ticketing--tickets-table.bankDetails'
                       = label_tag :iban, 'IBAN'
                       = text_field_tag :iban, nil, placeholder: 'IBAN'
-              .text-center = submit_tag 'absenden', name: nil, class: :btn, data: { target: 'ticketing--tickets-table.submitButton', default_label: 'absenden' }
+              = submit_tag 'absenden', name: nil, class: :btn, data: { target: 'ticketing--tickets-table.submitButton', default_label: 'absenden' }
 
     - if @order.event&.seating&.plan?
       .card.mb-2

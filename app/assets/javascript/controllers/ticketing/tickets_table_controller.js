@@ -40,7 +40,7 @@ export default class extends Controller {
   toggleRefundDetails (checkbox) {
     this.toggleBankDetails()
     this.refundDetailsTargets.forEach(target => {
-      toggleDisplay(target, checkbox.currentTarget.checked, 'table-row')
+      toggleDisplay(target, checkbox.currentTarget.checked)
     })
   }
 
