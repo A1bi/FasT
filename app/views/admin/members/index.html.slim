@@ -19,7 +19,7 @@
         tbody
           - @members.each do |member|
             tr
-              td.hcen width='15%'
+              td.text-center width='15%'
                 - if member.in_family?
                   span> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
                 - if member.admin?

@@ -1,5 +1,5 @@
 .stepCon.tickets data={ 'totals-url': totals_api_ticketing_orders_path }
-  = event_logo(@event, image_options: { class: 'event-header' }, fallback_options: { class: :hcen })
+  = event_logo(@event, image_options: { class: 'event-header' })
 
   - if action_name == 'new'
     p
