@@ -17,5 +17,13 @@
     "socket.io-client": "~4.1.0",
     "stimulus": "^1.1.1",
     "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-compat": "^4.1.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1"
   }
 }
