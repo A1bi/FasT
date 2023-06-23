@@ -9,7 +9,7 @@
         th
     tbody.hover
       - coupons.each do |coupon|
-        tr data={ controller: 'linked-row', 'linked-row-path': ticketing_coupon_path(coupon) }
+        tr data-controller='linked-row' data-linked-row-path=ticketing_coupon_path(coupon)
           td = link_to name_and_affiliation(coupon.recipient, coupon.affiliation, 'niemand angegeben'), coupon
           td = coupon_value(coupon)
           td = coupon.orders.any? ? 'ja' : 'nein'

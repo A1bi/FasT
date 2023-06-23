@@ -8,7 +8,7 @@ select#date_id name='date' data=local_assigns[:data]
       - elsif date.sold_out? && !current_user&.admin?
         - sold_out << date
       - else
-        option value=date.id data={ id: date.id, 'box-office-payment': 3.days.from_now > date.date && !date.event.covid19? } selected=(local_assigns[:preselected_date_id].to_i == date.id)
+        option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date && !date.event.covid19?) selected=(local_assigns[:preselected_date_id].to_i == date.id)
           = l date.date, format: '%A, %d. %B %Y, %H:%M'
   - sold_out.any?
     optgroup label='Folgende Aufführungen sind derzeit ausverkauft'

@@ -11,7 +11,7 @@ import './components/page_nav'
 
 initSentry({
   dsn: 'https://2d0c454fb3414c4dafe0ac4736913ec3@glitchtip.a0s.de/1',
-  denyUrls: [/https?:\/\/localhost/]
+  denyUrls: ['http://localhost']
 })
 
 const application = Application.start()

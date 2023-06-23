@@ -27,11 +27,11 @@ h3 Neue Buchung vornehmen
     .row
       .col-6
         = label_tag :note, 'Buchung'
-        = select_tag :note, billing_action_options(@billing_actions), data: { target: 'ticketing--transactions-table.note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
-      .col-6 data-target='ticketing--transactions-table.amount'
+        = select_tag :note, billing_action_options(@billing_actions), data: { ticketing__transactions_table_target: 'note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
+      .col-6 data-ticketing--transactions-table-target='amount'
         = label_tag :amount, amount_label
         = number_field_tag :amount, nil, placeholder: number_placeholder, step: number_step
-    .row data-target='ticketing--transactions-table.bankDetails'
+    .row data-ticketing--transactions-table-target='bankDetails'
       .col-6
         = label_tag :name, 'Name'
         = text_field_tag :name, nil, placeholder: 'Name'

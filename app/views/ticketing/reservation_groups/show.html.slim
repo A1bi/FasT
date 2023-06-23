@@ -12,10 +12,10 @@
       = select_tag :event, options_from_collection_for_select(@events, :id, :name, @event.id), data: { action: 'ticketing--reservation-groups#updateEvent' }
     .mb-2
       = label_tag :date_id, 'Termin'
-      = render 'application/ticketing/date_select', dates: @event.dates, preselected_date: @event.dates.first, data: { target: 'ticketing--reservation-groups.date', action: 'ticketing--reservation-groups#updateDate' }
+      = render 'application/ticketing/date_select', dates: @event.dates, preselected_date: @event.dates.first, data: { ticketing__reservation_groups_target: 'date', action: 'ticketing--reservation-groups#updateDate' }
 
   .row: .col.w-100: .card.mb-2
-    = render 'application/ticketing/seating', class: [:selector], mode: :selector, event: @event, controller_target: 'ticketing--reservation-groups.seating'
+    = render 'application/ticketing/seating', class: [:selector], mode: :selector, event: @event, js_controller_target: %w[ticketing--reservation-groups seating]
     .text-center.mt-2 = submit_tag 'speichern', class: :btn, data: { action: 'ticketing--reservation-groups#save' }
 
   .row: .col: .card

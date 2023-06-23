@@ -21,7 +21,7 @@
         tbody.hover
           - orders.each do |order|
             - classes = [(:cancelled if order.cancelled?), (:due if local_assigns[:show_due_state] && order.due?), (:overdue if local_assigns[:show_due_state] && order.overdue?)]
-            tr class=classes data={ controller: 'linked-row', 'linked-row-path': ticketing_order_path(order) }
+            tr class=classes data-controller='linked-row' data-linked-row-path=ticketing_order_path(order)
               - if :checkbox.in?(additional_columns)
                 td: .form-check = check_box_tag 'orders[]', order.id
               td.text-center: tt = link_to order.number, ticketing_order_path(order)

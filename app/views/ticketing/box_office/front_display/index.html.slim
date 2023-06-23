@@ -2,17 +2,17 @@ div data-controller='ticketing--box-office--front-display' data-ticketing--box-o
   h1 Herzlich willkommen!
 
   .slides
-    div data-target='ticketing--box-office--front-display.tips'
+    div data-ticketing--box-office--front-display-target='tips'
       = image_tag 'logo.svg'
     - @events.each do |event|
-      div data-target='ticketing--box-office--front-display.tips'
+      div data-ticketing--box-office--front-display-target='tips'
         = image_tag event_logo_path(event)
         p Tickets hier erhältlich
-    div data-target='ticketing--box-office--front-display.tips'
+    div data-ticketing--box-office--front-display-target='tips'
       p Wir akzeptieren
       = image_tag 'ticketing/box_office/cashless.svg'
       p Gerne auch bei kleinen Beträgen
-    div data-target='ticketing--box-office--front-display.qrCode'
+    div data-ticketing--box-office--front-display-target='qrCode'
       p Ihr Kassenbeleg zum Download
       .code
       p Herzlichen Dank und viel Spaß bei unserer Veranstaltung!

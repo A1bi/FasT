@@ -2,7 +2,7 @@
   div data-controller='ticketing--statistics-event-filter ticketing--statistics-table' data-event-url=url_for(slug: ':slug')
     .mb-2
       = label_tag :event_id, 'Veranstaltung'
-      = select_tag(:event_id, options_for_events(@events, @event), 'data-action': 'ticketing--statistics-event-filter#selectEvent')
+      = select_tag(:event_id, options_for_events(@events, @event), data: { action: 'ticketing--statistics-event-filter#selectEvent' })
     - if local_assigns.fetch(:sale_filter, true)
       = label_tag :view, 'Verkaufszahlen'
       select name='view' data-action='ticketing--statistics-table#switchTable'
