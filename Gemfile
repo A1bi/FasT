@@ -16,6 +16,7 @@ gem 'bootsnap', require: false
 gem 'config', '~> 4.0'
 gem 'dalli', '~> 3.0'
 gem 'httparty', '~> 0.18'
+gem 'importmap-rails', '~> 1.2'
 gem 'kt-paperclip', '~> 7.0'
 gem 'name_of_person'
 gem 'phony_rails', '~> 0.15.0'
@@ -26,6 +27,7 @@ gem 'sentry-ruby'
 gem 'sentry-sidekiq'
 gem 'sepa_king', '~> 0.14.0'
 gem 'simpleidn', '~> 0.2.1'
+gem 'stimulus-rails', '~> 1.2'
 gem 'whenever', require: false
 
 gem 'corona_presence_tracing'

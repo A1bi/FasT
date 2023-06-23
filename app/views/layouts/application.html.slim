@@ -8,7 +8,7 @@ html lang=I18n.locale
         ' #{yield(:title)} –
       | TheaterKultur Kaisersesch e. V.
     = stylesheet_link_tag 'application', media: 'all'
-    = javascript_packs_with_chunks_tag 'application'
+    = javascript_importmap_tags
     = csrf_meta_tag
 
 body class=('development' if Rails.env.development?)

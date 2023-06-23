@@ -166,6 +166,9 @@ GEM
     icalendar (2.8.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
+    importmap-rails (1.2.1)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -397,6 +400,8 @@ GEM
     sshkit (1.21.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stimulus-rails (1.2.1)
+      railties (>= 6.0.0)
     temple (0.10.2)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -437,6 +442,7 @@ DEPENDENCIES
   ffaker (~> 2.13)
   httparty (~> 0.18)
   icalendar (~> 2.7)
+  importmap-rails (~> 1.2)
   jbuilder (~> 2.10)
   kt-paperclip (~> 7.0)
   matrix
@@ -471,6 +477,7 @@ DEPENDENCIES
   simpleidn (~> 0.2.1)
   slim
   sprockets-rails (~> 3.4)
+  stimulus-rails (~> 1.2)
   whenever
 
 BUNDLED WITH
