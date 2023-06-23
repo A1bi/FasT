@@ -3,7 +3,7 @@ import SeatChooser from '../../components/ticketing/seat_chooser'
 import { fetch, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
-  static targets = ['date', 'seatTransfer', 'seating']
+  static targets = ['date', 'reservationGroup', 'seatTransfer', 'seating']
 
   initialize () {
     if (this.hasSeatingTarget) {
@@ -12,9 +12,7 @@ export default class extends Controller {
       this.chooser = new SeatChooser(this.seatingTarget, this)
       this.chooser.init()
 
-      this.reservationGroupBoxes =
-        this.element.querySelectorAll('.reservationGroups [type="checkbox"]')
-      this.reservationGroupBoxes.forEach(box => {
+      this.reservationGroupTargets.forEach(box => {
         box.checked = false
         box.addEventListener('click', () => this.enableReservationGroups())
       })
@@ -48,11 +46,11 @@ export default class extends Controller {
 
   enableReservationGroups () {
     const groups = []
-    this.reservationGroupBoxes.forEach(box => {
+    this.reservationGroupTargets.forEach(box => {
       if (box.checked) groups.push(box.getAttribute('name'))
     })
 
-    const url = this.element.querySelector('.reservationGroups').dataset.enableUrl
+    const url = this.element.dataset.reservationGroupEnableUrl
     fetch(url, 'post', {
       group_ids: groups,
       event_id: this.element.dataset.eventId,

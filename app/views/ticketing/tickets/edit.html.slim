@@ -1,0 +1,27 @@
+- title 'Ticketkategorie umbuchen'
+
+.container
+  h1 Ticketkategorie umbuchen
+  .row: .col
+    = form_for @tickets.to_a, url: ticketing_order_tickets_path(@order), method: :patch do |f|
+      = hidden_field_tag :order_id, params[:order_id]
+      - params[:ticket_ids].each do |id|
+        = hidden_field_tag 'ticket_ids[]', id
+      table
+        thead: tr
+          th Nummer
+          th Kategorie
+          th Aufführung
+          th Sitz
+        tbody.hover = content_tag_for :tr, @tickets do |ticket|
+          - fields_for 'ticketing_tickets[]', ticket do |f|
+            td = ticket.number
+            td = f.collection_select :type_id, ticket.event.ticket_types, :id, :name
+            td = l ticket.date.date, format: "%d. %B"
+            - if ticket.seat.present?
+              td = ticket.seat.full_number
+            - else
+              td Freie Platzwahl
+      .text-center
+        = button_tag 'abbrechen', type: :reset, onclick: 'history.back()', class: 'btn me-1'
+        = button_tag 'ändern', data: { confirm: 'Möchten Sie die Ticketkategorien wirklich ändern?' }, class: :btn

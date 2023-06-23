@@ -1,0 +1,17 @@
+- title 'Tickets umbuchen'
+
+.container data={ controller: 'ticketing--ticket-transfer', tickets: @tickets.map { |t| t.id }, 'event-id': @event.id, 'init-path': init_transfer_ticketing_order_tickets_path(@order), 'update-path': finish_transfer_ticketing_order_tickets_path(@order), 'order-path': ticketing_order_path(@order), 'reservation-group-enable-url': enable_reservation_groups_ticketing_order_path }
+  h1 Tickets umbuchen
+  .row: .col
+    = render 'application/ticketing/date_select', dates: @order.event.dates, preselected_date: @order.date, data: { target: 'ticketing--ticket-transfer.date', action: 'ticketing--ticket-transfer#updateDate' }
+    - if @event.seating.plan?
+      - if @reservation_groups.any?
+        h3 Geblockte Plätze freischalten
+        - @reservation_groups.each do |group|
+          .form-check
+            = check_box_tag group.id, group.id, false, data: { target: 'ticketing--ticket-transfer.reservationGroup' }
+            = label_tag group.id, group.name
+  .row: .col.w-100: .card = render 'application/ticketing/seating', event: @order.event, error_box: true, key: true, mode: :chooser, controller_target: 'ticketing--ticket-transfer.seating'
+  .text-center.mt-1
+      = button_tag 'abbrechen', data: { action: 'ticketing--ticket-transfer#returnToOrder' }, class: 'btn me-1'
+      = button_tag 'umbuchen', data: { 'confirm-msg' => "Möchten Sie die Tickets wirklich umbuchen?", action: 'ticketing--ticket-transfer#finishTransfer' }, class: :btn
