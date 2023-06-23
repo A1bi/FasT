@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import SeatingStandalone from '../../components/ticketing/seating_standalone'
 
 export default class extends Controller {

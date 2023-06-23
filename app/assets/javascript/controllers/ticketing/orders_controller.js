@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import TicketsStep from '../../components/ticketing/orders/tickets_step'
 import CouponsStep from '../../components/ticketing/orders/coupons_step'
 import SeatsStep from '../../components/ticketing/orders/seats_step'

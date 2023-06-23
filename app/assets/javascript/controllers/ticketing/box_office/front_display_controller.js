@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { createSubscription } from '../../../components/actioncable'
 import QRCode from 'qrcode-svg'
 

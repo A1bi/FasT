@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import SeatSelector from '../../components/ticketing/seat_selector'
 import { fetch } from '../../components/utils'
 

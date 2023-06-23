@@ -1,4 +1,4 @@
-import { Application } from 'stimulus'
+import { Application } from '@hotwired/stimulus'
 import { eagerLoadControllersFrom } from '@hotwired/stimulus-loading'
 import { init as initSentry } from '@sentry/browser'
 import '@rails/ujs'

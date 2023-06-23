@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import { getAuthenticityToken, toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {

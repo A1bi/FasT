@@ -2,7 +2,6 @@
 
 pin 'application', preload: true
 
-pin 'stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin '@rails/ujs', to: 'https://cdn.jsdelivr.net/npm/@rails/ujs@7.0.5/+esm', preload: true
