@@ -29,9 +29,9 @@ export default class extends Controller {
   }
 
   async createChart () {
-    const chartjs = await import('chart.js/dist/Chart.js')
+    const { default: Chart } = await import('chart.js')
 
-    this.chart = new chartjs.Chart(this.canvasTarget, {
+    this.chart = new Chart(this.canvasTarget, {
       type: 'line',
       data: this.chartData,
       options: {

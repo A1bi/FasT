@@ -4,14 +4,17 @@ pin 'application', preload: true
 
 pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
-pin '@rails/ujs', to: 'https://cdn.jsdelivr.net/npm/@rails/ujs@7.0.5/+esm', preload: true
-pin '@rails/actioncable', to: 'https://cdn.jsdelivr.net/npm/@rails/actioncable@7.0.5/+esm'
+pin '@rails/ujs', to: '@rails--ujs.js', preload: true # @7.0.5
+pin '@rails/actioncable', to: 'actioncable.esm.js'
 pin '@sentry/browser', to: 'https://cdn.jsdelivr.net/npm/@sentry/browser@7.56.0/+esm', preload: true
-pin 'socket.io-client', to: 'https://cdn.jsdelivr.net/npm/socket.io-client@4.7.0/+esm'
-pin 'jquery', to: 'https://cdn.jsdelivr.net/npm/jquery@3.7.0/+esm', preload: true
-pin 'filepond', to: 'https://cdn.jsdelivr.net/npm/filepond@4.30.4/+esm'
-pin 'filepond-plugin-image-preview', to: 'https://cdn.jsdelivr.net/npm/filepond-plugin-image-preview@4.6.11/+esm'
-pin 'filepond-plugin-file-validate-type', to: 'https://cdn.jsdelivr.net/npm/filepond-plugin-file-validate-type@1.2.8/+esm'
-pin 'qrcode-svg', to: 'https://cdn.jsdelivr.net/npm/filepond@4.30.4/+esm'
+pin 'jquery', preload: true # @3.5.1
+pin 'socket.io-client' # @4.4.1
+pin 'filepond' # @4.28.2
+pin 'filepond-plugin-image-preview' # @4.6.7
+pin 'filepond-plugin-file-validate-type' # @1.2.6
+pin 'chart.js' # @2.9.3
+pin 'moment' # @2.29.4
+pin 'mapbox-gl' # @1.11.0
+pin 'qrcode-svg' # @4.30.4
 
 pin_all_from 'app/assets/javascript/controllers', under: 'controllers'

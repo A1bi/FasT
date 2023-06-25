@@ -5,8 +5,8 @@ export default class extends Controller {
   static targets = ['map', 'popup']
 
   async connect () {
-    import(/* webpackChunkName: 'mapbox' */ 'mapbox-gl/dist/mapbox-gl.css') /* eslint-disable-line no-unused-expressions */
-    this.mapboxgl = await import(/* webpackChunkName: 'mapbox' */ 'mapbox-gl')
+    // import('mapbox-gl/dist/mapbox-gl.css')
+    this.mapboxgl = (await import('mapbox-gl')).default
 
     const mapInfo = await this.fetchMapInformation()
 
