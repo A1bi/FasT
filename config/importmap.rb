@@ -17,4 +17,4 @@ pin 'moment' # @2.29.4
 pin 'mapbox-gl' # @1.11.0
 pin 'qrcode-svg' # @4.30.4
 
-pin_all_from 'app/assets/javascript/controllers', under: 'controllers'
+pin_all_from 'app/javascript/controllers', under: 'controllers'
