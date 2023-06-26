@@ -2,8 +2,6 @@ import { Controller } from '@hotwired/stimulus'
 import { createSubscription } from '../../../components/actioncable'
 import QRCode from 'qrcode-svg'
 
-import '../../../styles/ticketing/box_office/front_display_controller.sass'
-
 export default class extends Controller {
   static targets = ['tips', 'qrCode']
 

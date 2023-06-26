@@ -1,18 +1,11 @@
 doctype html
-html
+html lang=I18n.locale
   head
     meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0'
     title TheaterKultur Kaisersesch e. V.
-
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_importmap_tags
     = csrf_meta_tag
 
-    = stylesheet_link_tag 'minimal', media: 'all'
-    = javascript_packs_with_chunks_tag 'application'
-    = stylesheet_packs_with_chunks_tag 'application', media: 'all'
-
-    = stylesheet_link_tag yield(:css_file), media: 'all' if content_for?(:css_file)
-
-    = yield(:head)
-
-body
-  = yield
+body = yield
