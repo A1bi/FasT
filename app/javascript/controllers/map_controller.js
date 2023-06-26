@@ -1,11 +1,12 @@
 import { Controller } from '@hotwired/stimulus'
-import { fetch } from '../components/utils'
+import { fetch, loadVendorStylesheet } from '../components/utils'
 
 export default class extends Controller {
   static targets = ['map', 'popup']
 
   async connect () {
-    // import('mapbox-gl/dist/mapbox-gl.css')
+    loadVendorStylesheet('mapbox-gl')
+
     this.mapboxgl = (await import('mapbox-gl')).default
 
     const mapInfo = await this.fetchMapInformation()

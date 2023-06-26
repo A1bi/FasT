@@ -44,3 +44,15 @@ export const fetch = async (url, method = 'get', data) => {
 
   return json
 }
+
+export const loadVendorStylesheet = (filename) => {
+  const path = `/assets/${filename}.css`
+  const alreadyLoaded = [...document.styleSheets].some(sheet => sheet.href.includes(path))
+  if (alreadyLoaded) return
+
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.media = 'all'
+  link.href = path
+  document.querySelector('head').appendChild(link)
+}

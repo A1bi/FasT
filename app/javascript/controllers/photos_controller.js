@@ -1,10 +1,8 @@
 import { Controller } from '@hotwired/stimulus'
+import { loadVendorStylesheet } from '../components/utils'
 import { create, registerPlugin } from 'filepond'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-
-import 'filepond/dist/filepond.min.css'
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 
 export default class extends Controller {
   static targets = ['filePond'];
@@ -19,6 +17,9 @@ export default class extends Controller {
   }
 
   connect () {
+    loadVendorStylesheet('filepond')
+    loadVendorStylesheet('filepond-plugin-image-preview')
+
     create(this.filePondTarget, {
       server: {
         process: {
