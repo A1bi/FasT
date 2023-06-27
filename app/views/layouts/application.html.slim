@@ -9,6 +9,8 @@ html lang=I18n.locale
       | TheaterKultur Kaisersesch e. V.
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_importmap_tags
+    javascript:
+      document.documentElement.classList.add('fouc')
     = csrf_meta_tag
 
 body class=('development' if Rails.env.development?)

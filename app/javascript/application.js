@@ -17,3 +17,5 @@ Rails.start()
 
 const application = Application.start()
 eagerLoadControllersFrom('controllers', application)
+
+document.documentElement.classList.remove('fouc')
