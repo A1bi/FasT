@@ -38,13 +38,11 @@ stages:
 
 variables:
   RAILS_ENV: test
-  NODE_ENV: test
   RUBOCOP_CACHE_ROOT: .cache/rubocop
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
   paths:
-    - node_modules
     - .cache
     - public/assets
 

@@ -6,7 +6,7 @@ set :branch, 'master'
 set :deploy_to, '/home/rails/FasT'
 
 append :linked_files, 'config/master.key', 'config/settings.local.yml', 'config/puma.rb'
-append :linked_dirs, 'public/system', 'public/uploads', 'tmp/cache', 'log', '.bundle', 'node_modules'
+append :linked_dirs, 'public/system', 'public/uploads', 'tmp/cache', 'log', '.bundle'
 
 set :keep_releases, 3
 
