@@ -3,7 +3,8 @@
     max_columns = 12
     column_widths = 3..5
     last_first_column = nil
-    photos = (Gallery.find_by(id: gallery_id) || Gallery.last).photos.to_a
+    gallery = Gallery.find_by(id: gallery_id) || Gallery.last
+    photos = gallery.photos.to_a
 
   - while photos.any?
     .row
@@ -27,3 +28,5 @@
             - photo = photos.shift
             .photo = link_to photo.image.url(:original)
               img src=photo.image.url(:original)
+  - if gallery.disclaimer.present?
+    .caption.text-end © #{gallery.disclaimer}

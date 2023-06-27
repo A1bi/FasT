@@ -29,9 +29,10 @@
   }
 
   .title {
-    @extend .m-2;
-    width: calc(100% - 1rem);
+    @extend .p-2;
+    @extend .w-100;
     position: absolute;
+    bottom: 0;
     display: block;
     transition: opacity $carousel-transition-duration * 0.5, transform $carousel-transition-duration * 0.8 cubic-bezier(0.33, 1, 0.68, 1);
     transform: rotateY(0deg); // Safari jitter workaround
@@ -64,6 +65,20 @@
         transition: stroke .2s;
       }
     }
+  }
+
+  .caption {
+    position: absolute;
+    color: white;
+    bottom: spacing(1);
+    right: spacing(1);
+    opacity: .7;
+  }
+}
+
+@include media-query(sm) {
+  .carousel .title {
+    padding-bottom: spacing(3);
   }
 }
 

@@ -3,4 +3,6 @@
     = render 'errors', errors: @gallery.errors
     = render 'form_field', form: f, attribute: :title, label: 'Titel', required: true
       = f.text_field :title, required: true
+    = render 'form_field', form: f, attribute: :disclaimer, label: 'Urheber'
+      = f.text_field :disclaimer
     .text-center = cond_submit f

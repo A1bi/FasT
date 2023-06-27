@@ -4,7 +4,7 @@
 3.times do |i|
   Gallery.create(
     title: FFaker::Lorem.sentence(4),
-    disclaimer: "&copy; #{FFaker::NameDE.name}",
+    disclaimer: FFaker::NameDE.name,
     position: i
   )
 end
