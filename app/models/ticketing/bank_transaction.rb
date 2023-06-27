@@ -17,7 +17,7 @@ module Ticketing
 
     class << self
       def unsubmitted
-        where.missing(:submission)
+        where(submission: nil)
       end
 
       def submittable

@@ -22,7 +22,7 @@ module Ticketing
       end
 
       def with_future_dates
-        joins(:dates).merge(EventDate.upcoming.uncancelled).merge(where.missing(:dates).invert_where).group(:id)
+        joins(:dates).merge(EventDate.upcoming.uncancelled).group(:id)
       end
 
       def ordered_by_dates(order = :asc)

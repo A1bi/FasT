@@ -9,7 +9,7 @@ module Members
 
     class << self
       def unsubmitted
-        where.missing(:debit_submission)
+        where(debit_submission: nil)
       end
     end
   end

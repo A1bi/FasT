@@ -58,7 +58,7 @@ module Ticketing
       end
 
       def with_tickets
-        merge(where.missing(:date).invert_where)
+        where.not(date: nil)
       end
 
       def policy_class
