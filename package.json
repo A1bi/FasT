@@ -1,23 +1,6 @@
 {
   "name": "FasT",
-  "dependencies": {
-    "@rails/actioncable": "^7.0.3-1",
-    "@rails/ujs": "^6.0.3",
-    "@sentry/browser": "^5.13.2",
-    "@stimulus/polyfills": "^1.1.1",
-    "chart.js": "^2.9.3",
-    "core-js": "^3.6.5",
-    "filepond": "^4.28.2",
-    "filepond-plugin-file-validate-type": "^1.2.6",
-    "filepond-plugin-image-preview": "^4.6.7",
-    "jquery": "^3.5.1",
-    "mapbox-gl": "^1.11.0",
-    "qrcode-svg": "^1.1.0",
-    "regenerator-runtime": "^0.13.5",
-    "socket.io-client": "~4.1.0",
-    "stimulus": "^1.1.1",
-    "whatwg-fetch": "^3.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^8.43.0",
     "eslint-config-standard": "^17.1.0",
