@@ -67,12 +67,12 @@ ruby:
   # ]
 
 .carousel
-  - [2, 3, 1, 4].each.with_index do |photo, i|
-    = image_tag "events/#{@featured_event.assets_identifier}/photos/#{photo}.jpg", class: [:photo, (:active if i.zero?)], data: { event_identifier: @featured_event.identifier }
+  - [3, 1, 2, 4].each.with_index do |photo, i|
+    = image_tag "events/#{@featured_event.assets_identifier}/photos/#{photo}.jpg", class: [:photo, (:active if i.zero?)], alt: @featured_event.name, data: { event_identifier: @featured_event.identifier }
   .title.outline-sm.active data-event-identifier=@featured_event.identifier
     = link_to event_path(@featured_event.slug)
       = inline_svg(event_logo_path(@featured_event))
-  .caption.text-end Fotos: Mario Spies
+  .caption.text-end Fotos: Kevin Rühle
 
 .container
   h1.text-center#programm Programm
