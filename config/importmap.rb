@@ -6,7 +6,6 @@ pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin '@rails/ujs', to: '@rails--ujs.js', preload: true # @7.0.5
 pin '@rails/actioncable', to: 'actioncable.esm.js'
-pin '@sentry/browser', to: 'https://cdn.jsdelivr.net/npm/@sentry/browser@7.56.0/+esm', preload: true
 pin 'jquery', preload: true # @3.5.1
 pin 'socket.io-client' # @4.4.1
 pin 'filepond' # @4.28.2
