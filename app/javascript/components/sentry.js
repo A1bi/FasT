@@ -67,7 +67,7 @@ const sendEnvelope = async (item) => {
 
 export const captureException = (error, mechanism) => {
   const frames = error.error.stack.split('\n').map(frame => {
-    const parts = frame.match(/(.+?)@(.+)/)
+    const parts = frame.match(/(.*?)@(.+)/)
     const location = parts[2].match(/(.+):(\d+):(\d+)$/)
     return {
       filename: location[1],
