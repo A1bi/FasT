@@ -58,7 +58,6 @@ namespace :roundcube do
           statement = client.prepare(query)
           statement.execute("fast_#{member.id}", contact[:contact_id].to_s,
                             membership[:contactgroup_id])
-
         rescue Mysql2::Error
           # remove if this results in doubles
           puts 'Removing double'

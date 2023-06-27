@@ -57,7 +57,7 @@ module Ticketing
 
     def ticket_number_regex
       max_digits = Order::NUMBER_DIGITS
-      Regexp.new(/\A(\d{1,#{max_digits}})(-(\d+))?\z/)
+      /\A(\d{1,#{max_digits}})(-(\d+))?\z/
     end
 
     def search_words

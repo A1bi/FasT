@@ -21,7 +21,7 @@ module Members
     end
 
     def number=(number)
-      number.sub!(/FAST\./, '') if number.is_a? String
+      number.sub!('FAST.', '') if number.is_a? String
       super(number)
     end
 

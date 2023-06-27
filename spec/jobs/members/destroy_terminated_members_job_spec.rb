@@ -3,10 +3,10 @@
 require 'support/time'
 
 RSpec.describe Members::DestroyTerminatedMembersJob do
-  let!(:cancelled_member1) do
+  let!(:cancelled_member_3_days) do
     create(:member, membership_terminates_on: 3.days.from_now)
   end
-  let!(:cancelled_member2) do
+  let!(:cancelled_member_5_days) do
     create(:member, membership_terminates_on: 5.days.from_now)
   end
 
@@ -36,7 +36,7 @@ RSpec.describe Members::DestroyTerminatedMembersJob do
 
       it 'destroys the correct member' do
         subject
-        expect { cancelled_member1.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { cancelled_member_3_days.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe Members::DestroyTerminatedMembersJob do
 
       it 'destroys the correct member' do
         subject
-        [cancelled_member1, cancelled_member2].each do |member|
+        [cancelled_member_3_days, cancelled_member_5_days].each do |member|
           expect { member.reload }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end

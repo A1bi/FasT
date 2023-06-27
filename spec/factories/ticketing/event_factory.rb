@@ -30,7 +30,7 @@ FactoryBot.define do
     end
 
     trait :with_seating_plan do
-      association :seating, :with_plan
+      seating factory: %i[seating with_plan]
     end
 
     trait :complete do

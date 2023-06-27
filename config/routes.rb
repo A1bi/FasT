@@ -144,7 +144,7 @@ Rails.application.routes.draw do
       get 'bestellen/(:event_slug)' => 'orders#new', as: :new_ticketing_order, type: :web
 
       max_length = Ticketing::SigningKey.max_info_length
-      info_regex = Regexp.new(/[A-Za-z0-9\-_]{1,#{max_length}}/)
+      info_regex = /[A-Za-z0-9\-_]{1,#{max_length}}/
 
       scope path: ':signed_info', constraints: { signed_info: info_regex }, module: :customers do
         scope controller: :orders, as: :order_overview do

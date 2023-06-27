@@ -75,7 +75,7 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     end
 
     context 'with an invalid coupon to redeem' do
-      let(:coupons) { [create(:coupon, :expired)] }
+      let(:coupons) { create_list(:coupon, 1, :expired) }
 
       include_examples 'no redeemed coupons'
     end

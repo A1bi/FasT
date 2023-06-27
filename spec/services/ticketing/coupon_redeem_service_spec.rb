@@ -254,7 +254,7 @@ RSpec.describe Ticketing::CouponRedeemService do
   end
 
   context 'with a coupon already added to this order previously' do
-    let(:coupons) { [create(:coupon, :credit, value: 15)] }
+    let(:coupons) { create_list(:coupon, 1, :credit, value: 15) }
 
     before do
       order.billing_account.balance = -20

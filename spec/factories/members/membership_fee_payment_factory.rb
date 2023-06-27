@@ -11,7 +11,7 @@ FactoryBot.define do
     end
 
     trait :with_sepa_mandate do
-      association :member, :with_sepa_mandate
+      member factory: %i[member with_sepa_mandate]
     end
   end
 end

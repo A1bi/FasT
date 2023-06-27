@@ -8,14 +8,14 @@ FactoryBot.define do
 
     name { 'John Doe' }
     iban { 'DE75512108001245126199' }
-    association :order, factory: %i[web_order with_purchased_coupons]
+    order factory: %i[web_order with_purchased_coupons]
 
     trait :with_amount do
       amount { 15 * (refund ? -1 : 1) }
     end
 
     trait :submitted do
-      association :submission, factory: :bank_submission
+      submission factory: :bank_submission
     end
 
     factory :bank_debit

@@ -6,8 +6,8 @@ RSpec.describe Ticketing::BoxOffice::Purchase do
 
     let(:purchase) { described_class.new }
     let(:tickets) { build_list(:ticket, 2) }
-    let(:product1) { build(:box_office_product, price: 3.44, vat_rate: :standard) }
-    let(:product2) { build(:box_office_product, price: 12.34, vat_rate: :zero) }
+    let(:product_standard_vat) { build(:box_office_product, price: 3.44, vat_rate: :standard) }
+    let(:product_zero_vat) { build(:box_office_product, price: 12.34, vat_rate: :zero) }
     let(:order_payment) { build(:box_office_order_payment, amount: 7.22) }
     let(:expected_totals) do
       {
@@ -39,8 +39,8 @@ RSpec.describe Ticketing::BoxOffice::Purchase do
       tickets[1].price = 2.32
       purchase.items.new(number: 1, purchasable: tickets[0])
       purchase.items.new(number: 1, purchasable: tickets[1])
-      purchase.items.new(number: 2, purchasable: product1)
-      purchase.items.new(number: 1, purchasable: product2)
+      purchase.items.new(number: 2, purchasable: product_standard_vat)
+      purchase.items.new(number: 1, purchasable: product_zero_vat)
       purchase.items.new(number: 1, purchasable: order_payment)
 
       [order_payment, *tickets].each do |instance|

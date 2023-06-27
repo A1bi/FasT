@@ -39,7 +39,7 @@ class ApplicationMailer < ActionMailer::Base
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def fix_mixed_attachments
     # do nothing if we have no actual attachments
-    return if @_message.parts.select { |p| p.attachment? && !p.inline? }.none?
+    return if @_message.parts.none? { |p| p.attachment? && !p.inline? }
 
     mail = Mail.new
 

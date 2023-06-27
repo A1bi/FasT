@@ -6,7 +6,7 @@ FactoryBot.define do
 
     trait :with_tickets do
       transient do
-        event { build(:event, :complete) }
+        event { association :event, :complete }
         tickets_count { 1 }
       end
 

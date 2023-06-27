@@ -80,7 +80,7 @@ RSpec.describe Ticketing::OrderSimulationService do
   end
 
   context 'when coupon credit exceeds order total' do
-    let(:coupons) { [create(:coupon, :credit, value: 1000)] }
+    let(:coupons) { create_list(:coupon, 1, :credit, value: 1000) }
 
     it 'returns the correct amounts' do
       expect(subject[:subtotal]).to eq(subtotal)
@@ -92,7 +92,7 @@ RSpec.describe Ticketing::OrderSimulationService do
   end
 
   context 'when free tickets exceed number of tickets' do
-    let(:coupons) { [create(:coupon, :free_tickets, value: 10)] }
+    let(:coupons) { create_list(:coupon, 1, :free_tickets, value: 10) }
 
     it 'returns the correct amounts' do
       expect(subject[:subtotal]).to eq(subtotal)
