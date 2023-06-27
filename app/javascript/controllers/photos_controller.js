@@ -3,6 +3,9 @@ import { loadVendorStylesheet } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['filePond']
+  static values = {
+    vendorStylesheetPaths: Array
+  }
 
   currentIndex = -1
 
@@ -16,8 +19,7 @@ export default class extends Controller {
       FilePondPluginFileValidateType
     )
 
-    loadVendorStylesheet('filepond')
-    loadVendorStylesheet('filepond-plugin-image-preview')
+    this.vendorStylesheetPathsValue.forEach(path => loadVendorStylesheet(path))
 
     create(this.filePondTarget, {
       server: {

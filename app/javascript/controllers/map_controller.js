@@ -3,9 +3,12 @@ import { fetch, loadVendorStylesheet } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['map', 'popup']
+  static values = {
+    vendorStylesheetPath: String
+  }
 
   async connect () {
-    loadVendorStylesheet('mapbox-gl')
+    await loadVendorStylesheet(this.vendorStylesheetPathValue)
 
     this.mapboxgl = (await import('mapbox-gl')).default
 
