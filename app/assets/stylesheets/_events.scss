@@ -60,22 +60,24 @@
 }
 
 [data-controller='map'] {
-  margin-bottom: 30px;
-
   .map {
     min-height: 300px;
+    max-height: 60vh;
   }
 
-  .mapboxgl-popup {
-    border-radius: 4px;
+  .mapboxgl-map {
+    @extend .ff-m;
   }
 
   .mapboxgl-popup-content {
-    padding: 10px;
+    @extend .p-2;
+    @extend .text-center;
+    @extend .shadow;
+    border-radius: 0;
 
-    h3 {
-      margin-top: 0;
-      text-align: center;
+    h1, h2, h3 {
+      @extend .mt-0;
+      @extend .mb-1;
     }
   }
 
