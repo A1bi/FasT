@@ -14,8 +14,8 @@ export default class extends Step {
     if (!couponsInfo) return
 
     this.box.find('tr.coupon').remove()
-    var total = 0
-    var totalNumber = 0
+    let total = 0
+    let totalNumber = 0
 
     couponsInfo.api.coupons.forEach(coupon => {
       const row = this.couponTemplate.clone()

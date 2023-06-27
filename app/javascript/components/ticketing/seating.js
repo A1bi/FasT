@@ -146,7 +146,7 @@ export default class {
         const xx = []
         const yy = []
         matches.forEach(function (match) {
-          var coords = match.split(' ')
+          const coords = match.split(' ')
           xx.push(parseFloat(coords[0]))
           yy.push(parseFloat(coords[1]))
         })
@@ -215,7 +215,7 @@ export default class {
       this.originalHeight = this.originalHeight || this.svg.height()
       height = Math.max(this.originalHeight, this.zoomedShield.getBoundingClientRect().height * this.zoomScale)
     }
-    this.svg.css({ height: height })
+    this.svg.css({ height })
   }
 
   toggleClassesAfterZoom () {
@@ -243,9 +243,9 @@ export default class {
   addBreadcrumb (message, data, level) {
     addBreadcrumb({
       category: 'seating',
-      message: message,
-      data: data,
-      level: level
+      message,
+      data,
+      level
     })
   }
 }

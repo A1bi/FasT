@@ -28,8 +28,8 @@ export default class extends Step {
 
   updateTotals () {
     this.info.api.coupons = []
-    var total = 0
-    var numberOfCoupons = 0
+    let total = 0
+    let numberOfCoupons = 0
 
     this.box.find('.coupon').each((_, couponRow) => {
       couponRow = $(couponRow)
@@ -38,7 +38,7 @@ export default class extends Step {
       const couponTotal = number * value
       const formattedTotal = this.formatCurrency(couponTotal)
 
-      this.info.api.coupons.push({ number: number, value: value })
+      this.info.api.coupons.push({ number, value })
       couponRow.find('.total span').text(formattedTotal)
       numberOfCoupons += number
       total += couponTotal

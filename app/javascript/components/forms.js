@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const feedback = input.parentNode.querySelector('.invalid-feedback')
         if (!feedback) return
 
-        var message
+        let message
         if (input.validity.valueMissing) {
           message = 'Bitte füllen Sie dieses Feld aus.'
         } else if (input.validity.typeMismatch || input.validity.patternMismatch) {

@@ -190,9 +190,9 @@ export default class {
   addBreadcrumb (message, data, level) {
     addBreadcrumb({
       category: `ordering.${this.name}`,
-      message: message,
-      data: data,
-      level: level
+      message,
+      data,
+      level
     })
   }
 

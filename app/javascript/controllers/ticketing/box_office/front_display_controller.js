@@ -40,7 +40,7 @@ export default class extends Controller {
 
   showQrCode (content) {
     const qr = new QRCode({
-      content: content,
+      content,
       join: true,
       padding: 0,
       container: 'svg-viewbox'

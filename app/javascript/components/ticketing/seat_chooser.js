@@ -93,7 +93,7 @@ export default class extends Seating {
       this.updateErrorBoxIfVisible()
 
       this.addBreadcrumb('chose seat', {
-        id: id,
+        id,
         previous_status: originalStatus,
         new_status: newStatus,
         success: res.ok ? 'true' : 'false'

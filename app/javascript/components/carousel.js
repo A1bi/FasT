@@ -24,9 +24,9 @@ const showNextCarouselItem = () => {
   }, 5000)
 }
 
-var carouselPhotos
-var currentPhoto
-var activeTitle
+let carouselPhotos
+let currentPhoto
+let activeTitle
 
 document.addEventListener('DOMContentLoaded', () => {
   carouselPhotos = document.querySelectorAll('.carousel .photo')

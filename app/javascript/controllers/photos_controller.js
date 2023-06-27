@@ -5,9 +5,9 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 export default class extends Controller {
-  static targets = ['filePond'];
+  static targets = ['filePond']
 
-  currentIndex = -1;
+  currentIndex = -1
 
   initialize () {
     registerPlugin(

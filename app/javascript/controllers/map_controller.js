@@ -87,7 +87,7 @@ export default class extends Controller {
     if (scrollY < this.mapTarget.offsetTop) return
 
     const center = this.markers[this.markers.length - 1].getLngLat()
-    this.map.flyTo({ center: center, zoom: 14 })
+    this.map.flyTo({ center, zoom: 14 })
 
     window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }

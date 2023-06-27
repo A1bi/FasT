@@ -164,7 +164,7 @@ export default class extends Controller {
   }
 
   resizeStepBox (height, animated) {
-    const props = { height: height }
+    const props = { height }
     if (animated) {
       this.stepBox.animate(props)
     } else {

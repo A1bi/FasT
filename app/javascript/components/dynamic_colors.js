@@ -1,5 +1,5 @@
 const colorToHslCss = (color, brightness) => {
-  var [h, s, v] = color
+  let [h, s, v] = color
   h /= 360
   s /= 360
   v /= 360
@@ -24,16 +24,16 @@ const generateColors = () => {
   const prevColors = []
 
   // avoid colors to close to huebg
-  for (var i = 0; i < numColors; i++) {
-    var huelogo = Math.random() * 360
+  for (let i = 0; i < numColors; i++) {
+    let huelogo = Math.random() * 360
     while (Math.abs(huelogo - huebg) < 60 || (huelogo > 30 && huelogo < 80)) {
       huelogo = Math.random() * 360
     }
 
     // check if huelogo is close to prev. huelogos, then colapse colors
-    var closestColor = 0
-    var closestDist = 1000
-    for (var j = 0; j < i; j++) {
+    let closestColor = 0
+    let closestDist = 1000
+    for (let j = 0; j < i; j++) {
       const dist = Math.min(Math.abs(huelogo - prevHues[j]), 360 - Math.abs(huelogo - prevHues[j]))
       if (dist < 50 && dist < closestDist) {
         closestDist = dist
@@ -56,7 +56,7 @@ const generateColors = () => {
 }
 
 const shuffleColors = () => {
-  var colors = generateColors()
+  const colors = generateColors()
 
   colors.forEach((color, i) => {
     setCSSVariable(`dynamic-color-${i}`, colorToHslCss(color))
