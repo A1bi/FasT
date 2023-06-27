@@ -1,22 +1,21 @@
 import { Controller } from '@hotwired/stimulus'
 import { loadVendorStylesheet } from 'components/utils'
-import { create, registerPlugin } from 'filepond'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 export default class extends Controller {
   static targets = ['filePond']
 
   currentIndex = -1
 
-  initialize () {
+  async connect () {
+    const { create, registerPlugin } = await import('filepond')
+    const { default: FilePondPluginImagePreview } = await import('filepond-plugin-image-preview')
+    const { default: FilePondPluginFileValidateType } = await import('filepond-plugin-file-validate-type')
+
     registerPlugin(
       FilePondPluginImagePreview,
       FilePondPluginFileValidateType
     )
-  }
 
-  connect () {
     loadVendorStylesheet('filepond')
     loadVendorStylesheet('filepond-plugin-image-preview')
 

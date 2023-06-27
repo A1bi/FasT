@@ -1,6 +1,4 @@
 import { Controller } from '@hotwired/stimulus'
-import { createSubscription } from 'components/actioncable'
-import QRCode from 'qrcode-svg'
 
 export default class extends Controller {
   static targets = ['tips', 'qrCode']
@@ -24,7 +22,9 @@ export default class extends Controller {
     }
   }
 
-  subscribe () {
+  async subscribe () {
+    const { createSubscription } = await import('components/actioncable')
+
     this.subscription = createSubscription({
       channel: 'Ticketing::BoxOffice::FrontDisplayChannel',
       box_office_id: '1'
@@ -38,7 +38,9 @@ export default class extends Controller {
     this.showQrCode(url)
   }
 
-  showQrCode (content) {
+  async showQrCode (content) {
+    const QRCode = await import('qrcode-svg')
+
     const qr = new QRCode({
       content,
       join: true,
