@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { captureMessage, addBreadcrumb } from '../sentry'
+import { captureMessage, addBreadcrumb } from 'components/sentry'
 
 export default class {
   constructor (container, delegate, zoomable) {

@@ -1,4 +1,4 @@
-import Step from './step'
+import Step from 'components/ticketing/orders/step'
 
 export default class extends Step {
   constructor (delegate) {

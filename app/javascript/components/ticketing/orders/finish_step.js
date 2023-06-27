@@ -1,5 +1,5 @@
-import Step from './step'
-import TicketPrinter from '../ticket_printer'
+import Step from 'components/ticketing/orders/step'
+import TicketPrinter from 'components/ticketing/ticket_printer'
 
 export default class extends Step {
   constructor (delegate) {

@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { fetch } from '../../components/utils'
+import { fetch } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['canvas']

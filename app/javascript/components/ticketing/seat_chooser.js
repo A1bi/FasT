@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
-import Seating from './seating'
-import { togglePluralText } from '../utils'
+import Seating from 'components/ticketing/seating'
+import { togglePluralText } from 'components/utils'
 
 export default class extends Seating {
   constructor (container, delegate, zoomable, privileged) {

@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { toggleDisplay } from '../../components/utils'
+import { toggleDisplay } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['note', 'amount', 'bankDetails']

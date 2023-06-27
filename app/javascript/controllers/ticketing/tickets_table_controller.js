@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { getAuthenticityToken, toggleDisplay } from '../../components/utils'
+import { getAuthenticityToken, toggleDisplay } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['ticketCheckBox', 'noTicketsMessage', 'form', 'action', 'cancellation',

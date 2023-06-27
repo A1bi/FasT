@@ -1,5 +1,5 @@
-import Step from './step'
-import { togglePluralText } from '../../utils'
+import Step from 'components/ticketing/orders/step'
+import { togglePluralText } from 'components/utils'
 import $ from 'jquery'
 
 export default class extends Step {

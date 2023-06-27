@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
-import SeatSelector from '../../components/ticketing/seat_selector'
-import { fetch } from '../../components/utils'
+import SeatSelector from 'components/ticketing/seat_selector'
+import { fetch } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['date', 'seating']

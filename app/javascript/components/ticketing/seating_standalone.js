@@ -1,5 +1,5 @@
-import Seating from './seating'
-import { fetch } from '../utils'
+import Seating from 'components/ticketing/seating'
+import { fetch } from 'components/utils'
 
 export default class extends Seating {
   constructor (container, zoomable) {

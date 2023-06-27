@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import { fetch, loadVendorStylesheet } from '../components/utils'
+import { fetch, loadVendorStylesheet } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['map', 'popup']

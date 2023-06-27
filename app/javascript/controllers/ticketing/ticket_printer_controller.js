@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import TicketPrinter from '../../components/ticketing/ticket_printer'
+import TicketPrinter from 'components/ticketing/ticket_printer'
 
 export default class extends Controller {
   initialize () {

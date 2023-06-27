@@ -1,6 +1,6 @@
 /* global _paq */
 
-import { addBreadcrumb } from '../../sentry'
+import { addBreadcrumb } from 'components/sentry'
 import $ from 'jquery'
 
 export default class {

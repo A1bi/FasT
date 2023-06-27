@@ -1,4 +1,4 @@
-import Seating from './seating'
+import Seating from 'components/ticketing/seating'
 
 export default class extends Seating {
   constructor (container, delegate, zoomable) {
