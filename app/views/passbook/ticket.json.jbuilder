@@ -20,9 +20,9 @@ json.merge!(
   webServiceURL: api_passbook_root_url,
   logoText: ticket.event.name,
   relevantDate: ticket.date.date.iso8601,
-  backgroundColor: 'rgb(184, 225, 249)',
-  foregroundColor: 'rgb(0, 0, 0)',
-  labelColor: 'rgb(189, 13, 12)',
+  backgroundColor: 'rgb(255, 255, 255)',
+  foregroundColor: 'rgb(31, 32, 52)',
+  labelColor: 'rgb(255, 92, 92)',
   locations: [
     {
       latitude: ticket.event.location.coordinates.x,
@@ -120,9 +120,8 @@ json.eventTicket do
     {
       key: 'overviewUrl',
       label: 'Ticket umbuchen oder stornieren',
-      value: "Auf unserer <a href=\"#{order_overview_url(signed_info)}\">" \
-             'Website</a> haben Sie die Möglichkeit, Ihre Tickets ' \
-             'umzubuchen oder zu stornieren.'
+      value: 'Auf unserer Website haben Sie die Möglichkeit, Ihre Tickets ' \
+             "<a href=\"#{order_overview_url(signed_info)}\">umzubuchen oder zu stornieren</a>."
     },
     {
       key: 'hotline',
