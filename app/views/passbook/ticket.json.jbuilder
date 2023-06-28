@@ -16,7 +16,7 @@ json.merge!(
   authenticationToken: @auth_token,
   groupingIdentifier: ticket.order.number.to_s,
   voided: ticket.cancelled?,
-  teamIdentifier: 'V48L6BF6M3',
+  teamIdentifier: @team_id,
   webServiceURL: api_passbook_root_url,
   logoText: ticket.event.name,
   relevantDate: ticket.date.date.iso8601,
@@ -143,7 +143,7 @@ json.eventTicket do
     label: 'Adresse des Veranstaltungsortes',
     attributedValue: "<a href=\"#{maps_url}\">#{ticket.event.location.address}</a>. " \
                      'Eine Karte mit Parkmöglichkeiten finden Sie ' \
-                     "<a href=\"#{info_url(ticket.event.slug)}\">hier</a>.",
+                     "<a href=\"#{event_url(ticket.event.slug, anchor: 'map')}\">hier</a>.",
     value: ticket.event.location.address
   }
 

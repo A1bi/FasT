@@ -17,7 +17,7 @@ module Passbook
       after_commit :delete_file, on: :destroy
 
       def init
-        self.type_id ||= assignable_config[:pass_type_id]
+        self.type_id ||= pass_type_id
         self.serial_number ||= SecureRandom.hex(10)
         self.auth_token ||= SecureRandom.hex
         self.filename ||= begin
@@ -45,6 +45,7 @@ module Passbook
 
       def pass_file
         @pass_file ||= Passbook::Pass.new(type_id:,
+                                          team_id:,
                                           certificate_path:,
                                           serial: serial_number,
                                           auth_token:,
@@ -61,12 +62,10 @@ module Passbook
         FileUtils.rm(file_storage_path, force: true)
       end
 
-      def certificate_path
-        assignable_config[:certificate_path]
-      end
-
-      def template
-        assignable_config[:template]
+      %i[pass_type_id team_id certificate_path template].each do |param|
+        define_method param do
+          assignable_config[param]
+        end
       end
 
       def assets_identifier

@@ -14,9 +14,11 @@ module Passbook
 
     append_view_path ApplicationController.view_paths
 
-    def initialize(type_id:, certificate_path:, serial:, auth_token:, template:, assets_identifier:, template_locals:)
+    def initialize(type_id:, team_id:, certificate_path:, serial:, auth_token:, template:,
+                   assets_identifier:, template_locals:)
       super()
       @type_id = type_id
+      @team_id = team_id
       @certificate_path = certificate_path
       @serial = serial
       @auth_token = auth_token

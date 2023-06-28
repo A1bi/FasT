@@ -10,10 +10,11 @@ module Passbook
       yield self
     end
 
-    def register_model(model, template:, pass_type_id:, certificate_path:)
+    def register_model(model, template:, pass_type_id:, team_id:, certificate_path:)
       @models[model] = {
         template:,
         pass_type_id:,
+        team_id:,
         certificate_path:
       }
     end

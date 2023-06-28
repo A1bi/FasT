@@ -27,8 +27,9 @@ passbook:
   models:
     - name: ticketing/ticket
       template: ticket
-      pass_type_id: pass.de.theater-kaisersesch.FasT
-      certificate_path: /usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.p12
+      pass_type_id: pass.de.theater-kaisersesch.FasT.ticket
+      team_id: YBNG5Y8L6M
+      certificate_path: /usr/local/etc/ssl/private/pass.de.theater-kaisersesch.FasT.ticket.p12
 
 sentry:
   enabled: false
