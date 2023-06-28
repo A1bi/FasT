@@ -3,9 +3,9 @@
   = form_for :address, builder: Ticketing::OrderAddressFormBuilder, template_order: @template_order do |f|
     = render 'form_required_caption'
     = f.gender_select
-    = f.text_field :first_name
-    = f.text_field :last_name
-    = f.text_field :affiliation
-    = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code'
-    = f.phone_field :phone
-    = f.email_field :email
+    = f.text_field :first_name, autocomplete: :'given-name'
+    = f.text_field :last_name, autocomplete: :'family-name'
+    = f.text_field :affiliation, autocomplete: :organization
+    = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code', autocomplete: :'postal-code'
+    = f.phone_field :phone, autocomplete: :tel
+    = f.email_field :email, autocomplete: :email

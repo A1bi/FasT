@@ -17,8 +17,8 @@
         = f.hidden_field :activation_code
         .mb-2
           = f.label :password, 'Neues Passwort'
-          = f.password_field :password
+          = f.password_field :password, autocomplete: :'new-password'
         .mb-2
           = f.label :password_confirmation, 'Neues Passwort wiederholen'
-          = f.password_field :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: :'new-password'
         .text-center = f.submit 'speichern', class: :btn

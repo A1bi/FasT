@@ -9,11 +9,11 @@
       = form_tag login_path
         .mb-2
           = label_tag :email, 'E-Mail-Adresse'
-          = email_field_tag :email, params[:email], required: true, autofocus: 'autofocus'
+          = email_field_tag :email, params[:email], autocomplete: :email, required: true, autofocus: 'autofocus'
           .invalid-feedback Bitte geben Sie eine gültige E-Mail-Adresse ein.
         .mb-2
           = label_tag :password, 'Passwort'
-          = password_field_tag :password, nil, required: true
+          = password_field_tag :password, nil, autocomplete: :'current-password', required: true
           .invalid-feedback Bitte geben Sie Ihr Passwort ein.
         .text-end.mb-2 = link_to 'Passwort vergessen?', forgot_password_members_member_path
         .form-check.mb-2

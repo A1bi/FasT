@@ -14,11 +14,11 @@
       = render 'errors', errors: @message.errors
       = render 'form_required_caption'
       = render 'form_field', form: f, attribute: :name, label: 'Ihr Name', required: true
-        = f.text_field :name, required: true
+        = f.text_field :name, autocomplete: :name, required: true
       = render 'form_field', form: f, attribute: :email, label: 'Ihre E-Mail-Adresse', required: true
-        = f.email_field :email, required: true
+        = f.email_field :email, autocomplete: :email, required: true
       = render 'form_field', form: f, attribute: :phone, label: 'Ihre Telefonnummer'
-        = f.telephone_field :phone
+        = f.telephone_field :phone, autocomplete: :tel
         .form-text Falls Sie einen Rückruf wünschen.
       = render 'form_field', form: f, attribute: :subject, label: 'Betreff', required: true
         = f.text_field :subject, required: true

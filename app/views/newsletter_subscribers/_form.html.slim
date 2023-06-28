@@ -8,9 +8,9 @@
       = render 'form_field', form: f, attribute: :gender, label: 'Anrede'
         = f.select :gender, options_for_select({ 'Frau' => 0, 'Herr' => 1 }, @subscriber.gender), include_blank: true
       = render 'form_field', form: f, attribute: :last_name, label: 'Nachname'
-        = f.text_field :last_name
+        = f.text_field :last_name, autocomplete: :'family-name'
       = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse', required: true
-        = f.email_field :email, disabled: @subscriber.persisted?, required: true
+        = f.email_field :email, autocomplete: :email, disabled: @subscriber.persisted?, required: true
       = honeypot_field
       - if @subscriber.new_record?
         .form-check.mb-2

@@ -17,7 +17,7 @@
         .row
           .col-6 Mitgliedsbeitrag bezahlt bis
           .col-6 = l current_user.membership_fee_paid_until, format: :long
-      h4 Bankverbindung für Mitgliedsbeitrag
+      h3 Bankverbindung für Mitgliedsbeitrag
       .row
         .col
           = current_user.sepa_mandate.debtor_name
@@ -28,12 +28,12 @@
         = render 'errors', errors: current_user.errors
         .mb-2
           = f.label :email, 'E-Mail-Adresse'
-          = f.email_field :email, required: true
+          = f.email_field :email, autocomplete: :email, required: true
         .mb-2
           = f.label :password, 'Neues Passwort'
-          = f.password_field :password
+          = f.password_field :password, autocomplete: :'new-password'
           .form-text Freilassen, wenn Sie Ihr Passwort nicht ändern möchten.
         .mb-2
           = f.label :password_confirmation, 'Neues Passwort wiederholen'
-          = f.password_field :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: :'new-password'
         .text-center = f.submit 'speichern', class: :btn
