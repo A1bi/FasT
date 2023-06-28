@@ -17,7 +17,7 @@ newsletters:
   review_subject: Newsletter ready for review
 
 apns:
-  team_id: V48L6BF6M3
+  team_id: YBNG5Y8L6M
   topics:
     stats: 'de.theater-kaisersesch.stats'
 
