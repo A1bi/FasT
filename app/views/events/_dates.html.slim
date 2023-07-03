@@ -1,12 +1,20 @@
 h3 Termine
 - @event.dates.each do |date|
-  .row: .col: .card.schedule: .row
-    .col-8: .date = l(date.date, format: '%A, %-d. %B %Y')
+  .row: .col: .card.schedule.schedule-sm: .row
+    .col-8
+      .date
+        span.d-md-none = l(date.date, format: '%a')
+        span.d-sm-none.d-md-inline = l(date.date, format: '%A')
+        = l(date.date, format: ', %-d. %B %Y')
+      .info
+        .time
+          svg: use xlink:href='#schedule-time'
+          = l(date.date, format: '%H:%M')
+        .admission
+          svg: use xlink:href='#schedule-door'
+          | Einlass ab #{l(date.admission_time, format: '%H:%M')}
     .col-4
       - if @event.on_sale?
         = link_to 'Tickets', new_ticketing_order_path(@event.slug, date_id: date.id), class: 'btn w-100'
       - elsif @event.sale_not_yet_started?
         small.d-block.text-gray.text-end Tickets ab #{l(@event.sale_start, format: '%-d. %B')}
-.row.d-flex.align-items-center.text-center.mt-1.mb-2
-  svg.icon.me-1: use xlink:href='#schedule-time'
-  div Einlass #{admission_time(@event)} vor Beginn.

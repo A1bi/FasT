@@ -1,4 +1,9 @@
 .schedule {
+  &:not(.schedule-sm) .row > *:nth-child(1) {
+    @extend .text-center;
+    @extend .text-red;
+  }
+
   .row {
     @extend .d-flex;
     @extend .align-items-center;
@@ -7,11 +12,6 @@
 
     > * {
       @extend .py-0;
-    }
-
-    > *:nth-child(1) {
-      @extend .text-center;
-      @extend .text-red;
     }
 
     .day {
@@ -35,37 +35,35 @@
       font-size: 1.2rem;
     }
 
-    > *:nth-child(2) {
-      .info {
+    .info {
+      @extend .d-flex;
+      flex-wrap: wrap;
+      column-gap: spacing(2);
+
+      .location, .time, .admission {
         @extend .d-flex;
-        flex-wrap: wrap;
-        column-gap: spacing(2);
+        @extend .align-items-center;
 
-        .location, .time {
-          @extend .d-flex;
-          @extend .align-items-center;
-
-          svg {
-            height: .75rem;
-            width: .75rem;
-            margin-right: 5px;
-          }
-        }
-
-        .location svg {
-          margin-right: 3px;
+        svg {
+          height: .75rem;
+          width: .75rem;
+          margin-right: 5px;
         }
       }
 
-      .title {
-        @extend .f-mb;
-        @extend .m-0;
-        @extend %black-links;
-        font-size: 1.25rem;
+      .location svg {
+        margin-right: 3px;
+      }
+    }
 
-        @include media-query(md) {
-          font-size: 1rem * $heading-size-multiplier;
-        }
+    .title {
+      @extend .f-mb;
+      @extend .m-0;
+      @extend %black-links;
+      font-size: 1.25rem;
+
+      @include media-query(md) {
+        font-size: 1rem * $heading-size-multiplier;
       }
     }
 
