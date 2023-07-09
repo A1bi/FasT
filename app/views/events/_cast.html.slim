@@ -1,0 +1,37 @@
+.container.page-nav-anchor#besetzung
+  .row: .col.cast
+    h2 Besetzung
+    - cast.each do |section|
+      - if section[:title]
+        h3 = section[:title]
+
+      - section[:entries].each do |entry|
+        - if entry.key?(:doubles)
+          .entry data-controller='content-reveal'
+            .row
+              .col-6.role = entry[:title]
+              .col-6.actors
+                ul.list-style-none
+                  - entry[:doubles].pluck(:actor).each do |title|
+                    li = title
+                a.small.d-block data-action='content-reveal#reveal'
+                  ' Termine
+                  span.reveal anzeigen
+                  span.hide ausblenden
+            .doubles data-content-reveal-target='content'
+              - entry[:doubles].each do |double|
+                .row
+                  .col-6 = double[:actor]
+                  .col-6: ul.list-style-none
+                    - if double[:dates].present?
+                      - double[:dates].each do |date|
+                        li = l((@event.dates[date] || @event.dates.first).date, format: :cast)
+                    - else
+                      li alle Termine
+
+        - else
+          .entry: .row
+            .col-6 = entry[:title]
+            .col-6.actors: ul.list-style-none
+              - Array(entry[:actors]).each do |actor|
+                li = actor

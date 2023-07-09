@@ -428,12 +428,12 @@ de:
     formats:
       medium: "%d.%m.%y, %H:%M"
       long: "%d. %B um %H.%M Uhr"
+      cast: "%d. %B"
   date:
     formats:
       default: "%d.%m.%Y"
       long: "%e. %B %Y"
       short: "%e. %b"
-      cast: "%d.%m."
     month_names:
       -
       - Januar

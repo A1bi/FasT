@@ -4,13 +4,14 @@ export default class extends Controller {
   static targets = ['content']
 
   connect () {
-    if (this.element.hasAttribute('data-revealed')) {
-      setTimeout(() => this.reveal())
-    }
+    this.contentTarget.addEventListener('transitionend', () => {
+      this.element.classList.remove('transitioning')
+    })
   }
 
   reveal () {
     this.element.classList.toggle('revealed')
+    this.element.classList.add('transitioning')
 
     const maxHeight = this.contentTarget.scrollHeight
     const style = this.contentTarget.style

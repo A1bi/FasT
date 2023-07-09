@@ -1,0 +1,19 @@
+[data-controller='content-reveal'] {
+  [data-action='content-reveal#reveal'] {
+    cursor: pointer;
+  }
+
+  &.revealed [data-action='content-reveal#reveal'] .reveal {
+    @extend .d-none;
+  }
+
+  &:not(.revealed) [data-action='content-reveal#reveal'] .hide {
+    @extend .d-none;
+  }
+
+  [data-content-reveal-target='content'] {
+    max-height: 0px;
+    overflow-y: hidden;
+    transition: max-height .5s, margin-top .5s;
+  }
+}

@@ -1,5 +1,5 @@
-div data-controller='content-reveal' data-revealed=local_assigns[:revealed]
-  a.question.reveal-trigger data-action='content-reveal#reveal'
+div data-controller='content-reveal'
+  a.question data-action='content-reveal#reveal'
     = question
-  .answer.revealed-content data-content-reveal-target='content'
+  .answer data-content-reveal-target='content'
     div = yield

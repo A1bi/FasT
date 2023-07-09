@@ -16,46 +16,53 @@
 .cast {
   $border: 1px dashed $semi-gray;
 
-  h3 {
+  h3, .actors {
     @extend .f-li;
+  }
+
+  h3 {
     @extend .text-start;
 
-    + .row {
+    + .entry {
       border-top: $border;
     }
   }
 
-  .row {
+  .entry {
     border-bottom: $border;
 
-    > *:last-child {
-      @extend .ff-l;
-      @extend .text-end;
+    [data-action='content-reveal#reveal'] {
+      font-size: .75rem;
+    }
+  }
+
+  [data-controller='content-reveal'].transitioning .doubles,
+  [data-controller='content-reveal'].revealed .doubles {
+    border-top: $border;
+  }
+
+  .doubles {
+    @extend .f-lbi;
+    overflow-x: hidden;
+
+    .col-6 {
+      @extend .py-1;
+      @extend .ps-3;
     }
   }
 }
 
-[data-controller='content-reveal'] {
+#faq [data-controller='content-reveal'] {
   @extend .mb-2;
 
   &.revealed {
-    .reveal-trigger {
+    [data-action='content-reveal#reveal'] {
       font-weight: 500;
     }
 
-    .revealed-content {
+    [data-content-reveal-target='content'] {
       @extend .mt-1;
     }
-  }
-
-  .reveal-trigger {
-    cursor: pointer;
-  }
-
-  .revealed-content {
-    max-height: 0px;
-    overflow-y: hidden;
-    transition: max-height .5s, margin-top .5s;
   }
 }
 
