@@ -30,6 +30,6 @@
           - photos_per_column[i].times
             - photo = photos.shift
             .photo = link_to photo.image.url(:original)
-              img src=photo.image.url(:original)
+              img src=photo.image.url(:original) alt=''
   - if gallery.disclaimer.present?
     .caption.text-end © #{gallery.disclaimer}

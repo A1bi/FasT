@@ -1,6 +1,6 @@
 - if local_assigns.key?(:photo)
   .event-header
-    = image_tag "events/#{@event.assets_identifier}/photos/#{photo}.jpg", class: %i[photo active]
+    = image_tag "events/#{@event.assets_identifier}/photos/#{photo}.jpg", alt: @event.name, class: %i[photo active]
     .title.active class=('outline-sm' if local_assigns[:small_outline])
       = inline_svg(event_logo_path(@event))
 - else

@@ -13,81 +13,81 @@ html lang=I18n.locale
       document.documentElement.classList.add('fouc')
     = csrf_meta_tag
 
-body class=('development' if Rails.env.development?)
-  .sticky-helper
-  header
-    .container
-      .menu-toggle
-      .logo = link_to inline_svg('logo_l1.svg'), root_path
-  .container.nav: nav
-    ul
-      li = link_to 'Programm', root_path(anchor: :programm)
-      / li = link_to 'Archiv', root_path(anchor: :archiv)
-      li
-        = link_to 'TheaterKultur', theaterkultur_path
-        ul
-          li = link_to 'Spielstätten', spielstaetten_path
-          li = link_to 'Vereinsleben', vereinsleben_path
-      li = link_to 'Kontakt', contact_messages_path
-
-      - if current_user&.admin?
+  body class=('development' if Rails.env.development?)
+    .sticky-helper
+    header
+      .container
+        .menu-toggle
+        .logo = link_to inline_svg('logo_l1.svg'), root_path
+    .container.nav: nav
+      ul
+        li = link_to 'Programm', root_path(anchor: :programm)
+        / li = link_to 'Archiv', root_path(anchor: :archiv)
         li
-          | Vorstandsbereich
+          = link_to 'TheaterKultur', theaterkultur_path
           ul
-            li = link_to 'Dokumente', admin_documents_path
-            - if policy(Members::Member).index?
-              li = link_to 'Mitglieder', admin_members_members_path
-            - if policy(Newsletter::Newsletter).index?
-              li = link_to 'Newsletter', admin_newsletters_path
-        li
-          | Vorverkauf
-          ul
-            li = link_to 'Bestellungen', ticketing_orders_path
-            li = link_to 'Zahlungen', ticketing_payments_path
-            li = link_to 'Statistik', ticketing_statistics_path
-            li = link_to 'Gutscheine', ticketing_coupons_path
-            li = link_to 'Sitzpläne', ticketing_seatings_path
-            li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
+            li = link_to 'Spielstätten', spielstaetten_path
+            li = link_to 'Vereinsleben', vereinsleben_path
+        li = link_to 'Kontakt', contact_messages_path
 
-      - elsif current_user&.retail?
-        li
-          | Vorverkaufsstelle
-          ul
-            li = link_to 'Bestellungen', ticketing_orders_path
-            li = link_to 'Statistik', ticketing_statistics_path
-            li = link_to 'Logout', logout_path
+        - if current_user&.admin?
+          li
+            | Vorstandsbereich
+            ul
+              li = link_to 'Dokumente', admin_documents_path
+              - if policy(Members::Member).index?
+                li = link_to 'Mitglieder', admin_members_members_path
+              - if policy(Newsletter::Newsletter).index?
+                li = link_to 'Newsletter', admin_newsletters_path
+          li
+            | Vorverkauf
+            ul
+              li = link_to 'Bestellungen', ticketing_orders_path
+              li = link_to 'Zahlungen', ticketing_payments_path
+              li = link_to 'Statistik', ticketing_statistics_path
+              li = link_to 'Gutscheine', ticketing_coupons_path
+              li = link_to 'Sitzpläne', ticketing_seatings_path
+              li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
 
-      - if current_user&.member?
-        li
-          = link_to 'Mitgliederbereich', members_root_path
-          ul
-            li = link_to 'Meine Mitgliedsdaten', edit_members_member_path
-            li = link_to 'Logout', logout_path
+        - elsif current_user&.retail?
+          li
+            | Vorverkaufsstelle
+            ul
+              li = link_to 'Bestellungen', ticketing_orders_path
+              li = link_to 'Statistik', ticketing_statistics_path
+              li = link_to 'Logout', logout_path
 
-      - elsif !user_signed_in?
-        li = link_to 'Mitglieder-Login', login_path
+        - if current_user&.member?
+          li
+            = link_to 'Mitgliederbereich', members_root_path
+            ul
+              li = link_to 'Meine Mitgliedsdaten', edit_members_member_path
+              li = link_to 'Logout', logout_path
 
-  main
-    - flash.each do |type, msg|
-      .container.my-2 = render 'alert', type:
-        = msg
+        - elsif !user_signed_in?
+          li = link_to 'Mitglieder-Login', login_path
 
-    = yield
+    main
+      - flash.each do |type, msg|
+        .container.my-2 = render 'alert', type:
+          = msg
 
-  footer
-    .container: ul
-        li = link_to 'Newsletter', new_newsletter_subscriber_path
-        li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
-        li = link_to 'Impressum', impressum_path
-        - unless Settings.hide_it_recht_content
-          li = link_to 'AGB', agb_path
-          li = link_to 'Widerrufsbelehrung', widerruf_path
-        li = link_to 'Datenschutzerklärung', privacy_path
-        li = link_to 'Satzung', satzung_path
+      = yield
 
-  - if Rails.env.production?
-    - as_site = 6
-    - base_url = 'https://analytics.a0s.de'
-    script var as_site = #{as_site};
-    = javascript_include_tag "#{base_url}/stats.js"
-    noscript = image_tag "#{base_url}/stats#{as_site.to_s}.png", alt: ''
+    footer
+      .container: ul
+          li = link_to 'Newsletter', new_newsletter_subscriber_path
+          li: a href='/uploads/Mitgliedsantrag.pdf' Mitgliedsantrag
+          li = link_to 'Impressum', impressum_path
+          - unless Settings.hide_it_recht_content
+            li = link_to 'AGB', agb_path
+            li = link_to 'Widerrufsbelehrung', widerruf_path
+          li = link_to 'Datenschutzerklärung', privacy_path
+          li = link_to 'Satzung', satzung_path
+
+    - if Rails.env.production?
+      - as_site = 6
+      - base_url = 'https://analytics.a0s.de'
+      script var as_site = #{as_site};
+      = javascript_include_tag "#{base_url}/stats.js"
+      noscript = image_tag "#{base_url}/stats#{as_site.to_s}.png", alt: ''
