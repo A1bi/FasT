@@ -1,0 +1,42 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Nach der Absage des jährlichen Sommernachtstheaters präsentieren die Aktiven der Freilichtbühne am schiefen Turm stattdessen das „Sommernachtstheaterchen“ 2020: <b>„Mit Abstand das Beste...“ – eine virale Satirerevue.</b>
+
+    h3 Das Programm
+    p „Viral“ – das trifft es ganz genau: durch das Virus verursacht. Das Programm ist zwar aus der Not geboren, aber es ist beileibe kein Notprogramm. Wir zeigen Ihnen eine knackige Nummernrevue mit bekannten Gedichten und Sketchen, aber auch einigen brandneuen Nummern aus eigener Feder. Das gut einstündige Programm beinhaltet tragikomische Szenen und besinnlich-heiter-boshafte Texte aus unserer verrückten Zeit, der Corona-Zeit.
+    p Wir halten Abstand, wir beachten alle geltenden Hygienevorschriften, aber wir sind sicher: wir werden Sie berühren.
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Darsteller',
+            actors: ['Jakob Ellerich', 'Thomas Ellerich', 'Daniela Gödert', 'Emma Gödert', 'Nadine Gründer', 'Stephan Hilken', 'Nils Kollig', 'Walter Loreth', 'Sophie Meiers', 'Kirsten Roscher', 'Lotte Schäfer', 'Susanne Schubert', 'Michaela Venus', 'Jörg Wronka']
+          },
+          {
+            title: 'Moderatoren',
+            doubles: [
+              {
+                actor: 'Maria Oster'
+              },
+              {
+                actor: 'Otto Krechel',
+                dates: 0..1
+              },
+              {
+                actor: 'Albrecht Oster',
+                dates: 2..5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'

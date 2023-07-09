@@ -1,0 +1,311 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Romantik ist die Epoche, in der unser Stück geschrieben wurde. Auch hier steht, ähnlich wie in der Klassik, der Held im Vordergrund. Doch haben wir es hier nicht mit einem strahlend dargestellten Held zu tun, dessen heroische und moralische Taten den Leser beeindruckten. Der romantische Held ist individualistisch, gefühlsorientiert und ein sich entwickelnder Charakter, der uns auch Einblicke in seine Abgründe gibt.
+    p Unsere Geschichte verteilt sich auf mehrere Handlungsstränge: Der abstoßend aussehende Glöckner von Notre-Dame Quasimodo verliebt sich in die fremdartige Zigeunerin La Esmeralda. Diese hat sich jedoch in den Soldatenhauptmann Phoebus verliebt, der sie vor der Entführung durch Quasimodo rettet. Gringoire, der Mysterienschreiber, bildet eine durchgehende Konstante in der Handlung des Romans.
+
+    h3 Der Schauplatz
+    p Wir befinden uns im Paris des ausgehenden 15. Jahrhunderts.
+    p Mitten in der Stadt, auf der Ile de Paris, steht die gotische Kathedrale mit dem vorliegenden Marktplatz. Hierher strömen Bettler, Zigeuner, Diebe und das gesamte Pariser Volk, auch der Adel, um zu feiern. Alles tanzt, musiziert und singt. Die Wahl des Narrenpapstes ist in jedem Jahr der Höhepunkt des Festes.
+
+    h3 Der Autor
+    p() <b>Victor Hugo</b> (1802–1885) gilt als der bedeutendste französischer Schriftsteller seiner Epoche. Als Gründer der französischen Romantik verfasste er Gedichte, Dramen und Historienromane. Sein Ruhm brachte ihm die Aufnahme in die Académie francaise ein.
+    p Hugos Werke wurden durch die politischen Unruhen in seinem Land nach der französischen Revolution geprägt. In seinen Figuren setzt er sich für das Volk und die Benachteiligten ein, das Hässliche und Groteske des Lebens findet in seinen Werken einen steten Platz.
+    p „Der Glöckner von Notre Dame“ (1831, original, „Notre-Dame de Paris“) galt als Durchbruch für den jungen Schriftsteller, erlangte Weltruhm und wurde einige Male verfilmt.
+
+  hr
+  = render 'photos', gallery_id: 54
+
+  ruby:
+    cast = [
+      {
+        title: 'Darsteller',
+        entries: [
+          {
+            title: 'La Esmeralda, Zigeunerin',
+            actors: 'Susanne Schubert'
+          },
+          {
+            title: 'Djalí, die Ziege',
+            actors: ['Antje Heß', 'Lotte Schäfer']
+          },
+          {
+            title: 'Gudule, die Büßernonne',
+            actors: 'Maria Oster'
+          },
+          {
+            title: 'Claude Frollo, Erdiakon',
+            actors: 'Thomas Ellerich'
+          },
+          {
+            title: 'Quasimodo',
+            actors: 'Stefan Gasser'
+          },
+          {
+            title: 'Pierre Gringoire, ein Dichter',
+            actors: 'Stephan Hilken'
+          },
+          {
+            title: 'Schauspieler 1, Maria',
+            actors: 'Yannik Gasser'
+          },
+          {
+            title: 'Schauspieler 2, Jupiter',
+            actors: 'Jakob Ellerich'
+          },
+          {
+            title: 'Phöbus de Chateaupers',
+            actors: 'Otto Krechel'
+          },
+          {
+            title: 'Jean de Cahors',
+            actors: 'Walter Loreth'
+          },
+          {
+            title: 'Soldaten',
+            actors: [
+              'Rolf Heidorn',
+              'Werner Lutz',
+              'Yannik Gasser',
+              'Jakob Ellerich',
+              'Otto Krechel'
+            ]
+          },
+          {
+            title: 'Barbedienne, Richter',
+            actors: 'Gerd Röser'
+          },
+          {
+            title: 'Charmolue, Ankläger Geistliches Gericht',
+            actors: 'Dieter Stein'
+          },
+          {
+            title: 'Präsident des Geistlichen Gerichts',
+            actors: 'Gerd Röser'
+          },
+          {
+            title: 'Gerichtsdiener 1',
+            actors: 'Jakob Ellerich'
+          },
+          {
+            title: 'Gerichtsdiener 2',
+            actors: 'Yannik Gasser'
+          },
+          {
+            title: 'Robert, Henker, Folterer',
+            actors: 'Bernd Venus'
+          },
+          {
+            title: 'Fleur-de-Lys, eine adelige Pariserin',
+            actors: 'Melissa Gasser'
+          },
+          {
+            title: 'Amelette, eine adelige Pariserin',
+            actors: 'Saskia Scharbach'
+          },
+          {
+            title: 'Clopine Trouillefou, Bettlerkönigin',
+            actors: 'Kirsten Roscher'
+          },
+          {
+            title: 'Bettler',
+            actors: [
+              'Dany Gasser',
+              'Emma Gödert',
+              'Daniela Gödert',
+              'Monika Näckel',
+              'Gaby Bernauer',
+              'Wilfried Bernauer',
+              'Magda Sturtz',
+              'Michelle Sturtz',
+              'Gisela Lehner',
+              'Karl-Heinz Lehner',
+              'Kathy Kreutz',
+              'Josef Kreutz',
+              'Bernd Venus',
+              'Michaela Venus',
+              'Brigitte Meier',
+              'Margit Fischer',
+              'Bärbel Junglas',
+              'Nadine Gründer',
+              'Margret Walgenbach'
+            ]
+          },
+          {
+            title: 'Bürger',
+            actors: [
+              'Dr. Elke Koller',
+              'Margret Zeimetz',
+              'Heidrun Bretz',
+              'Karl-Heinz Werr'
+            ]
+          },
+          {
+            title: 'Zigeuner',
+            actors: [
+              'Gerd Röser',
+              'Dieter Stein',
+              'Otto Krechel',
+              'Bernd Vernus'
+            ]
+          }
+        ]
+      },
+      {
+        title: 'Die Musiker',
+        entries: [
+          {
+            title: 'Gitarre',
+            actors: 'André Lenz'
+          },
+          {
+            title: 'Blockflöte',
+            actors: ['Annemarie Taßler', 'Sabine Ziegler']
+          },
+          {
+            title: 'Chor',
+            actors: 'TonArt Hambuch'
+          }
+        ]
+      },
+      {
+        title: 'Hinter den Kulissen',
+        entries: [
+          {
+            title: 'Regie / Soufflage',
+            actors: 'Helmut Mattern'
+          },
+          {
+            title: 'Technik (Licht / Ton)',
+            actors: [
+              'Jens Krämer',
+              'Felix Schlaf',
+              'Leon Wölwer',
+              'Philipp Schug',
+              'Joshua Pfiffner',
+              'Stefan Gasser',
+              'Wolfgang Pfahl',
+              'Wolfgang Thielen'
+            ]
+          },
+          {
+            title: 'Bühnenbild',
+            actors: 'Willi Schrader'
+          },
+          {
+            title: 'Kulissenbau',
+            actors: [
+              'Helmut Mattern',
+              'Heinz Christ',
+              'Klaus Junglas',
+              'Klaus Herres',
+              'Matthias Schnitzler',
+              'Sigi Roscher',
+              'Uli Hesse',
+              'Werner Lutz'
+            ]
+          },
+          {
+            title: 'Maske',
+            actors: [
+              'Martina Steffes (Leitung)',
+              'Inge Roscher',
+              'Camelia Ellerich',
+              'Johanna Ellerich',
+              'Michaela Venus',
+              'Sirin Roscher',
+              'Kira Roscher',
+              'Lea Steffes',
+              'Brigitte Müller',
+              'Marie Gödert',
+              'Caecilie Loreth',
+              'Daniela Gödert'
+            ]
+          },
+          {
+            title: 'Kostüme',
+            actors: [
+              'Susanne Schubert (Leitung)',
+              'Marie Gödert',
+              'Monika Näckel',
+              'Gisela Lehner',
+              'Annemarie Taßler',
+              'Dany Gasser',
+              'Maija-Leena Forys',
+              'Bärbel Junglas',
+              'Liesel Hesse',
+              'Caecilie Loreth'
+            ]
+          },
+          {
+            title: 'Ausstattung / Requisiten',
+            actors: [
+              'Helmut Mattern',
+              'Susanne Schubert',
+              'Stephan Hilken',
+              'Kirsten Roscher',
+              'Maria Oster',
+              'Werner Lutz'
+            ]
+          },
+          {
+            title: 'Bewirtung',
+            actors: ['Maria Oster', 'Henrik Hammer']
+          },
+          {
+            title: 'Medienkontakt',
+            actors: 'Otto Krechel'
+          },
+          {
+            title: 'Texte',
+            actors: 'Maria Oster'
+          },
+          {
+            title: 'Fotos',
+            actors: [
+              'Mario Spies',
+              'Susanne Schubert'
+            ]
+          },
+          {
+            title: 'Drucksachen',
+            actors: 'Susanne Schubert'
+          }
+        ]
+      },
+      {
+        title: 'Musik',
+        entries: [
+          {
+            title: 'Arrangement',
+            actors: 'Stephan Hilken'
+          },
+          {
+            title: 'Gitarre, Komposition',
+            actors: 'André Lenz'
+          },
+          {
+            title: 'Rennaissance-Blockflöten',
+            actors: ['Annemarie Taßler (Leitung)', 'Sabine Ziegler']
+          },
+          {
+            title: 'Glockenstäbe',
+            actors: 'Stephan Hilken'
+          },
+          {
+            title: 'Chor TonArt Hambuch',
+            actors: 'Daniel Brengmann (Leitung)'
+          },
+          {
+            title: 'Tanzchoreografie',
+            actors: 'Doro Bergmaier'
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'
