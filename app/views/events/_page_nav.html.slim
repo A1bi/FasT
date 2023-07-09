@@ -1,9 +1,2 @@
 .page-nav: .container
-  ul
-    li: a href='#ueber-das-stueck'
-      span.d-sm-none> Über das
-      span Stück
-    li: a href='#fotos' Fotos
-    li: a href='#besetzung' Besetzung
-    li: a href='#tickets' Tickets
-    li: a href='#faq' FAQ
+  ul = yield :page_nav_elements

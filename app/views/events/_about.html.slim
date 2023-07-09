@@ -1,0 +1,10 @@
+- content_for :page_nav_elements
+  li: a href="##{title.parameterize}"
+    - words = title.split(' ')
+    span.d-sm-none> = words[..-2].join(' ')
+    span = words[-1]
+
+.container.page-nav-anchor id=title.parameterize
+  .row: .col
+    h2 = title
+    = yield

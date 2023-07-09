@@ -1,0 +1,7 @@
+- content_for :page_nav_elements
+  li: a href='#faq' FAQ
+
+.container.page-nav-anchor#faq
+  .row: .col
+    h2 FAQ
+    = render "faq_#{local_assigns.fetch(:identifier, @event.identifier)}"

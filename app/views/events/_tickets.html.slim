@@ -1,0 +1,12 @@
+- content_for :page_nav_elements
+  li: a href='#tickets' Tickets
+
+.container.page-nav-anchor#tickets
+  = render 'icons'
+
+  .row: .col
+    h2 Tickets
+    = render 'location'
+    = render 'dates'
+    = render 'prices'
+    = render 'presale', retail: local_assigns[:retail]

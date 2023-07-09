@@ -1,4 +1,7 @@
-.event-header
-  = image_tag "events/#{@event.assets_identifier}/photos/#{photo}.jpg", class: %i[photo active]
-  .title.active class=('outline-sm' if local_assigns[:small_outline])
-    = inline_svg(event_logo_path(@event))
+- if local_assigns.key?(:photo)
+  .event-header
+    = image_tag "events/#{@event.assets_identifier}/photos/#{photo}.jpg", class: %i[photo active]
+    .title.active class=('outline-sm' if local_assigns[:small_outline])
+      = inline_svg(event_logo_path(@event))
+- else
+  .container: .row: .col.p-2 = image_tag event_logo_path(@event), alt: @event.name
