@@ -1,0 +1,26 @@
+[data-controller='content-expand'] {
+  [data-action='content-reveal#reveal'] {
+    cursor: pointer;
+  }
+
+  &.expanding, &.expanded {
+    [data-content-expand-target='content'] {
+      max-height: 100%;
+    }
+
+    [data-content-expand-target='expandButton'] {
+      @extend .d-none;
+    }
+  }
+
+  &:not(.expanded) [data-content-expand-target='content'] {
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  [data-content-expand-target='content'] {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height .5s;
+  }
+}

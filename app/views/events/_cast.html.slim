@@ -2,8 +2,8 @@
   li: a href='#besetzung' Besetzung
 
 hr
-.container.page-nav-anchor#besetzung
-  .row: .col.cast
+.container.page-nav-anchor#besetzung data-controller='content-expand'
+  .row: .col.cast: div data-content-expand-target='content'
     h2 Besetzung
     - cast.each do |section|
       - if section[:title]
@@ -39,3 +39,6 @@ hr
             .col-6.actors: ul.list-style-none
               - Array(entry[:actors]).each do |actor|
                 li = actor
+
+  .row data-content-expand-target='expandButton': .col.text-center
+    button.btn data-action='content-expand#expand' komplette Besetzung anzeigen
