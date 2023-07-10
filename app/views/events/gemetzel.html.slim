@@ -1,0 +1,74 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Zwei Ehepaare treffen sich, um die Folgen eines Streits zwischen ihren elfjährigen Söhnen zu besprechen, bei dem einer der beiden zwei Zähne verloren hat. Was in versöhnlichem Ton mit den besten Absichten auf beiden Seiten beginnt, gerät allmählich außer Kontrolle, als unterschiedliche Erwartungen, Prinzipien und Weltanschauungen aufeinandertreffen und zu allem Überfluss noch Alkohol ins Spiel kommt.
+    p Yasmina Reza demaskiert in ihrem preisgekrönten Theaterstück genüsslich und boshaft die bürgerliche Fassade der gebildeten Mittelschicht im Europa des 21. Jahrhunderts.
+
+  hr
+  = render 'photos', gallery_id: 56
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Michel Houillé',
+            doubles: [
+              {
+                actor: 'Thomas Ellerich',
+                dates: [0, 1, 2]
+              },
+              {
+                actor: 'Otto Krechel',
+                dates: [3, 4, 5]
+              }
+            ]
+          },
+          {
+            title: 'Véronique Houillé',
+            doubles: [
+              {
+                actor: 'Kirsten Roscher',
+                dates: [0, 1, 3]
+              },
+              {
+                actor: 'Pam Diederichs',
+                dates: [2, 4, 5]
+              }
+            ]
+          },
+          {
+            title: 'Alain Reille',
+            doubles: [
+              {
+                actor: 'Stephan Hilken',
+                dates: [0, 2, 4]
+              },
+              {
+                actor: 'Stefan Gasser',
+                dates: [1, 3, 5]
+              }
+            ]
+          },
+          {
+            title: 'Annette Reille',
+            doubles: [
+              {
+                actor: 'Susanne Schubert',
+                dates: [0, 1, 5]
+              },
+              {
+                actor: 'Simone Spies',
+                dates: [2, 3, 4]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'

@@ -1,0 +1,203 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Seit der Uraufführung in Berlin im Dezember 1911, fasziniert das Leben und Sterben des reichen Jedermann die theaterinteressierten Menschen. Zahllose erfolgreiche Aufführungen, darunter natürlich an erster Stelle die seit 1920 aufgeführten, weltberühmten Salzburger Festspiele, zeigen die Faszination, die von dieser immer aktuellen Thematik ausgeht. Einst ein schwer verständliches, mittelalterliches Mysterienspiel, fasste Hugo von Hofmannsthal damals das Stück in eine modernere, verständlichere Form. Es blieben jedoch Gott, der Tod, die guten Werke, das Geld und ähnliche abstrakte Begriffe als Personen in der Handlung erhalten und sind als solche für den heutigen Menschen schwer verständlich.
+    h3 Unsere Neuinszenierung
+    p Eine neue, mutige Bearbeitung erfährt der „Jedermann“ nunmehr in Kaisersesch unter der Regie von Helmut Mattern. Die Zuschauer erleben einen reichen Kaufmann, der im Hier und Jetzt fest verankert ist und letztendlich nur an seinem Reichtum glaubt. Der Tod, Gott und das Jenseits sind in dieser Welt auf der Höhe seiner Schaffenskraft nicht relevant und er verdrängt diese Gedanken trotz vielfacher Mahnungen völlig. Verwirrt stellt er während eines großen Gelages mit vielen vermeintlichen Freunden fest, dass ihn der Tod plötzlich vor seinen Schöpfer zitieren will. Auf diesem schweren Weg möchte ihn niemand begleiten, weder aus Freundschaft, noch auf Befehl. Während Jedermann voller Verzweiflung in einen einsamen Tod geht, laben sich seine Freunde bereits an dessen irdischen Errungenschaften.
+
+  hr
+  = render 'photos', gallery_id: 10
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Jedermann',
+            doubles: [
+              {
+                actor: 'Stephan Hilken',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Otto Krechel',
+                dates: [2, 3, 5]
+              }
+            ]
+          },
+          {
+            title: 'Tod',
+            doubles: [
+              {
+                actor: 'Claudia Scholz',
+                dates: [2, 3, 5]
+              },
+              {
+                actor: 'Eugen Weiten',
+                dates: [0, 1, 4]
+              }
+            ]
+          },
+          {
+            title: 'Guter Freund',
+            doubles: [
+              {
+                actor: 'Gerd Roeser',
+                dates: [2, 3, 5]
+              },
+              {
+                actor: 'Dieter Stein',
+                dates: [0, 1, 4]
+              }
+            ]
+          },
+          {
+            title: 'Koch',
+            actors: ['Uli Hesse']
+          },
+          {
+            title: 'Kochlehrling',
+            actors: ['Morten Roscher']
+          },
+          {
+            title: 'Schuldner',
+            actors: ['Werner Lutz']
+          },
+          {
+            title: 'Dicker Vetter',
+            actors: ['Thomas Ellerich']
+          },
+          {
+            title: 'Dünner Vetter',
+            actors: ['Albrecht Oster']
+          },
+          {
+            title: 'Hausvogt',
+            actors: ['Matthias Schnitzler']
+          },
+          {
+            title: 'Buhlschaft',
+            doubles: [
+              {
+                actor: 'Pam Diederichs',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Kirsten Roscher',
+                dates: [2, 3, 5]
+              }
+            ]
+          },
+          {
+            title: 'Mutter',
+            doubles: [
+              {
+                actor: 'Maria Oster',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Renate Schüller',
+                dates: [2, 3, 5]
+              }
+            ]
+          },
+          {
+            title: 'Arme Nachbarin',
+            doubles: [
+              {
+                actor: 'Sabine Lübke',
+                dates: [2, 3, 5]
+              },
+              {
+                actor: 'Lena Schmitz',
+                dates: [0, 1, 4]
+              }
+            ]
+          },
+          {
+            title: 'Frau des Schuldners',
+            doubles: [
+              {
+                actor: 'Christiane Lares',
+                dates: [2, 3, 5]
+              },
+              {
+                actor: 'Nina Lübke',
+                dates: [0, 1, 4]
+              }
+            ]
+          },
+          {
+            title: 'Kind des Schuldners',
+            actors: ['Cosima Heinrich', 'Cécile Lares']
+          },
+          {
+            title: 'Erste Dame',
+            doubles: [
+              {
+                actor: 'Liesel Hesse',
+                dates: [0, 1, 2, 3, 4]
+              },
+              {
+                actor: 'Nina Lübke',
+                dates: [5]
+              }
+            ]
+          },
+          {
+            title: 'Zweite Dame',
+            actors: ['Susanne Schubert']
+          },
+          {
+            title: 'Dritte Dame',
+            actors: ['Michaela Müller']
+          },
+          {
+            title: 'Erster Gast',
+            actors: ['Simone Spies']
+          },
+          {
+            title: 'Zweiter Gast',
+            actors: ['Christiane Lares', 'Margret Zeimetz']
+          },
+          {
+            title: 'Tischdamen',
+            actors: ['Pam Diederichs', 'Nina Lübke', 'Sabine Lübke', 'Maria Oster', 'Kirsten Roscher', 'Lena Schmitz', 'Claudia Scholz', 'Renate Schüller']
+          },
+          {
+            title: 'Tischherren',
+            actors: ['Gerd Roeser', 'Dieter Stein', 'Eugen Weiten']
+          },
+          {
+            title: 'Lakaien / Knechte',
+            actors: ['Johanna Ellerich', 'Hannah Lehnen', 'Lina Ramler', 'Robby Sauer']
+          },
+          {
+            title: 'Soldaten',
+            actors: ['Thomas Ellerich', 'Albrecht Oster']
+          },
+          {
+            title: 'Weitere Darsteller',
+            actors: ['Anja Fuhrmann', 'Silvia Tibo-Lehnen']
+          },
+          {
+            title: 'Musiker',
+            actors: ['Julia Heinrich (Gesang)', 'Iwo Iwanov (Gitarre)', 'Dorothea Kirsch (Flöte)', 'Harriet Schmidt (Flöte)', 'Annemarie Taßler (Flöte)']
+          },
+          {
+            title: 'Vereine',
+            actors: ['Blaskapelle Kaisersesch', 'Kirchenchor Kaisersesch']
+          },
+          {
+            title: 'Vorspann',
+            actors: ['Melina Bons', 'Johanna Ellerich', 'Hannah Lehnen', 'Maria Lehnen', 'Lina Ramler', 'Robby Sauer', 'Klara Steinkühler', 'Leonardo Wink', 'Carla Wink']
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'

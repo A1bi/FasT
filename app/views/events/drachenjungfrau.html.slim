@@ -1,0 +1,98 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    h3 Premiere des Kinder- und Jugendtheaters
+    p Die ohnehin beeindruckende Theaterlandschaft der Verbandsgemeinde Kaisersesch ist nun um eine Attraktion reicher: ein Kinder- und Jugendtheater. Die Freilichtbühne am schiefen Turm in der Kaisersescher Stadtmitte möchte dem Nachwuchs eine eigene Bühne bereiten und setzt künftig ihre jungen Talente noch stärker ins rechte Licht. Das Premierenstück hat die junge Truppe selbst entwickelt, Welturaufführung der „Drachenjungfrau“ ist im November.
+    p Eine wichtige Rolle spielt der Theaternachwuchs in Kaisersesch schon seit Jahren. Ob als große Kinderschar der Familie Nägler im „Haus von Montevideo“ oder als Dorfjugend im „Don Camillos“ Kirchengemeinde; in kleinen Rollen, oftmals eigens von Regisseur Helmut Mattern ersonnen, wirkten die jüngsten Mitglieder der Theatergruppe schon immer mit. Zahlreiche gut besuchte Ferienworkshops belegen überdies die Lust der Jugend aufs Theaterspiel. Höchste Zeit also, die jungen Talente intensiver zu fördern.
+    h3 Die Drachen sind zurück in der Vulkaneifel
+    p Zum ersten Treffen der Kinder- und Jugendgruppe erschienen rund zwanzig Kinder und Jugendliche. Um den vielen Darstellern gerecht zu werden, entwickelte die Truppe um ihre Anleiter Kirsten Roscher und Stephan Hilken selbst ihr Premierenstück. Als Input diente ein klassischer Stoff aus der Mythologie und Märchenwelt: der Drache, der einen Ort bedroht und jedes Jahr ein Opfer fordert. Dank vieler toller Ideen aus der Gruppe erhielt der klassische Stoff eine Menge an neuen Wendungen und interessanten Typen. In Dialogform wurde der rote Faden schließlich von Roscher und Hilken gesponnen - die Geschichte um die Drachenjungfrau und den Glückssucher wurde so sicherlich noch nie erzählt.
+    p Seit dem Ende der Sommerferien wird in der Friedenskirche Kaisersesch eifrig geprobt, mit Unterstützung von Pamela Diederichs und Helmut Mattern nimmt das Stück um den Drachen nun seine endgültige Gestalt an. Musikalisch begleitet wird das dramatische Geschehen von Annemarie Taßler und ihrer Flötengruppe. Mit dem näher rückenden Premierenwochenende am 13. und 14. November steigen allmählich Spannung und Vorfreude in der jungen Truppe.
+
+  hr
+  = render 'photos', gallery_id: 23
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Jambus',
+            actors: ['Melissa Gasser']
+          },
+          {
+            title: 'Trochäus',
+            actors: ['Max Diederichs']
+          },
+          {
+            title: 'Streuner',
+            actors: ['Merle Barl']
+          },
+          {
+            title: 'Heinrich',
+            actors: ['Tim Steffes']
+          },
+          {
+            title: 'Hertha',
+            actors: ['Sophie Meiers']
+          },
+          {
+            title: 'Margarete',
+            actors: ['Annalena Keller']
+          },
+          {
+            title: 'Cornelia',
+            actors: ['Maria Lehnen']
+          },
+          {
+            title: 'Trudi',
+            actors: ['Carla Wink']
+          },
+          {
+            title: 'Lenchen',
+            actors: ['Paulina Gorges']
+          },
+          {
+            title: 'Fine',
+            actors: ['Nele Fuhrmann']
+          },
+          {
+            title: 'Pfarrer Martin',
+            actors: ['Johanna May']
+          },
+          {
+            title: 'Alfred',
+            actors: ['Jule Thelen']
+          },
+          {
+            title: 'Lehrerin',
+            actors: ['Lara Heins']
+          },
+          {
+            title: 'Doktor',
+            actors: ['Jakob Ellerich']
+          },
+          {
+            title: 'Emma',
+            actors: ['Michelle Kemler']
+          },
+          {
+            title: 'Der Ältestenrat',
+            actors: ['Jos Diederichs', 'Katharina May', 'Lorena Gorges']
+          },
+          {
+            title: 'Hans',
+            actors: ['Noel Schönberg']
+          },
+          {
+            title: 'Ignidur',
+            actors: ['Morten Roscher']
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'

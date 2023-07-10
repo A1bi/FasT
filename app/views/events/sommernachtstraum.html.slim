@@ -1,0 +1,243 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Diese fantastische Liebeskomödie zählt zu den bekanntesten Werken Shakespeares, die auf allen Bühnen der Welt zu Hause ist und nun auch endlich ihren Weg auf die herrliche Freilichtbühne im Herzen von Kaisersesch findet.
+    p Zwar kann man die Finesse dieses ewig jungen Shakespeare- Klassikers nicht toppen, jedoch haben es Stephan Hilken als Regisseur und Kirsten Roscher als Dramaturgin geschafft, die Dialoge in einer modernen, spitzigeren und verständlicheren Sprache zu fassen.
+    p Das Verwirrspiel in der bunten, verzauberten Welt der Elfen und Kobolde kann beginnen: in einem magisch-verwunschenen Wald treffen liebestolle Herrscherpaare, verwirrte Liebende und ein Trupp biederer, schauspielernder Handwerker aufeinander. Der Kobold Puck zieht alle Register seiner Zauberkünste und stürzt so sämtliche Akteure in tiefste Gefühlswirrungen, bis kaum noch ein Ausweg aus der verfahrenen Situation in Sicht ist.
+
+  hr
+  = render 'photos', gallery_id: 45
+
+  ruby:
+    cast = [
+      {
+        title: 'Die Athener',
+        entries: [
+          {
+            title: 'Hermia',
+            doubles: [
+              {
+                actor: 'Hannah Lehnen',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Melissa Gasser',
+                dates: [2, 3, 5]
+              }
+            ]
+          },
+          {
+            title: 'Helena',
+            doubles: [
+              {
+                actor: 'Carla Wink',
+                dates: [0, 1, 2]
+              },
+              {
+                actor: 'Marie Schnadhorst',
+                dates: [3, 4, 5]
+              }
+            ]
+          },
+          {
+            title: 'Lysander',
+            actors: ['Morten Roscher']
+          },
+          {
+            title: 'Demetrius',
+            actors: ['Jacob Heimes']
+          },
+          {
+            title: 'Theseus, Fürst von Athen',
+            actors: ['Karl-Heinz Lehner']
+          },
+          {
+            title: 'Hippolyta, die Amazonkönigin',
+            actors: ['Maria Oster']
+          },
+          {
+            title: 'Philostrat',
+            actors: ['Walter Loreth']
+          },
+          {
+            title: 'Egeus, Hermias Vater',
+            actors: ['Rolf Heidorn']
+          }
+        ]
+      },
+      {
+        title: 'Elfen & Kobolde',
+        entries: [
+          {
+            title: 'Oberon, der Elfenkönig',
+            actors: ['Thomas Ellerich']
+          },
+          {
+            title: 'Titania, die Elfenkönigin',
+            actors: ['Simone Spies']
+          },
+          {
+            title: 'Puck, der Kobold',
+            actors: ['Kirsten Roscher']
+          },
+          {
+            title: 'Elfe Senfsamen',
+            actors: ['Gisela Lehner']
+          },
+          {
+            title: 'Elfe Motte',
+            actors: ['Hannah Fickert']
+          },
+          {
+            title: 'Elfe Erbsenblüte',
+            actors: ['Dany Gasser']
+          },
+          {
+            title: 'Elfe Spinnweb',
+            actors: ['Michaela Venus']
+          },
+          {
+            title: 'weitere Elfen',
+            doubles: [
+              {
+                actor: 'Emma Gödert',
+                dates: [0, 1, 2, 3]
+              },
+              {
+                actor: 'Daniela Gödert',
+                dates: [0, 1, 2, 3]
+              },
+              {
+                actor: 'Cosima Heinrich'
+              },
+              {
+                actor: 'Saskia Scharbach',
+                dates: [0, 1, 4, 5]
+              },
+              {
+                actor: 'Magda Sturtz'
+              },
+              {
+                actor: 'Sonja Makhlis'
+              }
+            ]
+          },
+          {
+            title: 'weitere Kobolde',
+            doubles: [
+              {
+                actor: 'Yannik Gasser',
+                dates: [3, 4, 5]
+              },
+              {
+                actor: 'Jakob Ellerich'
+              },
+              {
+                actor: 'Tim Steffes'
+              },
+              {
+                actor: 'Valentin Heinrich'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: 'Die Handwerker',
+        entries: [
+          {
+            title: 'Squenz, Zimmermann, Regisseur',
+            actors: ['Helmut Mattern']
+          },
+          {
+            title: 'Schnock, Schreiner, Löwe',
+            actors: ['Otto Krechel']
+          },
+          {
+            title: 'Zettel, Weber, Pyramus',
+            actors: ['Stephan Hilken']
+          },
+          {
+            title: 'Flaut, Blasebalkflicker, Thisbe',
+            actors: ['Stefan Gasser']
+          },
+          {
+            title: 'Schnauz, Kesselflicker, Wand',
+            actors: ['Wilfried Bernauer']
+          },
+          {
+            title: 'Schlucker, Schneider, Mond',
+            actors: ['Werner Lutz']
+          }
+        ]
+      },
+      {
+        title: 'Athener Volk',
+        entries: [
+          {
+            title: 'Mitglied des Kirchenchors',
+            doubles: [
+              {
+                actor: 'Dr. Elke Koller'
+              },
+              {
+                actor: 'Heidrun Bretz'
+              },
+              {
+                actor: 'Renate Sommer'
+              },
+              {
+                actor: 'Margit Fischer',
+                dates: [0, 1, 2, 3, 5]
+              },
+              {
+                actor: 'Karlheinz Werr'
+              },
+              {
+                actor: 'Gerda Schnitzler',
+                dates: [1, 2, 3, 4, 5]
+              },
+              {
+                actor: 'Monika Näckel',
+                dates: [0, 1, 4, 5]
+              },
+              {
+                actor: 'Margret Walgenbach'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: 'Musiker',
+        entries: [
+          {
+            title: 'Keyboard, Blockflöte, Leitung',
+            doubles: [
+              {
+                actor: 'Annemarie Taßler',
+                dates: [1, 2, 3, 4, 5]
+              }
+            ]
+          },
+          {
+            title: 'Bassgitarre',
+            actors: ['Rüdiger Wink']
+          },
+          {
+            title: 'Blockflöte',
+            actors: ['Dorothea Kirsch', 'Sabine Ziegler', 'Julia Makhlis']
+          },
+          {
+            title: 'Keyboard, Gesang',
+            actors: ['Sirin Roscher']
+          }
+        ]
+      }
+    ]
+  hr
+  = render 'cast', cast:
+
+  hr
+  = render 'tickets'
