@@ -30,6 +30,10 @@ module Ticketing
       end
     end
 
+    def past?
+      dates.maximum(:date).past?
+    end
+
     def sold_out?
       (ticket_stats_for_event(self).dig(:total, :total, :percentage) || 0) >= 100
     end
@@ -42,9 +46,7 @@ module Ticketing
       sale_start.nil? || sale_start.past?
     end
 
-    def sale_ended?
-      dates.maximum(:date).past?
-    end
+    alias sale_ended? past?
 
     def on_sale?
       sale_started? && !sale_ended?

@@ -1,12 +1,21 @@
+- section_title = @event.past? ? 'Termine' : 'Tickets'
 - content_for :page_nav_elements
-  li: a href='#tickets' Tickets
+  li: a href='##{section_title.parameterize}' = section_title
 
-.container.page-nav-anchor#tickets
+hr
+.container.page-nav-anchor(id=section_title.parameterize): .row: .col
   = render 'icons'
 
-  .row: .col
+  - if @event.past?
+    h2 Termine
+    p „#{@event.name}“ fand an folgenden Terminen statt:
+  - else
     h2 Tickets
-    = render 'location'
-    = render 'dates'
+    h3 Termine
+  = render 'dates'
+  = render 'location'
+
+  - unless @event.past?
     = render 'prices'
     = render 'presale', retail: local_assigns[:retail]
+
