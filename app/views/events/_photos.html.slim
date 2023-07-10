@@ -2,7 +2,7 @@
   li: a href='#fotos' Fotos
 
 hr
-.container.gallery.page-nav-anchor#fotos
+.container.gallery.page-nav-anchor#fotos data-controller='items-reveal' data-items-reveal-initial-items-value=2 data-items-reveal-reveal-step-value=2
   ruby:
     max_columns = 12
     column_widths = 3..5
@@ -11,7 +11,7 @@ hr
     photos = gallery.photos.to_a
 
   - while photos.any?
-    .row
+    .row data-items-reveal-target='item'
       ruby:
         first_column = last_first_column = loop do
           width = photos.count > 1 ? rand(column_widths) : max_columns
@@ -32,5 +32,9 @@ hr
             - photo = photos.shift
             .photo = link_to photo.image.url(:original)
               img src=photo.image.url(:original) alt=''
+
+  .row data-items-reveal-target='revealButton': .col.text-center
+    button.btn data-action='items-reveal#revealMore' weitere Fotos anzeigen
+
   - if gallery.disclaimer.present?
     .caption.text-end © #{gallery.disclaimer}
