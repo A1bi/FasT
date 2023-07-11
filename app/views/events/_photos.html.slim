@@ -11,7 +11,7 @@ hr
     photos = gallery.photos.to_a
 
   - while photos.any?
-    .row data-items-reveal-target='item'
+    .row style='display: none' data-items-reveal-target='item'
       ruby:
         first_column = last_first_column = loop do
           width = photos.count > 1 ? rand(column_widths) : max_columns
@@ -33,7 +33,7 @@ hr
             .photo = link_to photo.image.url(:large_jpg)
               picture
                 = photo_source_tags(photo, column)
-                img src=photo.image.url(:medium_jpg) alt=''
+                img src=photo.image.url(:medium_jpg) alt='' loading='lazy'
 
   .row data-items-reveal-target='revealButton': .col.text-center
     button.btn data-action='items-reveal#revealMore' weitere Fotos anzeigen
