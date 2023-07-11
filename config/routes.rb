@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
     # galleries
     resources :galleries, path: 'galerie', except: :show do
-      resources :photos, path: 'fotos'
+      resources :photos, path: 'fotos', except: %i[index show]
     end
 
     resource :newsletter_subscriber, path: :newsletter, only: %i[new create edit update destroy],

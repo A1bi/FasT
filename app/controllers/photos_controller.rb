@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
 class PhotosController < ApplicationController
-  before_action :find_photo, only: %i[edit update destroy show]
-  before_action :find_gallery, only: %i[index new edit create]
-
-  def index; end
-
-  def show
-    send_file @photo.image.path
-  end
+  before_action :find_photo, only: %i[edit update destroy]
+  before_action :find_gallery, only: %i[new edit create]
 
   def new
     @photo = authorize @photos.new
