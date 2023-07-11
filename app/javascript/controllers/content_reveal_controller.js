@@ -4,7 +4,9 @@ export default class extends Controller {
   static targets = ['content']
 
   connect () {
-    this.contentTarget.addEventListener('transitionend', () => {
+    this.contentTarget.addEventListener('transitionend', e => {
+      if (e.target !== this.contentTarget || e.propertyName !== 'max-height') return
+
       this.element.classList.remove('transitioning')
     })
   }

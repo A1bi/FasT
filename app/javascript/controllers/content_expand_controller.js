@@ -10,7 +10,9 @@ export default class extends Controller {
       this.expand()
     }
 
-    this.contentTarget.addEventListener('transitionend', () => {
+    this.contentTarget.addEventListener('transitionend', e => {
+      if (e.target !== this.contentTarget || e.propertyName !== 'max-height') return
+
       this.element.classList.remove('expanding')
       this.element.classList.add('expanded')
     })
