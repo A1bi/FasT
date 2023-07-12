@@ -35,7 +35,7 @@ hr
                 = photo_source_tags(photo, column)
                 img src=photo.image.url(:medium_jpeg) alt='' loading='lazy'
 
-  .row data-items-reveal-target='revealButton': .col.text-center
+  .text-center.mt-1 data-items-reveal-target='revealButton'
     button.btn data-action='items-reveal#revealMore' weitere Fotos anzeigen
 
   - if gallery.disclaimer.present?

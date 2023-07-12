@@ -66,7 +66,7 @@ ruby:
     - event[:dates].each do |date_id, date|
       - date = Time.parse(date)
       - ticket_url = event.fetch(:ticket_url, new_ticketing_order_path(event[:slug], date_id:))
-      .row: .col.w-100: .card.schedule: .row
+      .card.schedule.mb-2: .row
         .col-3.col-md-2
           = l date, format: '%A'
           .day = l date, format: '%-d'
@@ -91,9 +91,10 @@ ruby:
           - else
             .text-gray Tickets ab #{l(sale_start, format: '%-d. %B')}
 
+.container data-controller='items-reveal' data-items-reveal-initial-items-value=3 data-items-reveal-reveal-step-value=3
   h1.text-center#archiv Archiv
   - @archived_events.each do |event|
-    .row: .col.w-100: .card.schedule: .row
+    .card.schedule.mb-2 data-items-reveal-target='item': .row
       .col-3.col-md-2
         = l event.dates.first.date, format: '%B'
         .year = l event.dates.first.date, format: '%Y'
@@ -106,6 +107,8 @@ ruby:
           .segment
             svg: use xlink:href="#schedule-date"
             = pluralize(event.dates.uncancelled.count, 'Termin', plural: 'Termine')
+  .text-center.mb-2 data-items-reveal-target='revealButton'
+    button.btn data-action='items-reveal#revealMore' ältere Veranstaltungen anzeigen
 
 hr
 
