@@ -24,6 +24,10 @@ module Ticketing
       def ordered_by_dates(order = :asc)
         joins(:dates).order("MIN(ticketing_event_dates.date) #{order}").group(:id)
       end
+
+      def archived
+        where(archived: true)
+      end
     end
 
     def past?

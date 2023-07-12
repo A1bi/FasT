@@ -43,29 +43,6 @@ ruby:
     }
   ]
 
-  # archive = [
-  #   {
-  #     title: 'Ein idealer Gatte',
-  #     date: '01.07.2022',
-  #     subtitle: 'Sommernachtstheater 2022'
-  #   },
-  #   {
-  #     title: 'Frau Müller muss weg',
-  #     date: '01.07.2021',
-  #     subtitle: 'Sommernachtstheater 2021'
-  #   },
-  #   {
-  #     title: 'Mit Abstand das Beste...',
-  #     date: '01.07.2020',
-  #     subtitle: '...eine virale Satirerevue'
-  #   },
-  #   {
-  #     title: 'Die Geschichte vom blauen Planeten',
-  #     date: '01.10.2019',
-  #     subtitle: 'Kinder- und Jugendtheater'
-  #   },
-  # ]
-
 .carousel
   - [3, 1, 2, 4].each.with_index do |photo, i|
     = image_tag "events/#{@featured_event.assets_identifier}/photos/#{photo}.jpg", class: [:photo, (:active if i.zero?)], alt: @featured_event.name, data: { event_identifier: @featured_event.identifier }
@@ -81,6 +58,8 @@ ruby:
       path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
     symbol#schedule-time viewBox='0 0 16 16'
       path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
+    symbol#schedule-date viewBox='0 0 16 16'
+      path d='M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z'
 
   - events.each do |event|
     - sale_start = Time.parse(event[:sale_start]) if event[:sale_start].present?
@@ -94,10 +73,10 @@ ruby:
           = l date, format: '%B'
         .col-9.col-md-7
           .info
-            .location
+            .segment.location
               svg: use xlink:href="#schedule-location"
               = event[:location]
-            .time
+            .segment
               svg: use xlink:href="#schedule-time"
               = l date, format: '%H:%M'
           .title
@@ -112,16 +91,21 @@ ruby:
           - else
             .text-gray Tickets ab #{l(sale_start, format: '%-d. %B')}
 
-  / h1.text-center#archiv Archiv
-  / - archive.each do |event|
-  /   - date = Time.parse(event[:date])
-  /   .row: .col.w-100: .card.schedule: .row
-  /     .col-3.col-md-2
-  /       = l date, format: '%B'
-  /       .year = l date, format: '%Y'
-  /     .col-9.col-md-10
-  /       .title = event[:title]
-  /       .subtitle = event[:subtitle]
+  h1.text-center#archiv Archiv
+  - @archived_events.each do |event|
+    .row: .col.w-100: .card.schedule: .row
+      .col-3.col-md-2
+        = l event.dates.first.date, format: '%B'
+        .year = l event.dates.first.date, format: '%Y'
+      .col-9.col-md-10
+        .title = link_to event.name, event_path(event.slug)
+        .info
+          .segment.location
+            svg: use xlink:href="#schedule-location"
+            = event.location.name
+          .segment
+            svg: use xlink:href="#schedule-date"
+            = pluralize(event.dates.uncancelled.count, 'Termin', plural: 'Termine')
 
 hr
 

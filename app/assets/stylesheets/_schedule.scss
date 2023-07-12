@@ -14,17 +14,17 @@
       @extend .py-0;
     }
 
-    .day {
+    .day, .year {
       @extend .f-li;
-      @extend .m-0;
-      font-size: 2.5rem;
       font-weight: 700;
-      margin-top: -(spacing(1));
-      margin-bottom: -(spacing(1));
+      line-height: .9;
+    }
+
+    .day {
+      font-size: 2.5rem;
     }
 
     .year {
-      @extend .day;
       font-size: 1.75rem;
     }
 
@@ -40,19 +40,19 @@
       flex-wrap: wrap;
       column-gap: spacing(2);
 
-      .location, .time, .admission {
+      .segment {
         @extend .d-flex;
         @extend .align-items-center;
+
+        &.location svg {
+          margin-right: 3px;
+        }
 
         svg {
           height: .75rem;
           width: .75rem;
           margin-right: 5px;
         }
-      }
-
-      .location svg {
-        margin-right: 3px;
       }
     }
 

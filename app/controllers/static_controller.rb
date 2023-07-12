@@ -7,6 +7,7 @@ class StaticController < ApplicationController
 
   def index
     @featured_event = Ticketing::Event.find_by(identifier: :gatte_2023) # rubocop:disable Naming/VariableNumber
+    @archived_events = Ticketing::Event.archived.ordered_by_dates(:desc)
     flash.now[:warning] = alert_info[:text].html_safe if show_alert? # rubocop:disable Rails/OutputSafety
   end
 
