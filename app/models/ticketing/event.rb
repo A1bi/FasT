@@ -18,15 +18,21 @@ module Ticketing
 
     class << self
       def with_future_dates(offset: 0.days)
-        joins(:dates).merge(EventDate.upcoming(offset:).uncancelled).group(:id)
+        join_dates.merge(EventDate.upcoming(offset:).uncancelled)
       end
 
       def ordered_by_dates(order = :asc)
-        joins(:dates).order("MIN(ticketing_event_dates.date) #{order}").group(:id)
+        join_dates.order("MIN(ticketing_event_dates.date) #{order}")
       end
 
       def archived
-        where(archived: true)
+        join_dates.merge(EventDate.past.uncancelled).where(archived: true)
+      end
+
+      private
+
+      def join_dates
+        joins(:dates).group(:id)
       end
     end
 
