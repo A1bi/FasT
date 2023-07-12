@@ -13,6 +13,25 @@
   }
 }
 
+.downloads {
+  @extend .mb-2;
+  margin-top: -(spacing(1));
+
+  .card {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+    gap: spacing(3);
+    line-height: 1;
+  }
+
+  .icon {
+    width: auto;
+    height: 1.2rem;
+    margin-right: .25rem;
+  }
+}
+
 .cast {
   $border: 1px dashed $semi-gray;
 
