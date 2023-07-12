@@ -1,0 +1,64 @@
+location:
+  name: Testbühne
+  street: Teststraße 1
+  postcode: '12345'
+  city: Testhausen
+  coordinates: [50.7992, 6.8828]
+ticket_types:
+  - name: Ermäßigt
+    info: Kinder und so
+    price: 8.5
+  - name: Erwachsene
+    price: 12.5
+  - name: Freikarte
+    price: 0
+    availability: :exclusive
+retail_store:
+  name: Testbuchhandlung
+  sale_enabled: true
+retail_store_user:
+  email: store@example.com
+  password: '123456'
+box_office:
+  name: Testkasse
+events:
+  - identifier: jedermann
+    name: Jedermann
+  - identifier: don_camillo
+    name: Don Camillo und Peppone
+  - identifier: ladykillers
+    name: Ladykillers
+  - identifier: drachenjungfrau
+    name: Die Drachenjungfrau
+  - identifier: alte_dame
+    name: Der Besuch der alten Dame
+  - identifier: alice_wunderland
+    name: Alice im Wunderland
+  - identifier: magdalena
+    name: Madalena Himmelstürmerin
+  - identifier: willibald
+    name: Der überaus starke Willibald
+  - identifier: sommernachtstraum
+    name: Ein Sommernachtstraum
+  - identifier: herdmanns
+    name: Hilfe, die Herdmanns kommen
+  - identifier: gloeckner
+    name: Der Glöckner von Notre-Dame
+  - identifier: blauer_planet
+    name: Die Geschichte vom blauen Planeten
+  - identifier: mit_abstand
+    name: Mit Abstand das Beste
+  - identifier: frau_mueller
+    name: Frau Müller muss weg
+  - identifier: gatte
+    name: Ein idealer Gatte
+    slug: ein-idealer-gatte-2022
+  - identifier: gemetzel
+    name: Der Gott des Gemetzels
+  - identifier: arschlings
+    name: Arschlinks heißt von hinten herwärts
+  - identifier: awen
+    name: AWEN Celtic Concert
+  - identifier: gatte_2023
+    assets_identifier: gatte
+    name: Ein idealer Gatte

@@ -80,15 +80,10 @@ Newsletter::SubscriberList.create(name: 'Kunden')
 end
 
 # ticket system
+ticketing_seeds = YAML.load_file(Rails.root.join('db/seeds/ticketing.yml'), symbolize_names: true)
 
 ## locations
-location = Ticketing::Location.create(
-  name: 'Testbühne',
-  street: 'Teststraße 1',
-  postcode: '12345',
-  city: 'Testhausen',
-  coordinates: [50.7992, 6.8828]
-)
+location = Ticketing::Location.create(ticketing_seeds[:location])
 
 ## seatings
 seatings = []
@@ -98,29 +93,27 @@ seatings << Ticketing::SeatingSvg::Importer.new(
 ).import(name: 'Dummy')
 
 ## events
-event_ids = %w[jedermann don_camillo ladykillers drachenjungfrau alte_dame
-               alice_wunderland magdalena willibald sommernachtstraum herdmanns
-               gloeckner blauer_planet mit_abstand frau_mueller abba gatte gemetzel arschlings]
-
-event_ids.each.with_index do |event_id, i|
+events = ticketing_seeds[:events]
+events.each.with_index do |event_info, i|
   event = Ticketing::Event.new(
-    name: "Testevent #{event_id.humanize.titleize}",
-    identifier: event_id,
-    slug: "test-event-#{event_id.dasherize}",
+    name: "Test #{event_info[:name]}",
+    identifier: event_info[:identifier],
+    assets_identifier: event_info[:assets_identifier],
+    slug: event_info.fetch(:slug, event_info[:name].parameterize),
     location:,
     # the most recent event will have the seating with a plan
-    seating: seatings[i >= event_ids.count - 1 ? 1 : 0],
+    seating: seatings[i >= events.count - 1 ? 1 : 0],
     admission_duration: rand(30..60)
   )
 
-  event.covid19 = true if i == event_ids.count - 1
+  event.covid19 = true if i == events.count - 1
 
   # three most recent events will be the future
-  if i > event_ids.count - 4
-    event_date_base = (event_ids.count - i).months.from_now
+  if i > events.count - 4
+    event_date_base = (events.count - i).months.from_now
   # older events will be in the past
   else
-    event_date_base = (event_ids.count - i).years.ago
+    event_date_base = (events.count - i).years.ago
     event.archived = true
   end
 
@@ -133,11 +126,7 @@ event_ids.each.with_index do |event_id, i|
   end
 
   ### ticket types
-  [
-    { name: 'Ermäßigt', info: 'Kinder und so', price: 8.5 },
-    { name: 'Erwachsene', price: 12.5 },
-    { name: 'Freikarte', price: 0, availability: :exclusive }
-  ].each do |type|
+  ticketing_seeds[:ticket_types].each do |type|
     event.ticket_types.build(
       **type,
       vat_rate: :reduced
@@ -149,15 +138,8 @@ event_ids.each.with_index do |event_id, i|
 end
 
 ## retail stores
-store = Ticketing::Retail::Store.create(
-  name: 'Testbuchhandlung',
-  sale_enabled: true
-)
-
-store.users.create(
-  email: 'store@example.com',
-  password: '123456'
-)
+store = Ticketing::Retail::Store.create(ticketing_seeds[:retail_store])
+store.users.create(ticketing_seeds[:retail_store_user])
 
 ## coupons
 coupons = []
@@ -245,7 +227,7 @@ end
   order.save
 end
 
-Ticketing::BoxOffice::BoxOffice.create(name: 'Testkasse')
+Ticketing::BoxOffice::BoxOffice.create(ticketing_seeds[:box_office])
 
 # avoid processing emails for the created entities
 Sidekiq::Queue.all.find { |queue| queue.name == 'mailers' }&.clear
