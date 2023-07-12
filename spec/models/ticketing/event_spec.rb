@@ -2,12 +2,11 @@
 
 RSpec.describe Ticketing::Event do
   describe '.with_future_dates' do
-    subject { described_class.with_future_dates }
-
     let(:event) { create(:event, :with_dates, dates_count: 2) }
     let(:cancelled_event) { create(:event, :with_dates, dates_count: 2) }
     let(:partially_cancelled_event) { create(:event, :with_dates, dates_count: 2) }
     let(:past_event) { create(:event, :with_dates, dates_count: 2) }
+    let(:just_past_event) { create(:event, :with_dates, dates_count: 1) }
     let(:cancellation) { create(:cancellation) }
 
     before do
@@ -15,9 +14,20 @@ RSpec.describe Ticketing::Event do
       cancelled_event.dates.each { |d| d.update(cancellation:) }
       partially_cancelled_event.dates.first.update(cancellation:)
       past_event.dates.each { |d| d.update(date: 1.day.ago) }
+      just_past_event.dates[0].update(date: 12.hours.ago)
     end
 
-    it { is_expected.to contain_exactly(event, partially_cancelled_event) }
+    context 'without offset' do
+      subject { described_class.with_future_dates }
+
+      it { is_expected.to contain_exactly(event, partially_cancelled_event) }
+    end
+
+    context 'with 1 day offset' do
+      subject { described_class.with_future_dates(offset: 1.day) }
+
+      it { is_expected.to contain_exactly(event, partially_cancelled_event, just_past_event) }
+    end
   end
 
   describe '.ordered_by_dates' do

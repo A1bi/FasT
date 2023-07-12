@@ -5,7 +5,7 @@ module Api
     module Node
       class EventsController < ApiController
         def index
-          events = ::Ticketing::Event.current.includes(:dates)
+          events = ::Ticketing::Event.with_future_dates
           dates = events.collect(&:dates).flatten
 
           render json: {

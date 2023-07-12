@@ -11,8 +11,8 @@ module Ticketing
 
     before_validation :set_covid19_check_in_url
 
-    def self.upcoming
-      where('date > ?', Time.current)
+    def self.upcoming(offset: 0.days)
+      where('date > ?', offset.before(Time.current))
     end
 
     def sold_out?

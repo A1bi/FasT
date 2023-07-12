@@ -5,7 +5,7 @@ module Api
     module BoxOffice
       class EventsController < BaseController
         def index
-          @events = ::Ticketing::Event.current
+          @events = ::Ticketing::Event.with_future_dates(offset: 1.day)
         end
       end
     end

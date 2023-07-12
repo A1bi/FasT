@@ -17,12 +17,8 @@ module Ticketing
     before_validation :set_assets_identifier, on: :create
 
     class << self
-      def current
-        where(archived: false)
-      end
-
-      def with_future_dates
-        joins(:dates).merge(EventDate.upcoming.uncancelled).group(:id)
+      def with_future_dates(offset: 0.days)
+        joins(:dates).merge(EventDate.upcoming(offset:).uncancelled).group(:id)
       end
 
       def ordered_by_dates(order = :asc)

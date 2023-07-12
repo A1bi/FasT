@@ -103,7 +103,8 @@ events.each.with_index do |event_info, i|
     location:,
     # the most recent event will have the seating with a plan
     seating: seatings[i >= events.count - 1 ? 1 : 0],
-    admission_duration: rand(30..60)
+    admission_duration: rand(30..60),
+    archived: true
   )
 
   event.covid19 = true if i == events.count - 1
@@ -114,24 +115,22 @@ events.each.with_index do |event_info, i|
   # older events will be in the past
   else
     event_date_base = (events.count - i).years.ago
-    event.archived = true
+    past = true
   end
 
   event.sale_start = event_date_base - 1.month
 
-  4.times do |j|
+  (past ? 1 : 4).times do |j|
     ### dates
     event.dates.build(date: event_date_base + j.weeks)
-    break if event.archived?
   end
 
   ### ticket types
-  ticketing_seeds[:ticket_types].each do |type|
+  ticketing_seeds[:ticket_types][..(past ? 0 : -1)].each do |type|
     event.ticket_types.build(
       **type,
       vat_rate: :reduced
     )
-    break if event.archived?
   end
 
   event.save

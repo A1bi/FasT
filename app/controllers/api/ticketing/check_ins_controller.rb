@@ -26,7 +26,7 @@ module Api
       private
 
       def events
-        @events ||= ::Ticketing::Event.current
+        @events ||= ::Ticketing::Event.with_future_dates(offset: 1.day)
       end
 
       def dates

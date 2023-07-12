@@ -13,7 +13,7 @@ module Api
         private
 
         def find_event
-          @event = ::Ticketing::Event.current.find(params[:event_id])
+          @event = ::Ticketing::Event.find(params[:event_id])
         end
       end
     end

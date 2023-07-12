@@ -16,7 +16,7 @@ module Ticketing
       end
 
       @groups = Ticketing::ReservationGroup.order(:name)
-      @events = Ticketing::Event.current
+      @events = Ticketing::Event.with_future_dates
       @event = if params[:event_id].present?
                  @events.find(params[:event_id])
                else
