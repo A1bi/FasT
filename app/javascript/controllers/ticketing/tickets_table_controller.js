@@ -49,7 +49,7 @@ export default class extends Controller {
       this.hasBankDetailsCheckboxTarget ? !this.bankDetailsCheckboxTarget.checked : true
 
     this.bankDetailsTargets.forEach(target => {
-      toggleDisplay(target, toggle, 'table-row')
+      toggleDisplay(target, toggle)
     })
   }
 

@@ -18,6 +18,6 @@ export default class extends Controller {
   }
 
   toggleForNote (target, value) {
-    toggleDisplay(target, this.noteTarget.value === value, 'inline')
+    toggleDisplay(target, this.noteTarget.value === value)
   }
 }

@@ -27,10 +27,7 @@ export default class extends Controller {
     return JSON.parse(this.element.dataset.tickets)
   }
 
-  get seatTransferVisible () {
-    return this.seatTransferTarget.style.display === 'block'
-  }
-
+  // eslint-disable-next-line accessor-pairs
   set seatTransferVisible (toggle) {
     if (!this.hasSeatTransferTarget) return
 

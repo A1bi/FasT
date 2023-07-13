@@ -11,7 +11,7 @@ hr
     photos = gallery.photos.to_a
 
   - while photos.any?
-    .row style='display: none' data-items-reveal-target='item'
+    .row data-items-reveal-target='item'
       ruby:
         first_column = last_first_column = loop do
           width = photos.count > 1 ? rand(column_widths) : max_columns

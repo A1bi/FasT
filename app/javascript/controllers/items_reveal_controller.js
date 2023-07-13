@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import { toggleDisplay } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['item', 'revealButton']
@@ -14,18 +15,10 @@ export default class extends Controller {
 
   updateItemsAndButton () {
     this.itemTargets.forEach((item, i) => {
-      if (i > this.revealedItems - 1) {
-        item.style.display = 'none'
-      } else {
-        item.style.removeProperty('display')
-      }
+      toggleDisplay(item, i < this.revealedItems)
     })
 
-    if (this.revealedItems >= this.itemTargets.length) {
-      this.revealButtonTarget.style.display = 'none'
-    } else {
-      this.revealButtonTarget.style.removeProperty('display')
-    }
+    toggleDisplay(this.revealButtonTarget, this.revealedItems < this.itemTargets.length)
   }
 
   revealMore () {

@@ -4,8 +4,8 @@ export const isIE = () => {
   !!(agent.match(/Trident/) || agent.match(/rv:11/))
 }
 
-export const toggleDisplay = (el, toggle, showValue = 'block') => {
-  el.style.display = toggle ? showValue : 'none'
+export const toggleDisplay = (el, toggle) => {
+  el.classList.toggle('d-none', !toggle)
 }
 
 export const togglePluralText = (box, number) => {
