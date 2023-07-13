@@ -9,7 +9,7 @@
 .progress {
   @extend %d-flex;
   @extend %justify-content-center;
-  @extend .py-1;
+  @extend %py-1;
   gap: spacing(1);
 
   .step {
@@ -20,7 +20,7 @@
     }
 
     &:not(:last-child):after {
-      @extend .ms-1;
+      @extend %ms-1;
       content: '–';
       color: $semi-gray;
     }
@@ -51,13 +51,13 @@
     z-index: 1;
 
     .spinner {
+      @extend %my-4, %mx-auto;
       width: 5rem;
-      margin: spacing(4) auto;
     }
 
     .alert {
       @extend %d-none;
-      @extend .m-2;
+      @extend %m-2;
 
       @include media-query(md) {
         margin: spacing(4);
@@ -68,8 +68,7 @@
 
 .stepCon {
   @extend %d-none;
-  @extend .px-2;
-  @extend .py-2;
+  @extend %px-2, %py-2;
   position: absolute;
   left: 100%;
   min-height: 200px;
@@ -78,9 +77,9 @@
   &.tickets, &.coupons {
     .event-header {
       @extend %d-block;
+      @extend %my-2, %mx-auto;
       height: 7rem;
       max-width: 100%;
-      margin: spacing(2) auto;
     }
 
     .covid19 {

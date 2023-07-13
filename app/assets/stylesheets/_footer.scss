@@ -1,6 +1,6 @@
 footer {
-  @extend .mt-2;
-  @extend .py-2;
+  @extend %mt-2;
+  @extend %py-2;
   background: var(--dynamic-color-0);
 
   ul {

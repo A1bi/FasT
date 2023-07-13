@@ -58,7 +58,7 @@ header {
 
     svg {
       @extend %d-inline-block;
-      @extend .p-1;
+      @extend %p-1;
       max-height: var(--topbar-logo-height);
       width: auto;
       transition: max-height $top-bar-stuck-transition-duration;
@@ -119,13 +119,13 @@ nav {
   }
 
   > ul {
-    @extend .py-1, .px-2;
+    @extend %py-1, %px-2;
     @extend %black-links;
     font-size: 2rem;
     font-weight: 400;
 
     li > ul {
-      @extend .py-0, .px-2;
+      @extend %py-0, %px-2;
 
       li {
         padding-bottom: .25rem;

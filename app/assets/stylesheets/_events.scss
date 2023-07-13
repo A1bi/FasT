@@ -14,7 +14,7 @@
 }
 
 .downloads {
-  @extend .mb-2;
+  @extend %mb-2;
   margin-top: -(spacing(1));
 
   .card {
@@ -65,14 +65,13 @@
     overflow-x: hidden;
 
     .col-6 {
-      @extend .py-1;
-      @extend .ps-3;
+      @extend %py-1, %ps-3;
     }
   }
 }
 
 #faq [data-controller='content-reveal'] {
-  @extend .mb-2;
+  @extend %mb-2;
 
   &.revealed {
     [data-action='content-reveal#reveal'] {
@@ -80,7 +79,7 @@
     }
 
     [data-content-reveal-target='content'] {
-      @extend .mt-1;
+      @extend %mt-1;
     }
   }
 }
@@ -96,14 +95,14 @@
   }
 
   .mapboxgl-popup-content {
-    @extend .p-2;
+    @extend %p-2;
     @extend %text-center;
     @extend .shadow;
     border-radius: 0;
 
     h1, h2, h3 {
-      @extend .mt-0;
-      @extend .mb-1;
+      @extend %mt-0;
+      @extend %mb-1;
     }
   }
 

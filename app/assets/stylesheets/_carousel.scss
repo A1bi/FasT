@@ -30,7 +30,7 @@
 
   .title {
     @extend %d-block;
-    @extend .p-2;
+    @extend %p-2;
     @extend .w-100;
     position: absolute;
     bottom: 0;

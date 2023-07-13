@@ -10,7 +10,7 @@
     font-size: .75rem;
 
     > * {
-      @extend .py-0;
+      @extend %py-0;
     }
 
     .day, .year {
@@ -57,7 +57,7 @@
 
     .title {
       @extend .f-mb;
-      @extend .m-0;
+      @extend %m-0;
       @extend %black-links;
       font-size: 1.25rem;
 

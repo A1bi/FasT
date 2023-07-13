@@ -2,7 +2,7 @@
   position: relative;
 
   .error {
-    @extend .my-2;
+    @extend %my-2;
     @extend %d-none;
     background: $red;
     color: white;
@@ -15,7 +15,7 @@
   .plan {
     .top-bar {
       @extend %text-center;
-      @extend .pb-1;
+      @extend %pb-1;
       font-weight: bold;
 
       .unzoom {
@@ -33,10 +33,10 @@
     .key {
       @extend %d-flex;
       @extend %justify-content-center;
-      @extend .my-2;
+      @extend %my-2;
+      @extend %py-1, %px-2;
       flex-wrap: wrap;
       gap: spacing(1) spacing(2);
-      padding: spacing(1) spacing(2);
       background: $red;
       color: $white;
 
@@ -46,7 +46,7 @@
       }
 
       .icon {
-        @extend .me-1;
+        @extend %me-1;
         width: auto;
         height: auto;
 

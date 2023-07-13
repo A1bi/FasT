@@ -28,7 +28,7 @@
   // necessary for case like this: div.col-md-6
   // devices smaller than md will then default to 100%
   @include col(100%);
-  @extend .p-1;
+  @extend %p-1;
 }
 
 @include col-classes();
@@ -40,7 +40,7 @@
 }
 
 .container {
-  @extend .px-2;
+  @extend %px-2;
   max-width: 1000px;
   box-sizing: content-box;
   margin-left: auto;

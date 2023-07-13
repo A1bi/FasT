@@ -1,5 +1,5 @@
 label {
-  @extend .mb-1;
+  @extend %mb-1;
   @extend %d-inline-block;
 }
 
@@ -81,7 +81,7 @@ textarea {
   resize: vertical;
 
   &.honeypot {
-    @extend .p-0;
+    @extend %p-0;
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute;
     white-space: nowrap;
@@ -173,7 +173,7 @@ select {
 
 %btn-basic {
   @extend .f-lbi;
-  @extend .py-1, .px-2;
+  @extend %py-1, %px-2;
   border: 0;
   font-size: 1rem;
   background: $cta-color;

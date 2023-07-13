@@ -1,46 +1,31 @@
-@mixin utility-class($type, $name, $property, $value, $important: true) {
-  #{$type}#{$name} {
-    #{$property}: #{$value}#{if($important, '!important', '')};
+@mixin utility-class($selector, $properties, $value, $placeholder: true) {
+  @if $placeholder {
+    %#{$selector} {
+      @each $property in $properties {
+        #{$property}: #{$value};
+      }
+    }
+  }
+
+  .#{$selector} {
+    @each $property in $properties {
+      #{$property}: #{$value} !important;
+    }
   }
 }
 
 @mixin utility-set($prefix, $property, $mappings, $size-classes: false) {
   @each $suffix, $value in $mappings {
     $value: if($value, $value, $suffix);
-    $selector: #{$prefix}-#{$suffix};
-    @include utility-class('%', $selector, $property, $value, false);
-    @include utility-class('.', $selector, $property, $value);
+    @include utility-class(#{$prefix}-#{$suffix}, $property, $value);
   }
 
   @if $size-classes {
     @include all-media-queries() using ($size) {
       @each $suffix, $value in $mappings {
-        @include utility-class('.', #{$prefix}-#{$size}-#{$suffix}, $property, $value);
+        $value: if($value, $value, $suffix);
+        @include utility-class(#{$prefix}-#{$size}-#{$suffix}, $property, $value, false);
       }
-    }
-  }
-}
-
-@each $step, $factor in $spacing-steps {
-  @each $property, $abbreviation in (margin: m, padding: p) {
-    @each $side, $side-abbreviation in (top: t, bottom: b, left: s, right: e) {
-      .#{$abbreviation}#{$side-abbreviation}-#{$step} {
-        #{$property}-#{$side}: spacing($step);
-      }
-    }
-
-    .#{$abbreviation}x-#{$step} {
-      @extend .#{$abbreviation}s-#{$step};
-      @extend .#{$abbreviation}e-#{$step};
-    }
-
-    .#{$abbreviation}y-#{$step} {
-      @extend .#{$abbreviation}t-#{$step};
-      @extend .#{$abbreviation}b-#{$step};
-    }
-
-    .#{$abbreviation}-#{$step} {
-      #{$property}: spacing($step);
     }
   }
 }
@@ -50,3 +35,27 @@
 @include utility-set(align-items, align-items, (start, center, end, stretch));
 @include utility-set(justify-content, justify-content, (start, center, end));
 @include utility-set(align, vertical-align, (middle));
+
+@each $step, $factor in $spacing-steps {
+  @each $property, $abbreviation in (margin: m, padding: p) {
+    @each $side, $side-abbreviation in (top: t, bottom: b, left: s, right: e) {
+      @include utility-class(#{$abbreviation}#{$side-abbreviation}-#{$step}, #{$property}-#{$side}, spacing($step));
+    }
+
+    @each $type in ('%', '.') {
+      #{$type}#{$abbreviation}x-#{$step} {
+        @extend #{$type}#{$abbreviation}s-#{$step};
+        @extend #{$type}#{$abbreviation}e-#{$step};
+      }
+
+      #{$type}#{$abbreviation}y-#{$step} {
+        @extend #{$type}#{$abbreviation}t-#{$step};
+        @extend #{$type}#{$abbreviation}b-#{$step};
+      }
+    }
+
+    @include utility-class(#{$abbreviation}-#{$step}, $property, spacing($step));
+  }
+}
+
+@include utility-class(mx-auto, (margin-left, margin-right), auto);

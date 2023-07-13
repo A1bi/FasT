@@ -20,7 +20,7 @@ html {
 
 body {
   @extend .ff-m;
-  @extend .m-0;
+  @extend %m-0;
   font-size: $font-size-base;
   color: $black;
   background: $body-bg;
@@ -28,7 +28,7 @@ body {
 }
 
 h1, h2, h3 {
-  @extend .my-2;
+  @extend %my-2;
   @extend %text-center;
   word-wrap: break-word;
 }
@@ -50,8 +50,8 @@ h3 {
 }
 
 p {
-  @extend .mt-0;
-  @extend .mb-2;
+  @extend %mt-0;
+  @extend %mb-2;
   line-height: 1.4;
 }
 
@@ -76,20 +76,20 @@ hr {
 }
 
 ul, ol {
-  @extend .mt-0;
+  @extend %mt-0;
 
   &.spaced {
-    @extend .mb-2;
+    @extend %mb-2;
 
     > li {
-      @extend .mb-2;
+      @extend %mb-2;
     }
 
     > ul, ol {
-      @extend .mb-0;
+      @extend %mb-0;
 
       > li:first-child {
-        @extend .mt-2;
+        @extend %mt-2;
       }
     }
   }
@@ -114,7 +114,7 @@ table {
   border-spacing: 0;
 
   th, td {
-    @extend .p-1;
+    @extend %p-1;
     vertical-align: top;
     border-collapse: collapse;
     border-bottom: 1px solid $semi-gray;
@@ -175,22 +175,22 @@ table {
 
 .plane {
   *:first-child {
-    @extend .mt-0;
+    @extend %mt-0;
   }
 
   *:last-child {
-    @extend .mb-0;
+    @extend %mb-0;
   }
 
   ~ .caption {
-    @extend .pt-2, .pe-1;
+    @extend %pt-2, %pe-1;
     @extend %text-end;
   }
 }
 
 .card {
   @extend .plane;
-  @extend .p-2;
+  @extend %p-2;
   background: $white;
 }
 
@@ -212,8 +212,8 @@ table {
 }
 
 .list-style-none {
-  @extend .m-0;
-  @extend .p-0;
+  @extend %m-0;
+  @extend %p-0;
   list-style: none;
 }
 
