@@ -9,6 +9,7 @@ export default class {
     this.zoomScale = 1
     this.eventId = this.container.data('event-id')
     this.seats = {}
+    this.topBar = this.container.find('.top-bar').toggleClass('d-none', !this.zoomable)
     this.key = this.container.find('.key')
 
     window.addEventListener('resize', () => {
@@ -177,7 +178,6 @@ export default class {
     this.zoomedShield = shield
 
     const zoomed = scale !== 1
-    const topBar = this.container.find('.top-bar')
     let blockName = 'Übersicht'
 
     if (zoomed) {
@@ -197,7 +197,7 @@ export default class {
     this.plan.toggleClass('zoomed', zoomed)
     this.updateSvgHeight()
     this.globalGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`
-    topBar.find('.block-name').text(blockName)
+    this.topBar.find('.block-name').text(blockName)
 
     if (this.delegate && typeof (this.delegate.resizeDelegateBox) === 'function') {
       this.delegate.resizeDelegateBox(false)

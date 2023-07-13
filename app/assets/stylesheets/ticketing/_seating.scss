@@ -33,7 +33,7 @@
     .key {
       @extend %d-flex;
       @extend %justify-content-center;
-      @extend %my-2;
+      @extend %mt-2;
       @extend %py-1, %px-2;
       flex-wrap: wrap;
       gap: spacing(1) spacing(2);

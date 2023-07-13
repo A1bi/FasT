@@ -6,7 +6,10 @@ const toggleMenu = (toggle) => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('.menu-toggle').addEventListener('click', () => toggleMenu())
+  const menuToggle = document.querySelector('.menu-toggle')
+  if (!menuToggle) return
+
+  menuToggle.addEventListener('click', () => toggleMenu())
 
   window.addEventListener('click', e => {
     // close on same page + same hash

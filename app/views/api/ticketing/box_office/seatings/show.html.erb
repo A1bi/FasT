@@ -1,5 +1,0 @@
-<% include_css "ticketing/box_office" %>
-
-<div class="seat_chooser" data-controller="ticketing--box-office-seating">
-  <%= render "application/ticketing/seating", class: %i[chooser stage], error_box: true, key: true, event: @event, mode: :chooser, js_controller_target: %w[ticketing--box-office-seating seating] %>
-</div>
