@@ -11,7 +11,7 @@
           .form-check
             = check_box_tag group.id, group.id, false, data: { ticketing__ticket_transfer_target: 'reservationGroup' }
             = label_tag group.id, group.name
-  .row: .col.w-100: .card = render 'application/ticketing/seating', event: @order.event, error_box: true, key: true, mode: :chooser, js_controller_target: %w[ticketing--ticket-transfer seating]
+      .row: .col.w-100: .card = render 'application/ticketing/seating', event: @order.event, error_box: true, key: true, mode: :chooser, js_controller_target: %w[ticketing--ticket-transfer seating]
   .text-center.mt-1
       = button_tag 'abbrechen', data: { action: 'ticketing--ticket-transfer#returnToOrder' }, class: 'btn me-1'
       = button_tag 'umbuchen', data: { confirm_msg: 'Möchten Sie die Tickets wirklich umbuchen?', action: 'ticketing--ticket-transfer#finishTransfer' }, class: :btn
