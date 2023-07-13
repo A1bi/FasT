@@ -1,7 +1,7 @@
 .row {
   @extend %d-flex;
+  @extend %justify-content-center;
   flex-wrap: wrap;
-  justify-content: center;
   margin-right: -(spacing(1));
   margin-left: -(spacing(1));
 }

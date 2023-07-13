@@ -8,7 +8,7 @@
 
 .progress {
   @extend %d-flex;
-  @extend .justify-content-center;
+  @extend %justify-content-center;
   @extend .py-1;
   gap: spacing(1);
 
@@ -140,7 +140,7 @@
 
   &.finish {
     p {
-      @extend .text-center;
+      @extend %text-center;
     }
 
     .tickets {

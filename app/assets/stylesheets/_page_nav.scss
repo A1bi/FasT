@@ -1,5 +1,5 @@
 .page-nav {
-  @extend .text-center;
+  @extend %text-center;
   position: sticky;
   top: $top-bar-stuck-logo-height;
   padding: .75rem 0;
@@ -9,10 +9,10 @@
 
   ul {
     @extend %d-flex;
-    @extend .justify-content-center;
+    @extend %justify-content-center;
+    @extend %black-links;
     @extend .ff-l;
     @extend .list-style-none;
-    @extend %black-links;
     gap: spacing(1);
 
     li {

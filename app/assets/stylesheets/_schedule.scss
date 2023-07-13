@@ -1,13 +1,12 @@
 .schedule {
   &:not(.schedule-sm) .row > *:nth-child(1) {
-    @extend .text-center;
+    @extend %text-center;
     @extend .text-red;
   }
 
   .row {
     @extend %d-flex;
-    @extend .align-items-center;
-    justify-content: flex-start;
+    @extend %align-items-center;
     font-size: .75rem;
 
     > * {
@@ -29,8 +28,8 @@
     }
 
     .date {
+      @extend %text-start;
       @extend .f-lbi;
-      @extend .text-start;
       color: $black;
       font-size: 1.2rem;
     }
@@ -42,7 +41,7 @@
 
       .segment {
         @extend %d-flex;
-        @extend .align-items-center;
+        @extend %align-items-center;
 
         &.location svg {
           margin-right: 3px;
@@ -68,7 +67,7 @@
     }
 
     > *:nth-child(3) {
-      @extend .text-center;
+      @extend %text-center;
 
       @include media-query(sm) {
         .btn {

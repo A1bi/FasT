@@ -19,8 +19,8 @@
 
   .card {
     @extend %d-flex;
-    @extend .align-items-center;
-    @extend .justify-content-center;
+    @extend %align-items-center;
+    @extend %justify-content-center;
     gap: spacing(3);
     line-height: 1;
   }
@@ -40,7 +40,7 @@
   }
 
   h3 {
-    @extend .text-start;
+    @extend %text-start;
 
     + .entry {
       border-top: $border;
@@ -97,7 +97,7 @@
 
   .mapboxgl-popup-content {
     @extend .p-2;
-    @extend .text-center;
+    @extend %text-center;
     @extend .shadow;
     border-radius: 0;
 

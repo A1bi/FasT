@@ -12,6 +12,14 @@
   @include utility-class($name, $property, $value);
 }
 
+@mixin utility-media-queries($prefix, $suffix, $property, $value) {
+  @each $size in map-keys($media-queries) {
+    @include media-query($size) {
+      @include utility-class(#{$prefix}-#{$size}-#{$suffix}, $property, $value);
+    }
+  }
+}
+
 @each $step, $factor in $spacing-steps {
   @each $property, $abbreviation in (margin: m, padding: p) {
     @each $side, $side-abbreviation in (top: t, bottom: b, left: s, right: e) {
@@ -37,43 +45,23 @@
 }
 
 @each $class, $alignment in (start: left, center: center, end: right) {
-  .text-#{$class} {
-    text-align: $alignment;
-  }
-
-  @each $size in map-keys($media-queries) {
-    @include media-query($size) {
-      .text-#{$size}-#{$class} {
-        text-align: $alignment !important;
-      }
-    }
-  }
+  @include utility-set(text-#{$class}, text-align, $alignment);
+  @include utility-media-queries(text, $class, text-align, $alignment);
 }
 
 @each $display in (none, block, inline, inline-block, flex) {
   @include utility-set(d-#{$display}, display, $display);
-
-  @each $size in map-keys($media-queries) {
-    @include media-query($size) {
-      @include utility-class(d-#{$size}-#{$display}, display, $display);
-    }
-  }
+  @include utility-media-queries(d, $display, display, $display);
 }
 
 @each $alignment in (start, center, end, stretch) {
-  .align-items-#{$alignment} {
-    align-items: $alignment;
-  }
+  @include utility-set(align-items-#{$alignment}, align-items, $alignment);
 }
 
 @each $alignment in (start, center, end) {
-  .justify-content-#{$alignment} {
-    justify-content: $alignment !important;
-  }
+  @include utility-set(justify-content-#{$alignment}, justify-content, $alignment);
 }
 
 @each $alignment in (middle) {
-  .align-#{$alignment} {
-    vertical-align: $alignment;
-  }
+  @include utility-set(align-#{$alignment}, vertical-align, $alignment);
 }

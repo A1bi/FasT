@@ -201,8 +201,8 @@ select {
 .btn {
   @extend %btn-basic;
   @extend %d-inline-block;
+  @extend %text-center;
   @extend .shadow;
-  @extend .text-center;
   cursor: pointer;
   border-radius: 0; // for Safari iOS
 

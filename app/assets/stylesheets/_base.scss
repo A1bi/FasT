@@ -29,7 +29,7 @@ body {
 
 h1, h2, h3 {
   @extend .my-2;
-  @extend .text-center;
+  @extend %text-center;
   word-wrap: break-word;
 }
 
@@ -184,7 +184,7 @@ table {
 
   ~ .caption {
     @extend .pt-2, .pe-1;
-    @extend .text-end;
+    @extend %text-end;
   }
 }
 

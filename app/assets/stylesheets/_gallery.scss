@@ -1,6 +1,6 @@
 .gallery {
   .row {
-    @extend .align-items-stretch;
+    @extend %align-items-stretch;
 
     [class^='col-'] {
       @extend %d-flex;

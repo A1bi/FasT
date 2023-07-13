@@ -16,7 +16,7 @@ header {
 
   .container {
     @extend %d-flex;
-    @extend .align-items-center;
+    @extend %align-items-center;
   }
 
   .menu-toggle {
@@ -29,8 +29,8 @@ header {
     transition: transform $menu-reveal-duration, background .3s;
 
     &:after {
+      @extend %text-center;
       @extend .ff-l;
-      @extend .text-center;
       position: absolute;
       content: '...';
       color: $white;
@@ -53,7 +53,7 @@ header {
   }
 
   .logo {
-    @extend .text-center;
+    @extend %text-center;
     flex: 1;
 
     svg {

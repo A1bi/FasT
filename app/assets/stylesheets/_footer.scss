@@ -5,7 +5,7 @@ footer {
 
   ul {
     @extend %d-flex;
-    @extend .justify-content-center;
+    @extend %justify-content-center;
     @extend .ff-l;
     @extend .list-style-none;
     @extend %black-links;

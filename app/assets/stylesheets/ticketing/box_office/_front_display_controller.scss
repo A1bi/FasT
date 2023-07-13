@@ -1,6 +1,6 @@
 [data-controller='ticketing--box-office--front-display'] {
   @extend %d-flex;
-  @extend .text-center;
+  @extend %text-center;
   flex-direction: column;
   height: 100vh;
 
