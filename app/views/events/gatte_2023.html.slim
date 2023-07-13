@@ -1,6 +1,7 @@
 = render 'gatte'
   h3 Neuer Anlauf nach Ausfall im letzten Jahr
   p Wir haben uns zu der Wiederaufnahme dieses Stücks entschlossen, nachdem im letzten Jahr coronabedingt vier von sechs Vorstellungen abgesagt werden mussten. Nun möchten wir  unserem Publikum den Genuss dieses köstlichen Theaterstücks gerne nochmals ermöglichen.
+  = render 'downloads', booklet_filename: 'Ein_idealer_Gatte_Programmheft', poster_filename: 'Ein_idealer_Gatte_Plakat'
   - unless @event.past?
     h3 Gastspiel in Cochem
     p Am <b>29. Juli um 20 Uhr</b> werden wir mit dieser Komödie <b>zusätzlich im Rosenhof der Reichsburg Cochem</b> zu Gast sein. Im historischen Ambiente des alten Gemäuers verspricht das Stück ein ganz besonderer Theatergenuss zu werden. Tickets für Cochem erhalten Sie <a href="https://reichsburg-cochem.ticketfritz.de/Event/Kalender/6511/32902?Typ=Vorlage">hier</a>.
