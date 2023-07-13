@@ -1,6 +1,6 @@
 .print-notification {
   @extend %d-none;
-  @extend .w-100;
+  @extend %w-100;
   position: fixed;
   bottom: 0px;
   z-index: 9;

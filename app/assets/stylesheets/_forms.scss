@@ -38,7 +38,7 @@ input[type=datetime-local],
 textarea,
 select {
   @extend %d-block;
-  @extend .w-100;
+  @extend %w-100;
   padding: $input-padding-y $input-padding-x;
   font-size: 1rem;
   line-height: 1.5;
@@ -110,7 +110,7 @@ abbr[title] {
 
 .invalid-feedback {
   @extend %d-none;
-  @extend .w-100;
+  @extend %w-100;
   color: darken($red, 25%);
 
   .was-validated :invalid ~ & {

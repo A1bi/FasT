@@ -29,13 +29,13 @@ header {
     transition: transform $menu-reveal-duration, background .3s;
 
     &:after {
+      @extend %w-100;
       @extend %text-center;
       @extend .ff-l;
       position: absolute;
       content: '...';
       color: $white;
       font-size: 2rem;
-      width: 100%;
       margin-top: -10px;
     }
 
@@ -100,8 +100,8 @@ header, .container.nav {
 }
 
 nav {
+  @extend %w-100;
   position: fixed;
-  width: 100%;
   height: 0;
   max-height: calc(100vh - var(--topbar-total-height));
   overflow-y: auto;

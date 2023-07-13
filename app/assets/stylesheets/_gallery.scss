@@ -11,7 +11,7 @@
         overflow: hidden;
 
         &, picture, img {
-          @extend .w-100;
+          @extend %w-100;
           height: 100%;
         }
 

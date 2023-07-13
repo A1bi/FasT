@@ -64,7 +64,7 @@
 
     svg {
       @extend %d-block;
-      width: 100%;
+      @extend %w-100;
 
       text {
         font-weight: bold;

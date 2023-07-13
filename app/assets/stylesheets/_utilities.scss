@@ -35,6 +35,7 @@
 @include utility-set(align-items, align-items, (start, center, end, stretch));
 @include utility-set(justify-content, justify-content, (start, center, end));
 @include utility-set(align, vertical-align, (middle));
+@include utility-set(w, width, (100: 100%));
 @include utility-set(min-vh, min-height, (100: 100vh));
 
 @each $step, $factor in $spacing-steps {
