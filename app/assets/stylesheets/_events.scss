@@ -18,7 +18,7 @@
   margin-top: -(spacing(1));
 
   .card {
-    @extend .d-flex;
+    @extend %d-flex;
     @extend .align-items-center;
     @extend .justify-content-center;
     gap: spacing(3);

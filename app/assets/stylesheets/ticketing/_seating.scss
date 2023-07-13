@@ -3,7 +3,7 @@
 
   .error {
     @extend .my-2;
-    @extend .d-none;
+    @extend %d-none;
     background: $red;
     color: white;
 
@@ -19,19 +19,19 @@
       font-weight: bold;
 
       .unzoom {
-        @extend .d-none;
+        @extend %d-none;
         cursor: pointer;
       }
     }
 
     &.zoomed {
       .unzoom {
-        @extend .d-inline;
+        @extend %d-inline;
       }
     }
 
     .key {
-      @extend .d-flex;
+      @extend %d-flex;
       @extend .my-2;
       @extend .justify-content-center;
       flex-wrap: wrap;
@@ -41,7 +41,7 @@
       color: $white;
 
       [data-status] {
-        @extend .d-flex;
+        @extend %d-flex;
         @extend .align-items-center;
       }
 
@@ -51,7 +51,7 @@
         height: auto;
 
         svg {
-          @extend .d-block;
+          @extend %d-block;
           width: auto;
           height: 15px;
         }
@@ -63,7 +63,7 @@
     }
 
     svg {
-      @extend .d-block;
+      @extend %d-block;
       width: 100%;
 
       text {
@@ -76,7 +76,7 @@
       }
 
       .shield {
-        @extend .d-none;
+        @extend %d-none;
       }
 
       .block {
@@ -104,7 +104,7 @@
 
       &.zoomable {
         .shield {
-          @extend .d-block;
+          @extend %d-block;
           opacity: 0;
           transition: opacity .2s;
           cursor: pointer;
@@ -115,7 +115,7 @@
         }
 
         .seat text {
-          @extend .d-none;
+          @extend %d-none;
         }
 
         &.zoomed-in .shield {
@@ -125,13 +125,13 @@
       }
 
       &.numbers .seat text {
-        @extend .d-inline;
+        @extend %d-inline;
       }
     }
 
     &:not(.stage) {
       .plan svg .stage {
-        @extend .d-none;
+        @extend %d-none;
       }
     }
   }

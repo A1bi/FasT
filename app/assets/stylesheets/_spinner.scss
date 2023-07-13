@@ -1,5 +1,5 @@
 .spinner {
-  @extend .d-block;
+  @extend %d-block;
   animation: spinner-rotate 2s linear infinite;
 
   .path {

@@ -1,3 +1,17 @@
+@mixin utility-class($name, $property, $value) {
+  .#{$name} {
+    #{$property}: $value !important;
+  }
+}
+
+@mixin utility-set($name, $property, $value) {
+  %#{$name} {
+    #{$property}: $value;
+  }
+
+  @include utility-class($name, $property, $value);
+}
+
 @each $step, $factor in $spacing-steps {
   @each $property, $abbreviation in (margin: m, padding: p) {
     @each $side, $side-abbreviation in (top: t, bottom: b, left: s, right: e) {
@@ -37,15 +51,11 @@
 }
 
 @each $display in (none, block, inline, inline-block, flex) {
-  .d-#{$display} {
-    display: $display;
-  }
+  @include utility-set(d-#{$display}, display, $display);
 
   @each $size in map-keys($media-queries) {
     @include media-query($size) {
-      .d-#{$size}-#{$display} {
-        display: $display !important;
-      }
+      @include utility-class(d-#{$size}-#{$display}, display, $display);
     }
   }
 }

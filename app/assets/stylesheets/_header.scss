@@ -15,7 +15,7 @@ header {
   transition: padding $top-bar-stuck-transition-duration;
 
   .container {
-    @extend .d-flex;
+    @extend %d-flex;
     @extend .align-items-center;
   }
 
@@ -57,8 +57,8 @@ header {
     flex: 1;
 
     svg {
+      @extend %d-inline-block;
       @extend .p-1;
-      display: inline-block;
       max-height: var(--topbar-logo-height);
       width: auto;
       transition: max-height $top-bar-stuck-transition-duration;
@@ -110,7 +110,7 @@ nav {
   transition: height $menu-reveal-duration;
 
   &::-webkit-scrollbar {
-    display: none;
+    @extend %d-none;
   }
 
   ul {

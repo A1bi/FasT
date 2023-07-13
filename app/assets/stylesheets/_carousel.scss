@@ -1,5 +1,5 @@
 .carousel {
-  @extend .d-flex;
+  @extend %d-flex;
   @extend .align-items-end;
   position: relative;
   justify-content: center;
@@ -29,11 +29,11 @@
   }
 
   .title {
+    @extend %d-block;
     @extend .p-2;
     @extend .w-100;
     position: absolute;
     bottom: 0;
-    display: block;
     transition: opacity $carousel-transition-duration * 0.5, transform $carousel-transition-duration * 0.8 cubic-bezier(0.33, 1, 0.68, 1);
     transform: rotateY(0deg); // Safari jitter workaround
 

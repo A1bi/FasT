@@ -1,6 +1,6 @@
 label {
   @extend .mb-1;
-  @extend .d-inline-block;
+  @extend %d-inline-block;
 }
 
 input[type=text],
@@ -37,7 +37,7 @@ input[type=time],
 input[type=datetime-local],
 textarea,
 select {
-  @extend .d-block;
+  @extend %d-block;
   @extend .w-100;
   padding: $input-padding-y $input-padding-x;
   font-size: 1rem;
@@ -58,7 +58,7 @@ input[type=date],
 input[type=time],
 input[type=datetime-local] {
   // fix for Safari bottom padding
-  @extend .d-flex;
+  @extend %d-flex;
 }
 
 input[type=file] {
@@ -109,17 +109,17 @@ abbr[title] {
 }
 
 .invalid-feedback {
-  @extend .d-none;
+  @extend %d-none;
   @extend .w-100;
   color: darken($red, 25%);
 
   .was-validated :invalid ~ & {
-    @extend .d-block;
+    @extend %d-block;
   }
 }
 
 .form-check {
-  @extend .d-block;
+  @extend %d-block;
   min-height: 1.5rem;
   padding-left: 1.5rem;
 
@@ -200,7 +200,7 @@ select {
 
 .btn {
   @extend %btn-basic;
-  @extend .d-inline-block;
+  @extend %d-inline-block;
   @extend .shadow;
   @extend .text-center;
   cursor: pointer;

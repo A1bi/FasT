@@ -4,11 +4,11 @@
   }
 
   &.revealed [data-action='content-reveal#reveal'] .reveal {
-    @extend .d-none;
+    @extend %d-none;
   }
 
   &:not(.revealed) [data-action='content-reveal#reveal'] .hide {
-    @extend .d-none;
+    @extend %d-none;
   }
 
   [data-content-reveal-target='content'] {

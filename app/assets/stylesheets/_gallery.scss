@@ -3,7 +3,7 @@
     @extend .align-items-stretch;
 
     [class^='col-'] {
-      display: flex;
+      @extend %d-flex;
       flex-direction: column;
       row-gap: 1rem;
 
@@ -16,7 +16,7 @@
         }
 
         picture, img {
-          display: block;
+          @extend %d-block;
           object-fit: cover;
           transition: transform .3s;
 

@@ -9,7 +9,7 @@
     }
 
     [data-content-expand-target='expandButton'] {
-      @extend .d-none;
+      @extend %d-none;
     }
   }
 

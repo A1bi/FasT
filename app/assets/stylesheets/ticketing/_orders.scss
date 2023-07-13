@@ -7,7 +7,7 @@
 }
 
 .progress {
-  @extend .d-flex;
+  @extend %d-flex;
   @extend .justify-content-center;
   @extend .py-1;
   gap: spacing(1);
@@ -33,7 +33,7 @@
 }
 
 .expiration {
-  @extend .d-none;
+  @extend %d-none;
 }
 
 .stepBox {
@@ -41,7 +41,7 @@
   padding-bottom: 0;
 
   .modalAlert {
-    @extend .d-none;
+    @extend %d-none;
     @extend .w-100;
     position: absolute;
     height: 100%;
@@ -56,7 +56,7 @@
     }
 
     .alert {
-      @extend .d-none;
+      @extend %d-none;
       @extend .m-2;
 
       @include media-query(md) {
@@ -67,17 +67,17 @@
 }
 
 .stepCon {
+  @extend %d-none;
   @extend .px-2;
   @extend .py-2;
   position: absolute;
   left: 100%;
   min-height: 200px;
   width: 100%;
-  display: none;
 
   &.tickets, &.coupons {
     .event-header {
-      @extend .d-block;
+      @extend %d-block;
       height: 7rem;
       max-width: 100%;
       margin: spacing(2) auto;
@@ -108,11 +108,11 @@
   &.confirm {
     .payment {
       .charge, .transfer, .box_office, .cash {
-        @extend .d-none;
+        @extend %d-none;
       }
 
       &.charge .charge, &.transfer .transfer, &.box_office .box_office, &.cash .cash {
-        @extend .d-block;
+        @extend %d-block;
       }
     }
 
@@ -144,7 +144,7 @@
     }
 
     .tickets {
-      @extend .d-none;
+      @extend %d-none;
     }
 
     .info {
@@ -180,10 +180,10 @@
       }
 
       svg {
+        @extend %d-block;
         width: 70px;
         height: 70px;
         border-radius: 50%;
-        display: block;
         stroke-width: 3px;
         stroke: #4bb71b;
         stroke-miterlimit: 10;
@@ -232,11 +232,11 @@
 
 .plural_text {
   .singular, .plural {
-    @extend .d-none;
+    @extend %d-none;
   }
 
   &.singular .singular, &.plural .plural {
-    @extend .d-inline;
+    @extend %d-inline;
   }
 }
 

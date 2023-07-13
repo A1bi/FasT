@@ -1,5 +1,5 @@
 .row {
-  display: flex;
+  @extend %d-flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-right: -(spacing(1));

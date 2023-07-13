@@ -4,7 +4,7 @@ footer {
   background: var(--dynamic-color-0);
 
   ul {
-    @extend .d-flex;
+    @extend %d-flex;
     @extend .justify-content-center;
     @extend .ff-l;
     @extend .list-style-none;
