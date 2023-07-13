@@ -15,6 +15,14 @@
   }
 }
 
+@mixin all-media-queries() {
+  @each $size in map-keys($media-queries) {
+    @include media-query($size) {
+      @content($size);
+    }
+  }
+}
+
 %black-links {
   a:not(:hover, :active) {
     color: $black;

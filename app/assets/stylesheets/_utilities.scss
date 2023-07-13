@@ -1,21 +1,22 @@
-@mixin utility-class($name, $property, $value) {
-  .#{$name} {
-    #{$property}: $value !important;
+@mixin utility-class($type, $name, $property, $value, $important: true) {
+  #{$type}#{$name} {
+    #{$property}: #{$value}#{if($important, '!important', '')};
   }
 }
 
-@mixin utility-set($name, $property, $value) {
-  %#{$name} {
-    #{$property}: $value;
+@mixin utility-set($prefix, $property, $mappings, $size-classes: false) {
+  @each $suffix, $value in $mappings {
+    $value: if($value, $value, $suffix);
+    $selector: #{$prefix}-#{$suffix};
+    @include utility-class('%', $selector, $property, $value, false);
+    @include utility-class('.', $selector, $property, $value);
   }
 
-  @include utility-class($name, $property, $value);
-}
-
-@mixin utility-media-queries($prefix, $suffix, $property, $value) {
-  @each $size in map-keys($media-queries) {
-    @include media-query($size) {
-      @include utility-class(#{$prefix}-#{$size}-#{$suffix}, $property, $value);
+  @if $size-classes {
+    @include all-media-queries() using ($size) {
+      @each $suffix, $value in $mappings {
+        @include utility-class('.', #{$prefix}-#{$size}-#{$suffix}, $property, $value);
+      }
     }
   }
 }
@@ -44,24 +45,8 @@
   }
 }
 
-@each $class, $alignment in (start: left, center: center, end: right) {
-  @include utility-set(text-#{$class}, text-align, $alignment);
-  @include utility-media-queries(text, $class, text-align, $alignment);
-}
-
-@each $display in (none, block, inline, inline-block, flex) {
-  @include utility-set(d-#{$display}, display, $display);
-  @include utility-media-queries(d, $display, display, $display);
-}
-
-@each $alignment in (start, center, end, stretch) {
-  @include utility-set(align-items-#{$alignment}, align-items, $alignment);
-}
-
-@each $alignment in (start, center, end) {
-  @include utility-set(justify-content-#{$alignment}, justify-content, $alignment);
-}
-
-@each $alignment in (middle) {
-  @include utility-set(align-#{$alignment}, vertical-align, $alignment);
-}
+@include utility-set(text, text-align, (start: left, center: center, end: right), true);
+@include utility-set(d, display, (none, block, inline, inline-block, flex), true);
+@include utility-set(align-items, align-items, (start, center, end, stretch));
+@include utility-set(justify-content, justify-content, (start, center, end));
+@include utility-set(align, vertical-align, (middle));
