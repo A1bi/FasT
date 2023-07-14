@@ -1,7 +1,13 @@
 {
   "name": "TheaterKultur Kaisersesch",
   "short_name": "TheaterKultur",
-  "icons": [],
-  "display": "browser",
+  "icons": [
+    {
+      "src": "app.webp",
+      "sizes": "600x600",
+      "type": "image/webp"
+    }
+  ],
+  "display": "standalone",
   "start_url": "../"
 }
