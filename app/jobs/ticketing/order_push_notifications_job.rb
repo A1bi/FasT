@@ -2,19 +2,21 @@
 
 module Ticketing
   class OrderPushNotificationsJob < ApplicationJob
+    include Rails.application.routes.url_helpers
+
     def perform(order, admin: false)
       @order = order
       @admin = admin
 
-      devices.find_each do |device|
-        device.push(title:, body:, badge: badge_number, sound: 'cash.aif')
+      subscriptions.find_each do |subscription|
+        subscription.push(title:, body:, order_url:)
       end
     end
 
     private
 
-    def devices
-      Ticketing::PushNotifications::Device.where(app: :stats)
+    def subscriptions
+      Ticketing::PushNotifications::WebSubscription.all
     end
 
     def title
@@ -37,10 +39,8 @@ module Ticketing
       )
     end
 
-    def badge_number
-      Ticketing::Ticket.where(
-        'created_at >= ?', Time.current.beginning_of_day
-      ).count
+    def order_url
+      ticketing_order_url(@order)
     end
 
     def type

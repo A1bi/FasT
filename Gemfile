@@ -28,6 +28,7 @@ gem 'sentry-sidekiq'
 gem 'sepa_king', '~> 0.14.0'
 gem 'simpleidn', '~> 0.2.1'
 gem 'stimulus-rails', '~> 1.2'
+gem 'web-push', '~> 3.0'
 gem 'whenever', require: false
 
 gem 'corona_presence_tracing'

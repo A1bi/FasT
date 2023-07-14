@@ -216,6 +216,9 @@ select {
     width: 1rem;
     height: 1rem;
     vertical-align: -.125em;
-    margin-right: .25rem;
+
+    & + span {
+      margin-left: .25rem;
+    }
   }
 }

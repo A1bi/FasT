@@ -28,12 +28,12 @@ export const fetch = async (url, method = 'get', data) => {
       'Content-Type': 'application/json',
       'X-CSRF-Token': getAuthenticityToken()
     },
-    body: data ? JSON.stringify(data) : null
+    body: data ? (typeof data === 'string' ? data : JSON.stringify(data)) : null
   })
 
   let json = null
   const type = response.headers.get('Content-Type')
-  if (type && type.indexOf('json') > -1) {
+  if (response.status !== 204 && type && type.indexOf('json') > -1) {
     json = await response.json()
   }
 

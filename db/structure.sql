@@ -1520,24 +1520,24 @@ ALTER SEQUENCE public.ticketing_orders_id_seq OWNED BY public.ticketing_orders.i
 
 
 --
--- Name: ticketing_push_notifications_devices; Type: TABLE; Schema: public; Owner: -
+-- Name: ticketing_push_notifications_web_subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.ticketing_push_notifications_devices (
+CREATE TABLE public.ticketing_push_notifications_web_subscriptions (
     id bigint NOT NULL,
-    token character varying,
-    app character varying,
+    endpoint character varying NOT NULL,
+    p256dh character varying NOT NULL,
+    auth character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    settings text
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
 --
--- Name: ticketing_push_notifications_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: ticketing_push_notifications_web_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.ticketing_push_notifications_devices_id_seq
+CREATE SEQUENCE public.ticketing_push_notifications_web_subscriptions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1546,10 +1546,10 @@ CREATE SEQUENCE public.ticketing_push_notifications_devices_id_seq
 
 
 --
--- Name: ticketing_push_notifications_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: ticketing_push_notifications_web_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.ticketing_push_notifications_devices_id_seq OWNED BY public.ticketing_push_notifications_devices.id;
+ALTER SEQUENCE public.ticketing_push_notifications_web_subscriptions_id_seq OWNED BY public.ticketing_push_notifications_web_subscriptions.id;
 
 
 --
@@ -2189,10 +2189,10 @@ ALTER TABLE ONLY public.ticketing_orders ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Name: ticketing_push_notifications_devices id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: ticketing_push_notifications_web_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_push_notifications_devices ALTER COLUMN id SET DEFAULT nextval('public.ticketing_push_notifications_devices_id_seq'::regclass);
+ALTER TABLE ONLY public.ticketing_push_notifications_web_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_push_notifications_web_subscriptions_id_seq'::regclass);
 
 
 --
@@ -2602,11 +2602,11 @@ ALTER TABLE ONLY public.ticketing_orders
 
 
 --
--- Name: ticketing_push_notifications_devices ticketing_push_notifications_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ticketing_push_notifications_web_subscriptions ticketing_push_notifications_web_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ticketing_push_notifications_devices
-    ADD CONSTRAINT ticketing_push_notifications_devices_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.ticketing_push_notifications_web_subscriptions
+    ADD CONSTRAINT ticketing_push_notifications_web_subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3080,13 +3080,6 @@ CREATE INDEX index_ticketing_orders_on_store_id ON public.ticketing_orders USING
 --
 
 CREATE INDEX index_ticketing_orders_on_type ON public.ticketing_orders USING btree (type);
-
-
---
--- Name: index_ticketing_push_notifications_devices_on_app_and_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_ticketing_push_notifications_devices_on_app_and_token ON public.ticketing_push_notifications_devices USING btree (app, token);
 
 
 --
@@ -3825,6 +3818,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220729061721'),
 ('20220730095639'),
 ('20220821145609'),
-('20221013141610');
+('20221013141610'),
+('20230713220945');
 
 

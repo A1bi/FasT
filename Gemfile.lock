@@ -156,6 +156,7 @@ GEM
       activesupport (>= 5.0)
     google-protobuf (3.23.3)
     hashery (2.1.2)
+    hkdf (1.0.0)
     http-2 (0.11.0)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
@@ -173,6 +174,7 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.6.3)
+    jwt (2.7.1)
     kt-paperclip (7.2.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -219,6 +221,7 @@ GEM
     nokogiri (1.15.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    openssl (3.1.0)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
@@ -415,6 +418,10 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
+    web-push (3.0.0)
+      hkdf (~> 1.0)
+      jwt (~> 2.0)
+      openssl (~> 3.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -478,6 +485,7 @@ DEPENDENCIES
   slim
   sprockets-rails (~> 3.4)
   stimulus-rails (~> 1.2)
+  web-push (~> 3.0)
   whenever
 
 BUNDLED WITH

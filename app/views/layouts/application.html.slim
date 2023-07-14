@@ -12,6 +12,7 @@ html lang=I18n.locale
     javascript:
       document.documentElement.classList.add('fouc')
     = csrf_meta_tag
+    link rel='manifest' href='/app.webmanifest'
 
   body class=('development' if Rails.env.development?)
     .sticky-helper

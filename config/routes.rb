@@ -214,10 +214,13 @@ Rails.application.routes.draw do
         namespace :node do
           resources :events, only: :index
         end
+
+        namespace :push_notifications do
+          resources :subscriptions, only: :create
+        end
       end
 
       resources :members, only: %i[index show]
-      post 'push_notifications' => 'push_notifications#register'
 
       scope path: :mobile_devices, controller: :mobile_devices do
         get :profile, as: :mobile_device_profile
