@@ -245,3 +245,8 @@ table {
     text-decoration: line-through;
   }
 }
+
+// workaround for jQuery not able to override .d-none with inline styles
+.d-none-unimportant {
+  @extend %d-none;
+}

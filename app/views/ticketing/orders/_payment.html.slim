@@ -9,7 +9,7 @@
           b = method[:human_name]
           small.d-block = label_tag method_id, method[:desc]
 
-    .charge_data.d-none
+    .charge_data.d-none-unimportant
       h3 Ihre Bankdaten
       = render 'form_required_caption'
       = render layout: 'form_field', locals: { form: f, attribute: :name, label: 'Kontoinhaber', required: true }
