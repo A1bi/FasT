@@ -19,15 +19,12 @@
       font-weight: bold;
 
       .unzoom {
-        @extend %d-none;
         cursor: pointer;
       }
     }
 
-    &.zoomed {
-      .unzoom {
-        @extend %d-inline;
-      }
+    &:not(.zoomed) .unzoom {
+      @extend %d-none;
     }
 
     .key {
@@ -114,18 +111,14 @@
           }
         }
 
-        .seat text {
-          @extend %d-none;
-        }
-
         &.zoomed-in .shield {
           opacity: 0;
           pointer-events: none;
         }
       }
 
-      &.numbers .seat text {
-        @extend %d-inline;
+      &:not(.numbers) .seat text {
+        @extend %d-none;
       }
     }
 

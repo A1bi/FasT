@@ -31,7 +31,7 @@
 }
 
 @include utility-set(text, text-align, (start: left, center: center, end: right), true);
-@include utility-set(d, display, (none, block, inline, inline-block, flex), true);
+@include utility-set(d, display, (block, inline, inline-block, flex, none), true);
 @include utility-set(align-items, align-items, (start, center, end, stretch));
 @include utility-set(justify-content, justify-content, (start, center, end));
 @include utility-set(align, vertical-align, (middle));

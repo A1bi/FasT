@@ -1,9 +1,14 @@
 .spinner {
   @extend %d-block;
   animation: spinner-rotate 2s linear infinite;
+  width: 2rem;
 
-  .path {
-    stroke: white;
+  &.dark circle {
+    stroke: $black;
+  }
+
+  circle {
+    stroke: $white;
     stroke-linecap: round;
     animation: spinner-dash 1.3s ease-in-out infinite;
   }

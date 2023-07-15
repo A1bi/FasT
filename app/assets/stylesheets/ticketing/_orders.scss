@@ -106,12 +106,9 @@
 
   &.confirm {
     .payment {
-      .charge, .transfer, .box_office, .cash {
+      &:not(.charge) .charge, &:not(.transfer) .transfer,
+      &:not(.box_office) .box_office, &:not(.cash) .cash {
         @extend %d-none;
-      }
-
-      &.charge .charge, &.transfer .transfer, &.box_office .box_office, &.cash .cash {
-        @extend %d-block;
       }
     }
 
