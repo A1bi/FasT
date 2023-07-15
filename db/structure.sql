@@ -1529,7 +1529,8 @@ CREATE TABLE public.ticketing_push_notifications_web_subscriptions (
     p256dh character varying NOT NULL,
     auth character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    user_id bigint NOT NULL
 );
 
 
@@ -3083,6 +3084,13 @@ CREATE INDEX index_ticketing_orders_on_type ON public.ticketing_orders USING btr
 
 
 --
+-- Name: index_ticketing_push_notifications_web_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_push_notifications_web_subscriptions_on_user_id ON public.ticketing_push_notifications_web_subscriptions USING btree (user_id);
+
+
+--
 -- Name: index_ticketing_reservations_on_date_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3594,6 +3602,14 @@ ALTER TABLE ONLY public.ticketing_bank_transactions
 
 
 --
+-- Name: ticketing_push_notifications_web_subscriptions fk_rails_d59495030f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_push_notifications_web_subscriptions
+    ADD CONSTRAINT fk_rails_d59495030f FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: ticketing_box_office_purchase_items fk_rails_d8c37e6117; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3819,6 +3835,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220730095639'),
 ('20220821145609'),
 ('20221013141610'),
-('20230713220945');
+('20230713220945'),
+('20230715084859');
 
 

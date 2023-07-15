@@ -5,5 +5,6 @@ FactoryBot.define do
     endpoint { SecureRandom.hex }
     p256dh { SecureRandom.hex }
     auth { SecureRandom.hex }
+    user
   end
 end

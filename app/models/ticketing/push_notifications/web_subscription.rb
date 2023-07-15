@@ -3,6 +3,8 @@
 module Ticketing
   module PushNotifications
     class WebSubscription < ApplicationRecord
+      belongs_to :user, optional: false
+
       validates :endpoint, :p256dh, :auth, presence: true
       validates :endpoint, uniqueness: true
 

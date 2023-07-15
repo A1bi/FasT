@@ -9,7 +9,8 @@ module Api
 
           registration = ::Ticketing::PushNotifications::WebSubscription.find_or_create_by(
             **params.permit(:endpoint),
-            **params.require(:keys).permit(:p256dh, :auth)
+            **params.require(:keys).permit(:p256dh, :auth),
+            user: current_user
           )
 
           head registration.persisted? ? :no_content : :unprocessable_entity
