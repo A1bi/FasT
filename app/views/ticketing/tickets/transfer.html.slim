@@ -8,7 +8,7 @@
       - if @reservation_groups.any?
         h3 Geblockte Plätze freischalten
         - @reservation_groups.each do |group|
-          .form-check
+          .form-check.form-check-inline
             = check_box_tag group.id, group.id, false, data: { ticketing__ticket_transfer_target: 'reservationGroup' }
             = label_tag group.id, group.name
       .row: .col.w-100: .card = render 'application/ticketing/seating', event: @order.event, error_box: true, key: true, mode: :chooser, js_controller_target: %w[ticketing--ticket-transfer seating]

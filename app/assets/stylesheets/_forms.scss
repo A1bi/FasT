@@ -123,6 +123,11 @@ abbr[title] {
   min-height: 1.5rem;
   padding-left: 1.5rem;
 
+  &.form-check-inline {
+    @extend %d-inline-block;
+    @extend %me-2;
+  }
+
   input[type=checkbox],
   input[type=radio] {
     float: left;

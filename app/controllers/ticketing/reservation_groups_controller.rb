@@ -5,8 +5,9 @@ module Ticketing
     before_action :find_group, only: %i[show update destroy]
 
     def index
-      group = authorize Ticketing::ReservationGroup.first
-      redirect_to ticketing_reservation_group_path(group)
+      authorize Ticketing::ReservationGroup
+      group = Ticketing::ReservationGroup.first
+      redirect_to ticketing_reservation_group_path(group) if group.present?
     end
 
     def show
@@ -16,7 +17,7 @@ module Ticketing
       end
 
       @groups = Ticketing::ReservationGroup.order(:name)
-      @events = Ticketing::Event.with_future_dates
+      @events = Ticketing::Event.with_future_dates.with_seating_plan
       @event = if params[:event_id].present?
                  @events.find(params[:event_id])
                else

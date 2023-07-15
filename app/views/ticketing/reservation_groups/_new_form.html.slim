@@ -1,0 +1,6 @@
+.row: .col: .card
+  h3 Neue Gruppe erstellen
+  = form_for Ticketing::ReservationGroup.new do |f|
+    = render 'form_field', form: f, attribute: :name, label: 'Name'
+      = f.text_field :name
+    .text-center = f.submit 'erstellen', class: :btn

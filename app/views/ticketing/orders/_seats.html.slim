@@ -21,12 +21,12 @@
         .mb-2 Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken. Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: <em>(02653) 28 27 09</em>.
 
       - if @reservation_groups&.any?
-        = content_tag :p, class: ['reservationGroups'], data: { enable_url: enable_reservation_groups_ticketing_order_path }
-          | Vorreservierungen freischalten:
+        h3 Geblockte Plätze freischalten
+        .reservationGroups data-enable-url=enable_reservation_groups_ticketing_order_path
           - @reservation_groups.each do |group|
-            span
-              => check_box_tag group.id, group.id
+            .form-check.form-check-inline
               = label_tag group.id, group.name
+              = check_box_tag group.id, group.id
 
       = render 'application/ticketing/seating', class: [:chooser, :stage, 'mt-2'], error_box: true, key: true, mode: :chooser, event: @event
 

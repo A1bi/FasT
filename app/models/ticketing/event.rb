@@ -25,6 +25,10 @@ module Ticketing
         join_dates.order("MIN(ticketing_event_dates.date) #{order}")
       end
 
+      def with_seating_plan
+        joins(:seating).merge(Seating.with_plan)
+      end
+
       def archived
         join_dates.merge(EventDate.past.uncancelled).where(archived: true)
       end

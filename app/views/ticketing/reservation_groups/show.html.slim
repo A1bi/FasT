@@ -18,9 +18,4 @@
     = render 'application/ticketing/seating', class: [:selector], mode: :selector, event: @event, js_controller_target: %w[ticketing--reservation-groups seating]
     .text-center.mt-2 = submit_tag 'speichern', class: :btn, data: { action: 'ticketing--reservation-groups#save' }
 
-  .row: .col: .card
-      h3 Neue Gruppe erstellen
-      = form_for Ticketing::ReservationGroup.new do |f|
-        = render 'form_field', form: f, attribute: :name, label: 'Name'
-          = f.text_field :name
-        .text-center = f.submit 'erstellen', class: :btn
+  = render 'new_form'
