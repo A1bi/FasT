@@ -21,6 +21,10 @@ module Ticketing
         join_dates.merge(EventDate.upcoming(offset:).uncancelled)
       end
 
+      def on_sale
+        where('sale_start <= ?', Time.current).with_future_dates
+      end
+
       def ordered_by_dates(order = :asc)
         join_dates.order("MIN(ticketing_event_dates.date) #{order}")
       end

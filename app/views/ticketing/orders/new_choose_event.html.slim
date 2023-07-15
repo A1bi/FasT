@@ -3,10 +3,6 @@
 .container
   h1 Tickets bestellen
 
-  - if @upcoming_event.present?
-    .row: .col = render 'alert', type: :info
-      | Der Vorverkauf zu <b>„#{@upcoming_event.name}“</b> beginnt am <b>#{l(@upcoming_event.sale_start, format: :long)}</b>.
-
   - if @events.any?
     p.text-center Bitte wählen Sie eine Veranstaltung.
     - @events.each do |event|
