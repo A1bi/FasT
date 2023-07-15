@@ -9,7 +9,7 @@
 
   .mb-2
     h3 Ihr gewünschter Termin
-    = render 'application/ticketing/date_select', dates: @dates, preselected_date_id: params[:date_id]
+    = render 'application/ticketing/date_select', dates: @dates, preselected_date: @preselected_date
   - if @event.seating.plan?
     - if @dates.count > 1
       p.mb-0 Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.

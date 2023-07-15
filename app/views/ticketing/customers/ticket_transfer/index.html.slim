@@ -4,7 +4,7 @@
   h1 Tickets umbuchen
   .row: .col: .card
     h3 Ihr gewünschter Termin
-    .mb-2 = render 'application/ticketing/date_select', dates: @dates, preselected_date_id: @tickets.first.date.id, data: { ticketing__ticket_transfer_target: 'date', action: 'ticketing--ticket-transfer#updateDate' }
+    .mb-2 = render 'application/ticketing/date_select', dates: @dates, preselected_date: @tickets.first.date, data: { ticketing__ticket_transfer_target: 'date', action: 'ticketing--ticket-transfer#updateDate' }
 
   - if @event.seating.plan?
     .row: .col.w-100: .card

@@ -179,6 +179,7 @@ module Ticketing
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.upcoming
+      @preselected_date = @event.dates.find(params[:date_id]) if params[:date_id].present?
       @ticket_types = @event.ticket_types.except_box_office.ordered_by_availability_and_price
     end
 
