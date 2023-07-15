@@ -243,6 +243,21 @@ table {
   }
 }
 
+.choose-event .event {
+  svg * {
+    fill: $cta-color;
+    stroke: none !important;
+  }
+
+  &:hover svg * {
+    fill: $cta-color-hover;
+  }
+
+  &:active svg * {
+    fill: $cta-color-active;
+  }
+}
+
 // workaround for jQuery not able to override .d-none with inline styles
 .d-none-unimportant {
   @extend %d-none;

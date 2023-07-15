@@ -1,13 +1,12 @@
 - title 'Tickets bestellen'
 
-.container
+.container.choose-event
   h1 Tickets bestellen
 
   - if @events.any?
     p.text-center Bitte wählen Sie eine Veranstaltung.
     - @events.each do |event|
-      .row: .col: .card: .row: .col.col-md-8
-        = link_to event_slug: event.slug
-          = event_logo(event)
+      .row: .col = link_to event_slug: event.slug
+        .card.shadow.event: .row: .col.col-md-8 = inline_svg(event_logo_path(event))
   - else
     .text-center Derzeit befindet sich keine Veranstaltung im Vorverkauf.
