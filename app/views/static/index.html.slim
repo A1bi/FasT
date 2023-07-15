@@ -65,6 +65,7 @@ ruby:
     - sale_start = Time.parse(event[:sale_start]) if event[:sale_start].present?
     - event[:dates].each do |date_id, date|
       - date = Time.parse(date)
+      - next if date.past?
       - ticket_url = event.fetch(:ticket_url, new_ticketing_order_path(event[:slug], date_id:))
       .card.schedule.mb-2: .row
         .col-3.col-md-2
