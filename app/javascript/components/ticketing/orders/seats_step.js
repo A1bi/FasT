@@ -59,7 +59,7 @@ export default class extends Step {
     if (!$this) return
 
     this.info.api.date = $this.data('id')
-    this.info.internal.boxOfficePayment = $this.data('box-office-payment')
+    this.info.internal.boxOfficePayment = 'boxOfficePayment' in $this.data()
     this.info.internal.localizedDate = $this.text()
 
     if (this.hasSeatingPlan) {
