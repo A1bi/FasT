@@ -239,6 +239,8 @@ Rails.application.routes.draw do
   resources :internet_access_sessions, path: :wlan, only: %i[new create],
                                        path_names: { new: '' }
 
+  use_doorkeeper
+
   scope path: :admin do
     require 'sidekiq/web'
     if Rails.env.production?

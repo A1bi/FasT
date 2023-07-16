@@ -112,6 +112,8 @@ GEM
     deep_merge (1.2.2)
     diff-lcs (1.5.0)
     docile (1.4.0)
+    doorkeeper (5.6.6)
+      railties (>= 5)
     dry-configurable (1.0.1)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
@@ -445,6 +447,7 @@ DEPENDENCIES
   config (~> 4.0)
   corona_presence_tracing
   dalli (~> 3.0)
+  doorkeeper (~> 5.6)
   factory_bot_rails
   ffaker (~> 2.13)
   httparty (~> 0.18)

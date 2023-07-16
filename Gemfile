@@ -15,6 +15,7 @@ gem 'bindata', '~> 2.4.3'
 gem 'bootsnap', require: false
 gem 'config', '~> 4.0'
 gem 'dalli', '~> 3.0'
+gem 'doorkeeper', '~> 5.6'
 gem 'httparty', '~> 0.18'
 gem 'importmap-rails', '~> 1.2'
 gem 'kt-paperclip', '~> 7.0'
