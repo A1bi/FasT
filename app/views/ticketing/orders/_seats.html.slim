@@ -10,15 +10,17 @@
   .mb-2
     h3 Ihr gewünschter Termin
     = render 'application/ticketing/date_select', dates: @dates, preselected_date: @preselected_date
-  - if @event.seating.plan?
-    - if @dates.count > 1
-      p.mb-0 Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze zu verschaffen.
 
-    hr.my-2
-    h3.mt-0 Ihre Sitzplätze
-    .seat_chooser
+  - if @event.seating.plan?
+    .text-center.show-seating-btn: button.btn Sitzplätze auswählen
+
+    .seat_chooser.d-none
+      h3.mt-0 Ihre Sitzplätze
       .plural_text.number_of_tickets
         .mb-2 Bitte wählen Sie Ihre<span class="singular">n</span> gewünschten<b class="number plural"> <span></span></b> <span class="singular">Sitzplatz</span><span class="plural">Sitzplätze</span> durch Anklicken. Für gehbehindertengerechte Sitzplätze rufen Sie uns gerne an: <em>(02653) 28 27 09</em>.
+
+      - if @dates.count > 1
+        p.mb-0 Sie können das Datum beliebig wechseln, um sich einen Überblick über freie Sitzplätze auch an anderen Terminen zu verschaffen.
 
       - if @reservation_groups&.any?
         h3 Geblockte Plätze freischalten

@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { togglePluralText, fetch } from 'components/utils'
+import { togglePluralText, toggleDisplay, fetch } from 'components/utils'
 import SeatChooser from 'components/ticketing/seat_chooser'
 import $ from 'jquery'
 
@@ -23,6 +23,13 @@ export default class extends Step {
       this.choseDate($(event.currentTarget).find(':selected'), true)
     })
 
+    this.box.find('.show-seating-btn').click(e => {
+      toggleDisplay(this.seatingBox[0], true)
+      toggleDisplay(e.target, false)
+      this.resizeDelegateBox(true)
+      this.delegate.updateNextBtn()
+    })
+
     this.box.find('.reservationGroups :checkbox')
       .prop('checked', false).click(() => this.enableReservationGroups())
   }
@@ -36,7 +43,7 @@ export default class extends Step {
   }
 
   nextBtnEnabled () {
-    return !!this.info.api.date
+    return !!this.info.api.date && (!this.hasSeatingPlan || !this.seatingBox.hasClass('d-none'))
   }
 
   willMoveIn () {
