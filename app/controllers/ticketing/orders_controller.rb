@@ -150,7 +150,10 @@ module Ticketing
       @type = :admin
       @max_tickets = 50
       @reservation_groups = Ticketing::ReservationGroup.all
-      @template_order = Ticketing::Order.find(params[:template_order_id]) if params[:template_order_id].present?
+      if params[:template_order_id].present?
+        @template_order = Ticketing::Order.find(params[:template_order_id])
+        @preselected_date = @template_order.date
+      end
 
       render :new_admin
     end
