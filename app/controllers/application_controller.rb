@@ -97,10 +97,14 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       deny_access root_path
     else
-      session[:goto_after_login] = request.url
       flash[:warning] = t('application.login_required')
-      redirect_to login_path
+      redirect_to_login_form
     end
+  end
+
+  def redirect_to_login_form
+    session[:goto_after_login] = request.url
+    redirect_to login_path
   end
 
   def deny_access(redirect_path)

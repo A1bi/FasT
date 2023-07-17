@@ -239,7 +239,10 @@ Rails.application.routes.draw do
   resources :internet_access_sessions, path: :wlan, only: %i[new create],
                                        path_names: { new: '' }
 
-  use_doorkeeper
+  use_doorkeeper do
+    controllers token_info: 'doorkeeper/enhanced_token_info'
+    skip_controllers :applications, :authorized_applications
+  end
 
   scope path: :admin do
     require 'sidekiq/web'
