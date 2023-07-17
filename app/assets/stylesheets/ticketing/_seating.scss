@@ -34,8 +34,6 @@
       @extend %py-1, %px-2;
       flex-wrap: wrap;
       gap: spacing(1) spacing(2);
-      background: $red;
-      color: $white;
 
       [data-status] {
         @extend %d-flex;
@@ -55,7 +53,7 @@
       }
     }
 
-    .canvas {
+    .canvas, .key {
       border: 1px solid $light-gray;
     }
 
