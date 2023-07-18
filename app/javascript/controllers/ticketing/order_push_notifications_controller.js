@@ -16,32 +16,35 @@ export default class extends Controller {
 
     this.serviceWorkerRegistration = await navigator.serviceWorker.register('/ticketing_service_worker.js')
     this.updateSelf()
+
+    // workaround for Mobile Safari Web Push endpoints expiring after a while
+    if (this.mobileSafari && window.Notification.permission === 'granted') {
+      this.subscribe()
+    }
   }
 
   async requestNotificationsPermission () {
     const result = await window.Notification.requestPermission()
     toggleDisplay(this.buttonTarget, false)
+    toggleDisplay(this.spinnerTarget, true)
 
     if (result === 'granted') {
       await this.subscribe()
     }
 
+    // eslint-disable-next-line no-new
+    new Notification(this.successNotificationTitleValue, { body: this.successNotificationBodyValue })
+    toggleDisplay(this.spinnerTarget, false)
     this.updateSelf()
   }
 
   async subscribe () {
-    toggleDisplay(this.spinnerTarget, true)
-
     const subscription = await this.serviceWorkerRegistration.pushManager.subscribe({
       applicationServerKey: this.publicKeyValue,
       userVisibleOnly: true
     })
 
     await fetch(this.apiPathValue, 'post', JSON.stringify(subscription))
-
-    // eslint-disable-next-line no-new
-    new Notification(this.successNotificationTitleValue, { body: this.successNotificationBodyValue })
-    toggleDisplay(this.spinnerTarget, false)
   }
 
   updateSelf () {
@@ -54,5 +57,9 @@ export default class extends Controller {
     return window.Notification &&
            window.Notification.requestPermission &&
            window.PushManager
+  }
+
+  get mobileSafari () {
+    return /Mobile\/\w+ Safari/.test(navigator.userAgent)
   }
 }
