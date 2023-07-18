@@ -58,7 +58,8 @@ events:
   - identifier: arschlings
     name: Arschlinks heißt von hinten herwärts
   - identifier: awen
-    name: AWEN Celtic Concert
+    name: Celtic Voices
+    slug: awen-celtic-voices
   - identifier: gatte_2023
     assets_identifier: gatte
     name: Ein idealer Gatte
