@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 module Ticketing
-  class OrderSearchService < BaseService
-    def initialize(query, scope: nil)
-      super
-      @query = query
-      @scope = scope
-    end
-
+  class OrderSearchService < SearchService
     def execute
       return [[], nil] if @query.blank?
 
@@ -16,7 +10,7 @@ module Ticketing
       orders = if order.present?
                  [order]
                else
-                 orders_by_full_text_search
+                 records_by_full_text_search(Order, %i[first_name last_name affiliation], %i[last_name first_name])
                end
 
       [orders, ticket]
@@ -35,20 +29,6 @@ module Ticketing
       [order, ticket]
     end
 
-    def orders_by_full_text_search
-      table = Order.arel_table
-      matches = nil
-
-      search_words.each do |word|
-        %i[first_name last_name affiliation].each do |column|
-          term = table[column].matches("%#{word}%")
-          matches = matches ? matches.or(term) : term
-        end
-      end
-
-      scope.where(matches).order(:last_name, :first_name)
-    end
-
     def match_number_parts
       return false unless @query =~ ticket_number_regex
 
@@ -58,14 +38,6 @@ module Ticketing
     def ticket_number_regex
       max_digits = Order::NUMBER_DIGITS
       /\A(\d{1,#{max_digits}})(-(\d+))?\z/
-    end
-
-    def search_words
-      ActiveSupport::Inflector.transliterate(@query).split.uniq << @query
-    end
-
-    def scope
-      @scope ||= Order
     end
   end
 end

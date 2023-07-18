@@ -1,16 +1,19 @@
 .card.mb-2
-  h3 = title
-  table
+  .table-responsive: table
     thead
       tr
         th Empfänger
+        th bereits eingesetzt
         th Wert
-        th bereits genutzt
+        th erstellt
         th
     tbody.hover
       - coupons.each do |coupon|
         tr data-controller='linked-row' data-linked-row-path=ticketing_coupon_path(coupon)
           td = link_to name_and_affiliation(coupon.recipient, coupon.affiliation, 'niemand angegeben'), coupon
-          td = coupon_value(coupon)
-          td = coupon.orders.any? ? 'ja' : 'nein'
+          td.text-center = coupon.orders.any? ? 'ja' : 'nein'
+          td.text-nowrap
+            = coupon_value(coupon, initial: true)
+            small.d-block #{coupon_value(coupon)} übrig
+          td = l(coupon.created_at.to_date)
           td = render 'admin_actions', obj: coupon, delete_confirm: 'diesen Gutschein'

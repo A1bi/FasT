@@ -1,0 +1,6 @@
+= form_with url:, method: :get do |f|
+  .row.align-items-end.mb-2
+    .col-8.col-md-10
+      = f.label :q, label
+      = f.text_field :q, placeholder:, minlength: local_assigns[:min_length], value: params[:q]
+    .col-4.col-md-2 = f.submit 'suchen', name: nil, class: 'btn w-100'

@@ -1,6 +1,6 @@
 - title 'Gutscheindetails'
 
-.container: .row: .col
+.container: .row: .col.w-100
   .card.mb-2
     h3 Gutscheindetails
     table
@@ -24,6 +24,9 @@
               = @coupon.affiliation
             - else
               em nicht angegeben
+        tr
+          td Erstellt:
+          td = l(@coupon.created_at, format: :medium)
         tr
           td Ursprünglicher Wert:
           td = coupon_value(@coupon, initial: true)

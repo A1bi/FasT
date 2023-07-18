@@ -1,6 +1,8 @@
 - title 'Gutscheine'
 
-.container: .row: .col
-  = render 'new_button', action: 'Gutschein erstellen', url: new_ticketing_coupon_path
-  = render 'index_table', coupons: @coupons, title: 'Gutscheine'
-  = render 'index_table', coupons: @coupons_expired, title: 'Abgelaufene Gutscheine'
+.container
+  h1 Gutscheine
+  .row: .col.w-100
+    = render 'application/ticketing/search_form', url: ticketing_coupons_path, label: 'Gutschein suchen', placeholder: 'Empfängername oder Code'
+    = render 'new_button', action: 'erstellen', url: new_ticketing_coupon_path
+    = render 'index_table', coupons: @coupons

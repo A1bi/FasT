@@ -1,6 +1,0 @@
-= form_with url: ticketing_orders_path, method: :get do |f|
-  .row.align-items-end.mb-2
-    .col-8.col-md-10
-      = f.label :q, 'Bestellung suchen'
-      = f.text_field :q, placeholder: current_user.admin? ? 'Bestell-, Ticketnummer oder Name des Bestellers' : 'Bestell- oder Ticketnummer', minlength: controller.class::SEARCH_QUERY_MIN_LENGTH, value: params[:q]
-    .col-4.col-md-2 = f.submit 'suchen', name: nil, class: 'btn w-100'

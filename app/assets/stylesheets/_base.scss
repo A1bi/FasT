@@ -165,6 +165,10 @@ table {
   color: $dark-gray;
 }
 
+.text-nowrap {
+  white-space: nowrap;
+}
+
 .shadow {
   box-shadow: 0 0 13px 0 rgba($black, 0.23);
 }

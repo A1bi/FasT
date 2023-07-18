@@ -7,11 +7,14 @@ module Ticketing
 
     def index
       authorize Coupon
-      coupon_scope = Coupon.where('ticketing_coupons.created_at > ?', 18.months.ago)
-                           .where(purchased_with_order: nil)
-                           .order(:recipient)
-      @coupons = coupon_scope.valid
-      @coupons_expired = coupon_scope.expired
+      coupon_scope = Coupon.where(purchased_with_order: nil)
+
+      @coupons = if params[:q].present?
+                   CouponSearchService.new(params[:q], scope: coupon_scope).execute
+                 else
+                   coupon_scope.where('ticketing_coupons.created_at > ?', 18.months.ago)
+                               .order(recipient: :asc, created_at: :desc)
+                 end
     end
 
     def show
