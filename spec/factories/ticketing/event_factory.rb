@@ -37,5 +37,9 @@ FactoryBot.define do
       with_dates
       with_ticket_types
     end
+
+    trait :archived do
+      archived { true }
+    end
   end
 end

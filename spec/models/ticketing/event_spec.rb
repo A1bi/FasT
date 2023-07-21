@@ -51,4 +51,29 @@ RSpec.describe Ticketing::Event do
       it { is_expected.to contain_exactly(events[1], events[0], events[2]) }
     end
   end
+
+  describe '.archived' do
+    subject { described_class.archived }
+
+    let(:future_event) { create(:event, :archived, :with_dates, dates_count: 1) }
+    let(:partially_future_event) { create(:event, :archived, :with_dates, dates_count: 2) }
+    let(:cancelled_event) { create(:event, :archived, :with_dates, dates_count: 1) }
+    let(:partially_cancelled_event) { create(:event, :archived, :with_dates, dates_count: 2) }
+    let(:past_event) { create(:event, :archived, :with_dates, dates_count: 1) }
+    let(:past_not_archived_event) { create(:event, :with_dates, dates_count: 1) }
+    let(:cancellation) { create(:cancellation) }
+
+    before do
+      future_event.dates.first.update(date: 1.day.from_now)
+      partially_future_event.dates.first.update(date: 1.day.ago)
+      partially_future_event.dates.last.update(date: 1.day.from_now)
+      cancelled_event.dates.first.update(date: 1.day.from_now, cancellation:)
+      partially_cancelled_event.dates.first.update(date: 1.day.ago, cancellation:)
+      partially_cancelled_event.dates.last.update(date: 1.day.ago)
+      past_event.dates.first.update(date: 1.day.ago)
+      past_not_archived_event.dates.first.update(date: 1.day.ago)
+    end
+
+    it { is_expected.to contain_exactly(partially_cancelled_event, past_event) }
+  end
 end

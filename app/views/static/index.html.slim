@@ -95,10 +95,12 @@ ruby:
 .container data-controller='items-reveal' data-items-reveal-initial-items-value=3 data-items-reveal-reveal-step-value=3
   h1.text-center#archiv Archiv
   - @archived_events.each do |event|
+    - dates = event.dates.uncancelled
+    - first_date = dates.first.date
     .card.schedule.mb-2 data-items-reveal-target='item': .row
       .col-3.col-md-2
-        = l event.dates.first.date, format: '%B'
-        .year = l event.dates.first.date, format: '%Y'
+        = l first_date, format: '%B'
+        .year = l first_date, format: '%Y'
       .col-9.col-md-10
         .title = link_to event.name, event_path(event.slug)
         .info
@@ -107,7 +109,7 @@ ruby:
             = event.location.name
           .segment
             svg: use xlink:href="#schedule-date"
-            = pluralize(event.dates.uncancelled.count, 'Termin', plural: 'Termine')
+            = pluralize(dates.count, 'Termin', plural: 'Termine')
   .text-center.mb-2 data-items-reveal-target='revealButton'
     button.btn data-action='items-reveal#revealMore' ältere Veranstaltungen anzeigen
 
