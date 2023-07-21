@@ -1,0 +1,76 @@
+= render 'header'
+
+= render 'event'
+  = render 'photos', gallery_id: 42
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Willibald',
+            actors: ['Maria Lehnen']
+          },
+          {
+            title: 'Mäusejosef',
+            actors: ['Emma Gödert']
+          },
+          {
+            title: 'Hermannmaus',
+            actors: ['Sophie Meiers']
+          },
+          {
+            title: 'Mausegeorg',
+            actors: ['Johanna May']
+          },
+          {
+            title: 'Mäusephilipp',
+            actors: ['Tim Steffes']
+          },
+          {
+            title: 'Lillimaus',
+            actors: ['Merle Bahr']
+          },
+          {
+            title: 'Mäusefriederike',
+            actors: ['Lorena Gorges']
+          },
+          {
+            title: 'Mausikarin',
+            actors: ['Cosima Heinrich']
+          },
+          {
+            title: 'Mäusemimi',
+            actors: ['Michelle Sturtz']
+          },
+          {
+            title: 'Karlemaus',
+            actors: ['Paulina Gorges']
+          },
+          {
+            title: 'Mausehugo',
+            actors: ['Jakob Ellerich']
+          },
+          {
+            title: 'Mäuseemil',
+            actors: ['Yannik Gasser']
+          }
+        ]
+      },
+      {
+        title: 'Zwischenspiel „Die Welle“',
+        entries: [
+          {
+            title: 'Lehrer',
+            actors: ['Johanna May']
+          },
+          {
+            title: 'Schüler',
+            actors: ['Lorena Gorges', 'Michelle Sturtz', 'Paulina Gorges']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'
