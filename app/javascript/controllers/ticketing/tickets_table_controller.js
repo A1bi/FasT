@@ -55,25 +55,25 @@ export default class extends Controller {
 
   submit (event) {
     const current = this.actionTarget.selectedOptions[0]
+    const form = this.element.querySelector('form')
     const method = current.dataset.method
     if (current.dataset.confirm && !window.confirm(current.dataset.confirm)) {
       return event.preventDefault()
     }
 
     if (current.dataset.resale) {
-      this.element.querySelectorAll("[name='ticket_ids[]']").forEach(el => {
+      form.querySelectorAll("[name='ticket_ids[]']").forEach(el => {
         const id = el.value
         const field = document.createElement('input')
         field.setAttribute('type', 'hidden')
         field.setAttribute('name', `ticketing_tickets[${id}][resale]`)
         field.setAttribute('value', true)
-        this.element.append(field)
+        form.append(field)
       })
     }
 
-    const form = this.element.querySelector('form')
     form.setAttribute('action', current.dataset.path)
     form.setAttribute('method', method === 'get' ? method : 'post')
-    this.element.querySelector("[name='_method']").value = method
+    form.querySelector("[name='_method']").value = method
   }
 }

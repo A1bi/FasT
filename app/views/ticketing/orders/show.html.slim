@@ -133,45 +133,44 @@ ruby:
                       - if (check_in = ticket.check_ins.first)
                         span title="via #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}"
                           = l check_in.date, format: '%H:%M'
-          - if @order.tickets.valid.any?
-            small data-ticketing--tickets-table-target='noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
-            ruby:
-              options = [
-                ['stornieren', :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', submit_label: 'stornieren' }],
-                ['Aufführung / Sitzplatz umbuchen', :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
-                ['Kategorie umbuchen', :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
-                ['zum Weiterverkauf freigeben', :enable_resale, { data: { path: ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?', resale: true } }],
-                ['herunterladen', :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
-              ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) }
-            .mb-2 data-ticketing--tickets-table-target='form'
-              .row.justify-content-start
-                .col-6
-                  = label_tag :edit_action, 'Aktion'
-                  = select_tag :edit_action, options_for_select(options), name: nil, data: { ticketing__tickets_table_target: 'action', action: 'ticketing--tickets-table#toggleCancellationForm' }
-                .col-6 data-ticketing--tickets-table-target='cancellation'
-                  = label_tag :reason, 'Stornierungsgrund'
-                  = text_field_tag :reason, nil, placeholder: 'optional'
-              .row: .col data-ticketing--tickets-table-target='cancellation'
-                - if current_user.retail?
-                  .form-check
-                    = check_box_tag :retail_refund, nil, true
-                    = label_tag :retail_refund, 'Rückzahlung direkt in Bar'
-                - else
-                  .form-check
-                    = check_box_tag :transfer_refund, nil, true, data: { action: 'ticketing--tickets-table#toggleRefundDetails' }
-                    = label_tag :transfer_refund, 'Rückzahlung veranlassen'
-                  - if @order.bank_transactions.any?
-                    .form-check data-ticketing--tickets-table-target='refundDetails'
-                      = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', ticketing__tickets_table_target: 'bankDetailsCheckbox' }
-                      = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
-                  .row
-                    .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
-                      = label_tag :name, 'Kontoinhaber'
-                      = text_field_tag :name, nil, placeholder: 'Name'
-                    .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
-                      = label_tag :iban, 'IBAN'
-                      = text_field_tag :iban, nil, placeholder: 'IBAN'
-              = submit_tag 'absenden', name: nil, class: :btn, data: { ticketing__tickets_table_target: 'submitButton', default_label: 'absenden' }
+          small data-ticketing--tickets-table-target='noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
+          ruby:
+            options = [
+              ['stornieren', :cancel, data: { path: cancel_ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', submit_label: 'stornieren' }],
+              ['Aufführung / Sitzplatz umbuchen', :transfer, data: { path: transfer_ticketing_order_tickets_path(@order), method: :get }],
+              ['Kategorie umbuchen', :transfer, data: { path: edit_ticketing_order_tickets_path(@order), method: :get }],
+              ['zum Weiterverkauf freigeben', :enable_resale, { data: { path: ticketing_order_tickets_path(@order), method: :patch, confirm: 'Möchten Sie die ausgewählten Tickets wirklich zum Weiterverkauf freigeben?', resale: true } }],
+              ['herunterladen', :transfer, data: { path: printable_ticketing_order_tickets_path(@order), method: :get }]
+            ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) }
+          .mb-2 data-ticketing--tickets-table-target='form'
+            .row.justify-content-start
+              .col-6
+                = label_tag :edit_action, 'Aktion'
+                = select_tag :edit_action, options_for_select(options), name: nil, data: { ticketing__tickets_table_target: 'action', action: 'ticketing--tickets-table#toggleCancellationForm' }
+              .col-6 data-ticketing--tickets-table-target='cancellation'
+                = label_tag :reason, 'Stornierungsgrund'
+                = text_field_tag :reason, nil, placeholder: 'optional'
+            .row: .col data-ticketing--tickets-table-target='cancellation'
+              - if current_user.retail?
+                .form-check
+                  = check_box_tag :retail_refund, nil, true
+                  = label_tag :retail_refund, 'Rückzahlung direkt in Bar'
+              - else
+                .form-check
+                  = check_box_tag :transfer_refund, nil, true, data: { action: 'ticketing--tickets-table#toggleRefundDetails' }
+                  = label_tag :transfer_refund, 'Rückzahlung veranlassen'
+                - if @order.bank_transactions.any?
+                  .form-check data-ticketing--tickets-table-target='refundDetails'
+                    = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', ticketing__tickets_table_target: 'bankDetailsCheckbox' }
+                    = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
+                .row
+                  .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
+                    = label_tag :name, 'Kontoinhaber'
+                    = text_field_tag :name, nil, placeholder: 'Name'
+                  .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
+                    = label_tag :iban, 'IBAN'
+                    = text_field_tag :iban, nil, placeholder: 'IBAN'
+            = submit_tag 'absenden', name: nil, class: :btn, data: { ticketing__tickets_table_target: 'submitButton', default_label: 'absenden' }
 
     - if @order.event&.seating&.plan?
       .card.mb-2
