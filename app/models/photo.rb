@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
 class Photo < ApplicationRecord
+  SIZES = {
+    small: 300,
+    medium: 600,
+    large: 900,
+    x_large: 1600,
+    xx_large: 3000
+  }.freeze
+  FORMATS = %i[webp jpeg].freeze
+
   has_attached_file :image, styles: {
     thumb: ['145x145#', :jpg],
-    **%i[webp jpeg].each_with_object({}) do |format, styles|
-      %i[small medium large].each.with_index(1) do |size, i|
-        styles["#{size}_#{format}".to_sym] = [300 * i, format]
+    **FORMATS.each_with_object({}) do |format, styles|
+      SIZES.each do |name, size|
+        styles["#{name}_#{format}".to_sym] = [size, format]
       end
     end
   }
