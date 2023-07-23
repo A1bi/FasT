@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
 module EventsHelper
-  def photo_source_tags(photo, columns)
-    width_on_device = "#{columns * 100 / 12}vw"
-    capture do
-      %i[webp jpeg].each do |format|
-        concat tag.source(srcset: photo_srcset(photo, format), sizes: width_on_device, type: "image/#{format}")
-      end
-    end
-  end
+  include PhotosHelper
 
   def structured_data(event, locals = {})
     locals[:event] = event
@@ -44,14 +37,5 @@ module EventsHelper
 
   def schema_context
     'http://schema.org'
-  end
-
-  private
-
-  def photo_srcset(photo, format)
-    %i[small medium large].map do |size|
-      style = "#{size}_#{format}".to_sym
-      "#{photo.image.url(style)} #{photo.image.styles[style][:geometry]}w"
-    end.join(', ')
   end
 end

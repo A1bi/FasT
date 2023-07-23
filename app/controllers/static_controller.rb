@@ -5,8 +5,12 @@ class StaticController < ApplicationController
 
   skip_authorization
 
+  helper :photos
+
   def index
     @featured_event = Ticketing::Event.find_by(identifier: :gatte_2023) # rubocop:disable Naming/VariableNumber
+    @featured_gallery = Rails.env.development? ? Gallery.last : Gallery.find_by(id: 74)
+    @featured_photos = @featured_gallery.photos.shuffle
     @archived_events = Ticketing::Event.archived.ordered_by_dates(:desc).includes(:location)
     flash.now[:warning] = alert_info[:text].html_safe if show_alert? # rubocop:disable Rails/OutputSafety
   end

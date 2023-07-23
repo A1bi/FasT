@@ -30,10 +30,8 @@ hr
         div class="col-#{column}"
           - photos_per_column[i].times
             - photo = photos.shift
-            .photo = link_to photo.image.url(:large_jpeg)
-              picture
-                = photo_source_tags(photo, column)
-                img src=photo.image.url(:medium_jpeg) alt='' loading='lazy'
+            .photo = link_to photo.image.url(:medium_jpeg)
+              = photo_tags(photo, column, fallback_size: :large_jpeg, loading: 'lazy')
 
   .text-center.mt-1 data-items-reveal-target='revealButton'
     button.btn data-action='items-reveal#revealMore' weitere Fotos anzeigen
