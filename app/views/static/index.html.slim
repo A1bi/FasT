@@ -52,7 +52,7 @@ ruby:
   .caption.text-end Fotos: Kevin Rühle
 
 .container
-  h1.text-center#programm Programm
+  h1#programm Programm
   svg.d-none xmlns='http://www.w3.org/2000/svg'
     symbol#schedule-location viewBox='0 0 16 16'
       path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
@@ -93,7 +93,7 @@ ruby:
             .text-gray Tickets ab #{l(sale_start, format: '%-d. %B')}
 
 .container data-controller='items-reveal' data-items-reveal-initial-items-value=3 data-items-reveal-reveal-step-value=3
-  h1.text-center#archiv Archiv
+  h1#archiv Archiv
   - @archived_events.each do |event|
     - dates = event.dates.uncancelled
     - first_date = dates.first.date
@@ -116,7 +116,23 @@ ruby:
 hr
 
 .container
-  h2.text-center Geschenkgutscheine
+  h1 Wir suchen dich!
+  h2 Schauspieler / Statisten
+  h3 für unser Sommertheater 2024<br>„In 80 Tagen um die Welt“
+  .row: .col
+    p Das erste Treffen findet <b>Montag, 18. September, im Alten Wasserwerk</b> (Auf der Wacht 9, Kaisersesch) statt.
+    ul
+      li Aufführungstermine: die letzten drei Wochen im Juli 2024
+      li Probenbeginn: Frühjahr 2024
+      li Wir proben montags und mittwochs am Abend
+      li Vorkenntnisse sind nicht erforderlich
+      li Alle Altersgruppen sind willkommen
+    p Schreibe uns gerne #{mail_to 'info@theater-kaisersesch.de', 'eine Mail', subject: 'In 80 Tagen um die Welt'} oder schau beim Treffen vorbei.
+
+hr
+
+.container
+  h1 Geschenk&shy;gutscheine
   .row
     .col-6.col-md-3 = link_to new_coupons_ticketing_order_path
       = image_tag 'misc/coupon.svg', alt: 'Geschenkgutschein'
@@ -128,7 +144,7 @@ hr
 hr
 
 .container
-  .row: .col.w-100: h3.text-center Mit freundlicher Unterstützung durch
+  .row: .col.w-100: h2 Mit freundlicher Unterstützung durch
   .row.align-items-center
     .col-6.col-md-2 = link_to image_tag('partners/bund_kultur.svg', alt: 'Die Beauftragte der Bundesregierung für Kultur und Medien'), 'https://www.bundesregierung.de/breg-de/bundesregierung/staatsministerin-fuer-kultur-und-medien', target: '_blank'
     .col-6.col-md-2 = link_to image_tag('partners/rlp_familie.svg', alt: 'Ministerium für Familie, Frauen, Kultur und Integration'), 'https://mffki.rlp.de', target: '_blank'
