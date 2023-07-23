@@ -1,0 +1,155 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p 2001 schrieb der isländische Autor, Politiker und Umweltaktivist Andri Snaer Magnason unser Theaterstück nach seinem gleichnamigen Jugendroman. Er sagt: „Dreierlei nahm mich als Kind im Theater am meisten gefangen: Nebel auf dem Boden, Personen, die fliegen konnten, und die Drehbühne. Hier ist also ein Schauspiel für Nebel, Flugzauber und Drehbühne.“
+    p Was ist schöner, als bei ewigem Sonnenschein wie ein Schmetterling durch die Luft zu schweben? Unser Kinder- und Jugendensemble 2019 präsentiert Ihnen die Antwort in drei Akten.
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Gaudi Galaktisch',
+            doubles: [
+              {
+                actor: 'Lorena Gorges',
+                dates: [0, 1, 3]
+              },
+              {
+                actor: 'Paulina Gorges',
+                dates: [2, 4]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        title: 'Kinder in der Sonne',
+        entries: [
+          {
+            title: 'Hulda',
+            doubles: [
+              {
+                actor: 'Emma Gödert',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Michelle Sturtz',
+                dates: [2, 3]
+              }
+            ]
+          },
+          {
+            title: 'Brimír',
+            doubles: [
+              {
+                actor: 'Tim Steffes',
+                dates: [0, 1, 4]
+              },
+              {
+                actor: 'Yannik Gasser',
+                dates: [2, 3]
+              }
+            ]
+          },
+          {
+            title: 'Margret',
+            actors: ['Johanna May']
+          },
+          {
+            title: 'Rökkvi',
+            actors: ['Lotte Schäfer']
+          },
+          {
+            title: 'Loa',
+            actors: ['Antje Heß']
+          },
+          {
+            title: 'Ulla',
+            actors: ['Luisa Hoffmann']
+          },
+          {
+            title: 'Stina',
+            actors: ['Emma Böhm']
+          },
+          {
+            title: 'Sonne',
+            actors: ['Sonja Makhlis']
+          },
+          {
+            title: 'Mond',
+            actors: ['Marie Schwall']
+          },
+          {
+            title: 'Wolken',
+            actors: ['Joulie Merling', 'Virginia Kremp']
+          },
+          {
+            title: 'Wolkenwolf',
+            actors: ['Jakob Ellerich']
+          }
+        ]
+      },
+      {
+        title: 'Kinder in der Dunkelheit',
+        entries: [
+          {
+            title: 'Örvar',
+            actors: ['Collin Warlich']
+          },
+          {
+            title: 'Vala',
+            actors: ['Paula Braunschädel']
+          },
+          {
+            title: 'Soley',
+            actors: ['Maria Schweitzer']
+          },
+          {
+            title: 'Matti',
+            actors: ['Aaron Schweitzer']
+          },
+          {
+            title: 'Andri',
+            actors: ['Tobias Thönnes']
+          },
+          {
+            title: 'Braunbär',
+            actors: ['Jakob Ellerich']
+          }
+        ]
+      },
+      {
+        title: 'Spinnen (Bäume, Tierstimmen)',
+        entries: [
+          {
+            title: 'Achtbein',
+            actors: ['Sonja Makhlis']
+          },
+          {
+            title: 'Fliegenschreck',
+            actors: ['Marie Schwall']
+          },
+          {
+            title: 'Luderbein',
+            actors: ['Joulie Merling']
+          },
+          {
+            title: 'Labbermaul',
+            actors: ['Virginia Kremp']
+          },
+          {
+            title: 'Tiger',
+            actors: ['Marie Schwall']
+          },
+          {
+            title: 'Hyäne',
+            actors: ['Sonja Makhlis']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'

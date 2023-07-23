@@ -1,0 +1,103 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Alle sind sich einig. Die Herdmann-Kinder sind die schlimmsten im ganzen Block: Sie sind wild, gerissen, frech, selbstbewusst, aggressiv und gehen weder zur Sonntagsschule noch zur Kirche. Niemand will etwas mit dieser gefürchteten Bande zu tun haben.
+    p Kurz vor Weihnachten steht das alljährliche Krippenspiel an. Die Erwachsenen und Kinder planen bereits die Verteilung der Rollen, die sich die Herdmanns jedoch alle unter den Nagel reißen, obwohl sie gar nichts über die Weihnachtsgeschichte wissen. Es ist einfach chaotisch. Die Gemeinde erwartet das entsetzlichste Krippenspiel aller Zeiten.
+
+  = render 'photos', gallery_id: 72
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Bob Bradley, Vater',
+            actors: ['Jakob Ellerich']
+          },
+          {
+            title: 'Barbara Bradley, Mutter',
+            actors: ['Paulina Gorges']
+          },
+          {
+            title: 'Betty Bradley',
+            actors: ['Lorena Gorges']
+          },
+          {
+            title: 'Charlie Bradley',
+            actors: ['Lotte Schäfer']
+          },
+          {
+            title: 'Ralf Herdmann',
+            actors: ['Tim Steffes']
+          },
+          {
+            title: 'Eugenia Herdmann',
+            actors: ['Emma Gödert']
+          },
+          {
+            title: 'Leopold Herdmann',
+            actors: ['Marie Schwall']
+          },
+          {
+            title: 'Klaus Herdmann',
+            actors: ['Sonja Mahklis']
+          },
+          {
+            title: 'Olli Herdmann',
+            actors: ['Emil Johann']
+          },
+          {
+            title: 'Hedwig Herdmann',
+            actors: ['Antje Heß']
+          },
+          {
+            title: 'Alice Wendlaken',
+            actors: ['Johanna May']
+          },
+          {
+            title: 'Frau Armstrong',
+            actors: ['Michelle Sturtz']
+          },
+          {
+            title: 'Frau Slocum',
+            actors: ['Luisa Hoffmann']
+          },
+          {
+            title: 'Frau Clark',
+            actors: ['Cosima Heinrich']
+          },
+          {
+            title: 'Frau McCarthy',
+            actors: ['Sophie Meiers']
+          },
+          {
+            title: 'Maxine',
+            actors: ['Julia Awad']
+          },
+          {
+            title: 'Pfarrer Hopper',
+            actors: ['Yannik Gasser']
+          },
+          {
+            title: 'Elmar Hopper',
+            actors: ['Jonathan Schäfer']
+          },
+          {
+            title: 'Herbert',
+            actors: ['Maria Schäfer']
+          },
+          {
+            title: 'David',
+            actors: ['Lene Berg']
+          },
+          {
+            title: 'Sternenkinder',
+            actors: ['Lene Berg', 'Mila Mohrs', 'Emely Gilles', 'Anna Gilles', 'Noemi Mandler', 'Jelka Schönig', 'Clara Braunschädel', 'Luzia Schneider', 'Paula Braunschädel', 'Marlon Gilles', 'Johanna Gilles', 'Emely Cyranek', 'Paula Schmitt']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'
