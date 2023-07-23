@@ -1,7 +1,20 @@
 .schedule {
+  &, .tickets {
+    position: relative;
+  }
+
   &:not(.schedule-sm) .row > *:nth-child(1) {
     @extend %text-center;
     @extend .text-red;
+  }
+
+  &.cancelled {
+    color: $semi-gray;
+    text-decoration: line-through;
+
+    .info svg {
+      fill: $semi-gray;
+    }
   }
 
   .row {
@@ -30,7 +43,6 @@
     .date {
       @extend %text-start;
       @extend .f-lbi;
-      color: $black;
       font-size: 1.2rem;
     }
 
@@ -76,5 +88,26 @@
         }
       }
     }
+  }
+
+  .cancelled-banner, .sold-out-banner {
+    @extend .f-lbi;
+    @extend %text-center;
+    @extend %py-1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: $red;
+    color: $white;
+    transform: translate(-50%, -50%) rotate(-10deg);
+  }
+
+  .cancelled-banner {
+    @extend %px-3;
+    font-size: 1.3rem;
+  }
+
+  .sold-out-banner {
+    @extend %px-2;
   }
 }

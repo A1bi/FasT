@@ -1,24 +1,30 @@
 - @event.dates.each do |date|
-  .row: .col: .card.schedule.schedule-sm: .row
-    .col-8
-      .date
-        span.d-md-none = l(date.date, format: '%a')
-        span.d-sm-none.d-md-inline = l(date.date, format: '%A')
-        = l(date.date, format: ', %-d. %B %Y')
-      - unless @event.past?
-        .info
-          .segment
+  .row: .col: .card.schedule.schedule-sm class=('cancelled' if date.cancelled?)
+    .row
+      .col-8
+        .date
+          span.d-md-none = l(date.date, format: '%a')
+          span.d-sm-none.d-md-inline = l(date.date, format: '%A')
+          = l(date.date, format: ', %-d. %B %Y')
+        - unless @event.past?
+          .info
+            .segment
+              svg: use xlink:href='#schedule-time'
+              = l(date.date, format: '%H:%M')
+            .segment
+              svg: use xlink:href='#schedule-door'
+              | Einlass ab #{l(date.admission_time, format: '%H:%M')}
+      .col-4.tickets
+        - if @event.on_sale? && !date.cancelled?
+          - if date.sold_out?
+            .sold-out-banner derzeit ausverkauft
+          - else
+            = link_to 'Tickets', new_ticketing_order_path(@event.slug, date_id: date.id), class: 'btn w-100'
+        - elsif @event.sale_not_yet_started?
+          small.d-block.text-gray.text-end Tickets ab #{l(@event.sale_start, format: '%-d. %B')}
+        - elsif @event.past?
+          .info.justify-content-end: .segment
             svg: use xlink:href='#schedule-time'
             = l(date.date, format: '%H:%M')
-          .segment
-            svg: use xlink:href='#schedule-door'
-            | Einlass ab #{l(date.admission_time, format: '%H:%M')}
-    .col-4
-      - if @event.on_sale?
-        = link_to 'Tickets', new_ticketing_order_path(@event.slug, date_id: date.id), class: 'btn w-100'
-      - elsif @event.sale_not_yet_started?
-        small.d-block.text-gray.text-end Tickets ab #{l(@event.sale_start, format: '%-d. %B')}
-      - elsif @event.past?
-        .info.justify-content-end: .segment
-          svg: use xlink:href='#schedule-time'
-          = l(date.date, format: '%H:%M')
+    - if date.cancelled?
+      .cancelled-banner = @event.past? ? 'entfallen' : 'entfällt'
