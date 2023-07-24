@@ -1,14 +1,27 @@
-const showNextCarouselItem = () => {
+import { toggleDisplay } from 'components/utils'
+
+const SLIDE_DURATION = 6000
+
+const showNextItem = () => {
+  const nextIndex = (Array.from(photos).indexOf(currentPhoto) + 1) % photos.length
+  const nextPhoto = photos[nextIndex]
+  if (!getImageTag(nextPhoto).complete) {
+    return setTimeout(showNextItem, 1000)
+  }
+
+  const sinceLast = (new Date()).getTime() - lastPhotoShownAt.getTime()
+  const nextPhotoDelay = Math.max(0, SLIDE_DURATION - sinceLast)
+
   setTimeout(() => {
-    const nextIndex = (Array.from(carouselPhotos).indexOf(currentPhoto) + 1) % carouselPhotos.length
+    lastPhotoShownAt = new Date()
 
     currentPhoto.addEventListener('transitionend', e => {
       e.currentTarget.classList.remove('out')
-      showNextCarouselItem()
+      showNextItem()
     }, { once: true })
     currentPhoto.classList.remove('active')
     currentPhoto.classList.add('out')
-    currentPhoto = carouselPhotos[nextIndex]
+    currentPhoto = nextPhoto
     currentPhoto.classList.add('active')
 
     const nextActiveTitle = document.querySelector(
@@ -21,17 +34,42 @@ const showNextCarouselItem = () => {
       activeTitle = nextActiveTitle
     }, { once: true })
     activeTitle.classList.remove('active')
-  }, 5000)
+  }, nextPhotoDelay)
 }
 
-let carouselPhotos
+const loadPhoto = (index) => {
+  const photo = photos[index]
+  const image = getImageTag(photo)
+
+  toggleDisplay(photo, true)
+  image.removeAttribute('loading')
+
+  const nextIndex = index + 1
+  if (nextIndex >= photos.length) return
+
+  if (image.complete) {
+    loadPhoto(nextIndex)
+  } else {
+    image.addEventListener('load', () => loadPhoto(nextIndex))
+  }
+}
+
+const getImageTag = (photo) => {
+  return photo.querySelector('img')
+}
+
+let photos
 let currentPhoto
 let activeTitle
+let lastPhotoShownAt = new Date()
 
 document.addEventListener('DOMContentLoaded', () => {
-  carouselPhotos = document.querySelectorAll('.carousel .photo')
-  currentPhoto = carouselPhotos[0]
+  photos = document.querySelectorAll('.carousel .photo')
+  currentPhoto = photos[0]
   activeTitle = document.querySelector('.carousel .title.active')
 
-  if (carouselPhotos.length > 1) showNextCarouselItem()
+  if (photos.length <= 1) return
+
+  loadPhoto(0)
+  showNextItem()
 })

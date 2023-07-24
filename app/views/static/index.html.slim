@@ -45,7 +45,7 @@ ruby:
 
 .carousel
   - @featured_photos.each.with_index do |photo, i|
-    = full_width_photo_tags(photo, class: [:photo, (:active if i.zero?)], alt: @featured_event.name, data: { event_identifier: @featured_event.identifier })
+    = full_width_photo_tags(photo, class: [:photo, i.zero? ? :active : 'd-none'], alt: @featured_event.name, data: { event_identifier: @featured_event.identifier }, loading: 'lazy')
   .title.outline-sm.active data-event-identifier=@featured_event.identifier
     = link_to event_path(@featured_event.slug)
       = inline_svg(event_logo_path(@featured_event))
