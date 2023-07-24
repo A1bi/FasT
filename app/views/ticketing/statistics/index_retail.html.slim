@@ -5,35 +5,33 @@
 
   .row: .col = render 'filter_options', sale_filter: false
 
-  - cache [:ticketing, :statistics, :retail, :numbers, @event, @event.tickets, @event.reservations]
-    - stats = stats_for_event(@event)
-    .stats-table.mb-2
-      = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', stats: stats_for_event(@event)[:retail][:stores][current_user.store.id] }], event: @event, retail: true
+  - stats = stats_for_event(@event)
+  .stats-table.mb-2
+    = render 'stats_table', scopes: [{ title: 'Statistik für Ihre Vorverkaufsstelle', stats: stats_for_event(@event)[:retail][:stores][current_user.store.id] }], event: @event, retail: true
 
 hr
 
 .container
-  - cache [:ticketing, :statistics, :retail, :transactions, @transactions]
-    h2 Kassenstand
-    .card: .table-responsive: table
-      thead
+  h2 Kassenstand
+  .card: .table-responsive: table
+    thead
+      tr
+        th Datum
+        th Anmerkung
+        th Bestellung
+        th Betrag
+    tbody
+      - @transactions.each do |transaction|
         tr
-          th Datum
-          th Anmerkung
-          th Bestellung
-          th Betrag
-      tbody
-        - @transactions.each do |transaction|
-          tr
-            td = l(transaction.created_at, format: :medium)
-            td = translate_billing_transaction(transaction)
-            td.text-center
-              - if (participant = transaction.participant ? transaction.participant.billable : nil).is_a?(Ticketing::Order)
-                = link_to "##{participant.number}", ticketing_order_path(participant)
-            td.text-end class=(-transaction.amount < 0 ? 'negative' : 'positive')
-              = format_billing_amount(-transaction.amount)
-        tr.total
-          td
-          td colspan=2 Saldo
-          td.text-end class=(!current_user.store.billing_account.outstanding? ? 'negative' : 'positive')
-            = format_billing_amount(-current_user.store.billing_account.balance)
+          td = l(transaction.created_at, format: :medium)
+          td = translate_billing_transaction(transaction)
+          td.text-center
+            - if (participant = transaction.participant ? transaction.participant.billable : nil).is_a?(Ticketing::Order)
+              = link_to "##{participant.number}", ticketing_order_path(participant)
+          td.text-end class=(-transaction.amount < 0 ? 'negative' : 'positive')
+            = format_billing_amount(-transaction.amount)
+      tr.total
+        td
+        td colspan=2 Saldo
+        td.text-end class=(!current_user.store.billing_account.outstanding? ? 'negative' : 'positive')
+          = format_billing_amount(-current_user.store.billing_account.balance)
