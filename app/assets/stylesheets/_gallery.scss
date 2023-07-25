@@ -21,8 +21,7 @@
         }
 
         &, picture, img {
-          @extend %w-100;
-          height: 100%;
+          @extend %w-100, %h-100;
         }
 
         picture, img {
@@ -37,9 +36,8 @@
         }
 
         .photo-placeholder {
-          @extend %w-100;
+          @extend %w-100, %h-100;
           position: absolute;
-          height: 100%;
           transition: opacity .5s linear;
           animation: photo-loading 1.25s linear infinite;
           background: linear-gradient(to right, #eee 10%, #ddd 18%, #eee 33%);

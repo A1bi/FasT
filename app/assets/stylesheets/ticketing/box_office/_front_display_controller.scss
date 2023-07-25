@@ -13,9 +13,8 @@
   [data-ticketing--box-office--front-display-target='tips'],
   [data-ticketing--box-office--front-display-target='qrCode'] {
     @extend %d-flex;
-    @extend %w-100;
+    @extend %w-100, %h-100;
     position: absolute;
-    height: 100%;
     opacity: 0;
     transition: opacity 1s;
     flex-direction: column;
