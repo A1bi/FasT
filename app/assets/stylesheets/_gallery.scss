@@ -8,7 +8,17 @@
       row-gap: 1rem;
 
       .photo {
+        position: relative;
         overflow: hidden;
+
+        &.photo-loading {
+          min-height: 100px;
+        }
+
+        &:not(.photo-loading) .photo-placeholder {
+          opacity: 0;
+          pointer-events: none;
+        }
 
         &, picture, img {
           @extend %w-100;
@@ -23,6 +33,25 @@
           &:hover {
             transform: scale(1.02);
             cursor: pointer;
+          }
+        }
+
+        .photo-placeholder {
+          @extend %w-100;
+          position: absolute;
+          height: 100%;
+          transition: opacity .5s linear;
+          animation: photo-loading 1.25s linear infinite;
+          background: linear-gradient(to right, #eee 10%, #ddd 18%, #eee 33%);
+          background-size: 1000px 1000px;
+
+          @keyframes photo-loading {
+            0% {
+              background-position: -500px 0;
+            }
+            100% {
+              background-position: 500px 0;
+            }
           }
         }
       }
