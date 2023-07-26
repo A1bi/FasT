@@ -9,7 +9,8 @@ module PhotosHelper
     tag.picture class:, data: do
       capture do
         concat photo_source_tags(photo, columns)
-        concat tag.img(src: photo.image.url(fallback_size), alt:, loading:)
+        concat tag.img(src: photo.image.url(fallback_size), alt:, loading:,
+                       width: photo.image_width, height: photo.image_height)
       end
     end
   end
