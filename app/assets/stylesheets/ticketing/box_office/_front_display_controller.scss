@@ -1,8 +1,8 @@
 [data-controller='ticketing--box-office--front-display'] {
   @extend %d-flex;
   @extend %text-center;
+  @extend %h-100vh;
   flex-direction: column;
-  height: 100vh;
 
   .slides {
     position: relative;

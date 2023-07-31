@@ -1,27 +1,9 @@
 - title 'Mitgliederbereich'
 
 .container: .row: .col.w-100
-  h1 Mitgliederbereich
+  h1 Mitglieder&shy;bereich
   h2 Termine
-  = render 'new_button', action: 'Termin', url: new_members_date_path, admin_required: true
-  .table-responsive.card: table
-    thead: tr
-      th Zeitpunkt
-      th Titel
-      th Infos
-      th Ort
-      - if current_user.admin?
-        th
-    tbody
-      = content_tag_for :tr, @dates do |date|
-        td = l date.datetime, format: '%A, %d. %B, %H:%M'
-        td = date.title
-        td = simple_format date.info
-        td = date.location
-        - if current_user.admin?
-          td.align-middle = render 'admin_actions', obj: date, delete_confirm: 'diesen Termin'
-  - webcal_url = members_dates_url(format: :ics, protocol: 'webcal')
-  p.text-center.mt-2 Termine abonnieren mit: #{link_to('iPhone / Mac / Windows', webcal_url)} | #{link_to('Google Calendar', "https://www.google.com/calendar/render?cid=#{webcal_url}", target: '_blank')}
+  .card: iframe.w-100.h-50vh src="https://cloud.theater-kaisersesch.de/apps/calendar/embed/#{Settings.members.embedded_calendar_token}/listMonth/now"
 
 hr
 
