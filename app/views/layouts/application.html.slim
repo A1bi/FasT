@@ -35,7 +35,6 @@ html lang=I18n.locale
           li
             | Vorstandsbereich
             ul
-              li = link_to 'Dokumente', admin_documents_path
               - if policy(Members::Member).index?
                 li = link_to 'Mitglieder', admin_members_members_path
               - if policy(Newsletter::Newsletter).index?

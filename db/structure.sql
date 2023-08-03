@@ -159,43 +159,6 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
--- Name: documents; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.documents (
-    id bigint NOT NULL,
-    title character varying,
-    description character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    file_file_name character varying,
-    file_content_type character varying,
-    file_file_size bigint,
-    file_updated_at timestamp(6) without time zone,
-    members_group integer DEFAULT 0
-);
-
-
---
--- Name: documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.documents_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.documents_id_seq OWNED BY public.documents.id;
-
-
---
 -- Name: galleries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2027,13 +1990,6 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: documents id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.documents ALTER COLUMN id SET DEFAULT nextval('public.documents_id_seq'::regclass);
-
-
---
 -- Name: galleries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2403,14 +2359,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
-
-
---
--- Name: documents documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.documents
-    ADD CONSTRAINT documents_pkey PRIMARY KEY (id);
 
 
 --
@@ -2858,13 +2806,6 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE INDEX index_billing_acounts_on_id_and_type ON public.ticketing_billing_accounts USING btree (billable_type, billable_id);
-
-
---
--- Name: index_documents_on_members_group; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_documents_on_members_group ON public.documents USING btree (members_group);
 
 
 --
@@ -4081,6 +4022,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230713220945'),
 ('20230715084859'),
 ('20230716104339'),
-('20230726175845');
+('20230726175845'),
+('20230803205151');
 
 

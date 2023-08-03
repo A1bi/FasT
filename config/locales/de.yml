@@ -25,9 +25,6 @@ de:
   sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
     logout: Sie wurden erfolgreich ausgeloggt.
-  documents:
-    created: "Das Dokument wurde erfolgreich hochgeladen."
-    destroyed: "Das Dokument wurde erfolgreich gelöscht."
   internet_access_sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
     not_authorized: Ihr Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
@@ -308,10 +305,6 @@ de:
               blank: "Bitte wählen Sie ein Foto zum Hochladen aus."
             image_content_type:
               invalid: "Es können nur JPG- und PNG-Dateien hochgeladen werden."
-        document:
-          attributes:
-            file_content_type:
-              invalid: "Dieses Dateiformat kann nicht hochgeladen werden."
         newsletter/subscriber:
           attributes:
             email:

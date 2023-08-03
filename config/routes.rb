@@ -56,7 +56,6 @@ Rails.application.routes.draw do
     end
 
     namespace :admin, path: 'vorstand' do
-      resources :documents, path: 'dokumente', except: :show
       resources :newsletters do
         post :finish, on: :member
         post :approve, on: :member
@@ -179,7 +178,6 @@ Rails.application.routes.draw do
       resources :dates, path: 'termine', except: %i[index show] do
         get :index, constraints: { format: :ics }, on: :collection
       end
-      resources :documents, path: 'dokumente', except: %i[index show]
 
       scope controller: :dashboard do
         get '/', action: :index, as: :root
