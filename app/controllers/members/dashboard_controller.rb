@@ -4,9 +4,7 @@ module Members
   class DashboardController < ApplicationController
     before_action :authorize
 
-    def index
-      @files = Document.member
-    end
+    def index; end
 
     private
 
