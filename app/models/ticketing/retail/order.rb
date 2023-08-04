@@ -5,6 +5,8 @@ module Ticketing
     class Order < Ticketing::Order
       belongs_to :store
 
+      validate :sale_enabled_for_store, on: :create
+
       before_save :check_tickets
       after_save :check_printable
       after_commit :delete_printable, on: :destroy
@@ -15,6 +17,10 @@ module Ticketing
       end
 
       private
+
+      def sale_enabled_for_store
+        errors.add :store, 'has sale disabled' unless store&.sale_enabled?
+      end
 
       def check_tickets
         tickets.each do |ticket|

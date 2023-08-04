@@ -39,6 +39,17 @@ RSpec.describe Ticketing::OrderCreateService do
     end
   end
 
+  shared_examples 'does not place the order' do
+    it 'does not create any records' do
+      expect { subject }.to not_change(Ticketing::Order, :count)
+        .and(not_change(Ticketing::Ticket, :count))
+    end
+
+    it 'does not send a confirmation' do
+      expect { subject }.not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
+    end
+  end
+
   context 'with a web order' do
     let(:type) { :web }
     let(:order_params) do
@@ -91,9 +102,13 @@ RSpec.describe Ticketing::OrderCreateService do
     context 'when params are invalid' do
       let(:address) { super().merge(email: 'foo') }
 
-      it 'does not send a confirmation' do
-        expect { subject }.not_to have_enqueued_mail(Ticketing::OrderMailer, :confirmation)
-      end
+      include_examples 'does not place the order'
+    end
+
+    context 'when order is invalid for other reasons (date cancelled in this case)' do
+      before { event.dates.first.update(cancellation: build(:cancellation)) }
+
+      include_examples 'does not place the order'
     end
 
     context 'with a transfer payment' do

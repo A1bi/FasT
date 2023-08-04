@@ -3,6 +3,19 @@
 require 'support/time'
 
 RSpec.describe Ticketing::Ticket do
+  describe 'validations' do
+    subject { build(:ticket, date:) }
+
+    context 'when date is cancelled' do
+      let(:date) { create(:event_date, :cancelled) }
+
+      it 'has an error on the date' do
+        subject.valid?
+        expect(subject.errors).to be_added(:date, 'is cancelled')
+      end
+    end
+  end
+
   describe 'customer actions' do
     let(:order) { create(:order, :with_tickets) }
     let(:ticket) { order.tickets.first }

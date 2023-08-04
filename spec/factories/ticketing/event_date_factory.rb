@@ -6,5 +6,9 @@ FactoryBot.define do
     date do
       FFaker::Time.between(1.week.from_now, 2.weeks.from_now).change(usec: 0)
     end
+
+    trait :cancelled do
+      cancellation
+    end
   end
 end
