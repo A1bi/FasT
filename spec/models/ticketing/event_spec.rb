@@ -1,6 +1,27 @@
 # frozen_string_literal: true
 
 RSpec.describe Ticketing::Event do
+  describe 'ticketing enabled scopes' do
+    let!(:event_ticketing_enabled) { create(:event, :complete) }
+    let!(:event_ticketing_disabled) { create(:event, :complete, :ticketing_disabled) }
+
+    describe 'default scope' do
+      subject { described_class.all }
+
+      it 'does not contain events with ticketing disabled' do
+        expect(subject).not_to include(event_ticketing_disabled)
+      end
+    end
+
+    describe '.including_ticketing_disabled' do
+      subject { described_class.including_ticketing_disabled }
+
+      it 'contains all events' do
+        expect(subject).to include(event_ticketing_enabled, event_ticketing_disabled)
+      end
+    end
+  end
+
   describe '.with_future_dates' do
     let(:event) { create(:event, :with_dates, dates_count: 2) }
     let(:cancelled_event) { create(:event, :with_dates, dates_count: 2) }

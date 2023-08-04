@@ -55,6 +55,7 @@ events:
     slug: ein-idealer-gatte-2022
   - identifier: gemetzel
     name: Der Gott des Gemetzels
+    ticketing_enabled: false
   - identifier: arschlings
     name: Arschlinks heißt von hinten herwärts
   - identifier: awen
@@ -65,6 +66,7 @@ events:
   - identifier: external_sisy
     name: Externe Veranstaltung
     location: Sisyphos, Berlin
+    ticketing_enabled: false
     info:
       subtitle: Gastspiel woanders
       external_sale_url: https://example.com

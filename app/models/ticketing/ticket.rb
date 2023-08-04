@@ -21,6 +21,7 @@ module Ticketing
     validate :seat_exists_for_event, if: :seat_required?
     validate :type_exists_for_event
     validate :valid_date
+    validate :event_ticketing_enabled
 
     before_validation :update_invalidated
 
@@ -109,6 +110,10 @@ module Ticketing
 
     def valid_date
       errors.add :date, 'is cancelled' if will_save_change_to_attribute?(:date_id) && date.cancelled?
+    end
+
+    def event_ticketing_enabled
+      errors.add :date, 'event ticketing is disabled' if date&.event.present? && !date&.event&.ticketing_enabled?
     end
 
     def update_invalidated

@@ -16,7 +16,17 @@ module Ticketing
 
     before_validation :set_assets_identifier, on: :create
 
+    default_scope { ticketing_enabled }
+
     class << self
+      def ticketing_enabled
+        where(ticketing_enabled: true)
+      end
+
+      def including_ticketing_disabled
+        unscope(where: :ticketing_enabled)
+      end
+
       def with_future_dates(offset: 0.days)
         join_dates.merge(EventDate.upcoming(offset:).uncancelled)
       end

@@ -1418,6 +1418,7 @@ CREATE TABLE public.ticketing_events (
     covid19 boolean DEFAULT false NOT NULL,
     admission_duration integer NOT NULL,
     location_id bigint NOT NULL,
+    ticketing_enabled boolean DEFAULT true NOT NULL,
     info jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
@@ -3162,6 +3163,13 @@ CREATE INDEX index_ticketing_events_on_seating_id ON public.ticketing_events USI
 --
 
 CREATE UNIQUE INDEX index_ticketing_events_on_slug ON public.ticketing_events USING btree (slug);
+
+
+--
+-- Name: index_ticketing_events_on_ticketing_enabled; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_events_on_ticketing_enabled ON public.ticketing_events USING btree (ticketing_enabled);
 
 
 --

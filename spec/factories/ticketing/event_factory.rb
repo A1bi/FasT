@@ -41,5 +41,9 @@ FactoryBot.define do
     trait :archived do
       info { { archived: true } }
     end
+
+    trait :ticketing_disabled do
+      ticketing_enabled { false }
+    end
   end
 end

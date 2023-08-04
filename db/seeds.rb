@@ -105,7 +105,7 @@ events.each.with_index do |event_info, i|
   end
 
   event = Ticketing::Event.create(
-    **event_info.slice(:identifier, :assets_identifier),
+    **event_info.slice(:identifier, :assets_identifier, :ticketing_enabled),
     name: "Test #{event_info[:name]}",
     slug: event_info.fetch(:slug, event_info[:name].parameterize),
     location:,
@@ -123,6 +123,8 @@ events.each.with_index do |event_info, i|
   (past ? 1 : 3).times do |j|
     event.dates.create(date: event_date_base + j.weeks)
   end
+
+  next unless event.ticketing_enabled?
 
   ### ticket types
   ticketing_seeds[:ticket_types][..(past ? 0 : -1)].each do |type|
@@ -147,7 +149,7 @@ end
 
 ## orders
 def create_tickets(order, coupons = [])
-  event = Ticketing::Event.with_future_dates.sample
+  event = Ticketing::Event.ticketing_enabled.with_future_dates.sample
   date = event.dates.sample
   ticket_types = event.ticket_types.to_a.shuffle
 

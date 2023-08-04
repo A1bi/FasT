@@ -14,6 +14,16 @@ RSpec.describe Ticketing::Ticket do
         expect(subject.errors).to be_added(:date, 'is cancelled')
       end
     end
+
+    context 'when event ticketing is disabled' do
+      let(:event) { create(:event, :complete, :ticketing_disabled) }
+      let(:date) { event.dates.first }
+
+      it 'has an error on the date' do
+        subject.valid?
+        expect(subject.errors).to be_added(:date, 'event ticketing is disabled')
+      end
+    end
   end
 
   describe 'customer actions' do

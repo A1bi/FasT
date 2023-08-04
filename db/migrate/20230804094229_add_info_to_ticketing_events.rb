@@ -3,6 +3,7 @@
 class AddInfoToTicketingEvents < ActiveRecord::Migration[7.0]
   def change
     change_table :ticketing_events, bulk: true do |t|
+      t.boolean :ticketing_enabled, null: false, default: true, index: true
       t.jsonb :info, null: false, default: {}
     end
 
