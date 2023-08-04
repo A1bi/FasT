@@ -39,7 +39,7 @@ FactoryBot.define do
     end
 
     trait :archived do
-      archived { true }
+      info { { archived: true } }
     end
   end
 end

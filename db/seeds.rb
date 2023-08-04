@@ -95,21 +95,7 @@ seatings << Ticketing::SeatingSvg::Importer.new(
 ## events
 events = ticketing_seeds[:events]
 events.each.with_index do |event_info, i|
-  event = Ticketing::Event.new(
-    name: "Test #{event_info[:name]}",
-    identifier: event_info[:identifier],
-    assets_identifier: event_info[:assets_identifier],
-    slug: event_info.fetch(:slug, event_info[:name].parameterize),
-    location:,
-    # the most recent event will have the seating with a plan
-    seating: seatings[i >= events.count - 1 ? 1 : 0],
-    admission_duration: rand(30..60),
-    archived: true
-  )
-
-  event.covid19 = true if i == events.count - 1
-
-  # three most recent events will be the future
+  # three most recent events will be in the future
   if i > events.count - 4
     event_date_base = (events.count - i).months.from_now
   # older events will be in the past
@@ -118,22 +104,33 @@ events.each.with_index do |event_info, i|
     past = true
   end
 
-  event.sale_start = event_date_base - 1.month
+  event = Ticketing::Event.create(
+    **event_info.slice(:identifier, :assets_identifier),
+    name: "Test #{event_info[:name]}",
+    slug: event_info.fetch(:slug, event_info[:name].parameterize),
+    location:,
+    # the most recent event will have the seating with a plan
+    seating: seatings[i >= events.count - 1 ? 1 : 0],
+    admission_duration: rand(30..60),
+    sale_start: event_date_base - 2.months,
+    covid19: i == events.count - 1,
+    info: {
+      archived: true,
+      **event_info.fetch(:info, {})
+    }
+  )
 
-  (past ? 1 : 4).times do |j|
-    ### dates
-    event.dates.build(date: event_date_base + j.weeks)
+  (past ? 1 : 3).times do |j|
+    event.dates.create(date: event_date_base + j.weeks)
   end
 
   ### ticket types
   ticketing_seeds[:ticket_types][..(past ? 0 : -1)].each do |type|
-    event.ticket_types.build(
+    event.ticket_types.create(
       **type,
       vat_rate: :reduced
     )
   end
-
-  event.save
 end
 
 ## retail stores

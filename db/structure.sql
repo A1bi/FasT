@@ -1413,13 +1413,12 @@ CREATE TABLE public.ticketing_events (
     sale_start timestamp without time zone,
     seating_id bigint DEFAULT 1 NOT NULL,
     slug character varying NOT NULL,
-    archived boolean DEFAULT false,
     sale_disabled_message character varying,
-    subtitle character varying,
     assets_identifier character varying NOT NULL,
     covid19 boolean DEFAULT false NOT NULL,
     admission_duration integer NOT NULL,
-    location_id bigint NOT NULL
+    location_id bigint NOT NULL,
+    info jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -3138,13 +3137,6 @@ CREATE INDEX index_ticketing_event_dates_on_event_id ON public.ticketing_event_d
 
 
 --
--- Name: index_ticketing_events_on_archived; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_events_on_archived ON public.ticketing_events USING btree (archived);
-
-
---
 -- Name: index_ticketing_events_on_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4023,6 +4015,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230715084859'),
 ('20230716104339'),
 ('20230726175845'),
-('20230803205151');
+('20230803205151'),
+('20230804094229');
 
 

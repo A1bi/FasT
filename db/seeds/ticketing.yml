@@ -1,5 +1,5 @@
 location:
-  name: Testbühne
+  name: Freilichtbühne am schiefen Turm
   street: Teststraße 1
   postcode: '12345'
   city: Testhausen
@@ -60,6 +60,14 @@ events:
   - identifier: awen
     name: Celtic Voices
     slug: awen-celtic-voices
+    info:
+      subtitle: Ein schönes Konzert
+  - identifier: external_sisy
+    name: Externe Veranstaltung
+    location: Sisyphos, Berlin
+    info:
+      subtitle: Gastspiel woanders
+      external_sale_url: https://example.com
   - identifier: gatte_2023
     assets_identifier: gatte
     name: Ein idealer Gatte
