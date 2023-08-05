@@ -15,12 +15,10 @@ module Ticketing
     end
 
     def options_for_events(events, current_event)
-      disabled = []
       events = events.map do |event|
-        disabled << event.slug if event.past? && event.tickets.none?
         ["#{event.dates.first.date.year} – #{event.name}", event.slug]
       end
-      options_for_select(events, selected: current_event.slug, disabled:)
+      options_for_select(events, selected: current_event.slug)
     end
   end
 end
