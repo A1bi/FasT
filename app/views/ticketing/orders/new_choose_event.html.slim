@@ -7,6 +7,6 @@
     p.text-center Bitte wählen Sie eine Veranstaltung.
     - @events.each do |event|
       .row: .col = link_to event_slug: event.slug
-        .card.shadow.event: .row: .col.col-md-8 = inline_svg(event_logo_path(event))
+        .card.shadow.event: .row: .col.col-md-8 = event_logo(event, inline_svg: true)
   - else
     .text-center Derzeit befindet sich keine Veranstaltung im Vorverkauf.

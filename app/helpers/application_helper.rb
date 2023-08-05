@@ -16,7 +16,7 @@ module ApplicationHelper
     (
       Rails.application.assets ||
       Sprockets::Railtie.build_environment(Rails.application)
-    ).resolve(path).present?
+    ).find_asset(path).present?
   end
 
   def uppercase_file_extension(path)
@@ -55,8 +55,16 @@ module ApplicationHelper
     iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
   end
 
+  def event_logo(event, image_options: {}, inline_svg: false)
+    return content_tag :h2, event.name if (path = event_logo_path(event)).nil?
+    return inline_svg(path) if inline_svg
+
+    image_tag(path, { **image_options, alt: event.name })
+  end
+
   def event_logo_path(event)
-    "events/#{event.assets_identifier}/title.svg"
+    path = "events/#{event.assets_identifier}/title.svg"
+    return path if asset_exists?(path)
   end
 
   def inline_svg(filename)

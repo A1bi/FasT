@@ -5,9 +5,20 @@ module Ticketing
   class BasePdf < Prawn::Document
     include ActionView::Helpers::NumberHelper
 
-    FONT_NAME = 'maven-pro-v32-latin'
-    FONT_STYLES = %i[normal bold].freeze
-    FONT_STYLES_MAPPING = { normal: :regular, bold: '900' }.freeze
+    FONTS = [
+      {
+        name: 'Maven',
+        file_prefix: 'maven-pro-v32-latin',
+        styles: %i[normal bold],
+        styles_mapping: { normal: :regular, bold: '900' }
+      },
+      {
+        name: 'Lora',
+        file_prefix: 'lora-v32-latin',
+        styles: %i[bold_italic],
+        styles_mapping: { bold_italic: '700italic' }
+      }
+    ].freeze
     FONT_SIZES = { normal: 14, small: 11, tiny: 8 }.freeze
 
     FG_COLOR = '000000'
@@ -27,12 +38,14 @@ module Ticketing
       fill_color FG_COLOR
       stroke_color FG_COLOR
 
-      paths = FONT_STYLES.index_with do |style|
-        style = FONT_STYLES_MAPPING[style]
-        assets_path.join('fonts', "#{FONT_NAME}-#{style}.ttf").to_s
+      fonts = FONTS.each_with_object({}) do |font, f|
+        f[font[:name]] = font[:styles].index_with do |style|
+          style = font[:styles_mapping][style]
+          assets_path.join('fonts', "#{font[:file_prefix]}-#{style}.ttf").to_s
+        end
       end
-      font_families.update(FONT_NAME => paths)
-      font FONT_NAME
+      font_families.update(fonts)
+      font FONTS[0][:name]
 
       fill_background
     end

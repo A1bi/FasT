@@ -17,7 +17,7 @@ RSpec.shared_context 'when rendering tickets pdf' do
 
   let(:images_path) { Rails.root.join('app/assets/images') }
   let(:logo_path) { images_path.join('pdf/logo_bw_l3.svg') }
-  let(:event_header_path) { images_path.join("events/#{event.assets_identifier}/title.svg") }
+  let(:event_logo_path) { images_path.join("events/#{event.assets_identifier}/title.svg") }
 
   before do
     # speed up PDF generation by skipping barcode
@@ -53,9 +53,22 @@ RSpec.shared_examples 'renders the correct event information' do
 end
 
 RSpec.shared_examples 'tickets pdf renderer' do
-  it 'renders the correct event header' do
-    expect(File).to receive(:read).with(event_header_path)
-    pdf
+  context 'with existing event logo' do
+    before do
+      allow(tickets_pdf).to receive(:event_logo_path).with(event).and_return(event_logo_path)
+    end
+
+    it 'renders the event logo' do
+      expect(File).to receive(:read).with(event_logo_path)
+      pdf
+    end
+  end
+
+  context 'without existing event logo' do
+    it 'renders the event logo' do
+      expect(File).not_to receive(:read).with(event_logo_path)
+      pdf
+    end
   end
 
   context 'with one ticket' do

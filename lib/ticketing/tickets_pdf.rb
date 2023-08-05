@@ -56,15 +56,11 @@ module Ticketing
 
     def create_event_info_stamp(event)
       create_stamp(:events, event) do
-        width = bounds.width * 0.75
-        height = bounds.height * 0.30
+        width = bounds.width * 0.9
+        height = bounds.height * 0.3
 
         bounding_box([0, cursor], width:, height:) do
-          image = File.read(images_path.join(event_logo_path(event)))
-          svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
-          svg.resize(width: bounds.width)
-          svg.resize(height: bounds.height) if svg.sizing.output_height > bounds.height
-          svg.draw
+          draw_event_logo(event)
         end
       end
     end
@@ -165,6 +161,20 @@ module Ticketing
       draw_stamp(:logo, nil, true) do
         svg_image 'pdf/logo_bw_l3.svg', width: bounds.width * 0.8, position: :right, vposition: :bottom
       end
+    end
+
+    def draw_event_logo(event)
+      if (path = event_logo_path(event)).nil?
+        return font 'Lora', style: :bold_italic do
+          text_box event.name, size: 35, valign: :center, overflow: :shrink_to_fit, single_line: true
+        end
+      end
+
+      image = File.read(images_path.join(path))
+      svg = Prawn::SVG::Interface.new(image, self, vposition: :center)
+      svg.resize(width: bounds.width)
+      svg.resize(height: bounds.height) if svg.sizing.output_height > bounds.height
+      svg.draw
     end
 
     def link_annotate(url, offsets)
