@@ -109,6 +109,10 @@ de:
     events:
       created: Die Veranstaltung wurde erstellt.
       updated: Die Änderungen an der Veranstaltung wurden gespeichert.
+    event_dates:
+      created: Der Veranstaltungstermin wurde erstellt.
+      updated: Die Änderungen an dem Veranstaltungstermin wurden gespeichert.
+      destroyed: Der Veranstaltungstermin wurde gelöscht.
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
@@ -343,6 +347,7 @@ de:
       photo: Foto
       members/member: Mitglied
       ticketing/event: Veranstaltung
+      ticketing/event_date: Termin
       ticketing/coupon: Gutschein
       ticketing/order: Bestellung
     attributes:

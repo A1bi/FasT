@@ -1,0 +1,6 @@
+.row: .col: .card
+  = form_for @date, url: @date.new_record? ? ticketing_event_event_dates_path : ticketing_event_event_date_path(@event, @date) do |f|
+    = render 'errors', errors: @date.errors
+    = render 'form_field', form: f, attribute: :date, label: 'Termin', required: true
+      = f.datetime_field :date, required: true
+    .text-center.mt-2 = f.submit 'speichern', class: :btn

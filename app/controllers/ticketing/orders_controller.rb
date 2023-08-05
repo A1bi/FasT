@@ -66,7 +66,7 @@ module Ticketing
       authorize @order
 
       @show_check_ins = current_user.admin? && @order.tickets.any? do |t|
-        t.check_ins.any? || t.date.date.past?
+        t.check_ins.any? || t.date.past?
       end
     end
 

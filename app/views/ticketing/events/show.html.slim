@@ -35,12 +35,14 @@
       dd = l @event.created_at, format: :medium
 
   h3 Termine
-  .row: .col: .card
-    table
-      - @event.dates.each do |date|
+  .row: .col
+    = render 'new_button', model: Ticketing::EventDate, url: new_ticketing_event_event_date_path(@event)
+    .card: table
+      - @event.dates.order(date: :asc).each do |date|
         tr class=('cancelled' if date.cancelled?)
           td = l date.date.to_date, format: :long
           td = l date.date, format: '%H:%M'
+          td.text-end = render 'admin_actions', obj: [@event, date], delete_confirm: 'diesen Termin', edit_url: edit_ticketing_event_event_date_path(@event, date), destroy_url: ticketing_event_event_date_path(@event, date)
 
   - if @event.ticketing_enabled
     h3 Ticketkategorien
