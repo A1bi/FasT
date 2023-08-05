@@ -2,7 +2,7 @@
 
 .container
   h1 Fotogalerien
-  = render 'new_button', action: 'Galerie', admin_required: true
+  = render 'new_button', model: Gallery
   - @galleries.each do |gallery|
     .row
       .col-7 = gallery.title

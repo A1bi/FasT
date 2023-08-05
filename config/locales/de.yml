@@ -333,6 +333,13 @@ de:
           attributes:
             file_content_type:
               invalid: "Es können nur JPG-, PNG-, und PDF-Dateien hochgeladen werden."
+    models:
+      gallery: Galerie
+      photo: Foto
+      members/member: Mitglied
+      ticketing/event: Veranstaltung
+      ticketing/coupon: Gutschein
+      ticketing/order: Bestellung
     attributes:
       members/sepa_mandate:
         debtor_name: Kontoinhaber

@@ -7,8 +7,7 @@
       ' Aktuelle Mitgliederzahl:
       b> = @members.count
       em() (davon <b>#{@members.membership_cancelled.count}</b> gekündigt)
-    - if policy(Members::Member).new?
-      = render 'new_button', action: 'Mitglied'
+    = render 'new_button', model: Members::Member
     .card.table-responsive
       table
         thead

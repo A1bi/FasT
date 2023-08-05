@@ -6,7 +6,7 @@
   .d-flex.justify-content-end.align-items-center
     - if current_user.admin?
       = render 'push_notifications_button'
-    = render 'new_button', action: 'Bestellung', url: { action: :new_privileged }
+    = render 'new_button', model: Ticketing::Order, url: { action: :new_privileged }
 
   - if @orders[:search]
     = render 'application/ticketing/orders_table', table_title: "Suchergebnisse für „#{params[:q]}“", orders: @orders[:search], web: true, additional_columns: %i[date]

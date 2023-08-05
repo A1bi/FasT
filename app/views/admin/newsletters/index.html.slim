@@ -3,8 +3,7 @@
 .container
   h1 Newsletter
   .row: .col.w-100
-    - if policy(Newsletter::Newsletter).new?
-      = render 'new_button', action: 'Newsletter', url: new_admin_newsletter_path
+    = render 'new_button', model: Newsletter::Newsletter
     .table-responsive: table
       thead
         tr

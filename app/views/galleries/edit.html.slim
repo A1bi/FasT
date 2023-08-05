@@ -5,7 +5,7 @@
   = render 'form'
 
   h2 Reihenfolge der Fotos bearbeiten
-  = render 'new_button', action: 'Fotos', url: new_gallery_photo_path(@gallery)
+  = render 'new_button', model: Photo, url: new_gallery_photo_path(@gallery)
   .row
     - @gallery.photos.each do |photo|
       .col-4.col-md-3
