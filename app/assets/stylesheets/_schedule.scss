@@ -9,12 +9,17 @@
   }
 
   &.cancelled {
-    color: $semi-gray;
-    text-decoration: line-through;
+    &, a {
+      color: $semi-gray !important;
+    }
 
     .info svg {
       fill: $semi-gray;
     }
+  }
+
+  &.schedule-sm.cancelled {
+    text-decoration: line-through;
   }
 
   .row {
@@ -109,5 +114,13 @@
 
   .sold-out-banner {
     @extend %px-2;
+  }
+
+  @include media-query(sm) {
+    &:not(.schedule-sm) .sold-out-banner {
+      position: unset;
+      transform: unset;
+      margin-top: spacing(2);
+    }
   }
 }
