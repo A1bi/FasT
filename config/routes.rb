@@ -130,6 +130,7 @@ Rails.application.routes.draw do
         end
         resources :events, except: %i[destroy] do
           resources :event_dates, except: %i[index show]
+          resources :ticket_types, except: %i[index show]
         end
       end
 

@@ -22,7 +22,7 @@ module Ticketing
       [
         :name, :identifier, :assets_identifier, :slug, :location_id, :seating_id, :sale_start,
         :admission_duration, :ticketing_enabled,
-        { info: %i[archived subtitle] }
+        { info: %i[archived subtitle external_sale_url] }
       ]
     end
   end

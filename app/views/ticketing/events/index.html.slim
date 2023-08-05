@@ -23,7 +23,7 @@
           td
             - if event.info['archived']
               .badge title='Archiv' A
-            - if event.ticketing_enabled
+            - if event.ticketing_enabled?
               .badge title='Ticketing aktiviert' T
             - else
               .badge.badge-red title='Ticketing deaktiviert' T

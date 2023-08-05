@@ -13,6 +13,8 @@ module Ticketing
 
     enum :availability, %i[universal exclusive box_office]
 
+    validate :event_ticketing_enabled
+
     class << self
       def ordered_by_availability_and_price
         order(availability: :asc, price: :desc)
@@ -37,6 +39,12 @@ module Ticketing
       return 0 if credit.nil?
 
       credit.credit_left_for_member(member)
+    end
+
+    private
+
+    def event_ticketing_enabled
+      errors.add :event, 'ticketing is disabled' unless event&.ticketing_enabled?
     end
   end
 end

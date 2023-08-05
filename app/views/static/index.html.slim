@@ -39,13 +39,13 @@
           - unless date.cancelled?
             - if date.sold_out?
               .sold-out-banner derzeit ausverkauft
-            - elsif (sale_url = date.event.info['external_sale_url']).present?
-              = link_to 'Tickets', sale_url, class: :btn
             - elsif date.event.ticketing_enabled?
               - if date.event.sale_start&.past?
                 = link_to 'Tickets', new_ticketing_order_path(date.event.slug, date_id: date), class: :btn
               - else date.event.sale_start&.future?
                 .text-gray Tickets ab #{l(date.event.sale_start, format: '%-d. %B')}
+            - elsif (sale_url = date.event.info['external_sale_url']).present?
+              = link_to 'Tickets', sale_url, class: :btn
       - if date.cancelled?
         .cancelled-banner entfällt
 

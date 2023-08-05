@@ -1,0 +1,14 @@
+.row: .col: .card
+  = form_for @type, url: @type.new_record? ? ticketing_event_ticket_types_path : ticketing_event_ticket_type_path(@event, @type) do |f|
+    = render 'errors', errors: @type.errors
+    = render 'form_field', form: f, attribute: :name, label: 'Name', required: true
+      = f.text_field :name, required: true
+    = render 'form_field', form: f, attribute: :name, label: 'Zusatzinfo'
+      = f.text_field :info
+    = render 'form_field', form: f, attribute: :price, label: 'Preis', required: true
+      = f.number_field :price, step: :any, required: true
+    = render 'form_field', form: f, attribute: :availability, label: 'Verfügbarkeit', required: true
+      = f.select :availability, @type.class.availabilities.values.map { |a| [@type.class.human_enum_name(:availability, a), a] }, required: true
+    = render 'form_field', form: f, attribute: :vat_rate, label: 'Umsatzsteuersatz', required: true
+      = f.select :vat_rate, @type.class.vat_rates.values.map { |r| [@type.class.human_enum_name(:vat_rate, r), r] }, required: true
+    .text-center.mt-2 = f.submit 'speichern', class: :btn

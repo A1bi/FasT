@@ -3,7 +3,7 @@
 RSpec.describe Ticketing::Event do
   describe 'ticketing enabled scopes' do
     let!(:event_ticketing_enabled) { create(:event, :complete) }
-    let!(:event_ticketing_disabled) { create(:event, :complete, :ticketing_disabled) }
+    let!(:event_ticketing_disabled) { create(:event, :with_dates, :ticketing_disabled) }
 
     describe 'default scope' do
       subject { described_class.all }

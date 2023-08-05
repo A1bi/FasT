@@ -113,6 +113,10 @@ de:
       created: Der Veranstaltungstermin wurde erstellt.
       updated: Die Änderungen an dem Veranstaltungstermin wurden gespeichert.
       destroyed: Der Veranstaltungstermin wurde gelöscht.
+    ticket_types:
+      created: Die Ticketkategorie wurde erstellt.
+      updated: Die Änderungen an der Ticketkategorie wurden gespeichert.
+      destroyed: Die Ticketkategorie wurde gelöscht.
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."
@@ -348,6 +352,7 @@ de:
       members/member: Mitglied
       ticketing/event: Veranstaltung
       ticketing/event_date: Termin
+      ticketing/ticket_type: Ticketkategorie
       ticketing/coupon: Gutschein
       ticketing/order: Bestellung
     attributes:
@@ -355,6 +360,15 @@ de:
         debtor_name: Kontoinhaber
         iban: IBAN
         number: Mandatsnummer
+      ticketing/ticket_type:
+        availabilities:
+          universal: universell
+          exclusive: exklusiv
+          box_office: Abendkasse
+        vat_rates:
+          standard: 19 %
+          reduced: 7 %
+          zero: 0 %
       ticketing/order:
         gender: Anrede
         genders:

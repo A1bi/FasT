@@ -10,13 +10,13 @@
     .text-center.mb-2
       - if @event.info['archived']
         .badge Archiv
-      - if @event.ticketing_enabled
+      - if @event.ticketing_enabled?
         .badge Ticketing aktiviert
       - else
         .badge.badge-red Ticketing deaktiviert
     dl
       dt Titel
-      dd = link_to_if @event.ticketing_enabled, @event.name, ticketing_statistics_path(@event.slug)
+      dd = link_to_if @event.ticketing_enabled?, @event.name, ticketing_statistics_path(@event.slug)
       dt Identifier
       dd <tt>#{@event.identifier}</tt> / <tt>#{@event.assets_identifier}</tt>
       dt Slug
@@ -25,10 +25,14 @@
       dd = @event.info['subtitle']
       dt Ort
       dd = @event.location.name
-      dt Sitzplan
-      dd = link_to @event.seating.name, @event.seating
-      dt Vorverkauf ab
-      dd = l @event.sale_start, format: :medium
+      - if @event.ticketing_enabled?
+        dt Sitzplan
+        dd = link_to @event.seating.name, @event.seating
+        dt Vorverkauf ab
+        dd = l @event.sale_start, format: :medium
+      - elsif @event.info['external_sale_url'].present?
+        dt URL zu externem Ticketing
+        dd = link_to @event.info['external_sale_url'], @event.info['external_sale_url']
       dt Einlass
       dd #{@event.admission_duration} Minuten vorher
       dt Erstellt
@@ -44,20 +48,24 @@
           td = l date.date, format: '%H:%M'
           td.text-end = render 'admin_actions', obj: [@event, date], delete_confirm: 'diesen Termin', edit_url: edit_ticketing_event_event_date_path(@event, date), destroy_url: ticketing_event_event_date_path(@event, date)
 
-  - if @event.ticketing_enabled
+  - if @event.ticketing_enabled?
     h3 Ticketkategorien
-    .row: .col: .card
-      table
-        - @event.ticket_types.each do |type|
+    .row: .col
+      = render 'new_button', model: Ticketing::TicketType, url: new_ticketing_event_ticket_type_path(@event)
+      .card: table
+        - @event.ticket_types.order(price: :desc).each do |type|
           tr
             td
               = type.name
               small.d-block = type.info
-            td.text-end = number_to_currency(type.price)
+            td.text-end
+              = number_to_currency(type.price)
+              small.d-block = type.class.human_enum_name(:vat_rate, type.vat_rate)
             td.text-end
               - if type.universal?
-                .badge universal
+                .badge universell
               - elsif type.exclusive?
                 .badge.badge-red exklusiv
               - elsif type.box_office?
                 .badge.badge-red Abendkasse
+            td.text-end = render 'admin_actions', obj: [@event, type], delete_confirm: 'diese Ticketkategorie', edit_url: edit_ticketing_event_ticket_type_path(@event, type), destroy_url: ticketing_event_ticket_type_path(@event, type)

@@ -16,7 +16,7 @@ RSpec.describe Ticketing::Ticket do
     end
 
     context 'when event ticketing is disabled' do
-      let(:event) { create(:event, :complete, :ticketing_disabled) }
+      let(:event) { create(:event, :with_dates, :ticketing_disabled) }
       let(:date) { event.dates.first }
 
       it 'has an error on the date' do
