@@ -19,6 +19,6 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Ticketing::Event.find_by!(slug: params[:slug])
+    @event = Ticketing::Event.including_ticketing_disabled.find_by!(slug: params[:slug])
   end
 end
