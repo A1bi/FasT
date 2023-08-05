@@ -225,6 +225,17 @@ iframe {
   list-style: none;
 }
 
+dl {
+  dt {
+    @extend .f-lbi;
+  }
+
+  dd {
+    @extend %ms-0;
+    margin-bottom: .5rem;
+  }
+}
+
 @include media-query(md) {
   html {
     font-size: 20px;

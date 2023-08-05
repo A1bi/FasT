@@ -128,6 +128,7 @@ Rails.application.routes.draw do
         resources :coupons, path: 'gutscheine' do
           post :mail, on: :member
         end
+        resources :events, except: %i[destroy]
       end
 
       namespace :box_office, path: 'ticketing/box_office' do

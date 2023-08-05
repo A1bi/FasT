@@ -1,0 +1,31 @@
+.row: .col: .card
+  = form_for @event do |f|
+    = render 'errors', errors: @event.errors
+    = render 'form_field', form: f, attribute: :name, label: 'Titel', required: true
+      = f.text_field :name, required: true
+    = render 'form_field', form: f, attribute: :identifier, label: 'Identifier', required: true
+      = f.text_field :identifier, required: true
+    = render 'form_field', form: f, attribute: :assets_identifier, label: 'Assets-Identifier', required: true
+      = f.text_field :assets_identifier, required: true
+    = render 'form_field', form: f, attribute: :slug, label: 'Slug', required: true
+      = f.text_field :slug, required: true
+    = f.fields_for :info do |ff|
+      = render 'form_field', form: ff, attribute: :subtitle, label: 'Untertitel'
+        = ff.text_field :subtitle, value: @event.info['subtitle']
+    = render 'form_field', form: f, attribute: :location_id, label: 'Ort', required: true
+      = f.collection_select(:location_id, Ticketing::Location.all, :id, :name)
+    = render 'form_field', form: f, attribute: :seating_id, label: 'Sitzplan', required: true
+      = f.collection_select(:seating_id, Ticketing::Seating.all, :id, :name)
+    = render 'form_field', form: f, attribute: :sale_start, label: 'Vorverkauf ab', required: true
+      = f.datetime_field :sale_start, required: true
+    = render 'form_field', form: f, attribute: :admission_duration, label: 'Einlass', required: true
+      = f.number_field :admission_duration, required: true
+      .form-text Minuten vorher
+    .form-check
+      = f.check_box :ticketing_enabled
+      = f.label :ticketing_enabled, 'Ticketing aktiviert'
+    = f.fields_for :info do |ff|
+      .form-check
+        = ff.check_box :archived, value: 1, checked: @event.info['archived']
+        = ff.label 'archived', 'Im Archiv anzeigen'
+    .text-center.mt-2 = f.submit 'speichern', class: :btn

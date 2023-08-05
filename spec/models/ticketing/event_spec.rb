@@ -60,6 +60,7 @@ RSpec.describe Ticketing::Event do
       events[0].dates.first.update(date: 2.days.ago)
       events[1].dates.first.update(date: 3.days.ago)
       events[2].dates.first.update(date: 1.day.ago)
+      described_class.where.not(id: events).delete_all
     end
 
     context 'without asc/desc' do

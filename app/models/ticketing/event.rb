@@ -51,7 +51,7 @@ module Ticketing
       private
 
       def join_dates
-        joins(:dates).group(:id)
+        left_joins(:dates).group(:id)
       end
     end
 

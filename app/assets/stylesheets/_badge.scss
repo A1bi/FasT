@@ -1,0 +1,12 @@
+.badge {
+  @extend %d-inline-block;
+  @extend %me-1;
+  background: $green;
+  color: white;
+  padding: .25rem .5rem;
+  font-size: .75rem;
+
+  &.badge-red {
+    background: $red;
+  }
+}

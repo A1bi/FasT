@@ -103,7 +103,12 @@ de:
     newsletters_approve: Newsletter prüfen
     internet_access_sessions_create: Zugang zum WLAN
     authorized_for_shared_email_account_html: Zugriff auf E-Mail-Konto <em>%{email}</em>
+    ticketing_events_read: Veranstaltungen einsehen
+    ticketing_events_update: Veranstaltungen bearbeiten
   ticketing:
+    events:
+      created: Die Veranstaltung wurde erstellt.
+      updated: Die Änderungen an der Veranstaltung wurden gespeichert.
     orders:
       updated: "Die Änderungen wurden erfolgreich gespeichert."
       marked_as_paid: "Die Bestellung wurde als bezahlt markiert."

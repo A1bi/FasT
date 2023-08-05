@@ -46,6 +46,8 @@ html lang=I18n.locale
               li = link_to 'Zahlungen', ticketing_payments_path
               li = link_to 'Statistik', ticketing_statistics_path
               li = link_to 'Gutscheine', ticketing_coupons_path
+              - if policy(Ticketing::Event).index?
+                li = link_to 'Veranstaltungen', ticketing_events_path
               li = link_to 'Sitzpläne', ticketing_seatings_path
               li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
 

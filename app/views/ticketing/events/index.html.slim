@@ -1,0 +1,30 @@
+- title 'Veranstaltungen'
+
+.container
+  h1 Veranstaltungen
+  = render 'new_button', model: Ticketing::Event
+
+  table
+    thead
+      tr
+        th Jahr
+        th Titel
+        th.d-sm-none Ort
+        th
+        th
+    tbody
+      - @events.each do |event|
+        tr
+          td
+            - if event.dates.any?
+              = l event.dates.first.date, format: '%Y'
+          td = link_to event.name, event
+          td.d-sm-none = event.location.name
+          td
+            - if event.info['archived']
+              .badge title='Archiv' A
+            - if event.ticketing_enabled
+              .badge title='Ticketing aktiviert' T
+            - else
+              .badge.badge-red title='Ticketing deaktiviert' T
+          td = render 'admin_actions', obj: event
