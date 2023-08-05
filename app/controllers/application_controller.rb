@@ -71,6 +71,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def event_page_exists?(event)
+    template_exists?("events/#{event.identifier}")
+  end
+
+  helper_method :event_page_exists?
+
   private
 
   def authenticate_user

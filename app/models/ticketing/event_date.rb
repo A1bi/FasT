@@ -5,7 +5,7 @@ module Ticketing
     include Cancellable
     include Statistics
 
-    belongs_to :event, touch: true
+    belongs_to :event, proc { including_ticketing_disabled }, touch: true, inverse_of: :dates
     has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
