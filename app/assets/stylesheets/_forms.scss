@@ -207,9 +207,12 @@ select {
   @extend %btn-basic;
   @extend %d-inline-block;
   @extend %text-center;
-  @extend .shadow;
   cursor: pointer;
   border-radius: 0; // for Safari iOS
+
+  &:not(:disabled) {
+    @extend .shadow;
+  }
 
   &.btn-sm {
     padding: spacing(1) / 2 spacing(1);

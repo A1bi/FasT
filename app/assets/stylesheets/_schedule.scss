@@ -95,7 +95,7 @@
     }
   }
 
-  .cancelled-banner, .sold-out-banner {
+  .cancelled-banner {
     @extend .f-lbi;
     @extend %text-center;
     @extend %py-1;
@@ -110,17 +110,5 @@
   .cancelled-banner {
     @extend %px-3;
     font-size: 1.3rem;
-  }
-
-  .sold-out-banner {
-    @extend %px-2;
-  }
-
-  @include media-query(sm) {
-    &:not(.schedule-sm) .sold-out-banner {
-      position: unset;
-      transform: unset;
-      margin-top: spacing(2);
-    }
   }
 }
