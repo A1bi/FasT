@@ -9,10 +9,11 @@ module Ticketing
     has_many :tickets, through: :ticket_types
     has_many :reservations, through: :dates
     belongs_to :location
-    belongs_to :seating
+    belongs_to :seating, optional: true
 
     validates :identifier, :assets_identifier, :slug, :admission_duration, presence: true
     validates :identifier, :slug, uniqueness: true
+    validates :seating, presence: true, if: :ticketing_enabled?
 
     before_validation :set_assets_identifier, on: :create
 

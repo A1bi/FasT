@@ -11,13 +11,13 @@ module Ticketing
     def edit; end
 
     def create
-      render :new unless @date.update(date_params)
+      return render :new unless @date.update(date_params)
 
       redirect_to @event, notice: t('.created')
     end
 
     def update
-      render :edit unless @date.update(date_params)
+      return render :edit unless @date.update(date_params)
 
       redirect_to @event, notice: t('.updated')
     end

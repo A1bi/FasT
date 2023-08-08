@@ -1408,12 +1408,12 @@ ALTER SEQUENCE public.ticketing_event_dates_id_seq OWNED BY public.ticketing_eve
 
 CREATE TABLE public.ticketing_events (
     id bigint NOT NULL,
-    name character varying,
+    name character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     identifier character varying NOT NULL,
     sale_start timestamp without time zone,
-    seating_id bigint DEFAULT 1 NOT NULL,
+    seating_id bigint,
     slug character varying NOT NULL,
     sale_disabled_message character varying,
     assets_identifier character varying NOT NULL,
@@ -4027,6 +4027,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230726175845'),
 ('20230803205151'),
 ('20230804094229'),
-('20230805121011');
+('20230805121011'),
+('20230808221947');
 
 
