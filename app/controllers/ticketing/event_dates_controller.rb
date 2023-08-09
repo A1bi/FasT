@@ -38,7 +38,7 @@ module Ticketing
     end
 
     def prepare_new
-      @date = authorize(@event.dates.new)
+      @date = authorize(@event.dates.last&.dup || @event.dates.new)
     end
 
     def date_params
