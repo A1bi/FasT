@@ -1,0 +1,90 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Ein „echter“ Riese, ein verzweifelter König, eine bemitleidenswerte Prinzessin, eine liebenswerte Hexe, zwei verrückte Spione, andere ausgeflippte Typen und viele weitere phantasievolle Märchenwesen werden die Kinderherzen höher schlagen lassen und bei Erwachsenen Kindheitsträume wecken.
+
+  = render 'photos', gallery_id: 5
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'König Lotto',
+            actors: ['Gottfried Hagen']
+          },
+          {
+            title: 'Diener Theo',
+            actors: ['Maria Oster']
+          },
+          {
+            title: 'Prinzessin Anna Maria',
+            actors: ['Rebecca Hammes']
+          },
+          {
+            title: 'Nina',
+            actors: ['Sarah-Céline Schubert', 'Kira Roscher']
+          },
+          {
+            title: 'Tilly',
+            actors: ['Victoria Raab', 'Sirin Roscher']
+          },
+          {
+            title: 'Spion Späh',
+            actors: ['Otto Krechel']
+          },
+          {
+            title: 'Spion Lausch',
+            actors: ['Eugen Weiten']
+          },
+          {
+            title: 'Hexe Luzy',
+            actors: ['Kirsten Roscher']
+          },
+          {
+            title: 'Riese Phantasus',
+            actors: ['Dieter Stein']
+          },
+          {
+            title: 'Krah',
+            actors: ['Nina Lübke']
+          },
+          {
+            title: 'Monster',
+            actors: ['Claudia Scholz']
+          },
+          {
+            title: 'Kröte Flöte',
+            actors: ['Sabine Lübke']
+          },
+          {
+            title: 'Spinne Finne',
+            actors: ['Michaela Venus', 'Christiane Lares']
+          },
+          {
+            title: 'Herr Fahl',
+            actors: ['Renate Schüller']
+          },
+          {
+            title: 'Wolfram der Starke',
+            actors: ['Jörn Ramler']
+          },
+          {
+            title: 'Imanuel Kantig',
+            actors: ['Anna Möller-Heindrichs']
+          },
+          {
+            title: 'Kleine Krähen',
+            actors: ['Johanna Ellerich', 'Lina Ramler', 'Paul Lübke', 'Hannah Lehnen']
+          },
+          {
+            title: 'Puppe',
+            actors: ['Maria Lehnen']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'

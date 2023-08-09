@@ -1,0 +1,109 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Die Zuschauer erleben die authentische, geschichtlich belegte „Hexenjagd“ im puritanischen Salem in Massachusetts des Jahres 1692.
+    p Tanz und ähnliche Zerstreuungen sind in der strenggläubigen Gemeinde verpönt, jedoch Aberglaube, Hexerei und Teufelspakte sind fest im Alltag verankert. Eines Nachts tanzen die jungen Mädchen des Dorfes übermütig im Wald.
+    p Die geheime Zusammenkunft wird jedoch aufgedeckt. Aus Angst vor Strafe verfallen einige der Mädchen in eine merkwürdige, nicht zu erklärende Ohnmacht. Schon werden in der Gemeinde Teufelswerk und Hexerei vermutet. Darauf steht die Todesstrafe.
+    p Brave Gemeindemitglieder beginnen in der allgemein einsetzenden Hysterie sich gegenseitig zu beschuldigen. Ganz Salem wird zu einem brodelnden Hexenkessel des Aberglaubens und der Denunziation. Das einberufene Gericht, selbst im eigenen Machtdenken und Aberglauben befangen, soll nun die Wahrheit herausfinden und Recht sprechen.
+
+  = render 'photos', gallery_id: 3
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Reverend Samuel Parris',
+            actors: ['Gottfried Hagen']
+          },
+          {
+            title: 'Betty Parris',
+            actors: ['Johanna Ellerich', 'Hannah Lehnen']
+          },
+          {
+            title: 'Tituba',
+            actors: ['Sabine Lübke', 'Claudia Scholz']
+          },
+          {
+            title: 'Abigail Williams',
+            actors: ['Lena Schmitz']
+          },
+          {
+            title: 'Susanna Wallcott',
+            actors: ['Sirin Roscher', 'Margarete Darscheid']
+          },
+          {
+            title: 'Ann Putnam',
+            actors: ['Nina Lübke', 'Renate Schüller']
+          },
+          {
+            title: 'Thomas Putnam',
+            actors: ['Thomas Ellerich']
+          },
+          {
+            title: 'Mercy Lewis',
+            actors: ['Margarete Darscheid', 'Sirin Roscher']
+          },
+          {
+            title: 'John Proctor',
+            actors: ['Stephan Hilken']
+          },
+          {
+            title: 'Rebecca Nurse',
+            actors: ['Susanne Schubert', 'Maria Oster']
+          },
+          {
+            title: 'Mary Warren',
+            actors: ['Sarah-Céline Schubert', 'Kira Roscher']
+          },
+          {
+            title: 'Giles Corey',
+            actors: ['Ulli Hesse']
+          },
+          {
+            title: 'Reverend John Hale',
+            actors: ['Eugen Weiten']
+          },
+          {
+            title: 'Elizabeth Proctor',
+            actors: ['Kirsten Roscher']
+          },
+          {
+            title: 'Francis Nurse',
+            actors: ['Otto Krechel']
+          },
+          {
+            title: 'Ezekiel Cheever',
+            actors: ['Matthias Schnitzler', 'Dieter Stein']
+          },
+          {
+            title: 'John Willard',
+            actors: ['Werner Lutz']
+          },
+          {
+            title: 'Richter Hathorne',
+            actors: ['Gerd Röser']
+          },
+          {
+            title: 'Danforth',
+            actors: ['Jürgen Knaup']
+          },
+          {
+            title: 'Sarah Good',
+            actors: ['Christiane Lares']
+          },
+          {
+            title: 'Martha Corey',
+            actors: ['Michaela Müller']
+          },
+          {
+            title: 'weitere Darsteller',
+            actors: ['Liesel Hesse', 'Margret Zeimetz', 'Maria Lehnen', 'Marie Fuhrmann', 'Ania Fuhrmann']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'

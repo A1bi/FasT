@@ -1,0 +1,86 @@
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Stück'
+    p Der Medicus, seine Assistentin Josephine und der Lockvogel Leopold sind Schwindler, die den Leuten das Geld aus der Tasche ziehen, indem sie ihnen vorgaukeln, sie mit dubiosen Salben, Tropfen und dergleichen von ihren Krankheiten und sonstigen Leiden heilen zu können. Mit einem Planwagen reist das Trio von Ort zu Ort. Ihre jeweilige Aufenthaltsdauer beschränkt sich immer nur auf zwei bis drei Tage. Dann müssen sie das Weite suchen, weil der Schwindel auffliegt und ihnen der Boden zu heiß wird.
+    p Die Sprechstunden finden auf dem Marktplatz statt. In dem Sammelsurium von Heilmitteln ist ein großes, schwarzes Wundertuch das absolute non plus ultra. Angeblich hat der Medicus das Tuch beim Kartenspiel mit einem Scheich im Orient gewonnen. Durch die angebliche Heilkraft des Tuches bekommt sogar ein armer Landsknecht seinen im Kampf verlorenen Arm zurück und eine hässliche alte Hexe wird plötzlich zur Schönheit. Leopold ist es nämlich, der als Verwandlungskünstler in das Gewand des Landsknechtes und der Hexe schlüpft und anschließend den Beweis der wundersamen Heilung liefert.
+    p Das Verhängnis nimmt seinen Lauf, als das Fürstenpaar Siegesmund und Sieglinde zum Hohenzinken auf den Wunderheiler aufmerksam wird. Die Fürstin hat eine ultralange, hässliche Nase unter der sie sehr leidet. Der Medicus soll sie von diesem fruchtbaren Leiden befreien und ihr zu einer kleinen, hübschen Nase verhelfen. Er erhält eine hohe Vorschusszahlung. Die danach geplante Flucht des Trios wird unterbunden, in dem der Fürst seinem Scharfrichter befiehlt, für den persönlichen Schutz des Medicus und seines Wundertuches zu sorgen.
+    p Während sich Leopold noch aus dem Staube machen kann, sitzen der Medicus und Josephine fest. Als die Lage für sie immer bedrohlicher wird, trifft zu allem Elend auch noch eine Nachricht des Königs ein, die den Schwindel endgültig auffliegen lässt.
+    p Der Fürst und die Fürstin sind außer sich vor Wut. Sie verurteilen den Medicus und Josephine kurzer Hand zum Tode. In letzter Sekunde werden die beiden jedoch durch einen Glanzauftritt des Verwandlungskünstlers Leopold gerettet.
+
+  = render 'photos', gallery_id: 4
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Medicus',
+            actors: ['Gottfried Hagen']
+          },
+          {
+            title: 'Josephine',
+            actors: ['Simone Spies']
+          },
+          {
+            title: 'Leopold',
+            actors: ['Otto Krechel']
+          },
+          {
+            title: 'Johanna',
+            actors: ['Johanna Ellerich']
+          },
+          {
+            title: 'Fürst Siegesmund',
+            actors: ['Dieter Stein']
+          },
+          {
+            title: 'Fürstin Sieglinde',
+            actors: ['Kirsten Roscher']
+          },
+          {
+            title: 'Scharfrichter',
+            actors: ['Eugen Weiten']
+          },
+          {
+            title: 'Ritter',
+            actors: ['Werner Lutz']
+          },
+          {
+            title: 'Ottilie',
+            actors: ['Christiane Lares']
+          },
+          {
+            title: 'Franz',
+            actors: ['Thomas Ellerich']
+          },
+          {
+            title: 'Bürger und Bauern',
+            actors: ['Michaela Müller',
+                     'Maria Oster',
+                     'Sabine Lübke',
+                     'Marie Fuhrmann',
+                     'Sarah Schubert',
+                     'Kira Rosche',
+                     'Sirin Roscher',
+                     'Liesel Hesse',
+                     'Ulli Hesse',
+                     'Silvia Tibo-Lehnen']
+          },
+          {
+            title: 'Wachen',
+            actors: ['Susanne Schubert',
+                     'Claudia Scholz',
+                     'Thomas Ellerich',
+                     'Anna Möller-Heindrichs']
+          },
+          {
+            title: 'Zwei aufmerksame Kinder',
+            actors: ['Maria Lehnen', 'Hannah Lehnen']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'
