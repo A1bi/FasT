@@ -60,18 +60,6 @@ Members::MembershipFeeDebitSubmission.create(
   payments: Members::MembershipFeePayment.all
 )
 
-# dates
-locations = %i[hier da dort irgendwo nirgendwo]
-titles = ['Dies', 'Das', 'Irgendwas', 'Tolle Sachen', 'Treffen XY']
-5.times do
-  Members::Date.create(
-    datetime: 3.weeks.from_now + rand(200).hours,
-    info: FFaker::Lorem.sentence,
-    title: titles.sample,
-    location: locations.sample
-  )
-end
-
 # newsletters
 Newsletter::SubscriberList.create(name: 'Kunden')
 

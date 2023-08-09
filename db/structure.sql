@@ -194,40 +194,6 @@ ALTER SEQUENCE public.galleries_id_seq OWNED BY public.galleries.id;
 
 
 --
--- Name: members_dates; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.members_dates (
-    id bigint NOT NULL,
-    datetime timestamp without time zone,
-    info text,
-    location character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    title character varying
-);
-
-
---
--- Name: members_dates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.members_dates_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: members_dates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.members_dates_id_seq OWNED BY public.members_dates.id;
-
-
---
 -- Name: members_exclusive_ticket_type_credit_spendings; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1999,13 +1965,6 @@ ALTER TABLE ONLY public.galleries ALTER COLUMN id SET DEFAULT nextval('public.ga
 
 
 --
--- Name: members_dates id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.members_dates ALTER COLUMN id SET DEFAULT nextval('public.members_dates_id_seq'::regclass);
-
-
---
 -- Name: members_exclusive_ticket_type_credit_spendings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2369,14 +2328,6 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.galleries
     ADD CONSTRAINT galleries_pkey PRIMARY KEY (id);
-
-
---
--- Name: members_dates members_dates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.members_dates
-    ADD CONSTRAINT members_dates_pkey PRIMARY KEY (id);
 
 
 --
@@ -4028,6 +3979,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230803205151'),
 ('20230804094229'),
 ('20230805121011'),
-('20230808221947');
+('20230808221947'),
+('20230809215027');
 
 
