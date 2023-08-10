@@ -3,12 +3,9 @@
 module EventsHelper
   include PhotosHelper
 
-  def structured_data(event, locals = {})
-    locals[:event] = event
-    locals[:image] = event_logo_path(event)
-
+  def structured_data_for_date(date)
     tag.script type: 'application/ld+json' do
-      raw render(partial: 'events/structured_data', formats: :json, locals:) # rubocop:disable Rails/OutputSafety
+      raw render(partial: 'events/structured_data', formats: :json, locals: { date: }) # rubocop:disable Rails/OutputSafety
     end
   end
 

@@ -1,4 +1,5 @@
 - @event.dates.each do |date|
+  = structured_data_for_date(date)
   .row: .col: .card.schedule.schedule-sm class=('cancelled' if date.cancelled?)
     .row
       .col-8

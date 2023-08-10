@@ -5,7 +5,7 @@ class StaticController < ApplicationController
 
   skip_authorization
 
-  helper :photos
+  helper :photos, :events
 
   def index
     @featured_event = Ticketing::Event.find_by(identifier: :gatte_2023) # rubocop:disable Naming/VariableNumber
