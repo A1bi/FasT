@@ -10,3 +10,5 @@
       .row: .col = image_tag(logo_path)
     - else
       h1 = @event.name
+    - if @event.info['subtitle'].present?
+      h3.my-1 = @event.info['subtitle']
