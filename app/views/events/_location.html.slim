@@ -1,6 +1,6 @@
 h3 Veranstaltungsort
 .row: .col: .card.d-flex.align-items-center
-  svg.icon.me-1: use xlink:href='#schedule-location'
+  i.bi.bi-geo-alt-fill.me-1
   div
     = @event.location.name
     small.d-block = link_to_if !@event.past?, @event.location.address, '#anfahrt'

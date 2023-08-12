@@ -1,6 +1,6 @@
-@mixin font-face($family, $style, $weight, $filename) {
+@mixin font-face($family, $style, $weight, $filename, $display: swap) {
   @font-face {
-    font-display: swap;
+    font-display: $display;
     font-family: $family;
     font-style: $style;
     font-weight: $weight;
@@ -26,5 +26,22 @@
 %black-links {
   a:not(:hover, :active) {
     color: $black;
+  }
+}
+
+%svg-icon {
+  width: 1rem;
+  height: 1rem;
+
+  a & {
+    fill: $cta-color;
+  }
+
+  a:hover & {
+    fill: $cta-color-hover;
+  }
+
+  a:active & {
+    fill: $cta-color-active;
   }
 }

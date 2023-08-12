@@ -4,8 +4,6 @@
 
 hr
 .container.page-nav-anchor(id=section_title.parameterize): .row: .col
-  = render 'icons'
-
   - if @event.past?
     h2 Termine
     p „#{@event.name}“ fand an folgenden Terminen statt:

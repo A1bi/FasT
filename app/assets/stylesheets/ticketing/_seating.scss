@@ -42,8 +42,6 @@
 
       .icon {
         @extend %me-1;
-        width: auto;
-        height: auto;
 
         svg {
           @extend %d-block;

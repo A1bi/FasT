@@ -1,0 +1,39 @@
+$bootstrap-icons-font: 'Bootstrap Icons';
+$bootstrap-icons-map: (
+  'bell-fill': '\f189',
+  'book': '\f194',
+  'calendar-week-fill': '\f1f2',
+  'check-circle-fill': '\f26a',
+  'clock-fill': '\f291',
+  'cloud-arrow-down-fill': '\f294',
+  'door-open-fill': '\f307',
+  'exclamation-triangle-fill': '\f33a',
+  'geo-alt-fill': '\f3e7',
+  'info-circle-fill': '\f430',
+  'pencil-fill': '\f4c9',
+  'plus-circle-fill': '\f4f9',
+  'search': '\f52a',
+  'trash3-fill': '\f78a',
+  'x-octagon-fill': '\f626',
+);
+
+@include font-face($bootstrap-icons-font, normal, normal, 'bootstrap-icons', block);
+
+.bi::before, [class^="bi-"]::before, [class*=" bi-"]::before {
+  @extend %d-inline-block;
+  font-family: $bootstrap-icons-font;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@each $icon, $codepoint in $bootstrap-icons-map {
+  .bi-#{$icon}::before {
+    content: $codepoint;
+  }
+}

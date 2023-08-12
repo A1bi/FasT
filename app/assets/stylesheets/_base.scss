@@ -202,23 +202,6 @@ iframe {
   background: $white;
 }
 
-.icon {
-  width: 1rem;
-  height: 1rem;
-
-  a:not(.btn) & {
-    fill: $cta-color;
-
-    &:hover {
-      fill: $cta-color-hover;
-    }
-
-    &:active {
-      fill: $cta-color-active;
-    }
-  }
-}
-
 .list-style-none {
   @extend %m-0;
   @extend %p-0;

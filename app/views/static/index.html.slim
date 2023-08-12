@@ -9,13 +9,6 @@
 
 .container data-controller='items-reveal' data-items-reveal-initial-items-value=5 data-items-reveal-reveal-step-value=3
   h1#programm Programm
-  svg.d-none xmlns='http://www.w3.org/2000/svg'
-    symbol#schedule-location viewBox='0 0 16 16'
-      path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z'
-    symbol#schedule-time viewBox='0 0 16 16'
-      path d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z'
-    symbol#schedule-date viewBox='0 0 16 16'
-      path d='M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z'
 
   - @upcoming_dates.each do |date|
     = structured_data_for_date(date)
@@ -28,10 +21,10 @@
         .col-9.col-md-7
           .info
             .segment.location
-              svg: use xlink:href="#schedule-location"
+              i.bi.bi-geo-alt-fill
               = date.event.location.name
             .segment
-              svg: use xlink:href="#schedule-time"
+              i.bi.bi-clock-fill
               = l date.date, format: '%H:%M'
           .title
             = link_to_if event_page_exists?(date.event), date.event.name, event_path(date.event.slug)
@@ -70,10 +63,10 @@ hr
         .title = link_to event.name, event_path(event.slug)
         .info
           .segment.location
-            svg: use xlink:href="#schedule-location"
+            i.bi.bi-geo-alt-fill
             = event.location.name
           .segment
-            svg: use xlink:href="#schedule-date"
+            i.bi.bi-calendar-week-fill
             = pluralize(dates.count, 'Termin', plural: 'Termine')
   .text-center.mb-3 data-items-reveal-target='revealButton'
     button.btn data-action='items-reveal#revealMore' ältere Veranstaltungen anzeigen

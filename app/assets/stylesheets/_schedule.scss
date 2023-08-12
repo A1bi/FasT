@@ -12,10 +12,6 @@
     &, a {
       color: $semi-gray !important;
     }
-
-    .info svg {
-      fill: $semi-gray;
-    }
   }
 
   &.schedule-sm.cancelled {
@@ -60,13 +56,11 @@
         @extend %d-flex;
         @extend %align-items-center;
 
-        &.location svg {
+        &.location i {
           margin-right: 3px;
         }
 
-        svg {
-          height: .75rem;
-          width: .75rem;
+        i {
           margin-right: 5px;
         }
       }

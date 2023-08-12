@@ -3,4 +3,6 @@
     .col-8.col-md-10
       = f.label :q, label
       = f.text_field :q, placeholder:, minlength: local_assigns[:min_length], value: params[:q]
-    .col-4.col-md-2 = f.submit 'suchen', name: nil, class: 'btn w-100'
+    .col-4.col-md-2 = f.button name: nil, class: 'btn w-100'
+      i.bi.bi-search
+      span suchen

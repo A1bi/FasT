@@ -25,9 +25,13 @@
     line-height: 1;
   }
 
-  .icon {
+  svg {
+    @extend %svg-icon;
     width: auto;
     height: 1.2rem;
+  }
+
+  i, svg {
     margin-right: .25rem;
   }
 }

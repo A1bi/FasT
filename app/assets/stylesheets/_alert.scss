@@ -26,11 +26,7 @@
     --alert-fg-color: #{darken($black, 40%)};
   }
 
-  svg {
+  i {
     @extend %me-2;
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-    fill: var(--alert-fg-color);
   }
 }

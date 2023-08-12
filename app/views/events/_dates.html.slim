@@ -10,10 +10,10 @@
         - unless @event.past?
           .info
             .segment
-              svg: use xlink:href='#schedule-time'
+              i.bi.bi-clock-fill
               = l(date.date, format: '%H:%M')
             .segment
-              svg: use xlink:href='#schedule-door'
+              i.bi.bi-door-open-fill
               | Einlass ab #{l(date.admission_time, format: '%H:%M')}
       .col-4.tickets
         - if @event.on_sale? && !date.cancelled?
@@ -27,7 +27,7 @@
             .d-inline-block =< l(@event.sale_start, format: '%-d. %B')
         - elsif @event.past?
           .info.justify-content-end: .segment
-            svg: use xlink:href='#schedule-time'
+            i.bi.bi-clock-fill
             = l(date.date, format: '%H:%M')
     - if date.cancelled?
       .cancelled-banner = @event.past? ? 'entfallen' : 'entfällt'
