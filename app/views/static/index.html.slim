@@ -32,16 +32,16 @@
         .col.col-md-3.tickets
           - unless date.cancelled?
             - if date.sold_out?
-              button.btn.btn-sm(disabled) derzeit ausverkauft
+              button.btn.w-100(disabled) derzeit ausverkauft
             - elsif date.event.ticketing_enabled?
               - if date.event.sale_start&.past?
-                = link_to 'Tickets', new_ticketing_order_path(date.event.slug, date_id: date), class: :btn
+                = link_to 'Tickets', new_ticketing_order_path(date.event.slug, date_id: date), class: 'btn w-100'
               - else date.event.sale_start&.future?
-                button.btn.btn-sm(disabled)
+                button.btn.w-100(disabled)
                   .d-inline-block Tickets ab
                   .d-inline-block =< l(date.event.sale_start, format: '%-d. %B')
             - elsif (sale_url = date.event.info['external_sale_url']).present?
-              = link_to 'Tickets', sale_url, class: :btn
+              = link_to 'Tickets', sale_url, class: 'btn w-100'
       - if date.cancelled?
         .cancelled-banner entfällt
 

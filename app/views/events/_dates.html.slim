@@ -18,11 +18,11 @@
       .col-4.tickets
         - if @event.on_sale? && !date.cancelled?
           - if date.sold_out?
-            button.btn.btn-sm(disabled) derzeit ausverkauft
+            button.btn.w-100(disabled) derzeit ausverkauft
           - else
             = link_to 'Tickets', new_ticketing_order_path(@event.slug, date_id: date.id), class: 'btn w-100'
         - elsif @event.sale_not_yet_started?
-          button.btn.btn-sm(disabled)
+          button.btn.w-100(disabled)
             .d-inline-block Tickets ab
             .d-inline-block =< l(@event.sale_start, format: '%-d. %B')
         - elsif @event.past?
