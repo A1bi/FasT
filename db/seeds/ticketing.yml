@@ -53,6 +53,9 @@ events:
   - identifier: gatte
     name: Ein idealer Gatte
     slug: ein-idealer-gatte-2022
+  - identifier: gatte_2023
+    assets_identifier: gatte
+    name: Ein idealer Gatte
   - identifier: gemetzel
     name: Der Gott des Gemetzels
     ticketing_enabled: false
@@ -63,6 +66,8 @@ events:
     slug: awen-celtic-voices
     info:
       subtitle: Ein schönes Konzert
+  - identifier: heilig_abend
+    name: Heilig Abend
   - identifier: external_sisy
     name: Externe Veranstaltung
     location: Sisyphos, Berlin
@@ -70,6 +75,3 @@ events:
     info:
       subtitle: Gastspiel woanders
       external_sale_url: https://example.com
-  - identifier: gatte_2023
-    assets_identifier: gatte
-    name: Ein idealer Gatte
