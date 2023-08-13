@@ -10,8 +10,11 @@ hr
   - else
     h2 Tickets
     h3 Termine
+
   = render 'dates'
-  = render 'location'
+
+  h3 Veranstaltungsort
+  .row: .col = render 'application/events/location', event: @event, class: :card, link_to_map: !@event.past?
 
   - unless @event.past?
     = render 'prices'

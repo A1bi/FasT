@@ -1,10 +1,6 @@
 .stepCon.seats data-has-seating-plan=(@event.seating.plan? ? 1 : 0)
   h3.mt-0 Veranstaltungsort
-  .mb-2.d-flex.align-items-center
-    i.bi.bi-geo-alt-fill.me-1
-    div
-      = @event.location.name
-      small.d-block = @event.location.address
+  = render 'application/events/location', event: @event, class: 'mb-2'
 
   .mb-2
     h3 Ihr gewünschter Termin
