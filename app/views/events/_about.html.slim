@@ -1,3 +1,5 @@
+- title ||= 'Über das Stück'
+
 - content_for :page_nav_elements
   li: a href="##{title.parameterize}"
     - words = title.split(' ')
@@ -5,6 +7,42 @@
     span = words[-1]
 
 .container.page-nav-anchor id=title.parameterize
-  .row: .col
-    h2 = title
-    = yield
+  h2 = title
+  .row
+    - if local_assigns[:play_details]&.any? || local_assigns[:event_details]&.any? || local_assigns[:duration].present? || local_assigns[:break_duration].present? || local_assigns[:booklet_filename].present? || local_assigns[:poster_filename].present?
+      .col.col-md-3.order-md-2.mw-text-col.info-cards
+        - if local_assigns[:play_details]&.any?
+          dl.card
+            - play_details.each do |label, info|
+              dt = label
+              dd = info
+        - if local_assigns[:event_details]&.any? || duration.present? || break_duration.present?
+          dl.card
+            - event_details.each do |label, info|
+              dt = label
+              dd = info
+            - if local_assigns[:duration].present?
+              dt Dauer
+              dd
+                | #{duration} Minuten
+                - if break_duration&.positive?
+                  small.d-block() (exklusive Pause)
+            - if local_assigns[:break_duration].present?
+              dt Pause
+              - if break_duration.positive?
+                dd #{break_duration} Minuten
+              - else
+                dd keine
+        - if local_assigns[:booklet_filename].present? || local_assigns[:poster_filename].present?
+          dl.card
+            dt Downloads
+            dd
+              - if local_assigns[:booklet_filename].present?
+                a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{booklet_filename}.pdf"
+                  i.bi.bi-book
+                  | Programmheft
+              - if local_assigns[:poster_filename].present?
+                a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{poster_filename}.pdf"
+                  i.bi.bi-file-post
+                  | Plakat
+    .col.col-md-9.order-md-1.mw-text-col = yield

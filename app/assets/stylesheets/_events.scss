@@ -13,26 +13,28 @@
   }
 }
 
-.downloads {
-  @extend %mb-2;
-  margin-top: -(spacing(1));
+.info-cards {
+  @extend %d-flex;
+  flex-direction: column;
+  gap: 1rem;
 
-  .card {
-    @extend %d-flex;
-    @extend %align-items-center;
-    @extend %justify-content-center;
-    gap: spacing(3);
-    line-height: 1;
+  dl {
+    @extend %my-0;
   }
 
-  svg {
-    @extend %svg-icon;
-    width: auto;
-    height: 1.2rem;
+  i {
+    @extend %me-1;
   }
 
-  i, svg {
-    margin-right: .25rem;
+  @include media-query(sm) {
+    dl {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    dd, dt {
+      width: 50%;
+    }
   }
 }
 

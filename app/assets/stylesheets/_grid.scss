@@ -11,17 +11,15 @@
 }
 
 @mixin col-classes($device-size: null) {
-  $device-infix: if($device-size, '-#{$device-size}', '');
-
   @for $column from 1 through $num-columns {
-    .col#{$device-infix}-#{$column} {
+    @include infixed-class(col, $device-size, $column) {
       @include col(100% / $num-columns * $column);
     }
   }
 }
 
-.container > .row > .col:not(.w-100):not([class*='col-md']):not([class*='col-lg']) {
-  max-width: 600px;
+.container > .row > .col:not(.w-100):not([class*='col-md']):not([class*='col-lg']), .mw-text-col {
+  @extend %mw-600;
 }
 
 [class^='col-'], .col {
@@ -41,6 +39,17 @@
   margin-right: auto;
 }
 
+@mixin order-classes($device-size: null) {
+  @for $order from 1 through 3 {
+    @include infixed-class(order, $device-size, $order) {
+      order: $order;
+    }
+  }
+}
+
+@include order-classes();
+
 @include media-query(md) {
   @include col-classes('md');
+  @include order-classes('md');
 }

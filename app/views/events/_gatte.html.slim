@@ -1,7 +1,22 @@
+ruby:
+  retail_sale = true
+  catering = true
+  break_duration = 30
+  duration = 120
+  play_details = {
+    'Autor' => 'Oscar Wilde',
+    'Uraufführung' => '1985'
+  }
+  event_details = {
+    'Regie' => 'Kirsten Roscher'
+  }
+  booklet_filename = 'Ein_idealer_Gatte_Programmheft'
+  poster_filename = 'Ein_idealer_Gatte_Plakat'
+
 = render 'header', gallery_id: 74, small_outline: true
 
 = render 'event'
-  = render 'about', title: 'Über das Stück'
+  = render 'about', play_details:, event_details:, duration:, break_duration:, booklet_filename:, poster_filename:
     p Das Stück wurde 1895 in London uraufgeführt und von Kritikern und Publikum gleichermaßen gefeiert, bis es bei Prozessbeginn abrupt vom Spielplan genommen wurde. „I really think it reads the best of my plays“ urteilte Wilde selbst über sein politisches und vielschichtiges letztes Bühnenwerk, das seine persönliche Erfahrung mit Erpressung und seine Angst von dem Verlust des gesellschaftlichen Ansehens verarbeitete.
     p Es geht um Insidergeschäfte, Erpressung, Intrigen, Geheimnisverrat, Börsenschwindel und Verwicklungen. Zeitlose Themen damals wie heute. Die Aktualität ist verblüffend.
     p Eine Intrigantin, Mrs Cheveley, die Zugang zu höchsten englischen Gesellschaftskreisen hat, versucht 1895 einen integren Politiker, Sir Robert, zu erpressen. Sie weiß genau um dessen dunkles Geheimnis am Anfang seiner Karriere und droht mit der Preisgabe dieses Geheimnisses an Presse und Gattin. Ein Freund möchte Sir Robert gerne helfen, verursacht dadurch jedoch nur noch mehr Verwicklungen.
@@ -195,5 +210,5 @@
     ]
   = render 'cast', cast:
 
-  = render 'tickets', retail: true
-  = render 'faq', retail_sale: true, catering: true, break_duration: 30, duration: 120
+  = render 'tickets', retail: retail_sale
+  = render 'faq', retail_sale:, catering:, duration:, break_duration:

@@ -1,7 +1,17 @@
+ruby:
+  retail_sale = false
+  catering = false
+  duration = 60
+  break_duration = 0
+  play_details = {
+    'Autoren' => 'Kirsten Roscher, Stephan Hilken'
+  }
+  event_details = {}
+
 = render 'header'
 
 = render 'event'
-  = render 'about', title: 'Über das Stück'
+  = render 'about', play_details:, event_details:, duration:, break_duration:
     p Nach der Absage des jährlichen Sommernachtstheaters präsentieren die Aktiven der Freilichtbühne am schiefen Turm stattdessen das „Sommernachtstheaterchen“ 2020: <b>„Mit Abstand das Beste...“ – eine virale Satirerevue.</b>
 
     h3 Das Programm
