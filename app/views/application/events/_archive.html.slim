@@ -6,7 +6,7 @@
       = l first_date, format: '%B'
       .year = l first_date, format: '%Y'
     .col-9.col-md-10
-      .title = link_to event.name, event_path(event.slug)
+      .title = link_to_if event_page_exists?(event), event.name, event_path(event.slug)
       .info
         .segment.location
           i.bi.bi-geo-alt-fill
