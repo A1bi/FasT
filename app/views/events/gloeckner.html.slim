@@ -1,7 +1,21 @@
+ruby:
+  details = {
+    duration: 120,
+    break_duration: 30,
+    info_box: {
+      play: {
+        'Autor' => 'Victor Hugo'
+      },
+      event: {
+        'Regie' => 'Helmut Mattern'
+      }
+    }
+  }
+
 = render 'header'
 
 = render 'event'
-  = render 'about', title: 'Über das Stück'
+  = render 'about', details:
     p Romantik ist die Epoche, in der unser Stück geschrieben wurde. Auch hier steht, ähnlich wie in der Klassik, der Held im Vordergrund. Doch haben wir es hier nicht mit einem strahlend dargestellten Held zu tun, dessen heroische und moralische Taten den Leser beeindruckten. Der romantische Held ist individualistisch, gefühlsorientiert und ein sich entwickelnder Charakter, der uns auch Einblicke in seine Abgründe gibt.
     p Unsere Geschichte verteilt sich auf mehrere Handlungsstränge: Der abstoßend aussehende Glöckner von Notre-Dame Quasimodo verliebt sich in die fremdartige Zigeunerin La Esmeralda. Diese hat sich jedoch in den Soldatenhauptmann Phoebus verliebt, der sie vor der Entführung durch Quasimodo rettet. Gringoire, der Mysterienschreiber, bildet eine durchgehende Konstante in der Handlung des Romans.
 

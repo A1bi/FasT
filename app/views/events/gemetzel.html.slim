@@ -1,18 +1,21 @@
 ruby:
-  retail_sale = false
-  catering = true
-  duration = 90
-  break_duration = 0
-  play_details = {
-    'Autorin' => 'Yasmina Reza',
-    'Uraufführung' => '2006'
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 0,
+    info_box: {
+      play: {
+        'Autorin' => 'Yasmina Reza',
+        'Uraufführung' => '2006'
+      }
+    }
   }
-  event_details = {}
 
 = render 'header'
 
 = render 'event'
-  = render 'about', play_details:, event_details:, duration:, break_duration:
+  = render 'about', details:
     p Zwei Ehepaare treffen sich, um die Folgen eines Streits zwischen ihren elfjährigen Söhnen zu besprechen, bei dem einer der beiden zwei Zähne verloren hat. Was in versöhnlichem Ton mit den besten Absichten auf beiden Seiten beginnt, gerät allmählich außer Kontrolle, als unterschiedliche Erwartungen, Prinzipien und Weltanschauungen aufeinandertreffen und zu allem Überfluss noch Alkohol ins Spiel kommt.
     p Yasmina Reza demaskiert in ihrem preisgekrönten Theaterstück genüsslich und boshaft die bürgerliche Fassade der gebildeten Mittelschicht im Europa des 21. Jahrhunderts.
 

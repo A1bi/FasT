@@ -1,20 +1,21 @@
 ruby:
-  retail_sale = false
-  catering = true
-  duration = nil
-  break_duration = nil
-  play_details = {
-    'Autor' => 'Karl Valentin',
-    'Bühnenfassung' => 'Angelika Dormeyer, Arwed Werner'
+  details = {
+    retail_sale: false,
+    catering: true,
+    info_box: {
+      play: {
+        'Autor' => 'Karl Valentin',
+        'Bühnenfassung' => 'Angelika Dormeyer, Arwed Werner'
+      }
+    }
   }
-  event_details = {}
 
 = render 'header'
 
 = render 'event'
-  = render 'about', play_details:, event_details:, duration:, break_duration:
+  = render 'about', details:
     p Im September begrüßen wir als Gastspiel auf der „Kulturbühne Altes Wasserwerk“ das #{link_to '„Muh-Theater“', 'https://muh-theater.de'} aus Kliding mit „Arschlinks heißt von hinten herwärts!“.
     p Karl Valentin, einer der größten deutschsprachigen Komiker, verblüfft uns mit genialer Wortakrobatik, trockenem Witz und menschlichen Wahrheiten: Sketche, Monologe, Couplets und Biographisches. Von und mit Angelika Dormeyer und Arwed Werner.
 
   = render 'tickets'
-  = render 'faq', retail_sale:, catering:, duration:, break_duration:
+  = render 'faq', details:

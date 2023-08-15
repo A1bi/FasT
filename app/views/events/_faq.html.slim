@@ -13,7 +13,7 @@ hr
     h3 Vorverkauf
 
     = question_answer 'Wo erhalte ich Tickets?' do
-      - if retail_sale
+      - if details[:retail_sale]
         | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path(@event.slug)} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
         ul
           li: a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
@@ -89,25 +89,25 @@ hr
       | Ja, das ist möglich, gerne auch bei kleinen Beträgen. Kontaktlose Zahlungen akzeptieren wir ebenfalls.
       p Bitte beachten Sie, dass die Essens- und Getränkestände hingegen nur Bargeld akzeptieren.
 
-    - if catering
+    - if details[:catering]
       = question_answer 'Werden vor Ort Speisen und Getränke angeboten?'
         | Ja, an unseren Ständen bieten wir gepflegte Getränke und leckere Kleinigkeiten an.
 
-    - if break_duration.present?
+    - if details[:duration].present?
+      = question_answer 'Wie lange dauert die Veranstaltung?' do
+        - if details[:break_duration]&.positive?
+          | Die Veranstaltung dauert etwa #{details[:duration]} Minuten (exklusive Pause).
+        - else
+          | Die Veranstaltung dauert etwa #{details[:duration]} Minuten.
+
+    - if details[:break_duration].present?
       = question_answer 'Wird es eine Pause geben?' do
-        - if break_duration.positive?
-          | Ja, es wird eine Pause von circa #{break_duration} Minuten geben.
-          - if catering
+        - if details[:break_duration].positive?
+          | Ja, es wird eine Pause von circa #{details[:break_duration]} Minuten geben.
+          - if details[:catering]
             |< In dieser Zeit sind unsere Essens- und Getränkestände für Sie geöffnet.
         - else
           | Nein, die Veranstaltung wird nicht durch eine Pause unterbrochen.
-
-    - if duration.present?
-      = question_answer 'Wie lange dauert die Veranstaltung?' do
-        - if break_duration&.positive?
-          | Die Veranstaltung dauert etwa #{duration} Minuten (exklusive Pause).
-        - else
-          | Die Veranstaltung dauert etwa #{duration} Minuten.
 
     = question_answer 'Kann ich während der Veranstaltung fotografieren oder filmen?' do
       | Leider können wir Ihnen dies nicht gestatten.

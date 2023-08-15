@@ -1,7 +1,22 @@
+ruby:
+  details = {
+    duration: 110,
+    break_duration: 0,
+    info_box: {
+      play: {
+        'Autoren' => 'Lutz Hübner, Sarah Nemitz',
+        'Uraufführung' => '2010'
+      },
+      event: {
+        'Regie' => 'Susanne Schubert'
+      }
+    }
+  }
+
 = render 'header'
 
 = render 'event'
-  = render 'about', title: 'Über das Stück'
+  = render 'about', details:
     p Wir befinden uns in der Musikraum/Aula einer Grundschule im Osten Deutschlands.
     p Lutz Hübner: „Am Elternabend zeigt sich, wie solidarisch eine Gesellschaft wirklich ist und wie sie mit Erfolg und Niederlagen umgeht. Da werden keine Gefangenen gemacht und keine Konzessionen. Wessis haben was gegen die Lehrerin aus dem Osten, Ossis finden die Westkinder völlig verzogen, soziale Vermischung schön und gut, aber doch nicht in der Klasse meines Kindes! Und weil an Elternabenden nicht nur Eltern um ihre Kinder kämpfen, sondern auch immer die Eltern für sich selbst, ist man sich im Vorfeld des Treffens einig geworden: Es geht darum, die blöden Bälger irgendwie durchzukriegen! Frau Müller muss weg!“
 

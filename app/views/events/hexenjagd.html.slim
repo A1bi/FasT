@@ -1,7 +1,20 @@
+ruby:
+  details = {
+    info_box: {
+      play: {
+        'Autor' => 'Arthur Miller',
+        'Uraufführung' => '1953'
+      },
+      event: {
+        'Regie' => 'Helmut Mattern'
+      }
+    }
+  }
+
 = render 'header'
 
 = render 'event'
-  = render 'about', title: 'Über das Stück'
+  = render 'about', details:
     p Die Zuschauer erleben die authentische, geschichtlich belegte „Hexenjagd“ im puritanischen Salem in Massachusetts des Jahres 1692.
     p Tanz und ähnliche Zerstreuungen sind in der strenggläubigen Gemeinde verpönt, jedoch Aberglaube, Hexerei und Teufelspakte sind fest im Alltag verankert. Eines Nachts tanzen die jungen Mädchen des Dorfes übermütig im Wald.
     p Die geheime Zusammenkunft wird jedoch aufgedeckt. Aus Angst vor Strafe verfallen einige der Mädchen in eine merkwürdige, nicht zu erklärende Ohnmacht. Schon werden in der Gemeinde Teufelswerk und Hexerei vermutet. Darauf steht die Todesstrafe.
