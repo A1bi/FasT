@@ -75,3 +75,8 @@ events:
     info:
       subtitle: Gastspiel woanders
       external_sale_url: https://example.com
+  - identifier: tanja_silcher
+    name: Tanja Silcher
+    location: Foo
+    info:
+      subtitle: Test 123 Foo Bar

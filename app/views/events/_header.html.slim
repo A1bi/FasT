@@ -3,7 +3,7 @@
   .event-header
     = full_width_photo_tags(gallery.photos.sample, class: [:photo, :active], alt: @event.name)
     .title.active class=('outline-sm' if local_assigns[:small_outline])
-      = event_logo(@event, inline_svg: true)
+      = event_logo(@event, tag: :h1, inline_svg: true)
 - else
   .container.py-2
     - if (logo_path = event_logo_path(@event)).present?

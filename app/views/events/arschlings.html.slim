@@ -2,6 +2,8 @@ ruby:
   details = {
     retail_sale: false,
     catering: true,
+    duration: 130,
+    break_duration: 30,
     info_box: {
       play: {
         'Autor' => 'Karl Valentin',
@@ -11,7 +13,7 @@ ruby:
     poster_filename: 'Muh_Theater_Plakat'
   }
 
-= render 'header'
+= render 'header', gallery_id: 76
 
 = render 'event'
   = render 'about', details:

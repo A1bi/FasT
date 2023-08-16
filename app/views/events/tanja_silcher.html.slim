@@ -1,0 +1,22 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 120,
+    break_duration: 30,
+    info_box: {
+      links: {
+        'tanjasilcher.de' => 'https://tanjasilcher.de/'
+      }
+    }
+  }
+
+= render 'header', gallery_id: 75
+
+= render 'event'
+  = render 'about', title: 'Über das Konzert', details:
+    p So könnte man die Musik von <b>Tanja Silcher</b> beschreiben. Die Künstlerin zaubert in Ihren Konzerten einerseits intime Momente voller Zerbrechlichkeit gleichzeitig scheut sie sich nicht vor lauten Tönen und unbequemen Fragen. So sind die Texte teils frech, provokant oder ironisch teils gefüllt mit fragiler Träumerei und augenzwinkerndem Humor.
+    p Mit <b>Benedikt Schweigstill</b> am Akkordeon und <b>Al Ginter</b> an Percussion und Gesang hat die Künstlerin zwei hochkarätige Musiker im Gepäck, die auf künstlerisch anspruchsvollem Niveau unterhalten. Die musikalische Darbietung gepaart mit den charmanten Ansagen der Liedermacherin versprechen einen spannenden und abwechslungsreichen Abend. Nach Ihrem erfolgreichen Debutalbum „Mutige Gedanken“ präsentiert die vielseitige Musikerin nun ihre zweite CD „Zusammenhalten“.
+
+  = render 'tickets'
+  = render 'faq', details:

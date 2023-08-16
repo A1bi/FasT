@@ -34,16 +34,22 @@
                 dd #{details[:break_duration]} Minuten
               - else
                 dd keine
-        - if details[:booklet_filename].present? || details[:poster_filename].present?
+        - if details[:booklet_filename].present? || details[:poster_filename].present? || details[:info_box][:links]&.any?
           dl.card
-            dt Downloads
-            dd
-              - if details[:booklet_filename].present?
-                a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{details[:booklet_filename]}.pdf"
-                  i.bi.bi-book
-                  | Programmheft
-              - if details[:poster_filename].present?
-                a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{details[:poster_filename]}.pdf"
-                  i.bi.bi-file-post
-                  | Plakat
+            - if details[:booklet_filename].present? || details[:poster_filename].present?
+              dt Downloads
+              dd
+                - if details[:booklet_filename].present?
+                  a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{details[:booklet_filename]}.pdf"
+                    i.bi.bi-book
+                    | Programmheft
+                - if details[:poster_filename].present?
+                  a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{details[:poster_filename]}.pdf"
+                    i.bi.bi-file-post
+                    | Plakat
+            - if details[:info_box][:links]&.any?
+              dt Links
+              dd
+                - details[:info_box][:links].each do |label, link|
+                  a.d-block href=link = label
     .col.col-md-9.order-md-1.mw-text-col = yield

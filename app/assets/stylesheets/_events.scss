@@ -3,6 +3,10 @@
   height: 60vh;
 
   .title {
+    h1 {
+      color: $white;
+    }
+
     @include media-query(md) {
       width: 80%;
     }
