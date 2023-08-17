@@ -101,7 +101,6 @@ events.each.with_index do |event_info, i|
     seating: seatings[i >= events.count - 1 ? 1 : 0],
     admission_duration: rand(30..60),
     sale_start: event_date_base - 2.months,
-    covid19: i == events.count - 1,
     info: {
       archived: true,
       **event_info.fetch(:info, {})
@@ -154,8 +153,6 @@ def create_tickets(order, coupons = [])
         ticket.seat = event.seating.seats.sample
         break unless ticket.seat.taken?(date)
       end
-
-      next unless event.covid19?
     end
 
     next unless ticket_type.price.zero?

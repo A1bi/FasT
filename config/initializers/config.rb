@@ -41,10 +41,6 @@ Config.setup do |config|
       required(:redirect_url).filled
     end
 
-    required(:covid19).schema do
-      required(:presence_tracing_email).filled(:bool)
-    end
-
     required(:tse).schema do
       required(:enabled).filled(:bool)
       required(:host).maybe(:string)

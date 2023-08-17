@@ -9,8 +9,6 @@ module Ticketing
     has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
-    before_validation :set_covid19_check_in_url
-
     delegate :future?, :past?, to: :date
 
     class << self
@@ -44,19 +42,6 @@ module Ticketing
 
     def statistics
       ticket_stats_for_event(event).dig(:total, id) || { total: 0, percentage: 0 }
-    end
-
-    def set_covid19_check_in_url
-      return unless event.covid19?
-
-      self.covid19_check_in_url ||= CoronaPresenceTracing::CWACheckIn.new(
-        description: event.name,
-        address: event.location.address,
-        start_time: admission_time,
-        end_time: 2.hours.after(date),
-        location_type: :temporary_cultural_event,
-        default_check_in_length: 120
-      ).url
     end
   end
 end

@@ -165,7 +165,6 @@ module Ticketing
       unless current_user.store.sale_enabled
         return redirect_to ticketing_orders_path, alert: t('.sale_disabled_for_store')
       end
-      return redirect_to ticketing_orders_path, alert: t('.sale_web_only_covid19') if @event.covid19?
 
       render :new_retail
     end

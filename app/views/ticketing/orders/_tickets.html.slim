@@ -8,15 +8,10 @@
         ' und damit verbundene Sitzplatzreservierung
       | für <b>„#{@event.name}“</b> zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
 
-    - if @event.covid19?
-      .covid19
-        h3.hcen Einlassbedingungen
-        p <b>Diese Veranstaltung findet unter 2G-Bedingungen statt, sofern die Regelung im #{l(@event.dates.first.date, format: '%B %Y')} noch angewandt wird.</b> Dies bedeutet, dass Sie beim Einlass einen Nachweis über Ihren vollständigen COVID-19-Impfschutz oder Ihre -Genesung vorweisen müssen.
-
-      p
-        | Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
-        - if @event.seating.plan?
-          |< Anschließend haben Sie im nächsten Schritt die Möglichkeit, Ihre Sitzplätze anhand des Sitzplans auszuwählen.
+    p
+      | Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
+      - if @event.seating.plan?
+        |< Anschließend haben Sie im nächsten Schritt die Möglichkeit, Ihre Sitzplätze anhand des Sitzplans auszuwählen.
 
   h3 Ihre gewünschten Tickets
   .number

@@ -1344,8 +1344,7 @@ CREATE TABLE public.ticketing_event_dates (
     event_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    cancellation_id bigint,
-    covid19_check_in_url character varying
+    cancellation_id bigint
 );
 
 
@@ -1383,7 +1382,6 @@ CREATE TABLE public.ticketing_events (
     slug character varying NOT NULL,
     sale_disabled_message character varying,
     assets_identifier character varying NOT NULL,
-    covid19 boolean DEFAULT false NOT NULL,
     admission_duration integer NOT NULL,
     location_id bigint NOT NULL,
     ticketing_enabled boolean DEFAULT true NOT NULL,
@@ -3980,6 +3978,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230804094229'),
 ('20230805121011'),
 ('20230808221947'),
-('20230809215027');
+('20230809215027'),
+('20230817211816');
 
 

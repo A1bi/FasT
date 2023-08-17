@@ -12,9 +12,6 @@ table#items
   = render 'redeemed_coupons'
 
 - if attach_tickets?
-  - if @order.covid19?
-    = render 'covid19'
-
   = structured_data(@order)
   = render 'tickets_notes'
 

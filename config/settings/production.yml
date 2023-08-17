@@ -16,8 +16,5 @@ ticket_barcode_base_url: 'https://a0s.de/!'
 sentry:
   enabled: true
 
-covid19:
-  presence_tracing_email: false
-
 tse:
   enabled: true

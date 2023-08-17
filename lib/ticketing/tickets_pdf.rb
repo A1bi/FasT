@@ -120,9 +120,6 @@ module Ticketing
         labels += %i[entrance block row seat]
         values += [ticket.block.entrance, ticket.block.name, ticket.seat.row,
                    ticket.seat.number]
-      elsif ticket.event.covid19?
-        labels << :covid19_seat
-        values << t(:covid19_seating)
       else
         labels << ''
         values << t(:free_seating)

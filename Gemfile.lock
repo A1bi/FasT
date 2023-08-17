@@ -102,8 +102,6 @@ GEM
       deep_merge (~> 1.2, >= 1.2.1)
       dry-validation (~> 1.0, >= 1.0.0)
     connection_pool (2.4.1)
-    corona_presence_tracing (0.1.1)
-      google-protobuf (~> 3.15)
     crass (1.0.6)
     css_parser (1.14.0)
       addressable
@@ -156,7 +154,6 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    google-protobuf (3.23.3)
     hashery (2.1.2)
     hkdf (1.0.0)
     http-2 (0.11.0)
@@ -445,7 +442,6 @@ DEPENDENCIES
   capistrano-bundler (~> 2.0)
   capistrano-rails (~> 1.4)
   config (~> 4.0)
-  corona_presence_tracing
   dalli (~> 3.0)
   doorkeeper (~> 5.6)
   factory_bot_rails

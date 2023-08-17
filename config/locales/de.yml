@@ -126,7 +126,6 @@ de:
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       sale_ended: "Tickets zu „%{event}“ sind nicht mehr erhältlich."
       sale_disabled_for_store: Der Ticketverkauf ist für diese Vorverkaufsstelle derzeit nicht freigeschaltet.
-      sale_web_only_covid19: Für diese Veranstaltung können wegen COVID-19 keine Tickets in einer Vorverkaufsstelle verkauft werden. Der Verkauf findet ausschließlich online oder telefonisch statt.
       retail_access_denied: "Die angegebene Bestellung wurde nicht von dieser Vorverkaufsstelle aufgegeben und kann deshalb nicht eingesehen werden."
       pay_methods:
         charge: "SEPA-Lastschrift"
@@ -154,9 +153,6 @@ de:
         tickets: Ihre Tickets
         coupons: Ihre Geschenkgutscheine
       order_with_number_html: Bestellung mit der Nummer <b>%{number}</b>
-    covid19_check_in_mailer:
-      check_in:
-        subject: Herzlich willkommen
     tickets:
       cancelled:
         one: "Ein Ticket wurde erfolgreich storniert."
@@ -254,8 +250,6 @@ de:
     opens: "Einlass"
     location: "Veranstaltungsort"
     free_seating: "Freie Platzwahl"
-    covid19_seat: Sitzplatz
-    covid19_seating: wird vor Ort mitgeteilt
     additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:\n<b>www.theater-kaisersesch.de</b> oder <b>(02653) 28 27 09</b>"
   coupon_pdf:
     title: Gutschein

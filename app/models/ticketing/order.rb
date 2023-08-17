@@ -88,10 +88,6 @@ module Ticketing
       self.paid = !billing_account.outstanding?
     end
 
-    def covid19?
-      tickets.any? { |ticket| ticket.event.covid19? }
-    end
-
     def items
       tickets + purchased_coupons
     end

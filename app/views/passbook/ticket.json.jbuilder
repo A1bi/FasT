@@ -98,13 +98,6 @@ json.eventTicket do
       }
     end
 
-  elsif ticket.event.covid19?
-    secondary_fields << {
-      key: 'seat',
-      label: 'Sitzplatz',
-      value: 'wird vor Ort mitgeteilt'
-    }
-
   else
     secondary_fields << {
       key: 'seat',

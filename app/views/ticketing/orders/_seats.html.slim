@@ -27,7 +27,5 @@
 
       = render 'application/ticketing/seating', class: [:chooser, :stage, 'mt-2'], error_box: true, key: true, mode: :chooser, event: @event
 
-  - elsif @event.covid19?
-    .no-seating Ihre Sitzplätze werden Ihnen vor Ort mitgeteilt.
   - else
     .no-seating Bei dieser Veranstaltung gilt freie Platzwahl.

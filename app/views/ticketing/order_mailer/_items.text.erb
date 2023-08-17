@@ -8,10 +8,6 @@ Ihre bestellten Artikel:
 <% end %>
 
 <% if attach_tickets? %>
-<% if @order.covid19? %>
-
-<%= render 'covid19' %>
-<% end %>
 
 <%= render 'tickets_notes' %>
 <% end %>
