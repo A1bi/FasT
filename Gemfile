@@ -32,7 +32,6 @@ gem 'stimulus-rails', '~> 1.2'
 gem 'web-push', '~> 3.0'
 gem 'whenever', require: false
 
-gem 'icalendar', '~> 2.7'
 gem 'jbuilder', '~> 2.10'
 gem 'matrix' # needed for prawn
 gem 'prawn', '~> 2.4.0'
