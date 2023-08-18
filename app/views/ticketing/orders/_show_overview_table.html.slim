@@ -1,12 +1,12 @@
-h3 = title
-.table-responsive: table: tbody
+- if local_assigns[:title].present?
+  h3 = title
+dl.md-horizontal
   - overview.each do |row|
-    tr
-      td.label = "#{row[0]}:"
-      td class=row[2]
-        - if row[1].present?
-          = row[1]
-        - elsif @order.try(:anonymized?)
-          em.anonymized anonymisiert
-        - else
-          em.small nicht angegeben
+    dt = row[0]
+    dd class=row[2]
+      - if row[1].present?
+        = row[1]
+      - elsif @order.try(:anonymized?)
+        em.anonymized anonymisiert
+      - else
+        em.small nicht angegeben

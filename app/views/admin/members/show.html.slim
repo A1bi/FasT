@@ -16,108 +16,97 @@
       - if policy(@member).edit?
         = link_to 'Daten bearbeiten', edit_admin_members_member_path(@member)
 
-  .row: .col: .card
-    .row
-      .col-5 width='40%' Mitgliedsnummer:
-      tt.col-7 = @member.number
-    .row
-      .col-5 Name:
-      .col-7
-        = @member.name.full
-        - if @member.nickname != @member.first_name
-          em<() (#{@member.nickname})
-    .row
-      .col-5 Geburtstag:
-      .col-7
-        - if @member.birthday
-          = l @member.birthday, format: :long
-    .row
-      .col-5 Geschlecht:
-      .col-7 = t("genders.#{@member.gender}")
+  .row: .col
     - if @member.membership_cancelled?
-      .row: .col
-        .text-center
-          .text-red Mitgliedschaft gekündigt zum #{l(@member.membership_terminates_on, format: :long)}
-          small.d-block = link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'}
+      = render 'alert', type: 'warning'
+        | Mitgliedschaft gekündigt zum #{l(@member.membership_terminates_on, format: :long)}.
+        .mt-1 = link_to 'Kündigung zurücknehmen', admin_members_member_path(@member, members_member: { cancelled: false }), method: :patch, data: { confirm: 'Möchten Sie die Kündigung wirklich zurücknehmen?'}, class: 'btn btn-sm'
 
-    h3 Kontaktdaten
-    .row
-      .col-5 Adresse:
-      .col-7
-        = @member.street
-        br
-        | #{@member.plz} #{@member.city}
-    .row
-      .col-5 E-Mail-Adresse:
-      .col-7 = mail_to @member.email
-    .row
-      .col-5 Telefonnummer:
-      .col-7 = @member.phone
-
-    h3 Bankverbindung
-    - if @member.sepa_mandate.present?
-      .row
-        .col-5 Kontoinhaber:
-        .col-7 = @member.sepa_mandate.debtor_name
-      .row
-        .col-5 IBAN:
-        tt.col-7 = obfuscated_mandate_iban(@member.sepa_mandate)
-      .row
-        .col-5 Mandat:
-        .col-7
-          tt> = @member.sepa_mandate.number(prefixed: true)
-          small.d-block() (vom #{l(@member.sepa_mandate.issued_on)})
-
-    h3 Mitgliedsbeitrag
-    .row
-      .col-5 Jahresbeitrag:
-      .col-7 = number_to_currency(@member.membership_fee)
-    .row
-      .col-5 zuletzt bezahlt:
-      .col-7
-        - if (last_payment = @member.membership_fee_payments.last).present?
-          = l last_payment.created_at.to_date, format: :long
-          - if last_payment.failed?
-            small.d-block.text-red Zahlung fehlgeschlagen
-          - elsif policy(last_payment).mark_as_failed?
-            small.d-block = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }
+    - if (last_payment = @member.membership_fee_payments.last)&.failed?
+        = render 'alert', type: 'alert'
+          | Letzte Zahlung fehlgeschlagen.
           - if @member.membership_fee_payments_paused && policy(@member).resume_membership_fee_payments?
-            small.d-block = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }
-        - else
-          em = t('admin.members.membership_fee_never_paid')
-    - if @member.membership_fee_paid_until.present?
-      .row
-        .col-5 bezahlt bis:
-        .col-7 = l @member.membership_fee_paid_until, format: :long
+            .mt-1 = link_to 'automatischen Bankeinzug fortsetzen', resume_membership_fee_payments_admin_members_member_path(@member), method: :patch, data: { confirm: 'Möchten Sie den automatischen Bankeinzug fortsetzen?' }, class: 'btn btn-sm'
 
-    h3 Weitere Angaben
-    .row
-      .col-5 Beitrittsdatum:
-      .col-7 = l @member.joined_at, format: :long
-    .row
-      .col-5 Im Vorstand:
-      .col-7 = @member.admin? ? 'Ja' : 'Nein'
-    .row
-      .col-5 Letzter Login
-      .col-7 = last_login_time @member
-    .row
-      .col-5 Familie
-      .col-7
-        - if @member.in_family?
+    .card
+      dl.md-horizontal
+        dt Mitgliedsnummer
+        dd = @member.number
+        dt Name
+        dd
+          = @member.name.full
+          - if @member.nickname != @member.first_name
+            em<() (#{@member.nickname})
+        dt Geburtstag
+        dd
+          - if @member.birthday
+            = l @member.birthday, format: :long
+        dt Geschlecht
+        dd = t("genders.#{@member.gender}")
+
+        h3.w-100 Kontaktdaten
+        dt Adresse
+        dd
+          = @member.street
+          br
+          | #{@member.plz} #{@member.city}
+        dt E-Mail-Adresse
+        dd = mail_to @member.email
+        dt Telefonnummer
+        dd = @member.phone
+
+        h3.w-100 Bankverbindung
+        - if @member.sepa_mandate.present?
+          dt Kontoinhaber
+          dd = @member.sepa_mandate.debtor_name
+          dt IBAN
+          dd: tt = obfuscated_mandate_iban(@member.sepa_mandate)
+          dt Mandat
+          dd
+            tt> = @member.sepa_mandate.number(prefixed: true)
+            small.d-block() (vom #{l(@member.sepa_mandate.issued_on)})
+
+        h3.w-100 Mitgliedsbeitrag
+        dt Jahresbeitrag
+        dd = number_to_currency(@member.membership_fee)
+        dt zuletzt bezahlt
+        dd
+          - if (last_payment = @member.membership_fee_payments.last).present?
+            = l last_payment.created_at.to_date, format: :long
+            - if last_payment.failed?
+              em.text-red<() (fehlgeschlagen)
+            - elsif policy(last_payment).mark_as_failed?
+              .mt-1 = link_to 'Zahlung als fehlgeschlagen markieren', mark_as_failed_admin_members_membership_fee_payment_path(last_payment), method: :patch, data: { confirm: 'Möchten Sie die Zahlung als fehlgeschlagen markieren?' }, class: 'btn btn-sm'
+          - else
+            em = t('admin.members.membership_fee_never_paid')
+        - if @member.membership_fee_paid_until.present?
+          dt bezahlt bis
+          dd = l @member.membership_fee_paid_until, format: :long
+
+        h3.w-100 Weitere Angaben
+        dt Beitrittsdatum
+        dd = l @member.joined_at, format: :long
+        dt Im Vorstand
+        dd = @member.admin? ? 'Ja' : 'Nein'
+        dt Letzter Login
+        dd = last_login_time @member
+        dt Familie
+        dd
+          - if @member.in_family?
+            ul
+              - @member.family.members.alphabetically.each do |member|
+                li = link_to member.name.full, admin_members_member_path(member)
+            small.d-block = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
+          - else
+            em Dieses Mitglied ist keiner Familie zugeordnet.
+
+      - if policy(@member).show_permissions?
+        h3 Berechtigungen
+        - if @member.permissions&.any? || @member.shared_email_accounts_authorized_for&.any?
           ul
-            - @member.family.members.alphabetically.each do |member|
-              li = link_to member.name.full, admin_members_member_path(member)
-          small.d-block = link_to 'Dieses Mitglied aus der Familie entfernen.', admin_members_member_path(@member, members_member: { family_id: nil }), method: :patch, data: { confirm: 'Möchten Sie das Mitglied wirklich aus der Familie entfernen?'}
+            - @member.permissions&.each do |permission|
+              li = t "permissions.#{permission}"
+            - @member.shared_email_accounts_authorized_for&.each do |email|
+              li = t('permissions.authorized_for_shared_email_account_html', email: email)
         - else
-          em Dieses Mitglied ist keiner Familie zugeordnet.
-
-    - if policy(@member).show_permissions?
-      h3 Berechtigungen
-      - if @member.permissions&.any? || @member.shared_email_accounts_authorized_for&.any?
-        ul
-          - @member.permissions&.each do |permission|
-            li = t "permissions.#{permission}"
-          - @member.shared_email_accounts_authorized_for&.each do |email|
-            li = t('permissions.authorized_for_shared_email_account_html', email: email)
-      - else
-        em Dieses Mitglied hat keine besonderen Berechtigungen.
+          em Dieses Mitglied hat keine besonderen Berechtigungen.

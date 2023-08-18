@@ -9,16 +9,16 @@
     .table-responsive: table
       thead: tr
         th
-        th Lastschriften
-        th Erstattungen
+        th.text-end Lastschriften
+        th.text-end Erstattungen
         th
       tbody
         tr
           - if @submittable_transactions.any?
             td #{@submittable_transactions.count} Transaktionen einzureichen.
-            td = number_to_currency(@submittable_transactions.debits.sum(:amount).abs)
-            td = number_to_currency(@submittable_transactions.transfers.sum(:amount).abs)
-            td = link_to 'Jetzt einreichen', ticketing_payments_submit_transactions_path, method: :post, confirm: 'Möchten Sie die Transaktionen bei der Bank wirklich einreichen?', class: 'btn btn-sm'
+            td.text-end = number_to_currency(@submittable_transactions.debits.sum(:amount).abs)
+            td.text-end = number_to_currency(@submittable_transactions.transfers.sum(:amount).abs)
+            td.text-end = link_to 'Jetzt einreichen', ticketing_payments_submit_transactions_path, method: :post, confirm: 'Möchten Sie die Transaktionen bei der Bank wirklich einreichen?', class: 'btn btn-sm'
           - else
             td colspan=4 Keine Transaktionen einzureichen.
 
@@ -30,8 +30,8 @@
           tr
             - data = { confirm: 'Bitte beachten Sie, dass die Erstellung dieser Datei bereits einige Zeit zurückliegt und eventuell bereits eingereicht wurde. Möchten Sie sie trotzdem herunterladen?' } if submission.created_at.before?(1.day.ago)
             td #{submission.transactions.count} Transaktionen
-            td = number_to_currency(submission.transactions.debits.sum(:amount).abs)
-            td = number_to_currency(submission.transactions.transfers.sum(:amount).abs)
+            td.text-end = number_to_currency(submission.transactions.debits.sum(:amount).abs)
+            td.text-end = number_to_currency(submission.transactions.transfers.sum(:amount).abs)
             td.text-end
               = l(submission.created_at, format: '%d.%m.%y, %H:%M')
               = link_to ticketing_payments_bank_submission_file_path(submission), data:, class: 'ms-1'

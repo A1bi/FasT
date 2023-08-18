@@ -11,14 +11,58 @@ ruby:
   ]
 
 .container
+  h1 Bestellung
   .row
     .col-12.col-md-8
       - if @order.try(:anonymized?)
         thead: tr: th colspan=2 Diese Bestellung wurde anonymisiert.
 
-      .card.mb-2 = render 'show_overview_table', title: 'Bestellung', overview: overview
-
       .card.mb-2
+        = render 'show_overview_table', overview: overview
+
+        ruby:
+          if @order.is_a? Ticketing::Retail::Order
+            title = 'Buchung in Vorverkaufsstelle'
+            overview = [
+              ['Vorverkaufsstelle', @order.store.name]
+            ]
+          elsif @order.is_a? Ticketing::BoxOffice::Order
+            title = 'Buchung an Abendkasse'
+            overview = [
+              ['Abendkasse', @order.box_office.name]
+            ]
+          elsif @order.is_a? Ticketing::Web::Order
+            title = 'Online-Bestellung'
+
+            plz_info = @order.plz
+            if @order.geolocation.present?
+              location = @order.geolocation.cities.join(', ')
+              if @order.geolocation.districts.any?
+                location += " – #{@order.geolocation.districts[0..2].join(', ')}"
+              end
+              plz_info += " (#{location})"
+            end
+
+            overview = [
+              ['Nachname', @order.last_name],
+              ['Vorname', @order.first_name],
+              ['Zugehörigkeit', @order.affiliation],
+              ['E-Mail', @order.email],
+              ['Telefon', (@order.phone || '').phony_formatted],
+              ['PLZ', plz_info]
+            ]
+            unless @order.total.zero?
+              payment = [
+                ['Zahlungsart', t(@order.pay_method, scope: (scope + [:pay_methods]))]
+              ]
+            end
+          end
+        = render 'show_overview_table', title: title, overview: overview
+
+        - if payment
+          = render 'show_overview_table', title: 'Zahlung', overview: payment
+
+      .card
         h3 Eingelöste Gutscheine
         - if @order.redeemed_coupons.any?
           ul
@@ -26,48 +70,6 @@ ruby:
             li = link_to_if(policy(coupon).show?, coupon.recipient.presence || "##{coupon.id}", coupon)
         - else
           em.d-block Es wurden keine Gutscheine eingelöst.
-
-      ruby:
-        if @order.is_a? Ticketing::Retail::Order
-          title = 'Buchung in Vorverkaufsstelle'
-          overview = [
-            ['Vorverkaufsstelle', @order.store.name]
-          ]
-        elsif @order.is_a? Ticketing::BoxOffice::Order
-          title = 'Buchung an Abendkasse'
-          overview = [
-            ['Abendkasse', @order.box_office.name]
-          ]
-        elsif @order.is_a? Ticketing::Web::Order
-          title = 'Online-Bestellung'
-
-          plz_info = @order.plz
-          if @order.geolocation.present?
-            location = @order.geolocation.cities.join(', ')
-            if @order.geolocation.districts.any?
-              location += " – #{@order.geolocation.districts[0..2].join(', ')}"
-            end
-            plz_info += " (#{location})"
-          end
-
-          overview = [
-            ['Nachname', @order.last_name],
-            ['Vorname', @order.first_name],
-            ['Zugehörigkeit', @order.affiliation],
-            ['E-Mail', @order.email],
-            ['Telefon', (@order.phone || '').phony_formatted],
-            ['PLZ', plz_info]
-          ]
-          if !@order.total.zero?
-            payment = [
-              ['Zahlungsart', t(@order.pay_method, scope: (scope + [:pay_methods]))]
-            ]
-          end
-        end
-
-      .card = render 'show_overview_table', title: title, overview: overview
-      - if payment
-        .card.mt-2 = render 'show_overview_table', title: 'Zahlung', overview: payment
 
     .col-12.col-md-4: .card
       h3 Aktionen

@@ -14,7 +14,7 @@
         .badge Ticketing aktiviert
       - else
         .badge.badge-red Ticketing deaktiviert
-    dl
+    dl.md-horizontal
       dt Titel
       dd = link_to_if @event.ticketing_enabled?, @event.name, ticketing_statistics_path(@event.slug)
       dt Identifier

@@ -3,49 +3,40 @@
 .container: .row: .col.w-100
   .card.mb-2
     h3 Gutscheindetails
-    table
-      tbody
-        tr
-          td Code:
-          td
-            tt> = @coupon.code
-            = render 'admin_actions', obj: @coupon, delete_confirm: 'diesen Gutschein'
-        tr
-          td Empfänger:
-          td
-            - if @coupon.recipient.present?
-              = @coupon.recipient
-            - else
-              em nicht angegeben
-        tr
-          td Zugehörigkeit:
-          td
-            - if @coupon.affiliation.present?
-              = @coupon.affiliation
-            - else
-              em nicht angegeben
-        tr
-          td Erstellt:
-          td = l(@coupon.created_at, format: :medium)
-        tr
-          td Ursprünglicher Wert:
-          td = coupon_value(@coupon, initial: true)
-        tr
-          td Restwert:
-          td = coupon_value(@coupon)
-        - if @coupon.purchased_with_order.present?
-          tr
-            td Bestellt in:
-            td = link_to "Bestellung #{@coupon.purchased_with_order.number}", ticketing_order_path(@coupon.purchased_with_order)
-        tr
-          td Eingelöst in Bestellungen:
-          td
-            - if @coupon.orders.any?
-              ul
-                - @coupon.orders.each do |order|
-                  li #{link_to order.number, ticketing_order_path(order)} | #{l(order.created_at, format: :medium)} | #{number_to_currency(order.total)}
-            - else
-              em keine
+    dl.md-horizontal
+      dt Code
+      dd
+        tt> = @coupon.code
+        = render 'admin_actions', obj: @coupon, delete_confirm: 'diesen Gutschein'
+      dt Empfänger
+      dd
+        - if @coupon.recipient.present?
+          = @coupon.recipient
+        - else
+          em nicht angegeben
+      dt Zugehörigkeit
+      dd
+        - if @coupon.affiliation.present?
+          = @coupon.affiliation
+        - else
+          em nicht angegeben
+      dt Erstellt
+      dd = l(@coupon.created_at, format: :medium)
+      dt Ursprünglicher Wert
+      dd = coupon_value(@coupon, initial: true)
+      dt Restwert
+      dd = coupon_value(@coupon)
+      - if @coupon.purchased_with_order.present?
+        dt Bestellt in
+        dd = link_to "Bestellung #{@coupon.purchased_with_order.number}", ticketing_order_path(@coupon.purchased_with_order)
+      dt Eingelöst in Bestellungen
+      dd
+        - if @coupon.orders.any?
+          ul
+            - @coupon.orders.each do |order|
+              li #{link_to order.number, ticketing_order_path(order)} | #{l(order.created_at, format: :medium)} | #{number_to_currency(order.total)}
+        - else
+          em keine
 
   .card.mb-2
     h3 Gutschein verschicken

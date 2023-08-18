@@ -3,26 +3,21 @@
 .container
   h1 Mitglieds&shy;daten bearbeiten
   .row: .col
-    .card
-      .row
-        .col-6 Name
-        .col-6 = current_user.name.full
-      .row
-        .col-6 Mitgliedsnummer
-        .col-6: tt = current_user.number
-      .row
-        .col-6 Beitrittsdatum
-        .col-6 = l current_user.joined_at, format: '%-d. %B %Y'
+    dl.card
+      dt Name
+      dd = current_user.name.full
+      dt Mitgliedsnummer
+      dd: tt = current_user.number
+      dt Beitrittsdatum
+      dd = l current_user.joined_at, format: '%-d. %B %Y'
       - if current_user.membership_fee_paid_until.present?
-        .row
-          .col-6 Mitgliedsbeitrag bezahlt bis
-          .col-6 = l current_user.membership_fee_paid_until, format: :long
+          dt Mitgliedsbeitrag bezahlt bis
+          dd = l current_user.membership_fee_paid_until, format: :long
       h3 Bankverbindung für Mitgliedsbeitrag
-      .row
-        .col
-          = current_user.sepa_mandate.debtor_name
-          br
-          tt = obfuscated_iban(current_user.sepa_mandate.iban)
+      dt Kontoinhaber
+      dd = current_user.sepa_mandate.debtor_name
+      dt IBAN
+      dd: tt = obfuscated_iban(current_user.sepa_mandate.iban)
     .card.mt-2
       = form_for current_user, url: members_member_path do |f|
         = render 'errors', errors: current_user.errors

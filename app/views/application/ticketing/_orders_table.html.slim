@@ -16,7 +16,7 @@
             - if :date.in?(additional_columns)
               th.text-start Termin
             - if :balance.in?(additional_columns)
-              th offen
+              th.text-end offen
             th.text-end Datum
         tbody.hover
           - orders.each do |order|
