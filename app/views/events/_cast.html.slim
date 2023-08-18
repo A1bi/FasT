@@ -13,8 +13,8 @@ hr
         - if entry.key?(:doubles)
           .entry data-controller='content-reveal'
             .row
-              .col-6.role = entry[:title]
-              .col-6.actors
+              .col.role = entry[:title]
+              .col.actors
                 ul.list-style-none
                   - entry[:doubles].pluck(:actor).each do |title|
                     li = title
@@ -25,8 +25,8 @@ hr
             .doubles data-content-reveal-target='content'
               - entry[:doubles].each do |double|
                 .row
-                  .col-6 = double[:actor]
-                  .col-6: ul.list-style-none
+                  .col = double[:actor]
+                  .col: ul.list-style-none
                     - if double[:dates].present?
                       - double[:dates].each do |date|
                         li = l((@event.dates[date] || @event.dates.first).date, format: :cast)
@@ -35,8 +35,8 @@ hr
 
         - else
           .entry: .row
-            .col-6 = entry[:title]
-            .col-6.actors: ul.list-style-none
+            .col = entry[:title]
+            .col.actors: ul.list-style-none
               - Array(entry[:actors]).each do |actor|
                 li = actor
 

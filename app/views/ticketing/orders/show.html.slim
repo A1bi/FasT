@@ -12,7 +12,7 @@ ruby:
 
 .container
   .row
-    .col.col-md-8
+    .col-12.col-md-8
       - if @order.try(:anonymized?)
         thead: tr: th colspan=2 Diese Bestellung wurde anonymisiert.
 
@@ -69,7 +69,7 @@ ruby:
       - if payment
         .card.mt-2 = render 'show_overview_table', title: 'Zahlung', overview: payment
 
-    .col.col-md-4: .card
+    .col-12.col-md-4: .card
       h3 Aktionen
       ul.list-style-none
         - if policy(@order).update?
@@ -144,10 +144,10 @@ ruby:
             ].keep_if { |option| option[1] != :enable_resale || (@order.event.seating.plan? && current_user.admin?) }
           .mb-2 data-ticketing--tickets-table-target='form'
             .row.justify-content-start
-              .col-6
+              .col
                 = label_tag :edit_action, 'Aktion'
                 = select_tag :edit_action, options_for_select(options), name: nil, data: { ticketing__tickets_table_target: 'action', action: 'ticketing--tickets-table#toggleCancellationForm' }
-              .col-6 data-ticketing--tickets-table-target='cancellation'
+              .col data-ticketing--tickets-table-target='cancellation'
                 = label_tag :reason, 'Stornierungsgrund'
                 = text_field_tag :reason, nil, placeholder: 'optional'
             .row: .col data-ticketing--tickets-table-target='cancellation'
@@ -164,10 +164,10 @@ ruby:
                     = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', ticketing__tickets_table_target: 'bankDetailsCheckbox' }
                     = label_tag :use_most_recent, 'Bekanntes Bankkonto verwenden'
                 .row
-                  .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
+                  .col data-ticketing--tickets-table-target='refundDetails bankDetails'
                     = label_tag :name, 'Kontoinhaber'
                     = text_field_tag :name, nil, placeholder: 'Name'
-                  .col-6 data-ticketing--tickets-table-target='refundDetails bankDetails'
+                  .col data-ticketing--tickets-table-target='refundDetails bankDetails'
                     = label_tag :iban, 'IBAN'
                     = text_field_tag :iban, nil, placeholder: 'IBAN'
             = submit_tag 'absenden', name: nil, class: :btn, data: { ticketing__tickets_table_target: 'submitButton', default_label: 'absenden' }

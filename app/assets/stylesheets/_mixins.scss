@@ -11,7 +11,8 @@
 
 @mixin infixed-class($prefix, $device-size, $suffix) {
   $device-infix: if($device-size, '-#{$device-size}', '');
-  .#{$prefix}#{$device-infix}-#{$suffix} {
+  $suffix: if($suffix, '-#{$suffix}', '');
+  .#{$prefix}#{$device-infix}#{$suffix} {
     @content;
   }
 }

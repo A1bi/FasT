@@ -25,10 +25,10 @@
                 = subscriber_list_with_count(b.object)
         - unless @newsletter.sent?
           .row.mb-2
-            .col.col-md-6: .form-check
+            .col-12.col-md: .form-check
               = check_box_tag :send_preview_email
               = label_tag :send_preview_email, 'Vorschau verschicken'
-            .col.col-md-6
+            .col-12.col-md
               = label_tag :preview_email, 'Empfänger für Vorschau'
               = email_field_tag :preview_email, current_user&.email, placeholder: 'E-Mail-Adresse'
         - if @newsletter.sent?

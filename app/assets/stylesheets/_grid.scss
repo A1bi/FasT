@@ -7,6 +7,7 @@
 }
 
 @mixin col($width) {
+  flex: 0 0 auto;
   width: $width;
 }
 
@@ -16,16 +17,21 @@
       @include col(100% / $num-columns * $column);
     }
   }
+
+  @include infixed-class(col, $device-size, auto) {
+    @include col(auto);
+  }
+
+  @include infixed-class(col, $device-size, null) {
+    flex: 1 0 0%;
+  }
 }
 
 .container > .row > .col:not(.w-100):not([class*='col-md']):not([class*='col-lg']), .mw-text-col {
   @extend %mw-600;
 }
 
-[class^='col-'], .col {
-  // necessary for case like this: div.col-md-6
-  // devices smaller than md will then default to 100%
-  @include col(100%);
+[class^='col'] {
   @extend %p-1;
 }
 

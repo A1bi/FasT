@@ -42,11 +42,11 @@
       .col-4.text-end.total: b <span></span> €
 
     .row.coupon.align-items-end.justify-content-end
-      .col-6.col-md-4
+      .col-5.col-md-4
         = label_tag :code, 'Gutscheincode'
         = text_field_tag :code, '', class: 'noKeyCatch'
-      .col-6.col-md-3 = submit_tag 'einlösen', class: 'btn w-100'
-      .col.text-end.msg.d-none-unimportant
-      .col.text-end.d-none-unimportant.added
+      .col-auto = submit_tag 'einlösen', class: 'btn w-100'
+      .col-12.text-end.msg.d-none-unimportant
+      .col-12.text-end.d-none-unimportant.added
         div Hinzugefügte Gutscheine
         .mt-1: span

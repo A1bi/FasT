@@ -11,7 +11,7 @@
   h2 = title
   .row
     - if details[:info_box]&.any? || details[:duration].present? || details[:break_duration].present? || details[:booklet_filename].present? || details[:poster_filename].present?
-      .col.col-md-3.order-md-2.mw-text-col.info-cards
+      .col-12.col-md-3.order-md-2.mw-text-col.info-cards
         - if details.dig(:info_box, :play)&.any?
           dl.card
             - details[:info_box][:play]&.each do |label, info|
@@ -52,4 +52,4 @@
               dd
                 - details[:info_box][:links].each do |label, link|
                   a.d-block href=link = label
-    .col.col-md-9.order-md-1.mw-text-col = yield
+    .col-12.col-md-9.order-md-1.mw-text-col = yield

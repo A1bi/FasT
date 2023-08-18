@@ -24,19 +24,18 @@ h3 Neue Buchung vornehmen
   = form_tag ticketing_billings_path, method: :post, data: { controller: 'ticketing--transactions-table', confirm: 'Möchten Sie diese Buchung wirklich vornehmen?' }
     = hidden_field_tag :billable_id, record.id
     = hidden_field_tag :billable_type, record.class.base_class.name.demodulize
-    .row
-      .col-6
+    .row.align-items-end
+      .col
         = label_tag :note, 'Buchung'
         = select_tag :note, billing_action_options(@billing_actions), data: { ticketing__transactions_table_target: 'note', action: 'ticketing--transactions-table#toggleAmount ticketing--transactions-table#toggleBankDetails' }
-      .col-6 data-ticketing--transactions-table-target='amount'
+      .col data-ticketing--transactions-table-target='amount'
         = label_tag :amount, amount_label
         = number_field_tag :amount, nil, placeholder: number_placeholder, step: number_step
+      .col-auto = submit_tag 'buchen', class: :btn
     .row data-ticketing--transactions-table-target='bankDetails'
-      .col-6
+      .col
         = label_tag :name, 'Name'
         = text_field_tag :name, nil, placeholder: 'Name'
-      .col-6
+      .col
         = label_tag :iban, 'IBAN'
         = text_field_tag :iban, nil, placeholder: 'IBAN'
-    .row: .col.text-end
-      = submit_tag 'buchen', class: :btn

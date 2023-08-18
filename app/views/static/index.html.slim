@@ -29,7 +29,7 @@
           .title
             = link_to_if event_page_exists?(date.event), date.event.name, event_path(date.event.slug)
           .subtitle = date.event.info['subtitle']
-        .col.col-md-3.tickets
+        .col-12.col-md-3.tickets
           - unless date.cancelled?
             - if date.sold_out?
               button.btn.w-100(disabled) derzeit ausverkauft
@@ -74,10 +74,10 @@ hr
 
 .container
   h1 Geschenk&shy;gutscheine
-  .row
+  .row.align-items-center
     .col-6.col-md-3 = link_to new_coupons_ticketing_order_path
       = image_tag 'misc/coupon.svg', alt: 'Geschenkgutschein'
-    .col.col-md-9
+    .col-12.col-md
       p Die Geschenkidee zu jedem Anlass.
       p Verschenken Sie doch schon jetzt das Kaisersescher Theatererlebnis an Ihre Familie, Freunde, Mitarbeiter oder einfach an sich selbst. Nicht nur machen Sie Anderen eine Freude, sondern leisten auch uns eine wertvolle Unterstützung.
       p Klicken Sie #{link_to 'hier', new_coupons_ticketing_order_path} und bestellen Sie Gutscheine mit beliebigem Wert zum Selbstausdrucken. Diese können später bei einer oder mehreren Ticket-Bestellungen zu unseren Veranstaltungen eingelöst werden.
