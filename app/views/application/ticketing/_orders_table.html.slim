@@ -31,6 +31,9 @@
                 - elsif order.is_a? Ticketing::Retail::Order
                   em Vorverkaufsstelle
                   small.d-block: em = order.store.name
+                - elsif order.is_a? Ticketing::BoxOffice::Order
+                  em Abendkasse
+                  small.d-block: em = order.box_office.name
                 - else
                   = name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben')
               td.text-center = order.items.size
