@@ -64,7 +64,7 @@ module ApplicationHelper
 
   def event_logo_path(event)
     path = "events/#{event.assets_identifier}/title.svg"
-    return path if asset_exists?(path)
+    path if asset_exists?(path)
   end
 
   def inline_svg(filename)

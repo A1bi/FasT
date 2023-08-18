@@ -58,7 +58,7 @@ RSpec.shared_examples 'generic order' do |order_factory|
     describe 'items presence' do
       subject { build(order_factory) }
 
-      it { is_expected.to be_invalid }
+      it { is_expected.not_to be_valid }
 
       it 'validates presence of items' do
         subject.valid?

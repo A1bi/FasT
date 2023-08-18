@@ -27,7 +27,8 @@ module Ticketing
 
     def redeem_coupon(coupon, free_tickets:, credit:)
       return true if free_tickets && redeem_free_tickets(coupon)
-      return redeem_credit(coupon) if credit
+
+      redeem_credit(coupon) if credit
     end
 
     def redeem_free_tickets(coupon)

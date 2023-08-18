@@ -37,8 +37,7 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
     purchase.items.new(number: 2, purchasable: product)
     purchase.items.new(number: 1, purchasable: order_payment)
 
-    allow(purchase).to receive(:created_at).and_return(DateTime.new(2022, 6, 7, 12, 34, 56))
-    allow(purchase).to receive(:id).and_return(9236)
+    allow(purchase).to receive_messages(created_at: DateTime.new(2022, 6, 7, 12, 34, 56), id: 9236)
     # speed up PDF generation by skipping SVG and barcode rendering
     allow(pdf).to receive(:svg_image)
     allow(pdf).to receive(:print_qr_code)
