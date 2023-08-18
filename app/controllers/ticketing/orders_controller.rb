@@ -13,27 +13,17 @@ module Ticketing
     def index
       authorize Ticketing::Order
 
-      @orders = {}
-
       if search_query.present?
         found_orders, ticket = search_orders
         return if redirect_order_number_match(found_orders, ticket)
 
-        @orders[:search] = found_orders
+        @orders = found_orders
 
       else
-        if current_user.admin?
-          @orders[:web] = Ticketing::Web::Order.unanonymized
-          @orders[:retail] = Ticketing::Retail::Order.all
-        else
-          @orders[:retail] = order_scope.includes(:store)
-        end
-        @orders.each_value { |orders| orders.limit!(20) }
+        @orders = order_scope.unanonymized.limit(20).order(created_at: :desc)
       end
 
-      @orders.each_value do |orders|
-        orders.includes!(:tickets).order!(created_at: :desc)
-      end
+      @orders.includes!(:tickets)
     end
 
     def new_privileged

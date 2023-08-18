@@ -5,6 +5,7 @@ module Ticketing
     include Billable
     include RandomUniqueAttribute
     include Loggable
+    include Anonymizable
 
     # binary ticket info reserves 20 bits for number
     NUMBER_DIGITS = Math.log10(2**20).floor

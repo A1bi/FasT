@@ -11,7 +11,7 @@
             - if :checkbox.in?(additional_columns)
               th
             th Nummer
-            th.text-start = local_assigns[:web] ? 'Name' : 'Vorverkaufsstelle'
+            th.text-start Name
             th Artikel
             - if :date.in?(additional_columns)
               th.text-start Termin
@@ -28,10 +28,11 @@
               td
                 - if order.try(:anonymized?)
                   em.anonymized anonymisiert
-                - elsif local_assigns[:web]
-                  = name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben')
                 - elsif order.is_a? Ticketing::Retail::Order
-                  = order.store.name
+                  em Vorverkaufsstelle
+                  small.d-block: em = order.store.name
+                - else
+                  = name_and_affiliation(sorted_name(order), order.affiliation, 'nicht angegeben')
               td.text-center = order.items.size
               - if :date.in?(additional_columns)
                 td
