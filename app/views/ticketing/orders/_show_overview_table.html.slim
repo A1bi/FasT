@@ -6,7 +6,7 @@ dl.md-horizontal
     dd class=row[2]
       - if row[1].present?
         = row[1]
-      - elsif @order.try(:anonymized?)
-        em.anonymized anonymisiert
+      - elsif @order.anonymized?
+        .anonymized anonymisiert
       - else
-        em.small nicht angegeben
+        .missing nicht angegeben

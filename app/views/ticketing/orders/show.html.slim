@@ -14,8 +14,9 @@ ruby:
   h1 Bestellung
   .row
     .col-12.col-md-8
-      - if @order.try(:anonymized?)
-        thead: tr: th colspan=2 Diese Bestellung wurde anonymisiert.
+      - if @order.anonymized?
+        = render 'alert', type: 'warning'
+          | Diese Bestellung wurde anonymisiert.
 
       .card.mb-2
         = render 'show_overview_table', overview: overview

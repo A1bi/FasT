@@ -216,6 +216,11 @@ dl {
   dd {
     @extend %ms-0;
     margin-bottom: .5rem;
+
+    .missing {
+      font-style: italic;
+      color: $semi-gray;
+    }
   }
 }
 

@@ -7,7 +7,7 @@
   h1 Ihre Bestellung #{@order.number}
 
 
-  - if @order.try(:anonymized?)
+  - if @order.anonymized?
     .row: .col = render 'alert', type: :warning
       | Diese Bestellung wurde gemäß unserer #{link_to 'Datenschutzerklärung', privacy_path} nach Ablauf der Aufbewahrungsfrist anonymisiert. Die Bestelldetails sind daher nicht mehr einsehbar.
 
@@ -69,7 +69,7 @@
         - @order.purchased_coupons.each do |coupon|
           li Gutschein über <b>#{number_to_currency(coupon.initial_value)}</b> (<tt>#{coupon.code}</tt>)
 
-- if !@order.try(:anonymized?)
+- unless @order.anonymized?
   - if @order.is_a?(Ticketing::Web::Order)
     - if @transferable
       hr

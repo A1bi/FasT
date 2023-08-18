@@ -243,6 +243,11 @@ table {
   }
 }
 
+dd .anonymized {
+  font-style: italic;
+  color: $semi-gray;
+}
+
 // workaround for jQuery not able to override .d-none with inline styles
 .d-none-unimportant {
   @extend %d-none;
