@@ -98,4 +98,35 @@ RSpec.describe Ticketing::Event do
 
     it { is_expected.to contain_exactly(partially_cancelled_event, past_event) }
   end
+
+  describe '#free?' do
+    subject { event.free? }
+
+    let(:event) { create(:event) }
+
+    context 'with only free ticket type' do
+      before { create(:ticket_type, :free, event:) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with a free ticket type and others' do
+      before do
+        create(:ticket_type, event:)
+        create(:ticket_type, :free, event:)
+      end
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'without free ticket types' do
+      before { create(:ticket_type, event:) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'without any free ticket types' do
+      it { is_expected.to be_falsy }
+    end
+  end
 end

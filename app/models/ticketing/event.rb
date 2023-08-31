@@ -82,6 +82,10 @@ module Ticketing
       sale_disabled_message.present?
     end
 
+    def free?
+      ticket_types.count.positive? && ticket_types.sum(:price).zero?
+    end
+
     private
 
     def set_assets_identifier

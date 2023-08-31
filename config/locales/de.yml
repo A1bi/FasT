@@ -109,6 +109,8 @@ de:
     events:
       created: Die Veranstaltung wurde erstellt.
       updated: Die Änderungen an der Veranstaltung wurden gespeichert.
+      tickets: Tickets
+      free_tickets: Freikarten
     event_dates:
       created: Der Veranstaltungstermin wurde erstellt.
       updated: Die Änderungen an dem Veranstaltungstermin wurden gespeichert.

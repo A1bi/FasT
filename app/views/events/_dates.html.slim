@@ -20,7 +20,7 @@
           - if date.sold_out?
             button.btn.w-100(disabled) derzeit ausverkauft
           - else
-            = link_to 'Tickets', new_ticketing_order_path(@event.slug, date_id: date.id), class: 'btn w-100'
+            = tickets_button(date, class: 'btn w-100')
         - elsif @event.sale_not_yet_started?
           button.btn.w-100(disabled)
             .d-inline-block Tickets ab

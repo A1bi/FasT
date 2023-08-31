@@ -9,6 +9,11 @@ module EventsHelper
     end
   end
 
+  def tickets_button(date, class: nil)
+    label = t("ticketing.events.#{date.event.free? ? 'free_tickets' : 'tickets'}")
+    link_to(label, new_ticketing_order_path(date.event.slug, date_id: date), class:)
+  end
+
   def question_answer(question, &)
     render 'faq_question_answer', { question: }, &
   end
