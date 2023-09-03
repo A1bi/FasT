@@ -290,6 +290,48 @@ ALTER SEQUENCE public.members_families_id_seq OWNED BY public.members_families.i
 
 
 --
+-- Name: members_membership_applications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.members_membership_applications (
+    id bigint NOT NULL,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    title character varying,
+    gender public.gender NOT NULL,
+    email character varying NOT NULL,
+    street character varying NOT NULL,
+    plz character varying NOT NULL,
+    city character varying NOT NULL,
+    birthday timestamp(6) without time zone NOT NULL,
+    phone character varying,
+    debtor_name character varying NOT NULL,
+    iban character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: members_membership_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.members_membership_applications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: members_membership_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.members_membership_applications_id_seq OWNED BY public.members_membership_applications.id;
+
+
+--
 -- Name: members_membership_fee_debit_submissions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1918,7 +1960,7 @@ CREATE TABLE public.users (
     family_id bigint,
     type public.user_type,
     street character varying,
-    plz integer,
+    plz character varying,
     city character varying,
     phone character varying,
     joined_at date,
@@ -1981,6 +2023,13 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits ALTER COLUMN id SE
 --
 
 ALTER TABLE ONLY public.members_families ALTER COLUMN id SET DEFAULT nextval('public.members_families_id_seq'::regclass);
+
+
+--
+-- Name: members_membership_applications id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_applications ALTER COLUMN id SET DEFAULT nextval('public.members_membership_applications_id_seq'::regclass);
 
 
 --
@@ -2350,6 +2399,14 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credits
 
 ALTER TABLE ONLY public.members_families
     ADD CONSTRAINT members_families_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: members_membership_applications members_membership_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_applications
+    ADD CONSTRAINT members_membership_applications_pkey PRIMARY KEY (id);
 
 
 --
@@ -3979,6 +4036,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230805121011'),
 ('20230808221947'),
 ('20230809215027'),
-('20230817211816');
+('20230817211816'),
+('20230903173126');
 
 

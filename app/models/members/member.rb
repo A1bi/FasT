@@ -17,7 +17,7 @@ module Members
     validates :first_name, :last_name, :gender, :number, :joined_at, presence: true
     validates :number, uniqueness: true
     validates :membership_fee, numericality: { greater_than_or_equal_to: 0 }
-    validates :plz, numericality: { only_integer: true, less_than: 100_000 }, allow_blank: true
+    validates :plz, plz_format: true, allow_blank: true
 
     after_initialize :set_number
     before_validation :set_default_membership_fee, on: :create

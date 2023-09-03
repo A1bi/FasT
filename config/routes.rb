@@ -183,6 +183,11 @@ Rails.application.routes.draw do
       scope controller: :dashboard do
         get '/', action: :index, as: :root
       end
+
+      scope controller: :membership_applications, path: 'antrag', as: :membership_applications do
+        get '/', action: :new
+        post '/', action: :create
+      end
     end
   end
 

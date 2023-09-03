@@ -1,0 +1,42 @@
+- title 'Mitgliedsantrag'
+
+.container
+  h1 Mitglied werden
+
+  .row: .col
+    .card
+      = form_for @application, html: { novalidate: true } do |f|
+        = render 'errors', errors: @application.errors
+        = render 'form_required_caption'
+        h3 Allgemeine Angaben
+        = render 'form_field', form: f, attribute: :first_name, label: 'Vorname', required: true
+          = f.text_field :first_name, required: true
+        = render 'form_field', form: f, attribute: :last_name, label: 'Nachname', required: true
+          = f.text_field :last_name, required: true
+        = render 'form_field', form: f, attribute: :gender, label: 'Geschlecht', required: true
+          = f.select :gender, Members::Member.genders.map { |g| [t("genders.#{g}"), g] }, { include_blank: true }, required: true
+        = render 'form_field', form: f, attribute: :birthday, label: 'Geburtstag', required: true
+            = f.date_field :birthday, required: true
+        = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse', required: true
+          = f.text_field :email, required: true
+        = render 'form_field', form: f, attribute: :phone, label: 'Telefonnummer'
+          = f.text_field :phone
+        = render 'form_field', form: f, attribute: :street, label: 'Straße und Hausnummer', required: true
+          = f.text_field :street, required: true
+        .row
+          .col-4 = render 'form_field', form: f, attribute: :plz, label: 'PLZ', required: true
+            = f.text_field :plz, required: true
+          .col-8 = render 'form_field', form: f, attribute: :city, label: 'Stadt', required: true
+            = f.text_field :city, required: true
+        hr
+        h3 Bankverbindung
+        p Ich ermächtige den Verein widerruflich, den Jahresbeitrag jährlich bei Fälligkeit zu Lasten des folgenden Kontos einzuziehen.
+        p Der Jahresbeitrag beträgt <b>#{number_to_currency(Settings.members.default_membership_fee)}</b>.
+        = render 'form_field', form: f, attribute: :debtor_name, label: 'Kontoinhaber', required: true
+          = f.text_field :debtor_name, required: true
+        = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
+          = f.text_field :iban, required: true
+        small
+          p Ich ermächtige den Zahlungsempfänger TheaterKultur Kaisersesch e. V., Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die vom Zahlungsempfänger TheaterKultur Kaisersesch e. V. auf mein Konto gezogenen Lastschriften einzulösen.
+          p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Beitrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
+        .mt-2.text-center = f.submit 'Antrag einreichen', class: 'btn w-100'

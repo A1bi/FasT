@@ -15,8 +15,8 @@ module Ticketing
 
       validates :email, :gender, :first_name, :last_name, :plz, presence: { on: :unprivileged_order }
       validates :gender, inclusion: { in: 0..1, allow_blank: true }
-      validates :plz, format: { with: /\A\d{5}\z/, allow_blank: true }
-      validates :email, allow_blank: true, email_format: true
+      validates :plz, plz_format: true, allow_blank: true
+      validates :email, email_format: true, allow_blank: true
       validates :pay_method, presence: { if: proc { |order| !order.paid } }
 
       after_save :schedule_geolocation

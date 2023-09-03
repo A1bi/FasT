@@ -72,10 +72,8 @@ de:
       email_not_found: Ein Konto mit dieser E-Mail-Adresse wurde nicht gefunden.
       password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
       password_changed: Ihr Passwort wurde geändert.
-    dates:
-      ics:
-        calname: "TheaterKultur Kaisersesch"
-        caldesc: "Alle vereinsinternen Termine von TheaterKultur Kaisersesch"
+    membership_applications:
+      created: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend per E-Mail kontaktieren.
     membership_fee_payments:
       debit_submissions:
         name: TheaterKultur Kaisersesch e. V.
@@ -296,6 +294,8 @@ de:
     attributes:
       email:
         invalid: Die angegebene E-Mail-Adresse ist ungültig.
+      iban:
+        invalid: Die angegebene IBAN ist ungültig.
   activemodel:
     attributes:
       contact_message:
@@ -337,8 +337,6 @@ de:
               invalid: SEPA-Mandat ungültig.
         members/sepa_mandate:
           attributes:
-            iban:
-              invalid: IBAN ungültig.
             number:
               taken: Diese Mandatsnummer ist bereits vergeben.
         members/file:
