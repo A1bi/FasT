@@ -80,3 +80,5 @@ events:
     location: Foo
     info:
       subtitle: Test 123 Foo Bar
+  - identifier: canterville
+    name: Das Gespenst von Canterville

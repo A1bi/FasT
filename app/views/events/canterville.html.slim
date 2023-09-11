@@ -1,0 +1,27 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 70,
+    break_duration: 0,
+    info_box: {
+      play: {
+        'Autor' => 'Oscar Wilde'
+      },
+      event: {
+        'Spielleitung' => 'Kirsten Roscher, Susanne Schubert, Stephan Hilken'
+      }
+    },
+    poster_filename: 'Canterville_Plakat'
+  }
+
+= render 'header'
+
+= render 'event'
+  = render 'about', details:
+    p Das <b>Jugendensemble Carpe Diem</b> zeigt die berühmte Erzählung <b>„Das Gespenst von Canterville“</b> des irischen Schriftstellers <b>Oscar Wilde</b> in einer selbst erarbeiteten Bühnenfassung.
+    p Der amerikanische Botschafter in England Hiram B. Otis zieht mit seiner Familie in das Schloss Canterville ein, das er trotz der Warnungen Lord Cantervilles vor einem Gespenst gekauft hat. Bei dem Gespenst handelt es sich um den berüchtigten Simon de Canterville, der vor genau 300 Jahren seine Frau brutal ermordete, und seither im Schloss sein Unwesen treibt. Sir Simon soll für zahlreiche Nervenzusammenbrüche oder gar Todesfälle verantwortlich sein und freut sich nun darauf, den „Yankees“ das Fürchten zu lehren. Doch die pragmatische amerikanische Familie zeigt sich wenig beeindruckt von Sir Simons Spukkünsten, dreht den Spies um und stürzt das alte Gespenst in eine Existenzkrise, aus der ihn nur die Liebe erlösen kann.
+    p Die Geschichte vom Gespenst, das lernt die Menschen zu fürchten, ist gruselig, witzig und spannend zugleich, und wird von den Kindern und Jugendlichen originell und unterhaltsam erzählt. Geeignet für Menschen von 6 – 99 Jahren.
+
+  = render 'tickets'
+  = render 'faq', details:
