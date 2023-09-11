@@ -125,8 +125,7 @@ ruby:
                   td.amount = number_to_currency ticket.price
                   td.date
                     = l ticket.date.date, format: '%-d. %B'
-                    br
-                    = content_tag :span, truncate(ticket.event.name, length: 15), title: ticket.event.name, class: :small
+                    small.d-block = link_to ticket.event.name, ticketing_statistics_path(ticket.event.slug), title: 'Statistik für Veranstaltung'
                   - if ticket.seat.present?
                     td = ticket.seat.full_number
                   - else

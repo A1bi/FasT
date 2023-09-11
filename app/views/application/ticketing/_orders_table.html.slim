@@ -41,8 +41,7 @@
                 td
                   - if order.date.present?
                     = l order.date.date, format: '%-d. %B'
-                    br
-                    span.small title=order.event.name = truncate(order.event.name, length: 12)
+                    small.d-block = order.event.name
               - if :balance.in?(additional_columns)
                 td.text-end = number_to_currency(-order.balance)
               td.text-end = l order.created_at, format: '%d.%m.%y, %H:%M'

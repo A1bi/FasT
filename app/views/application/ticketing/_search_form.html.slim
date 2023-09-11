@@ -1,5 +1,5 @@
 = form_with url:, method: :get do |f|
-  .row.align-items-end.mb-2
+  .row.align-items-end.mb-1
     .col
       = f.label :q, label
       = f.text_field :q, placeholder:, minlength: local_assigns[:min_length], value: params[:q]
