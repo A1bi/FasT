@@ -16,18 +16,11 @@
               i.bi.bi-door-open-fill
               | Einlass ab #{l(date.admission_time, format: '%H:%M')}
       .col-4.tickets
-        - if @event.on_sale? && !date.cancelled?
-          - if date.sold_out?
-            button.btn.w-100(disabled) derzeit ausverkauft
-          - else
-            = tickets_button(date, class: 'btn w-100')
-        - elsif @event.sale_not_yet_started?
-          button.btn.w-100(disabled)
-            .d-inline-block Tickets ab
-            .d-inline-block =< l(@event.sale_start, format: '%-d. %B')
-        - elsif @event.past?
+        - if @event.past? && !date.cancelled?
           .info.justify-content-end: .segment
             i.bi.bi-clock-fill
             = l(date.date, format: '%H:%M')
+        - else
+          = render 'application/events/tickets_button', date:
     - if date.cancelled?
       .cancelled-banner = @event.past? ? 'entfallen' : 'entfällt'

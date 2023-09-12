@@ -30,18 +30,7 @@
             = link_to_if event_page_exists?(date.event), date.event.name, event_path(date.event.slug)
           .subtitle = date.event.info['subtitle']
         .col-12.col-md-3.tickets
-          - unless date.cancelled?
-            - if date.sold_out?
-              button.btn.w-100(disabled) derzeit ausverkauft
-            - elsif date.event.ticketing_enabled?
-              - if date.event.sale_start&.past?
-                = tickets_button(date, class: 'btn w-100')
-              - else date.event.sale_start&.future?
-                button.btn.w-100(disabled)
-                  .d-inline-block Tickets ab
-                  .d-inline-block =< l(date.event.sale_start, format: '%-d. %B')
-            - elsif (sale_url = date.event.info['external_sale_url']).present?
-              = link_to 'Tickets', sale_url, class: 'btn w-100'
+          = render 'application/events/tickets_button', date:
       - if date.cancelled?
         .cancelled-banner entfällt
 
