@@ -35,6 +35,7 @@
     @extend %d-block;
     @extend %p-2;
     @extend %w-100;
+    @extend %text-center;
     position: absolute;
     bottom: 0;
     transition: opacity $carousel-transition-duration * 0.5, transform $carousel-transition-duration * 0.8 cubic-bezier(0.33, 1, 0.68, 1);
@@ -46,7 +47,7 @@
       transform: translateY(100%);
     }
 
-    &:hover a svg {
+    &:hover a > * {
       transform: scale(1.02) rotateY(0deg);
     }
 
@@ -58,15 +59,25 @@
       stroke-width: .15% !important;
     }
 
-    svg {
+    a > * {
       transition: transform .3s;
+    }
 
-      * {
-        fill: $white !important;
-        stroke: $black !important;
-        stroke-width: .3% !important;
-        transition: stroke .2s;
-      }
+    svg * {
+      fill: $white !important;
+      stroke: $black !important;
+      stroke-width: .3% !important;
+      transition: stroke .2s;
+    }
+
+    h1 {
+      $outline-width: .5px;
+      @extend %mb-0;
+      color: $white;
+      text-shadow: (-$outline-width) (-$outline-width) 0 $black,
+                   $outline-width (-$outline-width) 0 $black,
+                   (-$outline-width) $outline-width 0 $black,
+                   $outline-width $outline-width 0 $black;
     }
   }
 
@@ -86,13 +97,13 @@
 }
 
 @include media-query(md) {
-  .carousel .title {
+  .carousel .title svg {
     width: 60%;
   }
 }
 
 @include media-query(lg) {
-  .carousel .title {
+  .carousel .title svg {
     width: 40%;
   }
 }

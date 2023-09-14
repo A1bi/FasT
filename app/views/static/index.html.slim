@@ -1,11 +1,12 @@
 .carousel
-  - @featured_photos.each.with_index do |photo, i|
-    = full_width_photo_tags(photo, class: [:photo, i.zero? ? :active : 'd-none'], alt: @featured_event.name, data: { event_identifier: @featured_event.identifier }, loading: 'lazy')
-  .title.outline-sm.active data-event-identifier=@featured_event.identifier
-    = link_to event_path(@featured_event.slug)
-      = event_logo(@featured_event, inline_svg: true)
-  - if @featured_gallery.disclaimer.present?
-    .caption.text-end Fotos: #{@featured_gallery.disclaimer}
+  - @featured_events.each.with_index do |event, i|
+    - @featured_galleries[i].photos.shuffle.each.with_index do |photo, j|
+      = full_width_photo_tags(photo, class: [:photo, j.zero? ? :active : 'd-none'], alt: event.name, data: { event_identifier: event.identifier }, loading: 'lazy')
+    .title.active data-event-identifier=event.identifier
+      = link_to event_path(event.slug)
+        = event_logo(event, inline_svg: true, tag: :h1)
+    / - if @featured_gallery.disclaimer.present?
+    /   .caption.text-end Fotos: #{@featured_gallery.disclaimer}
 
 .container data-controller='items-reveal' data-items-reveal-initial-items-value=5 data-items-reveal-reveal-step-value=3
   h1#programm Programm

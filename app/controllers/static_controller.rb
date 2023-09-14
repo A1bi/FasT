@@ -8,9 +8,8 @@ class StaticController < ApplicationController
   helper :photos, :events
 
   def index
-    @featured_event = Ticketing::Event.find_by(identifier: :gatte_2023) # rubocop:disable Naming/VariableNumber
-    @featured_gallery = Rails.env.development? ? Gallery.last : Gallery.find_by(id: 74)
-    @featured_photos = @featured_gallery.photos.shuffle
+    @featured_events = Ticketing::Event.where(identifier: %i[arschlings canterville])
+    @featured_galleries = Rails.env.development? ? [Gallery.last] * @featured_events.count : Gallery.where(id: [76, 77])
     @upcoming_dates = Ticketing::EventDate.upcoming.order(date: :asc)
     @archived_events = Ticketing::Event.including_ticketing_disabled.archived.ordered_by_dates(:desc)
                                        .includes(:location)
