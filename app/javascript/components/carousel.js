@@ -1,6 +1,7 @@
 import { toggleDisplay } from 'components/utils'
 
 const SLIDE_DURATION = 6000
+const TRANSITION_DURATION = 2000
 
 const showNextItem = () => {
   const nextIndex = (Array.from(photos).indexOf(currentPhoto) + 1) % photos.length
@@ -10,7 +11,9 @@ const showNextItem = () => {
   }
 
   const sinceLast = (new Date()).getTime() - lastPhotoShownAt.getTime()
-  const nextPhotoDelay = Math.max(0, SLIDE_DURATION - sinceLast)
+  const totalDuration = SLIDE_DURATION + (initialPhoto ? 0 : TRANSITION_DURATION)
+  const nextPhotoDelay = Math.max(0, totalDuration - sinceLast)
+  initialPhoto = false
 
   setTimeout(() => {
     lastPhotoShownAt = new Date()
@@ -62,6 +65,7 @@ let photos
 let currentPhoto
 let activeTitle
 let lastPhotoShownAt = new Date()
+let initialPhoto = true
 
 document.addEventListener('DOMContentLoaded', () => {
   photos = document.querySelectorAll('.carousel .photo')

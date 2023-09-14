@@ -1,8 +1,8 @@
 .carousel
   - @featured_events.each.with_index do |event, i|
     - @featured_galleries[i].photos.shuffle.each.with_index do |photo, j|
-      = full_width_photo_tags(photo, class: [:photo, j.zero? ? :active : 'd-none'], alt: event.name, data: { event_identifier: event.identifier }, loading: 'lazy')
-    .title.active data-event-identifier=event.identifier
+      = full_width_photo_tags(photo, class: [:photo, i.zero? && j.zero? ? :active : 'd-none'], alt: event.name, data: { event_identifier: event.identifier }, loading: 'lazy')
+    .title data-event-identifier=event.identifier class=(:active if i.zero?)
       = link_to event_path(event.slug)
         = event_logo(event, inline_svg: true, tag: :h1)
     / - if @featured_gallery.disclaimer.present?
