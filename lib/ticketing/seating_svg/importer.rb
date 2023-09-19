@@ -69,7 +69,7 @@ module Ticketing
       def find_missing_seats(block, seats)
         return if block.new_record?
 
-        block.seats.where.not(id: seats.map(&:id)).each do |seat|
+        block.seats.where.not(id: seats.map(&:id)).find_each do |seat|
           Rails.logger.info "Seat '#{seat.number}' in Block '#{block.name}' with id=#{seat.id} is " \
                             'missing from the SVG file and will therefore be removed.'
 

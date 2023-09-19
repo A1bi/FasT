@@ -213,7 +213,7 @@ end
 Ticketing::BoxOffice::BoxOffice.create(ticketing_seeds[:box_office])
 
 # avoid processing emails for the created entities
-Sidekiq::Queue.all.find { |queue| queue.name == 'mailers' }&.clear
+Sidekiq::Queue.find { |queue| queue.name == 'mailers' }&.clear
 
 # clear cache
 Rails.cache.clear

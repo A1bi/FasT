@@ -18,7 +18,7 @@ class CreateNewsletterSubscriberLists < ActiveRecord::Migration[6.0]
 
     Newsletter::SubscriberList.create(name: 'Kunden')
 
-    Newsletter::Subscriber.all.each do |subscriber|
+    Newsletter::Subscriber.find_each do |subscriber|
       subscriber.update(confirmed_at: subscriber.created_at)
     end
   end

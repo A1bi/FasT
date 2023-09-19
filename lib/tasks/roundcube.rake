@@ -18,7 +18,7 @@ namespace :roundcube do
       database: 'roundcube'
     )
 
-    Members::Member.all.each do |member|
+    Members::Member.find_each do |member|
       puts "Looking for matching contact for member with id #{member.id}."
 
       # find existing contact with matching email address
