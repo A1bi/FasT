@@ -1,7 +1,6 @@
-- if local_assigns.key?(:gallery_id)
-  - gallery = Rails.env.development? ? Gallery.last : Gallery.find_by(id: gallery_id)
+- if @event.header_gallery.present?
   .event-header
-    = full_width_photo_tags(gallery.photos.sample, class: [:photo, :active], alt: @event.name)
+    = full_width_photo_tags(@event.header_gallery.photos.sample, class: [:photo, :active], alt: @event.name)
     .title.active class=('outline-sm' if local_assigns[:small_outline])
       = event_logo(@event, tag: :h1, inline_svg: true)
 - else

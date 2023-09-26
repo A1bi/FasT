@@ -1,3 +1,5 @@
+- return if @event.main_gallery.nil?
+
 - content_for :page_nav_elements
   li: a href='#fotos' Fotos
 
@@ -7,8 +9,7 @@ hr
     max_columns = 12
     column_widths = 3..5
     last_first_column = nil
-    gallery = Gallery.find_by(id: gallery_id) || Gallery.last
-    photos = gallery.photos.to_a
+    photos = @event.main_gallery.photos.to_a
 
   - while photos.any?
     .row data-items-reveal-target='item'
@@ -38,5 +39,5 @@ hr
   .text-center.mt-1 data-items-reveal-target='revealButton'
     button.btn data-action='items-reveal#revealMore' weitere Fotos anzeigen
 
-  - if gallery.disclaimer.present?
-    .caption.text-end © #{gallery.disclaimer}
+  - if @event.main_gallery.disclaimer.present?
+    .caption.text-end © #{@event.main_gallery.disclaimer}
