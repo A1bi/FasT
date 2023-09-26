@@ -86,6 +86,14 @@ module Ticketing
       ticket_types.count.positive? && ticket_types.sum(:price).zero?
     end
 
+    %i[main_gallery header_gallery].each do |attribute|
+      define_method attribute do
+        return if info["#{attribute}_id"].blank?
+
+        Gallery.find_by(id: info["#{attribute}_id"])
+      end
+    end
+
     private
 
     def set_assets_identifier

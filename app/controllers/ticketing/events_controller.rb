@@ -4,6 +4,7 @@ module Ticketing
   class EventsController < BaseController
     before_action :find_event, only: %i[show edit update]
     before_action :prepare_new, only: %i[new create]
+    before_action :find_galleries, only: %i[new edit]
 
     def index
       @events = authorize(events_scope.ordered_by_dates(:desc))
@@ -35,6 +36,10 @@ module Ticketing
 
     def prepare_new
       @event = authorize(Event.new)
+    end
+
+    def find_galleries
+      @galleries = Gallery.order(title: :asc)
     end
 
     def event_params

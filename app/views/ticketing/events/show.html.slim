@@ -23,6 +23,12 @@
       dd: tt = @event.slug
       dt Untertitel
       dd = @event.info['subtitle']
+      - if @event.main_gallery.present?
+        dt Hauptfotogalerie
+        dd = link_to @event.main_gallery.title, edit_gallery_path(@event.main_gallery)
+      - if @event.header_gallery.present?
+        dt Fotogalerie für Header
+        dd = link_to @event.header_gallery.title, edit_gallery_path(@event.header_gallery)
       dt Ort
       dd = @event.location.name
       - if @event.ticketing_enabled?

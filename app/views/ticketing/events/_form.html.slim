@@ -12,6 +12,10 @@
     = f.fields_for :info do |ff|
       = render 'form_field', form: ff, attribute: :subtitle, label: 'Untertitel'
         = ff.text_field :subtitle, value: @event.info['subtitle']
+      = render 'form_field', form: ff, attribute: :main_gallery_id, label: 'Hauptfotogalerie'
+        = ff.collection_select(:main_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['main_gallery_id'])
+      = render 'form_field', form: ff, attribute: :header_gallery_id, label: 'Fotogalerie für Header'
+        = ff.collection_select(:header_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['header_gallery_id'])
       - if @event.new_record? || !@event.ticketing_enabled?
         = render 'form_field', form: ff, attribute: :external_sale_url, label: 'URL zu externem Ticketing'
           = ff.text_field :external_sale_url, value: @event.info['external_sale_url']
