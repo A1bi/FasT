@@ -17,7 +17,7 @@ ruby:
     poster_filename: 'Ein_idealer_Gatte_Plakat'
   }
 
-= render 'header', gallery_id: 74, small_outline: true
+= render 'header', small_outline: true
 
 = render 'event'
   = render 'about', details:
@@ -27,7 +27,7 @@ ruby:
     p Pikanter Inhalt gepaart mit geschliffenen Dialogen, Bonmots und einer spritzigen Inszenierung, machen die Aufführungen zum Vergnügen.
     = yield if block_given?
 
-  = render 'photos', gallery_id:
+  = render 'photos'
 
   ruby:
     cast = [
