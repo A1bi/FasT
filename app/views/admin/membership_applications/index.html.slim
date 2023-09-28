@@ -1,0 +1,44 @@
+- title 'Mitgliedsanträge'
+
+.container
+  h1 Mitgliedsanträge
+
+  h2 Offene Anträge
+  .row: .col
+    - if @open_applications.any?
+      .card.table-responsive: table
+        thead
+          tr.text-start
+            th Nachname
+            th Vorname
+            th Geburtstag
+        tbody
+          - @open_applications.each do |application|
+            tr
+              td = link_to application.first_name, [:admin, application]
+              td = link_to application.last_name, [:admin, application]
+              td = l application.birthday
+    - else
+      = render 'alert', type: :info
+        | Es liegen keine offenen Anträge vor.
+
+  h2 Bearbeitete Anträge
+  .row: .col
+    - if @completed_applications.any?
+      .card.table-responsive: table
+        thead
+          tr.text-start
+            th Nachname
+            th Vorname
+            th Geburtstag
+            th Mitglied
+        tbody
+          - @completed_applications.each do |application|
+            tr
+              td = link_to application.first_name, [:admin, application]
+              td = link_to application.last_name, [:admin, application]
+              td = l application.birthday
+              td = link_to application.member.number, [:admin, application.member]
+    - else
+      = render 'alert', type: :info
+        | Es wurden bisher keine Anträge bearbeitet.

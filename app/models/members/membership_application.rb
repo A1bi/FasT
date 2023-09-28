@@ -2,6 +2,8 @@
 
 module Members
   class MembershipApplication < ApplicationRecord
+    belongs_to :member, optional: true
+
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
 
     validates :first_name, :last_name, :gender, presence: true

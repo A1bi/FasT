@@ -303,10 +303,11 @@ CREATE TABLE public.members_membership_applications (
     street character varying NOT NULL,
     plz character varying NOT NULL,
     city character varying NOT NULL,
-    birthday timestamp(6) without time zone NOT NULL,
+    birthday date NOT NULL,
     phone character varying,
     debtor_name character varying NOT NULL,
     iban character varying NOT NULL,
+    member_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -2845,6 +2846,13 @@ CREATE INDEX index_members_exclusive_ticket_type_credits_on_ticket_type_id ON pu
 
 
 --
+-- Name: index_members_membership_applications_on_member_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_members_membership_applications_on_member_id ON public.members_membership_applications USING btree (member_id);
+
+
+--
 -- Name: index_members_membership_fee_payments_on_debit_submission_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3663,6 +3671,14 @@ ALTER TABLE ONLY public.passbook_registrations
 
 ALTER TABLE ONLY public.oauth_access_tokens
     ADD CONSTRAINT fk_rails_732cb83ab7 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id);
+
+
+--
+-- Name: members_membership_applications fk_rails_74f91f8594; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.members_membership_applications
+    ADD CONSTRAINT fk_rails_74f91f8594 FOREIGN KEY (member_id) REFERENCES public.users(id);
 
 
 --

@@ -10,6 +10,7 @@ module Members
     belongs_to :sepa_mandate, optional: true, validate: true
     has_many :exclusive_ticket_type_credit_spendings, dependent: :destroy
     has_many :membership_fee_payments, dependent: :destroy
+    has_one :membership_application, dependent: :destroy
 
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true
     phony_normalize :phone, default_country_code: 'DE'

@@ -16,10 +16,11 @@ class CreateMembershipApplications < ActiveRecord::Migration[7.0]
       t.string :street, null: false
       t.string :plz, null: false
       t.string :city, null: false
-      t.datetime :birthday, null: false
+      t.date :birthday, null: false
       t.string :phone
       t.string :debtor_name, null: false
       t.string :iban, null: false
+      t.belongs_to :member, foreign_key: { to_table: :users }
       t.timestamps
     end
   end

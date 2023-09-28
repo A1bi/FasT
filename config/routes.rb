@@ -70,6 +70,8 @@ Rails.application.routes.draw do
                 controller: :membership_fee_payments do
         patch :mark_as_failed, on: :member
       end
+      resources :members_membership_applications, path: 'mitgliedsanträge', controller: :membership_applications,
+                                                  only: %i[index show destroy]
     end
 
     namespace :ticketing, path: '' do

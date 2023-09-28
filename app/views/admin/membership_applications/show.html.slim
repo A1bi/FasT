@@ -1,0 +1,48 @@
+- title 'Mitgliedsantrag'
+
+.container
+  h1 Mitgliedsantrag
+  .row: .col
+    - if @application.member.nil?
+        .text-end.mb-2
+          - if policy(@application).destroy?
+            = link_to [:admin, @application], method: :delete, class: 'btn', data: { confirm: 'Möchten Sie den Antrag wirklich löschen?' }
+              i.bi.bi-trash3-fill
+              span Antrag löschen
+          - if policy(Members::Member).new?
+            = link_to new_admin_members_member_path, class: 'btn ms-2'
+              i.bi.bi-plus-circle-fill
+              span Mitglied aufnehmen
+    - else
+      = render 'alert', type: :notice
+        | Dieser Antrag wurde bereits bearbeitet und das Mitglied unter der <a href="#{admin_members_member_path(@application.member)}">Nummer #{@application.member.number}</a> aufgenommen.
+
+    .card
+      dl.md-horizontal
+        dt Antragsnummer
+        dd = @application.id
+        dt Vorname
+        dd = @application.first_name
+        dt Nachname
+        dd = @application.last_name
+        dt Geburtstag
+        dd = l @application.birthday, format: :long
+        dt Geschlecht
+        dd = t("genders.#{@application.gender}")
+
+        h3.w-100 Kontaktdaten
+        dt Adresse
+        dd
+          = @application.street
+          br
+          | #{@application.plz} #{@application.city}
+        dt E-Mail-Adresse
+        dd = mail_to @application.email
+        dt Telefonnummer
+        dd = @application.phone
+
+        h3.w-100 Bankverbindung
+        dt Kontoinhaber
+        dd = @application.debtor_name
+        dt IBAN
+        dd: tt = obfuscated_iban(@application.iban)

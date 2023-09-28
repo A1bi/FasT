@@ -32,6 +32,9 @@
       dl.md-horizontal
         dt Mitgliedsnummer
         dd = @member.number
+        - if @member.membership_application.present?
+          dt Antragsnummer
+          dd = link_to @member.membership_application.id, [:admin, @member.membership_application]
         dt Name
         dd
           = @member.name.full

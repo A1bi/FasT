@@ -44,6 +44,8 @@ de:
           family: Mandate aus der Familie dieses Mitglieds
     membership_fee_payments:
       marked_as_failed: Die Zahlung wurde als fehlgeschlagen markiert.
+    membership_applications:
+      destroyed: Der Antrag wurde gelöscht.
     newsletters:
       saved: Der Newsletter wurde gespeichert.
       destroyed: Der Newsletter wurde gelöscht.
