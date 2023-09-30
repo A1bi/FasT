@@ -25,7 +25,7 @@ hr
       - if @event.seating&.plan?
         | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
       - else
-        | Bei diesem Stück gilt freie Platzwahl.
+        | Bei dieser Veranstaltung gilt freie Platzwahl.
 
     - if @event.seating&.plan?
       = question_answer 'Gibt es gehbehindertengerechte Sitzplätze?' do
@@ -73,9 +73,9 @@ hr
     - if open_air
       h3 Wetter
 
-      = question_answer 'Was passiert, wenn am Aufführungstag schlechtes Wetter herrscht?' do
-        | Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Aufführung schon im Vorfeld absagen oder in der ersten Hälfte des Stücks abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
-        p Bitte prüfen Sie an Aufführungstagen mit schlechtem Wetter unsere Homepage, die wir laufend mit aktuellen Informationen versorgen werden.
+      = question_answer 'Was passiert, wenn am Tag der Veranstaltung schlechtes Wetter herrscht?' do
+        | Grundsätzlich versuchen wir bei jeder Wetterlage zu spielen. Sollte das Wetter derart schlecht sein, dass wir die Veranstaltung schon im Vorfeld absagen oder in der ersten Hälfte abbrechen müssen, haben Sie selbstverständlich ein Recht auf Erstattung Ihres Eintrittsgeldes.
+        p Bitte prüfen Sie an Veranstaltungstagen mit schlechtem Wetter unsere Homepage, die wir laufend mit aktuellen Informationen versorgen werden.
 
       = question_answer 'Sind die Zuschauerränge überdacht?' do
         | Leider nicht. Wir bitten Sie daher, gegebenenfalls an wetterfeste Kleidung zu denken. Gerne erhalten Sie vor Ort aber auch Regenponchos.
