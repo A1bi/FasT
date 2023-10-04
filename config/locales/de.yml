@@ -75,7 +75,8 @@ de:
       password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
       password_changed: Ihr Passwort wurde geändert.
     membership_applications:
-      created: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend per E-Mail kontaktieren.
+      created_email: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend per E-Mail kontaktieren.
+      created_other: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend telefonisch oder postalisch kontaktieren.
     membership_fee_payments:
       debit_submissions:
         name: TheaterKultur Kaisersesch e. V.

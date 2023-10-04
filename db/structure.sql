@@ -299,7 +299,7 @@ CREATE TABLE public.members_membership_applications (
     last_name character varying NOT NULL,
     title character varying,
     gender public.gender NOT NULL,
-    email character varying NOT NULL,
+    email character varying,
     street character varying NOT NULL,
     plz character varying NOT NULL,
     city character varying NOT NULL,

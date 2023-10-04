@@ -12,7 +12,8 @@ module Members
       @application.assign_attributes(application_params)
       return render :new unless @application.save
 
-      redirect_to new_members_membership_application_path, notice: t('.created')
+      notice = t(".created_#{@application.email.present? ? 'email' : 'other'}")
+      redirect_to new_members_membership_application_path, notice:
     end
 
     private

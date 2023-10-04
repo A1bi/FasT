@@ -17,8 +17,8 @@
           = f.select :gender, Members::Member.genders.map { |g| [t("genders.#{g}"), g] }, { include_blank: true }, required: true
         = render 'form_field', form: f, attribute: :birthday, label: 'Geburtstag', required: true
             = f.date_field :birthday, required: true
-        = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse', required: true
-          = f.text_field :email, required: true
+        = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse'
+          = f.text_field :email
         = render 'form_field', form: f, attribute: :phone, label: 'Telefonnummer'
           = f.text_field :phone
         = render 'form_field', form: f, attribute: :street, label: 'Straße und Hausnummer', required: true

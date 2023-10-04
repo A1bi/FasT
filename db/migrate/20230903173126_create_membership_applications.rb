@@ -12,7 +12,7 @@ class CreateMembershipApplications < ActiveRecord::Migration[7.0]
       t.string :last_name, null: false
       t.string :title
       t.column :gender, :gender, null: false
-      t.string :email, null: false
+      t.string :email
       t.string :street, null: false
       t.string :plz, null: false
       t.string :city, null: false
