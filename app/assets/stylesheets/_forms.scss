@@ -184,6 +184,10 @@ select {
   background: $cta-color;
   transition: background .3s;
 
+  &.w-100 {
+    @extend %px-1;
+  }
+
   &, &:hover {
     color: $white;
   }

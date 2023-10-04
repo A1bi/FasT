@@ -77,6 +77,10 @@
       }
     }
 
+    .tickets.col-4 .btn {
+      font-size: calc(min(1rem, 3vw)); // calc -> workaround for SassC complaining about min
+    }
+
     > *:nth-child(3) {
       @extend %text-center;
 
