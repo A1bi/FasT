@@ -21,10 +21,19 @@ module Members
     validates :plz, plz_format: true, allow_blank: true
 
     after_initialize :set_number
+    before_validation :set_joined_at, on: :create
     before_validation :set_default_membership_fee, on: :create
     after_save :destroy_family_if_empty
 
     class << self
+      def new_from_membership_application(application)
+        member = new(application.slice(:first_name, :last_name, :gender, :email, :birthday, :phone,
+                                       :street, :plz, :city))
+        member.sepa_mandate = SepaMandate.new_from_membership_application(application)
+        member.membership_application = application
+        member
+      end
+
       def membership_cancelled
         where.not(membership_terminates_on: nil)
       end
@@ -83,6 +92,10 @@ module Members
 
     def set_number
       self.number = (self.class.maximum(:number) || 0) + 1 unless persisted?
+    end
+
+    def set_joined_at
+      self.joined_at ||= Time.current
     end
 
     def set_default_membership_fee

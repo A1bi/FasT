@@ -60,27 +60,25 @@ Members::MembershipFeeDebitSubmission.create(
   payments: Members::MembershipFeePayment.all
 )
 
-Members::MembershipApplication.create(
-  first_name: FFaker::NameDE.first_name,
-  last_name: FFaker::NameDE.last_name,
-  gender: :male,
-  email: FFaker::Internet.free_email,
-  birthday: FFaker::Time.date(year_range: 50, year_latest: 10),
-  phone: FFaker::PhoneNumberDE.phone_number,
-  street: FFaker::AddressDE.street_address,
-  plz: FFaker::AddressDE.zip_code,
-  city: FFaker::AddressDE.city,
-  debtor_name: FFaker::NameDE.name,
-  iban: 'DE89370400440532013000'
-)
+3.times do
+  Members::MembershipApplication.create(
+    first_name: FFaker::NameDE.first_name,
+    last_name: FFaker::NameDE.last_name,
+    gender: :male,
+    email: FFaker::Internet.free_email,
+    birthday: FFaker::Time.date(year_range: 50, year_latest: 10),
+    phone: FFaker::PhoneNumberDE.phone_number,
+    street: FFaker::AddressDE.street_address,
+    plz: FFaker::AddressDE.zip_code,
+    city: FFaker::AddressDE.city,
+    debtor_name: FFaker::NameDE.name,
+    iban: 'DE89370400440532013000'
+  )
+end
 
-member = Members::Member.last
-Members::MembershipApplication.create(
-  **member.slice(:first_name, :last_name, :gender, :email, :birthday, :phone, :street, :plz, :city),
-  debtor_name: member.sepa_mandate.debtor_name,
-  iban: member.sepa_mandate.iban,
-  member:
-)
+member = Members::Member.new_from_membership_application(Members::MembershipApplication.last)
+member.reset_password
+member.save
 
 # newsletters
 Newsletter::SubscriberList.create(name: 'Kunden')

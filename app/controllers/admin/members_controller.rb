@@ -6,6 +6,7 @@ module Admin
     before_action :find_member, only: %i[show edit update destroy reactivate
                                          resume_membership_fee_payments]
     before_action :build_sepa_mandate, only: %i[edit update]
+    before_action :find_membership_application, only: %i[new create]
     before_action :prepare_new_member, only: %i[new create]
     before_action :find_members_for_family, only: %i[new create edit update]
     before_action :find_sepa_mandates, only: %i[new create edit update]
@@ -93,10 +94,20 @@ module Admin
       }.compact
     end
 
+    def find_membership_application
+      return if params[:membership_application_id].blank?
+
+      @membership_application = Members::MembershipApplication.open.find(params[:membership_application_id])
+    end
+
     def prepare_new_member
-      @member = authorize Members::Member.new
-      @member.build_sepa_mandate
-      @member
+      if @membership_application.present?
+        @member = Members::Member.new_from_membership_application(@membership_application)
+      else
+        @member = Members::Member.new
+        @member.build_sepa_mandate
+      end
+      authorize(@member)
     end
 
     def update_member

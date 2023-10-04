@@ -11,7 +11,7 @@ module Members
     end
 
     def destroy?
-      user_permitted?(:members_update) && record.member.nil?
+      user_permitted?(:members_update) && record.open?
     end
   end
 end

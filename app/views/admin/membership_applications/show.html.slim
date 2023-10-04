@@ -3,14 +3,14 @@
 .container
   h1 Mitgliedsantrag
   .row: .col
-    - if @application.member.nil?
+    - if @application.open?
         .text-end.mb-2
           - if policy(@application).destroy?
             = link_to [:admin, @application], method: :delete, class: 'btn', data: { confirm: 'Möchten Sie den Antrag wirklich löschen?' }
               i.bi.bi-trash3-fill
               span Antrag löschen
           - if policy(Members::Member).new?
-            = link_to new_admin_members_member_path, class: 'btn ms-2'
+            = link_to new_admin_members_member_path(membership_application_id: @application), class: 'btn ms-2'
               i.bi.bi-plus-circle-fill
               span Mitglied aufnehmen
     - else

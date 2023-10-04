@@ -14,6 +14,12 @@ module Members
     after_initialize :set_number
     before_validation :set_issued_on, on: :create
 
+    class << self
+      def new_from_membership_application(application)
+        new(application.slice(:debtor_name, :iban))
+      end
+    end
+
     def number(prefixed: false)
       return super() unless prefixed
 

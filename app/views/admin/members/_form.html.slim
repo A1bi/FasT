@@ -7,6 +7,7 @@
     = form_for [:admin, @member] do |f|
       = render 'errors', errors: @member.errors
       = render 'errors', errors: @member.sepa_mandate.errors
+      = hidden_field_tag :membership_application_id, @membership_application.id if @membership_application.present?
       .mb-2
         = f.label :first_name, 'Vorname'
         = f.text_field :first_name, required: true
@@ -83,7 +84,7 @@
           .form-text Wählen Sie ein Familienmitglied, dessen Familie dieses Mitglied zugeordnet werden soll.
       .mb-2
         = f.label :joined_at, 'Beitrittsdatum'
-        = f.date_field :joined_at, default: Date.today
+        = f.date_field :joined_at
       .mb-2
         = f.label :group, 'Gruppe'
         = f.select(:group, options_for_select(@groups, @member.group))

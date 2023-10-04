@@ -10,5 +10,19 @@ module Members
     validates :plz, plz_format: true
     validates :debtor_name, :iban, presence: true
     validates_with SEPA::IBANValidator
+
+    class << self
+      def open
+        where.missing(:member)
+      end
+
+      def completed
+        where.associated(:member)
+      end
+    end
+
+    def open?
+      member.nil?
+    end
   end
 end

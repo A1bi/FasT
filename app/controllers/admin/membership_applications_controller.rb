@@ -6,8 +6,8 @@ module Admin
 
     def index
       applications = authorize Members::MembershipApplication.all
-      @open_applications = applications.where.missing(:member)
-      @completed_applications = applications.where.associated(:member)
+      @open_applications = applications.open
+      @completed_applications = applications.completed
     end
 
     def show; end
