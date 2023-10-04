@@ -186,10 +186,7 @@ Rails.application.routes.draw do
         get '/', action: :index, as: :root
       end
 
-      scope controller: :membership_applications, path: 'antrag', as: :membership_applications do
-        get '/', action: :new
-        post '/', action: :create
-      end
+      resources :membership_applications, path: 'antrag', path_names: { new: '' }, only: %i[new create]
     end
   end
 

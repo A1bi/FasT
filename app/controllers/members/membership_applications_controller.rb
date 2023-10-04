@@ -12,7 +12,7 @@ module Members
       @application.assign_attributes(application_params)
       return render :new unless @application.save
 
-      redirect_to members_membership_applications_path, notice: t('.created')
+      redirect_to new_members_membership_application_path, notice: t('.created')
     end
 
     private
