@@ -230,16 +230,16 @@ table {
 
 .choose-event .event {
   svg * {
-    fill: $cta-color;
+    fill: $cta-color !important;
     stroke: none !important;
   }
 
   &:hover svg * {
-    fill: $cta-color-hover;
+    fill: $cta-color-hover !important;
   }
 
   &:active svg * {
-    fill: $cta-color-active;
+    fill: $cta-color-active !important;
   }
 }
 
