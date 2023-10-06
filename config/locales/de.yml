@@ -447,7 +447,7 @@ de:
   time:
     formats:
       medium: "%d.%m.%y, %H:%M"
-      long: "%e. %B um %H.%M Uhr"
+      long: "%e. %B %Y, %H:%M Uhr"
       cast: "%e. %B"
   date:
     formats:

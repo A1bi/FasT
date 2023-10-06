@@ -1,10 +1,8 @@
 h2 Stornierung Ihrer Tickets
 - if @refundable
   p Bei einer Stornierung wird Ihnen der volle Ticketpreis erstattet.
-- else
-  p Durch einen Klick auf folgenden Button werden Ihre Tickets storniert.
 
-= form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund' } do |f|
+= form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, local: true, class: :refund, data: { controller: 'ticketing--refund', confirm: 'Sind Sie sicher, die gesamte Bestellung zu stornieren?' } do |f|
   - if @refundable
     - if @order.open_bank_transaction.present?
       p Der zu erstattende Betrag wird auf das ursprüngliche Konto zurücküberwiesen.
@@ -28,4 +26,4 @@ h2 Stornierung Ihrer Tickets
           = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
             = f.text_field :iban
 
-  .text-center.mt-2 = f.submit 'Tickets stornieren', class: :btn
+  .text-center.mt-2 = f.submit 'alle Tickets stornieren', class: :btn

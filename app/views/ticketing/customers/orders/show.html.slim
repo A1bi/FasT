@@ -1,11 +1,25 @@
-- title "Ihre Bestellung ##{@order.number}"
+- title "Bestellung #{@order.number}"
 
 - if @order.tickets.any?
   = structured_data @order
 
 .container
-  h1 Ihre Bestellung #{@order.number}
+  h1 Ihre Bestellung
 
+  .row: .col: .card: dl.md-horizontal
+    dt Nummer
+    dd: tt = @order.number
+    dt aufgegeben am
+    dd = l(@order.created_at, format: :long)
+    - if @order.is_a? Ticketing::Web::Order
+      dt Name
+      dd #{@order.first_name} #{@order.last_name}
+      dt E-Mail-Addresse
+      dd = @order.email
+      dt Zahlungsart
+      dd = t(@order.pay_method, scope: 'ticketing.orders.pay_methods')
+      dt bezahlt
+      dd = @order.paid ? 'ja' : 'nein'
 
   - if @order.anonymized?
     .row: .col = render 'alert', type: :warning
@@ -13,6 +27,7 @@
 
   - else
     - if @order.tickets.any?
+      h2 Bestellte Tickets
       .row: .col
         - if @order.date.cancelled?
           = render 'alert', type: :warning
@@ -26,7 +41,6 @@
               - else
                 ' Stornierung
               | Ihrer Tickets.
-        h2 Ihre bestellten Tickets
         .card: .table-responsive: table
           thead
             tr
@@ -59,12 +73,12 @@
                   - else
                     | Freie Platzwahl
       - if @order.tickets.first.seat.present?
+        h2 Sitzplätze
         .row: .col.w-100
-          h2 Sitzplätze
           .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
 
     - if @order.purchased_coupons.any?
-      h2 Ihre bestellten Geschenkgutscheine
+      h2 Bestellte Geschenkgutscheine
       .row: .col: .card: ul
         - @order.purchased_coupons.each do |coupon|
           li Gutschein über <b>#{number_to_currency(coupon.initial_value)}</b> (<tt>#{coupon.code}</tt>)

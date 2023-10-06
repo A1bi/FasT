@@ -28,7 +28,7 @@
 }
 
 .container > .row > .col:not(.w-100):not([class*='col-md']):not([class*='col-lg']), .mw-text-col {
-  @extend %mw-600;
+  max-width: calc(min(600px, 100%)); // calc -> workaround for SassC complaining about min
 }
 
 [class^='col'] {

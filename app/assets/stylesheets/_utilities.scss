@@ -37,7 +37,6 @@
 @include utility-set(align, vertical-align, (middle));
 @include utility-set(w, width, (100: 100%));
 @include utility-set(h, height, (100: 100%, 50vh: 50vh, 100vh: 100vh));
-@include utility-set(mw, max-width, (600: 600px));
 @include utility-set(min-vh, min-height, (100: 100vh));
 
 @each $step, $factor in $spacing-steps {
