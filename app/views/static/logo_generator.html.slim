@@ -1,0 +1,16 @@
+- title 'Logo-Generator'
+
+.container.logo-generator data-controller='admin--logo-generator'
+  h1 Logo-Generator
+  .card.mb-2
+    .row
+      - 1.upto(3) do |i|
+        .col
+          label for="color#{i}" Farbe #{i}
+          input type='color' name="color#{i}" data-action='admin--logo-generator#updateLogosWithColorInputs' data-admin--logo-generator-target='color'
+    .row: .col.text-center
+      button.btn data-action='admin--logo-generator#shuffleColors' Farben würfeln
+  .card: .row.align-items-center data-admin--logo-generator-target='logos'
+    .col = inline_svg 'logos/l1.svg'
+    .col = inline_svg 'logos/l2_center.svg'
+    .col = inline_svg 'logos/l3_right.svg'

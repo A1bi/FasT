@@ -19,7 +19,7 @@ html lang=I18n.locale
     header
       .container
         .menu-toggle
-        .logo = link_to inline_svg('logo_l1.svg'), root_path
+        .logo = link_to inline_svg('logos/l1.svg'), root_path
     .container.nav: nav
       ul
         li = link_to 'Programm', root_path(anchor: :programm)
@@ -41,6 +41,8 @@ html lang=I18n.locale
                 li = link_to 'Mitgliedsanträge', admin_members_membership_applications_path
               - if policy(Newsletter::Newsletter).index?
                 li = link_to 'Newsletter', admin_newsletters_path
+              - if policy(:static).logo_generator?
+                li = link_to 'Logo-Generator', admin_logo_generator_path
           li
             | Vorverkauf
             ul

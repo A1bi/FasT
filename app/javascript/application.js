@@ -3,7 +3,7 @@ import { eagerLoadControllersFrom } from '@hotwired/stimulus-loading'
 import { init as initSentry } from 'components/sentry'
 import Rails from '@rails/ujs'
 
-import 'components/dynamic_colors'
+import 'components/shuffle_page_colors'
 import 'components/header'
 import 'components/forms'
 import 'components/carousel'

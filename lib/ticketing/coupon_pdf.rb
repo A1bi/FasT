@@ -67,7 +67,7 @@ module Ticketing
     def draw_back
       quarter_bounding_box([half_page_width, bounds.height], rotate: true) do
         move_down 40
-        svg_image 'logo_l3.svg', height: bounds.height * 0.3, position: :center
+        svg_image 'pdf/logo_bw_l3.svg', height: bounds.height * 0.3, position: :center
 
         move_down 30
         indent 20, 20 do

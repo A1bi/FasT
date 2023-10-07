@@ -1,8 +1,9 @@
-const colorToHslCss = (color, brightness) => {
-  let [h, s, v] = color
-  h /= 360
-  s /= 360
-  v /= 360
+const colorToHsv = (color) => {
+  return color.map(c => c / 360)
+}
+
+export const colorToHslCss = (color, brightness) => {
+  let [h, s, v] = colorToHsv(color)
 
   const l = v * (1 - (s / 2))
   s = (l === 0 || l === 1) ? 0 : ((v - l) / Math.min(l, 1 - l))
@@ -10,11 +11,30 @@ const colorToHslCss = (color, brightness) => {
   return `hsl(${h * 360}deg ${s * 100}% ${l * 100}%)`
 }
 
-const setCSSVariable = (name, value) => {
-  document.querySelector(':root').style.setProperty(`--${name}`, value)
+export const colorToRgbCss = (color) => {
+  const [h, s, v] = colorToHsv(color)
+  let r, g, b
+
+  const i = Math.floor(h * 6)
+  const f = h * 6 - i
+  const p = v * (1 - s)
+  const q = v * (1 - f * s)
+  const t = v * (1 - (1 - f) * s)
+
+  switch (i % 6) {
+    case 0: r = v; g = t; b = p; break
+    case 1: r = q; g = v; b = p; break
+    case 2: r = p; g = v; b = t; break
+    case 3: r = p; g = q; b = v; break
+    case 4: r = t; g = p; b = v; break
+    case 5: r = v; g = p; b = q; break
+  }
+
+  const components = [r, g, b].map(c => Math.floor(c * 255).toString(16))
+  return `#${components.join('')}`
 }
 
-const generateColors = () => {
+export const generateColors = () => {
   const numColors = 4
   const colors = []
 
@@ -54,23 +74,3 @@ const generateColors = () => {
 
   return colors
 }
-
-const shuffleColors = () => {
-  const colors = generateColors()
-
-  colors.forEach((color, i) => {
-    setCSSVariable(`dynamic-color-${i}`, colorToHslCss(color))
-    setCSSVariable(`dynamic-color-${i}-hover`, colorToHslCss(color, 0.8))
-    setCSSVariable(`dynamic-color-${i}-active`, colorToHslCss(color, 0.6))
-  })
-
-  document.querySelectorAll('hr').forEach(el => {
-    el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace(/black|hsl\(.+?\)/, colorToHslCss(colors[0]))
-  })
-}
-
-document.addEventListener('DOMContentLoaded', shuffleColors)
-
-document.addEventListener('keydown', e => {
-  if (e.ctrlKey && e.altKey && e.code === 'KeyC') shuffleColors()
-})

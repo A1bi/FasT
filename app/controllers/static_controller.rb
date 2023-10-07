@@ -3,7 +3,7 @@
 class StaticController < ApplicationController
   ALERT_FILE_PATH = Rails.public_path.join('uploads/index_alert.json')
 
-  skip_authorization
+  before_action :authorize
 
   helper :photos, :events
 
@@ -23,5 +23,9 @@ class StaticController < ApplicationController
 
   def alert_info
     JSON.parse(File.read(ALERT_FILE_PATH), symbolize_names: true)
+  end
+
+  def authorize
+    super(:static)
   end
 end
