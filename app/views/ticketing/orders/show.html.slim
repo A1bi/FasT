@@ -133,8 +133,8 @@ ruby:
                   - if @show_check_ins
                     td
                       - if (check_in = ticket.check_ins.first)
-                        span title="via #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}"
-                          = l check_in.date, format: '%H:%M'
+                        = l check_in.date, format: '%H:%M'
+                        small.d-block #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}
           small data-ticketing--tickets-table-target='noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
           ruby:
             options = [
