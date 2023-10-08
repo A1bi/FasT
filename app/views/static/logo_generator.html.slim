@@ -5,19 +5,19 @@
   .card.mb-2
     .row
       - %w[Theater Kultur Kaisersesch i-Punkt].each.with_index do |word, i|
-        .col
+        .col-6.col-md
           label for="color#{i}" = word
           input type='color' name="color#{i}" data-action='admin--logo-generator#setColorsFromInputs' data-admin--logo-generator-target='color'
-    .row: .col.text-center
-      button.btn.me-1 data-action='admin--logo-generator#shuffleColors'
-        i.bi.bi-shuffle
-        span Farben würfeln
-      button.btn data-action='admin--logo-generator#rotateColors'
-        i.bi.bi-arrow-clockwise
-        span Farben rotieren
+    .row
+      .col-auto: button.btn data-action='admin--logo-generator#shuffleColors'
+          i.bi.bi-shuffle
+          span Farben würfeln
+      .col-auto: button.btn data-action='admin--logo-generator#rotateColors'
+          i.bi.bi-arrow-clockwise
+          span Farben rotieren
   .card.logos: .row.align-items-center data-admin--logo-generator-target='logos'
     - %i[l1 l2_center l3_right].each do |variant|
-      .col
+      .col-12.col-md
         = inline_svg "logos/#{variant}.svg"
         .text-center.mt-1
           button.btn.btn-sm data-action='admin--logo-generator#downloadSvg'
