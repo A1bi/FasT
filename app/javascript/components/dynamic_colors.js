@@ -30,7 +30,11 @@ export const colorToRgbCss = (color) => {
     case 5: r = v; g = p; b = q; break
   }
 
-  const components = [r, g, b].map(c => Math.floor(c * 255).toString(16))
+  return decimalsToHex([r, g, b].map(c => Math.floor(c * 255)))
+}
+
+export const decimalsToHex = (color) => {
+  const components = color.map(c => c.toString(16))
   return `#${components.join('')}`
 }
 

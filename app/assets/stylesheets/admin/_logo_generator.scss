@@ -4,4 +4,19 @@
     height: 3rem;
     display: block;
   }
+
+  [data-admin--logo-generator-target='dominantColors'] .color {
+    @extend %d-inline-block;
+    @extend %m-1;
+    border: 1px solid darken($light-gray, 10%);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+
+    &.selected {
+      border-width: 3px;
+      border-color: $cta-color;
+    }
+  }
 }

@@ -15,6 +15,12 @@
       .col-auto: button.btn data-action='admin--logo-generator#rotateColors'
           i.bi.bi-arrow-clockwise
           span Farben rotieren
+  .card.mb-2
+    .row: .col-12.col-md-6
+      label for='template' Bild als Vorlage
+      input type='file' name='template' data-action='admin--logo-generator#determineDominantColorsFromFile'
+    .row
+      .col.text-center data-admin--logo-generator-target='dominantColors'
   .card.logos: .row.align-items-center data-admin--logo-generator-target='logos'
     - %i[l1 l2_center l3_right].each do |variant|
       .col-12.col-md
