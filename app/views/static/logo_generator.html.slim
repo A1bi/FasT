@@ -4,12 +4,17 @@
   h1 Logo-Generator
   .card.mb-2
     .row
-      - 1.upto(3) do |i|
+      - %w[Theater Kultur Kaisersesch i-Punkt].each.with_index do |word, i|
         .col
-          label for="color#{i}" Farbe #{i}
-          input type='color' name="color#{i}" data-action='admin--logo-generator#updateLogosWithColorInputs' data-admin--logo-generator-target='color'
+          label for="color#{i}" = word
+          input type='color' name="color#{i}" data-action='admin--logo-generator#setColorsFromInputs' data-admin--logo-generator-target='color'
     .row: .col.text-center
-      button.btn data-action='admin--logo-generator#shuffleColors' Farben würfeln
+      button.btn.me-1 data-action='admin--logo-generator#shuffleColors'
+        i.bi.bi-shuffle
+        span Farben würfeln
+      button.btn data-action='admin--logo-generator#rotateColors'
+        i.bi.bi-arrow-clockwise
+        span Farben rotieren
   .card: .row.align-items-center data-admin--logo-generator-target='logos'
     .col = inline_svg 'logos/l1.svg'
     .col = inline_svg 'logos/l2_center.svg'

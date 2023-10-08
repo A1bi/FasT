@@ -4,26 +4,41 @@ import { colorToRgbCss, generateColors } from 'components/dynamic_colors'
 export default class extends Controller {
   static targets = ['color', 'logos']
 
+  connect () {
+    this.shuffleColors()
+  }
+
   shuffleColors () {
-    let colors = generateColors().slice(1)
-    colors = colors.map(color => colorToRgbCss(color))
+    const colors = generateColors().slice(1)
+    this.colors = colors.map(color => colorToRgbCss(color))
 
+    this.updateColorInputs()
+    this.updateLogos()
+  }
+
+  rotateColors () {
+    this.colors.unshift(this.colors.pop())
+
+    this.updateColorInputs()
+    this.updateLogos()
+  }
+
+  updateColorInputs () {
     this.colorTargets.forEach((color, i) => {
-      color.value = colors[i]
+      color.value = this.colors[i]
     })
-
-    this.updateLogosWithColors(colors)
   }
 
-  updateLogosWithColorInputs () {
-    this.updateLogosWithColors(this.colorTargets.map(target => target.value))
+  setColorsFromInputs () {
+    this.colors = this.colorTargets.map(target => target.value)
+    this.updateLogos()
   }
 
-  updateLogosWithColors (colors) {
+  updateLogos () {
     const logos = this.logosTarget.querySelectorAll('svg')
     logos.forEach(logo => {
       logo.querySelectorAll(':scope > g').forEach((group, i) => {
-        group.style.fill = colors[i % colors.length]
+        group.style.fill = this.colors[i % this.colors.length]
       })
     })
   }
