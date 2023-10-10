@@ -48,6 +48,10 @@ module Ticketing
         balance.positive?
       end
 
+      def settled?
+        balance.zero?
+      end
+
       private
 
       def update_balance(amount)

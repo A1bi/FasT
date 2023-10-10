@@ -24,6 +24,8 @@ module Ticketing
     end
 
     def order_anonymizable?(order)
+      return false unless order.billing_account.settled?
+
       tickets = order.tickets
       # if the order only contains tickets with the same date, it is
       # already covered by the orders query

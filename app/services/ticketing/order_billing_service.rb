@@ -23,7 +23,7 @@ module Ticketing
 
       transaction.amount -= order_balance
       transaction.save if transaction.persisted?
-      settle_balance(order_balance.negative? ? :bank_charge_payment : :transfer_refund)
+      settle_balance(@order.billing_account.outstanding? ? :bank_charge_payment : :transfer_refund)
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)

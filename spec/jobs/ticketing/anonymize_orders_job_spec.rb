@@ -34,6 +34,12 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
       end
 
       include_examples 'anonymizes order'
+
+      context 'with unsettled billing' do
+        before { order.billing_account.update(balance: 10) }
+
+        include_examples 'does not anonymize order'
+      end
     end
 
     context 'when there are multiple dates and all are at least 6 weeks past' do

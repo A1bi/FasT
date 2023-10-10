@@ -59,6 +59,26 @@ RSpec.describe Ticketing::Billing::Account do
     include_examples 'amount is zero'
   end
 
+  shared_examples 'balance method' do
+    let(:account) { create(:billing_account) }
+
+    context 'with zero balance' do
+      it { is_expected.to eq(expectation_zero) }
+    end
+
+    context 'with positive balance' do
+      before { account.deposit(10, nil) }
+
+      it { is_expected.to eq(expectation_positive) }
+    end
+
+    context 'with negative balance' do
+      before { account.deposit(-10, nil) }
+
+      it { is_expected.to eq(expectation_negative) }
+    end
+  end
+
   describe '#balance' do
     subject { account.balance }
 
@@ -180,44 +200,30 @@ RSpec.describe Ticketing::Billing::Account do
   describe '#outstanding?' do
     subject { account.outstanding? }
 
-    let(:account) { create(:billing_account) }
+    let(:expectation_zero) { false }
+    let(:expectation_positive) { false }
+    let(:expectation_negative) { true }
 
-    context 'with zero balance' do
-      it { is_expected.to be_falsy }
-    end
-
-    context 'with positive balance' do
-      before { account.deposit(10, nil) }
-
-      it { is_expected.to be_falsy }
-    end
-
-    context 'with negative balance' do
-      before { account.deposit(-10, nil) }
-
-      it { is_expected.to be_truthy }
-    end
+    include_examples 'balance method'
   end
 
   describe '#credit?' do
     subject { account.credit? }
 
-    let(:account) { create(:billing_account) }
+    let(:expectation_zero) { false }
+    let(:expectation_positive) { true }
+    let(:expectation_negative) { false }
 
-    context 'with zero balance' do
-      it { is_expected.to be_falsy }
-    end
+    include_examples 'balance method'
+  end
 
-    context 'with positive balance' do
-      before { account.deposit(10, nil) }
+  describe '#settled?' do
+    subject { account.settled? }
 
-      it { is_expected.to be_truthy }
-    end
+    let(:expectation_zero) { true }
+    let(:expectation_positive) { false }
+    let(:expectation_negative) { false }
 
-    context 'with negative balance' do
-      before { account.deposit(-10, nil) }
-
-      it { is_expected.to be_falsy }
-    end
+    include_examples 'balance method'
   end
 end
