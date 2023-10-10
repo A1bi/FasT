@@ -138,10 +138,8 @@ module Admin
     end
 
     def sepa_mandate_params
-      @sepa_mandate_params ||= params.require(:members_member)
-                                     .require(:members_sepa_mandate)
-                                     .permit(:debtor_name, :iban, :number,
-                                             :issued_on)
+      @sepa_mandate_params ||= params.require(:members_member).require(:members_sepa_mandate)
+                                     .permit(:debtor_name, :iban)
     end
 
     def send_welcome_email

@@ -65,12 +65,10 @@
         .mb-2
           = ff.label :iban, 'IBAN'
           = ff.text_field :iban, value: obfuscated_mandate_iban(@member.sepa_mandate)
-        .mb-2
-          = ff.label :number, 'Mandatsnummer'
-          = ff.text_field :number, value: @member.sepa_mandate&.number(prefixed: true)
-        .mb-2
-          = ff.label :issued_on, 'Mandatsdatum'
-          = ff.date_field :issued_on
+        - if @member.sepa_mandate&.persisted?
+          .mb-2
+            = ff.label :issued_on, 'Mandatsdatum'
+            .d-block = l @member.sepa_mandate.issued_on
         .mb-2
           = ff.label :membership_fee, 'Jahresbeitrag'
           | #{f.number_field :membership_fee, step: 0.01, placeholder: Settings.members.default_membership_fee} Euro
