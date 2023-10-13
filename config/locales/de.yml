@@ -127,6 +127,8 @@ de:
       sent_pay_reminder: "Es wurde eine Zahlungserinnerung an den Käufer gesendet."
       not_yet_available: "Derzeit ist noch keine Buchung möglich. Der Vorverkauf zu „%{event}“ beginnt am %{start}."
       sale_ended: "Tickets zu „%{event}“ sind nicht mehr erhältlich."
+      sold_out_single_date: "„%{event}“ ist derzeit leider ausverkauft."
+      sold_out_multiple_dates: "Leider sind derzeit alle Termine von „%{event}“ ausverkauft."
       sale_disabled_for_store: Der Ticketverkauf ist für diese Vorverkaufsstelle derzeit nicht freigeschaltet.
       retail_access_denied: "Die angegebene Bestellung wurde nicht von dieser Vorverkaufsstelle aufgegeben und kann deshalb nicht eingesehen werden."
       pay_methods:

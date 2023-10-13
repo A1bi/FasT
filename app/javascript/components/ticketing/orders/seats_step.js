@@ -63,7 +63,7 @@ export default class extends Step {
   }
 
   choseDate ($this, animate) {
-    if (!$this) return
+    if (!$this || $this.length < 1) return
 
     this.info.api.date = $this.data('id')
     this.info.internal.boxOfficePayment = 'boxOfficePayment' in $this.data()

@@ -35,6 +35,12 @@ Metrics/MethodLength:
   Exclude:
     - db/migrate/*.rb
 
+Metrics/CyclomaticComplexity:
+  Max: 9
+
+Metrics/PerceivedComplexity:
+  Max: 9
+
 Metrics/ParameterLists:
   CountKeywordArgs: false
 

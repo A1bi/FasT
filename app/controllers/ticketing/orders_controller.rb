@@ -4,8 +4,9 @@ module Ticketing
   class OrdersController < BaseController
     SEARCH_QUERY_MIN_LENGTH = 3
 
-    before_action :prepare_new, only: %i[new new_privileged]
     before_action :set_event_info, only: %i[new new_privileged]
+    before_action :redirect_if_unavailable, only: %i[new new_privileged]
+    before_action :prepare_new, only: %i[new new_privileged]
     before_action :find_order, only: %i[show edit update mark_as_paid send_pay_reminder
                                         resend_confirmation resend_items seats]
     before_action :prepare_billing_actions, only: %i[show]
@@ -63,18 +64,6 @@ module Ticketing
     def new
       @type = :web
       @max_tickets = 25
-
-      return if current_user&.admin?
-
-      if !@event.sale_started?
-        alert = t('.not_yet_available', event: @event.name, start: l(@event.sale_start, format: :long))
-      elsif @event.sale_ended?
-        alert = t('.sale_ended', event: @event.name)
-      elsif @event.sale_disabled?
-        alert = @event.sale_disabled_message
-      end
-
-      redirect_to root_path, alert: alert if alert
     end
 
     def edit
@@ -180,6 +169,30 @@ module Ticketing
 
     def search_orders
       Ticketing::OrderSearchService.new(search_query, scope: order_scope).execute
+    end
+
+    def redirect_if_unavailable
+      return if (alert = unavailability_alert).nil?
+
+      redirect_to root_path, alert:
+    end
+
+    def unavailability_alert
+      return t_unavailability(:sale_ended) if @event.sale_ended?
+      return if current_user&.admin?
+
+      if !@event.sale_started?
+        t_unavailability(:not_yet_available, start: l(@event.sale_start, format: :long))
+      elsif @event.sale_disabled?
+        @event.sale_disabled_message
+      elsif @event.sold_out?
+        t_unavailability("sold_out_#{@event.dates.size > 1 ? 'multiple_dates' : 'single_date'}")
+      end
+    end
+
+    def t_unavailability(key, placeholders = {})
+      placeholders[:event] = @event.name
+      t(".#{key}", **placeholders)
     end
 
     def redirect_order_number_match(orders, ticket)
