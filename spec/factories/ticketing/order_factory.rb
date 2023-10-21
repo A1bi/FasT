@@ -7,13 +7,14 @@ FactoryBot.define do
     trait :with_tickets do
       transient do
         event { association :event, :complete }
+        date { nil }
         tickets_count { 1 }
       end
 
       before(:create) do |order, evaluator|
         order.tickets = create_list(:ticket, evaluator.tickets_count,
                                     order:,
-                                    date: evaluator.event.dates.first,
+                                    date: evaluator.date || evaluator.event.dates.first,
                                     type: evaluator.event.ticket_types.first)
       end
     end

@@ -99,6 +99,38 @@ RSpec.describe Ticketing::Event do
     it { is_expected.to contain_exactly(partially_cancelled_event, past_event) }
   end
 
+  describe '#sold_out?' do
+    subject { event.sold_out? }
+
+    let(:event) { create(:event, :complete, seating:, dates_count: 2) }
+    let(:seating) { create(:seating, number_of_seats:) }
+    let(:number_of_seats) { 3 }
+
+    context 'without any sold out date' do
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with only one sold out date' do
+      before { create(:order, :with_tickets, event:, date: event.dates.first, tickets_count: number_of_seats) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with all dates being sold out' do
+      before do
+        event.dates.each { |date| create(:order, :with_tickets, event:, date:, tickets_count: number_of_seats) }
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an overbooked date' do
+      before { create(:order, :with_tickets, event:, date: event.dates.first, tickets_count: number_of_seats * 3) }
+
+      it { is_expected.to be_falsy }
+    end
+  end
+
   describe '#free?' do
     subject { event.free? }
 
