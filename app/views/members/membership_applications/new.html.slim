@@ -36,7 +36,17 @@
           = f.text_field :debtor_name, required: true
         = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
           = f.text_field :iban, required: true
-        small
-          p Ich ermächtige den Zahlungsempfänger TheaterKultur Kaisersesch e. V., Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die vom Zahlungsempfänger TheaterKultur Kaisersesch e. V. auf mein Konto gezogenen Lastschriften einzulösen.
-          p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Beitrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
+        p Ich ermächtige den Zahlungsempfänger TheaterKultur Kaisersesch e. V., Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die vom Zahlungsempfänger TheaterKultur Kaisersesch e. V. auf mein Konto gezogenen Lastschriften einzulösen.
+        p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Beitrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
+        hr
+        h3 Wahlrecht
+        .row
+          .col-12.col-md-3: b Wahlrecht ab 14 Jahren
+          .col-12.col-md-9 Ich gebe die Einwilligung, dass mein minderjähriges Kind das Stimm- und aktive Wahlrecht laut Satzung eigenständig ausüben darf.
+        .row
+          .col-12.col-md-3: b passives Wahlrecht ab 16 Jahren
+          .col-12.col-md-9 Ich gebe die Einwilligung, dass mein Kind an Mitgliederversammlungen teilnehmen und für ein Amt im Vereinsvorstand kandidieren darf.
+        hr
+        h3 Datenschutz
+        p Als Mitglied bin ich mit der #{link_to 'Datenschutzrichtlinie für Mitglieder', privacy_membership_path, target: '_blank'} einverstanden und habe mein Widerrufsrecht zur Kenntnis genommen.
         .mt-2.text-center = f.submit 'Antrag einreichen', class: 'btn w-100'
