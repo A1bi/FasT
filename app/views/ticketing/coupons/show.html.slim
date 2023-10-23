@@ -7,6 +7,9 @@
       dt Code
       dd
         tt> = @coupon.code
+        - if @coupon.credit_value?
+          => link_to({ format: :pdf }, title: 'PDF herunterladen')
+            i.bi.bi-cloud-arrow-down-fill
         = render 'admin_actions', obj: @coupon, delete_confirm: 'diesen Gutschein'
       dt Empfänger
       dd

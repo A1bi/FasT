@@ -18,8 +18,16 @@ module Ticketing
     end
 
     def show
-      @members = Members::Member.where("email != ''").order(:last_name)
-      @billing_actions = %i[correction]
+      respond_to do |format|
+        format.html do
+          @members = Members::Member.where("email != ''").order(:last_name)
+          @billing_actions = %i[correction]
+        end
+        format.pdf do
+          pdf = CouponPdf.new(@coupon)
+          send_data pdf.render, type: 'application/pdf', disposition: 'inline'
+        end
+      end
     end
 
     def new; end
