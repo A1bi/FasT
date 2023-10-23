@@ -2,12 +2,12 @@
 
 module Ticketing
   class CouponPdf < BasePdf
+    FG_COLOR = '1f2034'
     FOLD_LINES_LENGTH = 50
     QUARTER_MARGIN = 20
 
-    def initialize(coupon, theme: nil)
+    def initialize(coupon)
       @coupon = coupon
-      @theme = theme
 
       super page_size: 'A4', page_layout: :landscape, margin: 0
 
@@ -21,7 +21,7 @@ module Ticketing
 
     def draw_coupon_details
       quarter_bounding_box([half_page_width, half_page_height]) do
-        text t(:title), align: :center, size: 25
+        draw_title
 
         move_down 10
         font_size_name :small do
@@ -38,11 +38,11 @@ module Ticketing
 
         indent 80, 80 do
           font_size_name :normal do
-            move_down 48
+            move_down 40
             text t(:recipient)
             draw_name_line
 
-            move_down 40
+            move_down 25
             text t(:sender)
             draw_name_line
           end
@@ -52,42 +52,22 @@ module Ticketing
 
     def draw_front
       quarter_bounding_box([0, bounds.height], rotate: true, pad: false) do
-        case @theme
-        when :christmas
-          draw_christmas_front
-        else
-          draw_generic_front
+        svg_image 'pdf/coupon/bow.svg', height: bounds.height * 0.4, position: :right
+
+        pad_quarter do
+          move_up 20
+          draw_title
+
+          move_down 40
+          svg_image 'pdf/logo_bw_l2.svg', width: bounds.width * 0.3, position: :center
         end
-      end
-    end
-
-    def draw_generic_front
-      svg_image 'pdf/coupon/bow.svg',
-                height: bounds.height * 0.4, position: :right
-
-      pad_quarter do
-        move_up 30
-        text t(:title), size: 25, align: :center, styles: %i[bold]
-
-        move_down 30
-        svg_image 'pdf/logo_bw_l2.svg',
-                  height: bounds.height * 0.3, position: :center
-      end
-    end
-
-    def draw_christmas_front
-      pad_quarter do
-        move_down 5
-        svg_image 'pdf/coupon/christmas_front.svg',
-                  height: bounds.width * 0.6, position: :center
       end
     end
 
     def draw_back
       quarter_bounding_box([half_page_width, bounds.height], rotate: true) do
-        move_down 30
-        svg_image 'pdf/logo_bw_l2.svg',
-                  height: bounds.height * 0.4, position: :center
+        move_down 40
+        svg_image 'logo_l3.svg', height: bounds.height * 0.3, position: :center
 
         move_down 30
         indent 20, 20 do
@@ -95,6 +75,12 @@ module Ticketing
             text t(:disclaimer), align: :center, inline_format: true
           end
         end
+      end
+    end
+
+    def draw_title
+      font 'Lora', style: :bold_italic do
+        text t(:title), size: 35, align: :center
       end
     end
 
@@ -114,7 +100,7 @@ module Ticketing
         fill_and_stroke { rectangle [x, cursor], width, height }
 
         move_down box_padding[0] + 3
-        fill_color FG_COLOR
+        fill_color '000000'
         text @coupon.code, align: :center
 
         undash

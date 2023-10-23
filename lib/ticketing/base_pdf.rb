@@ -35,8 +35,8 @@ module Ticketing
               CreationDate: Time.current
             }
 
-      fill_color FG_COLOR
-      stroke_color FG_COLOR
+      fill_color self.class::FG_COLOR
+      stroke_color self.class::FG_COLOR
 
       fonts = FONTS.each_with_object({}) do |font, f|
         f[font[:name]] = font[:styles].index_with do |style|
