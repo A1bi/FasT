@@ -214,6 +214,7 @@ de:
             one: "Es wurde ein Ticket für den %{date} an der Abendkasse verkauft."
             other: "Es wurden %{count} Tickets für den %{date} an der Abendkasse verkauft."
       coupons_sold:
+        title: Geschenkgutscheine
         body:
           one: "Es wurde ein Geschenkgutschein bestellt."
           other: "Es wurden %{count} Geschenkgutscheine bestellt."

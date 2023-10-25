@@ -23,8 +23,7 @@ module Ticketing
       I18n.t(
         :title,
         scope: i18n_scope,
-        event: @order.event&.name,
-        default: nil
+        event: @order.event&.name
       )
     end
 

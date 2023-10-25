@@ -104,7 +104,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
 
       it 'pushes the correct payload' do
         expect(subscriptions).to all(receive(:push) do |payload|
-          expect(payload[:title]).to be_nil
+          expect(payload[:title]).to eq('Geschenkgutscheine')
           expect(payload[:body]).to include('Geschenkgutschein')
         end)
         subject
