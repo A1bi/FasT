@@ -61,7 +61,7 @@ module Ticketing
     end
 
     def sold_out?
-      dates.all? { |date| (ticket_stats_for_event(self).dig(:total, date.id, :percentage) || 0 >= 100) }
+      dates.all? { |date| (ticket_stats_for_event(self).dig(:total, date.id, :percentage) || 0) >= 100 }
     end
 
     def sale_not_yet_started?

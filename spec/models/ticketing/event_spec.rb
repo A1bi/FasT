@@ -106,7 +106,17 @@ RSpec.describe Ticketing::Event do
     let(:seating) { create(:seating, number_of_seats:) }
     let(:number_of_seats) { 3 }
 
-    context 'without any sold out date' do
+    context 'without any tickets sold' do
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with some tickets sold for all dates but none of the dates are sold out' do
+      before do
+        event.dates.each do |date|
+          create(:order, :with_tickets, event:, date:, tickets_count: number_of_seats - 1)
+        end
+      end
+
       it { is_expected.to be_falsy }
     end
 
