@@ -70,7 +70,11 @@ html lang=I18n.locale
               li = link_to 'Logout', logout_path
 
         - elsif !user_signed_in?
-          li = link_to 'Mitglieder-Login', login_path
+          li
+            | Mitglieder
+            ul
+              li = link_to 'Login', login_path
+              li = link_to 'Mitglied werden', new_members_membership_application_path
 
     main
       - flash.each do |type, msg|

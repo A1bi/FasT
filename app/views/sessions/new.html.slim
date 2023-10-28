@@ -1,6 +1,6 @@
 - title 'Mitglieder-Login'
 
-.container
+.container.mb-2
   h1 Mitglieder-Login
   .row: .col
     p Sollten Sie Mitglied unseres Vereins oder Betreiber einer Vorverkaufsstelle sein, haben Sie hier die Möglichkeit, sich einzuloggen.
@@ -20,3 +20,7 @@
           = check_box_tag :remember, nil, checked: true
           = label_tag :remember, 'eingeloggt bleiben'
         .text-center = submit_tag 'login', class: :btn
+
+hr
+
+.container = render 'static/membership_promo', title: 'Noch kein Mitglied?'
