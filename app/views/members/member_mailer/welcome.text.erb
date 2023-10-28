@@ -1,6 +1,12 @@
-<%= render 'address' %>
+<%= render 'application/members/address', record: @member -%>
 
+<% if @member.membership_application.present? %>
+noch einmal möchten wir uns für Ihren Mitgliedsantrag bedanken. Wir haben diesen abschließend geprüft und freuen uns nun, Sie als Mitglied in unserem Verein herzlich begrüßen zu dürfen.
+<% else %>
 hiermit möchten wir Sie als Mitglied in unserem Verein herzlich begrüßen.
+<% end %>
+
+Sie erhalten in Kürze eine weitere E-Mail, um Ihr persönliches Mitgliedskonto auf unserer Homepage zu aktivieren.
 
 Wir werden den Mitgliedsbeitrag in Höhe von <%= number_to_currency @member.membership_fee %> in den kommenden Tagen per SEPA-Lastschrift von folgendem Konto einziehen. Sollten die Daten nicht korrekt sein, bitten wir Sie umgehend mit uns Kontakt aufzunehmen.
 
@@ -9,8 +15,6 @@ IBAN: <%= @member.sepa_mandate.iban %>
 
 Ihre Mandatsreferenz-Nummer: <%= @member.sepa_mandate.number(prefixed: true) %>
 Unsere Gläubiger-Identifikationsnummer: <%= t 'members.membership_fee_payments.debit_submissions.creditor_identifier' %>
-
-Sie erhalten in Kürze eine weitere E-Mail, um Ihr persönliches Mitgliedskonto auf unserer Homepage zu aktivieren.
 
 Für Rückfragen stehen wir gerne zur Verfügung.
 

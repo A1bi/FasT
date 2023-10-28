@@ -2,6 +2,10 @@
 
 module Members
   class MembershipApplication < ApplicationRecord
+    include HasGender
+
+    has_person_name
+
     belongs_to :member, optional: true
 
     auto_strip_attributes :first_name, :last_name, :street, :city, squish: true

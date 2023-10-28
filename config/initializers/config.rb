@@ -17,6 +17,9 @@ Config.setup do |config|
     required(:members).schema do
       required(:default_membership_fee).filled(:integer)
       required(:membership_renewal_after_months).filled(:integer)
+      required(:membership_fee_debit_submission_email).filled(:string)
+      required(:membership_application_admin_notification_email).filled(:string)
+      required(:embedded_calendar_token).filled(:string)
     end
 
     required(:passbook).schema do

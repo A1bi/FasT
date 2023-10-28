@@ -85,7 +85,7 @@ de:
         remittance_information: Jahresmitgliedsbeitrag für %{member}
     member_mailer:
       welcome:
-        subject: Willkommen in unserem Verein
+        subject: Herzlich willkommen in unserem Verein
       activation:
         subject: Aktivierung Ihres Mitgliedskontos
       reset_password:
@@ -93,6 +93,11 @@ de:
     membership_fee_mailer:
       debit_submission:
         subject: Neue Sammellastschrift für Mitgliedsbeträge
+    membership_application_mailer:
+      submitted:
+        subject: Ihr Mitgliedsantrag
+      admin_notification:
+        subject: Neuer Mitgliedsantrag
   permissions:
     permissions_read: Berechtigungen der Mitglieder einsehen
     permissions_update: Berechtigungen der Mitglieder bearbeiten

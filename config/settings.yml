@@ -11,6 +11,7 @@ members:
   default_membership_fee: 12
   membership_renewal_after_months: 12
   membership_fee_debit_submission_email: albrecht@oster.online
+  membership_application_admin_notification_email: info@theater-kaisersesch.de
   embedded_calendar_token: HsbRn8sPcJ5GkmE5
 
 newsletters:

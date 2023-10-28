@@ -12,6 +12,9 @@ module Members
       @application.assign_attributes(application_params)
       return render :new unless @application.save
 
+      mailer.submitted.deliver_later
+      mailer.admin_notification.deliver_later
+
       notice = t(".created_#{@application.email.present? ? 'email' : 'other'}")
       redirect_to new_members_membership_application_path, notice:
     end
@@ -20,6 +23,10 @@ module Members
 
     def prepare_new
       @application = MembershipApplication.new
+    end
+
+    def mailer
+      @mailer ||= MembershipApplicationMailer.with(application: @application)
     end
 
     def application_params
