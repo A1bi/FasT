@@ -13,7 +13,7 @@ gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'bcrypt', '~> 3.1.16'
 gem 'bindata', '~> 2.4.3'
 gem 'bootsnap', require: false
-gem 'config', '~> 4.0'
+gem 'config', '~> 5.0'
 gem 'dalli', '~> 3.0'
 gem 'doorkeeper', '~> 5.6'
 gem 'httparty', '~> 0.18'
