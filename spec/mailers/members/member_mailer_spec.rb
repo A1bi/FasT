@@ -72,7 +72,7 @@ RSpec.describe Members::MemberMailer do
     subject(:mail) { mailer.welcome }
 
     let(:member) { create(:member, :with_sepa_mandate, gender:, membership_fee: 13.4) }
-    let(:subject) { 'Willkommen' } # rubocop:disable RSpec/SubjectDeclaration
+    let(:subject) { 'Herzlich willkommen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
 
@@ -83,6 +83,18 @@ RSpec.describe Members::MemberMailer do
           member.sepa_mandate.number(prefixed: true),
           '13,40 €'
         )
+    end
+
+    it 'does not mention a membership application' do
+      expect(mail.body.encoded).not_to include('antrag')
+    end
+
+    context 'when a membership application is associated with the member' do
+      before { create(:membership_application, member:) }
+
+      it 'mentions a membership application' do
+        expect(mail.body.encoded).to include('antrag')
+      end
     end
   end
 
