@@ -4,9 +4,9 @@
     .title.active class=('outline-sm' if local_assigns[:small_outline])
       = event_logo(@event, tag: :h1, inline_svg: true)
 - else
-  .container.py-2
-    - if (logo_path = event_logo_path(@event)).present?
-      .row: .col = image_tag(logo_path)
+  .event-logo.container.py-2
+    - if event_logo_path(@event).present?
+      .row: .col = event_logo(@event, inline_svg: true)
     - else
       h1 = @event.name
     - if @event.info['subtitle'].present?

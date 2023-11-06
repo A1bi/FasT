@@ -23,7 +23,6 @@ $semi-gray: #999;
 $light-gray: #f2f2f2;
 $white: #ffffff;
 
-$body-bg: $light-gray;
 $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
 $cta-color-active: darken($red, 30%);
@@ -36,3 +35,25 @@ $menu-reveal-duration: .5s;
 
 $input-padding-x: .5rem;
 $input-padding-y: .35rem;
+
+:root {
+  --body-bg: #{$light-gray};
+  --body-color: #{$black};
+  --secondary-bg-color: #{$white};
+  --nav-bg: var(--secondary-bg-color);
+  --card-bg: var(--secondary-bg-color);
+  --input-bg: #{$white};
+  --table-bg-even: var(--body-bg);
+  --table-bg-odd: #{darken($white, 10%)};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg: #{$black};
+    --body-color: #{$light-gray};
+    --secondary-bg-color: #{darken($black, 5%)};
+    --input-bg: var(--body-bg);
+    --table-bg-odd: #{lighten($black, 5%)};
+    --dynamic-color-0: var(--secondary-bg-color) !important;
+  }
+}

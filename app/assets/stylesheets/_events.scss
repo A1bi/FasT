@@ -17,6 +17,13 @@
   }
 }
 
+.event-logo {
+  svg * {
+    fill: var(--body-color) !important;
+    stroke: none !important;
+  }
+}
+
 .info-cards {
   @extend %d-flex;
   flex-direction: column;

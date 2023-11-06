@@ -33,7 +33,7 @@
 
 %black-links {
   a:not(:hover, :active) {
-    color: $black;
+    color: var(--body-color);
   }
 }
 

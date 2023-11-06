@@ -22,8 +22,8 @@ body {
   @extend .ff-m;
   @extend %m-0;
   font-size: $font-size-base;
-  color: $black;
-  background: $body-bg;
+  color: var(--body-color);
+  background: var(--body-bg);
   min-width: 300px;
 }
 
@@ -131,11 +131,11 @@ table {
     }
 
     tr:nth-of-type(even) td {
-      background: #F9F9F9;
+      background: var(--table-bg-even);
     }
 
     tr:nth-of-type(odd) td {
-      background: $white;
+      background: var(--table-bg-odd);
     }
 
     tr:last-child td {
@@ -199,7 +199,11 @@ iframe {
 .card {
   @extend .plane;
   @extend %p-2;
-  background: $white;
+  background: var(--card-bg);
+}
+
+.force-bright-bg {
+  background: $light-gray;
 }
 
 .list-style-none {

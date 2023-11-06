@@ -42,7 +42,8 @@ select {
   padding: $input-padding-y $input-padding-x;
   font-size: 1rem;
   line-height: 1.5;
-  color: $black;
+  color: var(--body-color);
+  background: var(--input-bg);
   transition: box-shadow .15s;
 
   &:disabled {
@@ -136,7 +137,7 @@ abbr[title] {
     margin-left: -1.5rem;
     margin-top: .1rem;
     vertical-align: top;
-    background-color: $white;
+    background-color: var(--input-bg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -166,10 +167,20 @@ abbr[title] {
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
     }
   }
+
+  @media (prefers-color-scheme: dark) {
+    input[type=checkbox],
+    input[type=radio] {
+      &:checked {
+        background-color: var(--secondary-bg-color);
+        border-color: $cta-color;
+      }
+    }
+  }
 }
 
 select {
-  background-color: $white;
+  background-color: var(--body-bg);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right .5rem center;
@@ -204,6 +215,28 @@ select {
   &:disabled {
     pointer-events: none;
     background: rgba($dark-gray, .3);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    transition: color .3s, border-color .3s;
+
+    &:not(:disabled) {
+      border: 1px solid $cta-color;
+
+      &, &:hover, &:active {
+        background: var(--input-bg);
+      }
+
+      &:hover {
+        color: $cta-color-hover;
+        border-color: $cta-color-hover;
+      }
+
+      &:active {
+        color: $cta-color-active;
+        border-color: $cta-color-active;
+      }
+    }
   }
 }
 

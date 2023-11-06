@@ -20,12 +20,14 @@ header {
   }
 
   .menu-toggle {
-    width: $top-bar-stuck-logo-height;
-    height: $top-bar-stuck-logo-height;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.65};
+    width: var(--menu-toggle-size);
+    height: var(--menu-toggle-size);
+    margin-left: $top-bar-stuck-logo-height * 0.17;
     background: $cta-color;
     position: relative;
     cursor: pointer;
+    transform: rotate(-45deg);
     transition: transform $menu-reveal-duration, background .3s;
 
     &:after {
@@ -36,7 +38,9 @@ header {
       content: '...';
       color: $white;
       font-size: 2rem;
-      margin-top: -10px;
+      left: 7px;
+      top: -15px;
+      transform: rotate(45deg);
     }
 
     &:hover {
@@ -48,7 +52,26 @@ header {
     }
 
     .menu-active & {
-      transform: rotate(90deg);
+      transform: rotate(45deg);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      transition: transform $menu-reveal-duration, color .3s, border-color .3s;
+      border: 1px solid $cta-color;
+
+      &, &:hover, &:active, .menu-active & {
+        background: var(--input-bg);
+      }
+
+      &:hover {
+        color: $cta-color-hover;
+        border-color: $cta-color-hover;
+      }
+
+      &:active {
+        color: $cta-color-active;
+        border-color: $cta-color-active;
+      }
     }
   }
 
@@ -106,7 +129,7 @@ nav {
   max-height: calc(100vh - var(--topbar-total-height));
   overflow-y: auto;
   scrollbar-width: none;
-  background: $white;
+  background: var(--nav-bg);
   transition: height $menu-reveal-duration;
 
   &::-webkit-scrollbar {
@@ -151,8 +174,13 @@ nav {
       padding: $top-bar-initial-padding 0;
     }
 
-    .menu-toggle:after {
-      margin-top: -12px;
+    .menu-toggle {
+      --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.75};
+
+      &:after {
+        left: 9px;
+        top: -17px;
+      }
     }
   }
 

@@ -4,7 +4,7 @@
   top: $top-bar-stuck-logo-height;
   padding: .75rem 0;
   box-shadow: 0 2px 10px rgba($black, 0.07);
-  background: $body-bg;
+  background: var(--secondary-bg-color);
   z-index: 9;
 
   ul {
