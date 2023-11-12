@@ -37,4 +37,22 @@ RSpec.describe Ticketing::BoxOffice::PurchaseCreateService do
       end
     )
   end
+
+  context 'with TSE enabled' do
+    before { Settings.tse.enabled = true }
+
+    it 'enqueues a TSE transaction job' do
+      expect { subject }.to(have_enqueued_job(Ticketing::BoxOffice::TseTransactionJob).with do |params|
+        expect(params[:purchase]).to eq(Ticketing::BoxOffice::Purchase.last)
+      end)
+    end
+  end
+
+  context 'with TSE disabled' do
+    before { Settings.tse.enabled = false }
+
+    it 'does not enqueue a TSE transaction job' do
+      expect { subject }.not_to have_enqueued_job(Ticketing::BoxOffice::TseTransactionJob)
+    end
+  end
 end

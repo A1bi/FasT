@@ -33,7 +33,7 @@ module Ticketing
           next unless @purchase.save
 
           PurchaseBillService.new(@purchase).execute
-          TseTransactionCreateService.new(@purchase).execute if Settings.tse.enabled
+          TseTransactionJob.perform_later(purchase: @purchase) if Settings.tse.enabled
         end
 
         notify_front_display
