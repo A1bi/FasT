@@ -74,7 +74,9 @@ RSpec.describe 'Ticketing::BillingsController' do
 
         context 'with an admin user' do
           it 'calls the refund service' do
-            expect(refund_service).to receive(:execute).with('name' => 'Foo', 'iban' => 'Bar')
+            expect(refund_service).to receive(:execute).with(
+              ActionController::Parameters.new(name: 'Foo', iban: 'Bar').permit!
+            )
             subject
           end
 

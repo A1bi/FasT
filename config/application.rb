@@ -19,8 +19,7 @@ Bundler.require(*Rails.groups)
 
 module FasT
   class Application < Rails::Application
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.eager_load_paths << Rails.root.join('lib')
+    config.autoload_lib(ignore: %w[capistrano tasks])
 
     # Activate observers that should always be running.
     # config.active_record.observers = ""
@@ -31,7 +30,7 @@ module FasT
 
     config.encoding = 'utf-8'
 
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     config.active_support.escape_html_entities_in_json = true
 

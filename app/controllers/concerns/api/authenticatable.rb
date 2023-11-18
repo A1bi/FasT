@@ -21,7 +21,7 @@ module Api
     end
 
     def auth_token
-      DEVELOPMENT_TOKEN if Rails.env.development? || Rails.env.test?
+      DEVELOPMENT_TOKEN if Rails.env.local?
     end
   end
 end

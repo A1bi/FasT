@@ -16,7 +16,7 @@ RSpec.describe 'ContactMessages' do
       before { allow(ContactMessage).to receive(:new).and_return(message) }
 
       it 'sends a contact message notification' do
-        expect(ContactMessage).to receive(:new).with(message_params.stringify_keys)
+        expect(ContactMessage).to receive(:new).with(ActionController::Parameters.new(message_params).permit!)
         expect(message).to receive(:mail)
         subject
       end

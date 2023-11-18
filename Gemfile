@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'pg'
 gem 'puma', '~> 6.0'
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.1.0'
 gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 7.0'
 
@@ -52,7 +52,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 6.2.0'
   gem 'pdf-inspector'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false

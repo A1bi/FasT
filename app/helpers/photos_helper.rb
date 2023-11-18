@@ -6,7 +6,7 @@ module PhotosHelper
   end
 
   def photo_tags(photo, columns, fallback_size:, class: nil, alt: '', data: nil, loading: 'eager')
-    tag.picture class:, data: do
+    picture_tag class:, data: do
       capture do
         concat photo_source_tags(photo, columns)
         concat tag.img(src: photo.image.url(fallback_size), alt:, loading:,
