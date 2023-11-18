@@ -19,7 +19,7 @@
               dd = info
         - if details.dig(:info_box, :event)&.any? || details[:duration].present? || details[:break_duration].present?
           dl.card
-            - details[:info_box][:event]&.each do |label, info|
+            - details.dig(:info_box, :event)&.each do |label, info|
               dt = label
               dd = info
             - if details[:duration].present?
@@ -34,7 +34,7 @@
                 dd #{details[:break_duration]} Minuten
               - else
                 dd keine
-        - if details[:booklet_filename].present? || details[:poster_filename].present? || details[:info_box][:links]&.any?
+        - if details[:booklet_filename].present? || details[:poster_filename].present? || details.dig(:info_box, :links)&.any?
           dl.card
             - if details[:booklet_filename].present? || details[:poster_filename].present?
               dt Downloads
@@ -47,7 +47,7 @@
                   a.d-flex.align-items-center href="/uploads/events/#{@event.identifier}/#{details[:poster_filename]}.pdf"
                     i.bi.bi-file-post
                     | Plakat
-            - if details[:info_box][:links]&.any?
+            - if details.dig(:info_box, :links)&.any?
               dt Links
               dd
                 - details[:info_box][:links].each do |label, link|

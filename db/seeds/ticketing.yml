@@ -82,3 +82,9 @@ events:
       subtitle: Test 123 Foo Bar
   - identifier: canterville
     name: Das Gespenst von Canterville
+  - identifier: niere
+    name: Die Niere
+  - identifier: lennon_trio
+    name: Maurice Lennon Trio
+    info:
+      subtitle: Irish Music

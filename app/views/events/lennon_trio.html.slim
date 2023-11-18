@@ -1,0 +1,39 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 30
+  }
+
+= render 'header'
+
+= render 'event'
+  = render 'about', title: 'Über das Konzert', details:
+    p Maurice Lennon, Ciara Brennen und Chris Dawson verbinden ihre Auftrittserfahrung zu einem sehr dynamischen und vielfältigen Programm aus traditioneller und neu komponierter Musik.
+    p Gemeinsam haben sie eine starke musikalische Partnerschaft gebildet und schlagen Wellen in der Welt der traditionellen irischen Musik. Ihre Live-Auftritte sind fesselnd, wobei jeder Musiker seine eigene einzigartige Stimme einbringt.
+    p Ciaras Instrumentalspiel und ihr eindringlicher Gesang ergänzen Maurice' virtuoses Geigenspiel, während Chris' komplizierte Arrangements auf mehreren Instrumenten der Musik Tiefe und Struktur verleihen. Ob sie nun traditionelle Stücke spielen oder neue, originelle Kompositionen erforschen, die Chemie und Energie des Trios sind unbestreitbar.
+    p Ihre Musik ist ein Zeugnis für den Reichtum und die Vitalität der irischen Musiktradition, und ihre Leidenschaft für die Musik scheint in jeder Note, die sie spielen, durch. Ob auf der Bühne, in Workshops oder bei Studioaufnahmen - das Trio ist eine Macht, mit der man rechnen muss, und zieht das Publikum mit seinem Können, seiner Kreativität und seiner Liebe zur irischen Musik in seinen Bann.
+
+  hr
+
+  = render 'about', title: 'Über die Künstler'
+    h3.mt-0.mb-1 Maurice Lennon
+    h4.mt-1.text-center Geige
+    p Liebhabern der irischen Musik ist die Familie Lennon ein Begriff, Maurice trat in die großen Fußstapfen seines Vaters Ben und seines Onkels Charlie. Im Alter von 13 Jahren begann er traditionelle Musik zu spielen, noch keine 20, war er der jüngste Musiker, der beim All Ireland Fleadh Cheoil National Championship den ersten Platz im Fach Violine für Erwachsene belegte.
+    p Als Gründungsmitglied von „Stockton's Wing“, war Maurice einer der führenden Geigenspieler Irlands und Schöpfer unzähliger, bekannter Kompositionen, die von Musikern auf der ganzen Welt bei Sessions, auf der Bühne und bei Studioaufnahmen gespielt werden. Er hat nicht nur mit allen großen irischen Künstlern auf der Bühne gespielt, sondern auch als Bandenmitglied von „The Wing“ mit Frank Sinatra, Liza Minnelli, Sammy Davis Jr., Stephan Grapelli, Michael Jackson und er spielte auch in dem irischen Film „The Field“ (mit Richard Harris, Sean Bean, John Hurt).
+    p Maurice tritt weiterhin als Solomusiker auf und tourt mit verschiedenen anderen Künstlern.
+
+    h3.mb-1 Chris Dawson
+    h4.mt-1.text-center Irische Bouzouki, Flöten
+    p Ein Multi-Instrumentalist, spielt hauptsächlich die irische Bouzouki/Cittern und verschiedene traditionelle Flöten (einschließlich seiner eigenen Bambusflöten, die er seit den frühen 90er Jahren herstellt). Er beherrscht eine seltene Technik, Zirkularatmung, die es ihm erlaubt unbegrenzt zu spielen, ohne eine Pause zwischen den Noten zu machen. Aber auch andere Instrumente wie Bodhrán, Mandoline, Yidaki, Fretless Bass gehören zu seinem Repertoire.
+    p Er wuchs inmitten der musikalischen Vielfalt im Nordwesten Großbritanniens auf und ist darum anderen Musikstilen und Einflüssen gegenüber sehr aufgeschlossen.
+    p Als Komponist und Arrangeur hat er mit vielen Künstlern der keltischen Musik zusammen gearbeitet und aufgenommen, z. B. Dan Ar Braz, Michael McGoldrick, Sylvain Baron, Alain Genty, Annie Ebel, Maurice Lennon.
+
+    h3.mb-1 Ciara Brennan
+    h4.mt-1.text-center Fiddle, Gesang, Nyckelharpa, Mandoline
+    p Ciara stammt aus Dublin und begann das Geigenspiel in frühester Kindheit. Sie entwickelte sich zu einer begnadete Musikerin und Singer-Songwriterin und gewann alle irischen Titel in den Bereichen Geige, Sologesang und Lilting.
+    p Mit 18 Jahren nahm Ciara an mehreren Tourneen von Comhaltas Ceolteori hEireann (CCE) teil, darunter die Tournee durch Großbritannien, die Tournee durch Nordamerika und Kanada und sie trat in mehreren europäischen Ländern auf.
+
+  = render 'tickets'
+  = render 'faq', details:
