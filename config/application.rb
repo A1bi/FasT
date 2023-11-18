@@ -41,7 +41,8 @@ module FasT
 
     config.action_controller.include_all_helpers = false
 
-    config.require_master_key = true
+    # since Rails 7.1 overwriting the following in test.rb does not work for some reason
+    config.require_master_key = !Rails.env.test?
 
     config.active_job.queue_adapter = :sidekiq
 
