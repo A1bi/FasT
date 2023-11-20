@@ -81,7 +81,7 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     end
 
     context 'with an event with seating plan' do
-      let(:event) { create(:event, :complete, :with_seating_plan) }
+      let(:event) { create(:event, :complete, :with_seating) }
 
       include_examples 'renders totals'
     end

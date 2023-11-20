@@ -76,10 +76,7 @@ module Ticketing
     def calc_percentage_of_booked_seats(scope, dates)
       return if scope.blank?
 
-      number_of_seats = dates.sum do |date|
-        date.event.seating.number_of_unreserved_seats_on_date(date)
-      end
-
+      number_of_seats = dates.sum(&:number_of_unreserved_seats)
       scope[:maximum] = number_of_seats
       scope[:percentage] = if number_of_seats.zero?
                              0

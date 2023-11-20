@@ -15,23 +15,11 @@ module Ticketing
     before_destroy :remove_gzip_stripped_plan, prepend: true
     after_commit :gzip_stripped_plan
 
-    class << self
-      def with_plan
-        where.not(plan_file_name: nil)
-      end
-    end
-
-    def plan?
-      plan.present?
-    end
-
     def number_of_seats
-      plan? ? seats.count : self[:number_of_seats]
+      seats.count
     end
 
     def unreserved_seats_on_date(date)
-      return seats unless plan?
-
       seats = Ticketing::Seat.arel_table
       reservations = Ticketing::Reservation.arel_table
       tickets = Ticketing::Ticket.arel_table
@@ -51,10 +39,6 @@ module Ticketing
              .join_sources
 
       self.seats.joins(join).where(reservations[:id].eq(nil)).distinct
-    end
-
-    def number_of_unreserved_seats_on_date(date)
-      plan? ? unreserved_seats_on_date(date).count : self[:number_of_seats]
     end
 
     def stripped_plan_path

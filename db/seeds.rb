@@ -93,10 +93,8 @@ ticketing_seeds = YAML.load_file(Rails.root.join('db/seeds/ticketing.yml'), symb
 ## locations
 location = Ticketing::Location.create(ticketing_seeds[:location])
 
-## seatings
-seatings = []
-seatings << Ticketing::Seating.create(name: 'Dummy', number_of_seats: 20)
-seatings << Ticketing::SeatingSvg::Importer.new(
+## seating
+seating = Ticketing::SeatingSvg::Importer.new(
   path: Rails.root.join('db/seeds/seating.svg')
 ).import(name: 'Dummy')
 
@@ -112,13 +110,16 @@ events.each.with_index do |event_info, i|
     past = true
   end
 
+  with_seating = i >= events.count - 1
+
   event = Ticketing::Event.create(
     **event_info.slice(:identifier, :assets_identifier, :ticketing_enabled),
     name: "Test #{event_info[:name]}",
     slug: event_info.fetch(:slug, event_info[:name].parameterize),
     location:,
     # the most recent event will have the seating with a plan
-    seating: seatings[i >= events.count - 1 ? 1 : 0],
+    seating: with_seating ? seating : nil,
+    number_of_seats: with_seating ? nil : 20,
     admission_duration: rand(30..60),
     sale_start: event_date_base - 2.months,
     info: {
@@ -167,7 +168,7 @@ def create_tickets(order, coupons = [])
       ticket = order.tickets.new
       ticket.type = ticket_type
       ticket.date = date
-      next unless event.seating.plan?
+      next unless event.seating?
 
       loop do
         ticket.seat = event.seating.seats.sample

@@ -70,8 +70,7 @@ module Ticketing
     end
 
     def unlock_exclusive_seats
-      return unless event.seating.plan? && params[:socket_id] &&
-                    coupon_free_tickets_sum.positive?
+      return unless event.seating? && params[:socket_id] && coupon_free_tickets_sum.positive?
 
       NodeApi.seating_request('setExclusiveSeats',
                               { seats: exclusive_seats }, params[:socket_id])

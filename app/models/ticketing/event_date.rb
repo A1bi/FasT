@@ -10,6 +10,7 @@ module Ticketing
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
 
     delegate :future?, :past?, to: :date
+    delegate :number_of_seats, to: :event
 
     class << self
       def upcoming(offset: 0.days)
@@ -30,8 +31,8 @@ module Ticketing
       event.admission_duration.minutes.before(date)
     end
 
-    def number_of_seats
-      event.seating.number_of_seats
+    def number_of_unreserved_seats
+      event.seating? ? event.seating.unreserved_seats_on_date(self).count : number_of_seats
     end
 
     def number_of_booked_seats

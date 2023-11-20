@@ -39,14 +39,14 @@ module Ticketing
     end
 
     def chosen_seats
-      return if @socket_id.blank? || !seating_plan?
+      return if @socket_id.blank? || !seating?
 
       @chosen_seats ||= NodeApi.get_chosen_seats(@socket_id)
     end
 
     def update_ticket(ticket)
       ticket.date = new_date
-      ticket.seat = Seat.find(chosen_seats.shift) if seating_plan?
+      ticket.seat = Seat.find(chosen_seats.shift) if seating?
       ticket if ticket.save && ticket.saved_changes?
     end
 
@@ -72,11 +72,11 @@ module Ticketing
     end
 
     def update_seats_with_node
-      NodeApi.update_seats(updated_seats) if seating_plan?
+      NodeApi.update_seats(updated_seats) if seating?
     end
 
-    def seating_plan?
-      new_date.event.seating.plan?
+    def seating?
+      new_date.event.seating?
     end
   end
 end

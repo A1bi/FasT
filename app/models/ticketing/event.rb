@@ -13,9 +13,10 @@ module Ticketing
 
     validates :identifier, :assets_identifier, :slug, :admission_duration, presence: true
     validates :identifier, :slug, uniqueness: true
-    validates :seating, presence: true, if: :ticketing_enabled?
+    validate :seating_or_number_of_seats_present, if: :ticketing_enabled?
 
     before_validation :set_assets_identifier, on: :create
+    before_validation :remove_number_of_seats_with_seating
 
     default_scope { ticketing_enabled }
 
@@ -40,8 +41,8 @@ module Ticketing
         join_dates.order("MIN(ticketing_event_dates.date) #{order}")
       end
 
-      def with_seating_plan
-        joins(:seating).merge(Seating.with_plan)
+      def with_seating
+        where.not(seating: nil)
       end
 
       def archived
@@ -86,6 +87,14 @@ module Ticketing
       ticket_types.count.positive? && ticket_types.sum(:price).zero?
     end
 
+    def seating?
+      seating.present?
+    end
+
+    def number_of_seats
+      seating? ? seating.number_of_seats : super
+    end
+
     %i[main_gallery header_gallery].each do |attribute|
       define_method attribute do
         return if info["#{attribute}_id"].blank?
@@ -98,6 +107,14 @@ module Ticketing
 
     def set_assets_identifier
       self.assets_identifier ||= identifier
+    end
+
+    def remove_number_of_seats_with_seating
+      self.number_of_seats = nil if seating?
+    end
+
+    def seating_or_number_of_seats_present
+      errors.add(:number_of_seats, :blank_without_seating) unless seating? || self[:number_of_seats].present?
     end
   end
 end

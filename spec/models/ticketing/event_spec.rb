@@ -1,6 +1,39 @@
 # frozen_string_literal: true
 
 RSpec.describe Ticketing::Event do
+  describe 'validations' do
+    subject { build(:event, number_of_seats:, seating:) }
+
+    let(:seating) { build(:seating) }
+    let(:number_of_seats) { nil }
+
+    context 'when only seating is set' do
+      it 'has no errors on number_of_seats' do
+        subject.valid?
+        expect(subject.errors).not_to be_added(:number_of_seats)
+      end
+    end
+
+    context 'when only number_of_seats is set' do
+      let(:seating) { nil }
+      let(:number_of_seats) { 20 }
+
+      it 'has no errors on number_of_seats' do
+        subject.valid?
+        expect(subject.errors).not_to be_added(:number_of_seats)
+      end
+    end
+
+    context 'when neither seating nor number_of_seats is set' do
+      let(:seating) { nil }
+
+      it 'has an error on number_of_seats' do
+        subject.valid?
+        expect(subject.errors).to be_added(:number_of_seats, :blank_without_seating)
+      end
+    end
+  end
+
   describe 'ticketing enabled scopes' do
     let!(:event_ticketing_enabled) { create(:event, :complete) }
     let!(:event_ticketing_disabled) { create(:event, :with_dates, :ticketing_disabled) }
@@ -102,8 +135,7 @@ RSpec.describe Ticketing::Event do
   describe '#sold_out?' do
     subject { event.sold_out? }
 
-    let(:event) { create(:event, :complete, seating:, dates_count: 2) }
-    let(:seating) { create(:seating, number_of_seats:) }
+    let(:event) { create(:event, :complete, number_of_seats:, dates_count: 2) }
     let(:number_of_seats) { 3 }
 
     context 'without any tickets sold' do
@@ -169,6 +201,20 @@ RSpec.describe Ticketing::Event do
 
     context 'without any free ticket types' do
       it { is_expected.to be_falsy }
+    end
+  end
+
+  describe 'number of seats reset when seating present' do
+    subject do
+      event.seating = seating
+      event.valid?
+    end
+
+    let(:event) { build(:event, number_of_seats: 20) }
+    let(:seating) { build(:seating) }
+
+    it 'removes number of seats' do
+      expect { subject }.to change { event[:number_of_seats] }.from(20).to(nil)
     end
   end
 end

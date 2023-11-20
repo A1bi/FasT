@@ -7,7 +7,7 @@ FactoryBot.define do
     sequence(:slug) { |n| "event-#{n}" }
     location
     admission_duration { 60 }
-    seating
+    number_of_seats { 20 }
 
     trait :with_dates do
       transient { dates_count { 1 } }
@@ -29,8 +29,9 @@ FactoryBot.define do
       end
     end
 
-    trait :with_seating_plan do
-      seating factory: %i[seating with_plan]
+    trait :with_seating do
+      number_of_seats { nil }
+      seating
     end
 
     trait :complete do

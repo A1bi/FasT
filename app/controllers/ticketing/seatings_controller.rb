@@ -24,7 +24,7 @@ module Ticketing
     private
 
     def find_seatings
-      @seatings = Seating.with_plan
+      @seatings = Seating.order(:name)
     end
 
     def printable(seating)

@@ -16,7 +16,7 @@ module Ticketing
     def execute
       return if date.nil? || ticket_params.blank?
 
-      if seating_plan?
+      if seating?
         if seats.nil?
           crumb = Sentry::Breadcrumb.new(
             message: 'Unknown socket id', type: 'error', level: 'error'
@@ -80,7 +80,7 @@ module Ticketing
           type: ticket_type,
           date:
         )
-        ticket.seat = next_seat if seating_plan?
+        ticket.seat = next_seat if seating?
       end
     end
 
@@ -112,8 +112,8 @@ module Ticketing
       @seats ||= NodeApi.get_chosen_seats(params[:socket_id])
     end
 
-    def seating_plan?
-      date.event.seating.plan?
+    def seating?
+      date.event.seating?
     end
 
     def box_office?
