@@ -32,8 +32,11 @@
       dt Ort
       dd = @event.location.name
       - if @event.ticketing_enabled?
-        dt Sitzplan
-        dd = link_to @event.seating.name, @event.seating
+        - if @event.seating?
+          dt Sitzplan
+          dd = link_to @event.seating.name, @event.seating
+        dt Sitzplätze
+        dd = @event.number_of_seats
         dt Vorverkauf ab
         dd = l @event.sale_start, format: :medium
       - elsif @event.info['external_sale_url'].present?

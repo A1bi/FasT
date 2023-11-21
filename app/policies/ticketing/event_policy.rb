@@ -20,8 +20,8 @@ module Ticketing
 
     def permitted_attributes
       [
-        :name, :identifier, :assets_identifier, :slug, :location_id, :seating_id, :sale_start,
-        :admission_duration, :ticketing_enabled,
+        :name, :identifier, :assets_identifier, :slug, :location_id, :seating_id, :number_of_seats,
+        :sale_start, :admission_duration, :ticketing_enabled,
         { info: %i[archived subtitle main_gallery_id header_gallery_id external_sale_url] }
       ]
     end

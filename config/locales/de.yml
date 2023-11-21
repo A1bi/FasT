@@ -351,6 +351,10 @@ de:
           attributes:
             file_content_type:
               invalid: "Es können nur JPG-, PNG-, und PDF-Dateien hochgeladen werden."
+        ticketing/event:
+          attributes:
+            number_of_seats:
+              blank_without_seating: Sofern kein Sitzplan gesetzt ist, muss die Anzahl der Sitzplätze angegeben werden.
     models:
       gallery: Galerie
       photo: Foto
