@@ -23,9 +23,9 @@
       = f.collection_select(:location_id, Ticketing::Location.all, :id, :name, required: true)
     - if @event.new_record? || @event.ticketing_enabled?
       = render 'form_field', form: f, attribute: :seating_id, label: 'Sitzplan'
-        = f.collection_select(:seating_id, Ticketing::Seating.all, :id, :name, include_blank: true)
+        = f.collection_select(:seating_id, Ticketing::Seating.all, :id, :name, { include_blank: true }, { disabled: !policy(@event).update_seating? })
       = render 'form_field', form: f, attribute: :number_of_seats, label: 'Sitzplätze'
-        = f.number_field :number_of_seats
+        = f.number_field :number_of_seats, disabled: @event.seating? && !policy(@event).update_seating?
     = render 'form_field', form: f, attribute: :sale_start, label: 'Vorverkauf ab', required: true
       = f.datetime_field :sale_start, required: true
     = render 'form_field', form: f, attribute: :admission_duration, label: 'Einlass', required: true

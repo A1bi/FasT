@@ -14,16 +14,22 @@ module Ticketing
       user_permitted?(:ticketing_events_update)
     end
 
+    def update_seating?
+      update? && record.tickets.none?
+    end
+
     def create?
       update?
     end
 
     def permitted_attributes
-      [
-        :name, :identifier, :assets_identifier, :slug, :location_id, :seating_id, :number_of_seats,
+      attrs = [
+        :name, :identifier, :assets_identifier, :slug, :location_id, :number_of_seats,
         :sale_start, :admission_duration, :ticketing_enabled,
         { info: %i[archived subtitle main_gallery_id header_gallery_id external_sale_url] }
       ]
+      attrs << :seating_id if update_seating?
+      attrs
     end
   end
 end
