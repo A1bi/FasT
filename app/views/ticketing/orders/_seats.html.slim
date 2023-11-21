@@ -1,4 +1,4 @@
-.stepCon.seats data-has-seating-plan=(@event.seating.plan? ? 1 : 0)
+.stepCon.seats data-has-seating-plan=(@event.seating? ? 1 : 0)
   h3.mt-0 Veranstaltungsort
   = render 'application/events/location', event: @event, class: 'mb-2'
 
@@ -6,7 +6,7 @@
     h3 Ihr gewünschter Termin
     = render 'application/ticketing/date_select', dates: @dates, preselected_date: @preselected_date
 
-  - if @event.seating.plan?
+  - if @event.seating?
     .text-center.show-seating-btn: button.btn Sitzplätze auswählen
 
     .seat_chooser.d-none

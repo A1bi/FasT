@@ -4,13 +4,13 @@
   - if action_name == 'new'
     p
       ' Mit unserer Online-Bestellung haben Sie die Möglichkeit, schnell und bequem von zu Hause aus Ihre Tickets
-      - if @event.seating.plan?
+      - if @event.seating?
         ' und damit verbundene Sitzplatzreservierung
       | für <b>„#{@event.name}“</b> zu buchen. Sie erhalten Ihre Tickets anschließend in digitaler Form per E-Mail.
 
     p
       | Bitte wählen Sie zunächst Ihre gewünschte Anzahl an Tickets.
-      - if @event.seating.plan?
+      - if @event.seating?
         |< Anschließend haben Sie im nächsten Schritt die Möglichkeit, Ihre Sitzplätze anhand des Sitzplans auszuwählen.
 
   h3 Ihre gewünschten Tickets

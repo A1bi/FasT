@@ -7,7 +7,7 @@
     .progress.d-sm-none
       .step.current.tickets Tickets
       .step.seats
-        - if @event.seating.plan?
+        - if @event.seating?
           | Sitzplätze
         - else
           | Aufführung

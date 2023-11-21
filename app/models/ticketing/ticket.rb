@@ -85,7 +85,7 @@ module Ticketing
     private
 
     def seat_required?
-      seating&.plan?
+      event&.seating?
     end
 
     def seat_available

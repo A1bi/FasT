@@ -38,7 +38,7 @@ module Ticketing
       date = Ticketing::EventDate.find params[:date_id]
 
       render_cached_json seats_cache_key(date) do
-        seats = if date.event.seating.plan?
+        seats = if date.event.seating?
                   Ticketing::Seat.with_booked_status_on_date(date).map do |seat|
                     status = if seat.taken?
                                0

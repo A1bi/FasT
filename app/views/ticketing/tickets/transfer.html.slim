@@ -4,7 +4,7 @@
   h1 Tickets umbuchen
   .row: .col
     = render 'application/ticketing/date_select', dates: @order.event.dates, preselected_date: @order.date, data: { ticketing__ticket_transfer_target: 'date', action: 'ticketing--ticket-transfer#updateDate' }
-    - if @event.seating.plan?
+    - if @event.seating?
       - if @reservation_groups.any?
         h3 Geblockte Plätze freischalten
         - @reservation_groups.each do |group|

@@ -6,7 +6,7 @@
     h3 Ihr gewünschter Termin
     .mb-2 = render 'application/ticketing/date_select', dates: @dates, preselected_date: @tickets.first.date, data: { ticketing__ticket_transfer_target: 'date', action: 'ticketing--ticket-transfer#updateDate' }
 
-  - if @event.seating.plan?
+  - if @event.seating?
     .row: .col.w-100: .card
       div data-ticketing--ticket-transfer-target='seatTransfer'
         p.text-center Ihre bisherigen Plätze: #{@tickets.map { |t| content_tag(:b, t.seat.full_number)}.join(', ').html_safe }. Bitte wählen Sie <b>#{pluralize(@tickets.count, 'neuen Platz', plural: 'neue Plätze')}</b>.

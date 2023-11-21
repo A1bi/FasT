@@ -22,12 +22,12 @@ hr
         | Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path(@event.slug)} bestellen.
 
     = question_answer 'Gibt es Platzreservierungen?' do
-      - if @event.seating&.plan?
+      - if @event.seating?
         | Ja, jedes Ticket ist an einen Sitzplatz gebunden, den Sie bei Ihrer Online-Bestellung anhand unseres Sitzplans frei wählen können.
       - else
         | Bei dieser Veranstaltung gilt freie Platzwahl.
 
-    - if @event.seating&.plan?
+    - if @event.seating?
       = question_answer 'Gibt es gehbehindertengerechte Sitzplätze?' do
         | Ja, bitte melden Sie sich dazu bitte bei unserer Hotline: <b>(02653) 28 27 09</b>.
     - else
@@ -46,7 +46,7 @@ hr
       p Falls Sie ein iPhone besitzen, haben Sie alternativ auch die Möglichkeit, Ihre Tickets in der vorinstallierten App „Wallet“ zu hinterlegen. Nutzen Sie dazu einfach den Button in der Bestätigungs-E-Mail oder scannen Sie den Barcode auf Ihrem Ticket. Unter Android ist dies mit der App „#{link_to 'Wallet Passes', 'https://play.google.com/store/apps/details?id=io.walletpasses.android', target: '_blank'}“ möglich.
 
     = question_answer 'Lassen sich Tickets umbuchen oder stornieren?' do
-      - if @event.seating&.plan?
+      - if @event.seating?
         p Sitzplätze lassen sich jederzeit umbuchen.
       p Stornierungen sind bis 24 Stunden vor Beginn der Veranstaltung möglich. Selbstverständlich erhalten Sie den vollen Betrag der stornierten Tickets zurück.
       p Umbuchungen oder Stornierungen können Sie selbst über den Link in Ihrer Bestellbestätigungs-E-Mail oder telefonisch unter <b>(02653) 28 27 09</b> vornehmen.
