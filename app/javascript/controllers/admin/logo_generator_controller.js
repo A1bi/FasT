@@ -73,14 +73,36 @@ export default class extends Controller {
 
   async loadImageFromInput (input) {
     return new Promise((resolve) => {
+      const file = input.files[0]
       const reader = new FileReader()
-      reader.onload = () => {
+      reader.onload = async () => {
         const image = new Image()
-        image.src = reader.result
         image.onload = () => resolve(image)
+
+        if (file.type.match('pdf')) {
+          image.src = await this.convertPdfToImage(reader.result)
+        } else {
+          image.src = reader.result
+        }
       }
-      reader.readAsDataURL(input.files[0])
+      reader.readAsDataURL(file)
     })
+  }
+
+  async convertPdfToImage (file) {
+    const PDFJS = await import('https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.min.mjs')
+    const PDFJSworker = await import('https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.worker.min.mjs')
+    PDFJS.GlobalWorkerOptions.workerSrc = PDFJSworker
+
+    const pdf = await PDFJS.getDocument(file).promise
+    const page = await pdf.getPage(1)
+    const viewport = page.getViewport({ scale: 1 })
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    canvas.height = viewport.height
+    canvas.width = viewport.width
+    await page.render({ canvasContext: context, viewport }).promise
+    return canvas.toDataURL('image/png')
   }
 
   downloadSvg (event) {
