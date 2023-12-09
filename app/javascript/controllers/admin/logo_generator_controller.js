@@ -1,11 +1,13 @@
 import { Controller } from '@hotwired/stimulus'
 import { colorToRgbCss, decimalsToHex, generateColors } from 'components/dynamic_colors'
+import { toggleDisplay } from '../../components/utils'
 
 export default class extends Controller {
-  static targets = ['color', 'dominantColors', 'logos']
+  static targets = ['color', 'dominantColors', 'logos', 'spinner']
 
   connect () {
     this.shuffleColors()
+    this.spinnerVisible = false
   }
 
   shuffleColors () {
@@ -49,6 +51,8 @@ export default class extends Controller {
   }
 
   async determineDominantColorsFromFile (event) {
+    this.spinnerVisible = true
+
     const { default: ColorThief } = await import('https://unpkg.com/colorthief@2.4.0/dist/color-thief.mjs')
     const thief = new ColorThief()
     const image = await this.loadImageFromInput(event.target)
@@ -69,6 +73,8 @@ export default class extends Controller {
         this.selectDominantColor(i)
       }
     })
+
+    this.spinnerVisible = false
   }
 
   async loadImageFromInput (input) {
@@ -106,7 +112,7 @@ export default class extends Controller {
   }
 
   downloadSvg (event) {
-    const svg = event.target.closest('.col').querySelector('svg')
+    const svg = event.target.closest('.logo').querySelector('svg')
     const data = `<?xml version="1.0" standalone="no"?>\r\n${svg.outerHTML}`
     const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(data)}`
     const link = document.createElement('a')
@@ -135,5 +141,10 @@ export default class extends Controller {
         group.style.fill = this.colors[i % this.colors.length]
       })
     })
+  }
+
+  // eslint-disable-next-line accessor-pairs
+  set spinnerVisible (toggle) {
+    toggleDisplay(this.spinnerTarget, toggle)
   }
 }
