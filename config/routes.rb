@@ -12,7 +12,6 @@ Rails.application.routes.draw do
     get 'impressum'
     get 'satzung'
     get 'datenschutz-mitglieder', action: :privacy_membership, as: :privacy_membership
-    get 'pressematerial', action: :press_material, as: :press_material
     get 'theaterkultur'
     get 'spielstaetten'
     get 'vereinsleben'

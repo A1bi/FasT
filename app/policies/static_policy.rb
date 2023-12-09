@@ -17,16 +17,16 @@ class StaticPolicy < ApplicationPolicy
     user_admin?
   end
 
-  def press_material?
-    true
-  end
-
   def privacy?
     true
   end
 
   def privacy_fallback?
-    privacy
+    privacy?
+  end
+
+  def privacy_membership?
+    privacy?
   end
 
   def satzung?
