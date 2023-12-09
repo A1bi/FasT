@@ -18,3 +18,7 @@ pin 'qrcode-svg' # @4.30.4
 
 pin_all_from 'app/javascript/controllers', under: 'controllers'
 pin_all_from 'app/javascript/components', under: 'components'
+
+pin 'colorthief', to: 'https://unpkg.com/colorthief@2.4.0/dist/color-thief.mjs'
+pin 'pdfjs', to: 'https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.min.mjs'
+pin 'pdfjs-worker', to: 'https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.worker.min.mjs'

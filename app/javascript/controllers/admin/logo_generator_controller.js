@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { colorToRgbCss, decimalsToHex, generateColors } from 'components/dynamic_colors'
-import { toggleDisplay } from '../../components/utils'
+import { toggleDisplay } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['color', 'dominantColors', 'logos', 'spinner']
@@ -53,7 +53,7 @@ export default class extends Controller {
   async determineDominantColorsFromFile (event) {
     this.spinnerVisible = true
 
-    const { default: ColorThief } = await import('https://unpkg.com/colorthief@2.4.0/dist/color-thief.mjs')
+    const { default: ColorThief } = await import('colorthief')
     const thief = new ColorThief()
     const image = await this.loadImageFromInput(event.target)
     const colors = thief.getPalette(image, 10, 1)
@@ -96,8 +96,8 @@ export default class extends Controller {
   }
 
   async convertPdfToImage (file) {
-    const PDFJS = await import('https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.min.mjs')
-    const PDFJSworker = await import('https://unpkg.com/pdfjs-dist@4.0.269/build/pdf.worker.min.mjs')
+    const PDFJS = await import('pdfjs')
+    const PDFJSworker = await import('pdfjs-worker')
     PDFJS.GlobalWorkerOptions.workerSrc = PDFJSworker
 
     const pdf = await PDFJS.getDocument(file).promise
