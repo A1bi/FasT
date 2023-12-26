@@ -1,0 +1,25 @@
+.wasserwerk {
+  .furnace-scale {
+    width: 50px;
+    border: 1px solid $semi-gray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    .step {
+      height: 30px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $semi-gray;
+      }
+
+      &.active {
+        background: $red;
+      }
+    }
+  }
+  .temperature {
+    @extend .f-lbi;
+    @extend .my-1;
+    font-size: 2.5rem;
+  }
+}

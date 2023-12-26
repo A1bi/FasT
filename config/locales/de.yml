@@ -111,6 +111,8 @@ de:
     authorized_for_shared_email_account_html: Zugriff auf E-Mail-Konto <em>%{email}</em>
     ticketing_events_read: Veranstaltungen einsehen
     ticketing_events_update: Veranstaltungen bearbeiten
+    wasserwerk_read: Wasserwerk einsehen
+    wasserwerk_update: Wasserwerk steuern
   ticketing:
     events:
       created: Die Veranstaltung wurde erstellt.

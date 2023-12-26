@@ -1,0 +1,40 @@
+- title 'Wasserwerk'
+
+.container.wasserwerk data-controller='admin--wasserwerk' data-admin--wasserwerk-state-url-value=admin_wasserwerk_path data-admin--wasserwerk-on-prompt-value='Möchten Sie den Ofen wirklich einschalten?' data-admin--wasserwerk-off-prompt-value='Möchten Sie den Ofen wirklich ausschalten?' data-admin--wasserwerk-error-fetch-message-value='Beim Abrufen der Werte ist ein Fehler aufgetreten.' data-admin--wasserwerk-error-set-message-value='Beim Einstellen des Ofens ist ein Fehler aufgetreten.'
+  h1 Wasserwerk
+  .row
+    .col-12.col-md-6
+      .card.h-100
+        h2 Ofen
+        .row
+          .col-2
+            .furnace-scale
+              - 5.times
+                .step data-admin--wasserwerk-target='furnaceScaleStep'
+          .col-10
+            p.d-none data-admin--wasserwerk-target='furnaceLevelLabel' Der Ofen ist derzeit auf <strong>Stufe <span>2</span></strong> eingestellt.
+            p.d-none data-admin--wasserwerk-target='furnaceOffLabel' Der Ofen ist derzeit <strong>ausgeschaltet</strong>.
+        - if policy([:admin, :wasserwerk]).update?
+          form data-admin--wasserwerk-target='furnaceForm' data-action='admin--wasserwerk#setFurnaceLevel'
+            .row
+              .col
+                select data-admin--wasserwerk-target='furnaceLevelInput'
+                  - 5.downto(0) do |i|
+                    option value=i selected=i.zero? #{i.zero? ? 'aus' : "Stufe #{i}"}
+              .col-auto
+                input.btn type='submit' value='einstellen'
+        .row.justify-content-end data-admin--wasserwerk-target='spinner': .col-auto
+          = render 'spinner', class: 'dark'
+    .col-12.col-md-6
+      .card.h-100
+        h2 Temperaturen
+        .row
+          .col-6.text-center
+            h3 Bühne
+            .temperature() <span data-admin--wasserwerk-target='stageTemperature'>–</span>°
+            p title='Luftfeuchtigkeit' <span data-admin--wasserwerk-target='stageHumidity'>–</span> %H
+          .col-6.text-center
+            h3 Kostümlager
+            .temperature() <span data-admin--wasserwerk-target='costumesTemperature'>–</span>°
+            p title='Luftfeuchtigkeit' <span data-admin--wasserwerk-target='costumesHumidity'>–</span> %H
+        small.d-block.mt-2.text-center: em Werte werden automatisch aktualisiert

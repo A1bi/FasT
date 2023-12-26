@@ -72,6 +72,8 @@ Rails.application.routes.draw do
       end
       resources :members_membership_applications, path: 'mitgliedsanträge', controller: :membership_applications,
                                                   only: %i[index show destroy]
+      get 'wasserwerk' => 'wasserwerk#index'
+      patch 'wasserwerk' => 'wasserwerk#update'
       get 'logo-generator' => '/static#logo_generator'
     end
 

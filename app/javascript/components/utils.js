@@ -25,6 +25,7 @@ export const fetch = async (url, method = 'get', data) => {
   const response = await window.fetch(url, {
     method: method.toUpperCase(),
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRF-Token': getAuthenticityToken()
     },

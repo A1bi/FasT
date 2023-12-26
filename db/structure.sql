@@ -70,7 +70,9 @@ CREATE TYPE public.permission AS ENUM (
     'newsletters_approve',
     'internet_access_sessions_create',
     'ticketing_events_read',
-    'ticketing_events_update'
+    'ticketing_events_update',
+    'wasserwerk_read',
+    'wasserwerk_update'
 );
 
 
@@ -3872,6 +3874,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20231226151739'),
 ('20231120203220'),
 ('20230903173126'),
 ('20230817211816'),

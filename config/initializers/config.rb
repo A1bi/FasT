@@ -49,5 +49,9 @@ Config.setup do |config|
       required(:host).maybe(:string)
       required(:port).maybe(:integer)
     end
+
+    required(:wasserwerk).schema do
+      required(:fake_api).filled(:bool)
+    end
   end
 end

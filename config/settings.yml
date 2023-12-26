@@ -45,3 +45,6 @@ tse:
   enabled: false
   host: tse.a0s.de
   port: 10001
+
+wasserwerk:
+  fake_api: true
