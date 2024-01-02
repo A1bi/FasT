@@ -1,3 +1,24 @@
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+Allgemeine Geschäftsbedingungen mit Kundeninformationen
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+Inhaltsverzeichnis
+––––––––––––––––––
+1. Geltungsbereich
+2. Vertragsschluss
+3. Widerrufsrecht
+4. Preise und Zahlungsbedingungen
+5. Liefer- und Versandbedingungen
+6. Einlösung von Tickets
+7. Einlösung von Aktionsgutscheinen
+8. Einlösung von Geschenkgutscheinen
+9. Mängelhaftung (Gewährleistung)
+10. Anwendbares Recht
+11. Gerichtsstand
+12. Alternative Streitbeilegung
+
+
 1) Geltungsbereich
 1.1 Diese Allgemeinen Geschäftsbedingungen (nachfolgend "AGB") des TheaterKultur Kaisersesch e.V. (nachfolgend "Verkäufer"), gelten für alle Verträge über die Lieferung von Tickets, die ein Verbraucher oder Unternehmer (nachfolgend „Kunde“) mit dem Verkäufer hinsichtlich der vom Verkäufer in seinem Online-Shop dargestellten Tickets abschließt. Hiermit wird der Einbeziehung von eigenen Bedingungen des Kunden widersprochen, es sei denn, es ist etwas anderes vereinbart.
 1.2 Für Verträge über die Lieferung von Gutscheinen gelten diese AGB entsprechend, sofern insoweit nicht ausdrücklich etwas Abweichendes geregelt ist.
@@ -14,7 +35,7 @@
 Liegen mehrere der vorgenannten Alternativen vor, kommt der Vertrag in dem Zeitpunkt zustande, in dem eine der vorgenannten Alternativen zuerst eintritt. Die Frist zur Annahme des Angebots beginnt am Tag nach der Absendung des Angebots durch den Kunden zu laufen und endet mit dem Ablauf des fünften Tages, welcher auf die Absendung des Angebots folgt. Nimmt der Verkäufer das Angebot des Kunden innerhalb vorgenannter Frist nicht an, so gilt dies als Ablehnung des Angebots mit der Folge, dass der Kunde nicht mehr an seine Willenserklärung gebunden ist.
 2.4 Bei der Abgabe eines Angebots über das Online-Bestellformular des Verkäufers wird der Vertragstext nach dem Vertragsschluss vom Verkäufer gespeichert und dem Kunden nach Absendung von dessen Bestellung in Textform (z. B. E-Mail, Fax oder Brief) übermittelt. Eine darüber hinausgehende Zugänglichmachung des Vertragstextes durch den Verkäufer erfolgt nicht.
 2.5 Vor verbindlicher Abgabe der Bestellung über das Online-Bestellformular des Verkäufers kann der Kunde mögliche Eingabefehler durch aufmerksames Lesen der auf dem Bildschirm dargestellten Informationen erkennen. Ein wirksames technisches Mittel zur besseren Erkennung von Eingabefehlern kann dabei die Vergrößerungsfunktion des Browsers sein, mit deren Hilfe die Darstellung auf dem Bildschirm vergrößert wird. Seine Eingaben kann der Kunde im Rahmen des elektronischen Bestellprozesses so lange über die üblichen Tastatur- und Mausfunktionen korrigieren, bis er den Button anklickt, welcher den Bestellvorgang abschließt.
-2.6 Für den Vertragsschluss steht ausschließlich die deutsche Sprache zur Verfügung.
+2.6 Für den Vertragsschluss steht die deutsche Sprache zur Verfügung.
 2.7 Die Bestellabwicklung und Kontaktaufnahme finden in der Regel per E-Mail und automatisierter Bestellabwicklung statt. Der Kunde hat sicherzustellen, dass die von ihm zur Bestellabwicklung angegebene E-Mail-Adresse zutreffend ist, so dass unter dieser Adresse die vom Verkäufer versandten E-Mails empfangen werden können. Insbesondere hat der Kunde bei dem Einsatz von SPAM-Filtern sicherzustellen, dass alle vom Verkäufer oder von diesem mit der Bestellabwicklung beauftragten Dritten versandten E-Mails zugestellt werden können.
 
 3) Widerrufsrecht
@@ -26,7 +47,6 @@ Liegen mehrere der vorgenannten Alternativen vor, kommt der Vertrag in dem Zeitp
 4.1 Sofern sich aus der Artikelbeschreibung des Verkäufers nichts anderes ergibt, handelt es sich bei den angegebenen Preisen um Gesamtpreise, die die gesetzliche Umsatzsteuer enthalten.
 4.2 Die Zahlungsmöglichkeit/en wird/werden dem Kunden im Online-Shop des Verkäufers mitgeteilt.
 4.3 Ist Vorauskasse per Banküberweisung vereinbart, ist die Zahlung sofort nach Vertragsabschluss fällig, sofern die Parteien keinen späteren Fälligkeitstermin vereinbart haben.
-4.4 Bei Auswahl der Zahlungsart SEPA-Lastschrift ist der Rechnungsbetrag nach Erteilung eines SEPA-Lastschriftmandats, nicht jedoch vor Ablauf der Frist für die Vorabinformation zur Zahlung fällig. Der Einzug der Lastschrift erfolgt, wenn die bestellte Ware das Lager des Verkäufers verlässt, nicht jedoch vor Ablauf der Frist für die Vorabinformation. Vorabinformation ("Pre-Notification") ist jede Mitteilung (z.B. Rechnung, Police, Vertrag) des Verkäufers an den Kunden, die eine Belastung mittels SEPA-Lastschrift ankündigt. Wird die Lastschrift mangels ausreichender Kontodeckung oder aufgrund der Angabe einer falschen Bankverbindung nicht eingelöst oder widerspricht der Kunde der Abbuchung, obwohl er hierzu nicht berechtigt ist, hat der Kunde die durch die Rückbuchung des jeweiligen Kreditinstituts entstehenden Gebühren zu tragen, wenn er dies zu vertreten hat.
 
 5) Liefer- und Versandbedingungen
 5.1 Tickets werden dem Kunden wie folgt überlassen:
