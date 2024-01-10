@@ -41,7 +41,7 @@ module Ticketing
     end
 
     def iban=(val)
-      super val.upcase
+      super(val.upcase)
     end
 
     def submitted?

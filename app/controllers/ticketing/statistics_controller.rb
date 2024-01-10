@@ -102,7 +102,7 @@ module Ticketing
     end
 
     def authorize
-      super %i[ticketing statistics]
+      super(%i[ticketing statistics])
     end
   end
 end

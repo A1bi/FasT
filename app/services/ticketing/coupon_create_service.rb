@@ -5,7 +5,7 @@ module Ticketing
     attr_accessor :order
 
     def initialize(order, current_user, params)
-      super current_user, params
+      super(current_user, params)
 
       @order = order
     end

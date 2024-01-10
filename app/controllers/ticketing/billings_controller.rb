@@ -60,7 +60,7 @@ module Ticketing
     end
 
     def authorize(action)
-      super billable, action, policy_class: BillingPolicy
+      super(billable, action, policy_class: BillingPolicy)
     end
 
     def billing_service

@@ -27,13 +27,13 @@ module Ticketing
     def initialize(margin: nil, page_size: nil, page_layout: nil)
       @stamps = {}
 
-      super page_size:, page_layout:, margin:,
+      super(page_size:, page_layout:, margin:,
             info: {
               Title: t(:title),
               Author: t(:author, scope: :base_pdf),
               Creator: t(:creator, scope: :base_pdf),
               CreationDate: Time.current
-            }
+            })
 
       fill_color self.class::FG_COLOR
       stroke_color self.class::FG_COLOR

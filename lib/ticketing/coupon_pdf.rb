@@ -9,7 +9,7 @@ module Ticketing
     def initialize(coupon)
       @coupon = coupon
 
-      super page_size: 'A4', page_layout: :landscape, margin: 0
+      super(page_size: 'A4', page_layout: :landscape, margin: 0)
 
       draw_coupon_details
       draw_front

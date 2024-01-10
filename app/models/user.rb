@@ -40,7 +40,7 @@ class User < ApplicationRecord
 
   def email=(email)
     # nillify empty emails so database doesn't complain about uniqueness
-    super email.presence
+    super(email.presence)
   end
 
   def set_activation_code

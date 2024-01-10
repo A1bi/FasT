@@ -28,7 +28,7 @@ module PhotosHelper
 
   def photo_srcset(photo, format)
     %i[small medium large x_large xx_large].map do |size|
-      style = "#{size}_#{format}".to_sym
+      style = :"#{size}_#{format}"
       "#{photo.image.url(style)} #{photo.image.styles[style][:geometry]}w"
     end.join(', ')
   end

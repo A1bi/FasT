@@ -6,7 +6,7 @@ module NameOfPerson
 
     def initialize(first, last = nil, title = nil)
       @title = title
-      super first, last
+      super(first, last)
     end
 
     def full

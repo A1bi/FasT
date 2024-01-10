@@ -21,7 +21,7 @@ module Admin
     private
 
     def authorize
-      super %i[admin wasserwerk]
+      super(%i[admin wasserwerk])
     end
   end
 end

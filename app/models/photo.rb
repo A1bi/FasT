@@ -14,7 +14,7 @@ class Photo < ApplicationRecord
     thumb: ['145x145#', :jpg],
     **FORMATS.each_with_object({}) do |format, styles|
       SIZES.each do |name, size|
-        styles["#{name}_#{format}".to_sym] = [size, format]
+        styles[:"#{name}_#{format}"] = [size, format]
       end
     end
   }

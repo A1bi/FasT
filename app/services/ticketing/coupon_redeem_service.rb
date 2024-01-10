@@ -7,7 +7,7 @@ module Ticketing
     attr_accessor :order, :date
 
     def initialize(order, date, current_user, params)
-      super current_user, params
+      super(current_user, params)
 
       @order = order
       @date = date
