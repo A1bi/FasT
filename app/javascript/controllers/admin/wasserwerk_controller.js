@@ -29,7 +29,9 @@ export default class extends Controller {
   }
 
   async fetchState () {
-    const state = await fetch(this.stateUrlValue)
+    const state = await fetch(this.stateUrlValue, 'get', null, 'no-store')
+    if (!state) return
+
     this.furnaceLevel = state.furnace.level
 
     this.updateFurnaceState()

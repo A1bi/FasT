@@ -19,7 +19,7 @@ export const getAuthenticityToken = () => {
     .getAttribute('content')
 }
 
-export const fetch = async (url, method = 'get', data) => {
+export const fetch = async (url, method = 'get', data, cache = 'default') => {
   if (!window.fetch) await import('whatwg-fetch')
 
   const response = await window.fetch(url, {
@@ -29,7 +29,8 @@ export const fetch = async (url, method = 'get', data) => {
       'Content-Type': 'application/json',
       'X-CSRF-Token': getAuthenticityToken()
     },
-    body: data ? (typeof data === 'string' ? data : JSON.stringify(data)) : null
+    body: data ? (typeof data === 'string' ? data : JSON.stringify(data)) : null,
+    cache
   })
 
   let json = null
