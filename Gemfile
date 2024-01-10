@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.10'
 gem 'matrix' # needed for prawn
 gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
-gem 'prawn-svg', '~> 0.32.0'
+gem 'prawn-svg', '~> 0.33.0'
 gem 'prawn-table', '~> 0.2.1'
 gem 'record_tag_helper', '~> 1.0.1'
 gem 'roadie', '~> 5.0'
@@ -48,13 +48,13 @@ gem 'sprockets-rails', '~> 3.4'
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
-  gem 'rspec-rails', '~> 6.0.0.rc1'
+  gem 'rspec-rails', '~> 6.1'
 end
 
 group :test do
-  gem 'factory_bot_rails', '~> 6.2.0'
+  gem 'factory_bot_rails', '~> 6.4'
   gem 'pdf-inspector'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
 end
 
