@@ -69,15 +69,14 @@ export default class extends Controller {
         (this.furnaceLevel === 0 && !window.confirm(this.onPromptValue)) ||
         (newLevel === 0 && !window.confirm(this.offPromptValue))) {
       this.updateFurnaceState()
-      return
-    }
-
-    try {
-      await fetch(this.stateUrlValue, 'patch', { furnace: { level: newLevel } })
-      await this.fetchState()
-    } catch (error) {
-      window.alert(this.errorSetMessageValue)
-      throw error
+    } else {
+      try {
+        await fetch(this.stateUrlValue, 'patch', { furnace: { level: newLevel } })
+        await this.fetchState()
+      } catch (error) {
+        window.alert(this.errorSetMessageValue)
+        throw error
+      }
     }
 
     this.spinnerVisible = false
