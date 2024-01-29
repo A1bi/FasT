@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.10'
 gem 'matrix' # needed for prawn
 gem 'prawn', '~> 2.4.0'
 gem 'prawn-qrcode', '~> 0.5.1'
-gem 'prawn-svg', '~> 0.33.0'
+gem 'prawn-svg', '~> 0.34.0'
 gem 'prawn-table', '~> 0.2.1'
 gem 'record_tag_helper', '~> 1.0.1'
 gem 'roadie', '~> 5.0'
