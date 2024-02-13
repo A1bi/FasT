@@ -72,9 +72,4 @@ module ApplicationHelper
     content = File.read(file_path)
     content.gsub(/<(\?xml|!DOCTYPE).*?>/, '').html_safe # rubocop:disable Rails/OutputSafety
   end
-
-  # overwrite tag method to make all tags open to be HTML5 compliant
-  def tag(name = nil, options = nil, open = true, escape = true) # rubocop:disable Metrics/ParameterLists, Style/OptionalBooleanParameter
-    super
-  end
 end
