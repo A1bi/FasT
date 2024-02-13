@@ -19,6 +19,8 @@ dump.rdb
 /config/settings.local.yml
 /config/settings/*.local.yml
 
+/config/ebics.key
+
 /coverage
 
 .byebug_history
