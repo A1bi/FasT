@@ -1,13 +1,11 @@
 import { Controller } from '@hotwired/stimulus'
-import { loadVendorStylesheet } from 'components/utils'
+import { loadVendorStylesheet, getAuthenticityToken } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['filePond']
   static values = {
     vendorStylesheetPaths: Array
   }
-
-  currentIndex = -1
 
   async connect () {
     const { create, registerPlugin } = await import('filepond')
@@ -27,7 +25,7 @@ export default class extends Controller {
           url: this.data.get('photos-path'),
           method: this.isEdit ? 'PATCH' : 'POST',
           headers: {
-            'X-CSRF-TOKEN': this.csrfToken
+            'X-CSRF-TOKEN': getAuthenticityToken()
           }
         }
       },
@@ -37,10 +35,6 @@ export default class extends Controller {
       allowProcess: false,
       credits: {}
     })
-  }
-
-  get csrfToken () {
-    return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   }
 
   get isEdit () {
