@@ -2,12 +2,17 @@
 
 module Ticketing
   class EbicsService
-    def HPB
-      client.HPB
+    def statements(from, to = Time.zone.today)
+      sta = client.STA(from, to)
+      Cmxl.parse(sta, encoding: 'ISO-8859-1')
+    rescue Epics::Error::BusinessError => e
+      raise unless e.symbol == 'EBICS_NO_DOWNLOAD_DATA_AVAILABLE'
+
+      []
     end
 
-    def HAA
-      client.HAA
+    def transactions(from, to = Time.zone.today)
+      statements(from, to).map(&:transactions).flatten
     end
 
     private
