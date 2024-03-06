@@ -33,10 +33,6 @@ end
 
 RSpec.shared_examples 'does not create a log event' do
   it 'does not create a log event' do
-    if loggable
-      expect { subject }.not_to change(loggable.log_events, :count)
-    else
-      expect { subject }.not_to change(Ticketing::LogEvent, :count)
-    end
+    expect { subject }.not_to change(loggable ? loggable.log_events : Ticketing::LogEvent, :count)
   end
 end
