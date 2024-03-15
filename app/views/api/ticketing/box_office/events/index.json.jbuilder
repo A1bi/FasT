@@ -18,6 +18,8 @@ json.events @events do |event|
 
   json.has_seating_plan event.seating?
 
+  next unless event.seating?
+
   json.seats event.seating.seats do |seat|
     json.id seat.id.to_s
     json.block_name seat.block.name

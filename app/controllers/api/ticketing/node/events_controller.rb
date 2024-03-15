@@ -5,7 +5,7 @@ module Api
     module Node
       class EventsController < ApiController
         def index
-          events = ::Ticketing::Event.with_future_dates
+          events = ::Ticketing::Event.with_seating.with_future_dates
           dates = events.collect(&:dates).flatten
 
           render json: {
@@ -21,8 +21,6 @@ module Api
         end
 
         def date_info(date)
-          return if date.event.seating.nil?
-
           [date.id, seats_for_date(date).to_h(&:node_hash)]
         end
 
