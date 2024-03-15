@@ -35,7 +35,8 @@ export const fetch = async (url, method = 'get', data, cache = 'default') => {
 
   let json = null
   const type = response.headers.get('Content-Type')
-  if (response.status !== 204 && type && type.indexOf('json') > -1) {
+  const length = Number(response.headers.get('Content-Length'))
+  if (response.status !== 204 && length > 0 && type && type.indexOf('json') > -1) {
     json = await response.json()
   }
 

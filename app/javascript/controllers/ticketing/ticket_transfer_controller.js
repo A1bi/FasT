@@ -45,22 +45,22 @@ export default class extends Controller {
     )
   }
 
-  enableReservationGroups () {
+  async enableReservationGroups () {
     const groups = []
     this.reservationGroupTargets.forEach(box => {
       if (box.checked) groups.push(box.getAttribute('name'))
     })
 
     const url = this.element.dataset.reservationGroupEnableUrl
-    fetch(url, 'post', {
+    const res = await fetch(url, 'post', {
       group_ids: groups,
       event_id: this.element.dataset.eventId,
       socket_id: this.chooser.socketId
     })
-      .then(res => this.chooser.toggleExclusiveSeatsKey(res.seats))
+    this.chooser.toggleExclusiveSeatsKey(res.seats)
   }
 
-  finishTransfer (event) {
+  async finishTransfer (event) {
     if (!this.date) return window.alert('Bitte wählen Sie ein neues Datum aus.')
 
     if (this.chooser && this.chooser.getSeatsYetToChoose() > 0) {
@@ -71,11 +71,12 @@ export default class extends Controller {
     if (!window.confirm(event.currentTarget.dataset.confirmMsg)) return
 
     if (!this.chooser || this.chooser.validate()) {
-      this.makeRequestWithAction('update', 'patch')
-        .then(() => this.returnToOrder())
-        .catch(() => window.alert(
-          'Leider ist bei der Umbuchung ein Fehler aufgetreten.'
-        ))
+      try {
+        await this.makeRequestWithAction('update', 'patch')
+        this.returnToOrder()
+      } catch {
+        window.alert('Leider ist bei der Umbuchung ein Fehler aufgetreten.')
+      }
     } else {
       this.element.scrollIntoView({ behavior: 'smooth' })
     }
