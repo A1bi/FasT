@@ -160,6 +160,7 @@ def create_tickets(order, coupons = [])
   event = Ticketing::Event.ticketing_enabled.with_future_dates.sample
   date = event.dates.sample
   ticket_types = event.ticket_types.to_a.shuffle
+  seats = event.seating.seats.to_a if event.seating?
 
   rand(1..2).times do
     ticket_type = ticket_types.pop
@@ -168,12 +169,7 @@ def create_tickets(order, coupons = [])
       ticket = order.tickets.new
       ticket.type = ticket_type
       ticket.date = date
-      next unless event.seating?
-
-      loop do
-        ticket.seat = event.seating.seats.sample
-        break unless ticket.seat.taken?(date)
-      end
+      ticket.seat = seats.delete(seats.sample) if event.seating?
     end
 
     next unless ticket_type.price.zero?
@@ -234,7 +230,7 @@ end
 Ticketing::BoxOffice::BoxOffice.create(ticketing_seeds[:box_office])
 
 # avoid processing emails for the created entities
-Sidekiq::Queue.find { |queue| queue.name == 'mailers' }&.clear
+Sidekiq::Queue.all.find { |queue| queue.name == 'mailers' }&.clear
 
 # clear cache
 Rails.cache.clear
