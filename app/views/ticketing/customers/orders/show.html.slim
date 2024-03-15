@@ -93,7 +93,7 @@
       .container: .row: .col = render 'cancel' if @cancellable
 
   - else
-    = render 'alert', type: :warning
-      p Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
-      p Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
+    .container.mt-1 = render 'alert', type: :warning
+      | Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
+      .mt-1 Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
 
