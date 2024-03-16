@@ -116,6 +116,16 @@
       &:not(.numbers) .seat text {
         @extend %d-none;
       }
+
+      @media (prefers-color-scheme: dark) {
+        text {
+          fill: var(--body-color) !important;
+        }
+
+        path {
+          stroke: $light-gray !important;
+        }
+      }
     }
 
     &:not(.stage) {

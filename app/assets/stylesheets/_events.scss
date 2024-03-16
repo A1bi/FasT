@@ -22,6 +22,19 @@
     fill: var(--body-color) !important;
     stroke: none !important;
   }
+
+  a & svg * {
+    fill: $cta-color !important;
+    transition: fill .3s;
+  }
+
+  a:hover & svg * {
+    fill: $cta-color-hover !important;
+  }
+
+  a:active & svg * {
+    fill: $cta-color-active !important;
+  }
 }
 
 .info-cards {

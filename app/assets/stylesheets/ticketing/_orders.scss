@@ -74,11 +74,16 @@
   min-height: 200px;
 
   &.tickets, &.coupons {
-    .event-header {
-      @extend %d-block;
-      @extend %my-2, %mx-auto;
-      height: 7rem;
-      max-width: 100%;
+    .event-logo {
+      svg {
+        @extend %d-block;
+        height: 7rem;
+      }
+
+      svg, h2 {
+        @extend %my-2, %mx-auto;
+        max-width: 70%;
+      }
     }
   }
 
@@ -180,7 +185,6 @@
           stroke-dashoffset: 166;
           stroke-miterlimit: 10;
           stroke: #4bb71b;
-          fill: #fff;
           animation: success-stroke 1.0s cubic-bezier(0.16, 1, 0.3, 1) .5s forwards;
         }
 
@@ -225,21 +229,6 @@ table {
   tr.cancelled {
     color: #cccccc;
     text-decoration: line-through;
-  }
-}
-
-.choose-event .event {
-  svg * {
-    fill: $cta-color !important;
-    stroke: none !important;
-  }
-
-  &:hover svg * {
-    fill: $cta-color-hover !important;
-  }
-
-  &:active svg * {
-    fill: $cta-color-active !important;
   }
 }
 

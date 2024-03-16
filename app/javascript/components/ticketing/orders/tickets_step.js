@@ -29,7 +29,6 @@ export default class extends Step {
       this.removeCoupon($(event.currentTarget).data('index'))
       event.preventDefault()
     })
-    this.box.find('.event-header').on('load', () => this.resizeDelegateBox())
   }
 
   getTypeTotal ($typeBox, number) {
