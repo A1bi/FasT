@@ -1,6 +1,7 @@
 .row: .col: .card
   = form_for @event do |f|
     = render 'errors', errors: @event.errors
+    h3.mt-1 Allgemeine Informationen
     = render 'form_field', form: f, attribute: :name, label: 'Titel', required: true
       = f.text_field :name, required: true
     = render 'form_field', form: f, attribute: :identifier, label: 'Identifier', required: true
@@ -9,28 +10,8 @@
       = f.text_field :assets_identifier, required: true
     = render 'form_field', form: f, attribute: :slug, label: 'Slug', required: true
       = f.text_field :slug, required: true
-    = f.fields_for :info do |ff|
-      = render 'form_field', form: ff, attribute: :subtitle, label: 'Untertitel'
-        = ff.text_field :subtitle, value: @event.info['subtitle']
-      = render 'form_field', form: ff, attribute: :main_gallery_id, label: 'Hauptfotogalerie'
-        = ff.collection_select(:main_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['main_gallery_id'])
-      = render 'form_field', form: ff, attribute: :header_gallery_id, label: 'Fotogalerie für Header'
-        = ff.collection_select(:header_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['header_gallery_id'])
-      - if @event.new_record? || !@event.ticketing_enabled?
-        = render 'form_field', form: ff, attribute: :external_sale_url, label: 'URL zu externem Ticketing'
-          = ff.text_field :external_sale_url, value: @event.info['external_sale_url']
     = render 'form_field', form: f, attribute: :location_id, label: 'Ort', required: true
       = f.collection_select(:location_id, Ticketing::Location.all, :id, :name, required: true)
-    - if @event.new_record? || @event.ticketing_enabled?
-      = render 'form_field', form: f, attribute: :seating_id, label: 'Sitzplan'
-        = f.collection_select(:seating_id, Ticketing::Seating.all, :id, :name, { include_blank: true }, { disabled: !policy(@event).update_seating? })
-      = render 'form_field', form: f, attribute: :number_of_seats, label: 'Sitzplätze'
-        = f.number_field :number_of_seats, disabled: @event.seating? && !policy(@event).update_seating?
-    = render 'form_field', form: f, attribute: :sale_start, label: 'Vorverkauf ab', required: true
-      = f.datetime_field :sale_start, required: true
-    = render 'form_field', form: f, attribute: :admission_duration, label: 'Einlass', required: true
-      = f.number_field :admission_duration, required: true
-      .form-text Minuten vorher
     .form-check
       = f.check_box :ticketing_enabled
       = f.label :ticketing_enabled, 'Ticketing aktiviert'
@@ -38,4 +19,35 @@
       .form-check
         = ff.check_box :archived, value: 1, checked: @event.info['archived']
         = ff.label 'archived', 'Im Archiv anzeigen'
+
+    h3 Informationen für Unterseite
+    = f.fields_for :info do |ff|
+      = render 'form_field', form: ff, attribute: :subtitle, label: 'Untertitel'
+        = ff.text_field :subtitle, value: @event.info['subtitle']
+      = render 'form_field', form: ff, attribute: :main_gallery_id, label: 'Hauptfotogalerie'
+        = ff.collection_select(:main_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['main_gallery_id'])
+      = render 'form_field', form: ff, attribute: :header_gallery_id, label: 'Fotogalerie für Header'
+        = ff.collection_select(:header_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['header_gallery_id'])
+
+      h3.mb-1 Farben
+      .row
+        - 4.times do |i|
+          .col = render 'form_field', form: ff, attribute: "colors_#{i}", label: "Farbe #{i + 1}"
+            = ff.color_field :colors, multiple: true, value: @event.info.dig('colors', i), id: "ticketing_event_info_colors_#{i}"
+
+    h3 Ticketing
+    = render 'form_field', form: f, attribute: :sale_start, label: 'Vorverkauf ab', required: true
+      = f.datetime_field :sale_start, required: true
+    - if @event.new_record? || @event.ticketing_enabled?
+      = render 'form_field', form: f, attribute: :seating_id, label: 'Sitzplan'
+        = f.collection_select(:seating_id, Ticketing::Seating.all, :id, :name, { include_blank: true }, { disabled: !policy(@event).update_seating? })
+      = render 'form_field', form: f, attribute: :number_of_seats, label: 'Sitzplätze'
+        = f.number_field :number_of_seats, disabled: @event.seating? && !policy(@event).update_seating?
+    - if @event.new_record? || !@event.ticketing_enabled?
+      = render 'form_field', form: ff, attribute: :external_sale_url, label: 'URL zu externem Ticketing'
+        = ff.text_field :external_sale_url, value: @event.info['external_sale_url']
+    = render 'form_field', form: f, attribute: :admission_duration, label: 'Einlass', required: true
+      = f.number_field :admission_duration, required: true
+      .form-text Minuten vorher
+
     .text-center.mt-2 = f.submit 'speichern', class: :btn

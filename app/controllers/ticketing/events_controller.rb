@@ -45,6 +45,7 @@ module Ticketing
     def event_params
       event_params = permitted_attributes @event
       event_params[:info][:archived] = event_params[:info][:archived] == '1'
+      event_params[:info][:colors] = nil if event_params[:info].fetch(:colors, []).uniq.count == 1
       event_params
     end
 

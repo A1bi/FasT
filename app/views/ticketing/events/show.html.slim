@@ -21,6 +21,8 @@
       dd <tt>#{@event.identifier}</tt> / <tt>#{@event.assets_identifier}</tt>
       dt Slug
       dd: tt = @event.slug
+      dt Ort
+      dd = @event.location.name
       dt Untertitel
       dd = @event.info['subtitle']
       - if @event.main_gallery.present?
@@ -29,16 +31,18 @@
       - if @event.header_gallery.present?
         dt Fotogalerie für Header
         dd = link_to @event.header_gallery.title, edit_gallery_path(@event.header_gallery)
-      dt Ort
-      dd = @event.location.name
+      dt Farben
+      dd
+        - @event.info.fetch('colors', []).each do |color|
+          .color-disk style="background: #{color};"
+      dt Vorverkauf ab
+      dd = l @event.sale_start, format: :medium
       - if @event.ticketing_enabled?
         - if @event.seating?
           dt Sitzplan
           dd = link_to @event.seating.name, @event.seating
         dt Sitzplätze
         dd = @event.number_of_seats
-        dt Vorverkauf ab
-        dd = l @event.sale_start, format: :medium
       - elsif @event.info['external_sale_url'].present?
         dt URL zu externem Ticketing
         dd = link_to @event.info['external_sale_url'], @event.info['external_sale_url']

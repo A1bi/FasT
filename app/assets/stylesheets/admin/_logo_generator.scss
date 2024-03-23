@@ -1,15 +1,10 @@
 .logo-generator {
   input[type='color'] {
-    @extend %w-100;
     height: 3rem;
-    display: block;
   }
 
   [data-admin--logo-generator-target='dominantColors'] .color {
-    @extend %d-inline-block;
-    @extend %m-1;
-    border: 1px solid darken($light-gray, 10%);
-    border-radius: 50%;
+    @extend .color-disk;
     width: 3rem;
     height: 3rem;
     cursor: pointer;

@@ -212,6 +212,15 @@ iframe {
   list-style: none;
 }
 
+.color-disk {
+  @extend %d-inline-block;
+  @extend %me-1;
+  border: 1px solid darken($light-gray, 10%);
+  border-radius: 50%;
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
 dl {
   dt {
     @extend .f-lbi;
