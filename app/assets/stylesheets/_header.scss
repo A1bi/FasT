@@ -55,7 +55,7 @@ header {
       transform: rotate(45deg);
     }
 
-    @media (prefers-color-scheme: dark) {
+    @include media-dark-theme {
       transition: transform $menu-reveal-duration, color .3s, border-color .3s;
       border: 1px solid $cta-color;
 
@@ -109,7 +109,7 @@ header {
         }
       }
 
-      @media (prefers-color-scheme: dark) {
+      @include media-dark-theme {
         stroke-width: var(--logo-stroke-width-dark, 0);
       }
     }

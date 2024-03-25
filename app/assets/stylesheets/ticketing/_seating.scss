@@ -117,7 +117,7 @@
         @extend %d-none;
       }
 
-      @media (prefers-color-scheme: dark) {
+      @include media-dark-theme {
         text {
           fill: var(--body-color) !important;
         }

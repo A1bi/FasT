@@ -31,6 +31,12 @@
   }
 }
 
+@mixin media-dark-theme() {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
 %black-links {
   a:not(:hover, :active) {
     color: var(--body-color);

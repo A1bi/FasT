@@ -188,7 +188,7 @@ abbr[title] {
     }
   }
 
-  @media (prefers-color-scheme: dark) {
+  @include media-dark-theme {
     input[type=checkbox],
     input[type=radio] {
       &:checked {
@@ -206,7 +206,7 @@ select {
   background-position: right .5rem center;
   background-size: 16px 12px;
 
-  @media (prefers-color-scheme: dark) {
+  @include media-dark-theme {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23f2f2f2' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   }
 }
@@ -241,7 +241,7 @@ select {
     background: rgba($dark-gray, .3);
   }
 
-  @media (prefers-color-scheme: dark) {
+  @include media-dark-theme {
     --btn-border-color: var(--input-bg);
     border: 1px solid var(--btn-border-color);
     transition: color .3s, border-color .3s;
