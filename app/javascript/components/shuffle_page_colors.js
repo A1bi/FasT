@@ -5,18 +5,20 @@ const setCSSVariable = (name, value) => {
 }
 
 const shuffleColors = () => {
-  const colors = generateColors()
-
-  colors.forEach((color, i) => {
+  generateColors().forEach((color, i) => {
     setCSSVariable(`shuffled-color-${i}`, colorToHslCss(color))
   })
 
+  const bgColor = window.getComputedStyle(document.querySelector('header')).backgroundColor
+
   document.querySelectorAll('hr').forEach(el => {
-    el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace(/black|hsl\(.+?\)/, colorToHslCss(colors[0]))
+    el.style.backgroundImage = window.getComputedStyle(el).backgroundImage.replace(/black|hsl|rgb\(.+?\)/, bgColor)
   })
 }
 
 document.addEventListener('DOMContentLoaded', shuffleColors)
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', shuffleColors)
 
 document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.altKey && e.code === 'KeyC') shuffleColors()
