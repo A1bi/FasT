@@ -29,12 +29,6 @@
       = render 'form_field', form: ff, attribute: :header_gallery_id, label: 'Fotogalerie für Header'
         = ff.collection_select(:header_gallery_id, @galleries, :id, :title, include_blank: true, selected: @event.info['header_gallery_id'])
 
-      h3.mb-1 Farben
-      .row
-        - 4.times do |i|
-          .col = render 'form_field', form: ff, attribute: "colors_#{i}", label: "Farbe #{i + 1}"
-            = ff.color_field :colors, multiple: true, value: @event.info.dig('colors', i), id: "ticketing_event_info_colors_#{i}"
-
     h3 Ticketing
     = render 'form_field', form: f, attribute: :sale_start, label: 'Vorverkauf ab', required: true
       = f.datetime_field :sale_start, required: true

@@ -31,10 +31,6 @@
       - if @event.header_gallery.present?
         dt Fotogalerie für Header
         dd = link_to @event.header_gallery.title, edit_gallery_path(@event.header_gallery)
-      dt Farben
-      dd
-        - @event.info.fetch('colors', []).each do |color|
-          .color-disk style="background: #{color};"
       dt Vorverkauf ab
       dd = l @event.sale_start, format: :medium
       - if @event.ticketing_enabled?
