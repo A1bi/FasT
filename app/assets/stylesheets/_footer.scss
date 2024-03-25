@@ -3,6 +3,10 @@ footer {
   @extend %py-2;
   background: var(--dynamic-color-0);
 
+  @media (prefers-color-scheme: light) {
+    --body-color: var(--footer-color);
+  }
+
   ul {
     @extend %d-flex;
     @extend %justify-content-center;

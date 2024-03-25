@@ -16,10 +16,14 @@ ruby:
     booklet_filename: 'Ein_idealer_Gatte_Programmheft',
     poster_filename: 'Ein_idealer_Gatte_Plakat'
   }
+  styling = {
+    colors: ['2D4586', 'FFFFFF', 'FFFFFF', 'FFFFFF', 'FFFFFF'],
+    stroke_logo_dark: false
+  }
 
 = render 'header', small_outline: true
 
-= render 'event'
+= render 'event', styling:
   = render 'about', details:
     p Das Stück wurde 1895 in London uraufgeführt und von Kritikern und Publikum gleichermaßen gefeiert, bis es bei Prozessbeginn abrupt vom Spielplan genommen wurde. „I really think it reads the best of my plays“ urteilte Wilde selbst über sein politisches und vielschichtiges letztes Bühnenwerk, das seine persönliche Erfahrung mit Erpressung und seine Angst von dem Verlust des gesellschaftlichen Ansehens verarbeitete.
     p Es geht um Insidergeschäfte, Erpressung, Intrigen, Geheimnisverrat, Börsenschwindel und Verwicklungen. Zeitlose Themen damals wie heute. Die Aktualität ist verblüffend.

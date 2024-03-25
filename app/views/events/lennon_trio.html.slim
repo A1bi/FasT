@@ -5,10 +5,14 @@ ruby:
     duration: 90,
     break_duration: 30
   }
+  styling = {
+    colors: ['1A1613', 'BBBBBB', 'E4D0C7', '948477', 'AFAABA'],
+    stroke_logo_dark: false
+  }
 
 = render 'header'
 
-= render 'event'
+= render 'event', styling:
   = render 'about', title: 'Über das Konzert', details:
     p Maurice Lennon, Ciara Brennen und Chris Dawson verbinden ihre Auftrittserfahrung zu einem sehr dynamischen und vielfältigen Programm aus traditioneller und neu komponierter Musik.
     p Gemeinsam haben sie eine starke musikalische Partnerschaft gebildet und schlagen Wellen in der Welt der traditionellen irischen Musik. Ihre Live-Auftritte sind fesselnd, wobei jeder Musiker seine eigene einzigartige Stimme einbringt.

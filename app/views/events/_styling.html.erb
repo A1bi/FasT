@@ -1,0 +1,8 @@
+:root {
+  <% colors.each.with_index do |color, i| %>
+    <% next if color.nil? %>
+    --event-color-<%= i %>: #<%= color %>;
+  <% end %>
+  <% if colors[0].present? %>--footer-color: var(--event-color-<%= local_assigns.fetch(:footer_color, 1) %>);<% end %>
+  <% if stroke_logo_dark %>--logo-stroke-width-dark: .5px;<% end %>
+}

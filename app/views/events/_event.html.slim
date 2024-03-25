@@ -1,5 +1,8 @@
 - title @event.name
 
+- if local_assigns[:styling]
+  style = render 'styling', styling
+
 - content_for :event_sections
   = yield
 

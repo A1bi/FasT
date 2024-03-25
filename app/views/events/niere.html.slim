@@ -16,10 +16,15 @@ ruby:
     },
     poster_filename: 'Niere_Plakat'
   }
+  styling = {
+    colors: ['8FDCFA', 'BC5FD3', '1A1A1A', '4D4D4D', '1A1A1A'],
+    footer_color: 2,
+    stroke_logo_dark: true
+  }
 
 = render 'header'
 
-= render 'event'
+= render 'event', styling:
   = render 'about', details:
     p Kathrin braucht eine neue Niere. Ihr Mann Arnold soll ihr seine spenden, doch leider hat der erfolgreiche Architekt nicht nur keine Zeit dafür, sondern auch Angst vor einer Organspende. Er zögert. Beider Freund Götz erklärt sich sofort bereit, als Spender einzuspringen, wodurch ein irrwitziger Kampf um die Niere ausbricht. Sowohl Diana, Götz' Ehefrau, als auch Arnold fühlen sich übergangen.
     p Uraufgeführt wurde „Die Niere” am 4. März 2018 in der Komödie am Kurfürstendamm, Berlin.

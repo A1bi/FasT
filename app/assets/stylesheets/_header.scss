@@ -84,6 +84,8 @@ header {
       @extend %p-1;
       max-height: var(--topbar-logo-height);
       width: auto;
+      stroke: $white;
+      stroke-width: 0;
       transition: max-height $top-bar-stuck-transition-duration;
 
       @for $i from 1 through 4 {
@@ -105,6 +107,10 @@ header {
         to {
           transform: rotate(-180deg);
         }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        stroke-width: var(--logo-stroke-width-dark, 0);
       }
     }
   }

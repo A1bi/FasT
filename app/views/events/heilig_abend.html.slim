@@ -15,10 +15,14 @@ ruby:
     },
     poster_filename: 'Heilig_Abend_Plakat'
   }
+  styling = {
+    colors: ['223646', 'D1D7D7', '759DC4', '9FBAD4', '9FBAD4'],
+    stroke_logo_dark: false
+  }
 
 = render 'header'
 
-= render 'event'
+= render 'event', styling:
   = render 'about', details:
     h3.mt-0 Ein Stück für zwei Schauspieler und eine Uhr
     p Daniel Kehlmann ist der Autor des Schauspiel-Thrillers „Heilig Abend“, der am 2. Februar 2017 am Wiener Theater in der Josefstadt uraufgeführt wurde. Er sagt über sein Werk: „Das Stück ist ein Verhör zwischen einem Polizisten und einer Professorin, die er terroristischer Umtriebe verdächtigt.“
