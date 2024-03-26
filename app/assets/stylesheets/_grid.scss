@@ -31,7 +31,7 @@
   max-width: calc(min(600px, 100%)); // calc -> workaround for SassC complaining about min
 }
 
-[class^='col'] {
+.col, [class^='col-'] {
   @extend %p-1;
 }
 

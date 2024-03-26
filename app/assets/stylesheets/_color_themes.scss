@@ -1,0 +1,41 @@
+:root {
+  &, &.color-theme-0 {
+    --shuffled-color-0: #dae2b6;
+    --shuffled-color-1: #9f5cff;
+    --shuffled-color-2: #ff5ce2;
+    --shuffled-color-3: #5c76ff;
+    --shuffled-color-4: #5c76ff;
+  }
+
+  &.color-theme-1 {
+    --shuffled-color-0: #b6c1e2;
+    --shuffled-color-1: #5cff7b;
+    --shuffled-color-2: #ff5c9d;
+    --shuffled-color-3: #f25cff;
+    --shuffled-color-4: #b7ff5c;
+  }
+
+  &.color-theme-2 {
+    --shuffled-color-0: #b6d9e2;
+    --shuffled-color-1: #a0ff5c;
+    --shuffled-color-2: #ffa75c;
+    --shuffled-color-3: #915cff;
+    --shuffled-color-4: #ee5cff;
+  }
+
+  &.color-theme-3 {
+    --shuffled-color-0: #e2ccb6;
+    --shuffled-color-1: #b65cff;
+    --shuffled-color-2: #5cb1ff;
+    --shuffled-color-3: #ff5c8e;
+    --shuffled-color-4: #5cff8d;
+  }
+
+  &.color-theme-4 {
+    --shuffled-color-0: #cbb6e2;
+    --shuffled-color-1: #8eff5c;
+    --shuffled-color-2: #ff735c;
+    --shuffled-color-3: #5cffb9;
+    --shuffled-color-4: #8eff5c;
+  }
+}

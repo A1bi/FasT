@@ -1,5 +1,5 @@
 doctype html
-html lang=I18n.locale
+html lang=I18n.locale class="color-theme-#{color_theme_index}"
   head
     meta charset='utf-8'
     meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0'
@@ -9,8 +9,6 @@ html lang=I18n.locale
       | TheaterKultur Kaisersesch e. V.
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_importmap_tags
-    javascript:
-      document.documentElement.classList.add('fouc')
     = csrf_meta_tag
     link rel='manifest' href='/app.webmanifest'
 

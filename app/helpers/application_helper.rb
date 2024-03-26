@@ -3,6 +3,8 @@
 module ApplicationHelper
   include RenderHelper
 
+  NUM_COLOR_THEMES = 5
+
   def title(page_title)
     content_for :title, page_title.to_s
   end
@@ -71,5 +73,15 @@ module ApplicationHelper
     file_path = Rails.root.join("app/assets/images/#{filename}")
     content = File.read(file_path)
     content.gsub(/<(\?xml|!DOCTYPE).*?>/, '').html_safe # rubocop:disable Rails/OutputSafety
+  end
+
+  def color_theme_index
+    unless session[:color_theme_expires_at]&.future?
+      previous_index = session.fetch(:color_theme_index, rand(NUM_COLOR_THEMES))
+      session[:color_theme_index] = (previous_index + 1) % NUM_COLOR_THEMES
+      session[:color_theme_expires_at] = 1.hour.from_now
+    end
+
+    session[:color_theme_index]
   end
 end

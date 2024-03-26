@@ -47,14 +47,14 @@ export const generateColors = () => {
   const prevHues = []
   const prevColors = []
 
-  // avoid colors to close to huebg
+  // avoid colors too close to huebg
   for (let i = 0; i < numColors; i++) {
     let huelogo = Math.random() * 360
     while (Math.abs(huelogo - huebg) < 60 || (huelogo > 30 && huelogo < 80)) {
       huelogo = Math.random() * 360
     }
 
-    // check if huelogo is close to prev. huelogos, then colapse colors
+    // check if huelogo is close to previous huelogos, then collapse colors
     let closestColor = 0
     let closestDist = 1000
     for (let j = 0; j < i; j++) {
