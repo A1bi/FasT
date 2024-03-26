@@ -1,34 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Members::MemberMailer do
-  let(:member) { create(:member, gender:) }
+  let(:member) { create(:member, gender:, email:) }
   let(:gender) { :female }
   let(:mailer) { described_class.with(member:) }
+  let(:email) { 'foo@bar.com' }
 
   shared_examples 'an email addressed to a member' do
     context 'when member has own email address' do
       it 'is sent to the member' do
         expect(mail.to).to eq([member.email])
-      end
-    end
-
-    context 'when member lacks email address' do
-      before { member.update(email: nil) }
-
-      context 'when member is part of a family' do
-        let(:family_member) { create(:member) }
-
-        before { member.add_to_family_with_member(family_member) }
-
-        it 'is sent to the family member' do
-          expect(mail.to).to eq([family_member.email])
-        end
-      end
-
-      context 'when member is not part of a family' do
-        it 'is sent to noone' do
-          expect(mail.to).to be_nil
-        end
       end
     end
 
@@ -61,6 +42,16 @@ RSpec.describe Members::MemberMailer do
     end
   end
 
+  shared_examples 'an email addressed to a member without email address' do
+    context 'when member lacks email address' do
+      let(:email) { nil }
+
+      it 'is sent to no one' do
+        expect(mail.to).to be_nil
+      end
+    end
+  end
+
   shared_examples 'activation link' do
     it 'contains a link to activate the account' do
       member.set_activation_code
@@ -71,7 +62,7 @@ RSpec.describe Members::MemberMailer do
   describe '#welcome' do
     subject(:mail) { mailer.welcome }
 
-    let(:member) { create(:member, :with_sepa_mandate, gender:, membership_fee: 13.4) }
+    let(:member) { create(:member, :with_sepa_mandate, gender:, email:, membership_fee: 13.4) }
     let(:subject) { 'Herzlich willkommen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
@@ -89,11 +80,36 @@ RSpec.describe Members::MemberMailer do
       expect(mail.body.encoded).not_to include('antrag')
     end
 
+    it 'mentions a following member account activation email' do
+      expect(mail.body.encoded).to include('Mitgliedskonto')
+    end
+
     context 'when a membership application is associated with the member' do
       before { create(:membership_application, member:) }
 
       it 'mentions a membership application' do
         expect(mail.body.encoded).to include('antrag')
+      end
+    end
+
+    context 'when only another family member has an email address' do
+      let(:email) { nil }
+      let(:family_members) { create_list(:member, 2) }
+
+      before do
+        family_members.each do |m|
+          m.add_to_family_with_member(member)
+          m.save
+        end
+        family_members.last.update(email: nil)
+      end
+
+      it 'is sent to the family member' do
+        expect(mail.to).to eq([family_members.first.email])
+      end
+
+      it 'does not mention a following member account activation email' do
+        expect(mail.body.encoded).not_to include('Mitgliedskonto')
       end
     end
   end
@@ -104,6 +120,7 @@ RSpec.describe Members::MemberMailer do
     let(:subject) { 'Aktivierung' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
+    it_behaves_like 'an email addressed to a member without email address'
     include_examples 'activation link'
   end
 
@@ -113,6 +130,7 @@ RSpec.describe Members::MemberMailer do
     let(:subject) { 'Passwort zurücksetzen' } # rubocop:disable RSpec/SubjectDeclaration
 
     it_behaves_like 'an email addressed to a member'
+    it_behaves_like 'an email addressed to a member without email address'
     include_examples 'activation link'
   end
 end

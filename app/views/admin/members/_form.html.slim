@@ -45,7 +45,7 @@
       .mb-2
         = f.label :email, 'E-Mail-Adresse'
         = f.email_field :email
-        .form-text Diese Adresse wird für den Versand von E-Mails wie der Begrüßungs-E-Mail sowie für den Login in den Mitgliederbereich verwendet. Sollte keine eigene E-Mail-Adresse vorhanden sein, werden E-Mails stattdessen an ein eventuell verknüpftes Familienmitglied verschickt.
+        .form-text Diese Adresse wird für den Versand von E-Mails wie der Begrüßungs-E-Mail sowie für den Login in den Mitgliederbereich verwendet. Sollte keine eigene E-Mail-Adresse vorhanden sein, wird die Begrüßungs-E-Mail stattdessen an ein eventuell verknüpftes Familienmitglied verschickt. Ein eigenständiger Login ist in diesem Fall nicht möglich.
       .mb-2
         = f.label :phone, 'Telefonnummer'
         = f.text_field :phone

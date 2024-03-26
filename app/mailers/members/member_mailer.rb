@@ -4,10 +4,10 @@ module Members
   class MemberMailer < ApplicationMailer
     before_action { @member = params[:member] }
 
-    default to: -> { recipient_email }
+    default to: -> { @member.email }
 
     def welcome
-      mail
+      mail to: member_or_family_member_email
     end
 
     def activation
@@ -20,11 +20,10 @@ module Members
 
     private
 
-    def recipient_email
-      return @member.email if @member.email.present?
-      return unless @member.in_family?
+    def member_or_family_member_email
+      return @member.email if @member.email.present? || !@member.in_family?
 
-      @member.family.members.where.not(id: @member).first&.email
+      @member.family.members.where.not(email: nil).pick(:email)
     end
   end
 end
