@@ -21,6 +21,8 @@ header {
 
   .menu-toggle {
     --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.65};
+    --menu-toggle-left: 7px;
+    --menu-toggle-top: -15px;
     width: var(--menu-toggle-size);
     height: var(--menu-toggle-size);
     margin-left: $top-bar-stuck-logo-height * 0.17;
@@ -38,8 +40,8 @@ header {
       content: '...';
       color: $white;
       font-size: 2rem;
-      left: 7px;
-      top: -15px;
+      left: calc(var(--menu-toggle-left) + var(--menu-toggle-offset, 0px));
+      top: calc(var(--menu-toggle-top) + var(--menu-toggle-offset, 0px));
       transform: rotate(45deg);
     }
 
@@ -56,6 +58,7 @@ header {
     }
 
     @include media-dark-theme {
+      --menu-toggle-offset: -.5px;
       transition: transform $menu-reveal-duration, color .3s, border-color .3s;
       border: 1px solid $cta-color;
 
@@ -182,11 +185,8 @@ nav {
 
     .menu-toggle {
       --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.75};
-
-      &:after {
-        left: 9px;
-        top: -15.5px;
-      }
+      --menu-toggle-left: 9px;
+      --menu-toggle-top: -15.5px;
     }
   }
 
