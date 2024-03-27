@@ -44,7 +44,7 @@ $input-padding-y: .35rem;
   --card-bg: var(--secondary-bg-color);
   --input-bg: #{$white};
   --table-bg-even: var(--body-bg);
-  --table-bg-odd: #{darken($white, 10%)};
+  --table-bg-odd: $white;
 
   @for $i from 0 through 4 {
     --dynamic-color-#{$i}: var(--event-color-#{$i}, var(--shuffled-color-#{$i}));
