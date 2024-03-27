@@ -1,78 +1,71 @@
 import Step from 'components/ticketing/orders/step'
-import { togglePluralText, fetch } from 'components/utils'
-import $ from 'jquery'
+import { toggleDisplay, togglePluralText, fetch } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
     super('confirm', delegate)
 
-    this.couponTemplate = this.box.find('tr.coupon').detach()
+    this.couponTemplate = this.box[0].querySelector('tr.coupon')
+    if (this.couponTemplate) this.couponTemplate.remove()
   }
 
   updateCouponSummary () {
     const couponsInfo = this.delegate.getStepInfo('coupons')
     if (!couponsInfo) return
 
-    this.box.find('tr.coupon').remove()
+    this.box[0].querySelector('tr.coupon').remove()
     let total = 0
     let totalNumber = 0
 
     couponsInfo.api.coupons.forEach(coupon => {
-      const row = this.couponTemplate.clone()
+      const row = this.couponTemplate.cloneNode(true)
       const couponTotal = coupon.number * coupon.value
-      const numberText = row.find('.plural_text')
+      const numberText = row.querySelector('.plural_text')
 
       togglePluralText(numberText, coupon.number)
-      numberText.find('.value').text(this.formatCurrency(coupon.value))
-      row.find('.total span').text(this.formatCurrency(couponTotal))
+      numberText.querySelector('.value').textContent = this.formatCurrency(coupon.value)
+      row.querySelector('.total span').textContent = this.formatCurrency(couponTotal)
 
-      this.box.find('.coupons tbody').prepend(row)
+      this.box[0].querySelector('.coupons tbody').prepend(row)
       total += couponTotal
       totalNumber += coupon.number
     })
 
-    togglePluralText(this.box.find('tr.total .plural_text'), totalNumber)
-    this.box.find('tr.total td.total span').text(this.formatCurrency(total))
+    togglePluralText(this.box[0].querySelector('tr.total .plural_text'), totalNumber)
+    this.box[0].querySelector('tr.total td.total span').textContent = this.formatCurrency(total)
   }
 
   updateTicketSummary () {
     const ticketsInfo = this.delegate.getStepInfo('tickets')
     if (!ticketsInfo) return
 
-    this.box.find('.date').text(
-      this.delegate.getStepInfo('seats').internal.localizedDate
-    )
+    this.box[0].querySelector('.date').textContent = this.delegate.getStepInfo('seats').internal.localizedDate
 
-    this.box.find('.tickets tbody tr').show().each((_, element) => {
-      const typeBox = $(element)
+    this.box[0].querySelectorAll(':scope .tickets tbody tr').forEach(typeBox => {
       let number, total
-      if (typeBox.is('.subtotal')) {
+      if (typeBox.matches('.subtotal')) {
         number = ticketsInfo.internal.numberOfTickets
         total = this.formatCurrency(ticketsInfo.internal.subtotal)
-      } else if (typeBox.is('.discount')) {
-        if (ticketsInfo.internal.discount === 0) {
-          typeBox.hide()
-          return
-        }
+      } else if (typeBox.matches('.discount')) {
+        toggleDisplay(typeBox, ticketsInfo.internal.discount !== 0)
         total = this.formatCurrency(ticketsInfo.internal.discount)
-      } else if (typeBox.is('.total')) {
+      } else if (typeBox.matches('.total')) {
         total = this.formatCurrency(ticketsInfo.internal.totalAfterCoupons)
       } else {
-        const typeId = typeBox.find('td').first().data('id')
+        const typeId = typeBox.querySelector('td').dataset.id
         number = ticketsInfo.api.tickets[typeId]
-        if (!number || number < 1) {
-          typeBox.hide()
-          return
-        }
+        toggleDisplay(typeBox, number > 0)
         total = ticketsInfo.internal.ticketTotals[typeId]
       }
-      typeBox.find('.total span').text(total)
-      const single = typeBox.find('.single')
-      if (typeBox.is('.subtotal')) {
+      typeBox.querySelector('.total span').textContent = total
+
+      const single = typeBox.querySelector('.single')
+      if (!single) return
+      if (typeBox.matches('.subtotal')) {
         togglePluralText(single, number)
       } else {
         if (number === 0) number = 'keine'
-        single.find('.number').text(number)
+        single.querySelector('.number').textContent = number
       }
     })
   }
@@ -81,8 +74,7 @@ export default class extends Step {
     const ticketsInternal = this.delegate.getStepInfo('tickets')?.internal
 
     let btnText = 'bestätigen'
-    if (this.delegate.web &&
-        !ticketsInternal?.zeroTotal) {
+    if (this.delegate.web && !ticketsInternal?.zeroTotal) {
       btnText = 'kostenpflichtig bestellen'
     }
     this.delegate.setNextBtnText(btnText)
@@ -93,12 +85,14 @@ export default class extends Step {
     for (const type of ['address', 'payment']) {
       const info = this.delegate.getStepInfo(type)
       if (!info) continue
-      const box = this.box.find(`.${type}`)
+      const box = this.box[0].querySelector(`.${type}`)
       if (type === 'payment' && !ticketsInternal?.zeroTotal) {
-        box.removeClass('transfer charge box_office cash').addClass(info.api.method)
+        box.classList.remove('transfer', 'charge', 'box_office', 'cash')
+        box.classList.add(info.api.method)
       }
       for (const [key, value] of Object.entries(info.api)) {
-        box.find(`.${key}`).text(value)
+        const additionalInfoBox = box.querySelector(`.${key}`)
+        if (additionalInfoBox) additionalInfoBox.textContent = value
       }
     }
   }
@@ -157,9 +151,8 @@ export default class extends Step {
 
     this.info.internal.order = response
 
-    if (this.delegate.stepBox.data('order-path')) {
-      this.info.internal.detailsPath =
-      this.delegate.stepBox.data('order-path')
+    if (this.delegate.stepBox[0].dataset.orderPath) {
+      this.info.internal.detailsPath = this.delegate.stepBox[0].dataset.orderPath
         .replace(':id', this.info.internal.order.id)
 
       if (this.delegate.admin) {
