@@ -9,9 +9,12 @@ export const toggleDisplay = (el, toggle) => {
 }
 
 export const togglePluralText = (box, number) => {
+  if (!box.querySelector) box = box[0]
+  if (!box.matches('.plural_text')) box = box.querySelector('.plural_text')
   const plural = number !== 1
-  box.toggleClass('plural', plural).toggleClass('singular', !plural)
-  box.find('.number span').text(number)
+  box.classList.toggle('plural', plural)
+  box.classList.toggle('singular', !plural)
+  box.querySelectorAll(':scope .number span').forEach(el => { el.textContent = number })
 }
 
 export const getAuthenticityToken = () => {

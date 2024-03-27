@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', e => {
       if (e.currentTarget.checkValidity()) return
 
-      const invalid = e.currentTarget.querySelectorAll(':invalid')
+      const invalid = e.currentTarget.querySelectorAll(':scope :invalid')
       invalid.forEach(input => {
         const feedback = input.parentNode.querySelector('.invalid-feedback')
         if (!feedback) return

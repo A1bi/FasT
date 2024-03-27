@@ -62,7 +62,7 @@ export default class extends Controller {
     }
 
     if (current.dataset.resale) {
-      form.querySelectorAll("[name='ticket_ids[]']").forEach(el => {
+      form.querySelectorAll(":scope [name='ticket_ids[]']").forEach(el => {
         const id = el.value
         const field = document.createElement('input')
         field.setAttribute('type', 'hidden')

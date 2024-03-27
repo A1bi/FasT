@@ -36,7 +36,7 @@ export default class extends Controller {
       }
     }
 
-    const colorBoxes = this.dominantColorsTarget.querySelectorAll('.color')
+    const colorBoxes = this.dominantColorsTarget.querySelectorAll(':scope .color')
     colorBoxes.forEach((colorBox, j) => {
       const selected = this.selectedDominantColorIndexes.indexOf(j) > -1
       colorBox.classList.toggle('selected', selected)
@@ -135,7 +135,7 @@ export default class extends Controller {
   }
 
   updateLogos () {
-    const logos = this.logosTarget.querySelectorAll('svg')
+    const logos = this.logosTarget.querySelectorAll(':scope svg')
     logos.forEach(logo => {
       logo.querySelectorAll(':scope > g').forEach((group, i) => {
         group.style.fill = this.colors[i % this.colors.length]
