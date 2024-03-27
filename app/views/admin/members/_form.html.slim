@@ -36,7 +36,7 @@
       .row.mb-2
         .col-5
           = f.label :plz, 'PLZ'
-          = f.number_field :plz, limit: 5
+          = f.postal_code_field :plz
         .col-7
           = f.label :city, 'Stadt'
           = f.text_field :city

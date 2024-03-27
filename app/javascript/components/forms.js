@@ -12,11 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (input.validity.valueMissing) {
           message = 'Bitte füllen Sie dieses Feld aus.'
         } else if (input.validity.typeMismatch || input.validity.patternMismatch) {
-          if (input.name.includes('email')) {
-            message = 'Bitte geben Sie eine korrekte E-Mail-Adresse an.'
-          } else {
-            message = 'Ihre Eingabe ist nicht korrekt.'
-          }
+          message = input.title || 'Ihre Eingabe ist nicht korrekt.'
         } else if (input.validity.tooLong) {
           message = 'Ihre Eingabe ist zu lang.'
         } else {

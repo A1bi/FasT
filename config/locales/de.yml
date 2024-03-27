@@ -298,6 +298,8 @@ de:
   form_builder:
     email_field:
       title: Bitte geben Sie eine gültige E-Mail-Adresse an.
+    postal_code_field:
+      title: Bitte geben Sie eine gültige Postleitzahl an.
   errors:
     messages:
       blank: Das Feld „%{attribute}“ darf nicht leer sein.
@@ -342,7 +344,7 @@ de:
             password_confirmation:
               confirmation: "Die eingegebenen Passwörter stimmen nicht überein."
             plz:
-              less_than: Die eingegebene Postzeitzahl ist ungültig.
+              less_than: Die eingegebene Postleitzahl ist ungültig.
             sepa_mandate:
               invalid: SEPA-Mandat ungültig.
         members/sepa_mandate:

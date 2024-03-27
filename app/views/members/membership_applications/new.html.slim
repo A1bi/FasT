@@ -18,14 +18,14 @@
         = render 'form_field', form: f, attribute: :birthday, label: 'Geburtstag', required: true
             = f.date_field :birthday, required: true
         = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse'
-          = f.text_field :email
+          = f.email_field :email
         = render 'form_field', form: f, attribute: :phone, label: 'Telefonnummer'
-          = f.text_field :phone
+          = f.phone_field :phone
         = render 'form_field', form: f, attribute: :street, label: 'Straße und Hausnummer', required: true
           = f.text_field :street, required: true
         .row
           .col-4 = render 'form_field', form: f, attribute: :plz, label: 'PLZ', required: true
-            = f.text_field :plz, required: true
+            = f.postal_code_field :plz, required: true
           .col-8 = render 'form_field', form: f, attribute: :city, label: 'Stadt', required: true
             = f.text_field :city, required: true
         hr

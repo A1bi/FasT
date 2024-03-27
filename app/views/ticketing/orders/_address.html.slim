@@ -6,6 +6,6 @@
     = f.text_field :first_name, autocomplete: :'given-name'
     = f.text_field :last_name, autocomplete: :'family-name'
     = f.text_field :affiliation, autocomplete: :organization
-    = f.text_field :plz, maxlength: 5, pattern: '\d{5}', inputmode: 'numeric', autocomplete: 'postal-code', autocomplete: :'postal-code'
+    = f.postal_code_field :plz
     = f.phone_field :phone, autocomplete: :tel
     = f.email_field :email, autocomplete: :email
