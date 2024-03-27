@@ -1,0 +1,8 @@
+#ticket-printer-popover.p-1.d-none data-controller='ticketing--ticket-printer-popover' data-action="_ticketing--orders-finish:printTickets@window->ticketing--ticket-printer-popover#printTickets"
+  .container: .row.justify-content-start
+    .col-auto
+      .mb-1 Die Tickets werden nun gedruckt. Einen Moment bitte.
+      div
+        a.btn.btn-sm.me-1 data-action='ticketing--ticket-printer-popover#printTickets' erneut drucken
+        a.btn.btn-sm.me-1 data-ticketing--ticket-printer-popover-target='ticketsLink' href='' target='_blank' manuell drucken
+    .col data-ticketing--ticket-printer-popover-target='spinner' = render 'application/spinner'

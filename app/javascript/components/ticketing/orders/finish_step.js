@@ -1,5 +1,4 @@
 import Step from 'components/ticketing/orders/step'
-import TicketPrinter from 'components/ticketing/ticket_printer'
 
 export default class extends Step {
   constructor (delegate) {
@@ -21,10 +20,10 @@ export default class extends Step {
       this.box.find('.number').text(orderInfo.tickets.length)
       this.box.find('a.details').prop('href', confirmInfo.internal.detailsPath)
 
-      const printer = new TicketPrinter()
-      setTimeout(() => {
-        printer.printTicketsWithNotification(orderInfo.printable_path)
-      }, 2000)
+      const event = new CustomEvent('_ticketing--orders-finish:printTickets', {
+        detail: { path: orderInfo.printable_path }
+      })
+      window.dispatchEvent(event)
     } else {
       this.box.find('.order-number b').text(orderInfo.number)
       this.trackPiwikGoal(1, orderInfo.total)

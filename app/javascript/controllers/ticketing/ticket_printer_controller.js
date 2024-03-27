@@ -1,15 +1,12 @@
 import { Controller } from '@hotwired/stimulus'
-import TicketPrinter from 'components/ticketing/ticket_printer'
 
 export default class extends Controller {
-  initialize () {
-    this.printer = new TicketPrinter()
-  }
+  static outlets = ['ticketing--ticket-printer-popover']
 
   printTickets (event) {
     const path = event.currentTarget.dataset.printablePath
     if (path) {
-      this.printer.printTicketsWithNotification(path)
+      this.ticketingTicketPrinterPopoverOutlet.printTickets(path)
     }
     event.preventDefault()
   }
@@ -17,12 +14,12 @@ export default class extends Controller {
   printTest (event) {
     const confirmMessage = event.currentTarget.dataset.confirmMessage
     if (!confirmMessage || window.confirm(confirmMessage)) {
-      this.printer.printTestWithNotification()
+      this.ticketingTicketPrinterPopoverOutlet.printTest()
     }
     event.preventDefault()
   }
 
   openSettings () {
-    this.printer.openSettings()
+    this.ticketingTicketPrinterPopoverOutlet.openSettings()
   }
 }

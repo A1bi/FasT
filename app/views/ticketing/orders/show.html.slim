@@ -88,7 +88,7 @@ ruby:
               - if @order.transfer_payment? && @order.email.present?
                 li = link_to 'Zahlungserinnerung senden', { action: :send_pay_reminder }, method: :post, data: { confirm: 'Möchten Sie wirklich eine Zahlungserinnerung senden?' }
           - if current_user.retail?
-            li data-controller='ticketing--ticket-printer'
+            li data-controller='ticketing--ticket-printer' data-ticketing--ticket-printer-ticketing--ticket-printer-popover-outlet='#ticket-printer-popover'
               = link_to 'Tickets drucken', nil, class: :'print-tickets', data: { action: 'ticketing--ticket-printer#printTickets', printable_path: @order.printable_path }
         - if current_user.admin? && @order.event.present?
           li = link_to 'Neue Bestellung mit diesen Daten', { action: :new_privileged, event_slug: @order.event.slug, template_order_id: @order }
@@ -222,4 +222,4 @@ ruby:
           - else
             tr: td.text-center(colspan=5): em Keine Transaktionen vorhanden.
 
-= render 'application/ticketing/print_notification'
+= render 'application/ticketing/ticket_printer_popover'
