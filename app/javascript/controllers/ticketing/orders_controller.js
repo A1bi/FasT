@@ -162,8 +162,8 @@ export default class extends Controller {
     this.updateProgress()
   }
 
-  resizeStepBox (height, animated) {
-    const props = { height }
+  resizeStepBox (animated) {
+    const props = { height: this.currentStep.box.offsetHeight }
     if (animated) {
       this.stepBox.animate(props)
     } else {
@@ -172,7 +172,7 @@ export default class extends Controller {
   }
 
   updateBoxSizes (animated) {
-    this.resizeStepBox(this.currentStep.box.outerHeight(true), animated)
+    this.resizeStepBox(animated)
   }
 
   getStep (stepName) {

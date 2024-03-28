@@ -3,7 +3,6 @@
 
   .error {
     @extend %my-2;
-    @extend %d-none;
     background: $red;
     color: white;
 

@@ -15,10 +15,10 @@ export default class extends Step {
       coupons: []
     }
 
-    this.totalsUrl = this.box[0].dataset.totalsUrl
-    this.couponBox = this.box[0].querySelector('.coupon')
+    this.totalsUrl = this.box.dataset.totalsUrl
+    this.couponBox = this.box.querySelector('.coupon')
     this.couponField = this.couponBox.querySelector('input[name=code]')
-    this.box[0].querySelectorAll(':scope select').forEach(el => {
+    this.box.querySelectorAll(':scope select').forEach(el => {
       el.addEventListener('change', () => this.updateNumbers())
     })
     this.updateNumbers()
@@ -40,7 +40,7 @@ export default class extends Step {
   async updateSubtotal (toggleSpinner) {
     this.info.internal.numberOfTickets = 0
     this.tickets = []
-    this.box[0].querySelectorAll(':scope .number div').forEach(numberBox => {
+    this.box.querySelectorAll(':scope .number div').forEach(numberBox => {
       if (numberBox.matches('.date_ticketing_ticket_type')) {
         const number = parseInt(numberBox.querySelector('select').value)
         this.info.internal.numberOfTickets += number
@@ -73,7 +73,7 @@ export default class extends Step {
         discount: res.free_tickets_discount + res.credit_discount
       }
 
-      this.box[0].querySelector('.number .subtotal .total span')
+      this.box.querySelector('.number .subtotal .total span')
         .textContent = this.formatCurrency(this.info.internal.subtotal)
 
       this.updateDiscounts()
@@ -85,7 +85,7 @@ export default class extends Step {
   }
 
   updateNumbers () {
-    this.box[0].querySelectorAll(':scope select').forEach(select => {
+    this.box.querySelectorAll(':scope select').forEach(select => {
       const typeBox = select.closest('.date_ticketing_ticket_type')
       const typeId = typeBox.dataset.id
       const total = this.formatCurrency(this.getTypeTotal(typeBox))
@@ -186,12 +186,12 @@ export default class extends Step {
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
-    this.box[0].querySelector('.number .total .total span')
+    this.box.querySelector('.number .total .total span')
       .textContent = this.formatCurrency(this.info.internal.totalAfterCoupons)
   }
 
   updateDiscountRow (klass, discount) {
-    const row = this.box[0].querySelector(`.discount.${klass}`)
+    const row = this.box.querySelector(`.discount.${klass}`)
     toggleDisplay(row, discount < 0)
     row.querySelector('.amount').textContent = `${this.formatCurrency(discount)} €`
   }

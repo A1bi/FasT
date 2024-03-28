@@ -66,12 +66,12 @@
 }
 
 .stepCon {
-  @extend %d-none;
   @extend %w-100;
   @extend %px-2, %py-2;
   position: absolute;
   left: 100%;
   min-height: 200px;
+  transition: left .5s;
 
   &.tickets, &.coupons {
     .event-logo {
@@ -212,6 +212,12 @@
         }
       }
     }
+  }
+
+  .slidable {
+    max-height: 0px;
+    overflow-y: hidden;
+    transition: max-height .5s;
   }
 }
 

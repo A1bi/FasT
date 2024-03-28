@@ -135,12 +135,9 @@ export default class extends Seating {
   }
 
   toggleErrorBox (toggle) {
-    if (!toggle && !this.errorBox.is(':visible')) {
-      this.errorBox.hide()
-      return
-    }
+    if (!toggle && !this.errorBox.is(':visible')) return
     if (typeof (this.delegate.slideToggle) === 'function') {
-      this.delegate.slideToggle(this.errorBox, toggle)
+      this.delegate.slideToggle(this.errorBox[0], toggle)
     } else {
       this.errorBox[`slide${toggle ? 'Down' : 'Up'}`](this.errorBox)
     }

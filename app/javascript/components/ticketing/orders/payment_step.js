@@ -5,11 +5,11 @@ export default class extends Step {
   constructor (delegate) {
     super('payment', delegate)
 
-    this.box[0].querySelectorAll(':scope [name=method]').forEach(radio => {
+    this.box.querySelectorAll(':scope [name=method]').forEach(radio => {
       radio.addEventListener('change', () => {
         if (!radio.checked) return
         this.info.api.method = radio.value
-        this.slideToggle(this.box[0].querySelector('.charge_data'), this.methodIsCharge())
+        this.slideToggle(this.box.querySelector('.charge_data'), this.methodIsCharge())
         this.delegate.updateNextBtn()
       })
     })
@@ -18,8 +18,8 @@ export default class extends Step {
   willMoveIn () {
     if (this.delegate.web) {
       const boxOffice = this.delegate.getStepInfo('seats')?.internal.boxOfficePayment
-      toggleDisplay(this.box[0].querySelector('.transfer'), !boxOffice)
-      toggleDisplay(this.box[0].querySelector('.box_office'), boxOffice)
+      toggleDisplay(this.box.querySelector('.transfer'), !boxOffice)
+      toggleDisplay(this.box.querySelector('.box_office'), boxOffice)
 
       if (!boxOffice && this.info.api.method === 'box_office') {
         this.info.api.method = null

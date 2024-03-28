@@ -1,12 +1,11 @@
 /* global _paq */
 
 import { addBreadcrumb } from 'components/sentry'
-import $ from 'jquery'
 
 export default class {
   constructor (name, delegate) {
     this.name = name
-    this.box = $(`.stepCon.${this.name}`)
+    this.box = document.querySelector(`.stepCon.${this.name}`)
     this.info = { api: {}, internal: {} }
     this.delegate = delegate
   }
@@ -14,55 +13,36 @@ export default class {
   moveIn (animate) {
     this.delegate.setNextBtnText()
     this.willMoveIn()
-
-    animate = animate !== false
-
-    this.box.show()
-    const props = { left: '0%' }
-    if (animate) {
-      this.box.animate(props, this.didMoveIn.bind(this))
-    } else {
-      this.box.css(props)
-      this.didMoveIn()
-    }
+    this.box.style.left = '0%'
   }
 
   moveOut (left) {
-    this.box.animate({ left: 100 * ((left) ? -1 : 1) + '%' }, box => {
-      $(box).hide()
-    })
+    const leftPercent = 100 * (left ? -1 : 1)
+    this.box.style.left = `${leftPercent}%`
   }
 
-  resizeDelegateBox (animated) {
-    if (this.box.is(':visible')) {
-      this.delegate.resizeStepBox(this.box.outerHeight(true), animated)
-    }
+  resizeDelegateBox () {
+    this.delegate.resizeStepBox()
   }
 
-  slideToggle (obj, toggle) {
-    obj = $(obj)
-    const props = {
-      step: () => this.resizeDelegateBox(false)
-    }
-
-    if (toggle) {
-      obj.slideDown(props)
-    } else {
-      obj.slideUp(props)
-    }
-
-    return obj
+  slideToggle (target, toggle) {
+    const maxHeight = toggle ? target.scrollHeight : 0
+    target.style.maxHeight = `${maxHeight}px`
+    this.resizeDelegateBox()
   }
 
   updateInfoFromFields () {
-    const fields = this.box.find('form').serializeArray()
-    for (const field of fields) {
-      const name = field.name.match(/\[([a-z_]+)\]/)
-      if (!!name && !/_confirmation$/.test(name[1])) {
-        if (name[1] === 'affiliation' && ['Herr', 'Frau'].indexOf(field.value) > -1) {
-          field.value = ''
+    const formData = new FormData(this.box.querySelector('form'))
+    for (let [name, value] of formData.entries()) {
+      const match = name.match(/\[([a-z_]+)\]/)
+      if (!match) continue
+
+      const fieldName = match[1]
+      if (!/_confirmation$/.test(fieldName)) {
+        if (fieldName === 'affiliation' && ['Herr', 'Frau'].indexOf(value) > -1) {
+          value = ''
         }
-        this.info.api[name[1]] = field.value
+        this.info.api[fieldName] = value
       }
     }
   }
@@ -72,7 +52,7 @@ export default class {
   }
 
   getFieldWithKey (key) {
-    return this.box[0].querySelector(`#${this.name}_${key}`)
+    return this.box.querySelector(`#${this.name}_${key}`)
   }
 
   validate () {
@@ -93,7 +73,7 @@ export default class {
     beforeProc()
 
     if (this.foundErrors) {
-      this.resizeDelegateBox(true)
+      this.resizeDelegateBox()
     } else {
       this.updateInfoFromFields()
     }
@@ -163,8 +143,6 @@ export default class {
   }
 
   willMoveIn () {}
-
-  didMoveIn () {}
 
   shouldBeSkipped () {
     return false

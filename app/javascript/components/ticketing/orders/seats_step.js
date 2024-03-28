@@ -6,26 +6,26 @@ export default class extends Step {
   constructor (delegate) {
     super('seats', delegate)
 
-    this.hasSeatingPlan = 'hasSeatingPlan' in this.box[0].dataset
+    this.hasSeatingPlan = 'hasSeatingPlan' in this.box.dataset
     if (this.hasSeatingPlan) {
-      this.seatingBox = this.box[0].querySelector('.seat_chooser')
+      this.seatingBox = this.box.querySelector('.seat_chooser')
       this.delegate.toggleModalSpinner(true, true)
       this.chooser = new SeatChooser(this.seatingBox.querySelector('.seating'), this)
       this.chooser.init()
 
-      this.showSeatingBtn = this.box[0].querySelector('.show-seating-btn')
+      this.showSeatingBtn = this.box.querySelector('.show-seating-btn')
       this.showSeatingBtn.addEventListener('click', () => {
         toggleDisplay(this.seatingBox, true)
         toggleDisplay(this.showSeatingBtn, false)
-        this.resizeDelegateBox(true)
+        this.resizeDelegateBox()
         this.delegate.updateNextBtn()
       })
     }
 
-    this.datesSelect = this.box[0].querySelector('#date_id')
+    this.datesSelect = this.box.querySelector('#date_id')
     this.datesSelect.addEventListener('change', event => this.choseDate())
 
-    this.reservationGroupCheckboxes = this.box[0].querySelectorAll(':scope .reservationGroups input[type=checkbox]')
+    this.reservationGroupCheckboxes = this.box.querySelectorAll(':scope .reservationGroups input[type=checkbox]')
     this.reservationGroupCheckboxes.forEach(checkBox => {
       checkBox.checked = false
       checkBox.addEventListener('click', () => this.enableReservationGroups())
@@ -52,7 +52,7 @@ export default class extends Step {
     const info = this.delegate.getStepInfo('tickets')
     if (this.numberOfSeats !== info.internal.numberOfTickets) {
       this.numberOfSeats = info.internal.numberOfTickets
-      togglePluralText(this.box[0].querySelector('.number_of_tickets'), this.numberOfSeats)
+      togglePluralText(this.box.querySelector('.number_of_tickets'), this.numberOfSeats)
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()
     }
@@ -93,7 +93,7 @@ export default class extends Step {
     })
 
     this.delegate.toggleModalSpinner(true)
-    fetch(this.box[0].querySelector('.reservationGroups').dataset.enableUrl, 'post', {
+    fetch(this.box.querySelector('.reservationGroups').dataset.enableUrl, 'post', {
       group_ids: groups,
       event_id: this.delegate.eventId,
       socket_id: this.delegate.getStepInfo('seats').api.socketId

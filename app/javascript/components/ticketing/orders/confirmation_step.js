@@ -5,7 +5,7 @@ export default class extends Step {
   constructor (delegate) {
     super('confirm', delegate)
 
-    this.couponTemplate = this.box[0].querySelector('tr.coupon')
+    this.couponTemplate = this.box.querySelector('tr.coupon')
     if (this.couponTemplate) this.couponTemplate.remove()
   }
 
@@ -13,7 +13,7 @@ export default class extends Step {
     const couponsInfo = this.delegate.getStepInfo('coupons')
     if (!couponsInfo) return
 
-    this.box[0].querySelectorAll(':scope tr.coupon').forEach(el => el.remove())
+    this.box.querySelectorAll(':scope tr.coupon').forEach(el => el.remove())
     let total = 0
     let totalNumber = 0
 
@@ -26,22 +26,22 @@ export default class extends Step {
       numberText.querySelector('.value').textContent = this.formatCurrency(coupon.value)
       row.querySelector('.total span').textContent = this.formatCurrency(couponTotal)
 
-      this.box[0].querySelector('.coupons tbody').prepend(row)
+      this.box.querySelector('.coupons tbody').prepend(row)
       total += couponTotal
       totalNumber += coupon.number
     })
 
-    togglePluralText(this.box[0].querySelector('tr.total .plural_text'), totalNumber)
-    this.box[0].querySelector('tr.total td.total span').textContent = this.formatCurrency(total)
+    togglePluralText(this.box.querySelector('tr.total .plural_text'), totalNumber)
+    this.box.querySelector('tr.total td.total span').textContent = this.formatCurrency(total)
   }
 
   updateTicketSummary () {
     const ticketsInfo = this.delegate.getStepInfo('tickets')
     if (!ticketsInfo) return
 
-    this.box[0].querySelector('.date').textContent = this.delegate.getStepInfo('seats').internal.localizedDate
+    this.box.querySelector('.date').textContent = this.delegate.getStepInfo('seats').internal.localizedDate
 
-    this.box[0].querySelectorAll(':scope .tickets tbody tr').forEach(typeBox => {
+    this.box.querySelectorAll(':scope .tickets tbody tr').forEach(typeBox => {
       let number, total
       if (typeBox.matches('.subtotal')) {
         number = ticketsInfo.internal.numberOfTickets
@@ -85,7 +85,7 @@ export default class extends Step {
     for (const type of ['address', 'payment']) {
       const info = this.delegate.getStepInfo(type)
       if (!info) continue
-      const box = this.box[0].querySelector(`.${type}`)
+      const box = this.box.querySelector(`.${type}`)
       if (type === 'payment' && !ticketsInternal?.zeroTotal) {
         box.classList.remove('transfer', 'charge', 'box_office', 'cash')
         box.classList.add(info.api.method)

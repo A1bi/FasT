@@ -9,16 +9,16 @@ export default class extends Step {
       coupons: []
     }
 
-    this.couponTemplate = this.box[0].querySelector('.coupon').cloneNode(true)
+    this.couponTemplate = this.box.querySelector('.coupon').cloneNode(true)
 
-    this.box[0].addEventListener('change', event => {
+    this.box.addEventListener('change', event => {
       if (event.target.tagName === 'SELECT') this.updateTotals()
     })
-    this.box[0].querySelector('.add-coupon').addEventListener('click', event => {
+    this.box.querySelector('.add-coupon').addEventListener('click', event => {
       this.addCoupon()
       event.preventDefault()
     })
-    this.box[0].addEventListener('click', event => {
+    this.box.addEventListener('click', event => {
       if (!event.target.matches('.remove-coupon')) return
       this.removeCoupon(event.target)
       event.preventDefault()
@@ -45,10 +45,10 @@ export default class extends Step {
       total += couponTotal
     })
 
-    togglePluralText(this.box[0].querySelector('.total .plural_text'), numberOfCoupons)
+    togglePluralText(this.box.querySelector('.total .plural_text'), numberOfCoupons)
 
     const formattedTotal = this.formatCurrency(total)
-    this.box[0].querySelector('.total .total span').textContent = formattedTotal
+    this.box.querySelector('.total .total span').textContent = formattedTotal
   }
 
   addCoupon () {
@@ -65,15 +65,15 @@ export default class extends Step {
   updateList () {
     this.updateTotals()
     this.updateRemoveLinks()
-    this.resizeDelegateBox(true)
+    this.resizeDelegateBox()
   }
 
   updateRemoveLinks () {
     const multipleCoupons = this.couponRows.length > 1
-    toggleDisplay(this.box[0].querySelector('.remove-coupon'), multipleCoupons)
+    toggleDisplay(this.box.querySelector('.remove-coupon'), multipleCoupons)
   }
 
   get couponRows () {
-    return this.box[0].querySelectorAll(':scope .coupon')
+    return this.box.querySelectorAll(':scope .coupon')
   }
 }

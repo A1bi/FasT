@@ -200,7 +200,7 @@ export default class {
     this.topBar.find('.block-name').text(blockName)
 
     if (this.delegate && typeof (this.delegate.resizeDelegateBox) === 'function') {
-      this.delegate.resizeDelegateBox(false)
+      this.delegate.resizeDelegateBox()
     }
   }
 
