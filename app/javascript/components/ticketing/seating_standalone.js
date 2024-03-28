@@ -9,12 +9,12 @@ export default class extends Seating {
   async init () {
     await super.init()
 
-    const path = this.container.data('seats-path')
+    const path = this.container.dataset.seatsPath
     if (!path) return
 
     const response = await fetch(path)
 
-    if (this.container.is('.chosen')) {
+    if (this.container.matches('.chosen')) {
       for (const type of ['taken', 'chosen']) {
         if (!response[type]) continue
 

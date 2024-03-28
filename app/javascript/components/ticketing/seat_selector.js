@@ -20,8 +20,8 @@ export default class extends Seating {
   }
 
   clickedSeat (seat) {
-    const selected = seat.data('status') === 'exclusive'
-    const seatId = seat.data('id')
+    const selected = seat.dataset.status === 'exclusive'
+    const seatId = seat.dataset.id
     if (selected) {
       this.selectedSeats.splice(this.selectedSeats.indexOf(seatId), 1)
     } else {

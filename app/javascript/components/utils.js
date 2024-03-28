@@ -51,6 +51,15 @@ export const fetch = async (url, method = 'get', data, cache = 'default') => {
   return json
 }
 
+export const fetchRaw = async (url) => {
+  if (!window.fetch) await import('whatwg-fetch')
+
+  const response = await window.fetch(url)
+  if (!response.ok) throw response
+
+  return response.text()
+}
+
 export const loadVendorStylesheet = (path) => {
   const alreadyLoaded = [...document.styleSheets].some(sheet => sheet.href && sheet.href.includes(path))
 

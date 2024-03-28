@@ -1,16 +1,18 @@
-import $ from 'jquery'
+import { toggleDisplay, fetchRaw } from 'components/utils'
 import { captureMessage, addBreadcrumb } from 'components/sentry'
 
 export default class {
   constructor (container, delegate, zoomable) {
-    this.container = $(container)
+    this.container = container
     this.delegate = delegate
     this.zoomable = zoomable !== false
     this.zoomScale = 1
-    this.eventId = this.container.data('event-id')
+    this.eventId = this.container.dataset.eventId
     this.seats = {}
-    this.topBar = this.container.find('.top-bar').toggleClass('d-none', !this.zoomable)
-    this.key = this.container.find('.key')
+    this.topBar = this.container.querySelector('.top-bar')
+    this.key = this.container.querySelector('.key')
+
+    toggleDisplay(this.topBar, this.zoomable)
 
     window.addEventListener('resize', () => {
       this.originalHeight = null
@@ -19,107 +21,98 @@ export default class {
     })
   }
 
-  init () {
-    return new Promise(resolve => {
-      this.plan = this.container.find('.plan')
+  async init () {
+    this.plan = this.container.querySelector('.plan')
 
-      this.plan.find('.canvas').load(this.container.data('plan-path'), (response, _status, xhr) => {
-        this.svg = this.container.find('svg')
+    try {
+      const svgContent = await fetchRaw(this.container.dataset.planPath)
+      this.plan.querySelector('.canvas').innerHTML = svgContent
+    } catch (error) {
+      captureMessage('Failed to load seating SVG', {
+        extra: { error }
+      })
+      return
+    }
 
-        if (!response || !this.svg.length) {
-          captureMessage('Failed to load seating SVG', {
-            extra: {
-              xhr_response: response,
-              xhr_status: xhr.status,
-              xhr_status_text: xhr.statusText
-            }
-          })
-          return
+    this.svg = this.container.querySelector('svg')
+    this.svg.setAttribute('preserveAspectRatio', 'xMinYMin')
+
+    if (this.zoomable && this.svg.querySelector('.block')) {
+      const content = this.svg.querySelectorAll(
+        ':scope > g, :scope > rect, :scope > line, :scope > path, :scope > text'
+      )
+      this.globalGroup = this.createSvgElement('g')
+      this.globalGroup.classList.add('global')
+      this.svg.appendChild(this.globalGroup)
+      this.svg.classList.add('zoomable')
+      content.forEach(c => this.globalGroup.appendChild(c))
+
+      this.globalGroup.addEventListener('transitionend', event => {
+        if (event.propertyName === 'transform') {
+          this.toggleClassesAfterZoom()
         }
+      })
 
-        this.svg[0].setAttribute('preserveAspectRatio', 'xMinYMin')
+      this.svg.querySelectorAll(':scope .shield').forEach(shield => {
+        shield.addEventListener('click', () => this.clickedShield(shield))
+      })
 
-        if (this.zoomable && this.svg.find('.block').length > 1) {
-          const content = this.svg.find('> g, > rect, > line, > path, > text')
-          this.globalGroup = this.createSvgElement('g')
-          this.globalGroup.classList.add('global')
-          this.svg[0].appendChild(this.globalGroup)
+      this.container.querySelector('.unzoom').addEventListener('click', () => this.unzoom())
+      this.unzoom()
+    }
 
-          for (let i = 0; i < content.length; i++) {
-            this.globalGroup.appendChild(content[i])
-          }
+    this.svg.querySelectorAll(':scope .seat').forEach(seat => {
+      let text = ''
+      if (seat.dataset.row) {
+        text += `Reihe ${seat.dataset.row} – `
+      }
+      text += `Sitz ${seat.dataset.number}`
+      const title = this.createSvgElement('title')
+      title.textContent = text
+      seat.querySelector('text').append(title)
+      this.seats[seat.dataset.id] = seat
 
-          this.globalGroup.addEventListener('transitionend', event => {
-            if (event.propertyName === 'transform') {
-              this.toggleClassesAfterZoom()
-            }
-          })
-
-          this.svg.addClass('zoomable')
-
-          this.svg.find('.shield').click(event => {
-            this.clickedShield(event.currentTarget)
-          })
-
-          this.container.find('.unzoom').click(() => this.unzoom())
-          this.unzoom()
-        }
-
-        this.allSeats = this.svg.find('.seat')
-          .each((_i, seat) => {
-            const $seat = $(seat)
-            let text = ''
-            if ($seat.data('row')) {
-              text += `Reihe ${$seat.data('row')} – `
-            }
-            text += `Sitz ${$seat.data('number')}`
-            const title = this.createSvgElement('title')
-            title.innerHTML = text
-            $seat.find('text').append(title)
-            this.seats[$seat.data('id')] = $seat
-          })
-          .click(event => {
-            if (this.clickedSeat) this.clickedSeat($(event.currentTarget))
-          })
-
-        if (this.key.length) {
-          for (const box of this.key.find('[data-status]')) {
-            const $this = $(box)
-            const status = $this.data('status')
-
-            // if the status class is present, this key has already been
-            // created before (e.g. after a reinit of the seating)
-            // so in this case don't create it again
-            if (status && !$this.is(`.status-${status}`)) {
-              $this.addClass(`status-${status}`)
-
-              const iconBox = $this.find('.icon')
-              const icon = this.createSvgElement('svg')
-              const seat = this.svg.find(`#seat-${status} > *`)[0]
-              if (seat) {
-                const width = seat.getAttribute('width')
-                const height = seat.getAttribute('height')
-                icon.setAttribute('viewBox', `0 0 ${width} ${height}`)
-                icon.appendChild(seat.cloneNode())
-                iconBox.append(icon)
-              } else {
-                $this.hide()
-              }
-            }
-          }
-
-          this.toggleExclusiveSeatsKey(false)
-        }
-
-        resolve()
+      seat.addEventListener('click', event => {
+        if (this.clickedSeat) this.clickedSeat(event.currentTarget)
       })
     })
+
+    if (this.key) {
+      this.key.querySelectorAll(':scope [data-status]').forEach(box => {
+        const status = box.dataset.status
+
+        // if the status class is present, this key has already been
+        // created before (e.g. after a reinit of the seating)
+        // so in this case don't create it again
+        if (status && !box.matches(`.status-${status}`)) {
+          box.classList.add(`status-${status}`)
+
+          const iconBox = box.querySelector('.icon')
+          const icon = this.createSvgElement('svg')
+          const seat = this.svg.querySelector(`#seat-${status} > *`)
+          if (seat) {
+            const width = seat.getAttribute('width')
+            const height = seat.getAttribute('height')
+            icon.setAttribute('viewBox', `0 0 ${width} ${height}`)
+            icon.appendChild(seat.cloneNode())
+            iconBox.append(icon)
+          } else {
+            toggleDisplay(box, false)
+          }
+        }
+      })
+
+      this.toggleExclusiveSeatsKey(false)
+    }
   }
 
   clickedShield (shield) {
-    if (this.plan.is('.zoomed')) return
+    if (this.plan.matches('.zoomed')) return
 
-    $(shield).parent('.block').siblings('.block').addClass('disabled')
+    const block = shield.closest('.block')
+    block.parentNode.querySelectorAll(':scope .block').forEach(b => {
+      if (b !== block) b.classList.add('disabled')
+    })
 
     const shieldBox = shield.getBoundingClientRect()
     const shieldBBox = shield.getBBox()
@@ -166,7 +159,7 @@ export default class {
       heightExtension = Math.max(1, scaledHeight / globalBox.height)
     }
 
-    const viewBox = this.svg[0].viewBox.baseVal
+    const viewBox = this.svg.viewBox.baseVal
     const offsetX = viewBox.x + globalBBox.width / 2 - (x + shieldBBox.width / 2) * scale
     const offsetY = viewBox.y + globalBBox.height * heightExtension / 2 - (y + shieldBBox.height / 2) * scale
 
@@ -187,17 +180,18 @@ export default class {
         name: blockName
       })
     } else {
-      this.svg.removeClass('numbers zoomed-in').find('.block').removeClass('disabled')
+      this.svg.classList.remove('numbers', 'zoomed-in')
+      this.svg.querySelectorAll(':scope .block').forEach(b => b.classList.remove('disabled'))
 
-      if (this.plan.is('.zoomed')) {
+      if (this.plan.matches('.zoomed')) {
         this.addBreadcrumb('returned to overview')
       }
     }
 
-    this.plan.toggleClass('zoomed', zoomed)
+    this.plan.classList.toggle('zoomed', zoomed)
     this.updateSvgHeight()
     this.globalGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`
-    this.topBar.find('.block-name').text(blockName)
+    this.topBar.querySelector('.block-name').textContent = blockName
 
     if (this.delegate && typeof (this.delegate.resizeDelegateBox) === 'function') {
       this.delegate.resizeDelegateBox()
@@ -212,27 +206,27 @@ export default class {
   updateSvgHeight () {
     let height = 'auto'
     if (this.zoomScale !== 1) {
-      this.originalHeight = this.originalHeight || this.svg.height()
+      this.originalHeight = this.originalHeight || this.svg.getBoundingClientRect().height
       height = Math.max(this.originalHeight, this.zoomedShield.getBoundingClientRect().height * this.zoomScale)
     }
-    this.svg.css({ height })
+    this.svg.style.height = height
   }
 
   toggleClassesAfterZoom () {
-    this.svg.toggleClass('numbers zoomed-in', this.plan.is('.zoomed'))
+    ['numbers', 'zoomed-in'].forEach(c => this.svg.classList.toggle(c, this.plan.matches('.zoomed')))
   }
 
   setStatusForSeat (seat, status) {
-    seat.removeClass(`status-${seat.data('status')}`)
-    seat.addClass('status-' + status)
-    seat.find('use').attr('xlink:href', `#seat-${status}`)
-    seat.data('status', status)
+    seat.classList.remove(`status-${seat.dataset.status}`)
+    seat.classList.add('status-' + status)
+    seat.querySelector('use').setAttribute('xlink:href', `#seat-${status}`)
+    seat.dataset.status = status
   }
 
   toggleExclusiveSeatsKey (toggle) {
-    if (this.key.length < 1) return
+    if (!this.key) return
 
-    this.key.find('.status-exclusive').toggle(toggle)
+    toggleDisplay(this.key.querySelector('.status-exclusive'), toggle)
   }
 
   createSvgElement (tagName) {

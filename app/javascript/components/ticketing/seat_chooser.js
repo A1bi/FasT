@@ -1,12 +1,12 @@
 import io from 'socket.io-client'
 import Seating from 'components/ticketing/seating'
-import { togglePluralText } from 'components/utils'
+import { toggleDisplay, togglePluralText } from 'components/utils'
 
 export default class extends Seating {
   constructor (container, delegate, zoomable, privileged) {
     super(container, delegate, zoomable)
 
-    this.errorBox = this.container.find('.error')
+    this.errorBox = this.container.querySelector('.error')
     this.noErrors = false
     this.privileged = privileged
   }
@@ -80,8 +80,8 @@ export default class extends Seating {
   }
 
   chooseSeat (seat) {
-    const id = seat.data('id')
-    const originalStatus = seat.data('status')
+    const id = seat.dataset.id
+    const originalStatus = seat.dataset.status
     const allowedStatuses = ['available', 'exclusive', 'chosen']
     if (allowedStatuses.indexOf(originalStatus) === -1) return
 
@@ -90,7 +90,7 @@ export default class extends Seating {
 
     this.node.emit('chooseSeat', { seatId: id }, res => {
       if (!res.ok) this.setStatusForSeat(seat, originalStatus)
-      this.updateErrorBoxIfVisible()
+      this.updateErrorBox()
 
       this.addBreadcrumb('chose seat', {
         id,
@@ -107,7 +107,7 @@ export default class extends Seating {
       this.date = date
       this.updateSeatPlan()
     }
-    this.updateErrorBoxIfVisible()
+    this.updateErrorBox()
 
     this.node.emit('setDateAndNumberOfSeats', {
       date: this.date,
@@ -130,21 +130,16 @@ export default class extends Seating {
     this.toggleErrorBox(toggle)
   }
 
-  updateErrorBoxIfVisible () {
-    if (this.errorBox.is(':visible')) this.updateErrorBox()
-  }
-
   toggleErrorBox (toggle) {
-    if (!toggle && !this.errorBox.is(':visible')) return
     if (typeof (this.delegate.slideToggle) === 'function') {
-      this.delegate.slideToggle(this.errorBox[0], toggle)
+      this.delegate.slideToggle(this.errorBox, toggle)
     } else {
-      this.errorBox[`slide${toggle ? 'Down' : 'Up'}`](this.errorBox)
+      toggleDisplay(this.errorBox, toggle)
     }
   }
 
   getSeatsYetToChoose () {
-    return this.numberOfSeats - this.allSeats.filter('.status-chosen').length
+    return this.numberOfSeats - this.svg.querySelectorAll(':scope .seat.status-chosen').length
   }
 
   validate () {
@@ -206,8 +201,7 @@ export default class extends Seating {
       this.delegate.seatChooserExpired()
     })
 
-    const events = ['connect', 'connect_error', 'reconnecting',
-      'reconnect_failed', 'error']
+    const events = ['connect', 'connect_error', 'reconnecting', 'reconnect_failed', 'error']
     for (const name of events) {
       this.node.on(name, () => {
         const isError = name.indexOf('error') > -1 || name.indexOf('fail') > -1
