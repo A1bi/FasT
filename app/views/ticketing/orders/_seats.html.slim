@@ -1,4 +1,4 @@
-.stepCon.seats data-has-seating-plan=(@event.seating? ? 1 : 0)
+.stepCon.seats data-has-seating-plan=@event.seating?
   h3.mt-0 Veranstaltungsort
   = render 'application/events/location', event: @event, class: 'mb-2'
 
