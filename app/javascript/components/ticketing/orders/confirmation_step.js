@@ -13,7 +13,7 @@ export default class extends Step {
     const couponsInfo = this.delegate.getStepInfo('coupons')
     if (!couponsInfo) return
 
-    this.box[0].querySelector('tr.coupon').remove()
+    this.box[0].querySelectorAll(':scope tr.coupon').forEach(el => el.remove())
     let total = 0
     let totalNumber = 0
 

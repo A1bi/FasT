@@ -1,6 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { togglePluralText } from 'components/utils'
-import $ from 'jquery'
+import { toggleDisplay, togglePluralText } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -10,15 +9,18 @@ export default class extends Step {
       coupons: []
     }
 
-    this.couponTemplate = this.box.find('.coupon').clone()
+    this.couponTemplate = this.box[0].querySelector('.coupon').cloneNode(true)
 
-    this.box.on('change', 'select', () => this.updateTotals())
-    this.box.find('.add-coupon').click(event => {
+    this.box[0].addEventListener('change', event => {
+      if (event.target.tagName === 'SELECT') this.updateTotals()
+    })
+    this.box[0].querySelector('.add-coupon').addEventListener('click', event => {
       this.addCoupon()
       event.preventDefault()
     })
-    this.box.on('click', '.remove-coupon', event => {
-      this.removeCoupon(event.currentTarget)
+    this.box[0].addEventListener('click', event => {
+      if (!event.target.matches('.remove-coupon')) return
+      this.removeCoupon(event.target)
       event.preventDefault()
     })
 
@@ -31,36 +33,32 @@ export default class extends Step {
     let total = 0
     let numberOfCoupons = 0
 
-    this.box.find('.coupon').each((_, couponRow) => {
-      couponRow = $(couponRow)
-      const number = parseInt(couponRow.find('#number').val())
-      const value = parseFloat(couponRow.find('#value').val())
+    this.couponRows.forEach(couponRow => {
+      const number = parseInt(couponRow.querySelector('#number').value)
+      const value = parseFloat(couponRow.querySelector('#value').value)
       const couponTotal = number * value
       const formattedTotal = this.formatCurrency(couponTotal)
 
       this.info.api.coupons.push({ number, value })
-      couponRow.find('.total span').text(formattedTotal)
+      couponRow.querySelector('.total span').textContent = formattedTotal
       numberOfCoupons += number
       total += couponTotal
     })
 
-    togglePluralText(
-      this.box.find('.total .plural_text'), numberOfCoupons
-    )
+    togglePluralText(this.box[0].querySelector('.total .plural_text'), numberOfCoupons)
 
     const formattedTotal = this.formatCurrency(total)
-    this.box.find('.total .total span').text(formattedTotal)
+    this.box[0].querySelector('.total .total span').textContent = formattedTotal
   }
 
   addCoupon () {
-    const coupon = this.couponTemplate.clone()
-    this.box.find('.coupon').last().after(coupon)
+    const coupon = this.couponTemplate.cloneNode(true)
+    this.couponRows[this.couponRows.length - 1].after(coupon)
     this.updateList()
   }
 
   removeCoupon (row) {
-    row = $(row)
-    row.parents('.coupon').remove()
+    row.closest('.coupon').remove()
     this.updateList()
   }
 
@@ -71,7 +69,11 @@ export default class extends Step {
   }
 
   updateRemoveLinks () {
-    const multipleCoupons = this.box.find('.coupon').length > 1
-    this.box.find('.remove-coupon').toggle(multipleCoupons)
+    const multipleCoupons = this.couponRows.length > 1
+    toggleDisplay(this.box[0].querySelector('.remove-coupon'), multipleCoupons)
+  }
+
+  get couponRows () {
+    return this.box[0].querySelectorAll(':scope .coupon')
   }
 }
