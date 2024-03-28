@@ -1,6 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { togglePluralText, fetch } from 'components/utils'
-import $ from 'jquery'
+import { toggleDisplay, togglePluralText, fetch } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -16,40 +15,40 @@ export default class extends Step {
       coupons: []
     }
 
-    this.totalsUrl = this.box.data('totals-url')
-    this.couponBox = this.box.find('.coupon')
-    this.couponField = this.couponBox.find('input[name=code]')
-    this.box.find('select').on('change', () => this.updateNumbers())
-    this.updateNumbers()
-    this.couponField.keyup(event => {
-      if (event.which === 13) this.addCoupon()
+    this.totalsUrl = this.box[0].dataset.totalsUrl
+    this.couponBox = this.box[0].querySelector('.coupon')
+    this.couponField = this.couponBox.querySelector('input[name=code]')
+    this.box[0].querySelectorAll(':scope select').forEach(el => {
+      el.addEventListener('change', () => this.updateNumbers())
     })
-    this.couponBox.find('input[type=submit]').click(() => this.addCoupon())
-    this.couponBox.find('.added').on('click', 'a', event => {
-      this.removeCoupon($(event.currentTarget).data('index'))
+    this.updateNumbers()
+    this.couponField.addEventListener('keyup', event => {
+      if (event.code === 'Enter') this.addCoupon()
+    })
+    this.couponBox.querySelector('input[type=submit]').addEventListener('click', () => this.addCoupon())
+    this.couponBox.querySelector(':scope .added').addEventListener('click', event => {
+      if (event.target.tagName !== 'A') return
+      this.removeCoupon(event.target.dataset.index)
       event.preventDefault()
     })
   }
 
-  getTypeTotal ($typeBox, number) {
-    return $typeBox.data('price') * $typeBox.find('select').val()
+  getTypeTotal (typeBox, number) {
+    return typeBox.dataset.price * typeBox.querySelector('select').value
   }
 
   async updateSubtotal (toggleSpinner) {
     this.info.internal.numberOfTickets = 0
     this.tickets = []
-    this.box.find('.number div').each((_, number) => {
-      const $this = $(number)
-      if ($this.is('.date_ticketing_ticket_type')) {
-        const number = parseInt($this.find('select').val())
+    this.box[0].querySelectorAll(':scope .number div').forEach(numberBox => {
+      if (numberBox.matches('.date_ticketing_ticket_type')) {
+        const number = parseInt(numberBox.querySelector('select').value)
         this.info.internal.numberOfTickets += number
         for (let i = 0; i < number; i++) {
-          this.tickets.push($this.data('price'))
+          this.tickets.push(numberBox.dataset.price)
         }
-      } else if ($this.is('.subtotal')) {
-        togglePluralText(
-          $this, this.info.internal.numberOfTickets
-        )
+      } else if (numberBox.matches('.subtotal')) {
+        togglePluralText(numberBox, this.info.internal.numberOfTickets)
       }
     })
 
@@ -74,8 +73,8 @@ export default class extends Step {
         discount: res.free_tickets_discount + res.credit_discount
       }
 
-      this.box.find('.number .subtotal .total span')
-        .html(this.formatCurrency(this.info.internal.subtotal))
+      this.box[0].querySelector('.number .subtotal .total span')
+        .textContent = this.formatCurrency(this.info.internal.subtotal)
 
       this.updateDiscounts()
       this.delegate.updateNextBtn()
@@ -86,14 +85,13 @@ export default class extends Step {
   }
 
   updateNumbers () {
-    this.box.find('select').each((_, select) => {
-      select = $(select)
-      const typeBox = select.parents('.date_ticketing_ticket_type')
-      const typeId = typeBox.data('id')
+    this.box[0].querySelectorAll(':scope select').forEach(select => {
+      const typeBox = select.closest('.date_ticketing_ticket_type')
+      const typeId = typeBox.dataset.id
       const total = this.formatCurrency(this.getTypeTotal(typeBox))
-      typeBox.find('.total span').html(total)
+      typeBox.querySelector('.total span').textContent = total
 
-      this.info.api.tickets[typeId] = parseInt(select.val())
+      this.info.api.tickets[typeId] = parseInt(select.value)
       this.info.internal.ticketTotals[typeId] = total
     })
 
@@ -105,7 +103,7 @@ export default class extends Step {
   }
 
   async addCoupon () {
-    const code = this.couponBox.find('input[name=code]').val()
+    const code = this.couponBox.querySelector('input[name=code]').value
     if (this.info.api.couponCodes.indexOf(code) > -1) {
       this.couponError('added')
     } else if (code !== '') {
@@ -138,7 +136,8 @@ export default class extends Step {
     this.updateAddedCoupons()
     this.trackPiwikGoal(2)
 
-    this.couponField.blur().val('')
+    this.couponField.blur()
+    this.couponField.value = ''
     this.updateCouponResult(msg, false)
 
     this.addBreadcrumb('entered coupon code')
@@ -161,20 +160,23 @@ export default class extends Step {
   }
 
   updateCouponResult (msg, error) {
-    this.couponBox.find('.msg').text(msg).toggle(error).toggleClass('text-red', error)
+    const msgBox = this.couponBox.querySelector('.msg')
+    msgBox.textContent = msg
+    msgBox.classList.toggle('text-red', error)
+    toggleDisplay(msgBox, !!msg)
     this.resizeDelegateBox()
   }
 
   updateAddedCoupons () {
-    const addedBox = this.couponBox.find('.added')
-      .toggle(this.info.api.couponCodes.length > 0)
-      .find('span')
-      .empty()
+    const addedBox = this.couponBox.querySelector('.added')
+    toggleDisplay(addedBox, this.info.api.couponCodes.length > 0)
+    const list = addedBox.querySelector('span')
+    list.replaceChildren()
 
     this.info.api.couponCodes.forEach((code, i) => {
-      addedBox.append(`<b>${code}</b> (<a href='#' data-index='${i}'>entfernen</a>)`)
+      list.innerHTML += `<b>${code}</b> (<a href='#' data-index='${i}'>entfernen</a>)`
       if (i < this.info.api.couponCodes.length - 1) {
-        addedBox.append(', ')
+        list.innerHTML += ', '
       }
     })
   }
@@ -184,14 +186,14 @@ export default class extends Step {
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
-    this.box.find('.number .total .total span')
-      .html(this.formatCurrency(this.info.internal.totalAfterCoupons))
+    this.box[0].querySelector('.number .total .total span')
+      .textContent = this.formatCurrency(this.info.internal.totalAfterCoupons)
   }
 
   updateDiscountRow (klass, discount) {
-    this.box.find(`.discount.${klass}`)
-      .toggle(discount < 0)
-      .find('.amount').text(`${this.formatCurrency(discount)} €`)
+    const row = this.box[0].querySelector(`.discount.${klass}`)
+    toggleDisplay(row, discount < 0)
+    row.querySelector('.amount').textContent = `${this.formatCurrency(discount)} €`
   }
 
   nextBtnEnabled () {
@@ -199,7 +201,7 @@ export default class extends Step {
   }
 
   validate () {
-    if (this.couponField.val() !== '') {
+    if (this.couponField.value !== '') {
       this.addCoupon()
       return false
     }
