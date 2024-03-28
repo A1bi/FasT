@@ -40,6 +40,7 @@ export default class {
   }
 
   slideToggle (obj, toggle) {
+    obj = $(obj)
     const props = {
       step: () => this.resizeDelegateBox(false)
     }
@@ -194,10 +195,5 @@ export default class {
       data,
       level
     })
-  }
-
-  registerEventAndInitiate (elements, event, proc) {
-    elements.on(event, event => proc($(event.currentTarget)))
-    elements.each((_, element) => proc($(element)))
   }
 }

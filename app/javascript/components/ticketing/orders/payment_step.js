@@ -1,23 +1,25 @@
 import Step from 'components/ticketing/orders/step'
+import { toggleDisplay } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
     super('payment', delegate)
 
-    this.registerEventAndInitiate(this.box.find('[name=method]'), 'click', $this => {
-      if (!$this.is(':checked')) return
-
-      this.info.api.method = $this.val()
-      this.slideToggle(this.box.find('.charge_data'), this.methodIsCharge())
-      this.delegate.updateNextBtn()
+    this.box[0].querySelectorAll(':scope [name=method]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (!radio.checked) return
+        this.info.api.method = radio.value
+        this.slideToggle(this.box[0].querySelector('.charge_data'), this.methodIsCharge())
+        this.delegate.updateNextBtn()
+      })
     })
   }
 
   willMoveIn () {
     if (this.delegate.web) {
       const boxOffice = this.delegate.getStepInfo('seats')?.internal.boxOfficePayment
-      this.box.find('.transfer').toggle(!boxOffice)
-      this.box.find('.box_office').toggle(boxOffice)
+      toggleDisplay(this.box[0].querySelector('.transfer'), !boxOffice)
+      toggleDisplay(this.box[0].querySelector('.box_office'), boxOffice)
 
       if (!boxOffice && this.info.api.method === 'box_office') {
         this.info.api.method = null
@@ -29,10 +31,10 @@ export default class extends Step {
     if (this.methodIsCharge()) {
       return this.validateFields(() => {
         this.validateField('name', 'Bitte geben Sie den Kontoinhaber an.', field => {
-          return this.valueNotEmpty(field.val())
+          return this.valueNotEmpty(field.value)
         })
         this.validateField('iban', 'Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.', field => {
-          return this.valueIsIBAN(field.val())
+          return this.valueIsIBAN(field.value)
         })
       })
     }
