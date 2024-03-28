@@ -71,7 +71,7 @@ export default class {
   }
 
   getFieldWithKey (key) {
-    return this.box.find(`#${this.name}_${key}`)
+    return this.box[0].querySelector(`#${this.name}_${key}`)
   }
 
   validate () {
@@ -143,20 +143,20 @@ export default class {
   }
 
   fieldIsEmail (field) {
-    return field.val().match(field.attr('pattern'))
+    return field.value.match(field.pattern)
   }
 
   showErrorOnField (key, error, msg) {
     const input = this.getFieldWithKey(key)
-    input.parents('form').addClass('was-validated')
-    input[0].setCustomValidity(error ? msg : '')
-    input.next('.invalid-feedback').html(msg)
+    input.closest('form').classList.add('was-validated')
+    input.setCustomValidity(error ? msg : '')
+    input.parentElement.querySelector('.invalid-feedback').textContent = msg
 
     this.foundErrors = this.foundErrors || error
 
     this.addBreadcrumb('form error', {
       field: key,
-      value: input.val(),
+      value: input.value,
       message: msg
     }, 'warn')
   }

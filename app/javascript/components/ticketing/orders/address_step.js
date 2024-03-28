@@ -10,23 +10,23 @@ export default class extends Step {
       if (this.delegate.web) {
         for (const key of ['first_name', 'last_name', 'phone']) {
           this.validateField(key, 'Bitte füllen Sie dieses Feld aus.', field => {
-            return this.valueNotEmpty(field.val())
+            return this.valueNotEmpty(field.value)
           })
         }
 
         this.validateField('gender', 'Bitte wählen Sie eine Anrede aus.', field => {
-          return parseInt(field.val()) >= 0
+          return parseInt(field.value) >= 0
         })
       }
 
       this.validateField('email', 'Bitte geben Sie eine korrekte E-Mail-Adresse an.', field => {
-        if (!this.delegate.web && !this.valueNotEmpty(field.val())) return true
+        if (!this.delegate.web && !this.valueNotEmpty(field.value)) return true
         return this.fieldIsEmail(field)
       })
 
       this.validateField('plz', 'Bitte geben Sie eine korrekte Postleitzahl an.', field => {
-        if (!this.delegate.web && !this.valueNotEmpty(field.val())) return true
-        return this.valueOnlyDigits(field.val()) && field.val().length === 5
+        if (!this.delegate.web && !this.valueNotEmpty(field.value)) return true
+        return this.valueOnlyDigits(field.value) && field.value.length === 5
       })
     })
   }
