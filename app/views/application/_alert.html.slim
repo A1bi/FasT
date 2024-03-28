@@ -1,4 +1,4 @@
-.alert class="alert-#{type}" role='alert'
+.alert class=["alert-#{type}", local_assigns[:class]] role='alert'
   - case type.to_sym
   - when :notice
     i.bi.bi-check-circle-fill

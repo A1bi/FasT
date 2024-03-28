@@ -19,8 +19,8 @@
       .plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
     = content_tag :div, class: [:stepBox, @type, :card], data: { controller: 'ticketing--orders', type: @type, event_id: @event.id, order_path: ticketing_order_path(':id') }
-      .modalAlert
-        = render 'alert', type: :alert
+      .modalAlert.fadeable
+        = render 'alert', type: :alert, class: 'd-none'
           .mb-2.message Es ist ein Fehler aufgetreten.
           p = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
         = render 'application/spinner'

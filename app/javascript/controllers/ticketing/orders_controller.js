@@ -114,7 +114,7 @@ export default class extends Controller {
   }
 
   toggleModalBox (toggle) {
-    toggleDisplay(this.modalBox, true)
+    this.modalBox.classList.toggle('visible', toggle)
   }
 
   toggleModalSpinner (toggle) {
@@ -135,7 +135,7 @@ export default class extends Controller {
     this.toggleModalBox(true)
 
     const alert = this.modalBox.querySelector('.alert')
-    alert.querySelector('.message').textContent = msg
+    alert.querySelector('.message').innerHTML = msg
     toggleDisplay(alert, true)
     this.hideOrderControls()
   }

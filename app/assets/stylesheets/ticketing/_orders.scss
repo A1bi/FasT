@@ -30,10 +30,25 @@
 .order-framework {
   transition: max-width .5s;
   max-width: 100%;
-}
 
-.expiration {
-  @extend %d-none;
+  .slidable {
+    max-height: 0px;
+    overflow-y: hidden;
+    transition: max-height .5s;
+  }
+
+  .fadeable {
+    opacity: 0;
+    transition: opacity .5s;
+
+    &.visible {
+      opacity: 1;
+    }
+
+    &:not(.visible) {
+      pointer-events: none;
+    }
+  }
 }
 
 .stepBox {
@@ -42,7 +57,6 @@
   transition: height .5s;
 
   .modalAlert {
-    @extend %d-none;
     @extend %w-100, %h-100;
     position: absolute;
     top: 0;
@@ -56,7 +70,6 @@
     }
 
     .alert {
-      @extend %d-none;
       @extend %m-2;
 
       @include media-query(md) {
@@ -213,12 +226,6 @@
         }
       }
     }
-  }
-
-  .slidable {
-    max-height: 0px;
-    overflow-y: hidden;
-    transition: max-height .5s;
   }
 }
 
