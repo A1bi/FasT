@@ -4,6 +4,9 @@ import { toggleDisplay } from 'components/utils'
 export default class extends Step {
   constructor (delegate) {
     super('finish', delegate)
+
+    this.orderNumber = this.box.querySelector('.order-number')
+    this.toggleOrderNumber(false)
   }
 
   willMoveIn () {
@@ -29,5 +32,12 @@ export default class extends Step {
       this.box.querySelector('.order-number b').textContent = orderInfo.number
       this.trackPiwikGoal(1, orderInfo.total)
     }
+
+    // only show now to activate animation
+    this.toggleOrderNumber(true)
+  }
+
+  toggleOrderNumber (toggle) {
+    if (this.orderNumber) toggleDisplay(this.orderNumber, toggle)
   }
 }
