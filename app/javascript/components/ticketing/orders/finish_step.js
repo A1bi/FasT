@@ -1,4 +1,5 @@
 import Step from 'components/ticketing/orders/step'
+import { toggleDisplay } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -8,7 +9,7 @@ export default class extends Step {
   willMoveIn () {
     const payInfo = this.delegate.getStepInfo('payment')
     if (payInfo) {
-      this.box.find('.items').toggle(payInfo.api.method === 'charge')
+      toggleDisplay(this.box[0].querySelector('.items'), payInfo.api.method === 'charge')
     }
 
     const confirmInfo = this.delegate.getStepInfo('confirm')
@@ -16,16 +17,16 @@ export default class extends Step {
     orderInfo.total = Number.parseFloat(orderInfo.total)
 
     if (this.delegate.retail) {
-      this.box.find('.total span').text(this.formatCurrency(orderInfo.total))
-      this.box.find('.number').text(orderInfo.tickets.length)
-      this.box.find('a.details').prop('href', confirmInfo.internal.detailsPath)
+      this.box[0].querySelector('.total span').textContent = this.formatCurrency(orderInfo.total)
+      this.box[0].querySelector('.number').textContent = orderInfo.tickets.length
+      this.box[0].querySelector('a.details').href = confirmInfo.internal.detailsPath
 
       const event = new CustomEvent('_ticketing--orders-finish:printTickets', {
         detail: { path: orderInfo.printable_path }
       })
       window.dispatchEvent(event)
     } else {
-      this.box.find('.order-number b').text(orderInfo.number)
+      this.box[0].querySelector('.order-number b').textContent = orderInfo.number
       this.trackPiwikGoal(1, orderInfo.total)
     }
   }
