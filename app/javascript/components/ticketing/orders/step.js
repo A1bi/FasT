@@ -26,13 +26,14 @@ export default class {
   }
 
   slideToggle (target, toggle) {
-    const maxHeight = toggle ? target.scrollHeight : 0
-    target.style.maxHeight = `${maxHeight}px`
-    this.resizeDelegateBox()
+    this.delegate.slideToggle(target, toggle)
   }
 
   updateInfoFromFields () {
-    const formData = new FormData(this.box.querySelector('form'))
+    const form = this.box.querySelector('form')
+    if (!form) return
+
+    const formData = new FormData(form)
     for (let [name, value] of formData.entries()) {
       const match = name.match(/\[([a-z_]+)\]/)
       if (!match) continue

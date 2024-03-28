@@ -15,7 +15,7 @@
       .step.payment Zahlung
       .step.confirm Bestätigung
 
-    .expiration = render 'alert', type: :warning
+    .expiration.slidable = render 'alert', type: :warning
       .plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
     = content_tag :div, class: [:stepBox, @type, :card], data: { controller: 'ticketing--orders', type: @type, event_id: @event.id, order_path: ticketing_order_path(':id') }

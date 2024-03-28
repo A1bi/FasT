@@ -39,6 +39,7 @@
 .stepBox {
   padding-top: 0;
   padding-bottom: 0;
+  transition: height .5s;
 
   .modalAlert {
     @extend %d-none;

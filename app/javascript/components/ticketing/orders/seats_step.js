@@ -9,7 +9,7 @@ export default class extends Step {
     this.hasSeatingPlan = 'hasSeatingPlan' in this.box.dataset
     if (this.hasSeatingPlan) {
       this.seatingBox = this.box.querySelector('.seat_chooser')
-      this.delegate.toggleModalSpinner(true, true)
+      this.delegate.toggleModalSpinner(true)
       this.chooser = new SeatChooser(this.seatingBox.querySelector('.seating'), this)
       this.chooser.init()
 
@@ -113,7 +113,7 @@ export default class extends Step {
   }
 
   seatChooserIsReconnecting () {
-    this.delegate.toggleModalSpinner(true, true)
+    this.delegate.toggleModalSpinner(true)
   }
 
   seatChooserDisconnected () {

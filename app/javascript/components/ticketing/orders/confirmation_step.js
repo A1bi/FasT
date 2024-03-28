@@ -151,8 +151,8 @@ export default class extends Step {
 
     this.info.internal.order = response
 
-    if (this.delegate.stepBox[0].dataset.orderPath) {
-      this.info.internal.detailsPath = this.delegate.stepBox[0].dataset.orderPath
+    if (this.delegate.stepBox.dataset.orderPath) {
+      this.info.internal.detailsPath = this.delegate.stepBox.dataset.orderPath
         .replace(':id', this.info.internal.order.id)
 
       if (this.delegate.admin) {

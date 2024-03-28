@@ -6,8 +6,7 @@ import AddressStep from 'components/ticketing/orders/address_step'
 import PaymentStep from 'components/ticketing/orders/payment_step'
 import ConfirmationStep from 'components/ticketing/orders/confirmation_step'
 import FinishStep from 'components/ticketing/orders/finish_step'
-import { togglePluralText } from 'components/utils'
-import $ from 'jquery'
+import { toggleDisplay, togglePluralText } from 'components/utils'
 
 export default class extends Controller {
   initialize () {
@@ -16,12 +15,12 @@ export default class extends Controller {
     this.expirationTimer = { type: 0, timer: null, times: [420, 60] }
     this.noFurtherErrors = false
 
-    this.orderFrameBox = $('.order-framework')
-    this.stepBox = $(this.element)
-    this.expirationBox = $('.expiration')
-    this.btns = $('.btns .btn')
-    this.progressBox = $('.progress')
-    this.modalBox = this.stepBox.find('.modalAlert')
+    this.stepBox = this.element
+    this.orderFrameBox = document.querySelector('.order-framework')
+    this.expirationBox = document.querySelector('.expiration')
+    this.btns = document.querySelectorAll('.btns .btn')
+    this.progressBox = document.querySelector('.progress')
+    this.modalBox = this.stepBox.querySelector('.modalAlert')
 
     this.eventId = this.element.dataset.eventId
     this.coupons = this.element.dataset.coupons
@@ -41,12 +40,12 @@ export default class extends Controller {
       }
     }
 
-    const progressSteps = this.progressBox.find('.step')
     for (const stepClass in steps) {
       const step = new steps[stepClass](this)
       this.steps.push(step)
 
-      progressSteps.filter(`.${step.name}`).show()
+      const stepBox = this.progressBox.querySelector(`:scope .step.${step.name}`)
+      if (stepBox) toggleDisplay(stepBox, true)
     }
 
     this.registerEvents()
@@ -56,7 +55,7 @@ export default class extends Controller {
   }
 
   toggleBtn (btn, toggle) {
-    this.btns.filter(`.${btn}`).prop('disabled', !toggle)
+    this.getBtn(btn).disabled = !toggle
   }
 
   toggleNextBtn (toggle) {
@@ -64,7 +63,11 @@ export default class extends Controller {
   }
 
   setNextBtnText (text = 'weiter') {
-    this.btns.filter('.next').text(text)
+    this.getBtn('next').textContent = text
+  }
+
+  getBtn (btn) {
+    return [...this.btns].find(b => b.matches(`.${btn}`))
   }
 
   updateNextBtn () {
@@ -78,23 +81,21 @@ export default class extends Controller {
   }
 
   hideOrderControls () {
-    $('.progress, .btns').css('visibility', 'hidden')
+    document.querySelectorAll('.progress, .btns').forEach(el => { el.style.visibility = 'hidden' })
   }
 
-  goNext ($this) {
-    if ($this.is('.prev')) {
+  goNext (btn) {
+    if (btn.matches('.prev')) {
       this.showPrev()
     } else {
-      let scrollPos = $('main')
+      let scrollPos = document.querySelector('main')
       if (this.currentStep.validate()) {
         this.currentStep.validateAsync(() => this.showNext(true))
       } else {
-        const error = this.stepBox.find('.was-validated :invalid')
-        if (error.length) {
-          scrollPos = error
-        }
+        const error = this.stepBox.querySelector('.was-validated :invalid')
+        if (error) scrollPos = error
       }
-      window.scrollTo({ top: scrollPos.position().top })
+      scrollPos.scrollIntoView()
     }
   }
 
@@ -112,32 +113,37 @@ export default class extends Controller {
     this.moveInCurrentStep()
   }
 
-  toggleModalBox (toggle, stop, instant) {
-    if (stop) this.modalBox.stop()
-    if (instant) {
-      this.modalBox.show()
-      return this.modalBox
-    }
-    return this.modalBox['fade' + (toggle ? 'In' : 'Out')]()
+  toggleModalBox (toggle) {
+    toggleDisplay(this.modalBox, true)
   }
 
-  toggleModalSpinner (toggle, instant) {
+  toggleModalSpinner (toggle) {
     if (toggle) {
       this.toggleNextBtn(false)
       this.toggleBtn('prev', false)
     } else {
       this.updateBtns()
     }
-    this.toggleModalBox(toggle, true, instant)
+    this.toggleModalBox(toggle)
   }
 
   showModalAlert (msg) {
     if (this.noFurtherErrors) return
     this.noFurtherErrors = true
-    this.modalBox.find('.spinner').hide()
+    toggleDisplay(this.modalBox.querySelector('.spinner'), false)
     this.killExpirationTimer()
-    this.toggleModalBox(true).find('.alert').addClass('d-flex').find('.message').html(msg)
+    this.toggleModalBox(true)
+
+    const alert = this.modalBox.querySelector('.alert')
+    alert.querySelector('.message').textContent = msg
+    toggleDisplay(alert, true)
     this.hideOrderControls()
+  }
+
+  slideToggle (target, toggle) {
+    const maxHeight = toggle ? target.scrollHeight : 0
+    target.style.maxHeight = `${maxHeight}px`
+    this.resizeStepBox()
   }
 
   updateCurrentStep (inc) {
@@ -150,29 +156,25 @@ export default class extends Controller {
   updateProgress () {
     if (this.currentStepIndex === this.steps.length - 1) return
 
-    this.progressBox.find('.current').removeClass('current')
-    this.progressBox.find('.step.' + this.currentStep.name).addClass('current')
+    this.progressBox.querySelector('.current').classList.remove('current')
+    this.progressBox.querySelector(`.step.${this.currentStep.name}`).classList.add('current')
   }
 
   moveInCurrentStep (animate) {
-    this.orderFrameBox.toggleClass('w-100', this.currentStep.needsFullWidth())
+    this.orderFrameBox.classList.toggle('w-100', this.currentStep.needsFullWidth())
     this.currentStep.moveIn(animate)
-    this.updateBoxSizes(animate)
+    this.updateBoxSizes()
     this.updateBtns()
     this.updateProgress()
   }
 
-  resizeStepBox (animated) {
-    const props = { height: this.currentStep.box.offsetHeight }
-    if (animated) {
-      this.stepBox.animate(props)
-    } else {
-      this.stepBox.css(props)
-    }
+  resizeStepBox () {
+    if (!this.currentStep) return
+    this.stepBox.style.height = `${this.currentStep.box.offsetHeight}px`
   }
 
-  updateBoxSizes (animated) {
-    this.resizeStepBox(animated)
+  updateBoxSizes () {
+    this.resizeStepBox()
   }
 
   getStep (stepName) {
@@ -196,14 +198,14 @@ export default class extends Controller {
     if (this.expirationTimer.type === 0 && seconds < 1) {
       this.expirationTimer.type = 1
       seconds = this.expirationTimer.times[1]
-      this.expirationBox.slideDown()
+      this.slideToggle(this.expirationBox, true)
     }
     if (this.expirationTimer.type === 1) {
       if (seconds < 1) {
         this.expire()
         return
       }
-      togglePluralText(this.expirationBox.find('.plural_text'), seconds)
+      togglePluralText(this.expirationBox, seconds)
     }
     this.expirationTimer.timer = setTimeout(() => {
       this.updateExpirationCounter(--seconds)
@@ -213,7 +215,7 @@ export default class extends Controller {
   killExpirationTimer () {
     if (!this.expirationBox) return
     clearTimeout(this.expirationTimer.timer)
-    this.expirationBox.slideUp()
+    this.slideToggle(this.expirationBox, false)
   }
 
   resetExpirationTimer () {
@@ -231,17 +233,19 @@ export default class extends Controller {
   }
 
   registerEvents () {
-    this.orderFrameBox.on('transitionend', () => this.updateBoxSizes())
+    this.orderFrameBox.addEventListener('transitionend', () => this.updateBoxSizes())
 
-    this.btns.click(event => this.goNext($(event.currentTarget)))
+    this.btns.forEach(btn => btn.addEventListener('click', () => this.goNext(btn)))
 
-    $(document)
-      .click(() => this.resetExpirationTimer())
-      .keydown(() => this.resetExpirationTimer())
+    const events = ['click', 'keydown']
+    events.forEach(event => {
+      document.addEventListener(event, () => this.resetExpirationTimer())
+    })
 
-    const nextBtn = this.btns.filter('.next')
-    $('.stepBox input:not(.noKeyCatch)').keyup(event => {
-      if (event.which === 13) this.goNext(nextBtn)
+    document.querySelectorAll('.stepBox input:not(.noKeyCatch)').forEach(input => {
+      input.addEventListener('keyup', event => {
+        if (event.code === 'Enter') this.goNext(this.getBtn('next'))
+      })
     })
 
     window.addEventListener('resize', () => this.updateBoxSizes())
