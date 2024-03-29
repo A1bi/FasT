@@ -149,8 +149,15 @@ export default class extends Controller {
   }
 
   slideToggle (target, toggle) {
-    const maxHeight = toggle ? target.scrollHeight : 0
-    target.style.maxHeight = `${maxHeight}px`
+    if (toggle) {
+      target.style.maxHeight = `${target.scrollHeight}px`
+      target.addEventListener('transitionend', event => {
+        if (event.propertyName === 'max-height') target.classList.add('visible')
+      }, { once: true })
+    } else {
+      target.classList.remove('visible')
+      setTimeout(() => { target.style.maxHeight = null }, 0)
+    }
   }
 
   updateCurrentStep (inc) {
