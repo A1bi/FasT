@@ -15,7 +15,7 @@ export default class extends Step {
 
       this.showSeatingBtn = this.box.querySelector('.show-seating-btn')
       this.showSeatingBtn.addEventListener('click', () => {
-        toggleDisplay(this.seatingBox, true)
+        this.slideToggle(this.seatingBox, true)
         toggleDisplay(this.showSeatingBtn, false)
         this.delegate.updateNextBtn()
       })
@@ -40,7 +40,7 @@ export default class extends Step {
   }
 
   nextBtnEnabled () {
-    return !!this.info.api.date && (!this.hasSeatingPlan || !this.seatingBox.matches('.d-none'))
+    return !!this.info.api.date && (!this.hasSeatingPlan || this.showSeatingBtn.matches('.d-none'))
   }
 
   willMoveIn () {
