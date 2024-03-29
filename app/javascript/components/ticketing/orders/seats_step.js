@@ -17,7 +17,6 @@ export default class extends Step {
       this.showSeatingBtn.addEventListener('click', () => {
         toggleDisplay(this.seatingBox, true)
         toggleDisplay(this.showSeatingBtn, false)
-        this.resizeDelegateBox()
         this.delegate.updateNextBtn()
       })
     }
@@ -98,7 +97,6 @@ export default class extends Step {
       event_id: this.delegate.eventId,
       socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
-      .then(() => this.resizeDelegateBox())
       .finally(() => this.delegate.toggleModalSpinner(false))
   }
 

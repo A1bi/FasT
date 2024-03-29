@@ -78,7 +78,6 @@ export default class extends Step {
 
       this.updateDiscounts()
       this.delegate.updateNextBtn()
-      this.resizeDelegateBox()
     } finally {
       if (toggleSpinner) this.delegate.toggleModalSpinner(false)
     }
@@ -164,7 +163,6 @@ export default class extends Step {
     msgBox.textContent = msg
     msgBox.classList.toggle('text-red', error)
     toggleDisplay(msgBox, !!msg)
-    this.resizeDelegateBox()
   }
 
   updateAddedCoupons () {

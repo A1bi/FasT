@@ -8,21 +8,24 @@ export default class {
     this.box = document.querySelector(`.stepCon.${this.name}`)
     this.info = { api: {}, internal: {} }
     this.delegate = delegate
+
+    this.box.addEventListener('transitionend', event => {
+      if (event.propertyName !== 'left') return
+
+      this.box.classList.remove('step-animating')
+    })
   }
 
-  moveIn (animate) {
+  moveIn () {
     this.delegate.setNextBtnText()
     this.willMoveIn()
-    this.box.style.left = '0%'
+    this.box.classList.remove('step-left', 'step-right')
+    this.box.classList.add('step-current', 'step-animating')
   }
 
   moveOut (left) {
-    const leftPercent = 100 * (left ? -1 : 1)
-    this.box.style.left = `${leftPercent}%`
-  }
-
-  resizeDelegateBox () {
-    this.delegate.resizeStepBox()
+    this.box.classList.remove('step-current')
+    this.box.classList.add(left ? 'step-left' : 'step-right', 'step-animating')
   }
 
   slideToggle (target, toggle) {
@@ -73,11 +76,7 @@ export default class {
     this.foundErrors = false
     beforeProc()
 
-    if (this.foundErrors) {
-      this.resizeDelegateBox()
-    } else {
-      this.updateInfoFromFields()
-    }
+    if (!this.foundErrors) this.updateInfoFromFields()
     if (afterProc) afterProc()
 
     return !this.foundErrors

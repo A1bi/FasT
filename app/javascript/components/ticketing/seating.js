@@ -192,10 +192,6 @@ export default class {
     this.updateSvgHeight()
     this.globalGroup.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`
     this.topBar.querySelector('.block-name').textContent = blockName
-
-    if (this.delegate && typeof (this.delegate.resizeDelegateBox) === 'function') {
-      this.delegate.resizeDelegateBox()
-    }
   }
 
   unzoom () {

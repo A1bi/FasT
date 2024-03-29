@@ -65,7 +65,6 @@ export default class extends Step {
   updateList () {
     this.updateTotals()
     this.updateRemoveLinks()
-    this.resizeDelegateBox()
   }
 
   updateRemoveLinks () {

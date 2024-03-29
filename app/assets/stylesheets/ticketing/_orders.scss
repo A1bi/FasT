@@ -54,7 +54,12 @@
 .stepBox {
   padding-top: 0;
   padding-bottom: 0;
+  min-height: 400px;
   transition: height .5s;
+
+  &:not(.initialized) {
+    height: 400px;
+  }
 
   .modalAlert {
     @extend %w-100, %h-100;
@@ -81,11 +86,25 @@
 
 .stepCon {
   @extend %w-100;
-  @extend %px-2, %py-2;
-  position: absolute;
-  left: 100%;
-  min-height: 200px;
+  @extend %py-2;
   transition: left .5s;
+
+  &.step-left {
+    left: -100%;
+  }
+
+  &.step-current {
+    left: 0%;
+  }
+
+  &, &.step-right {
+    left: 100%;
+  }
+
+  &:not(.step-current), &.step-left, &.step-right, &.step-animating {
+    position: absolute;
+    @extend %px-2;
+  }
 
   &.tickets, &.coupons {
     .event-logo {

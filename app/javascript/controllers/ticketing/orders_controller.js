@@ -49,9 +49,14 @@ export default class extends Controller {
     }
 
     this.registerEvents()
-    this.showNext(false)
     this.resetExpirationTimer()
-    this.updateBoxSizes()
+
+    this.toggleModalSpinner(true)
+    // await layouting of all steps so initial stepBox height is correct
+    setTimeout(() => {
+      this.showNext()
+      this.toggleModalSpinner(false)
+    }, 250)
   }
 
   toggleBtn (btn, toggle) {
@@ -90,7 +95,7 @@ export default class extends Controller {
     } else {
       let scrollPos = document.querySelector('main')
       if (this.currentStep.validate()) {
-        this.currentStep.validateAsync(() => this.showNext(true))
+        this.currentStep.validateAsync(() => this.showNext())
       } else {
         const error = this.stepBox.querySelector('.was-validated :invalid')
         if (error) scrollPos = error
@@ -99,18 +104,18 @@ export default class extends Controller {
     }
   }
 
-  showNext (animate) {
-    if (this.currentStep) {
-      this.currentStep.moveOut(true)
-    }
+  showNext () {
+    const previousStep = this.currentStep
+    if (this.currentStep) this.currentStep.moveOut(true)
     this.updateCurrentStep(1)
-    this.moveInCurrentStep(animate)
+    this.moveInCurrentStep(previousStep)
   }
 
   showPrev () {
+    const previousStep = this.currentStep
     this.currentStep.moveOut(false)
     this.updateCurrentStep(-1)
-    this.moveInCurrentStep()
+    this.moveInCurrentStep(previousStep)
   }
 
   toggleModalBox (toggle) {
@@ -143,7 +148,6 @@ export default class extends Controller {
   slideToggle (target, toggle) {
     const maxHeight = toggle ? target.scrollHeight : 0
     target.style.maxHeight = `${maxHeight}px`
-    this.resizeStepBox()
   }
 
   updateCurrentStep (inc) {
@@ -160,21 +164,26 @@ export default class extends Controller {
     this.progressBox.querySelector(`.step.${this.currentStep.name}`).classList.add('current')
   }
 
-  moveInCurrentStep (animate) {
+  moveInCurrentStep (previousStep) {
     this.orderFrameBox.classList.toggle('w-100', this.currentStep.needsFullWidth())
-    this.currentStep.moveIn(animate)
-    this.updateBoxSizes()
+    this.currentStep.moveIn()
     this.updateBtns()
     this.updateProgress()
+    this.setStepBoxHeight(previousStep)
   }
 
-  resizeStepBox () {
-    if (!this.currentStep) return
-    this.stepBox.style.height = `${this.currentStep.box.offsetHeight}px`
+  setStepBoxHeight (previousStep) {
+    const minHeight = parseInt(window.getComputedStyle(this.stepBox).minHeight)
+    const stepHeight = (previousStep || this.currentStep).box.offsetHeight
+    const height = Math.max(minHeight, stepHeight)
+    this.stepBox.classList.add('initialized')
+    this.stepBox.style.height = `${height}px`
+
+    if (previousStep) setTimeout(() => this.setStepBoxHeight(), 0)
   }
 
-  updateBoxSizes () {
-    this.resizeStepBox()
+  removeStepBoxHeight () {
+    this.stepBox.style.height = null
   }
 
   getStep (stepName) {
@@ -233,9 +242,11 @@ export default class extends Controller {
   }
 
   registerEvents () {
-    this.orderFrameBox.addEventListener('transitionend', () => this.updateBoxSizes())
-
     this.btns.forEach(btn => btn.addEventListener('click', () => this.goNext(btn)))
+
+    this.stepBox.addEventListener('transitionend', event => {
+      if (event.propertyName === 'height') this.removeStepBoxHeight()
+    })
 
     const events = ['click', 'keydown']
     events.forEach(event => {
@@ -247,7 +258,5 @@ export default class extends Controller {
         if (event.code === 'Enter') this.goNext(this.getBtn('next'))
       })
     })
-
-    window.addEventListener('resize', () => this.updateBoxSizes())
   }
 }
