@@ -101,7 +101,8 @@ export default class extends Controller {
         const error = this.stepBox.querySelector('.was-validated :invalid')
         if (error) scrollPos = error
       }
-      scrollPos.scrollIntoView()
+      // scrollIntoView does not work, it scrolls only the parent container because of the height constraint
+      window.scrollTo({ top: scrollPos.offsetTop, behavior: 'smooth' })
     }
   }
 

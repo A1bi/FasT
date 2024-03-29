@@ -98,7 +98,7 @@ export default class extends Step {
   }
 
   validate () {
-    return this.validateFields(() => {}, () => {
+    return this.validateFields(null, () => {
       this.info.api.newsletter = this.info.api.newsletter === '1'
     })
   }

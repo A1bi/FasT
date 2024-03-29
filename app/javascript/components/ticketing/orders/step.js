@@ -74,7 +74,7 @@ export default class {
 
   validateFields (beforeProc, afterProc) {
     this.foundErrors = false
-    beforeProc()
+    if (beforeProc) beforeProc()
 
     if (!this.foundErrors) this.updateInfoFromFields()
     if (afterProc) afterProc()
