@@ -14,6 +14,7 @@ export default class extends Controller {
     this.steps = []
     this.expirationTimer = { type: 0, timer: null, times: [420, 60] }
     this.noFurtherErrors = false
+    this.modalBoxOwners = 0
 
     this.stepBox = this.element
     this.orderFrameBox = document.querySelector('.order-framework')
@@ -119,7 +120,8 @@ export default class extends Controller {
   }
 
   toggleModalBox (toggle) {
-    this.modalBox.classList.toggle('visible', toggle)
+    this.modalBoxOwners = Math.max(0, this.modalBoxOwners + (toggle ? 1 : -1))
+    this.modalBox.classList.toggle('visible', this.modalBoxOwners > 0)
   }
 
   toggleModalSpinner (toggle) {
