@@ -1,9 +1,10 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay } from 'components/utils'
+import { toggleDisplay, toggleDisplayIfExists } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
     super('finish', delegate)
+    if (!this.box) return
 
     this.orderNumber = this.box.querySelector('.order-number')
     this.toggleOrderNumber(false)
@@ -38,6 +39,6 @@ export default class extends Step {
   }
 
   toggleOrderNumber (toggle) {
-    if (this.orderNumber) toggleDisplay(this.orderNumber, toggle)
+    toggleDisplayIfExists(this.orderNumber, toggle)
   }
 }

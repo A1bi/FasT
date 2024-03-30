@@ -8,6 +8,10 @@ export const toggleDisplay = (el, toggle) => {
   el.classList.toggle('d-none', !toggle)
 }
 
+export const toggleDisplayIfExists = (el, toggle) => {
+  if (el) toggleDisplay(el, toggle)
+}
+
 export const togglePluralText = (box, number) => {
   if (!box.querySelector) box = box[0]
   if (!box.matches('.plural_text')) box = box.querySelector('.plural_text')

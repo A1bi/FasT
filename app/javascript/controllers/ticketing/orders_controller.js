@@ -6,7 +6,7 @@ import AddressStep from 'components/ticketing/orders/address_step'
 import PaymentStep from 'components/ticketing/orders/payment_step'
 import ConfirmationStep from 'components/ticketing/orders/confirmation_step'
 import FinishStep from 'components/ticketing/orders/finish_step'
-import { toggleDisplay, togglePluralText } from 'components/utils'
+import { toggleDisplay, toggleDisplayIfExists, togglePluralText } from 'components/utils'
 
 export default class extends Controller {
   initialize () {
@@ -46,7 +46,7 @@ export default class extends Controller {
       this.steps.push(step)
 
       const stepBox = this.progressBox.querySelector(`:scope .step.${step.name}`)
-      if (stepBox) toggleDisplay(stepBox, true)
+      toggleDisplayIfExists(stepBox, true)
     }
 
     this.registerEvents()

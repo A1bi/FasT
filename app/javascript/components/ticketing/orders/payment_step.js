@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay } from 'components/utils'
+import { toggleDisplayIfExists } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -18,8 +18,8 @@ export default class extends Step {
   willMoveIn () {
     if (this.delegate.web) {
       const boxOffice = this.delegate.getStepInfo('seats')?.internal.boxOfficePayment
-      toggleDisplay(this.box.querySelector('.transfer'), !boxOffice)
-      toggleDisplay(this.box.querySelector('.box_office'), boxOffice)
+      toggleDisplayIfExists(this.box.querySelector('.transfer'), !boxOffice)
+      toggleDisplayIfExists(this.box.querySelector('.box_office'), boxOffice)
 
       if (!boxOffice && this.info.api.method === 'box_office') {
         this.info.api.method = null

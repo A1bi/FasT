@@ -1,0 +1,7 @@
+= content_tag :div, class: [:stepBox, type, :card], data: { controller: 'ticketing--orders', order_path: ticketing_order_path(':id'), **local_assigns.slice(:type, :event_id, :coupons) }
+  .modalAlert.fadeable.visible
+    = render 'alert', type: :alert, class: 'd-none'
+      .mb-2.message Es ist ein Fehler aufgetreten.
+      p = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
+    = render 'application/spinner'
+  = yield :steps

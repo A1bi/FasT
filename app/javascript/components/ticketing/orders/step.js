@@ -8,6 +8,7 @@ export default class {
     this.box = document.querySelector(`.stepCon.${this.name}`)
     this.info = { api: {}, internal: {} }
     this.delegate = delegate
+    if (!this.box) return
 
     this.box.addEventListener('transitionend', event => {
       if (event.propertyName !== 'left') return

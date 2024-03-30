@@ -10,13 +10,7 @@
       .step.payment Zahlung
       .step.confirm Bestätigung
 
-    = content_tag :div, class: %i[stepBox web card], data: { controller: 'ticketing--orders', coupons: true, type: :web }
-      .modalAlert
-        = render 'alert', type: :alert
-          .mb-2.message Es ist ein Fehler aufgetreten.
-          p = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
-        = render 'application/spinner'
-      = yield :steps
+    = render 'step_box', type: :web, coupons: true
 
     .row.btns
       .col-4
