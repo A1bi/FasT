@@ -1,10 +1,10 @@
 import { Application } from '@hotwired/stimulus'
 import { eagerLoadControllersFrom } from '@hotwired/stimulus-loading'
+import { checkFormValidityOnSubmit } from 'components/forms'
 import { init as initSentry } from 'components/sentry'
 import Rails from '@rails/ujs'
 
 import 'components/header'
-import 'components/forms'
 import 'components/carousel'
 import 'components/page_nav'
 import 'components/ruler_color'
@@ -17,3 +17,5 @@ Rails.start()
 
 const application = Application.start()
 eagerLoadControllersFrom('controllers', application)
+
+checkFormValidityOnSubmit()

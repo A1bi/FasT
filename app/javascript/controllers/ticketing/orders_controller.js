@@ -93,16 +93,9 @@ export default class extends Controller {
   goNext (btn) {
     if (btn.matches('.prev')) {
       this.showPrev()
-    } else {
-      let scrollPos = document.querySelector('main')
-      if (this.currentStep.validate()) {
-        this.currentStep.validateAsync(() => this.showNext())
-      } else {
-        const error = this.stepBox.querySelector('.was-validated :invalid')
-        if (error) scrollPos = error
-      }
-      // scrollIntoView does not work, it scrolls only the parent container because of the height constraint
-      window.scrollTo({ top: scrollPos.offsetTop, behavior: 'smooth' })
+    } else if (this.currentStep.validate()) {
+      this.currentStep.validateAsync(() => this.showNext())
+      this.orderFrameBox.scrollIntoView({ behavior: 'smooth' })
     }
   }
 

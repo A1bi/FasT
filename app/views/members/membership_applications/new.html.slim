@@ -35,7 +35,7 @@
         = render 'form_field', form: f, attribute: :debtor_name, label: 'Kontoinhaber', required: true
           = f.text_field :debtor_name, required: true
         = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
-          = f.text_field :iban, required: true
+          = f.text_field :iban, required: true, data: { validate_iban: true }
         p Ich ermächtige den Zahlungsempfänger TheaterKultur Kaisersesch e. V., Zahlungen von meinem Konto mittels Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die vom Zahlungsempfänger TheaterKultur Kaisersesch e. V. auf mein Konto gezogenen Lastschriften einzulösen.
         p Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Beitrages verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.
         hr

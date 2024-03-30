@@ -8,6 +8,6 @@ export default class extends Controller {
     this.bankDetailsTarget.classList.toggle('d-none', !visible)
 
     const inputs = this.bankDetailsTarget.querySelectorAll(':scope input')
-    inputs.forEach(input => (input.required = visible))
+    inputs.forEach(input => { input.disabled = !visible })
   }
 }

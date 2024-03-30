@@ -1,5 +1,6 @@
 /* global _paq */
 
+import { checkFormValidity } from 'components/forms'
 import { addBreadcrumb } from 'components/sentry'
 
 export default class {
@@ -9,6 +10,7 @@ export default class {
     this.info = { api: {}, internal: {} }
     this.delegate = delegate
     if (!this.box) return
+    this.form = this.box.querySelector('form')
 
     this.box.addEventListener('transitionend', event => {
       if (event.propertyName !== 'left') return
@@ -34,21 +36,14 @@ export default class {
   }
 
   updateInfoFromFields () {
-    const form = this.box.querySelector('form')
-    if (!form) return
+    if (!this.form) return
 
-    const formData = new FormData(form)
-    for (let [name, value] of formData.entries()) {
+    const formData = new FormData(this.form)
+    for (const [name, value] of formData.entries()) {
       const match = name.match(/\[([a-z_]+)\]/)
-      if (!match) continue
+      if (!match || /_confirmation$/.test(match[1])) continue
 
-      const fieldName = match[1]
-      if (!/_confirmation$/.test(fieldName)) {
-        if (fieldName === 'affiliation' && ['Herr', 'Frau'].indexOf(value) > -1) {
-          value = ''
-        }
-        this.info.api[fieldName] = value
-      }
+      this.info.api[match[1]] = value
     }
   }
 
@@ -56,91 +51,19 @@ export default class {
     return this.delegate.info[stepName].internal
   }
 
-  getFieldWithKey (key) {
-    return this.box.querySelector(`#${this.name}_${key}`)
-  }
-
   validate () {
-    return true
+    if (!this.form) return true
+
+    if (checkFormValidity(this.form)) {
+      this.updateInfoFromFields()
+      return true
+    }
+
+    return false
   }
 
   validateAsync (callback) {
     callback()
-  }
-
-  validateField (key, msg, validationProc) {
-    const field = this.getFieldWithKey(key)
-    this.showErrorOnField(key, !validationProc(field), msg)
-  }
-
-  validateFields (beforeProc, afterProc) {
-    this.foundErrors = false
-    if (beforeProc) beforeProc()
-
-    if (!this.foundErrors) this.updateInfoFromFields()
-    if (afterProc) afterProc()
-
-    return !this.foundErrors
-  }
-
-  upperStrip (value) {
-    return value.toUpperCase().replace(/ /g, '')
-  }
-
-  valueNotEmpty (value) {
-    return !value.match(/^[\s\t\r\n]*$/)
-  }
-
-  valueOnlyDigits (value) {
-    return value.match(/^\d*$/)
-  }
-
-  valueIsIBAN (value) {
-    const parts = this.upperStrip(value)
-      .match(/^([A-Z]{2})(\d{2})([A-Z0-9]{6,30})$/)
-
-    if (parts) {
-      const country = parts[1]
-      const check = parts[2]
-      const bban = parts[3]
-      let number = bban + country + check
-
-      number = number.replace(/\D/g, char => {
-        return char.charCodeAt(0) - 64 + 9
-      })
-
-      let remainder = 0
-      for (let i = 0; i < number.length; i++) {
-        remainder = (remainder + number.charAt(i)) % 97
-      }
-
-      if ((country === 'DE' && bban.length !== 18) || remainder !== 1) {
-        return false
-      }
-    } else {
-      return false
-    }
-
-    return true
-  }
-
-  fieldIsEmail (field) {
-    return field.value.match(field.pattern)
-  }
-
-  showErrorOnField (key, error, msg) {
-    const input = this.getFieldWithKey(key)
-    input.closest('form').classList.add('was-validated')
-    input.setCustomValidity(error ? msg : '')
-    input.parentElement.querySelector('.invalid-feedback').textContent = msg
-
-    this.foundErrors = this.foundErrors || error
-
-    this.addBreadcrumb('form error', {
-      field: key,
-      value: input.value,
-      message: msg
-    }, 'warn')
   }
 
   willMoveIn () {}

@@ -9,7 +9,9 @@ export default class extends Step {
       radio.addEventListener('change', () => {
         if (!radio.checked) return
         this.info.api.method = radio.value
-        this.slideToggle(this.box.querySelector('.charge_data'), this.methodIsCharge())
+        const chargeDataBox = this.box.querySelector('.charge_data')
+        this.slideToggle(chargeDataBox, this.methodIsCharge)
+        chargeDataBox.querySelectorAll(':scope input').forEach(el => { el.disabled = !this.methodIsCharge })
         this.delegate.updateNextBtn()
       })
     })
@@ -27,22 +29,7 @@ export default class extends Step {
     }
   }
 
-  validate () {
-    if (this.methodIsCharge()) {
-      return this.validateFields(() => {
-        this.validateField('name', 'Bitte geben Sie den Kontoinhaber an.', field => {
-          return this.valueNotEmpty(field.value)
-        })
-        this.validateField('iban', 'Die angegebene IBAN ist nicht korrekt. Bitte überprüfen Sie sie noch einmal.', field => {
-          return this.valueIsIBAN(field.value)
-        })
-      })
-    }
-
-    return true
-  }
-
-  methodIsCharge () {
+  get methodIsCharge () {
     return this.info.api.method === 'charge'
   }
 
