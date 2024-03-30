@@ -152,7 +152,8 @@ export default class extends Controller {
     if (toggle) {
       target.style.maxHeight = `${target.scrollHeight}px`
       target.addEventListener('transitionend', event => {
-        if (event.propertyName === 'max-height') target.classList.add('visible')
+        if (event.propertyName !== 'max-height' || !event.target.style.maxHeight) return
+        target.classList.add('visible')
       }, { once: true })
     } else {
       target.classList.remove('visible')

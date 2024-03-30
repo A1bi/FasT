@@ -10,7 +10,7 @@
           small.d-block = label_tag method_id, method[:desc]
 
     .charge_data.slidable
-      h3.mt-2 Ihre Bankdaten
+      h3.pt-2 Ihre Bankdaten
       = render 'form_required_caption'
       = render layout: 'form_field', locals: { form: f, attribute: :name, label: 'Kontoinhaber', required: true }
         = f.text_field :name, class: :field

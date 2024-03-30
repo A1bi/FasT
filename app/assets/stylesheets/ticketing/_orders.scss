@@ -33,11 +33,14 @@
 
   .slidable {
     max-height: 0px;
-    overflow-y: hidden;
     transition: max-height .5s;
 
     &.visible {
       max-height: inherit !important;
+    }
+
+    &:not(.visible) {
+      overflow-y: hidden;
     }
   }
 
