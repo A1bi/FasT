@@ -16,7 +16,7 @@ module Ticketing
     def gender_select
       render_field_view(:gender) do
         select(:gender, @template.options_for_select(gender_options, preselected_gender),
-               required: field_required?(:gender))
+               required: field_required?(:gender), include_blank: true)
       end
     end
 
@@ -34,8 +34,7 @@ module Ticketing
     end
 
     def gender_options
-      genders = Ticketing::Web::Order.human_attribute_name(:genders)
-      [['', ''], *genders.map.with_index { |g, i| [g, i] }]
+      Ticketing::Web::Order.human_attribute_name(:genders).map.with_index { |g, i| [g, i] }
     end
 
     def preselected_gender
