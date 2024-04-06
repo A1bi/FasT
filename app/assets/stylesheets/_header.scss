@@ -1,17 +1,15 @@
 :root {
-  --topbar-logo-height: #{$top-bar-initial-logo-height};
-  --topbar-total-height: #{$top-bar-initial-logo-height + $top-bar-initial-padding * 2};
-
-  &.top-bar-stuck {
-    --topbar-logo-height: #{$top-bar-stuck-logo-height};
-    --topbar-total-height: #{$top-bar-stuck-logo-height};
-  }
+  --topbar-logo-height: #{$top-bar-stuck-logo-height};
+  --topbar-padding: 0rem;
+  --topbar-total-height: calc(var(--topbar-logo-height) + var(--topbar-padding) * 2);
 }
 
 header {
   position: sticky;
   top: 0;
   background: var(--dynamic-color-0);
+  padding-top: calc(max(env(safe-area-inset-top), var(--topbar-padding)));
+  padding-bottom: var(--topbar-padding);
   transition: padding $top-bar-stuck-transition-duration;
 
   .container {
@@ -178,16 +176,20 @@ nav {
 }
 
 @include media-query(md) {
-  header {
-    :root:not(.top-bar-stuck) & {
-      padding: $top-bar-initial-padding 0;
-    }
+  :root {
+    --topbar-logo-height: #{$top-bar-initial-logo-height};
+    --topbar-padding: #{$top-bar-initial-padding};
 
-    .menu-toggle {
-      --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.75};
-      --menu-toggle-left: 9px;
-      --menu-toggle-top: -15.5px;
+    &.top-bar-stuck {
+      --topbar-logo-height: #{$top-bar-stuck-logo-height};
+      --topbar-padding: 0rem;
     }
+  }
+
+  header .menu-toggle {
+    --menu-toggle-size: #{$top-bar-stuck-logo-height * 0.75};
+    --menu-toggle-left: 9px;
+    --menu-toggle-top: -15.5px;
   }
 
   nav {
