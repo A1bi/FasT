@@ -10,6 +10,7 @@ pin 'socket.io-client' # @4.4.1
 pin 'filepond' # @4.28.2
 pin 'filepond-plugin-image-preview' # @4.6.7
 pin 'filepond-plugin-file-validate-type' # @1.2.6
+pin 'glightbox' # @3.2.0
 pin 'chart.js' # @2.9.3
 pin 'moment' # @2.29.4
 pin 'mapbox-gl' # @1.11.0

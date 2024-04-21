@@ -4,7 +4,7 @@
   li: a href='#fotos' Fotos
 
 hr
-.container.gallery.page-nav-anchor#fotos data-controller='items-reveal' data-items-reveal-initial-items-value=2 data-items-reveal-reveal-step-value=2
+.container.gallery.page-nav-anchor#fotos data-controller='items-reveal gallery' data-items-reveal-initial-items-value=2 data-items-reveal-reveal-step-value=2 data-gallery-vendor-stylesheet-path-value=asset_path('glightbox.css')
   ruby:
     max_columns = 12
     column_widths = 3..5
@@ -33,7 +33,7 @@ hr
             - photo = photos.shift
             .photo.photo-loading data-controller='photo'
               .photo-placeholder
-              = link_to photo.image.url(:large_jpeg)
+              = link_to photo.image.url(:x_large_webp)
                 = photo_tags(photo, column, fallback_size: :large_jpeg, loading: 'lazy')
 
   .text-center.mt-1 data-items-reveal-target='revealButton'
