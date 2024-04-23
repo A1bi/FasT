@@ -1,9 +1,3 @@
-export const isIE = () => {
-  const agent = navigator.userAgent
-  return navigator.appName === 'Microsoft Internet Explorer' ||
-  !!(agent.match(/Trident/) || agent.match(/rv:11/))
-}
-
 export const toggleDisplay = (el, toggle) => {
   el.classList.toggle('d-none', !toggle)
 }
@@ -22,13 +16,10 @@ export const togglePluralText = (box, number) => {
 }
 
 export const getAuthenticityToken = () => {
-  return document.querySelector('meta[name="csrf-token"]')
-    .getAttribute('content')
+  return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 }
 
 export const fetch = async (url, method = 'get', data, cache = 'default') => {
-  if (!window.fetch) await import('whatwg-fetch')
-
   const response = await window.fetch(url, {
     method: method.toUpperCase(),
     headers: {
@@ -56,8 +47,6 @@ export const fetch = async (url, method = 'get', data, cache = 'default') => {
 }
 
 export const fetchRaw = async (url) => {
-  if (!window.fetch) await import('whatwg-fetch')
-
   const response = await window.fetch(url)
   if (!response.ok) throw response
 
