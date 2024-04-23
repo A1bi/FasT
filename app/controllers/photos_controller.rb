@@ -2,7 +2,7 @@
 
 class PhotosController < ApplicationController
   before_action :find_photo, only: %i[edit update destroy]
-  before_action :find_gallery, only: %i[new edit create]
+  before_action :find_gallery, only: %i[new edit create update_positions]
 
   def new
     @photo = authorize @photos.new
@@ -30,6 +30,12 @@ class PhotosController < ApplicationController
   def destroy
     @photo.destroy
     redirect_to edit_gallery_path(params[:gallery_id])
+  end
+
+  def update_positions
+    @photos.unscope(:order).find(params[:ids]).each.with_index do |photo, position|
+      photo.update(position:)
+    end
   end
 
   private

@@ -6,9 +6,9 @@
 
   h2 Reihenfolge der Fotos bearbeiten
   = render 'new_button', model: Photo, url: new_gallery_photo_path(@gallery)
-  .row
+  .row data-controller='sortable' data-sortable-submit-path-value=update_positions_gallery_photos_path(@gallery)
     - @gallery.photos.each do |photo|
-      .col-4.col-md-3
+      .col-4.col-md-3.sortable-handle data-sortable-target='item' data-sortable-id=photo.id
         = image_tag photo.image.url(:thumb), alt: photo.text, class: 'w-100'
         .text-center
           = link_to photo.image.url(:original), download: '', class: 'me-1'
