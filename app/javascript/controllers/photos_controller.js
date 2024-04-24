@@ -5,6 +5,8 @@ export default class extends Controller {
   static targets = ['filePond']
   static values = {
     vendorStylesheetPaths: Array,
+    submitPath: String,
+    isEdit: Boolean,
     maxPosition: { type: Number, default: 0 }
   }
 
@@ -25,13 +27,13 @@ export default class extends Controller {
     create(this.filePondTarget, {
       server: {
         process: {
-          url: this.data.get('photos-path'),
-          method: this.isEdit ? 'PATCH' : 'POST',
+          url: this.submitPathValue,
+          method: this.isEditValue ? 'PATCH' : 'POST',
           headers: {
             'X-CSRF-TOKEN': getAuthenticityToken()
           },
           ondata: data => {
-            if (!this.isEdit) data.append('photo[position]', ++this.currentPosition)
+            if (!this.isEditValue) data.append('photo[position]', ++this.currentPosition)
             return data
           }
         }
@@ -42,9 +44,5 @@ export default class extends Controller {
       allowProcess: false,
       credits: {}
     })
-  }
-
-  get isEdit () {
-    return this.element.hasAttribute('data-photos-edit')
   }
 }
