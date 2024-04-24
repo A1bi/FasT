@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Photo < ApplicationRecord
+  include DelayedPostProcessing
+
   SIZES = {
     small: 300,
     medium: 600,
@@ -18,6 +20,8 @@ class Photo < ApplicationRecord
       end
     end
   }
+
+  delay_post_processing :image
 
   belongs_to :gallery
 
