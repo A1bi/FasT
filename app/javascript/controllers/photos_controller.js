@@ -4,7 +4,8 @@ import { loadVendorStylesheet, getAuthenticityToken } from 'components/utils'
 export default class extends Controller {
   static targets = ['filePond']
   static values = {
-    vendorStylesheetPaths: Array
+    vendorStylesheetPaths: Array,
+    maxPosition: { type: Number, default: 0 }
   }
 
   async connect () {
@@ -19,6 +20,8 @@ export default class extends Controller {
 
     this.vendorStylesheetPathsValue.forEach(path => loadVendorStylesheet(path))
 
+    this.currentPosition = this.maxPositionValue
+
     create(this.filePondTarget, {
       server: {
         process: {
@@ -26,6 +29,10 @@ export default class extends Controller {
           method: this.isEdit ? 'PATCH' : 'POST',
           headers: {
             'X-CSRF-TOKEN': getAuthenticityToken()
+          },
+          ondata: data => {
+            if (!this.isEdit) data.append('photo[position]', ++this.currentPosition)
+            return data
           }
         }
       },
