@@ -11,7 +11,10 @@ class GalleriesController < ApplicationController
     @gallery = authorize(Gallery.new)
   end
 
-  def edit; end
+  def edit
+    @photos = @gallery.photos
+    @new_photo = Photo.new
+  end
 
   def create
     @gallery = authorize(Gallery.new(gallery_params))

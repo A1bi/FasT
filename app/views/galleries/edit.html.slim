@@ -4,8 +4,10 @@
   h1 Galerie bearbeiten
   = render 'form'
 
+hr
+
+.container
   h2 Reihenfolge der Fotos bearbeiten
-  = render 'new_button', model: Photo, url: new_gallery_photo_path(@gallery)
   .row data-controller='sortable' data-sortable-submit-path-value=update_positions_gallery_photos_path(@gallery)
     - @gallery.photos.each do |photo|
       .col-4.col-md-3.sortable-handle data-sortable-target='item' data-sortable-id=photo.id
@@ -14,3 +16,11 @@
           = link_to photo.image.url(:original), download: '', class: 'me-1'
             i.bi.bi-cloud-arrow-down-fill
           = render 'admin_actions', obj: [@gallery, photo], delete_confirm: 'dieses Foto'
+
+- if policy(@new_photo).new?
+  hr
+    .container
+      h2 Neue Fotos hinzufügen
+      .row: .col: .card
+        = form_for [@gallery, @new_photo] do |f|
+          = render 'photos/filepond', form: f, edit: false

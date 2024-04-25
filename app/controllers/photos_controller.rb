@@ -2,11 +2,7 @@
 
 class PhotosController < ApplicationController
   before_action :find_photo, only: %i[edit update destroy]
-  before_action :find_gallery, only: %i[new edit create update_positions]
-
-  def new
-    @photo = authorize @photos.new
-  end
+  before_action :find_gallery, only: %i[edit create update_positions]
 
   def edit; end
 

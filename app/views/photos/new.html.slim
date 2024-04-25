@@ -1,7 +1,0 @@
-- title 'Fotogalerie – Neue Fotos hochladen'
-
-.container
-  h1 Neue Fotos hochladen
-  .row: .col: .card
-    = form_for [@gallery, @photo] do |f|
-      = render 'filepond', form: f, edit: false
