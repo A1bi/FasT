@@ -38,8 +38,9 @@
       = render 'form_field', form: f, attribute: :number_of_seats, label: 'Sitzplätze'
         = f.number_field :number_of_seats, disabled: @event.seating? && !policy(@event).update_seating?
     - if @event.new_record? || !@event.ticketing_enabled?
-      = render 'form_field', form: ff, attribute: :external_sale_url, label: 'URL zu externem Ticketing'
-        = ff.text_field :external_sale_url, value: @event.info['external_sale_url']
+      = f.fields_for :info do |ff|
+        = render 'form_field', form: ff, attribute: :external_sale_url, label: 'URL zu externem Ticketing'
+          = ff.text_field :external_sale_url, value: @event.info['external_sale_url']
     = render 'form_field', form: f, attribute: :admission_duration, label: 'Einlass', required: true
       = f.number_field :admission_duration, required: true
       .form-text Minuten vorher
