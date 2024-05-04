@@ -20,7 +20,7 @@ workflow:
       when: manual
 
 .default-tags:
-  tags: [ruby-3.2]
+  tags: [ruby-3.3]
 
 .postgres:
   tags:
