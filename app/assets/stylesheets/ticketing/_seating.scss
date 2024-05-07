@@ -58,10 +58,6 @@
       @extend %d-block;
       @extend %w-100;
 
-      text {
-        font-weight: bold;
-      }
-
       g.global {
         transform: scale(1);
         transition: transform .5s;
@@ -94,6 +90,12 @@
         }
       }
 
+      .shield, .seat, .stairs {
+        text {
+          font-weight: bold;
+        }
+      }
+
       &.zoomable {
         .shield {
           @extend %d-block;
@@ -121,8 +123,12 @@
           fill: var(--body-color) !important;
         }
 
-        path {
+        .shield, path {
           stroke: $light-gray !important;
+        }
+
+        .stairs rect {
+          fill: var(--secondary-bg-color) !important;
         }
       }
     }
