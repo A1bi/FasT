@@ -16,6 +16,7 @@ module Ticketing
     validate :seating_or_number_of_seats_present, if: :ticketing_enabled?
 
     before_validation :set_assets_identifier, on: :create
+    before_validation :set_slug, on: :create
     before_validation :remove_number_of_seats_with_seating
 
     default_scope { ticketing_enabled }
@@ -106,7 +107,11 @@ module Ticketing
     private
 
     def set_assets_identifier
-      self.assets_identifier ||= identifier
+      self.assets_identifier = identifier if assets_identifier.blank?
+    end
+
+    def set_slug
+      self.slug = name&.parameterize if slug.blank?
     end
 
     def remove_number_of_seats_with_seating

@@ -55,6 +55,48 @@ RSpec.describe Ticketing::Event do
     end
   end
 
+  describe 'autofill of assets_identifier' do
+    let(:event) { build(:event, identifier: 'foobar', assets_identifier:) }
+
+    context 'with assets_identifier set' do
+      let(:assets_identifier) { 'barfoo' }
+
+      it 'does not change assets_identifier' do
+        event.save
+        expect(event.assets_identifier).to eq(assets_identifier)
+      end
+    end
+
+    context 'without assets_identifier set' do
+      let(:assets_identifier) { '' }
+
+      it 'copies identifier to assets_identifier' do
+        expect { event.save }.to change(event, :assets_identifier).from('').to('foobar')
+      end
+    end
+  end
+
+  describe 'autofill of slug' do
+    let(:event) { build(:event, name: 'foobar Barföö', slug:) }
+
+    context 'with slug set' do
+      let(:slug) { 'barfoo' }
+
+      it 'does not change slug' do
+        event.save
+        expect(event.slug).to eq(slug)
+      end
+    end
+
+    context 'without slug set' do
+      let(:slug) { '' }
+
+      it 'creates a slug from name' do
+        expect { event.save }.to change(event, :slug).from('').to('foobar-barfoeoe')
+      end
+    end
+  end
+
   describe '.with_future_dates' do
     let(:event) { create(:event, :with_dates, dates_count: 2) }
     let(:cancelled_event) { create(:event, :with_dates, dates_count: 2) }

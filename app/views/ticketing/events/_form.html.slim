@@ -6,10 +6,10 @@
       = f.text_field :name, required: true
     = render 'form_field', form: f, attribute: :identifier, label: 'Identifier', required: true
       = f.text_field :identifier, required: true
-    = render 'form_field', form: f, attribute: :assets_identifier, label: 'Assets-Identifier', required: true
-      = f.text_field :assets_identifier, required: true
-    = render 'form_field', form: f, attribute: :slug, label: 'Slug', required: true
-      = f.text_field :slug, required: true
+    = render 'form_field', form: f, attribute: :assets_identifier, label: 'Assets-Identifier', required: @event.persisted?
+      = f.text_field :assets_identifier, required: @event.persisted?
+    = render 'form_field', form: f, attribute: :slug, label: 'Slug', required: @event.persisted?
+      = f.text_field :slug, required: @event.persisted?
     = render 'form_field', form: f, attribute: :location_id, label: 'Ort', required: true
       = f.collection_select(:location_id, Ticketing::Location.all, :id, :name, required: true)
     .form-check
