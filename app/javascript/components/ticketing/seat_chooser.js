@@ -80,7 +80,7 @@ export default class extends Seating {
   }
 
   chooseSeat (seat) {
-    const id = seat.dataset.id
+    const id = parseInt(seat.dataset.id)
     const originalStatus = seat.dataset.status
     const allowedStatuses = ['available', 'exclusive', 'chosen']
     if (allowedStatuses.indexOf(originalStatus) === -1) return
