@@ -4,7 +4,7 @@ class NodeApi
   def self.make_request(name, data)
     socket = Net::BufferedIO.new(UNIXSocket.new('/tmp/FasT-node.sock'))
 
-    path = "/#{name}"
+    path = URI("http://localhost/#{name}")
 
     request = Net::HTTP::Post.new(path)
     request.body = data.to_json
