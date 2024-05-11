@@ -14,6 +14,7 @@ module Ticketing
     validates :name, presence: true, unless: :anonymized?
     validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
     validates_with SEPA::IBANValidator, unless: :anonymized?
+    validates :submission, absence: true, if: :received?
 
     class << self
       def unsubmitted
@@ -22,6 +23,10 @@ module Ticketing
 
       def submittable
         unsubmitted.where('amount != 0')
+      end
+
+      def received
+        where.not(raw_source: nil)
       end
 
       def transfers
@@ -46,6 +51,16 @@ module Ticketing
 
     def submitted?
       submission.present?
+    end
+
+    def raw_source=(source)
+      source = source.to_h
+      super
+      assign_attributes(source.slice('name', 'iban', 'amount'))
+    end
+
+    def received?
+      raw_source.present?
     end
 
     def mandate_id

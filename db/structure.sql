@@ -924,7 +924,8 @@ CREATE TABLE public.ticketing_bank_transactions (
     updated_at timestamp(6) without time zone NOT NULL,
     submission_id bigint,
     amount numeric DEFAULT 0.0 NOT NULL,
-    anonymized_at timestamp without time zone
+    anonymized_at timestamp without time zone,
+    raw_source jsonb
 );
 
 
@@ -3874,6 +3875,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240511152059'),
 ('20231226151739'),
 ('20231120203220'),
 ('20230903173126'),

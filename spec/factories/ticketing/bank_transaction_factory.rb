@@ -18,6 +18,10 @@ FactoryBot.define do
       submission factory: :bank_submission
     end
 
+    trait :received do
+      raw_source { { 'name' => 'foo', 'iban' => 'DE75512108001245126199', 'amount' => 123.45 } }
+    end
+
     factory :bank_debit
 
     factory :bank_refund do
