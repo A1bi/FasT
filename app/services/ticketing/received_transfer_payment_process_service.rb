@@ -15,6 +15,7 @@ module Ticketing
         next if order.balance != -transaction.amount
 
         BankTransaction.create(order:, raw_source: transaction)
+        OrderPaymentService.new(order).mark_as_paid
       end
     end
 

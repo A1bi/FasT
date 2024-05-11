@@ -31,6 +31,14 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
       t = Ticketing::BankTransaction.last
       expect(t.raw_source).to eq(transaction_details)
     end
+
+    it 'marks the order as paid' do
+      expect { subject }.to(change { order.reload.paid }.to(true))
+    end
+
+    it 'settles the orders\'s balance' do
+      expect { subject }.to(change { order.reload.balance }.to(0))
+    end
   end
 
   shared_examples 'does not match transaction' do
