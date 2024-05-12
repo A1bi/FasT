@@ -12,12 +12,14 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   let(:transaction) do
     instance_double(Cmxl::Fields::Transaction,
                     credit?: true, amount:, sha:,
-                    sepa: { 'SVWZ' => reference }, to_h: transaction_details)
+                    sepa: { 'SVWZ' => reference, 'MREF' => mref }.compact,
+                    to_h: transaction_details)
   end
   let(:transaction_details) { { 'name' => 'Johnny Doe', 'iban' => 'DE75512108001245126199', 'amount' => amount.to_f } }
   let(:amount) { -order.balance }
   let(:reference) { "Bestellung #{order.number}" }
   let(:sha) { 'abc123' }
+  let(:mref) { nil }
   let(:order) { create(:order, :complete, :unpaid, :with_balance) }
   let(:date) { Date.parse('2024-05-11') }
 
@@ -72,6 +74,12 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   context 'with existing received bank transactions with same hash' do
     let!(:existing_transaction) { create(:bank_transaction, :received) }
     let(:sha) { existing_transaction.raw_source_sha }
+
+    include_examples 'does not match transaction'
+  end
+
+  context 'when transaction is a direct debit' do
+    let(:mref) { 'foo' }
 
     include_examples 'does not match transaction'
   end

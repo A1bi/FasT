@@ -25,7 +25,9 @@ module Ticketing
     private
 
     def credit_transactions
-      @ebics_service.transactions(fetch_from_date).select(&:credit?)
+      @ebics_service.transactions(fetch_from_date).select do |transaction|
+        transaction.credit? && transaction.sepa['MREF'].blank?
+      end
     end
 
     def fetch_from_date
