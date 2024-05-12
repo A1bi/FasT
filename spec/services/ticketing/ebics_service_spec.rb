@@ -9,8 +9,12 @@ RSpec.describe Ticketing::EbicsService do
   let(:today) { date + 1.day }
   let(:statement) { instance_double(Cmxl::Statement, transactions: [transaction]) }
   let(:transaction) { instance_double(Cmxl::Fields::Transaction) }
+  let(:file) { instance_double(Pathname, open: 'foo') }
+  let(:credentials) { ActiveSupport::OrderedOptions.new(secret: 'a', user_id: 'b', partner_id: 'c') }
 
   before do
+    allow(Rails.root).to receive(:join).with('config/ebics.key').and_return(file)
+    allow(Rails.application.credentials).to receive(:ebics).and_return(credentials)
     allow(Epics::Client).to receive(:new).and_return(client)
     allow(client).to receive(:STA).with(date, today).and_return('foo')
     allow(Cmxl).to receive(:parse).with('foo', anything).and_return([statement, statement])
