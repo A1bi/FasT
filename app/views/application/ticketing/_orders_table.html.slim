@@ -30,7 +30,7 @@
                   em.anonymized anonymisiert
                 - elsif order.is_a? Ticketing::Retail::Order
                   em Vorverkaufsstelle
-                  small.d-block: em = order.store.name
+                  em.small.d-block.text-body-secondary = order.store.name
                 - elsif order.is_a? Ticketing::BoxOffice::Order
                   em Abendkasse
                   small.d-block: em = order.box_office.name

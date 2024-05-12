@@ -16,13 +16,13 @@
         - if @coupon.recipient.present?
           = @coupon.recipient
         - else
-          em nicht angegeben
+          em.text-body-secondary nicht angegeben
       dt Zugehörigkeit
       dd
         - if @coupon.affiliation.present?
           = @coupon.affiliation
         - else
-          em nicht angegeben
+          em.text-body-secondary nicht angegeben
       dt Erstellt
       dd = l(@coupon.created_at, format: :medium)
       dt Ursprünglicher Wert

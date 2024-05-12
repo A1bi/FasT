@@ -79,10 +79,6 @@
 
   .entry {
     border-bottom: $border;
-
-    [data-action='content-reveal#reveal'] {
-      font-size: .75rem;
-    }
   }
 
   [data-controller='content-reveal'].transitioning .doubles,

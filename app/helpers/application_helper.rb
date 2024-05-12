@@ -37,7 +37,7 @@ module ApplicationHelper
     if name.present?
       capture do
         concat name
-        concat tag.em(" (#{affiliation})") if affiliation.present?
+        concat tag.small(affiliation, class: 'd-block text-body-secondary') if affiliation.present?
       end
     elsif affiliation.present?
       affiliation

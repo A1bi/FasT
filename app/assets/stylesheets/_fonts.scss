@@ -19,6 +19,10 @@
   font-family: 'Lora', sans-serif;
 }
 
+.ff-mono, tt {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
 .f-mb {
   @extend .ff-m;
   font-style: normal;

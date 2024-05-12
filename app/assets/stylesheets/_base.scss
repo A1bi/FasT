@@ -41,6 +41,10 @@ h3 {
   font-size: .75rem * $heading-size-multiplier;
 }
 
+small, .small {
+  font-size: .75rem;
+}
+
 p {
   @extend %mt-0;
   @extend %mb-2;
@@ -149,16 +153,12 @@ iframe {
   font-size: 1rem / $heading-size-multiplier;
 }
 
-.text-green {
-  color: $green;
-}
-
 .text-red {
   color: $red;
 }
 
-.text-gray {
-  color: $dark-gray;
+.text-body-secondary {
+  color: var(--secondary-body-color);
 }
 
 .text-nowrap {
@@ -221,11 +221,6 @@ dl {
   dd {
     @extend %ms-0;
     margin-bottom: .5rem;
-
-    .missing {
-      font-style: italic;
-      color: $semi-gray;
-    }
   }
 }
 
