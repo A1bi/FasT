@@ -925,7 +925,8 @@ CREATE TABLE public.ticketing_bank_transactions (
     submission_id bigint,
     amount numeric DEFAULT 0.0 NOT NULL,
     anonymized_at timestamp without time zone,
-    raw_source jsonb
+    raw_source jsonb,
+    raw_source_sha bytea
 );
 
 
@@ -3014,6 +3015,13 @@ CREATE INDEX index_photos_on_gallery_id ON public.photos USING btree (gallery_id
 --
 
 CREATE INDEX index_ticketing_bank_transactions_on_order_id ON public.ticketing_bank_transactions USING btree (order_id);
+
+
+--
+-- Name: index_ticketing_bank_transactions_on_raw_source_sha; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_ticketing_bank_transactions_on_raw_source_sha ON public.ticketing_bank_transactions USING btree (raw_source_sha);
 
 
 --

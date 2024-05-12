@@ -11,12 +11,13 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   let(:transaction_debit) { instance_double(Cmxl::Fields::Transaction, credit?: false) }
   let(:transaction) do
     instance_double(Cmxl::Fields::Transaction,
-                    credit?: true, amount:,
+                    credit?: true, amount:, sha:,
                     sepa: { 'SVWZ' => reference }, to_h: transaction_details)
   end
   let(:transaction_details) { { 'name' => 'Johnny Doe', 'iban' => 'DE75512108001245126199', 'amount' => amount.to_f } }
   let(:amount) { -order.balance }
   let(:reference) { "Bestellung #{order.number}" }
+  let(:sha) { 'abc123' }
   let(:order) { create(:order, :complete, :unpaid, :with_balance) }
   let(:date) { Date.parse('2024-05-11') }
 
@@ -30,6 +31,7 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
       expect { subject }.to change(Ticketing::BankTransaction, :count).by(1)
       t = Ticketing::BankTransaction.last
       expect(t.raw_source).to eq(transaction_details)
+      expect(t.raw_source_sha).to eq(sha)
     end
 
     it 'marks the order as paid' do
@@ -65,6 +67,13 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
       expect(ebics).to receive(:transactions).with(existing_transaction.created_at.to_date)
       subject
     end
+  end
+
+  context 'with existing received bank transactions with same hash' do
+    let!(:existing_transaction) { create(:bank_transaction, :received) }
+    let(:sha) { existing_transaction.raw_source_sha }
+
+    include_examples 'does not match transaction'
   end
 
   context 'when no transaction are returned from the bank' do

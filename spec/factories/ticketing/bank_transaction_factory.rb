@@ -20,6 +20,7 @@ FactoryBot.define do
 
     trait :received do
       raw_source { { 'name' => 'foo', 'iban' => 'DE75512108001245126199', 'amount' => 123.45 } }
+      raw_source_sha { FFaker::Crypto.sha256 }
     end
 
     factory :bank_debit

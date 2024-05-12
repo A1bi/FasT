@@ -2,6 +2,10 @@
 
 class AddEbicsSourceToTicketingBankTransaction < ActiveRecord::Migration[7.1]
   def change
-    add_column :ticketing_bank_transactions, :raw_source, :jsonb
+    change_table :ticketing_bank_transactions do |t|
+      t.jsonb :raw_source
+      t.binary :raw_source_sha
+      t.index :raw_source_sha, length: 64, unique: true
+    end
   end
 end
