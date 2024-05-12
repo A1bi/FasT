@@ -95,8 +95,8 @@ module Ticketing
 
     def open_bank_transaction
       # invalidate memoization if the transaction has since been submitted
-      @open_bank_transaction = nil if @open_bank_transaction&.submitted?
-      @open_bank_transaction ||= (persisted? ? bank_transactions.unsubmitted : bank_transactions).first
+      @open_bank_transaction = nil unless @open_bank_transaction&.open?
+      @open_bank_transaction ||= (persisted? ? bank_transactions.open : bank_transactions).first
     end
 
     def most_recent_bank_transaction

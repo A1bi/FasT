@@ -15,6 +15,7 @@ FactoryBot.define do
     end
 
     trait :submitted do
+      with_amount
       submission factory: :bank_submission
     end
 

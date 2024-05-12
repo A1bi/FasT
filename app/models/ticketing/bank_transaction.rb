@@ -15,14 +15,15 @@ module Ticketing
     validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
     validates_with SEPA::IBANValidator, unless: :anonymized?
     validates :submission, absence: true, if: :received?
+    validates :raw_source_sha, presence: true, if: :received?
 
     class << self
-      def unsubmitted
-        where(submission: nil)
+      def open
+        where(submission: nil, raw_source: nil)
       end
 
       def submittable
-        unsubmitted.where('amount != 0')
+        open.where('amount != 0')
       end
 
       def received
@@ -51,6 +52,10 @@ module Ticketing
 
     def submitted?
       submission.present?
+    end
+
+    def open?
+      !received? && !submitted?
     end
 
     def raw_source=(source)

@@ -28,7 +28,7 @@ FactoryBot.define do
     trait :submitted_charge_payment do
       pay_method { :charge }
       after(:create) do |order|
-        create(:bank_debit, :with_amount, :submitted, order:)
+        create(:bank_debit, :submitted, order:)
       end
     end
 
