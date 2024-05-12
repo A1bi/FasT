@@ -201,24 +201,33 @@ ruby:
       .table-responsive: table
         thead
           tr
-            th Kontoinhaber
-            th IBAN
+            th Details
             th Typ
-            th Betrag
-            th eingereicht
+            th.text-end Betrag
+            th Datum
         tbody
           - if @order.bank_transactions.any?
             - @order.bank_transactions.each do |transaction|
               tr
-                td = transaction.name
-                td = obfuscated_iban(transaction.iban)
-                td = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
-                td = number_to_currency(transaction.amount.abs)
                 td
-                  - if transaction.submitted?
+                  = transaction.name
+                  .ff-mono.small.text-body-secondary
+                    div = obfuscated_iban(transaction.iban)
+                    - if transaction.received?
+                      div = transaction.raw_source.dig('sepa', 'SVWZ')
+                td
+                  - if transaction.received?
+                    | Erhaltene Überweisung
+                  - else
+                    = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
+                td.text-end = number_to_currency(transaction.amount.abs)
+                td.text-end
+                  - if transaction.received?
+                    = l(transaction.created_at, format: :medium)
+                  - elsif transaction.submitted?
                     = l(transaction.submission.created_at, format: :medium)
                   - else
-                    em noch nicht
+                    em noch offen
           - else
             tr: td.text-center(colspan=5): em Keine Transaktionen vorhanden.
 
