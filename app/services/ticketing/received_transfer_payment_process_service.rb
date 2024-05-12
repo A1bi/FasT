@@ -16,7 +16,7 @@ module Ticketing
         next if order.balance != -transaction.amount
 
         BankTransaction.transaction do
-          BankTransaction.create(order:, raw_source: transaction, raw_source_sha: transaction.sha).lock!
+          BankTransaction.create!(order:, raw_source: transaction, raw_source_sha: transaction.sha).lock!
           OrderPaymentService.new(order).mark_as_paid
         end
       end
