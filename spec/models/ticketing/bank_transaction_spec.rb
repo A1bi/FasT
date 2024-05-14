@@ -8,6 +8,28 @@ RSpec.describe Ticketing::BankTransaction do
     let(:records) { create_list(:bank_transaction, 2) }
   end
 
+  describe '#anonymize!' do
+    subject { transaction.anonymize! }
+
+    let(:transaction) { create(:bank_transaction, :received, raw_source:) }
+    let(:raw_source) do
+      {
+        'amount' => 123, 'sub_fields' => { 'foo' => 'bar' }, 'entry_date' => '2024-05-14', 'information' => 'foobar',
+        'iban' => 'DE75512108001245126199', 'debit' => false, 'name' => 'John Doe', 'credit' => true,
+        'sepa' => { '123' => '456' }
+      }
+    end
+    let(:anonymized_raw_source) do
+      {
+        'amount' => 123, 'entry_date' => '2024-05-14', 'debit' => false, 'credit' => true
+      }
+    end
+
+    it 'removes all anonymizable information from raw_source' do
+      expect { subject }.to change(transaction, :raw_source).from(raw_source).to(anonymized_raw_source)
+    end
+  end
+
   describe '#raw_source=' do
     subject { transaction.raw_source = source }
 

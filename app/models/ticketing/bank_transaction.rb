@@ -9,7 +9,7 @@ module Ticketing
 
     auto_strip_attributes :name, squish: true
     auto_strip_attributes :iban, delete_whitespaces: true
-    is_anonymizable columns: %i[name iban]
+    is_anonymizable columns: %i[name iban raw_source]
 
     validates :name, presence: true, unless: :anonymized?
     validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
@@ -70,6 +70,12 @@ module Ticketing
 
     def mandate_id
       id
+    end
+
+    private
+
+    def anonymize_raw_source
+      raw_source.except!('sub_fields', 'information', 'iban', 'details', 'name', 'sepa', 'bic')
     end
   end
 end

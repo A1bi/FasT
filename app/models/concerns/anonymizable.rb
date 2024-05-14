@@ -21,6 +21,8 @@ module Anonymizable
     return if anonymized?
 
     self.class.anonymizable_columns.each do |column|
+      send("anonymize_#{column}")
+    rescue NoMethodError
       self[column] = nil
     end
     self.anonymized_at = Time.current
