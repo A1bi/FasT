@@ -204,6 +204,7 @@ export default class {
     if (this.zoomScale !== 1) {
       this.originalHeight = this.originalHeight || this.svg.getBoundingClientRect().height
       height = Math.max(this.originalHeight, this.zoomedShield.getBoundingClientRect().height * this.zoomScale)
+      height = `${height}px`
     }
     this.svg.style.height = height
   }
