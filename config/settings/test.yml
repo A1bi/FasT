@@ -11,3 +11,6 @@ ticket_barcode_base_url: 'https://a0s.de/!'
 members:
   membership_renewal_after_months: 6
   membership_application_admin_notification_email: foo@sample.de
+
+ebics:
+  enabled: false

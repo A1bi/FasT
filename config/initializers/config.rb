@@ -53,5 +53,9 @@ Config.setup do |config|
     required(:wasserwerk).schema do
       required(:fake_api).filled(:bool)
     end
+
+    required(:ebics).schema do
+      required(:enabled).filled(:bool)
+    end
   end
 end
