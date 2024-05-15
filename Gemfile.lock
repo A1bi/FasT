@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    Ascii85 (1.1.0)
+    Ascii85 (1.1.1)
     actioncable (7.1.3.2)
       actionpack (= 7.1.3.2)
       activesupport (= 7.1.3.2)
@@ -89,7 +89,7 @@ GEM
       activerecord (>= 4.0)
     base64 (0.2.0)
     bcrypt (3.1.20)
-    bigdecimal (3.1.7)
+    bigdecimal (3.1.8)
     bindata (2.5.0)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
@@ -184,7 +184,7 @@ GEM
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    i18n (1.14.4)
+    i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     iban-tools (1.2.1)
     importmap-rails (1.2.3)
@@ -192,7 +192,7 @@ GEM
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.7.2)
-    irb (1.13.0)
+    irb (1.13.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jbuilder (2.12.0)
@@ -220,7 +220,7 @@ GEM
     matrix (0.4.2)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0305)
+    mime-types-data (3.2024.0507)
     mini_mime (1.1.5)
     mini_portile2 (2.8.6)
     minitest (5.22.3)
@@ -234,7 +234,7 @@ GEM
       uri
     net-http2 (0.18.5)
       http-2 (~> 0.11)
-    net-imap (0.4.10)
+    net-imap (0.4.11)
       date
       net-protocol
     net-pop (0.1.2)
@@ -248,8 +248,8 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     net-ssh (7.2.3)
-    nio4r (2.7.1)
-    nokogiri (1.16.4)
+    nio4r (2.7.3)
+    nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     openssl (3.2.0)
@@ -290,10 +290,10 @@ GEM
     public_suffix (5.0.5)
     puma (6.4.2)
       nio4r (~> 2.0)
-    pundit (2.3.1)
+    pundit (2.3.2)
       activesupport (>= 3.0.0)
     racc (1.7.3)
-    rack (3.0.10)
+    rack (3.0.11)
     rack-session (2.0.0)
       rack (>= 3.0.0)
     rack-test (2.1.0)
@@ -341,14 +341,14 @@ GEM
       redis-client (>= 0.22.0)
     redis-client (0.22.1)
       connection_pool
-    regexp_parser (2.9.0)
-    reline (0.5.5)
+    regexp_parser (2.9.1)
+    reline (0.5.7)
       io-console (~> 0.5)
     rexml (3.2.6)
     roadie (5.2.1)
       css_parser (~> 1.4)
       nokogiri (~> 1.15)
-    roadie-rails (3.1.0)
+    roadie-rails (3.2.0)
       railties (>= 5.1, < 8.0)
       roadie (~> 5.0)
     rqrcode (2.2.0)
@@ -360,7 +360,7 @@ GEM
     rspec-expectations (3.13.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.0)
+    rspec-mocks (3.13.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-rails (6.1.2)
@@ -372,7 +372,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
-    rubocop (1.63.4)
+    rubocop (1.63.5)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -485,7 +485,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
-    zeitwerk (2.6.13)
+    zeitwerk (2.6.14)
 
 PLATFORMS
   ruby
