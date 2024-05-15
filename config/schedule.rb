@@ -21,6 +21,7 @@ every :day, at: '10:30' do
   runner 'Members::RenewMembershipsJob.perform_later'
 end
 
-every :hour do
+every 3.hours do
   runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later'
+  runner 'Ticketing::SubmitBankTransactionsJob.perform_later'
 end
