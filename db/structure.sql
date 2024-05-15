@@ -888,7 +888,8 @@ CREATE TABLE public.shared_email_account_tokens (
 CREATE TABLE public.ticketing_bank_submissions (
     id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    ebics_response jsonb
 );
 
 
@@ -3883,6 +3884,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240515083436'),
 ('20240511152059'),
 ('20231226151739'),
 ('20231120203220'),

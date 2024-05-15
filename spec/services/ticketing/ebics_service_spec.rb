@@ -56,4 +56,34 @@ RSpec.describe Ticketing::EbicsService do
       expect(subject).to contain_exactly(transaction, transaction)
     end
   end
+
+  describe '#submit_debits' do
+    subject { service.submit_debits('foo') }
+
+    before { allow(client).to receive(:debit).and_return('bar') }
+
+    it 'calls the right client method' do
+      expect(client).to receive(:debit).with('foo')
+      subject
+    end
+
+    it 'returns the response' do
+      expect(subject).to eq('bar')
+    end
+  end
+
+  describe '#submit_transfers' do
+    subject { service.submit_transfers('foo') }
+
+    before { allow(client).to receive(:credit).and_return('bar') }
+
+    it 'calls the right client method' do
+      expect(client).to receive(:credit).with('foo')
+      subject
+    end
+
+    it 'returns the response' do
+      expect(subject).to eq('bar')
+    end
+  end
 end

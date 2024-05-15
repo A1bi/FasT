@@ -15,6 +15,14 @@ module Ticketing
       statements(from, to).map(&:transactions).flatten
     end
 
+    def submit_debits(xml)
+      client.debit(xml)
+    end
+
+    def submit_transfers(xml)
+      client.credit(xml)
+    end
+
     private
 
     def client

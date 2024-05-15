@@ -9,7 +9,7 @@ RSpec.describe Ticketing::DebitSepaXmlService do
     let(:transactions) { [debit_austria, debit_norway, refund] }
     let(:debit_austria) { create(:bank_debit, amount: 12.5, iban: 'AT483200000012345864') }
     let(:debit_norway) { create(:bank_debit, amount: 13, iban: 'NO8330001234567') }
-    let(:refund) { create(:bank_refund, :with_amount) }
+    let(:refund) { create(:bank_refund, :submittable) }
 
     it 'includes all IBANs' do
       expect(subject).to include(debit_austria.iban, debit_norway.iban)

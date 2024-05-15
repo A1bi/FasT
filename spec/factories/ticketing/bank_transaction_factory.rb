@@ -14,6 +14,10 @@ FactoryBot.define do
       amount { 15 * (refund ? -1 : 1) }
     end
 
+    trait :submittable do
+      with_amount
+    end
+
     trait :submitted do
       with_amount
       submission factory: :bank_submission
