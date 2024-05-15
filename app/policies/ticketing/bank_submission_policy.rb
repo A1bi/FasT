@@ -3,7 +3,7 @@
 module Ticketing
   class BankSubmissionPolicy < ApplicationPolicy
     def create?
-      Settings.ebics.enabled && user_admin?
+      !Settings.ebics.enabled && user_admin?
     end
 
     def file?
