@@ -18,7 +18,9 @@
             td #{@submittable_transactions.count} Transaktionen einzureichen.
             td.text-end = number_to_currency(@submittable_transactions.debits.sum(:amount).abs)
             td.text-end = number_to_currency(@submittable_transactions.transfers.sum(:amount).abs)
-            td.text-end = link_to 'Jetzt einreichen', ticketing_payments_submit_transactions_path, method: :post, confirm: 'Möchten Sie die Transaktionen bei der Bank wirklich einreichen?', class: 'btn btn-sm'
+            td.text-end
+              - if policy(Ticketing::BankSubmission).create?
+                = link_to 'Jetzt einreichen', ticketing_payments_submit_transactions_path, method: :post, confirm: 'Möchten Sie die Transaktionen bei der Bank wirklich einreichen?', class: 'btn btn-sm'
           - else
             td colspan=4 Keine Transaktionen einzureichen.
 
@@ -34,8 +36,9 @@
             td.text-end = number_to_currency(submission.transactions.transfers.sum(:amount).abs)
             td.text-end
               = l(submission.created_at, format: '%d.%m.%y, %H:%M')
-              = link_to ticketing_payments_bank_submission_file_path(submission), data:, class: 'ms-1'
-                i.bi.bi-cloud-arrow-down-fill
+              - if policy(submission).file?
+                = link_to ticketing_payments_bank_submission_file_path(submission), data:, class: 'ms-1'
+                  i.bi.bi-cloud-arrow-down-fill
       - else
         tr: td colspan=4 Bisher keine Einreichungen.
   - cache [:unpaid, @orders[:unpaid]]
