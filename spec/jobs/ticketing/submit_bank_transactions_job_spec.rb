@@ -19,6 +19,18 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
       create(:bank_transaction, :received)
     end
 
+    shared_examples 'does nothing' do
+      it 'creates no submissions' do
+        expect { subject }.not_to change(Ticketing::BankSubmission, :count)
+      end
+
+      it 'does not submit anything' do
+        expect(ebics).not_to receive(:submit_debits)
+        expect(ebics).not_to receive(:submit_transfers)
+        subject
+      end
+    end
+
     context 'with EBICS disabled' do
       let(:enabled) { false }
 
@@ -29,9 +41,7 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
     end
 
     context 'when no transactions are submittable' do
-      it 'creates no submissions' do
-        expect { subject }.not_to change(Ticketing::BankSubmission, :count)
-      end
+      include_examples 'does nothing'
     end
 
     context 'when only debits are submittable' do
@@ -120,6 +130,12 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
         subject
         expect(Ticketing::BankSubmission.second_to_last.ebics_response).to eq(%w[foo bar])
         expect(Ticketing::BankSubmission.last.ebics_response).to eq(%w[bar foo])
+      end
+
+      context 'when job is run twice' do
+        before { described_class.perform_now }
+
+        include_examples 'does nothing'
       end
     end
 
