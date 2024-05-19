@@ -7,7 +7,7 @@ class SharedEmailAccountToken < ApplicationRecord
 
   class << self
     def expired
-      where('created_at < ?', EXPIRES_AFTER.ago)
+      where(created_at: ...EXPIRES_AFTER.ago)
     end
   end
 

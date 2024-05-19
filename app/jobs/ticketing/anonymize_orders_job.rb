@@ -19,7 +19,7 @@ module Ticketing
       Ticketing::Web::Order
         .unanonymized
         .joins(tickets: :date)
-        .where('ticketing_event_dates.date < ?', WAITING_PERIOD.ago)
+        .where(ticketing_event_dates: { date: ...WAITING_PERIOD.ago })
         .distinct
     end
 
@@ -34,7 +34,7 @@ module Ticketing
       # no other ticket with a date not to be anonymized yet is present
       tickets
         .joins(:date)
-        .where('ticketing_event_dates.date >= ?', WAITING_PERIOD.ago)
+        .where(ticketing_event_dates: { date: WAITING_PERIOD.ago.. })
         .none?
     end
   end

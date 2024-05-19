@@ -19,7 +19,7 @@ module Members
     end
 
     def members_due_for_renewal
-      Member.where('membership_fee_paid_until < ?', Time.zone.today)
+      Member.where(membership_fee_paid_until: ...Time.zone.today)
     end
 
     def eligible_members

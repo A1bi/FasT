@@ -18,7 +18,7 @@ module Ticketing
       end
 
       def past
-        where('date <= ?', Time.current)
+        where(date: ..Time.current)
       end
     end
 

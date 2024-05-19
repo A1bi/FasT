@@ -26,7 +26,7 @@ module Newsletter
       end
 
       def expired
-        unconfirmed.where('created_at < ?', 1.month.ago)
+        unconfirmed.where(created_at: ...1.month.ago)
       end
     end
 

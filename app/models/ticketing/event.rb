@@ -35,7 +35,7 @@ module Ticketing
       end
 
       def on_sale
-        where('sale_start <= ?', Time.current).with_future_dates
+        where(sale_start: ..Time.current).with_future_dates
       end
 
       def ordered_by_dates(order = :asc)

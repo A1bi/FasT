@@ -9,7 +9,7 @@ module Members
     private
 
     def terminated_members
-      Member.where('membership_terminates_on < ?', Time.zone.today)
+      Member.where(membership_terminates_on: ...Time.zone.today)
     end
   end
 end
