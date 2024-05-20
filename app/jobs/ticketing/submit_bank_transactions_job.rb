@@ -19,10 +19,10 @@ module Ticketing
     private
 
     def create_submission(transactions)
-      return if transactions.none?
+      transactions.transaction do
+        transactions.lock!
+        next if transactions.none?
 
-      BankTransaction.transaction do
-        transactions.lock
         submission = BankSubmission.create!(transactions:)
         response = yield(submission)
         submission.update(ebics_response: response)

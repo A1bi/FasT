@@ -10,13 +10,13 @@ module Ticketing
 
     def execute
       credit_transactions.each do |transaction|
-        next unless transaction.sepa['SVWZ'] =~ ORDER_NUMBER_PATTERN
-        next if BankTransaction.where(raw_source_sha: transaction.sha).any?
-        next if (order = Order.unpaid.find_by(number: Regexp.last_match(2))).nil?
-        next if order.balance != -transaction.amount
-
         BankTransaction.transaction do
-          BankTransaction.create!(order:, raw_source: transaction, raw_source_sha: transaction.sha).lock!
+          next unless transaction.sepa['SVWZ'] =~ ORDER_NUMBER_PATTERN
+          next if BankTransaction.where(raw_source_sha: transaction.sha).any?
+          next if (order = Order.unpaid.find_by(number: Regexp.last_match(2)))&.lock!.nil?
+          next if order.balance != -transaction.amount
+
+          BankTransaction.create!(order:, raw_source: transaction, raw_source_sha: transaction.sha)
           OrderPaymentService.new(order).mark_as_paid
         end
       end
