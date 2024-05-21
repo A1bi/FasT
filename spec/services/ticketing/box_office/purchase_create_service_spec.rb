@@ -6,6 +6,8 @@ RSpec.describe Ticketing::BoxOffice::PurchaseCreateService do
   let(:service) { described_class.new(params, box_office) }
   let(:box_office) { create(:box_office) }
   let(:product) { create(:box_office_product) }
+  let(:order) { create(:web_order, :with_tickets, :unpaid, tickets_count: 1) }
+  let(:ticket) { order.tickets.first }
   let(:params) do
     {
       pay_method: :electronic_cash,
@@ -14,6 +16,10 @@ RSpec.describe Ticketing::BoxOffice::PurchaseCreateService do
           type: 'product',
           id: product.id,
           number: 1
+        },
+        {
+          type: 'ticket',
+          id: ticket.id
         }
       ]
     }
@@ -23,9 +29,20 @@ RSpec.describe Ticketing::BoxOffice::PurchaseCreateService do
     expect { subject }.to change(Ticketing::BoxOffice::Purchase, :count).by(1)
   end
 
-  it 'creates a purchase item' do
-    expect { subject }.to change(Ticketing::BoxOffice::PurchaseItem, :count).by(1)
-    expect(Ticketing::BoxOffice::Purchase.last.items.count).to eq(1)
+  it 'creates three purchase items' do
+    expect { subject }.to change(Ticketing::BoxOffice::PurchaseItem, :count).by(2)
+  end
+
+  it 'marks the order as paid' do
+    expect { subject }.to change { order.reload.paid }.to(true)
+  end
+
+  context 'when ticket is cancelled' do
+    before { ticket.update(cancellation: create(:cancellation)) }
+
+    it 'raises an error' do
+      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 
   it 'broadcasts to front displays' do

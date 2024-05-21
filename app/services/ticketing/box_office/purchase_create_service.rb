@@ -44,7 +44,7 @@ module Ticketing
       private
 
       def add_ticket(item_info, item)
-        ticket = Ticketing::Ticket.find(item_info[:id])
+        ticket = Ticketing::Ticket.valid.find(item_info[:id])
         ticket.update(picked_up: true)
         item.purchasable = ticket
         item.number = 1
