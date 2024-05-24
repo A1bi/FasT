@@ -271,4 +271,6 @@ Rails.application.routes.draw do
     end
     mount Sidekiq::Web, at: 'sidekiq'
   end
+
+  get 'up' => 'health#show'
 end
