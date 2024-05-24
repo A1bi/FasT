@@ -11,7 +11,7 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   let(:transaction_debit) { instance_double(Cmxl::Fields::Transaction, credit?: false) }
   let(:transaction) do
     instance_double(Cmxl::Fields::Transaction,
-                    credit?: true, amount:, sha:,
+                    credit?: true, amount:, sha:, name: transaction_details['name'],
                     sepa: { 'SVWZ' => reference, 'MREF' => mref }.compact,
                     to_h: transaction_details)
   end
