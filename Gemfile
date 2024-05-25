@@ -37,7 +37,6 @@ gem 'whenever', require: false
 
 gem 'jbuilder', '~> 2.10'
 gem 'matrix' # needed for prawn
-gem 'prawn', '~> 2.5.0'
 gem 'prawn-qrcode', '~> 0.5.1'
 gem 'prawn-svg', '~> 0.34.0'
 gem 'prawn-table', '~> 0.2.1'
@@ -46,6 +45,10 @@ gem 'roadie-rails', '~> 3.0'
 gem 'sass-rails', '~> 6.0.0'
 gem 'slim'
 gem 'sprockets-rails', '~> 3.4'
+
+# lock these versions to fix issues with ttfunk 1.8.0
+gem 'prawn', '~> 2.4.0'
+gem 'ttfunk', '~> 1.7.0'
 
 group :development, :test do
   gem 'byebug'
