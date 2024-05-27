@@ -199,8 +199,7 @@ module Ticketing
     end
 
     def barcode_link_for_ticket(ticket, medium: nil, authenticated: false)
-      Settings.ticket_barcode_base_url +
-        ticket.signed_info(medium:, authenticated:)
+      Settings.ticketing.ticket_barcode_base_url + ticket.signed_info(medium:, authenticated:)
     end
 
     def barcode_content_for_ticket(ticket)

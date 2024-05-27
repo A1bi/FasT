@@ -30,7 +30,7 @@ module Ticketing
     end
 
     def debit_info
-      %i[name iban creditor_identifier].index_with { |key| translate(key) }
+      Settings.ticketing.target_bank_account.to_h.slice(:name, :iban, :creditor_identifier)
     end
 
     def transaction_info(transaction)
@@ -39,7 +39,7 @@ module Ticketing
         iban: transaction.iban,
         amount: transaction.amount,
         instruction: transaction.id,
-        remittance_information: translate(:debit_remittance_information, number: transaction.order.number),
+        remittance_information: remittance_information(transaction),
         mandate_id: transaction.mandate_id,
         mandate_date_of_signature: transaction.created_at.to_date,
         local_instrument: LOCAL_INSTRUMENT,
@@ -53,9 +53,8 @@ module Ticketing
       Date.tomorrow
     end
 
-    def translate(key, options = {})
-      options[:scope] = %i[ticketing payments submissions]
-      I18n.t(key, **options)
+    def remittance_information(transaction)
+      I18n.t('ticketing.payments.submissions.debit_remittance_information', number: transaction.order.number)
     end
   end
 end

@@ -1,14 +1,14 @@
 table
   tr
     td Kontoinhaber:
-    td TheaterKultur Kaisersesch e. V.
+    td = Settings.ticketing.target_bank_account.name
   tr
     td IBAN:
     td
-      | DE65 5706 9144 0000 1781 67
-      div style='padding-top: 3px; font-size: 11px;' (Raiffeisenbank Eifeltor)
+      = formatted_iban(Settings.ticketing.target_bank_account.iban)
+      div style='padding-top: 3px; font-size: 11px;' (#{Settings.ticketing.target_bank_account.institution})
   tr
     td Verwendungszweck:
     td Bestellung #{@order.number}
 div style='margin-top: -11px; margin-bottom: 20px; margin-right: 7%; font-size: 11px; text-align: right;'
-  = link_to 'Daten in Banking-Software übertragen', "bank://singlepaymentsepa?name=TheaterKultur Kaisersesch&iban=DE65570691440000178167&bic=GENODED1KAI&amount=#{-@order.balance}&currency=EUR&reason=Bestellung #{@order.number}"
+  = link_to 'Daten in Banking-Software übertragen', "bank://singlepaymentsepa?name=#{Settings.ticketing.target_bank_account.name}&iban=#{Settings.ticketing.target_bank_account.iban}&amount=#{-@order.balance}&currency=EUR&reason=Bestellung #{@order.number}"

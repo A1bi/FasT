@@ -22,6 +22,16 @@ Config.setup do |config|
       required(:embedded_calendar_token).filled(:string)
     end
 
+    required(:ticketing).schema do
+      required(:ticket_barcode_base_url).filled
+      required(:target_bank_account).schema do
+        required(:name).filled
+        required(:iban).filled
+        required(:creditor_identifier).filled
+        required(:institution).filled
+      end
+    end
+
     required(:passbook).schema do
       required(:destination_path).filled
       required(:wwdr_ca_path).filled
@@ -37,8 +47,6 @@ Config.setup do |config|
       required(:team_id).filled
       required(:topics)
     end
-
-    required(:ticket_barcode_base_url).filled
 
     required(:shared_email_accounts).schema do
       required(:redirect_url).filled

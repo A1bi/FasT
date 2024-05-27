@@ -28,7 +28,7 @@ module Ticketing
     end
 
     def transfer_info
-      %i[name iban].index_with { |key| translate(key) }
+      Settings.ticketing.target_bank_account.to_h.slice(:name, :iban)
     end
 
     def transaction_info(transaction)
@@ -37,14 +37,13 @@ module Ticketing
         iban: transaction.iban,
         amount: -transaction.amount,
         instruction: transaction.id,
-        remittance_information: translate(:transfer_remittance_information, number: transaction.order.number),
+        remittance_information: remittance_information(transaction),
         batch_booking: BATCH_BOOKING
       }
     end
 
-    def translate(key, options = {})
-      options[:scope] = %i[ticketing payments submissions]
-      I18n.t(key, **options)
+    def remittance_information(transaction)
+      I18n.t('ticketing.payments.submissions.transfer_remittance_information', number: transaction.order.number)
     end
   end
 end

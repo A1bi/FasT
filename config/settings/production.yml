@@ -11,7 +11,8 @@ url_options:
 
 secure_session_cookie?: true
 
-ticket_barcode_base_url: 'https://a0s.de/!'
+ticketing:
+  ticket_barcode_base_url: 'https://a0s.de/!'
 
 sentry:
   enabled: true

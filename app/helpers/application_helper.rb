@@ -57,6 +57,10 @@ module ApplicationHelper
     iban[0..1] + 'X' * (iban.length - 5) + iban[-3..]
   end
 
+  def formatted_iban(iban)
+    iban.gsub(/(.{4})/, '\1 ').strip
+  end
+
   def event_logo(event, tag: :h2, image_options: {}, inline_svg: false)
     return content_tag(tag, event.name) if (path = event_logo_path(event)).nil?
     return inline_svg(path) if inline_svg

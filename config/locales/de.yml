@@ -179,9 +179,6 @@ de:
         other: "%{count} Bestellungen wurden erfolgreich als geprüft markiert."
       submitted: "Die Lastschriften wurden zur Einreichung vorgemerkt. Bitte laden Sie den Sammelauftrag herunter und reichen ihn bei der Bank ein."
       submissions:
-        name: "TheaterKultur Kaisersesch e. V."
-        iban: "DE65570691440000178167"
-        creditor_identifier: "DE21ZZZ00001271843"
         debit_remittance_information: "Vielen Dank für Ihre Bestellung mit der Nummer %{number}"
         transfer_remittance_information: "Erstattung zu Ihrer Bestellung mit der Nummer %{number}"
     billings:

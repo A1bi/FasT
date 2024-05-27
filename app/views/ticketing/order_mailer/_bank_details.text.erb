@@ -1,3 +1,3 @@
-Kontoinhaber: TheaterKultur Kaisersesch e. V.
-IBAN: DE65 5706 9144 0000 1781 67 (Raiffeisenbank Eifeltor)
+Kontoinhaber: <%= Settings.ticketing.target_bank_account.name %>
+IBAN: <%= formatted_iban(Settings.ticketing.target_bank_account.iban) %> (<%= Settings.ticketing.target_bank_account.institution %>)
 Verwendungszweck: Bestellung <%= @order.number %>

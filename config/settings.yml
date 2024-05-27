@@ -14,6 +14,13 @@ members:
   membership_application_admin_notification_email: info@theater-kaisersesch.de
   embedded_calendar_token: HsbRn8sPcJ5GkmE5
 
+ticketing:
+  target_bank_account:
+    name: TheaterKultur Kaisersesch e. V.
+    iban: DE65570691440000178167
+    creditor_identifier: DE21ZZZ00001271843
+    institution: Raiffeisenbank MEHR
+
 newsletters:
   review_email: albrecht@oster.online
   review_subject: Newsletter ready for review

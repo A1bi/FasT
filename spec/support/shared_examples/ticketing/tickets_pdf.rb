@@ -38,11 +38,11 @@ RSpec.shared_context 'when rendering tickets pdf' do
   include_context 'when loading of SVG files'
 
   def unauthenticated_content(index)
-    "#{Settings.ticket_barcode_base_url}barcode_#{index}"
+    "#{Settings.ticketing.ticket_barcode_base_url}barcode_#{index}"
   end
 
   def authenticated_content(index)
-    "#{Settings.ticket_barcode_base_url}barcode_authenticated_#{index}"
+    "#{Settings.ticketing.ticket_barcode_base_url}barcode_authenticated_#{index}"
   end
 end
 
