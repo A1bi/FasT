@@ -66,7 +66,7 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let!(:existing_transaction) { create(:bank_transaction, :received) }
 
     it 'fetches transactions starting with the date of the last transaction' do
-      expect(ebics).to receive(:transactions).with(existing_transaction.created_at.to_date)
+      expect(ebics).to receive(:transactions).with(existing_transaction.raw_source['date'].to_date)
       subject
     end
   end

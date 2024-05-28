@@ -42,7 +42,7 @@ module Ticketing
     end
 
     def fetch_from_date
-      (BankTransaction.received.maximum(:created_at) || 1.week.ago).to_date
+      (BankTransaction.received.maximum("(raw_source->>'date')::date") || 1.week.ago).to_date
     end
 
     def transaction_already_processed?(transaction)
