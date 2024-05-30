@@ -178,7 +178,7 @@ iframe {
     @extend %mt-0;
   }
 
-  > *:last-child {
+  > *:last-child, div > p:last-child {
     @extend %mb-0;
   }
 
