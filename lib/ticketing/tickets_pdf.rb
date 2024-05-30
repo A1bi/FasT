@@ -17,7 +17,7 @@ module Ticketing
     end
 
     def add_tickets(tickets)
-      tickets.reject(&:cancelled?).each { |ticket| draw_ticket ticket }
+      tickets.valid.each { |ticket| draw_ticket ticket }
     end
 
     private

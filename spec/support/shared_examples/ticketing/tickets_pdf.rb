@@ -6,6 +6,7 @@ RSpec.shared_context 'when rendering tickets pdf' do
   let(:event) { build(:event, :complete) }
   let(:tickets_count) { 1 }
   let(:order) { create(:order, :with_tickets, tickets_count:, event:) }
+  let(:valid_tickets) { order.tickets }
 
   let(:tickets_pdf) { described_class.new }
   let(:pdf) do
@@ -24,25 +25,27 @@ RSpec.shared_context 'when rendering tickets pdf' do
     allow(tickets_pdf).to receive(:print_qr_code)
     allow(tickets_pdf).to receive(:link_annotate).with(any_args)
 
-    order.tickets.each.with_index do |ticket, i|
+    order.tickets.each do |ticket|
       allow(ticket).to receive(:signed_info)
         .with(medium: ticket_medium, authenticated: false)
-        .and_return("barcode_#{i}")
+        .and_return("barcode_#{ticket.id}")
 
       allow(ticket).to receive(:signed_info)
         .with(medium: nil, authenticated: true)
-        .and_return("barcode_authenticated_#{i}")
+        .and_return("barcode_authenticated_#{ticket.id}")
     end
+
+    allow(order.tickets).to receive(:valid).and_return(valid_tickets)
   end
 
   include_context 'when loading of SVG files'
 
-  def unauthenticated_content(index)
-    "#{Settings.ticketing.ticket_barcode_base_url}barcode_#{index}"
+  def unauthenticated_content(ticket)
+    "#{Settings.ticketing.ticket_barcode_base_url}barcode_#{ticket.id}"
   end
 
-  def authenticated_content(index)
-    "#{Settings.ticketing.ticket_barcode_base_url}barcode_authenticated_#{index}"
+  def authenticated_content(ticket)
+    "#{Settings.ticketing.ticket_barcode_base_url}barcode_authenticated_#{ticket.id}"
   end
 end
 
@@ -99,13 +102,14 @@ RSpec.shared_examples 'tickets pdf renderer' do
 
   context 'with a cancelled ticket' do
     let(:tickets_count) { 2 }
-    let(:cancelled_ticket) { order.tickets.last }
+    let(:valid_tickets) { [order.tickets.first] }
+    let(:cancelled_tickets) { [order.tickets.last] }
 
-    before { create(:cancellation, tickets: order.tickets.last(1)) }
+    before { create(:cancellation, tickets: cancelled_tickets) }
 
     it 'does not render the cancelled ticket' do
-      expect(text_analysis.strings).to include(order.tickets.first.number)
-      expect(text_analysis.strings).not_to include(order.tickets.last.number)
+      valid_tickets.each { |ticket| expect(text_analysis.strings).to include(ticket.number) }
+      cancelled_tickets.each { |ticket| expect(text_analysis.strings).not_to include(ticket.number) }
     end
   end
 end

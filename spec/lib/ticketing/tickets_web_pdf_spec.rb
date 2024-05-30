@@ -16,10 +16,10 @@ RSpec.describe Ticketing::TicketsWebPdf do
     end
 
     it 'renders the correct ticket barcodes' do
-      order.tickets.size.times do |i|
-        expect(tickets_pdf).to receive(:print_qr_code).with(unauthenticated_content(i), any_args).once
-        expect(tickets_pdf).not_to receive(:print_qr_code).with(authenticated_content(i), any_args)
-        expect(tickets_pdf).to receive(:link_annotate).with(authenticated_content(i), any_args).once
+      order.tickets.each do |ticket|
+        expect(tickets_pdf).to receive(:print_qr_code).with(unauthenticated_content(ticket), any_args).once
+        expect(tickets_pdf).not_to receive(:print_qr_code).with(authenticated_content(ticket), any_args)
+        expect(tickets_pdf).to receive(:link_annotate).with(authenticated_content(ticket), any_args).once
       end
       pdf
     end

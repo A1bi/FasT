@@ -49,7 +49,7 @@ module Ticketing
     end
 
     def printable
-      find_tickets(ticket_scope: Ticket.valid)
+      find_tickets(ticket_scope: Ticket)
       pdf = TicketsWebPdf.new
       pdf.add_tickets(@tickets)
       send_data pdf.render, type: 'application/pdf', disposition: 'inline'
