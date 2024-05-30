@@ -29,7 +29,12 @@
               i.bi.bi-clock-fill
               = l date.date, format: '%H:%M'
           .title
-            = link_to_if event_page_exists?(date.event), date.event.name, event_path(date.event.slug)
+            - if event_page_exists?(date.event)
+              = link_to event_path(date.event.slug)
+                => date.event.name
+                i.bi.bi-chevron-right
+            - else
+              = date.event.name
           .subtitle = date.event.info['subtitle']
         .col-12.col-md-3.tickets
           = render 'application/events/tickets_button', date:
