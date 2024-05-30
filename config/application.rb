@@ -32,6 +32,10 @@ module FasT
 
     config.load_defaults 7.1
 
+    config.action_dispatch.rescue_responses.merge!(
+      'ActiveSupport::MessageVerifier::InvalidSignature' => :forbidden
+    )
+
     config.active_support.escape_html_entities_in_json = true
 
     config.active_support.halt_callback_chains_on_return_false = false

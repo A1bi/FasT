@@ -200,6 +200,7 @@ Rails.application.routes.draw do
       namespace :ticketing do
         resources :orders, only: [:create] do
           post :totals, on: :collection
+          get :retail_printable, on: :member
         end
 
         namespace :box_office do

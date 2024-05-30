@@ -41,6 +41,10 @@ module Ticketing
       options_for_select(options)
     end
 
+    def order_retail_printable_path(order)
+      retail_printable_api_ticketing_order_path(order.signed_id(expires_in: 1.hour))
+    end
+
     private
 
     def translate_billing_transaction_note(key)

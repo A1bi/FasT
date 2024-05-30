@@ -28,4 +28,12 @@ RSpec.describe Ticketing::Retail::Order do
       end
     end
   end
+
+  describe '#printable' do
+    subject { order.printable }
+
+    let(:order) { build(:retail_order, :with_tickets) }
+
+    it { is_expected.to be_a(Ticketing::TicketsRetailPdf) }
+  end
 end

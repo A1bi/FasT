@@ -10,8 +10,6 @@ json.call(order, :total, :paid)
 json.first_name order.try(:first_name)
 json.last_name order.try(:last_name)
 
-json.printable_path order.try(:printable_path)
-
 json.balance order.billing_account.balance
 
 json.tickets order.tickets do |ticket|

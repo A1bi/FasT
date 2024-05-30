@@ -8,6 +8,8 @@ module Api
 
       prepend_before_action :authorize_type
 
+      helper ::Ticketing::TicketingHelper
+
       def create
         return head :not_found unless type.in? %i[web admin retail]
 
@@ -29,6 +31,11 @@ module Api
         @result = ::Ticketing::OrderSimulationService.new(
           simulation_params.to_h
         ).execute
+      end
+
+      def retail_printable
+        order = ::Ticketing::Retail::Order.find_signed!(params[:id])
+        send_data order.printable.render, type: 'application/pdf', disposition: 'inline'
       end
 
       private
