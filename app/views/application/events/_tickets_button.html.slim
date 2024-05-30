@@ -9,4 +9,6 @@
   - label = t("ticketing.events.#{date.event.free? ? 'free_tickets' : 'tickets'}")
   = link_to(label, new_ticketing_order_path(date.event.slug, date_id: date), class: 'btn w-100')
 - elsif (sale_url = date.event.info['external_sale_url']).present?
-  = link_to 'Tickets', sale_url, class: 'btn w-100'
+  = link_to sale_url, title: 'Tickets erhältlich über externen Anbieter', class: 'btn w-100'
+    |> Tickets
+    i.bi.bi-box-arrow-up-right
