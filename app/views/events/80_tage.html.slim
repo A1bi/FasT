@@ -1,0 +1,101 @@
+ruby:
+  details = {
+    retail_sale: true,
+    catering: true,
+    duration: 120,
+    break_duration: 30,
+    info_box: {
+      play: {
+        'Autor' => 'Jules Verne',
+        'Erstveröffentlichung' => '1873',
+        'Uraufführung' => '1874'
+      },
+      event: {
+        'Regie' => 'Kirsten Roscher',
+        'Bühnenfassung' => 'Kirsten Roscher, Stephan Hilken'
+      }
+    }
+  }
+  styling = {
+    colors: ['240E07', 'CE7841', 'F2EBD7', '99988A', '93432D'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', details:
+    p Nach der Fertigstellung des Suez-Kanals 1869 und der Transatlantischen Eisenbahnlinie Nordamerikas im selben Jahr, wurde 1872 die Eisenbahnstrecke von Bombay nach Kalkutta fertiggestellt. Als Jules Verne das in der Zeitung las, kam ihm die Idee zu seinem Roman, der 1873 erstmals veröffentlicht wurde.
+    p 1872: Der reiche englische Gentleman Phileas Foggs wettet mit seinen Freunden des Londoner Reform Clubs, die Welt in 80 Tagen per Zug und Schiff zu umrunden. Am selben Tag tritt er mit seiner Dienerin Jeanne Passepartout die Reise an:
+    p.text-center London ‣ Paris ‣ Suez ‣ Bombay ‣ Kholby ‣ Kalkutta ‣ Hongkong ‣ Yokohama ‣ San Francisco ‣ Medecine Bow ‣ New York ‣ Liverpool ‣ London
+
+    h3 Jules Verne
+    p() (* 1828, † 1905) studierte Recht in Paris, arbeitete am Theater und an der Börse. Sein Interesse galt der Wissenschaft und Technik, er gilt als Erfinder des Science-Fiction-Romans. Verne gehört zu den beliebtesten und meistgelesenen französischen Schriftstellern. Seine erfolgreichsten Werke sind <em>„Reise zum Mittelpunkt der Erde”</em>, <em>„Zwanzigtausend Meilen unter dem Meer”</em> und <em>„In 80 Tagen um die Welt”</em>.
+
+  = render 'photos'
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          { title: 'Phileas Fogg', actors: ['Stephan Hilken'] },
+          { title: 'Jeanne Passepartout', actors: ['Susanne Schubert'] },
+          { title: 'Polizeiagent Fix', actors: ['Thomas Ellerich'] },
+          { title: 'Madame Aouda', actors: ['Simone Spies'] },
+          { title: 'Andrew Stuart', actors: ['Gerd Röser'] },
+          { title: 'Gauthier Ralph', actors: ['Johannes Fickert'] },
+          { title: 'Thomas Flanagan', actors: ['Walter Loreth'] },
+          { title: 'Butler', actors: ['Jakob Ellerich', 'Jörg Wronka'] },
+          { title: 'Zeitungsjungen',
+           actors: ['Emma Böhm', 'Hanna Münnich', 'Victoria Crestenco'] },
+          { title: 'Kellner, Paris', actors: ['Lukas Baulig'] },
+          { title: 'Madam Konsul, Suez', actors: ['Monika Näckel'] },
+          { title: 'Wirt, Bombay', actors: ['Jakob Ellerich'] },
+          { title: 'Schaffner, Kholby', actors: ['Paul Reuter'] },
+          { title: 'Sir Francis Cromarty, Kholby', actors: ['Lukas Baulig'] },
+          { title: 'Hindu, Kholby', actors: ['Wolfgang Rudolph'] },
+          { title: 'Farrokh, Elefantenjunge, Kholby', actors: ['Nils Kollig'] },
+          { title: 'Göttin Kali, Kholby', actors: ['Katharina Schnütgen'] },
+          { title: 'Polizist, Kalkutta', actors: ['Jakob Ellerich'] },
+          { title: 'Richterin Obadiah, Kalkutta', actors: ['Michaela Venus'] },
+          { title: 'Gerichtsschreiberin, Kalkutta', actors: ['Sabrina Jörg'] },
+          { title: 'Hafenarbeiterinnen, Hongkong',
+           actors: ['Klara Spies', 'Lotte Schäfer'] },
+          { title: 'Stoffhändlerin, Hongkong', actors: ['Heidrun Mengel'] },
+          { title: 'Jane Bunsby, Hongkong', actors: ['Maria Oster'] },
+          { title: 'Kellner, Hongkong',
+           actors: ['Nils Kollig', 'Jakob Ellerich', 'Lukas Baulig', 'Paul Reuter'] },
+          { title: 'William Batulcar, Yokohama', actors: ['Lukas Baulig'] },
+          { title: 'Stamp Proctor, San Francisco', actors: ['Horst Reuter'] },
+          { title: 'Kitty, San Francisco', actors: ['Daniela Gödert'] },
+          { title: 'Rose, San Francisco', actors: ['Jutta Wronka'] },
+          { title: 'Maschinist, Medicine Bow', actors: ['Paul Reuter'] },
+          { title: 'Schaffnerin, Medicine Bow', actors: ['Maria Oster'] },
+          { title: 'Reisende, Medicine Bow',
+           actors: ['Sabrina Jörg', 'Heidrun Mengel', 'Michaela Venus', 'Monika Näckel'] },
+          { title: 'Captain Andrew Speedy, New York', actors: ['Wolfgang Rudolph'] },
+          { title: 'Hafenarbeiterinnen, New York',
+           actors: ['Klara Spies', 'Lotte Schäfer'] },
+          { title: 'Matrosen, Liverpool',
+           actors: ['Jakob Ellerich', 'Nils Kollig', 'Lukas Baulig', 'Paul Reuter'] }
+        ]
+
+      },
+      {
+        title: 'Weitere Rollen',
+        entries: [
+          {
+            title: 'Reisende, Bürger in Paris, Suez, Kalkutta, Yokohama und Medicine Bow, Hindu-Prozession in Bombay, Bahmanen-Prozession in Kholby, Zecher in Hongkong, Saloongäste in San Francisco',
+            actors: ['Sabrina Jörg', 'Anike Jörg', 'Wolfgang Rudolph', 'Fenisia Rudolph', 'Michaela Venus', 'Brigitte Meier', 'Gabi Bernauer', 'Claudia Scholz', 'Barbara Näckel', 'Monika Näckel', 'Heidrun Mengel', 'Daniela Gödert', 'Jutta Wronka', 'Jörg Wronka', 'Horst Reuter', 'Katharina Schnütgen', 'Ida Butterick', 'Johanna Pellenz']
+          },
+          {
+            title: 'Hafen-Team, Bahnhof-Team, Artisten in Yokohama, Indianer in Medecine Bow',
+            actors: ['Lukas Baulig', 'Nils Kollig', 'Jakob Ellerich', 'Paul Reuter', 'Klara Spies', 'Lotte Schäfer', 'Janne Schäfer', 'Emma Böhm', 'Hanna Münich', 'Victoria Crestenco', 'Cosima Heinrich', 'Anike Jörg', 'Ida Butterick', 'Johanna Pellenz']
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'
+  = render 'faq', details:
