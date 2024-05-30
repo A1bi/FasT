@@ -4,12 +4,12 @@ import { toggleDisplay } from 'components/utils'
 export default class extends Controller {
   static targets = ['spinner', 'ticketsLink']
   static urlScheme = 'fastprint'
-  static testDocumentPath = 'uploads/muster.pdf'
+  static testDocumentPath = '/uploads/muster.pdf'
 
   printTickets (path) {
     if (typeof path === 'string') {
       this.currentTicketsPath = path
-    } else if (path instanceof Event) {
+    } else if (path instanceof CustomEvent) {
       this.currentTicketsPath = path.detail.path
     }
     this.ticketsLinkTarget.setAttribute('href', this.currentTicketsPath)
