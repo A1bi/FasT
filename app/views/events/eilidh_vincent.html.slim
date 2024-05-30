@@ -1,0 +1,42 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 20,
+    poster_filename: 'IndieFolk_Plakat'
+  }
+  styling = {
+    colors: ['F2A95A', '90593C', '2F59BF', '705845', '9C4947'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', title: 'Eilidh', details:
+    p „Eilidh”, die Kreation von Vincent und Eilidh, zwei Musikern, die sich zufällig am Musik-Konservatorium in Paris kennengelernt haben, ist ein Zeugnis für die harmonische Verschmelzung kultureller Einflüsse und gemeinsamer kreativer Bestrebungen. Vereint durch ihre Leidenschaft für Musikstile jenseits der klassischen Welt, begab sich das Duo auf die Reise, um ihre eigenen Lieder zu komponieren.
+    p Vincent, ein vielseitiger Multiinstrumentalist, begann mit dem E-Bass und erweiterte sein Repertoire um Gitarre, Klavier und verschiedene andere Instrumente. Eilidh, Bass und Gesang, fügt dem Ganzen eine reiche Mischung aus ihrem französischen und schottischen Erbe hinzu.
+    p Ihre Zusammenarbeit stellt nicht nur eine Verschmelzung von Vincents brasilianischen Wurzeln und Eilidhs keltischen Einflüssen dar, sondern hat auch zu einer sehr persönlichen, eklektischen und innovativen Musik geführt, die ihre unterschiedlichen Persönlichkeiten widerspiegelt.
+    p Während einer Reise nach Brasilien nahmen Eilidh" ihr erstes Album auf, das die Essenz ihrer musikalischen Entdeckungsreise festhält. Das Duo stand auch bei mehreren Konzerten auf der Bühne, tauchte in die pulsierende brasilianische Musikszene ein und hinterließ einen unauslöschlichen Eindruck auf ihrer musikalischen Reise.
+    p „Eilidh” ist ein Leuchtturm kultureller Verschmelzung und gemeinsamer kreativer Visionen, wobei ihre Musik als Leinwand dient, auf der verschiedene Einflüsse nahtlos zusammenkommen. Ihr Stil ist frisch, originell und dynamisch und spiegelt die Vielseitigkeit der Künstler wider, die dahinter stehen.
+
+  = render 'about', title: 'Über die Künstler'
+    h3.mt-0.mb-1 Vincent D'elia
+    p Vincent D'Elias musikalische Reise begann in Brasilien, wo er sich von klein auf dem E-Bass widmete. Angetrieben von seiner Leidenschaft für Musik absolvierte er eine formale Ausbildung in den Vereinigten Staaten und vertiefte sich in Mississippi in die Feinheiten des Kontrabasses und der klassischen Musik.
+    p In den USA hinterließ Vincent einen bleibenden Eindruck, indem er mit verschiedenen Ensembles für lateinamerikanische Musik, brasilianischen Gruppen und Jazzbands zusammenarbeitete. Sein musikalisches Können erstreckte sich auch auf den Orchesterbereich, wo er in symphonischen Ensembles mitwirkte.
+    p Auf der Suche nach weiteren Verfeinerungen überquerte Vincent den Atlantik, um am renommierten CNSMDP in Frankreich zu studieren. In diesem neuen Kapitel spielte er mit angesehenen Orchestern wie dem Ensemble Intercontemporain und dem Orchestre National d'Ile de France.
+    p Jenseits des Rampenlichts ist Vincents Liebe zur Musik eine Konstante in seinem Leben. Seine Hingabe, gepaart mit multikulturellen Erfahrungen, hat ihn zu einem globalen Musiker geformt, der sich in verschiedenen Genres und kulturellen Einflüssen zurechtfindet. Vincents Geschichte ist eine Geschichte der Leidenschaft und Hingabe und spiegelt die universelle Sprache der Musik wider, die Grenzen überschreitet.
+
+    h3.mb-1 Eilidh Saunière
+    p Eilidh Saunière, eine französische Musikerin mit schottischen Wurzeln, kam mit den bezaubernden Klängen der keltischen Musik auf die Welt. Da sie in eine Musikerfamilie hineingeboren wurde, war ihre Kindheit durchdrungen von der lebendigen Vielfalt der Melodien und den täglichen Rhythmen der Musiker.
+    p Eilidhs musikalische Reise begann schon früh, als sie sich mit dem Studium des klassischen Kontrabasses beschäftigte, eine Leidenschaft, die ihren künstlerischen Weg prägen sollte. Ihre Hingabe führte sie an das renommierte CNSMDP in Paris, wo sie ihr Handwerk weiter verfeinerte.
+    p Eine einzigartige Facette von Eilidhs musikalischem Ausdruck ist ihre Vorliebe für Kompositionen auf dem Kontrabass, begleitet von ihrer melodischen Stimme. In Solokonzerten stellte sie ihre Originalwerke vor und bot so eine Plattform für die Verschmelzung ihrer kreativen Talente.
+    p Neben ihrer solistischen Tätigkeit zeigte sich Eilidhs musikalische Vielseitigkeit auch in der Zusammenarbeit mit klassischen Orchestern, darunter das renommierte Orchestre National d'Ile de France. Jenseits der Klassik erkundete sie die Bereiche Funk und Rock und fügte ihrem musikalischen Repertoire eine dynamische Ebene hinzu.
+    p Eilidhs Verbindung zu ihren schottischen Wurzeln ist nach wie vor tief verwurzelt und wird durch häufige Reisen in die Heimat ihrer Vorfahren gestärkt. Ihre Kompositionen verweben auf subtile Weise die keltische Essenz mit ihrer Musik und schaffen eine harmonische Mischung aus Traditionen.
+    p Abseits der Bühne erstreckt sich Eilidhs künstlerische Neigung auch auf visuelle Formen. Sie hat eine Leidenschaft für Collagen und Papierkunst und beweist damit eine vielseitige Kreativität, die ihren gesamten künstlerischen Ausdruck bereichert.
+    p Eilidh Saunières Geschichte ist eine Geschichte des musikalischen Reichtums, der kulturellen Verschmelzung und einer tiefen Verbundenheit mit ihrem schottischen Erbe, die in jeder Note und jedem Strich ihrer künstlerischen Reise widerhallt.
+
+  = render 'photos'
+  = render 'tickets'
+  = render 'faq', details:
