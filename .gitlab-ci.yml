@@ -15,9 +15,6 @@ workflow:
   environment:
     name: production
     url: https://www.theater-kaisersesch.de
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"'
-      when: manual
 
 .default-tags:
   tags: [ruby-3.3]
@@ -86,6 +83,8 @@ deploy:
     - *bundle
   script:
     - ssh_wrap cap production deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"'
 
 run one off task:
   extends:
@@ -95,3 +94,6 @@ run one off task:
     - *bundle
   script:
     - ssh_wrap cap production one_off:run
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"'
+      when: manual
