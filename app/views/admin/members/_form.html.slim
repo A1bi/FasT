@@ -4,7 +4,7 @@
   h1 Mitgliederverwaltung
   h2 = title
   .row: .col: .card
-    = form_for [:admin, @member] do |f|
+    = form_for [:admin, @member], html: { novalidate: true } do |f|
       = render 'errors', errors: @member.errors
       = render 'errors', errors: @member.sepa_mandate.errors
       = hidden_field_tag :membership_application_id, @membership_application.id if @membership_application.present?
@@ -59,13 +59,13 @@
             - @sepa_mandates.each do |category, mandates|
               optgroup label=t(".sepa_mandates.#{category}")
                 - if mandates.any?
-                  = options_from_collection_for_select(mandates, :id, ->(m) { "#{m.number(prefixed: true)}: #{obfuscated_mandate_iban(m)}" }, selected: ->(m) { category == :all && m.id == @member.sepa_mandate_id })
+                  = options_from_collection_for_select(mandates, :id, ->(m) { "#{m.number(prefixed: true)}: #{m.iban}" }, selected: ->(m) { category == :all && m.id == @member.sepa_mandate_id })
         .mb-2
           = ff.label :debtor_name, 'Kontoinhaber'
           = ff.text_field :debtor_name
         .mb-2
           = ff.label :iban, 'IBAN'
-          = ff.text_field :iban, value: obfuscated_mandate_iban(@member.sepa_mandate), data: { validate_iban: true }
+          = ff.text_field :iban, value: @member.sepa_mandate.iban, data: { validate_iban: true }
         - if @member.sepa_mandate&.persisted?
           .mb-2
             = ff.label :issued_on, 'Mandatsdatum'
