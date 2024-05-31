@@ -1,13 +1,14 @@
 - title ||= 'Über das Stück'
+- nav_title = local_assigns.fetch(:nav_title, title)
 - details ||= {}
 
 - content_for :page_nav_elements
-  li: a href="##{title.parameterize}"
-    - words = title.split(' ')
+  li: a href="##{nav_title.parameterize}"
+    - words = nav_title.split(' ')
     span.d-sm-none> = words[..-2].join(' ')
     span = words[-1]
 
-.container.page-nav-anchor id=title.parameterize
+.container.page-nav-anchor id=nav_title.parameterize
   h2 = title
   .row
     - if details[:info_box]&.any? || details[:duration].present? || details[:break_duration].present? || details[:booklet_filename].present? || details[:poster_filename].present?

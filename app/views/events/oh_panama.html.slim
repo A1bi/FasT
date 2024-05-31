@@ -1,0 +1,34 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 50,
+    break_duration: 0,
+    info_box: {
+      play: {
+        'Autor' => 'Janosch',
+        'Ersterscheinung' => '1978'
+      },
+      event: {
+        'Regie' => 'Dietmar Staskowiak',
+        'Bühnenbau & Spiel' => 'Manfred Künster',
+        'Figurenbau' => 'Franziska Schmidt, Manfred Künster'
+      }
+    }
+  }
+  styling = {
+    colors: ['FFFFFF', '517BA8', 'DE8752', '727441', '33402F'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', details:
+    p Alles ist schön bei Tiger und Bär. Die beiden sind dicke Freunde. Sie fürchten sich vor nichts, weil sie zusammen wunderbar stark sind. Zusammen leben sie in einem kleinen, gemütlichen Haus – mit Schornstein.
+    p Als der Bär eine Kiste mit der Aufschrift „Panama“ findet, die soooo gut nach Bananen riecht, wird Panama das Land seiner Träume. Er überzeugt den Tiger mitzukommen. Denn der Bär ist stark wie ein Bär und der Tiger stark wie ein Tiger. Das reicht. Doch die Reise nach ihrem Traumland wird nicht ganz einfach, aber sie schaffen es...
+    p Eine phantasievolle und witzige Geschichte. Mit viel Musik. Und Tischfiguren. Und Spaß. Ein FigurenTheaterStück für Menschen ab 3 Jahren mit Tisch-, Hand- und Flachfiguren und Musik.
+
+  = render 'photos'
+  = render 'tickets'
+  = render 'faq', details:
