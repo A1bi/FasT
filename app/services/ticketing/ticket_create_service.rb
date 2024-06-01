@@ -80,7 +80,7 @@ module Ticketing
           type: ticket_type,
           date:
         )
-        ticket.seat = next_seat if seating?
+        ticket.seat = seats.shift if seating?
       end
     end
 
@@ -100,16 +100,13 @@ module Ticketing
       )
     end
 
-    def next_seat
-      return if seats.blank?
-
-      Ticketing::Seat.find(seats.shift)
-    end
-
     def seats
-      return if params[:socket_id].blank?
-
-      @seats ||= NodeApi.get_chosen_seats(params[:socket_id])
+      @seats ||= if params[:socket_id].blank?
+                   []
+                 else
+                   seat_ids = NodeApi.get_chosen_seats(params[:socket_id])
+                   Ticketing::Seat.where(id: seat_ids).order(:block_id, :number).to_a
+                 end
     end
 
     def seating?
