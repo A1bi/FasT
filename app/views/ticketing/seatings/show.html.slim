@@ -3,9 +3,9 @@
 .container
   h1 Sitzplan
 
-  .row: .col: .card
-    h3 Sitzplan wechseln
-    .text-center = @seatings.map { |seating| link_to_if @seating != seating, seating.name, seating }.join(', ').html_safe
+  .row: .col: .card data-controller='selected-location-switcher'
+    = label_tag :seating_id, 'Sitzplan'
+    = select_tag(:seating_id, options_for_select(@seatings.map { |s| [s.name, url_for(s)] }, url_for(@seating)), data: { action: 'selected-location-switcher#switchLocation' })
 
   .row
     .col-12.col-md-8

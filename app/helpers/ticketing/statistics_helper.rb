@@ -16,9 +16,9 @@ module Ticketing
 
     def options_for_events(events, current_event)
       events = events.map do |event|
-        ["#{event.dates.first.date.year} – #{event.name}", event.slug]
+        ["#{event.dates.first.date.year} – #{event.name}", url_for(slug: event.slug)]
       end
-      options_for_select(events, selected: current_event.slug)
+      options_for_select(events, selected: url_for(slug: current_event.slug))
     end
   end
 end
