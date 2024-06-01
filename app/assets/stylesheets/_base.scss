@@ -116,26 +116,42 @@ table {
     border-bottom: 1px solid $semi-gray;
   }
 
+  thead {
+    th, td {
+      border-bottom-width: 2px;
+    }
+  }
+
+  tfoot {
+    th, td {
+      border-top: 2px solid $semi-gray;
+    }
+  }
+
   tbody {
     &.hover tr:hover td {
       filter: brightness(97%);
       cursor: pointer;
     }
 
-    th {
-      border-bottom-width: 2px;
+    tr:nth-of-type(even) {
+      th, td {
+        background: var(--table-bg-even);
+      }
     }
 
-    tr:nth-of-type(even) td {
-      background: var(--table-bg-even);
+    tr:nth-of-type(odd) {
+      th, td {
+        background: var(--table-bg-odd);
+      }
     }
+  }
 
-    tr:nth-of-type(odd) td {
-      background: var(--table-bg-odd);
-    }
-
-    tr:last-child td {
-      border-bottom-width: 0;
+  tbody, tfoot {
+    tr:last-child {
+      th, td {
+        border-bottom-width: 0;
+      }
     }
   }
 }

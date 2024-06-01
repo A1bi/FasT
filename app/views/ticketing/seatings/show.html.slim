@@ -7,11 +7,26 @@
     h3 Sitzplan wechseln
     .text-center = @seatings.map { |seating| link_to_if @seating != seating, seating.name, seating }.join(', ').html_safe
 
-  .row: .col: .card
-    = render 'application/ticketing/seating', class: [:stage, :standalone], seating: @seating
+  .row
+    .col-12.col-md-8
+      .card
+        = render 'application/ticketing/seating', class: [:stage, :standalone], seating: @seating
+        h3 Download
+        p.text-center
+          = link_to 'PDF', { format: :pdf }, class: 'btn btn-sm me-1'
+          = link_to 'SVG', { format: :svg }, class: 'btn btn-sm'
 
-  .row: .col: .card.text-center
-    h3 Download
-    p
-      = link_to 'PDF', { format: :pdf }, class: 'btn btn-sm me-1'
-      = link_to 'SVG', { format: :svg }, class: 'btn btn-sm'
+    .col-12.col-md-4: .card.min-h-100
+      h3 Sitzplätze
+      table
+        thead: tr
+          th scope='col' Block
+          th.text-end scope='col' Plätze
+        tbody
+          - @seating.blocks.order(:name).each do |block|
+            tr
+              th scope='row' = block.name
+              td.text-end = block.seats.count
+        tfoot: tr
+          th scope='row' Gesamt
+          td.text-end = @seating.seats.count
