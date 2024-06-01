@@ -5,17 +5,17 @@
   .card: .table-responsive: table
     thead
       tr
-        th Termin
+        th.text-start Termin
         - ticket_types.each do |type|
-          th = type.name
+          th scope='col' = type.name
         th Gesamt
         - if local_assigns[:retail].blank?
-          th Umsatz
+          th.text-end scope='col' Umsatz
     tbody
       - stats = scope[:stats] || {}
       - event.dates.each do |date|
         tr class=(:cancelled if date.cancelled?)
-          td = l date.date, format: '%a, %-d. %B'
+          th.text-start scope='row' = l date.date, format: '%a, %-d. %B'
           - ticket_types.each do |type|
             td.text-center = format_number(stats.dig(date.id, type.id))
           td.text-center
@@ -25,8 +25,9 @@
                 | (#{format_percentage(stats.dig(date.id))})
           - if local_assigns[:retail].blank?
             td.text-end = format_revenue(stats.dig(date.id))
+    tfoot
       tr
-        td
+        th.text-start scope='row' Gesamt
         - ticket_types.each do |type|
           td.text-center = stats.dig(:total, type.id) || 0
         td.text-center

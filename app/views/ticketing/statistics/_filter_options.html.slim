@@ -1,4 +1,4 @@
-div data-controller='ticketing--statistics-event-filter ticketing--statistics-table' data-event-url=url_for(slug: ':slug')
+.card data-controller='ticketing--statistics-event-filter ticketing--statistics-table' data-event-url=url_for(slug: ':slug')
   .mb-2
     = label_tag :event_id, 'Veranstaltung'
     = select_tag(:event_id, options_for_events(@events, @event), data: { action: 'ticketing--statistics-event-filter#selectEvent' })
