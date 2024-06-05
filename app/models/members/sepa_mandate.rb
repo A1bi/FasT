@@ -28,7 +28,7 @@ module Members
 
     def number=(number)
       number.sub!('FAST.', '') if number.is_a? String
-      super(number)
+      super
     end
 
     private
