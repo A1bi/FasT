@@ -111,6 +111,8 @@
 }
 
 [data-controller='map'] {
+  --map-popup-bg-color: var(--secondary-bg-color);
+
   .map {
     min-height: 300px;
     max-height: 60vh;
@@ -124,11 +126,33 @@
     @extend %p-2;
     @extend %text-center;
     @extend .shadow;
+    background: var(--map-popup-bg-color);
     border-radius: 0;
+
+    .mapboxgl-popup-close-button {
+      @extend .btn;
+      font-size: .8rem;
+      padding: .015rem .3rem;
+    }
 
     h1, h2, h3 {
       @extend %mt-0;
       @extend %mb-1;
+    }
+  }
+
+  @each $position, $directions in (bottom: (top, top-left, top-right),
+                                   top: (bottom bottom-left bottom-right),
+                                   left: (right),
+                                   right: (left)) {
+    %mapboxgl-popup-tip-#{$position} {
+      border-#{$position}-color: var(--map-popup-bg-color);
+    }
+
+    @each $direction in $directions {
+      .mapboxgl-popup-anchor-#{$direction} .mapboxgl-popup-tip {
+        @extend %mapboxgl-popup-tip-#{$position};
+      }
     }
   }
 

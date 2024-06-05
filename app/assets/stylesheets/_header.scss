@@ -41,6 +41,7 @@ header {
       left: calc(var(--menu-toggle-left) + var(--menu-toggle-offset, 0px));
       top: calc(var(--menu-toggle-top) + var(--menu-toggle-offset, 0px));
       transform: rotate(45deg);
+      transition: color .3s;
     }
 
     &:hover {
@@ -65,13 +66,19 @@ header {
       }
 
       &:hover {
-        color: $cta-color-hover;
         border-color: $cta-color-hover;
+
+        &:after {
+          color: $cta-color-hover;
+        }
       }
 
-      &:active {
-        color: $cta-color-active;
+      &:active, .menu-active & {
         border-color: $cta-color-active;
+
+        &:after {
+          color: $cta-color-active;
+        }
       }
     }
   }
