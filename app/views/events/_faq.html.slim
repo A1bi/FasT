@@ -53,9 +53,7 @@ hr
 
     h3#anfahrt Anfahrt
 
-    .mb-2 data-controller='map' data-map-vendor-stylesheet-path-value=asset_path('mapbox-gl.css')
-      .map data-map-target='map'
-        .popup data-map-target='popup'
+    = render 'map', type: 'faq', info_path: event_map_path(@event.slug), class: 'mb-2'
 
     - if open_air
       = question_answer 'Wo finde ich die Freilichtbühne?' do

@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # events
   scope controller: :events, path: 'events' do
-    get ':slug/map', action: :map, format: :json
+    get ':slug/map', action: :map, as: :event_map, format: :json
     get ':slug', action: :show, as: :event
   end
 

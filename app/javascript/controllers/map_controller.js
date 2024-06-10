@@ -1,10 +1,11 @@
 import { Controller } from '@hotwired/stimulus'
-import { fetch, loadVendorStylesheet } from 'components/utils'
+import { loadVendorStylesheet, fetch } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['map', 'popup']
   static values = {
-    vendorStylesheetPath: String
+    vendorStylesheetPath: String,
+    infoPath: String
   }
 
   async connect () {
@@ -12,7 +13,7 @@ export default class extends Controller {
 
     this.mapboxgl = (await import('mapbox-gl')).default
 
-    const mapInfo = await this.fetchMapInformation()
+    const mapInfo = await fetch(this.infoPathValue)
 
     await this.createMap()
     this.registerEvents()
@@ -22,11 +23,6 @@ export default class extends Controller {
       this.addMarkers(mapInfo.markers)
       this.fitToMarkersIfInView()
     })
-  }
-
-  async fetchMapInformation () {
-    const path = `${window.location.pathname}/map.json`
-    return await fetch(path)
   }
 
   async createMap () {
@@ -40,47 +36,23 @@ export default class extends Controller {
   }
 
   registerEvents () {
-    this.map.on('click', 'places', event => {
-      const coordinates = event.features[0].geometry.coordinates.slice()
-      const props = event.features[0].properties
-
-      const popup = new this.mapboxgl.Popup().setLngLat(coordinates)
-      popup.setHTML(`<b>${props.title}</b><br>${props.description}`)
-      popup.addTo(this.map)
-    })
-
     this.fitToMarkersIfInView = this.fitToMarkersIfInView.bind(this)
     window.addEventListener('scroll', this.fitToMarkersIfInView)
+  }
+
+  limitToBounds () {
+    const source = this.map.getSource('openmaptiles')
+    this.map.setMaxBounds(source.bounds)
   }
 
   addMarkers (markers) {
     this.markers = []
 
     markers.forEach(markerInfo => {
-      let el
-      if (markerInfo.icon) {
-        el = document.createElement('div')
-        el.className = markerInfo.icon
-      }
-
-      const marker = new this.mapboxgl.Marker({
-        element: el,
-        color: '#db0303'
-      })
-      marker.setLngLat(markerInfo.loc)
+      const marker = this.createMarker(markerInfo)
       marker.addTo(this.map)
-
-      const popup = new this.mapboxgl.Popup({ offset: el ? 12 : 40 })
-      popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc || ''}`)
-      marker.setPopup(popup)
-
       this.markers.push(marker)
     })
-  }
-
-  limitToBounds () {
-    const source = this.map.getSource('openmaptiles')
-    this.map.setMaxBounds(source.bounds)
   }
 
   fitToMarkersIfInView () {
