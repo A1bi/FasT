@@ -2,26 +2,19 @@ import MapController from './map_controller'
 
 export default class extends MapController {
   createMarker (markerInfo) {
-    let el
+    let element
     if (markerInfo.icon) {
-      el = document.createElement('div')
-      el.className = markerInfo.icon
+      element = document.createElement('a')
+      element.classList.add(markerInfo.icon)
     }
 
-    const marker = new this.mapboxgl.Marker({
-      element: el,
-      color: '#db0303'
-    })
+    const marker = new this.mapboxgl.Marker({ element })
     marker.setLngLat(markerInfo.loc)
 
-    this.createPopupForMarker(marker, markerInfo)
-
-    return marker
-  }
-
-  createPopupForMarker (marker, markerInfo) {
-    const popup = new this.mapboxgl.Popup({ offset: markerInfo.icon ? 12 : 40 })
+    const popup = new this.mapboxgl.Popup()
     popup.setHTML(`<h3>${markerInfo.title}</h3>${markerInfo.desc || ''}`)
     marker.setPopup(popup)
+
+    return marker
   }
 }

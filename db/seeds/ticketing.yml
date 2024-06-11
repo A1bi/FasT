@@ -3,7 +3,7 @@ location:
   street: Teststraße 1
   postcode: '12345'
   city: Testhausen
-  coordinates: [50.7992, 6.8828]
+  coordinates: [50.2308, 7.1415]
 ticket_types:
   - name: Ermäßigt
     info: Kinder und so
