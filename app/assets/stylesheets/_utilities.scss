@@ -38,6 +38,7 @@
 @include utility-set(w, width, (100: 100%));
 @include utility-set(h, height, (100: 100%, 50vh: 50vh, 100vh: 100vh));
 @include utility-set(min-h, min-height, (100: 100%, 100vh: 100vh));
+@include utility-set(flex, flex-wrap, (wrap));
 
 @each $step, $factor in $spacing-steps {
   @each $property, $abbreviation in (margin: m, padding: p) {

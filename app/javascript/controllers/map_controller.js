@@ -21,6 +21,7 @@ export default class extends Controller {
     this.map.on('load', () => {
       this.limitToBounds()
       this.setUpMap(mapInfo)
+      this.fitToFeaturesWhenInView()
     })
   }
 
@@ -31,10 +32,22 @@ export default class extends Controller {
     })
 
     this.map.addControl(new this.mapboxgl.NavigationControl())
-    this.map.scrollZoom.disable()
   }
 
-  registerEvents () {}
+  registerEvents () {
+    this.fitToFeaturesWhenInView = this.fitToFeaturesWhenInView.bind(this)
+    window.addEventListener('scroll', this.fitToFeaturesWhenInView)
+  }
+
+  fitToFeaturesWhenInView () {
+    const scrollY = window.pageYOffset + window.innerHeight * 0.6
+    if (scrollY < this.mapTarget.offsetTop) return
+    if (!this.fitToFeatures()) return
+
+    window.removeEventListener('scroll', this.fitToFeaturesWhenInView)
+  }
+
+  fitToFeatures () {}
 
   limitToBounds () {
     const source = this.map.getSource('openmaptiles')

@@ -67,6 +67,18 @@ module Ticketing
       end
     end
 
+    def map_data
+      counts = Ticketing::Order.where.not(plz: nil).group(:plz).order(count_all: :desc).count
+      geolocations = Ticketing::Geolocation.in_order_of(:postcode, counts.keys)
+
+      @locations = counts.values.each_with_object([]).with_index do |(count, locations), i|
+        locations << {
+          **geolocations[i].slice(:postcode, :cities, :districts, :coordinates),
+          orders: count
+        }.symbolize_keys
+      end
+    end
+
     private
 
     def stats_for_event(event)

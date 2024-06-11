@@ -98,6 +98,7 @@ Rails.application.routes.draw do
         scope controller: :statistics, path: 'statistik', as: :statistics do
           get 'seats/:date_id', action: :seats, as: :seats
           get 'chart_data', action: :chart_data, as: :chart_data
+          get 'map_data', action: :map_data, as: :map_data
           get '/(:slug)', action: :index
         end
         scope path: 'bestellungen' do

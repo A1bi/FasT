@@ -25,19 +25,26 @@
 
 hr
 
-.container
-  h2 Tägliche Verkaufszahlen
-  .row: .col: .card
-    div data-controller='ticketing--statistics-chart' data-ticketing--statistics-chart-data-path=ticketing_statistics_chart_data_path
-      canvas data-ticketing--statistics-chart-target='canvas'
-
-hr
-
 - cache [:ticketing, :statistics, :seats, @event]
   .container
     - next unless @event.seating?
     h2 Sitzauslastung
-    - @event.dates.each do |date|
-      .row: .col: .card
-        h3 = l date.date, format: '%A, %d. %B, %H:%M'
-        = render 'application/ticketing/seating', event: @event, seats_path: ticketing_statistics_seats_path(date), class: %i[standalone availability]
+    .row
+      - @event.dates.each do |date|
+        .col-12.col-md-6: .card
+          h3 = l date.date, format: '%A, %d. %B, %H:%M'
+          = render 'application/ticketing/seating', event: @event, seats_path: ticketing_statistics_seats_path(date), class: %i[standalone availability]
+
+hr
+
+.container
+  .row
+    .col-12.col-md-6: .card.h-100.d-flex.flex-wrap
+      h3.w-100 Tägliche Verkaufszahlen
+      .w-100 data-controller='ticketing--statistics-chart' data-ticketing--statistics-chart-data-path=ticketing_statistics_chart_data_path
+        canvas data-ticketing--statistics-chart-target='canvas'
+    .col-12.col-md-6: .card
+      h3 Käuferstandorte
+      = render 'map', type: 'ticketing--orders', info_path: ticketing_statistics_map_data_path
+    .col-12.text-center
+      em.small Diese beiden Statistiken sind über alle Veranstaltungen aggregiert.
