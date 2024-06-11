@@ -181,11 +181,11 @@ def create_tickets(order, coupons = [])
   end
 end
 
-5.times do
+ticketing_seeds[:geolocations].each do |geolocation|
   Ticketing::Geolocation.create(
-    postcode: FFaker::AddressDE.zip_code,
-    cities: [FFaker::AddressDE.city],
-    coordinates: [FFaker::Geolocation.lat, FFaker::Geolocation.lng]
+    postcode: geolocation[:postcode],
+    cities: [geolocation[:city]],
+    coordinates: geolocation[:coordinates]
   )
 end
 postcodes = Ticketing::Geolocation.pluck(:postcode)

@@ -21,6 +21,22 @@ retail_store_user:
   password: '123456'
 box_office:
   name: Testkasse
+geolocations:
+  - postcode: '56759'
+    city: Kaisersesch
+    coordinates: [50.23158075, 7.138385200179062]
+  - postcode: '56727'
+    city: Mayen
+    coordinates: [50.3037941, 7.204848248159509]
+  - postcode: '56812'
+    city: Cochem
+    coordinates: [50.138412849999995, 7.132495674064597]
+  - postcode: '56826'
+    city: Lutzerath
+    coordinates: [50.124345000000005, 7.013747183247773]
+  - postcode: '56761'
+    city: Masburg
+    coordinates: [50.23776585, 7.1193888633595375]
 events:
   - identifier: jedermann
     name: Jedermann
