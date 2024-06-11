@@ -20,8 +20,7 @@ export default class extends Controller {
 
     this.map.on('load', () => {
       this.limitToBounds()
-      this.addMarkers(mapInfo.markers)
-      this.fitToMarkersIfInView()
+      this.setUpMap(mapInfo)
     })
   }
 
@@ -35,35 +34,10 @@ export default class extends Controller {
     this.map.scrollZoom.disable()
   }
 
-  registerEvents () {
-    this.fitToMarkersIfInView = this.fitToMarkersIfInView.bind(this)
-    window.addEventListener('scroll', this.fitToMarkersIfInView)
-  }
+  registerEvents () {}
 
   limitToBounds () {
     const source = this.map.getSource('openmaptiles')
     this.map.setMaxBounds(source.bounds)
-  }
-
-  addMarkers (markers) {
-    this.markers = []
-
-    markers.forEach(markerInfo => {
-      const marker = this.createMarker(markerInfo)
-      marker.addTo(this.map)
-      this.markers.push(marker)
-    })
-  }
-
-  fitToMarkersIfInView () {
-    if (!this.markers) return
-
-    const scrollY = window.pageYOffset + window.innerHeight * 0.6
-    if (scrollY < this.mapTarget.offsetTop) return
-
-    const center = this.markers[this.markers.length - 1].getLngLat()
-    this.map.flyTo({ center, zoom: 14 })
-
-    window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }
 }

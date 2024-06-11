@@ -1,6 +1,23 @@
 import MapController from './map_controller'
 
 export default class extends MapController {
+  registerEvents () {
+    this.fitToMarkersIfInView = this.fitToMarkersIfInView.bind(this)
+    window.addEventListener('scroll', this.fitToMarkersIfInView)
+  }
+
+  setUpMap (mapInfo) {
+    this.markers = []
+
+    mapInfo.markers.forEach(markerInfo => {
+      const marker = this.createMarker(markerInfo)
+      marker.addTo(this.map)
+      this.markers.push(marker)
+    })
+
+    this.fitToMarkersIfInView()
+  }
+
   createMarker (markerInfo) {
     let element
     if (markerInfo.icon) {
@@ -16,5 +33,17 @@ export default class extends MapController {
     marker.setPopup(popup)
 
     return marker
+  }
+
+  fitToMarkersIfInView () {
+    if (!this.markers) return
+
+    const scrollY = window.pageYOffset + window.innerHeight * 0.6
+    if (scrollY < this.mapTarget.offsetTop) return
+
+    const center = this.markers[this.markers.length - 1].getLngLat()
+    this.map.flyTo({ center, zoom: 14 })
+
+    window.removeEventListener('scroll', this.fitToMarkersIfInView)
   }
 }
