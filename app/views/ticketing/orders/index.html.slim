@@ -2,7 +2,7 @@
 
 .container: .row: .col.w-100
   h1 Bestellungen
-  = render 'application/ticketing/search_form', url: ticketing_orders_path, label: 'Bestellung suchen', placeholder: current_user.admin? ? 'Bestell-, Ticketnummer oder Name des Bestellers' : 'Bestell- oder Ticketnummer', min_length: controller.class::SEARCH_QUERY_MIN_LENGTH
+  = render 'application/ticketing/search_form', url: ticketing_orders_path, label: 'Bestellung suchen', placeholder: current_user.admin? ? 'Bestell-, Ticketnummer, Name des Bestellers oder PLZ' : 'Bestell- oder Ticketnummer', min_length: controller.class::SEARCH_QUERY_MIN_LENGTH
   .d-flex.justify-content-end.align-items-center
     - if current_user.admin?
       = render 'push_notifications_button'

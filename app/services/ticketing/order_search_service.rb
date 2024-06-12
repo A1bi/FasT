@@ -2,6 +2,9 @@
 
 module Ticketing
   class OrderSearchService < SearchService
+    TICKET_NUMBER_REGEX = /\A(\d{1,#{Order::NUMBER_DIGITS}})(-(\d+))?\z/
+    POSTCODE_REGEX = /\A\d{5}\z/
+
     def execute
       return [[], nil] if @query.blank?
 
@@ -10,7 +13,8 @@ module Ticketing
       orders = if order.present?
                  [order]
                else
-                 records_by_full_text_search(Order, %i[first_name last_name affiliation], %i[last_name first_name])
+                 orders_by_postcode ||
+                   records_by_full_text_search(Order, %i[first_name last_name affiliation], %i[last_name first_name])
                end
 
       [orders, ticket]
@@ -29,15 +33,16 @@ module Ticketing
       [order, ticket]
     end
 
-    def match_number_parts
-      return false unless @query =~ ticket_number_regex
+    def orders_by_postcode
+      return unless @query =~ POSTCODE_REGEX
 
-      [Regexp.last_match(1), Regexp.last_match(3)]
+      scope.where(plz: @query)
     end
 
-    def ticket_number_regex
-      max_digits = Order::NUMBER_DIGITS
-      /\A(\d{1,#{max_digits}})(-(\d+))?\z/
+    def match_number_parts
+      return false unless @query =~ TICKET_NUMBER_REGEX
+
+      [Regexp.last_match(1), Regexp.last_match(3)]
     end
   end
 end
