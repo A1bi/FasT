@@ -29,18 +29,18 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
       it 'renders totals' do
         subject
         total = event.ticket_types.first.price * 2 + 22
-        expect(json_response['subtotal']).to eq(total)
-        expect(json_response['total']).to eq(total)
-        expect(json_response['total_after_coupons']).to eq(total)
-        expect(json_response['free_tickets_discount']).to eq(0)
-        expect(json_response['credit_discount']).to eq(0)
+        expect(response.parsed_body['subtotal']).to eq(total)
+        expect(response.parsed_body['total']).to eq(total)
+        expect(response.parsed_body['total_after_coupons']).to eq(total)
+        expect(response.parsed_body['free_tickets_discount']).to eq(0)
+        expect(response.parsed_body['credit_discount']).to eq(0)
       end
     end
 
     shared_examples 'no redeemed coupons' do
       it 'renders no redeemed coupons' do
         subject
-        expect(json_response['redeemed_coupons']).to eq([])
+        expect(response.parsed_body['redeemed_coupons']).to eq([])
       end
     end
 
@@ -61,16 +61,16 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
         subject
         first_price = event.ticket_types.first.price
         total = first_price + 22
-        expect(json_response['total']).to eq(total)
-        expect(json_response['subtotal']).to eq(total + first_price)
-        expect(json_response['total_after_coupons']).to eq(total - 13)
-        expect(json_response['free_tickets_discount']).to eq(-first_price)
-        expect(json_response['credit_discount']).to eq(-13)
+        expect(response.parsed_body['total']).to eq(total)
+        expect(response.parsed_body['subtotal']).to eq(total + first_price)
+        expect(response.parsed_body['total_after_coupons']).to eq(total - 13)
+        expect(response.parsed_body['free_tickets_discount']).to eq(-first_price)
+        expect(response.parsed_body['credit_discount']).to eq(-13)
       end
 
       it 'renders redeemed coupons' do
         subject
-        expect(json_response['redeemed_coupons']).to eq(coupons.pluck(:code))
+        expect(response.parsed_body['redeemed_coupons']).to eq(coupons.pluck(:code))
       end
     end
 
