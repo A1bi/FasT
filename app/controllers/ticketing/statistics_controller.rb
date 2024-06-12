@@ -68,7 +68,8 @@ module Ticketing
     end
 
     def map_data
-      counts = Ticketing::Order.where.not(plz: nil).group(:plz).order(count_all: :desc).count
+      postcodes = Ticketing::Geolocation.pluck(:postcode)
+      counts = Ticketing::Order.where(plz: postcodes).group(:plz).order(count_all: :desc).count
       geolocations = Ticketing::Geolocation.in_order_of(:postcode, counts.keys)
 
       @locations = counts.values.each_with_object([]).with_index do |(count, locations), i|

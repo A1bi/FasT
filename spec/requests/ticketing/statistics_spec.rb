@@ -14,6 +14,7 @@ RSpec.describe 'Ticketing::StatisticsController' do
       sign_in(user:)
 
       create_orders(1, 2)
+      create(:web_order, :complete, plz: '99999')
       create_orders(0, 1)
       create_orders(2, 4)
     end
