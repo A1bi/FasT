@@ -1,6 +1,11 @@
 import MapController from '../map_controller'
 
 export default class extends MapController {
+  static values = {
+    ...super.values,
+    orderPath: String
+  }
+
   registerEvents () {
     super.registerEvents()
 
@@ -14,7 +19,9 @@ export default class extends MapController {
       const props = feature.properties
 
       const popup = new this.mapboxgl.Popup().setLngLat(feature.geometry.coordinates)
-      popup.setHTML(`<h3>${props.city}</h3><p>${props.postcode}</p><p>${props.orders} Bestellungen</p>`)
+      popup.setHTML(`<h3>${props.postcode}</h3>
+                     <p>${JSON.parse(props.cities).join(', ')}</p>
+                     <p><a href="${this.orderPathValue}${props.postcode}">${props.orders} Bestellungen</a></p>`)
       popup.addTo(this.map)
     })
 
@@ -53,11 +60,7 @@ export default class extends MapController {
           type: 'Point',
           coordinates: location.coordinates
         },
-        properties: {
-          orders: location.orders,
-          postcode: location.postcode,
-          city: location.cities[0]
-        }
+        properties: location
       }
     })
 

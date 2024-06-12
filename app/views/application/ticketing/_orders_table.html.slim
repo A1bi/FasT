@@ -27,7 +27,7 @@
               td.text-center: tt = link_to order.number, ticketing_order_path(order)
               td
                 - if order.try(:anonymized?)
-                  em.anonymized anonymisiert
+                  em.text-body-secondary anonymisiert
                 - elsif order.is_a? Ticketing::Retail::Order
                   em Vorverkaufsstelle
                   em.small.d-block.text-body-secondary = order.store.name

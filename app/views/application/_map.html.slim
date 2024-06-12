@@ -1,3 +1,3 @@
-div data={ controller: "#{type}-map", "#{type}-map-vendor-stylesheet-path-value": asset_path('mapbox-gl.css'), "#{type}-map-info-path-value": info_path } class=local_assigns[:class]
+div data={ controller: "#{type}-map", "#{type}-map-vendor-stylesheet-path-value": asset_path('mapbox-gl.css'), "#{type}-map-info-path-value": info_path, **local_assigns.fetch(:additional_data, {}) } class=local_assigns[:class]
   .map data={ "#{type}-map-target": 'map' }
     .popup data={ "#{type}-map-target": 'popup' }
