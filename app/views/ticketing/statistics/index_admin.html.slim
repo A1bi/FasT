@@ -45,6 +45,6 @@ hr
         canvas data-ticketing--statistics-chart-target='canvas'
     .col-12.col-md-6: .card
       h3 Käuferstandorte
-      = render 'map', type: 'ticketing--orders', info_path: ticketing_statistics_map_data_path, additional_data: { ticketing__orders_map_order_path_value: ticketing_order_path('', q: '') }
+      = render 'map', type: 'ticketing--orders', info_path: ticketing_statistics_map_data_path, additional_data: { ticketing__orders_map_order_path_value: ticketing_orders_path('', q: '') }
     .col-12.text-center
       em.small Diese beiden Statistiken sind über alle Veranstaltungen aggregiert.

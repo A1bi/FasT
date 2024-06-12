@@ -1,4 +1,4 @@
-import MapController from './map_controller'
+import MapController from 'controllers/map_controller'
 
 export default class extends MapController {
   setUpMap (mapInfo) {
