@@ -31,7 +31,7 @@
       @extend %justify-content-center;
       @extend %mt-2;
       @extend %py-1, %px-2;
-      flex-wrap: wrap;
+      @extend %flex-wrap;
       gap: spacing(1) spacing(2);
 
       [data-status] {

@@ -49,7 +49,7 @@
 
     .info {
       @extend %d-flex;
-      flex-wrap: wrap;
+      @extend %flex-wrap;
       column-gap: spacing(2);
 
       .segment {

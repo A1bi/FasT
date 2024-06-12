@@ -10,10 +10,10 @@ footer {
   ul {
     @extend %d-flex;
     @extend %justify-content-center;
+    @extend %flex-wrap;
     @extend .ff-l;
     @extend .list-style-none;
     @extend %black-links;
     gap: spacing(1) spacing(2);
-    flex-wrap: wrap;
   }
 }

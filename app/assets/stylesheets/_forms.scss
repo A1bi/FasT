@@ -107,9 +107,9 @@ textarea {
 
   &.honeypot {
     @extend %p-0;
+    @extend .text-nowrap;
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute;
-    white-space: nowrap;
     height: 1px;
     width: 1px;
     overflow: hidden;
