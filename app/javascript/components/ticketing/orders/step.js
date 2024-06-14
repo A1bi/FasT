@@ -80,6 +80,10 @@ export default class {
     return true
   }
 
+  get showExpressCheckoutElement () {
+    return false
+  }
+
   formatCurrency (value) {
     return `${value.toFixed(2).toString().replace('.', ',')} €`
   }

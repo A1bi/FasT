@@ -17,7 +17,7 @@ export default class extends Step {
       this.showSeatingBtn.addEventListener('click', () => {
         this.slideToggle(this.seatingBox, true)
         toggleDisplay(this.showSeatingBtn, false)
-        this.delegate.updateNextBtn()
+        this.delegate.updateBtns()
       })
     }
 
@@ -68,7 +68,7 @@ export default class extends Step {
     if (this.hasSeatingPlan) {
       this.updateSeatingPlan()
     } else {
-      this.delegate.updateNextBtn()
+      this.delegate.updateBtns()
     }
 
     this.addBreadcrumb('set date', {
@@ -128,5 +128,9 @@ export default class extends Step {
 
   seatChooserExpired () {
     this.expire()
+  }
+
+  get showExpressCheckoutElement () {
+    return true
   }
 }

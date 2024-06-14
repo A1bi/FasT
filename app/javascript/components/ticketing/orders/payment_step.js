@@ -12,7 +12,7 @@ export default class extends Step {
         const chargeDataBox = this.box.querySelector('.charge_data')
         this.slideToggle(chargeDataBox, this.methodIsCharge)
         chargeDataBox.querySelectorAll(':scope input').forEach(el => { el.disabled = !this.methodIsCharge })
-        this.delegate.updateNextBtn()
+        this.delegate.updateBtns()
       })
     })
   }

@@ -45,6 +45,10 @@ module Ticketing
       retail_printable_api_ticketing_order_path(order.signed_id(expires_in: 1.hour))
     end
 
+    def stripe_public_key
+      Rails.application.credentials.stripe[Rails.env.production? ? 'live' : 'test'].public_key
+    end
+
     private
 
     def translate_billing_transaction_note(key)

@@ -19,9 +19,4 @@
       .plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
     = render 'step_box', type: @type, event_id: @event.id
-
-    .row.btns
-      .col-4
-        button.btn.prev disabled=true zurück
-      .col-8.text-end
-        button.btn.next disabled=true weiter
+    = render 'buttons'

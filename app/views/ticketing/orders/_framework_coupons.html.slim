@@ -11,9 +11,4 @@
       .step.confirm Bestätigung
 
     = render 'step_box', type: :web, coupons: true
-
-    .row.btns
-      .col-4
-        button.btn.prev disabled=true zurück
-      .col-8.text-end
-        button.btn.next disabled=true weiter
+    = render 'buttons'

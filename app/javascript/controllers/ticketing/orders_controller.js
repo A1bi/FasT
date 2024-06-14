@@ -9,7 +9,11 @@ import FinishStep from 'components/ticketing/orders/finish_step'
 import { toggleDisplay, toggleDisplayIfExists, togglePluralText } from 'components/utils'
 
 export default class extends Controller {
-  initialize () {
+  static values = {
+    stripeKey: String
+  }
+
+  async initialize () {
     this.currentStepIndex = -1
     this.steps = []
     this.expirationTimer = { type: 0, timer: null, times: [420, 60] }
@@ -20,6 +24,7 @@ export default class extends Controller {
     this.orderFrameBox = document.querySelector('.order-framework')
     this.expirationBox = document.querySelector('.expiration')
     this.btns = document.querySelectorAll('.btns .btn')
+    this.expressCheckoutBox = this.orderFrameBox.querySelector('.express-checkout')
     this.progressBox = document.querySelector('.progress')
     this.modalBox = this.stepBox.querySelector('.modalAlert')
 
@@ -57,6 +62,9 @@ export default class extends Controller {
     this.resetExpirationTimer()
 
     this.toggleModalSpinner(true)
+
+    await this.updateExpressCheckoutElement()
+
     // await layouting of all steps so initial stepBox height is correct
     setTimeout(() => {
       this.showNext()
@@ -80,14 +88,16 @@ export default class extends Controller {
     return [...this.btns].find(b => b.matches(`.${btn}`))
   }
 
-  updateNextBtn () {
-    if (!this.currentStep) return
-    this.toggleNextBtn(this.currentStep.nextBtnEnabled())
-  }
-
   updateBtns () {
+    if (!this.currentStep) return
+
     this.toggleBtn('prev', this.currentStepIndex > 0)
-    this.updateNextBtn()
+    this.toggleNextBtn(this.currentStep.nextBtnEnabled())
+
+    toggleDisplay(this.expressCheckoutBox, this.paymentRequired && this.currentStep.showExpressCheckoutElement)
+    if (this.currentStep.showExpressCheckoutElement) {
+      this.updateExpressCheckoutElement()
+    }
   }
 
   hideOrderControls () {
@@ -232,6 +242,77 @@ export default class extends Controller {
 
   get paymentRequired () {
     return this.orderTotal > 0
+  }
+
+  async initStripe () {
+    if (this.stripe) return
+
+    const { loadStripe } = await import('@stripe/stripe-js')
+    this.stripe = await loadStripe(this.stripeKeyValue)
+  }
+
+  async updateExpressCheckoutElement () {
+    if (!this.expressCheckoutAvailable) return
+
+    await this.initStripe()
+
+    if (!this.paymentRequired) return
+
+    const options = {
+      mode: 'payment',
+      amount: this.orderTotal * 100,
+      currency: 'eur',
+      appearance: {
+        variables: {
+          borderRadius: 0
+        }
+      }
+    }
+
+    if (this.stripeElements) {
+      this.stripeElements.update(options)
+    } else {
+      this.stripeElements = this.stripe.elements(options)
+    }
+
+    if (!this.expressCheckoutElement) {
+      this.expressCheckoutElement = this.stripeElements.create('expressCheckout', {
+        buttonType: {
+          googlePay: 'checkout',
+          applePay: 'check-out'
+        }
+      })
+      this.expressCheckoutElement.mount(this.expressCheckoutBox)
+      this.expressCheckoutElement.on('click', event => {
+        event.resolve({
+          emailRequired: true,
+          phoneNumberRequired: true,
+          lineItems: this.expressCheckoutLineItems
+        })
+      })
+    }
+  }
+
+  get expressCheckoutLineItems () {
+    const lineItems = this.lineItems.map(lineItem => {
+      return Array(lineItem.number).fill({
+        name: lineItem.label,
+        amount: lineItem.price * 100
+      })
+    }).flat()
+
+    if (this.orderDiscount !== 0) {
+      lineItems.push({
+        name: 'Abzug durch Gutscheine',
+        amount: this.orderDiscount * 100
+      })
+    }
+
+    return lineItems
+  }
+
+  get expressCheckoutAvailable () {
+    return !window.ApplePaySession || window.ApplePaySession.canMakePayments
   }
 
   updateExpirationCounter (seconds) {

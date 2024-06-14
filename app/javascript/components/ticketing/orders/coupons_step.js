@@ -46,6 +46,8 @@ export default class extends Step {
     this.delegate.orderTotal = this.delegate.lineItems.reduce((acc, item) => acc + item.total, 0)
     const formattedTotal = this.formatCurrency(this.delegate.orderTotal)
     this.box.querySelector('.total .total').textContent = formattedTotal
+
+    this.delegate.updateBtns()
   }
 
   addCoupon () {
@@ -71,5 +73,9 @@ export default class extends Step {
 
   get couponRows () {
     return this.box.querySelectorAll(':scope .coupon')
+  }
+
+  get showExpressCheckoutElement () {
+    return true
   }
 }

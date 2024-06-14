@@ -72,7 +72,7 @@ export default class extends Step {
         .textContent = this.formatCurrency(this.info.internal.subtotal)
 
       this.updateDiscounts()
-      this.delegate.updateNextBtn()
+      this.delegate.updateBtns()
     } finally {
       if (toggleSpinner) this.delegate.toggleModalSpinner(false)
     }
