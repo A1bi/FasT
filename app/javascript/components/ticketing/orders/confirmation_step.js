@@ -24,7 +24,7 @@ export default class extends Step {
 
       togglePluralText(numberText, coupon.number)
       numberText.querySelector('.value').textContent = this.formatCurrency(coupon.value)
-      row.querySelector('.total span').textContent = this.formatCurrency(couponTotal)
+      row.querySelector('.total').textContent = this.formatCurrency(couponTotal)
 
       this.box.querySelector('.coupons tbody').prepend(row)
       total += couponTotal
@@ -32,7 +32,7 @@ export default class extends Step {
     })
 
     togglePluralText(this.box.querySelector('tr.total .plural_text'), totalNumber)
-    this.box.querySelector('tr.total td.total span').textContent = this.formatCurrency(total)
+    this.box.querySelector('tr.total td.total').textContent = this.formatCurrency(total)
   }
 
   updateTicketSummary () {
@@ -41,7 +41,7 @@ export default class extends Step {
 
     this.box.querySelector('.date').textContent = this.delegate.getStepInfo('seats').internal.localizedDate
 
-    this.box.querySelectorAll(':scope .tickets tbody tr').forEach(typeBox => {
+    this.box.querySelectorAll(':scope .tickets tr').forEach(typeBox => {
       let number, total
       if (typeBox.matches('.subtotal')) {
         number = ticketsInfo.internal.numberOfTickets
@@ -57,7 +57,7 @@ export default class extends Step {
         toggleDisplay(typeBox, number > 0)
         total = ticketsInfo.internal.ticketTotals[typeId]
       }
-      typeBox.querySelector('.total span').textContent = total
+      typeBox.querySelector('.total').textContent = total
 
       const single = typeBox.querySelector('.single')
       if (!single) return

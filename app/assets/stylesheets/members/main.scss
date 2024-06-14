@@ -43,8 +43,8 @@
 }
 
 div.cancelled, div.failed {
+  @extend %fw-bold;
   color: red;
-  font-weight: bold;
 }
 
 div.cancelled {

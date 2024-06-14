@@ -142,10 +142,6 @@
       }
     }
 
-    .date {
-      font-weight: bold;
-    }
-
     .checkboxes {
       margin: 15px auto;
       font-size: 14px;
@@ -185,8 +181,8 @@
         }
 
         &.total {
+          @extend %fw-bold;
           font-size: 30px;
-          font-weight: bold;
         }
       }
     }

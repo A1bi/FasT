@@ -73,7 +73,7 @@ export default class extends Step {
         discount: res.free_tickets_discount + res.credit_discount
       }
 
-      this.box.querySelector('.number .subtotal .total span')
+      this.box.querySelector('.number .subtotal .total')
         .textContent = this.formatCurrency(this.info.internal.subtotal)
 
       this.updateDiscounts()
@@ -88,7 +88,7 @@ export default class extends Step {
       const typeBox = select.closest('.date_ticketing_ticket_type')
       const typeId = typeBox.dataset.id
       const total = this.formatCurrency(this.getTypeTotal(typeBox))
-      typeBox.querySelector('.total span').textContent = total
+      typeBox.querySelector('.total').textContent = total
 
       this.info.api.tickets[typeId] = parseInt(select.value)
       this.info.internal.ticketTotals[typeId] = total
@@ -184,14 +184,14 @@ export default class extends Step {
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
-    this.box.querySelector('.number .total .total span')
+    this.box.querySelector('.number .total .total')
       .textContent = this.formatCurrency(this.info.internal.totalAfterCoupons)
   }
 
   updateDiscountRow (klass, discount) {
     const row = this.box.querySelector(`.discount.${klass}`)
     toggleDisplay(row, discount < 0)
-    row.querySelector('.amount').textContent = `${this.formatCurrency(discount)} €`
+    row.querySelector('.amount').textContent = this.formatCurrency(discount)
   }
 
   nextBtnEnabled () {

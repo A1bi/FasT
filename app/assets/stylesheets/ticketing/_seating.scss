@@ -14,8 +14,8 @@
   .plan {
     .top-bar {
       @extend %text-center;
+      @extend %fw-bold;
       @extend %pb-1;
-      font-weight: bold;
 
       .unzoom {
         cursor: pointer;
@@ -92,7 +92,7 @@
 
       .shield, .seat, .stairs {
         text {
-          font-weight: bold;
+          @extend %fw-bold;
         }
       }
 

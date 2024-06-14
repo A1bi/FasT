@@ -2,8 +2,9 @@
   table.coupons
     tbody
       tr.coupon
-        td.plural_text <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span> über <span class="value"></span> €
-        td.total <span></span> €
+        td.plural_text <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span> über <span class="value"></span>
+        td.total.text-end
+    tfoot
       tr.total
-        td.plural_text Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
-        td.total <span></span> €
+        th.plural_text scope='row' Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
+        td.total.text-end.fw-bold

@@ -12,9 +12,9 @@
       = label_tag :value, 'Wert'
       = select_tag(:value, options_for_select((1..150).map { |value| [number_to_currency(value), value] } ))
     .col-4.total.text-end
-      <span></span> €
+      span
       a.d-block.remove-coupon href='#' entfernen
   .row.total
     .col-8.plural_text: b Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
-    .col-4.total.text-end: b <span></span> €
+    .col-4.total.text-end
   .row: .col.text-end: a.add-coupon href='#' Weiteren Gutscheinwert hinzufügen

@@ -21,7 +21,7 @@ export default class extends Step {
     orderInfo.total = Number.parseFloat(orderInfo.total)
 
     if (this.delegate.retail) {
-      this.box.querySelector('.total span').textContent = this.formatCurrency(orderInfo.total)
+      this.box.querySelector('.total').textContent = this.formatCurrency(orderInfo.total)
       this.box.querySelector('.number').textContent = orderInfo.tickets.length
       this.box.querySelector('a.details').href = confirmInfo.internal.detailsPath
 

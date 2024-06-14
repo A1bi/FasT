@@ -48,7 +48,7 @@ export default class extends Step {
     togglePluralText(this.box.querySelector('.total .plural_text'), numberOfCoupons)
 
     const formattedTotal = this.formatCurrency(total)
-    this.box.querySelector('.total .total span').textContent = formattedTotal
+    this.box.querySelector('.total .total').textContent = formattedTotal
   }
 
   addCoupon () {

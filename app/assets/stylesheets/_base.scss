@@ -153,6 +153,10 @@ table {
         border-bottom-width: 0;
       }
     }
+
+    th[scope='row'] {
+      @extend %text-start;
+    }
   }
 }
 

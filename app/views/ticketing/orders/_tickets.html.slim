@@ -26,20 +26,20 @@
             - if type.exclusive_ticket_type_credit.present? && max_tickets_for_type(@max_tickets, type).zero?
               | Das Kontingent für dieses Mitgliedskonto und verknüpfte Familienmitglieder ist bereits aufgebraucht.
         .col-4.text-end.single je #{number_to_currency(type.price || 0)}
-        .col-4.text-end.total: b <span></span> €
+        .col-4.text-end.total.fw-bold
 
     .row.subtotal
       .col-8.plural_text colspan='3' <span class="number"><span></span></span> Ticket<span class="plural">s</span> insgesamt
-      .col-4.text-end.total: b <span></span> €
+      .col-4.text-end.total.fw-bold
     .row.discount.free_tickets
       small.col-8 Abzug durch Freikartengutscheine
       small.col-4.text-end.amount
     .row.discount.credit
       small.col-8 Abzug durch Wertgutscheine
       small.col-4.text-end.amount
-    .row.total
+    .row.total.fw-bold
       .col-8 Gesamt
-      .col-4.text-end.total: b <span></span> €
+      .col-4.text-end.total
 
     .row.coupon.align-items-end.justify-content-end
       .col-5.col-md-4

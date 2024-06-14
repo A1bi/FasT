@@ -30,6 +30,7 @@
   }
 }
 
+@include utility-set(fw, font-weight, (bold), true);
 @include utility-set(text, text-align, (start: left, center: center, end: right), true);
 @include utility-set(d, display, (block, inline, inline-block, flex, none), true);
 @include utility-set(align-items, align-items, (start, center, end, stretch));
