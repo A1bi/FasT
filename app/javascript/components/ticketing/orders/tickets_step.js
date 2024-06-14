@@ -33,22 +33,16 @@ export default class extends Step {
     })
   }
 
-  getTypeTotal (typeBox, number) {
-    return typeBox.dataset.price * typeBox.querySelector('select').value
-  }
-
   async updateSubtotal (toggleSpinner) {
-    this.info.internal.numberOfTickets = 0
     this.tickets = []
     this.box.querySelectorAll(':scope .number div').forEach(numberBox => {
       if (numberBox.matches('.date_ticketing_ticket_type')) {
         const number = parseInt(numberBox.querySelector('select').value)
-        this.info.internal.numberOfTickets += number
         for (let i = 0; i < number; i++) {
           this.tickets.push(numberBox.dataset.price)
         }
       } else if (numberBox.matches('.subtotal')) {
-        togglePluralText(numberBox, this.info.internal.numberOfTickets)
+        togglePluralText(numberBox, this.delegate.numberOfArticles)
       }
     })
 
@@ -67,11 +61,12 @@ export default class extends Step {
         ...this.info.internal,
         subtotal: res.subtotal,
         total: res.total,
-        totalAfterCoupons: res.total_after_coupons,
         freeTicketsDiscount: res.free_tickets_discount,
-        creditDiscount: res.credit_discount,
-        discount: res.free_tickets_discount + res.credit_discount
+        creditDiscount: res.credit_discount
       }
+
+      this.delegate.orderTotal = res.total_after_coupons
+      this.delegate.orderDiscount = res.free_tickets_discount + res.credit_discount
 
       this.box.querySelector('.number .subtotal .total')
         .textContent = this.formatCurrency(this.info.internal.subtotal)
@@ -84,14 +79,18 @@ export default class extends Step {
   }
 
   updateNumbers () {
+    this.delegate.clearLineItems()
+
     this.box.querySelectorAll(':scope select').forEach(select => {
       const typeBox = select.closest('.date_ticketing_ticket_type')
       const typeId = typeBox.dataset.id
-      const total = this.formatCurrency(this.getTypeTotal(typeBox))
-      typeBox.querySelector('.total').textContent = total
+      const label = typeBox.querySelector('label').textContent
+      const price = parseFloat(typeBox.dataset.price)
+      const number = parseInt(select.value)
+      const lineItem = this.delegate.addLineItem(label, price, number)
 
-      this.info.api.tickets[typeId] = parseInt(select.value)
-      this.info.internal.ticketTotals[typeId] = total
+      typeBox.querySelector('.total').textContent = this.formatCurrency(lineItem.total)
+      this.info.api.tickets[typeId] = number
     })
 
     this.updateSubtotal()
@@ -183,9 +182,8 @@ export default class extends Step {
     this.updateDiscountRow('free_tickets', this.info.internal.freeTicketsDiscount)
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
-    this.info.internal.zeroTotal = this.info.internal.totalAfterCoupons <= 0
     this.box.querySelector('.number .total .total')
-      .textContent = this.formatCurrency(this.info.internal.totalAfterCoupons)
+      .textContent = this.formatCurrency(this.delegate.orderTotal)
   }
 
   updateDiscountRow (klass, discount) {
@@ -195,7 +193,7 @@ export default class extends Step {
   }
 
   nextBtnEnabled () {
-    return this.info.internal.numberOfTickets > 0
+    return this.delegate.numberOfArticles > 0
   }
 
   validate () {

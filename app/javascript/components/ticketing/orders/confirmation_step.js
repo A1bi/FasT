@@ -5,34 +5,30 @@ export default class extends Step {
   constructor (delegate) {
     super('confirm', delegate)
 
-    this.couponTemplate = this.box.querySelector('tr.coupon')
-    if (this.couponTemplate) this.couponTemplate.remove()
+    this.lineItemTemplate = this.box.querySelector('.line-item')
+    this.lineItemTemplate.remove()
+  }
+
+  updateLineItems () {
+    this.box.querySelectorAll(':scope .line-item').forEach(el => el.remove())
+
+    this.delegate.lineItems.forEach(lineItem => {
+      const row = this.lineItemTemplate.cloneNode(true)
+
+      row.querySelector('.label').textContent = lineItem.label
+      row.querySelector('.price').textContent = this.formatCurrency(lineItem.price)
+      row.querySelector('.number').textContent = lineItem.number
+      row.querySelector('.total').textContent = this.formatCurrency(lineItem.total)
+
+      this.box.querySelector('.summary tbody').prepend(row)
+    })
   }
 
   updateCouponSummary () {
-    const couponsInfo = this.delegate.getStepInfo('coupons')
-    if (!couponsInfo) return
+    if (!this.delegate.getStepInfo('coupons')) return
 
-    this.box.querySelectorAll(':scope tr.coupon').forEach(el => el.remove())
-    let total = 0
-    let totalNumber = 0
-
-    couponsInfo.api.coupons.forEach(coupon => {
-      const row = this.couponTemplate.cloneNode(true)
-      const couponTotal = coupon.number * coupon.value
-      const numberText = row.querySelector('.plural_text')
-
-      togglePluralText(numberText, coupon.number)
-      numberText.querySelector('.value').textContent = this.formatCurrency(coupon.value)
-      row.querySelector('.total').textContent = this.formatCurrency(couponTotal)
-
-      this.box.querySelector('.coupons tbody').prepend(row)
-      total += couponTotal
-      totalNumber += coupon.number
-    })
-
-    togglePluralText(this.box.querySelector('tr.total .plural_text'), totalNumber)
-    this.box.querySelector('tr.total td.total').textContent = this.formatCurrency(total)
+    togglePluralText(this.box.querySelector('tr.total .plural_text'), this.delegate.numberOfArticles)
+    this.box.querySelector('tr.total td.total').textContent = this.formatCurrency(this.delegate.orderTotal)
   }
 
   updateTicketSummary () {
@@ -41,44 +37,30 @@ export default class extends Step {
 
     this.box.querySelector('.date').textContent = this.delegate.getStepInfo('seats').internal.localizedDate
 
-    this.box.querySelectorAll(':scope .tickets tr').forEach(typeBox => {
-      let number, total
+    this.box.querySelectorAll(':scope .summary tr:not(.line-item)').forEach(typeBox => {
+      let total
+      const single = typeBox.querySelector('.single')
       if (typeBox.matches('.subtotal')) {
-        number = ticketsInfo.internal.numberOfTickets
+        togglePluralText(single, this.delegate.numberOfArticles)
         total = this.formatCurrency(ticketsInfo.internal.subtotal)
       } else if (typeBox.matches('.discount')) {
-        toggleDisplay(typeBox, ticketsInfo.internal.discount !== 0)
-        total = this.formatCurrency(ticketsInfo.internal.discount)
+        toggleDisplay(typeBox, this.delegate.orderDiscount !== 0)
+        total = this.formatCurrency(this.delegate.orderDiscount)
       } else if (typeBox.matches('.total')) {
-        total = this.formatCurrency(ticketsInfo.internal.totalAfterCoupons)
-      } else {
-        const typeId = typeBox.querySelector('td').dataset.id
-        number = ticketsInfo.api.tickets[typeId]
-        toggleDisplay(typeBox, number > 0)
-        total = ticketsInfo.internal.ticketTotals[typeId]
+        total = this.formatCurrency(this.delegate.orderTotal)
       }
       typeBox.querySelector('.total').textContent = total
-
-      const single = typeBox.querySelector('.single')
-      if (!single) return
-      if (typeBox.matches('.subtotal')) {
-        togglePluralText(single, number)
-      } else {
-        if (number === 0) number = 'keine'
-        single.querySelector('.number').textContent = number
-      }
     })
   }
 
   willMoveIn () {
-    const ticketsInternal = this.delegate.getStepInfo('tickets')?.internal
-
     let btnText = 'bestätigen'
-    if (this.delegate.web && !ticketsInternal?.zeroTotal) {
+    if (this.delegate.web && this.delegate.paymentRequired) {
       btnText = 'kostenpflichtig bestellen'
     }
     this.delegate.setNextBtnText(btnText)
 
+    this.updateLineItems()
     this.updateTicketSummary()
     this.updateCouponSummary()
 
@@ -86,7 +68,7 @@ export default class extends Step {
       const info = this.delegate.getStepInfo(type)
       if (!info) continue
       const box = this.box.querySelector(`.${type}`)
-      if (type === 'payment' && !ticketsInternal?.zeroTotal) {
+      if (type === 'payment' && this.delegate.paymentRequired) {
         box.classList.remove('transfer', 'charge', 'box_office', 'cash')
         box.classList.add(info.api.method)
       }

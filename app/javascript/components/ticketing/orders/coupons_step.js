@@ -30,24 +30,21 @@ export default class extends Step {
 
   updateTotals () {
     this.info.api.coupons = []
-    let total = 0
-    let numberOfCoupons = 0
+    this.delegate.clearLineItems()
 
     this.couponRows.forEach(couponRow => {
       const number = parseInt(couponRow.querySelector('#number').value)
       const value = parseFloat(couponRow.querySelector('#value').value)
-      const couponTotal = number * value
-      const formattedTotal = this.formatCurrency(couponTotal)
 
       this.info.api.coupons.push({ number, value })
-      couponRow.querySelector('.total span').textContent = formattedTotal
-      numberOfCoupons += number
-      total += couponTotal
+      const lineItem = this.delegate.addLineItem('Geschenkgutschein', value, number)
+      couponRow.querySelector('.total span').textContent = this.formatCurrency(lineItem.total)
     })
 
-    togglePluralText(this.box.querySelector('.total .plural_text'), numberOfCoupons)
+    togglePluralText(this.box.querySelector('.total .plural_text'), this.delegate.numberOfArticles)
 
-    const formattedTotal = this.formatCurrency(total)
+    this.delegate.orderTotal = this.delegate.lineItems.reduce((acc, item) => acc + item.total, 0)
+    const formattedTotal = this.formatCurrency(this.delegate.orderTotal)
     this.box.querySelector('.total .total').textContent = formattedTotal
   }
 

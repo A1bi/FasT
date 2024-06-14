@@ -30,6 +30,10 @@ export default class extends Controller {
     this.admin = this.type === 'admin'
     this.web = !this.retail && !this.admin
 
+    this.orderTotal = 0
+    this.orderDiscount = 0
+    this.clearLineItems()
+
     let steps
     if (this.coupons) {
       steps = { CouponsStep, AddressStep, PaymentStep, ConfirmationStep, FinishStep }
@@ -205,6 +209,29 @@ export default class extends Controller {
       info[step.name] = step.info.api
     }
     return info
+  }
+
+  addLineItem (label, price, number) {
+    const item = {
+      label,
+      price,
+      number,
+      total: price * number
+    }
+    if (number > 0) this.lineItems.push(item)
+    return item
+  }
+
+  clearLineItems () {
+    this.lineItems = []
+  }
+
+  get numberOfArticles () {
+    return this.lineItems.reduce((acc, item) => acc + item.number, 0)
+  }
+
+  get paymentRequired () {
+    return this.orderTotal > 0
   }
 
   updateExpirationCounter (seconds) {

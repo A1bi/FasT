@@ -1,10 +1,8 @@
 .coupons
-  table.coupons
+  table.summary
     tbody
-      tr.coupon
-        td.plural_text <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span> über <span class="value"></span>
-        td.total.text-end
+      = render 'line_item'
     tfoot
       tr.total
-        th.plural_text scope='row' Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
+        th.plural_text scope='row' colspan=2 Insgesamt <span class="number"><span></span></span> Geschenkgutschein<span class="plural">e</span>
         td.total.text-end.fw-bold

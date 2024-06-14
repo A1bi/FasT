@@ -1,22 +1,17 @@
 .tickets.mb-2
   h3 Tickets für <b class="date"></b>
-  table.tickets
+  table.summary
     tbody
-      = content_tag_for(:tr, @ticket_types, :confirm) do |type|
-        td data-id=type.id = type.name
-        td.single
-          .number.d-inline> 0
-          | je #{number_to_currency(type.price || 0)}
-        td.total.text-end data-price=type.price
+      = render 'line_item'
       tr.subtotal
         td
         td.single.plural_text
           <span class="number"><span></span></span> Ticket<span class="plural">s</span>
         td.total.text-end
       tr.discount
-        td colspan='2' Abzug durch Gutscheine
+        td colspan=2 Abzug durch Gutscheine
         td.total.text-end
     tfoot
       tr.total
-        th scope='row' colspan='2' Gesamt
+        th scope='row' colspan=2 Gesamt
         td.total.text-end.fw-bold

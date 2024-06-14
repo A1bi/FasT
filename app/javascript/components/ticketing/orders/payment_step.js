@@ -38,6 +38,6 @@ export default class extends Step {
   }
 
   shouldBeSkipped () {
-    return this.delegate.getStepInfo('tickets')?.internal.zeroTotal
+    return !this.delegate.paymentRequired
   }
 }
