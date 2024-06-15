@@ -86,7 +86,7 @@ export default class extends Step {
   }
 
   validateAsync (callback) {
-    this.delegate.toggleModalSpinner(true)
+    this.delegate.toggleModalBox(true)
     this.placeOrder(callback)
   }
 
@@ -129,7 +129,7 @@ export default class extends Step {
 
   orderPlaced (response, callback) {
     this.disconnect()
-    this.delegate.toggleModalSpinner(false)
+    this.delegate.toggleModalBox(false)
 
     this.info.internal.order = response
 

@@ -9,7 +9,7 @@ export default class extends Step {
     this.hasSeatingPlan = 'hasSeatingPlan' in this.box.dataset
     if (this.hasSeatingPlan) {
       this.seatingBox = this.box.querySelector('.seat_chooser')
-      this.delegate.toggleModalSpinner(true)
+      this.delegate.toggleModalBox(true)
       this.chooser = new SeatChooser(this.seatingBox.querySelector('.seating'), this)
       this.chooser.init()
 
@@ -77,10 +77,10 @@ export default class extends Step {
   }
 
   updateSeatingPlan () {
-    this.delegate.toggleModalSpinner(true)
+    this.delegate.toggleModalBox(true)
     this.chooser.setDateAndNumberOfSeats(
       this.info.api.date, this.numberOfSeats, () => {
-        this.delegate.toggleModalSpinner(false)
+        this.delegate.toggleModalBox(false)
       }
     )
   }
@@ -91,13 +91,13 @@ export default class extends Step {
       if (checkbox.checked) groups.push(checkbox.name)
     })
 
-    this.delegate.toggleModalSpinner(true)
+    this.delegate.toggleModalBox(true)
     fetch(this.box.querySelector('.reservationGroups').dataset.enableUrl, 'post', {
       group_ids: groups,
       event_id: this.delegate.eventId,
       socket_id: this.delegate.getStepInfo('seats').api.socketId
     })
-      .finally(() => this.delegate.toggleModalSpinner(false))
+      .finally(() => this.delegate.toggleModalBox(false))
   }
 
   expire () {
@@ -107,11 +107,11 @@ export default class extends Step {
 
   seatChooserIsReady () {
     this.info.api.socketId = this.chooser.socketId
-    this.delegate.toggleModalSpinner(false)
+    this.delegate.toggleModalBox(false)
   }
 
   seatChooserIsReconnecting () {
-    this.delegate.toggleModalSpinner(true)
+    this.delegate.toggleModalBox(true)
   }
 
   seatChooserDisconnected () {

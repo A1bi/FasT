@@ -61,14 +61,14 @@ export default class extends Controller {
     this.registerEvents()
     this.resetExpirationTimer()
 
-    this.toggleModalSpinner(true)
+    this.toggleModalBox(true)
 
     await this.updateExpressCheckoutElement()
 
     // await layouting of all steps so initial stepBox height is correct
     setTimeout(() => {
       this.showNext()
-      this.toggleModalSpinner(false)
+      this.toggleModalBox(false)
     }, 250)
   }
 
@@ -127,27 +127,25 @@ export default class extends Controller {
     this.moveInCurrentStep(previousStep)
   }
 
-  toggleModalBox (toggle) {
-    this.modalBoxOwners = Math.max(0, this.modalBoxOwners + (toggle ? 1 : -1))
-    this.modalBox.classList.toggle('visible', this.modalBoxOwners > 0)
-  }
-
-  toggleModalSpinner (toggle) {
+  toggleModalBox (toggle, spinner = true) {
     if (toggle) {
       this.toggleNextBtn(false)
       this.toggleBtn('prev', false)
     } else {
       this.updateBtns()
     }
-    this.toggleModalBox(toggle)
+
+    toggleDisplay(this.modalBox.querySelector('.spinner'), spinner)
+
+    this.modalBoxOwners = Math.max(0, this.modalBoxOwners + (toggle ? 1 : -1))
+    this.modalBox.classList.toggle('visible', this.modalBoxOwners > 0)
   }
 
   showModalAlert (msg) {
     if (this.noFurtherErrors) return
     this.noFurtherErrors = true
-    toggleDisplay(this.modalBox.querySelector('.spinner'), false)
     this.killExpirationTimer()
-    this.toggleModalBox(true)
+    this.toggleModalBox(true, false)
 
     const alert = this.modalBox.querySelector('.alert')
     alert.querySelector('.message').innerHTML = msg
@@ -283,12 +281,17 @@ export default class extends Controller {
         }
       })
       this.expressCheckoutElement.mount(this.expressCheckoutBox)
+
       this.expressCheckoutElement.on('click', event => {
+        this.toggleModalBox(true, false)
         event.resolve({
           emailRequired: true,
           phoneNumberRequired: true,
           lineItems: this.expressCheckoutLineItems
         })
+      })
+      this.expressCheckoutElement.on('cancel', event => {
+        this.toggleModalBox(false)
       })
     }
   }

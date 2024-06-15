@@ -46,7 +46,7 @@ export default class extends Step {
       }
     })
 
-    if (toggleSpinner) this.delegate.toggleModalSpinner(true)
+    if (toggleSpinner) this.delegate.toggleModalBox(true)
 
     try {
       const res = await fetch(this.totalsUrl, 'post', {
@@ -74,7 +74,7 @@ export default class extends Step {
       this.updateDiscounts()
       this.delegate.updateBtns()
     } finally {
-      if (toggleSpinner) this.delegate.toggleModalSpinner(false)
+      if (toggleSpinner) this.delegate.toggleModalBox(false)
     }
   }
 
