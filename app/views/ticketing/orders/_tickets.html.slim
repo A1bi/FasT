@@ -16,7 +16,7 @@
   h3 Ihre gewünschten Tickets
   .number
     - @ticket_types.each do |type|
-      - next if type.exclusive? && @type != :admin && (!user_signed_in? || current_user.member? && !type.exclusive_ticket_type_credit.present?)
+      - next if type.exclusive? && @type != :admin && (!user_signed_in? || !current_user.member? || !type.exclusive_ticket_type_credit.present?)
       = content_tag_for(:div, type, :date, data: { id: type.id, price: type.price }, class: 'row align-items-center')
         .col-4.number
           = label_tag "number_#{type.id}", type.name
