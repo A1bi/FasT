@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay, togglePluralText, fetch } from 'components/utils'
+import { toggleDisplay, togglePluralText } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -85,64 +85,7 @@ export default class extends Step {
     this.info.api.newsletter = this.info.api.newsletter === '1'
   }
 
-  validateAsync (callback) {
-    this.delegate.toggleModalBox(true)
-    this.placeOrder(callback)
-  }
-
-  placeOrder (successCallback) {
-    this.delegate.hideOrderControls()
-
-    const apiInfo = this.delegate.getApiInfo()
-
-    const orderInfo = {
-      date: apiInfo.seats?.date,
-      tickets: apiInfo.tickets?.tickets,
-      coupons: apiInfo.coupons?.coupons,
-      address: apiInfo.address,
-      payment: apiInfo.payment,
-      coupon_codes: apiInfo.tickets?.couponCodes
-    }
-
-    const info = {
-      order: orderInfo,
-      type: this.delegate.type,
-      socket_id: apiInfo.seats?.socketId,
-      newsletter: apiInfo.confirm.newsletter
-    }
-
-    fetch('/api/ticketing/orders', 'post', info)
-      .then(res => this.orderPlaced(res, successCallback))
-      .catch(res => this.orderFailed())
-  }
-
-  disconnect () {
-    const chooser = this.delegate.getStep('seats')?.chooser
-    if (chooser) chooser.disconnect()
-    this.delegate.killExpirationTimer()
-  }
-
-  orderFailed () {
-    this.disconnect()
-    this.delegate.showModalAlert('Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.')
-  }
-
-  orderPlaced (response, callback) {
-    this.disconnect()
-    this.delegate.toggleModalBox(false)
-
-    this.info.internal.order = response
-
-    if (this.delegate.stepBox.dataset.orderPath) {
-      this.info.internal.detailsPath = this.delegate.stepBox.dataset.orderPath
-        .replace(':id', this.info.internal.order.id)
-
-      if (this.delegate.admin) {
-        window.location = this.info.internal.detailsPath
-        return
-      }
-    }
-
-    callback()
+  validate () {
+    this.delegate.placeOrder()
   }
 }

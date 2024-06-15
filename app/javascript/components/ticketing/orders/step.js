@@ -62,10 +62,6 @@ export default class {
     return false
   }
 
-  validateAsync (callback) {
-    callback()
-  }
-
   willMoveIn () {}
 
   shouldBeSkipped () {

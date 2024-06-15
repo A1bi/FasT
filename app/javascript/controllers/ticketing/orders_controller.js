@@ -6,7 +6,7 @@ import AddressStep from 'components/ticketing/orders/address_step'
 import PaymentStep from 'components/ticketing/orders/payment_step'
 import ConfirmationStep from 'components/ticketing/orders/confirmation_step'
 import FinishStep from 'components/ticketing/orders/finish_step'
-import { toggleDisplay, toggleDisplayIfExists, togglePluralText } from 'components/utils'
+import { toggleDisplay, toggleDisplayIfExists, togglePluralText, fetch } from 'components/utils'
 
 export default class extends Controller {
   static values = {
@@ -100,15 +100,11 @@ export default class extends Controller {
     }
   }
 
-  hideOrderControls () {
-    document.querySelectorAll('.progress, .btns').forEach(el => { el.style.visibility = 'hidden' })
-  }
-
   goNext (btn) {
     if (btn.matches('.prev')) {
       this.showPrev()
     } else if (this.currentStep.validate()) {
-      this.currentStep.validateAsync(() => this.showNext())
+      this.showNext()
       this.orderFrameBox.scrollIntoView({ behavior: 'smooth' })
     }
   }
@@ -127,12 +123,18 @@ export default class extends Controller {
     this.moveInCurrentStep(previousStep)
   }
 
-  toggleModalBox (toggle, spinner = true) {
-    if (toggle) {
-      this.toggleNextBtn(false)
-      this.toggleBtn('prev', false)
-    } else {
-      this.updateBtns()
+  toggleModalBox (toggle, spinner = true, orderControls = true) {
+    document.querySelectorAll('.progress, .btns').forEach(el => {
+      el.style.visibility = orderControls ? 'visible' : 'hidden'
+    })
+
+    if (orderControls) {
+      if (toggle) {
+        this.toggleNextBtn(false)
+        this.toggleBtn('prev', false)
+      } else {
+        this.updateBtns()
+      }
     }
 
     toggleDisplay(this.modalBox.querySelector('.spinner'), spinner)
@@ -145,12 +147,11 @@ export default class extends Controller {
     if (this.noFurtherErrors) return
     this.noFurtherErrors = true
     this.killExpirationTimer()
-    this.toggleModalBox(true, false)
+    this.toggleModalBox(true, false, false)
 
     const alert = this.modalBox.querySelector('.alert')
     alert.querySelector('.message').innerHTML = msg
     toggleDisplay(alert, true)
-    this.hideOrderControls()
   }
 
   slideToggle (target, toggle) {
@@ -240,6 +241,53 @@ export default class extends Controller {
 
   get paymentRequired () {
     return this.orderTotal > 0
+  }
+
+  async placeOrder () {
+    this.toggleModalBox(true)
+
+    try {
+      const response = await fetch('/api/ticketing/orders', 'post', this.orderPayload)
+
+      this.toggleModalBox(false)
+
+      this.placedOrder = response
+
+      if (this.stepBox.dataset.orderPath) {
+        this.orderDetailsPath = this.stepBox.dataset.orderPath.replace(':id', this.placedOrder.id)
+
+        if (this.admin) {
+          window.location = this.orderDetailsPath
+          return
+        }
+      }
+
+      this.showNext()
+    } catch (error) {
+      console.log(error)
+      this.showModalAlert('Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.')
+    } finally {
+      const chooser = this.getStep('seats')?.chooser
+      if (chooser) chooser.disconnect()
+      this.killExpirationTimer()
+    }
+  }
+
+  get orderPayload () {
+    const apiInfo = this.getApiInfo()
+    return {
+      order: {
+        date: apiInfo.seats?.date,
+        tickets: apiInfo.tickets?.tickets,
+        coupons: apiInfo.coupons?.coupons,
+        address: apiInfo.address,
+        payment: apiInfo.payment,
+        coupon_codes: apiInfo.tickets?.couponCodes
+      },
+      type: this.type,
+      socket_id: apiInfo.seats?.socketId,
+      newsletter: apiInfo.confirm.newsletter
+    }
   }
 
   async initStripe () {
