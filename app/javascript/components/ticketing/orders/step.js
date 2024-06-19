@@ -76,7 +76,7 @@ export default class {
     return true
   }
 
-  get showExpressCheckoutElement () {
+  get showStripePaymentButton () {
     return false
   }
 

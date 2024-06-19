@@ -74,8 +74,4 @@ export default class extends Step {
   get couponRows () {
     return this.box.querySelectorAll(':scope .coupon')
   }
-
-  get showExpressCheckoutElement () {
-    return true
-  }
 }

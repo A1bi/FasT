@@ -88,4 +88,8 @@ export default class extends Step {
   validate () {
     this.delegate.placeOrder()
   }
+
+  get showStripePaymentButton () {
+    return true
+  }
 }

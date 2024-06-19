@@ -1,9 +1,21 @@
 ruby:
   payment_methods = [
     {
+      name: :apple_pay,
+      value: :stripe,
+      human_name: 'Apple Pay',
+      desc: 'Sie erhalten Ihre Geschenkgutscheine sofort nach der Bestellung.'
+    },
+    {
+      name: :google_pay,
+      value: :stripe,
+      human_name: 'Google Pay',
+      desc: 'Sie erhalten Ihre Geschenkgutscheine sofort nach der Bestellung.'
+    },
+    {
       name: :charge,
       human_name: 'SEPA-Lastschrift',
-      desc: 'Schnell und bequem. Sie erhalten Ihre Geschenkgutscheine sofort nach der Bestellung.'
+      desc: 'Sie erhalten Ihre Geschenkgutscheine sofort nach der Bestellung.'
     },
     {
       name: :transfer,

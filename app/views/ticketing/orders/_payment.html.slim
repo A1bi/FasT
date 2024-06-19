@@ -2,12 +2,12 @@
   = form_for :payment do |f|
     h3 Zahlungsmethode
     - methods.each do |method|
-      - method_id = "method#{method[:name].capitalize}".to_sym
+      - method_id = "method_#{method[:name]}"
       .form-check.mb-1 class=method[:name]
-        input type='radio' name='method' value=method[:name] id=method_id
+        input type='radio' name='method' value=method.fetch(:value, method[:name]) id=method_id
         = label_tag method_id
           b = method[:human_name]
-          small.d-block = label_tag method_id, method[:desc]
+          .small = method[:desc]
 
     .charge_data.slidable
       h3.pt-2 Ihre Bankdaten

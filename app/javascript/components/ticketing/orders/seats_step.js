@@ -129,8 +129,4 @@ export default class extends Step {
   seatChooserExpired () {
     this.expire()
   }
-
-  get showExpressCheckoutElement () {
-    return true
-  }
 }

@@ -20,13 +20,21 @@ export default class extends Step {
   willMoveIn () {
     if (this.delegate.web) {
       const boxOffice = this.delegate.getStepInfo('seats')?.internal.boxOfficePayment
-      toggleDisplayIfExists(this.box.querySelector('.transfer'), !boxOffice)
-      toggleDisplayIfExists(this.box.querySelector('.box_office'), boxOffice)
+      this.togglePaymentMethod('transfer', !boxOffice)
+      this.togglePaymentMethod('box_office', boxOffice)
 
       if (!boxOffice && this.info.api.method === 'box_office') {
         this.info.api.method = null
       }
     }
+
+    Object.values(this.delegate.constructor.stripePaymentMethods).forEach(method => {
+      this.togglePaymentMethod(method, method === this.delegate.availableStripePaymentMethod)
+    })
+  }
+
+  togglePaymentMethod (method, toggle) {
+    toggleDisplayIfExists(this.box.querySelector(`.${method}`), toggle)
   }
 
   get methodIsCharge () {

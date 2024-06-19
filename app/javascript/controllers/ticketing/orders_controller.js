@@ -13,6 +13,11 @@ export default class extends Controller {
     stripeKey: String
   }
 
+  static stripePaymentMethods = {
+    applePay: 'apple_pay',
+    googlePay: 'google_pay'
+  }
+
   async initialize () {
     this.currentStepIndex = -1
     this.steps = []
@@ -24,7 +29,7 @@ export default class extends Controller {
     this.orderFrameBox = document.querySelector('.order-framework')
     this.expirationBox = document.querySelector('.expiration')
     this.btns = document.querySelectorAll('.btns .btn')
-    this.expressCheckoutBox = this.orderFrameBox.querySelector('.express-checkout')
+    this.stripePaymentButtonBox = this.orderFrameBox.querySelector('.stripe-payment')
     this.progressBox = document.querySelector('.progress')
     this.modalBox = this.stepBox.querySelector('.modalAlert')
 
@@ -63,7 +68,7 @@ export default class extends Controller {
 
     this.toggleModalBox(true)
 
-    await this.updateExpressCheckoutElement()
+    await this.initStripePaymentRequest()
 
     // await layouting of all steps so initial stepBox height is correct
     setTimeout(() => {
@@ -94,10 +99,10 @@ export default class extends Controller {
     this.toggleBtn('prev', this.currentStepIndex > 0)
     this.toggleNextBtn(this.currentStep.nextBtnEnabled())
 
-    toggleDisplay(this.expressCheckoutBox, this.paymentRequired && this.currentStep.showExpressCheckoutElement)
-    if (this.currentStep.showExpressCheckoutElement) {
-      this.updateExpressCheckoutElement()
-    }
+    const payment = this.getStepInfo('payment')
+    const showStripePaymentButton = this.currentStep.showStripePaymentButton && payment.api.method === 'stripe'
+    toggleDisplay(this.stripePaymentButtonBox, showStripePaymentButton)
+    toggleDisplay(this.getBtn('next'), !showStripePaymentButton)
   }
 
   goNext (btn) {
@@ -297,72 +302,87 @@ export default class extends Controller {
     this.stripe = await loadStripe(this.stripeKeyValue)
   }
 
-  async updateExpressCheckoutElement () {
-    if (!this.expressCheckoutAvailable) return
+  async initStripePaymentRequest () {
+    if (!this.web || !this.stripePaymentAvailable) return
 
     await this.initStripe()
 
-    if (!this.paymentRequired) return
-
-    const options = {
-      mode: 'payment',
-      amount: this.orderTotal * 100,
+    this.stripePaymentRequest = this.stripe.paymentRequest({
+      country: 'DE',
       currency: 'eur',
-      appearance: {
-        variables: {
-          borderRadius: 0
+      total: {
+        label: 'Total',
+        amount: 1
+      },
+      requestPayerName: true
+    })
+
+    const stripePaymentAvailability = await this.stripePaymentRequest.canMakePayment()
+    const availableMethod = Object.entries(stripePaymentAvailability || {}).find(([method, available]) => available)
+    if (!availableMethod) return
+
+    this.availableStripePaymentMethod = this.constructor.stripePaymentMethods[availableMethod[0]]
+
+    const elements = this.stripe.elements()
+    this.stripePaymentButton = elements.create('paymentRequestButton', {
+      paymentRequest: this.stripePaymentRequest,
+      style: {
+        paymentRequestButton: {
+          type: 'buy',
+          theme: 'dark'
         }
       }
-    }
+    })
+    this.stripePaymentButton.mount(this.stripePaymentButtonBox)
 
-    if (this.stripeElements) {
-      this.stripeElements.update(options)
-    } else {
-      this.stripeElements = this.stripe.elements(options)
-    }
+    this.stripePaymentButton.on('click', event => {
+      this.toggleModalBox(true, false)
+      this.updateStripePaymentRequest()
+    })
 
-    if (!this.expressCheckoutElement) {
-      this.expressCheckoutElement = this.stripeElements.create('expressCheckout', {
-        buttonType: {
-          googlePay: 'checkout',
-          applePay: 'check-out'
-        }
-      })
-      this.expressCheckoutElement.mount(this.expressCheckoutBox)
+    this.stripePaymentRequest.on('paymentmethod', async event => {
+      event.complete('success')
+      this.toggleModalBox(false)
 
-      this.expressCheckoutElement.on('click', event => {
-        this.toggleModalBox(true, false)
-        event.resolve({
-          emailRequired: true,
-          phoneNumberRequired: true,
-          lineItems: this.expressCheckoutLineItems
-        })
-      })
-      this.expressCheckoutElement.on('cancel', event => {
-        this.toggleModalBox(false)
-      })
-    }
+      this.placeOrder()
+    })
+
+    this.stripePaymentRequest.on('cancel', event => {
+      this.toggleModalBox(false)
+    })
   }
 
-  get expressCheckoutLineItems () {
-    const lineItems = this.lineItems.map(lineItem => {
+  async updateStripePaymentRequest () {
+    this.stripePaymentRequest.update({
+      country: 'DE',
+      currency: 'eur',
+      displayItems: this.stripePaymentDisplayItems,
+      total: {
+        label: 'Gesamt',
+        amount: this.orderTotal * 100
+      }
+    })
+  }
+
+  get stripePaymentDisplayItems () {
+    const displayItems = this.lineItems.map(lineItem => {
       return Array(lineItem.number).fill({
-        name: lineItem.label,
+        label: lineItem.label,
         amount: lineItem.price * 100
       })
     }).flat()
 
     if (this.orderDiscount !== 0) {
-      lineItems.push({
-        name: 'Abzug durch Gutscheine',
+      displayItems.push({
+        label: 'Abzug durch Gutscheine',
         amount: this.orderDiscount * 100
       })
     }
 
-    return lineItems
+    return displayItems
   }
 
-  get expressCheckoutAvailable () {
+  get stripePaymentAvailable () {
     return !window.ApplePaySession || window.ApplePaySession.canMakePayments
   }
 
