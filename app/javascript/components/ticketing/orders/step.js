@@ -76,7 +76,7 @@ export default class {
     return true
   }
 
-  get showStripePaymentButton () {
+  get finalizesOrder () {
     return false
   }
 

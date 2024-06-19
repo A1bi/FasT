@@ -85,11 +85,7 @@ export default class extends Step {
     this.info.api.newsletter = this.info.api.newsletter === '1'
   }
 
-  validate () {
-    this.delegate.placeOrder()
-  }
-
-  get showStripePaymentButton () {
+  get finalizesOrder () {
     return true
   }
 }

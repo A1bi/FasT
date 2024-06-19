@@ -56,6 +56,14 @@
       pointer-events: none;
     }
   }
+
+  .btn.apple_pay {
+    @extend %h-100;
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-style: black;
+    -apple-pay-button-type: check-out;
+    width: 70%;
+  }
 }
 
 .stepBox {

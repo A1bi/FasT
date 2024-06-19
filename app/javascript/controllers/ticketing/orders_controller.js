@@ -29,7 +29,6 @@ export default class extends Controller {
     this.orderFrameBox = document.querySelector('.order-framework')
     this.expirationBox = document.querySelector('.expiration')
     this.btns = document.querySelectorAll('.btns .btn')
-    this.stripePaymentButtonBox = this.orderFrameBox.querySelector('.stripe-payment')
     this.progressBox = document.querySelector('.progress')
     this.modalBox = this.stepBox.querySelector('.modalAlert')
 
@@ -99,16 +98,26 @@ export default class extends Controller {
     this.toggleBtn('prev', this.currentStepIndex > 0)
     this.toggleNextBtn(this.currentStep.nextBtnEnabled())
 
-    const payment = this.getStepInfo('payment')
-    const showStripePaymentButton = this.currentStep.showStripePaymentButton && payment.api.method === 'stripe'
-    toggleDisplay(this.stripePaymentButtonBox, showStripePaymentButton)
-    toggleDisplay(this.getBtn('next'), !showStripePaymentButton)
+    const showApplePayButton = this.currentStep.finalizesOrder && this.stripePaymentSelected &&
+      this.availableStripePaymentMethod === 'apple_pay'
+    toggleDisplay(this.getBtn('apple_pay'), showApplePayButton)
+    toggleDisplay(this.getBtn('next'), !showApplePayButton)
   }
 
-  goNext (btn) {
-    if (btn.matches('.prev')) {
-      this.showPrev()
-    } else if (this.currentStep.validate()) {
+  goPrev () {
+    this.showPrev()
+  }
+
+  goNext () {
+    if (!this.currentStep.validate()) return
+
+    if (this.currentStep.finalizesOrder) {
+      if (this.stripePaymentSelected) {
+        this.showStripePaymentSheet()
+      } else {
+        this.placeOrder()
+      }
+    } else {
       this.showNext()
       this.orderFrameBox.scrollIntoView({ behavior: 'smooth' })
     }
@@ -254,7 +263,7 @@ export default class extends Controller {
     try {
       const response = await fetch('/api/ticketing/orders', 'post', this.orderPayload)
 
-      this.toggleModalBox(false)
+      this.toggleModalBox(false, false, false)
 
       this.placedOrder = response
 
@@ -323,27 +332,10 @@ export default class extends Controller {
 
     this.availableStripePaymentMethod = this.constructor.stripePaymentMethods[availableMethod[0]]
 
-    const elements = this.stripe.elements()
-    this.stripePaymentButton = elements.create('paymentRequestButton', {
-      paymentRequest: this.stripePaymentRequest,
-      style: {
-        paymentRequestButton: {
-          type: 'buy',
-          theme: 'dark'
-        }
-      }
-    })
-    this.stripePaymentButton.mount(this.stripePaymentButtonBox)
-
-    this.stripePaymentButton.on('click', event => {
-      this.toggleModalBox(true, false)
-      this.updateStripePaymentRequest()
-    })
-
     this.stripePaymentRequest.on('paymentmethod', async event => {
       event.complete('success')
-      this.toggleModalBox(false)
 
+      this.toggleModalBox(false)
       this.placeOrder()
     })
 
@@ -364,6 +356,12 @@ export default class extends Controller {
     })
   }
 
+  showStripePaymentSheet () {
+    this.toggleModalBox(true, false)
+    this.updateStripePaymentRequest()
+    this.stripePaymentRequest.show()
+  }
+
   get stripePaymentDisplayItems () {
     const displayItems = this.lineItems.map(lineItem => {
       return Array(lineItem.number).fill({
@@ -380,6 +378,11 @@ export default class extends Controller {
     }
 
     return displayItems
+  }
+
+  get stripePaymentSelected () {
+    const payment = this.getStepInfo('payment')
+    return payment?.api?.method === 'stripe'
   }
 
   get stripePaymentAvailable () {
@@ -425,7 +428,15 @@ export default class extends Controller {
   }
 
   registerEvents () {
-    this.btns.forEach(btn => btn.addEventListener('click', () => this.goNext(btn)))
+    this.btns.forEach(btn => {
+      btn.addEventListener('click', event => {
+        if (event.currentTarget.matches('.prev')) {
+          this.goPrev()
+        } else {
+          this.goNext()
+        }
+      })
+    })
 
     this.stepBox.addEventListener('transitionend', event => {
       if (event.propertyName === 'height') this.removeStepBoxHeight()
