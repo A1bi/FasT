@@ -51,7 +51,7 @@ module Ticketing
     end
 
     def private_key
-      Rails.application.credentials.stripe[Rails.env.production? ? 'live' : 'test'].private_key
+      Rails.application.credentials.stripe[Rails.env.production? ? :live : :test].private_key
     end
   end
 end

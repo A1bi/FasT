@@ -9,7 +9,6 @@ RSpec.describe Ticketing::StripeRefundCreateService do
   let(:order) { create(:web_order, :complete) }
   let(:amount) { 12 }
   let(:payment) { create(:stripe_payment, order:) }
-  let(:private_key) { 'private_foo' }
   let(:request_body) do
     {
       amount: '1200',
@@ -26,17 +25,11 @@ RSpec.describe Ticketing::StripeRefundCreateService do
   end
   let!(:request) do
     stub_request(:post, 'https://api.stripe.com/v1/refunds')
-      .with(body: request_body)
+      .with(body: request_body, basic_auth: ['foobybar'])
       .to_return_json(status: response_status, body: response_body)
   end
 
-  before do
-    allow(Rails.application).to receive(:credentials).and_return(
-      Rails.application.credentials.deep_merge(stripe: { test: { private_key: } })
-    )
-
-    order.billing_account.deposit(amount, :foo)
-  end
+  before { order.billing_account.deposit(amount, :foo) }
 
   it 'creates a refund with Stripe' do
     subject

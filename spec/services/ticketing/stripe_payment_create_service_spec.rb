@@ -9,7 +9,6 @@ RSpec.describe Ticketing::StripePaymentCreateService do
   let(:order) { create(:web_order, :complete) }
   let(:amount) { 1.23 }
   let(:payment_method_id) { 'foobar' }
-  let(:private_key) { 'private_foo' }
   let(:request_body) do
     {
       amount: '123',
@@ -29,17 +28,11 @@ RSpec.describe Ticketing::StripePaymentCreateService do
   end
   let!(:request) do
     stub_request(:post, 'https://api.stripe.com/v1/payment_intents')
-      .with(body: request_body)
+      .with(body: request_body, basic_auth: ['foobybar'])
       .to_return_json(status: response_status, body: response_body)
   end
 
-  before do
-    allow(Rails.application).to receive(:credentials).and_return(
-      Rails.application.credentials.deep_merge(stripe: { test: { private_key: } })
-    )
-
-    order.billing_account.withdraw(amount, :foo)
-  end
+  before { order.billing_account.withdraw(amount, :foo) }
 
   it 'creates a payment intent with Stripe' do
     subject
