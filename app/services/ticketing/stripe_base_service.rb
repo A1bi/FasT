@@ -21,7 +21,7 @@ module Ticketing
       response
     end
 
-    def create_transaction(object, additional_attributes)
+    def create_transaction(object, additional_attributes = {})
       transaction = @order.stripe_transactions.build(
         type: object['object'],
         stripe_id: object['id'],

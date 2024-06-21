@@ -11,5 +11,11 @@ module Ticketing
 
     validates :type, :stripe_id, :amount, presence: true
     validates :amount, numericality: { other_than: 0 }
+
+    class << self
+      def payments
+        where(type: 'payment_intent')
+      end
+    end
   end
 end

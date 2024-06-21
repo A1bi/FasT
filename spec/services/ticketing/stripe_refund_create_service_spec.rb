@@ -2,33 +2,30 @@
 
 require 'webmock/rspec'
 
-RSpec.describe Ticketing::StripePaymentCreateService do
+RSpec.describe Ticketing::StripeRefundCreateService do
   subject { service.execute }
 
-  let(:service) { described_class.new(order, payment_method_id) }
+  let(:service) { described_class.new(order) }
   let(:order) { create(:web_order, :complete) }
-  let(:amount) { 1.23 }
-  let(:payment_method_id) { 'foobar' }
+  let(:amount) { 12 }
+  let(:payment) { create(:stripe_payment, order:) }
   let(:private_key) { 'private_foo' }
   let(:request_body) do
     {
-      amount: '123',
-      currency: 'eur',
-      confirm: 'true',
-      payment_method: payment_method_id
+      amount: '1200',
+      payment_intent: payment.id.to_s
     }
   end
   let(:response_status) { 200 }
   let(:response_body) do
     {
       id: 'stripe_1',
-      object: 'payment_intent',
-      amount: 456,
-      charges: { data: [{ payment_method_details: { card: { wallet: { type: 'apple_pay' } } } }] }
+      object: 'refund',
+      amount: '1200'
     }
   end
   let!(:request) do
-    stub_request(:post, 'https://api.stripe.com/v1/payment_intents')
+    stub_request(:post, 'https://api.stripe.com/v1/refunds')
       .with(body: request_body)
       .to_return_json(status: response_status, body: response_body)
   end
@@ -38,22 +35,21 @@ RSpec.describe Ticketing::StripePaymentCreateService do
       Rails.application.credentials.deep_merge(stripe: { test: { private_key: } })
     )
 
-    order.billing_account.withdraw(amount, :foo)
+    order.billing_account.deposit(amount, :foo)
   end
 
-  it 'creates a payment intent with Stripe' do
+  it 'creates a refund with Stripe' do
     subject
     expect(request).to have_been_made
   end
 
   it 'creates a Stripe transaction' do
-    expect { subject }.to change(Ticketing::StripeTransaction, :count).by(1)
-    transaction = Ticketing::StripeTransaction.last
+    expect { subject }.to change(order.stripe_transactions, :count).by(1)
+    transaction = order.stripe_transactions.last
     expect(transaction.attributes).to include(
-      'type' => 'payment_intent',
+      'type' => 'refund',
       'stripe_id' => 'stripe_1',
-      'amount' => 4.56,
-      'method' => 'apple_pay'
+      'amount' => amount
     )
   end
 
@@ -65,11 +61,11 @@ RSpec.describe Ticketing::StripePaymentCreateService do
     end
   end
 
-  context 'when order has credit' do
-    let(:amount) { -1 }
+  context 'when order has outstanding balance' do
+    let(:amount) { -10 }
 
     it 'raises an error' do
-      expect { subject }.to raise_error('Cannot create Stripe payment for order without outstanding balance')
+      expect { subject }.to raise_error('Cannot create Stripe refund for order without credit')
     end
   end
 end

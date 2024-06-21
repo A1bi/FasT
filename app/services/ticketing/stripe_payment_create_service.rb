@@ -8,7 +8,7 @@ module Ticketing
     end
 
     def execute
-      raise 'Cannot create Stripe payment with negative amount' unless amount.positive?
+      raise 'Cannot create Stripe payment for order without outstanding balance' unless amount.positive?
 
       res = post('payment_intents', payment_body)
       payment = res.parsed_response

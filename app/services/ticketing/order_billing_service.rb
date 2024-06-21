@@ -33,7 +33,7 @@ module Ticketing
         transaction = StripePaymentCreateService.new(@order, payment_method_id).execute
         deposit_into_account(transaction.amount, :stripe_payment)
       else
-        # TODO: refund
+        transaction = StripeRefundCreateService.new(@order).execute
         withdraw_from_account(transaction.amount, :stripe_refund)
       end
     end

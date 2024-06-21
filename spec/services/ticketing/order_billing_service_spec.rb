@@ -169,11 +169,9 @@ RSpec.describe Ticketing::OrderBillingService do
       let(:order) { create(:web_order, :complete, :with_balance, :stripe_payment) }
       let(:stripe_service) { instance_double(Ticketing::StripePaymentCreateService, execute: stripe_payment) }
       let(:stripe_payment) { build(:stripe_payment, amount: 20) }
+      let(:previous_balance) { -40 }
 
-      before do
-        allow(Ticketing::StripePaymentCreateService).to receive(:new).and_return(stripe_service)
-        order.billing_account.update(balance: -40)
-      end
+      before { allow(Ticketing::StripePaymentCreateService).to receive(:new).and_return(stripe_service) }
 
       it 'calls stripe payment service' do
         expect(Ticketing::StripePaymentCreateService).to receive(:new).with(order, payment_method_id)
@@ -181,7 +179,24 @@ RSpec.describe Ticketing::OrderBillingService do
       end
 
       it 'adjusts order\'s balance' do
-        expect { subject }.to change(order, :balance).from(-40).to(-20)
+        expect { subject }.to change(order, :balance).from(previous_balance).to(-20)
+      end
+    end
+
+    context 'when order has credit' do
+      let(:order) { create(:web_order, :complete, :stripe_payment) }
+      let(:stripe_service) { instance_double(Ticketing::StripeRefundCreateService, execute: stripe_refund) }
+      let(:stripe_refund) { build(:stripe_refund, amount: previous_balance) }
+
+      before { allow(Ticketing::StripeRefundCreateService).to receive(:new).and_return(stripe_service) }
+
+      it 'calls stripe payment service' do
+        expect(Ticketing::StripeRefundCreateService).to receive(:new).with(order)
+        subject
+      end
+
+      it 'adjusts order\'s balance' do
+        expect { subject }.to change(order, :balance).from(previous_balance).to(0)
       end
     end
 

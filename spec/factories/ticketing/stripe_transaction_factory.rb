@@ -10,5 +10,9 @@ FactoryBot.define do
     factory :stripe_payment do
       type { 'payment_intent' }
     end
+
+    factory :stripe_refund do
+      type { 'refund' }
+    end
   end
 end
