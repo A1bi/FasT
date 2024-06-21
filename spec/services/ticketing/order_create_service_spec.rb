@@ -147,6 +147,29 @@ RSpec.describe Ticketing::OrderCreateService do
 
       include_examples 'marks order as paid', true
     end
+
+    context 'with Stripe payment' do
+      let(:order_params) do
+        super().merge(
+          payment: {
+            method: :stripe,
+            stripe_payment_method_id: 'foobar'
+          }
+        )
+      end
+      let(:stripe_transaction) { build(:stripe_payment, amount: total_after_discount) }
+      let(:stripe_service) do
+        instance_double(Ticketing::StripePaymentCreateService, execute: stripe_transaction)
+      end
+
+      before { allow(Ticketing::StripePaymentCreateService).to receive(:new).and_return(stripe_service) }
+
+      it 'creates no bank transaction' do
+        expect { subject }.not_to change(Ticketing::BankTransaction, :count)
+      end
+
+      include_examples 'marks order as paid', true
+    end
   end
 
   context 'with a retail order' do

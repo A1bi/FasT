@@ -15,21 +15,33 @@ module Ticketing
     end
 
     def settle_balance(note)
-      deposit_into_account(-order_balance, note)
+      deposit_into_account(-@order.balance, note)
     end
 
     def settle_balance_with_bank_transaction(transaction = @order.open_bank_transaction)
       return if transaction.nil?
 
-      transaction.amount -= order_balance
+      transaction.amount -= @order.balance
       transaction.save if transaction.persisted?
       settle_balance(@order.billing_account.outstanding? ? :bank_charge_payment : :transfer_refund)
+    end
+
+    def settle_balance_with_stripe(payment_method_id: nil)
+      return unless @order.is_a?(Web::Order) && @order.stripe_payment?
+
+      if @order.billing_account.outstanding?
+        transaction = StripePaymentCreateService.new(@order, payment_method_id).execute
+        deposit_into_account(transaction.amount, :stripe_payment)
+      else
+        # TODO: refund
+        withdraw_from_account(transaction.amount, :stripe_refund)
+      end
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)
       return unless @order.is_a? Retail::Order
 
-      transfer_to_account(@order.store, order_balance, note)
+      transfer_to_account(@order.store, @order.balance, note)
     end
 
     def refund_in_retail_store
@@ -46,7 +58,7 @@ module Ticketing
       return unless @order.billing_account.outstanding? &&
                     coupon.billing_account.credit?
 
-      amount = [-coupon.value, order_balance].max
+      amount = [-coupon.value, @order.balance].max
       transfer_to_account(coupon, amount, :redeemed_coupon)
     end
 
@@ -61,6 +73,11 @@ module Ticketing
       update_paid
     end
 
+    def withdraw_from_account(amount, note)
+      @order.withdraw_from_account(amount, note)
+      update_paid
+    end
+
     def transfer_to_account(recipient, amount, note)
       @order.transfer_to_account(recipient, amount, note)
       update_paid
@@ -69,10 +86,6 @@ module Ticketing
     def update_paid
       @order.update_paid
       @order.save if @order.persisted?
-    end
-
-    def order_balance
-      @order.billing_account.balance
     end
   end
 end

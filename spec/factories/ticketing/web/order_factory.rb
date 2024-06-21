@@ -32,6 +32,10 @@ FactoryBot.define do
       end
     end
 
+    trait :stripe_payment do
+      pay_method { :stripe }
+    end
+
     trait :anonymized do
       after(:create, &:anonymize!)
     end

@@ -6,8 +6,9 @@ module Ticketing
       PAYMENT_DUE_AFTER = 1.week
       PAYMENT_OVERDUE_AFTER = 2.weeks
 
-      enum :pay_method, %i[charge transfer cash box_office], suffix: :payment
+      enum :pay_method, %i[charge transfer cash box_office stripe], suffix: :payment
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
+      has_many :stripe_transactions, dependent: :destroy
 
       auto_strip_attributes :first_name, :last_name, :affiliation, squish: true
       phony_normalize :phone, default_country_code: 'DE'

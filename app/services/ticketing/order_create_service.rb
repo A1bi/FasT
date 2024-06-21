@@ -22,7 +22,7 @@ module Ticketing
 
       else
         @order.attributes = order_params[:address]
-        create_payment
+        prepare_payment
       end
 
       validate_event
@@ -46,7 +46,7 @@ module Ticketing
       @order.errors.add(:event, 'Sold out') if sold_out?
     end
 
-    def create_payment
+    def prepare_payment
       @order.pay_method = order_params[:payment][:method]
       return unless @order.charge_payment?
 
@@ -73,6 +73,9 @@ module Ticketing
 
     def settle_balance
       billing_service.settle_balance_with_bank_transaction
+      if (payment_method_id = order_params.dig(:payment, :stripe_payment_method_id)).present?
+        billing_service.settle_balance_with_stripe(payment_method_id:)
+      end
       billing_service.settle_balance_with_retail_account
     end
 

@@ -109,7 +109,28 @@ CREATE TYPE public.ticketing_pay_method AS ENUM (
     'charge',
     'transfer',
     'cash',
-    'box_office'
+    'box_office',
+    'stripe'
+);
+
+
+--
+-- Name: ticketing_stripe_payment_method; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_stripe_payment_method AS ENUM (
+    'apple_pay',
+    'google_pay'
+);
+
+
+--
+-- Name: ticketing_stripe_transaction_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.ticketing_stripe_transaction_type AS ENUM (
+    'payment_intent',
+    'refund'
 );
 
 
@@ -1839,6 +1860,41 @@ ALTER SEQUENCE public.ticketing_signing_keys_id_seq OWNED BY public.ticketing_si
 
 
 --
+-- Name: ticketing_stripe_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_stripe_transactions (
+    id bigint NOT NULL,
+    order_id bigint,
+    type public.ticketing_stripe_transaction_type NOT NULL,
+    stripe_id character varying NOT NULL,
+    amount numeric NOT NULL,
+    method public.ticketing_stripe_payment_method,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticketing_stripe_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticketing_stripe_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticketing_stripe_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticketing_stripe_transactions_id_seq OWNED BY public.ticketing_stripe_transactions.id;
+
+
+--
 -- Name: ticketing_ticket_types; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2340,6 +2396,13 @@ ALTER TABLE ONLY public.ticketing_signing_keys ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: ticketing_stripe_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_stripe_transactions ALTER COLUMN id SET DEFAULT nextval('public.ticketing_stripe_transactions_id_seq'::regclass);
+
+
+--
 -- Name: ticketing_ticket_types id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2781,6 +2844,14 @@ ALTER TABLE ONLY public.ticketing_seats
 
 ALTER TABLE ONLY public.ticketing_signing_keys
     ADD CONSTRAINT ticketing_signing_keys_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ticketing_stripe_transactions ticketing_stripe_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_stripe_transactions
+    ADD CONSTRAINT ticketing_stripe_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3320,6 +3391,13 @@ CREATE INDEX index_ticketing_signing_keys_on_active ON public.ticketing_signing_
 
 
 --
+-- Name: index_ticketing_stripe_transactions_on_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_stripe_transactions_on_order_id ON public.ticketing_stripe_transactions USING btree (order_id);
+
+
+--
 -- Name: index_ticketing_ticket_types_on_availability; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3638,6 +3716,14 @@ ALTER TABLE ONLY public.ticketing_coupons
 
 
 --
+-- Name: ticketing_stripe_transactions fk_rails_60cdbbba1f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_stripe_transactions
+    ADD CONSTRAINT fk_rails_60cdbbba1f FOREIGN KEY (order_id) REFERENCES public.ticketing_orders(id);
+
+
+--
 -- Name: ticketing_tickets fk_rails_61a0f2a65f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3884,6 +3970,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240620212248'),
 ('20240515083436'),
 ('20240511152059'),
 ('20231226151739'),

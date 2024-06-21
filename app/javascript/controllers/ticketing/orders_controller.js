@@ -295,7 +295,10 @@ export default class extends Controller {
         tickets: apiInfo.tickets?.tickets,
         coupons: apiInfo.coupons?.coupons,
         address: apiInfo.address,
-        payment: apiInfo.payment,
+        payment: {
+          ...(apiInfo.payment || {}),
+          stripe_payment_method_id: this.stripePaymentMethodId
+        },
         coupon_codes: apiInfo.tickets?.couponCodes
       },
       type: this.type,
@@ -335,6 +338,7 @@ export default class extends Controller {
     this.stripePaymentRequest.on('paymentmethod', async event => {
       event.complete('success')
 
+      this.stripePaymentMethodId = event.paymentMethod.id
       this.toggleModalBox(false)
       this.placeOrder()
     })

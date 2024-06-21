@@ -61,6 +61,7 @@ group :test do
   gem 'pdf-inspector'
   gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
+  gem 'webmock', '~> 3.0', require: false
 end
 
 group :development, :ci do

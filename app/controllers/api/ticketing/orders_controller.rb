@@ -52,7 +52,7 @@ module Api
               address: %i[
                 email first_name gender last_name affiliation phone plz
               ],
-              payment: %i[method name iban]
+              payment: %i[method name iban stripe_payment_method_id]
             }
           ]
         )

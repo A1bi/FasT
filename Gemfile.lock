@@ -114,6 +114,9 @@ GEM
     config (5.5.1)
       deep_merge (~> 1.2, >= 1.2.1)
     connection_pool (2.4.1)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     css_parser (1.17.1)
       addressable
@@ -178,6 +181,7 @@ GEM
     ffi (1.17.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashdiff (1.1.0)
     hashery (2.1.2)
     http-2 (0.11.0)
     httparty (0.22.0)
@@ -475,6 +479,10 @@ GEM
     web-push (3.0.1)
       jwt (~> 2.0)
       openssl (~> 3.0)
+    webmock (3.23.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.8.1)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -542,6 +550,7 @@ DEPENDENCIES
   stimulus-rails (~> 1.2)
   ttfunk (~> 1.7.0)
   web-push (~> 3.0)
+  webmock (~> 3.0)
   whenever
 
 BUNDLED WITH
