@@ -31,10 +31,11 @@ module Ticketing
 
       if @order.billing_account.outstanding?
         transaction = StripePaymentCreateService.new(@order, payment_method_id).execute
-        deposit_into_account(transaction.amount, :stripe_payment)
+        deposit_into_account(transaction.amount, "#{transaction.method}_payment")
       else
         transaction = StripeRefundCreateService.new(@order).execute
-        withdraw_from_account(transaction.amount, :stripe_refund)
+        payment = @order.stripe_payment
+        withdraw_from_account(transaction.amount, "#{payment.method}_refund")
       end
     end
 

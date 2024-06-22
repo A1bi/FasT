@@ -22,6 +22,10 @@ module Ticketing
 
       after_save :schedule_geolocation
 
+      def stripe_payment
+        stripe_transactions.payments.first
+      end
+
       def due?
         !paid? && transfer_payment? && PAYMENT_DUE_AFTER.after(created_at).past?
       end

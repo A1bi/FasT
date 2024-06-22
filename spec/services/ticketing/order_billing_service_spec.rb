@@ -163,12 +163,13 @@ RSpec.describe Ticketing::OrderBillingService do
   describe '#settle_balance_with_stripe' do
     subject { service.settle_balance_with_stripe(payment_method_id:) }
 
+    let(:stripe_payment) { build(:stripe_payment, amount: 20, method: stripe_method) }
+    let(:stripe_method) { :apple_pay }
     let(:payment_method_id) { 'foo' }
 
     context 'when order balance is outstanding' do
       let(:order) { create(:web_order, :complete, :with_balance, :stripe_payment) }
       let(:stripe_service) { instance_double(Ticketing::StripePaymentCreateService, execute: stripe_payment) }
-      let(:stripe_payment) { build(:stripe_payment, amount: 20) }
       let(:previous_balance) { -40 }
 
       before { allow(Ticketing::StripePaymentCreateService).to receive(:new).and_return(stripe_service) }
@@ -181,6 +182,16 @@ RSpec.describe Ticketing::OrderBillingService do
       it 'adjusts order\'s balance' do
         expect { subject }.to change(order, :balance).from(previous_balance).to(-20)
       end
+
+      context 'with Apple Pay' do
+        include_examples 'sets transaction note', 'apple_pay_payment'
+      end
+
+      context 'with Google Pay' do
+        let(:stripe_method) { :google_pay }
+
+        include_examples 'sets transaction note', 'google_pay_payment'
+      end
     end
 
     context 'when order has credit' do
@@ -188,7 +199,10 @@ RSpec.describe Ticketing::OrderBillingService do
       let(:stripe_service) { instance_double(Ticketing::StripeRefundCreateService, execute: stripe_refund) }
       let(:stripe_refund) { build(:stripe_refund, amount: previous_balance) }
 
-      before { allow(Ticketing::StripeRefundCreateService).to receive(:new).and_return(stripe_service) }
+      before do
+        allow(Ticketing::StripeRefundCreateService).to receive(:new).and_return(stripe_service)
+        allow(order).to receive(:stripe_payment).and_return(stripe_payment)
+      end
 
       it 'calls stripe payment service' do
         expect(Ticketing::StripeRefundCreateService).to receive(:new).with(order)
@@ -197,6 +211,16 @@ RSpec.describe Ticketing::OrderBillingService do
 
       it 'adjusts order\'s balance' do
         expect { subject }.to change(order, :balance).from(previous_balance).to(0)
+      end
+
+      context 'with Apple Pay' do
+        include_examples 'sets transaction note', 'apple_pay_refund'
+      end
+
+      context 'with Google Pay' do
+        let(:stripe_method) { :google_pay }
+
+        include_examples 'sets transaction note', 'google_pay_refund'
       end
     end
 
