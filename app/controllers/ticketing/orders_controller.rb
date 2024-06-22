@@ -68,14 +68,9 @@ module Ticketing
 
     def edit
       authorize @order
+      return if @order.charge_payment? || @order.stripe_payment?
 
-      @pay_methods = Web::Order.pay_methods.keys
-      @pay_methods.reject! do |method|
-        method == 'charge' && !@order.charge_payment?
-      end
-      @pay_methods.map! do |method|
-        [t(method, scope: %i[ticketing orders pay_methods]), method]
-      end
+      @pay_methods = %i[transfer cash box_office].map { |m| [t(m, scope: 'ticketing.orders.pay_methods'), m] }
     end
 
     def update

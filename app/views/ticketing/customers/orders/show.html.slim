@@ -17,7 +17,7 @@
       dt E-Mail-Addresse
       dd = @order.email
       dt Zahlungsart
-      dd = t(@order.pay_method, scope: 'ticketing.orders.pay_methods')
+      dd = order_pay_method(@order)
       dt bezahlt
       dd = @order.paid ? 'ja' : 'nein'
 

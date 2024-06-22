@@ -43,7 +43,7 @@ module Ticketing
     def raise_transaction_error(extra = {})
       Sentry.capture_message('Stripe transaction failed', extra:)
 
-      raise TransactionError
+      raise TransactionError, extra
     end
 
     def auth

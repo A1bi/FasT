@@ -144,6 +144,11 @@ de:
         transfer: "Überweisung"
         cash: "Barzahlung"
         box_office: "Zahlung an der Abendkasse"
+        apple_pay: Apple Pay
+        google_pay: Google Pay
+      stripe_transaction_types:
+        payment_intent: Zahlung
+        refund: Erstattung
       check_ins:
         media:
           unknown: unbekanntes Ticket-Medium
@@ -446,6 +451,10 @@ de:
           created_coupon: Gutschein erstellt
           purchased_coupon: Gutschein gekauft
           redeemed_coupon: Gutscheinguthaben eingelöst
+          apple_pay_payment: Bezahlung per Apple Pay
+          google_pay_payment: Bezahlung per Google Pay
+          apple_pay_refund: Erstattung per Apple Pay
+          google_pay_refund: Erstattung per Google Pay
       ticketing/coupon:
         value_types:
           free_tickets: Freikarten

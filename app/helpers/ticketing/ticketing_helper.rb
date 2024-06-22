@@ -41,6 +41,11 @@ module Ticketing
       options_for_select(options)
     end
 
+    def order_pay_method(order)
+      pay_method = order.stripe_payment? ? order.stripe_payment.method : order.pay_method
+      t(pay_method, scope: 'ticketing.orders.pay_methods')
+    end
+
     def order_retail_printable_path(order)
       retail_printable_api_ticketing_order_path(order.signed_id(expires_in: 1.hour))
     end
