@@ -5,7 +5,10 @@
   ' ein Teil Ihrer
 ' #{order_with_number(@order)} storniert wurde.
 
-- if @bank_transaction.present? && @bank_transaction.amount.negative?
+- if @order.stripe_payment?
+  p Der zu erstattende Betrag wird per <b>#{order_pay_method(@order)}</b> zurückgezahlt.
+
+- elsif @bank_transaction.present? && @bank_transaction.amount.negative?
   p Der Betrag von <b>#{number_to_currency(-@bank_transaction.amount)}</b> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
   table
     tr

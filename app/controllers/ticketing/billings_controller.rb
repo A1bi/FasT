@@ -23,6 +23,8 @@ module Ticketing
           refund_to_bank_account(use_most_recent: true)
         when :refund_to_new_bank_account
           refund_to_bank_account(params.permit(:name, :iban))
+        when :refund_via_stripe
+          refund_via_stripe
         when :cash_refund_in_store
           cash_refund_in_store
         else
@@ -35,7 +37,12 @@ module Ticketing
 
     def refund_to_bank_account(params)
       authorize :refund?
-      OrderRefundService.new(billable).execute(params)
+      refund_service.execute(params)
+    end
+
+    def refund_via_stripe
+      authorize :refund?
+      refund_service.execute
     end
 
     def cash_refund_in_store
@@ -61,6 +68,10 @@ module Ticketing
 
     def authorize(action)
       super(billable, action, policy_class: BillingPolicy)
+    end
+
+    def refund_service
+      OrderRefundService.new(billable)
     end
 
     def billing_service

@@ -56,7 +56,7 @@ RSpec.describe 'Ticketing::TicketsController' do
         let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: nil) }
 
         before do
-          params[:transfer_refund] = true
+          params[:refund] = true
           params[:use_most_recent] = true
           params[:name] = 'bar'
           params[:iban] = 'foo'

@@ -6,14 +6,20 @@ module Ticketing
       @order = order
     end
 
-    def execute(params)
+    def execute(params = {})
       @params = params
-      return unless @order.billing_account.credit? && bank_transaction&.valid?
+      return unless @order.billing_account.credit?
 
-      Ticketing::OrderBillingService.new(@order)
-                                    .settle_balance_with_bank_transaction(bank_transaction)
-      bank_transaction.save if bank_transaction.new_record?
-      bank_transaction
+      if @order.stripe_payment?
+        billing_service.settle_balance_with_stripe
+
+      else
+        return unless bank_transaction&.valid?
+
+        billing_service.settle_balance_with_bank_transaction(bank_transaction)
+        bank_transaction.save if bank_transaction.new_record?
+        bank_transaction
+      end
     end
 
     private
@@ -39,6 +45,10 @@ module Ticketing
 
     def build_bank_transaction(transaction_params)
       @order.bank_transactions.new(transaction_params)
+    end
+
+    def billing_service
+      Ticketing::OrderBillingService.new(@order)
     end
   end
 end

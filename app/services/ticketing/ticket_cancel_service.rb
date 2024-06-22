@@ -19,7 +19,8 @@ module Ticketing
       end
 
       log_cancellation
-      transaction = refund_order(refund) if refund.present?
+      # .nil? is important, refund can be {} (for Stripe) which .present? will return false for
+      transaction = refund_order(refund) unless refund.nil?
       send_email(transaction) if send_customer_email
 
       update_node_with_tickets

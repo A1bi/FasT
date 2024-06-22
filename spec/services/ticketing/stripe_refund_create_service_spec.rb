@@ -12,7 +12,7 @@ RSpec.describe Ticketing::StripeRefundCreateService do
   let(:request_body) do
     {
       amount: '1200',
-      payment_intent: payment.id.to_s
+      payment_intent: payment.stripe_id
     }
   end
   let(:response_status) { 200 }

@@ -15,7 +15,7 @@ module Ticketing
     def refund_body
       {
         amount: stripe_formatted_amount,
-        payment_intent: @order.stripe_payment.id
+        payment_intent: @order.stripe_payment.stripe_id
       }
     end
 
