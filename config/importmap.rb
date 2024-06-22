@@ -6,7 +6,7 @@ pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin '@rails/ujs', to: 'rails-ujs.esm.js', preload: true
 pin '@rails/actioncable', to: 'actioncable.esm.js'
-pin '@stripe/stripe-js', to: 'https://cdn.jsdelivr.net/npm/@stripe/stripe-js@3.5.0/+esm'
+pin '@stripe/stripe-js', to: 'stripe-js.js' # @3.5.0
 pin 'chart.js' # @2.9.3
 pin 'filepond' # @4.28.2
 pin 'filepond-plugin-file-validate-type' # @1.2.6

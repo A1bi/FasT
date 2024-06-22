@@ -67,7 +67,7 @@ export default class extends Controller {
 
     this.toggleModalBox(true)
 
-    await this.initStripePaymentRequest()
+    this.initStripePaymentRequest()
 
     // await layouting of all steps so initial stepBox height is correct
     setTimeout(() => {
