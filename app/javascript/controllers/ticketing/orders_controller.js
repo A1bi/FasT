@@ -98,10 +98,10 @@ export default class extends Controller {
     this.toggleBtn('prev', this.currentStepIndex > 0)
     this.toggleNextBtn(this.currentStep.nextBtnEnabled())
 
-    const showApplePayButton = this.currentStep.finalizesOrder && this.stripePaymentSelected &&
-      this.availableStripePaymentMethod === 'apple_pay'
-    toggleDisplay(this.getBtn('apple_pay'), showApplePayButton)
-    toggleDisplay(this.getBtn('next'), !showApplePayButton)
+    const showStripeButton = this.currentStep.finalizesOrder && this.stripePaymentSelected
+    toggleDisplay(this.getBtn('apple_pay'), showStripeButton && this.availableStripePaymentMethod === 'apple_pay')
+    toggleDisplay(this.getBtn('google_pay'), showStripeButton && this.availableStripePaymentMethod === 'google_pay')
+    toggleDisplay(this.getBtn('next'), !showStripeButton)
   }
 
   goPrev () {

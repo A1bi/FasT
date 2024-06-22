@@ -64,6 +64,14 @@
     -apple-pay-button-type: check-out;
     width: 70%;
   }
+
+  .btn.google_pay {
+    background: black;
+    font-family: system-ui;
+    font-weight: normal;
+    font-style: normal;
+    border-color: black;
+  }
 }
 
 .stepBox {
