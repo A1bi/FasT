@@ -13,6 +13,10 @@
       .col: tt.iban
     - unless local_assigns[:admin]
       p Weitere Informationen zur Abbuchung insbesondere Ihre Mandatsreferenznummer erhalten Sie mit der Bestätigungsmail.
+  .apple_pay
+    h3 Bezahlung per Apple Pay
+  .google_pay
+    h3 Bezahlung per Google Pay
   .box_office
     h3 Bezahlung an der Abendkasse
     - unless local_assigns[:admin]

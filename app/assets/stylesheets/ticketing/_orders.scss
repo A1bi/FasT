@@ -145,7 +145,8 @@
   &.confirm {
     .payment {
       &:not(.charge) .charge, &:not(.transfer) .transfer,
-      &:not(.box_office) .box_office, &:not(.cash) .cash {
+      &:not(.box_office) .box_office, &:not(.cash) .cash,
+      &:not(.apple_pay) .apple_pay, &:not(.google_pay) .google_pay {
         @extend %d-none;
       }
     }

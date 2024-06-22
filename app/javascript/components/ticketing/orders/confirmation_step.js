@@ -69,8 +69,9 @@ export default class extends Step {
       if (!info) continue
       const box = this.box.querySelector(`.${type}`)
       if (type === 'payment' && this.delegate.paymentRequired) {
-        box.classList.remove('transfer', 'charge', 'box_office', 'cash')
-        box.classList.add(info.api.method)
+        box.classList.remove('transfer', 'charge', 'box_office', 'cash', 'apple_pay', 'google_pay')
+        const method = info.api.method === 'stripe' ? this.delegate.availableStripePaymentMethod : info.api.method
+        box.classList.add(method)
       }
       for (const [key, value] of Object.entries(info.api)) {
         const additionalInfoBox = box.querySelector(`.${key}`)

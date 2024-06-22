@@ -197,58 +197,59 @@ ruby:
     .card.mb-2 = render 'application/ticketing/log_events', events: @order.log_events
     .card.mb-2 = render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'
 
-    - if @order.stripe_payment?
-      .card.mb-2
-        h3 Transaktionen mit Stripe
-        .table-responsive: table
-          thead
-            tr
-              th ID
-              th Typ
-              th.text-end Betrag
-              th Datum
-          tbody
-            - @order.stripe_transactions.each do |transaction|
+    - if current_user.admin?
+      - if @order.is_a?(Ticketing::Web::Order) && @order.stripe_payment?
+        .card.mb-2
+          h3 Transaktionen mit Stripe
+          .table-responsive: table
+            thead
               tr
-                td: tt.small = transaction.stripe_id
-                td = t(transaction.type, scope: 'ticketing.orders.stripe_transaction_types')
-                td.text-end = number_to_currency(transaction.amount)
-                td.text-end = l(transaction.created_at, format: :medium)
-
-    - else
-      .card.mb-2
-        h3 Banktransaktionen
-        .table-responsive: table
-          thead
-            tr
-              th Details
-              th Typ
-              th.text-end Betrag
-              th Datum
-          tbody
-            - if @order.bank_transactions.any?
-              - @order.bank_transactions.each do |transaction|
+                th ID
+                th Typ
+                th.text-end Betrag
+                th Datum
+            tbody
+              - @order.stripe_transactions.each do |transaction|
                 tr
-                  td
-                    = transaction.name
-                    .ff-mono.small.text-body-secondary
-                      div = obfuscated_iban(transaction.iban)
+                  td: tt.small = transaction.stripe_id
+                  td = t(transaction.type, scope: 'ticketing.orders.stripe_transaction_types')
+                  td.text-end = number_to_currency(transaction.amount)
+                  td.text-end = l(transaction.created_at, format: :medium)
+
+      - else
+        .card.mb-2
+          h3 Banktransaktionen
+          .table-responsive: table
+            thead
+              tr
+                th Details
+                th Typ
+                th.text-end Betrag
+                th Datum
+            tbody
+              - if @order.bank_transactions.any?
+                - @order.bank_transactions.each do |transaction|
+                  tr
+                    td
+                      = transaction.name
+                      .ff-mono.small.text-body-secondary
+                        div = obfuscated_iban(transaction.iban)
+                        - if transaction.received?
+                          div = transaction.raw_source.dig('sepa', 'SVWZ')
+                    td
                       - if transaction.received?
-                        div = transaction.raw_source.dig('sepa', 'SVWZ')
-                  td
-                    - if transaction.received?
-                      | Erhaltene Überweisung
-                    - else
-                      = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
-                  td.text-end = number_to_currency(transaction.amount.abs)
-                  td.text-end
-                    - if transaction.received?
-                      = l(transaction.created_at, format: :medium)
-                    - elsif transaction.submitted?
-                      = l(transaction.submission.created_at, format: :medium)
-                    - else
-                      em noch offen
-            - else
-              tr: td.text-center(colspan=5): em Keine Transaktionen vorhanden.
+                        | Erhaltene Überweisung
+                      - else
+                        = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
+                    td.text-end = number_to_currency(transaction.amount.abs)
+                    td.text-end
+                      - if transaction.received?
+                        = l(transaction.created_at, format: :medium)
+                      - elsif transaction.submitted?
+                        = l(transaction.submission.created_at, format: :medium)
+                      - else
+                        em noch offen
+              - else
+                tr: td.text-center(colspan=5): em Keine Transaktionen vorhanden.
 
 = render 'application/ticketing/ticket_printer_popover'
