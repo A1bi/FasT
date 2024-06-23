@@ -31,6 +31,7 @@ export default class extends Controller {
     this.btns = document.querySelectorAll('.btns .btn')
     this.progressBox = document.querySelector('.progress')
     this.modalBox = this.stepBox.querySelector('.modalAlert')
+    this.modalAlert = this.modalBox.querySelector('.alert')
 
     this.eventId = this.element.dataset.eventId
     this.coupons = this.element.dataset.coupons
@@ -119,7 +120,7 @@ export default class extends Controller {
       }
     } else {
       this.showNext()
-      this.orderFrameBox.scrollIntoView({ behavior: 'smooth' })
+      this.scrollToTop()
     }
   }
 
@@ -137,6 +138,10 @@ export default class extends Controller {
     this.moveInCurrentStep(previousStep)
   }
 
+  scrollToTop () {
+    this.orderFrameBox.scrollIntoView({ behavior: 'smooth' })
+  }
+
   toggleModalBox (toggle, spinner = true, orderControls = true) {
     document.querySelectorAll('.progress, .btns').forEach(el => {
       el.style.visibility = orderControls ? 'visible' : 'hidden'
@@ -151,21 +156,29 @@ export default class extends Controller {
       }
     }
 
-    toggleDisplay(this.modalBox.querySelector('.spinner'), spinner)
+    toggleDisplay(this.modalBox.querySelector('.spinner'), toggle && spinner)
 
     this.modalBoxOwners = Math.max(0, this.modalBoxOwners + (toggle ? 1 : -1))
     this.modalBox.classList.toggle('visible', this.modalBoxOwners > 0)
   }
 
-  showModalAlert (msg) {
+  showModalAlert (msg, dismissable = false) {
     if (this.noFurtherErrors) return
-    this.noFurtherErrors = true
-    this.killExpirationTimer()
-    this.toggleModalBox(true, false, false)
+    this.toggleModalBox(true, false, !dismissable)
 
-    const alert = this.modalBox.querySelector('.alert')
-    alert.querySelector('.message').innerHTML = msg
-    toggleDisplay(alert, true)
+    this.modalAlert.querySelector('.message').innerHTML = msg
+    toggleDisplay(this.modalAlert, true)
+    toggleDisplay(this.modalAlert.querySelector('.restart'), !dismissable)
+    toggleDisplay(this.modalAlert.querySelector('.dismiss'), dismissable)
+
+    if (!dismissable) this.noFurtherActionsPossible()
+
+    this.scrollToTop()
+  }
+
+  hideModalAlert () {
+    this.toggleModalBox(false)
+    toggleDisplay(this.modalAlert, false)
   }
 
   slideToggle (target, toggle) {
@@ -277,13 +290,24 @@ export default class extends Controller {
       }
 
       this.showNext()
+      this.noFurtherActionsPossible()
     } catch (error) {
-      console.log(error)
-      this.showModalAlert('Leider ist ein Fehler aufgetreten.<br />Ihre Bestellung konnte nicht aufgenommen werden.')
-    } finally {
-      const chooser = this.getStep('seats')?.chooser
-      if (chooser) chooser.disconnect()
-      this.killExpirationTimer()
+      this.toggleModalBox(false)
+
+      let msg
+      let dismissable = true
+      switch (error.status) {
+        case 400:
+          msg = 'Leider gab es ein Problem bei der Verarbeitung Ihrer Angaben. Bitte prüfen Sie sie noch einmal und versuchen es erneut.'
+          break
+        case 402:
+          msg = 'Leider konnte Ihre Zahlung nicht ausgeführt werden. Bitte wählen Sie eine andere Zahlungsmethode und versuchen es erneut.'
+          break
+        default:
+          msg = 'Leider ist bei der Verarbeitung Ihrer Bestellung ein Problem auf unserer Seite aufgetreten. Bitte versuchen Sie es erneut.'
+          dismissable = false
+      }
+      this.showModalAlert(msg, dismissable)
     }
   }
 
@@ -427,6 +451,14 @@ export default class extends Controller {
     )
   }
 
+  noFurtherActionsPossible () {
+    const chooser = this.getStep('seats')?.chooser
+    if (chooser) chooser.disconnect()
+
+    this.killExpirationTimer()
+    this.noFurtherErrors = true
+  }
+
   expire () {
     this.showModalAlert('Ihre Sitzung ist abgelaufen.<br>Wenn Sie möchten, können Sie den Bestellvorgang erneut starten.')
   }
@@ -441,6 +473,8 @@ export default class extends Controller {
         }
       })
     })
+
+    this.modalAlert.querySelector('.dismiss').addEventListener('click', () => this.hideModalAlert())
 
     this.stepBox.addEventListener('transitionend', event => {
       if (event.propertyName === 'height') this.removeStepBoxHeight()

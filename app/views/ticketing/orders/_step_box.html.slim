@@ -2,6 +2,8 @@
   .modalAlert.fadeable.visible
     = render 'alert', type: :alert, class: 'd-none'
       .mb-2.message Es ist ein Fehler aufgetreten.
-      p = link_to 'Bestellvorgang neu starten', request.path, class: %[btn w-100]
+      p
+        a.btn.w-100.restart href=request.path Bestellvorgang neu starten
+        button.btn.w-100.dismiss.d-none Bestellung bearbeiten
     = render 'application/spinner'
   = yield :steps

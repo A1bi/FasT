@@ -5,6 +5,10 @@ module Api
     module OrderCreation
       extend ActiveSupport::Concern
 
+      included do
+        rescue_from(::Ticketing::StripeBaseService::TransactionError) { head :payment_required }
+      end
+
       private
 
       def create_order(box_office: nil)
