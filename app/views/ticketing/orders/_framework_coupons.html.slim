@@ -10,5 +10,5 @@
       .step.payment Zahlung
       .step.confirm Bestätigung
 
-    = render 'step_box', type: :web, coupons: true
+    = render 'step_box', type: :web, coupons: true, stripe_payment_available: true
     = render 'buttons'

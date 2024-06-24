@@ -10,6 +10,7 @@ import { toggleDisplay, toggleDisplayIfExists, togglePluralText, fetch } from 'c
 
 export default class extends Controller {
   static values = {
+    stripePaymentAvailable: Boolean,
     stripeKey: String
   }
 
@@ -68,8 +69,6 @@ export default class extends Controller {
 
     this.toggleModalBox(true)
 
-    this.initStripePaymentRequest()
-
     // await layouting of all steps so initial stepBox height is correct
     setTimeout(() => {
       this.showNext()
@@ -111,6 +110,8 @@ export default class extends Controller {
 
   goNext () {
     if (!this.currentStep.validate()) return
+
+    this.initStripePaymentRequest()
 
     if (this.currentStep.finalizesOrder) {
       if (this.stripePaymentSelected) {
@@ -339,7 +340,7 @@ export default class extends Controller {
   }
 
   async initStripePaymentRequest () {
-    if (!this.web || !this.stripePaymentAvailable) return
+    if (!this.stripePaymentAvailableValue || this.stripePaymentRequest) return
 
     await this.initStripe()
 
@@ -411,10 +412,6 @@ export default class extends Controller {
   get stripePaymentSelected () {
     const payment = this.getStepInfo('payment')
     return payment?.api?.method === 'stripe'
-  }
-
-  get stripePaymentAvailable () {
-    return !window.ApplePaySession || window.ApplePaySession.canMakePayments
   }
 
   updateExpirationCounter (seconds) {

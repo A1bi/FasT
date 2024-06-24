@@ -18,5 +18,5 @@
     .expiration.slidable = render 'alert', type: :warning
       .plural_text Bei keiner weiteren Aktion läuft Ihre Sitzung in <b class="number"><span></span></b> Sekunde<span class="plural">n</span> ab.
 
-    = render 'step_box', type: @type, event_id: @event.id
+    = render 'step_box', type: @type, event_id: @event.id, stripe_payment_available: @type == :web
     = render 'buttons'

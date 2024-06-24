@@ -1,4 +1,4 @@
-= content_tag :div, class: [:stepBox, type, :card], data: { controller: 'ticketing--orders', ticketing__orders_stripe_key_value: stripe_public_key, order_path: ticketing_order_path(':id'), **local_assigns.slice(:type, :event_id, :coupons) }
+= content_tag :div, class: [:stepBox, type, :card], data: { controller: 'ticketing--orders', ticketing__orders_stripe_payment_available_value: local_assigns[:stripe_payment_available], ticketing__orders_stripe_key_value: stripe_public_key, order_path: ticketing_order_path(':id'), **local_assigns.slice(:type, :event_id, :coupons) }
   .modalAlert.fadeable.visible
     = render 'alert', type: :alert, class: 'd-none'
       .mb-2.message Es ist ein Fehler aufgetreten.
