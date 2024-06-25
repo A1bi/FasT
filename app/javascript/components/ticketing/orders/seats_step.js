@@ -48,9 +48,8 @@ export default class extends Step {
 
     if (!this.hasSeatingPlan) return
 
-    const info = this.delegate.getStepInfo('tickets')
-    if (this.numberOfSeats !== info.internal.numberOfTickets) {
-      this.numberOfSeats = info.internal.numberOfTickets
+    if (this.numberOfSeats !== this.delegate.numberOfArticles) {
+      this.numberOfSeats = this.delegate.numberOfArticles
       togglePluralText(this.box.querySelector('.number_of_tickets'), this.numberOfSeats)
       this.chooser.toggleErrorBox(false)
       this.updateSeatingPlan()
