@@ -35,10 +35,18 @@ hr
         p Alle Plätze sind barrierefrei zu erreichen.
 
     = question_answer 'Welche Zahlungsarten stehen mir bei der Online-Bestellung zur Verfügung?' do
-      p Wir akzeptieren SEPA-Lastschrift, Apple Pay, Google Pay und Zahlungen per Überweisung.
+      - if Settings.stripe.enabled
+        p Wir akzeptieren SEPA-Lastschrift, Apple Pay, Google Pay und Zahlungen per Überweisung.
+      - else
+        p Wir akzeptieren SEPA-Lastschrift und Zahlungen per Überweisung.
 
     = question_answer 'Wie erhalte ich meine Tickets, die ich online bestellt habe?' do
-      p Sofern Sie Zahlung per Lastschrift, Apple Pay oder Google Pay gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt. Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
+      p
+        - if Settings.stripe.enabled
+          | Sofern Sie Zahlung per Lastschrift, Apple Pay oder Google Pay gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt.
+        - else
+          | Sofern Sie Zahlung per Lastschrift gewählt haben, werden Ihnen Ihre Tickets umgehend nach Ihrer Bestellung per E-Mail zugesandt.
+        |< Bei Vorkasse per Überweisung erhalten Sie Ihre Tickets nach Zahlungseingang.
       p Im Anhang der E-Mail finden Sie ein PDF-Dokument, das Ihre Tickets enthält. Dieses können Sie sich ausdrucken, um es am Abend der Veranstaltung bei der Einlasskontrolle vorzuzeigen.
 
     = question_answer 'Kann ich meine Tickets auch auf einem Handy vorzeigen?' do

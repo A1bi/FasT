@@ -18,7 +18,8 @@ module Ticketing
       validates :gender, inclusion: { in: 0..1, allow_blank: true }
       validates :plz, plz_format: true, allow_blank: true
       validates :email, email_format: true, allow_blank: true
-      validates :pay_method, presence: { if: proc { |order| !order.paid } }
+      validates :pay_method, presence: { if: proc { |order| !order.paid } },
+                             exclusion: { in: %w[stripe], on: :create, unless: proc { Settings.stripe.enabled } }
 
       after_save :schedule_geolocation
 

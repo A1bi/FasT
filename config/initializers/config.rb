@@ -65,5 +65,9 @@ Config.setup do |config|
     required(:ebics).schema do
       required(:enabled).filled(:bool)
     end
+
+    required(:stripe).schema do
+      required(:enabled).filled(:bool)
+    end
   end
 end

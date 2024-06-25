@@ -13,3 +13,6 @@ imagemagick_path: /opt/ImageMagick/bin/
 
 ticketing:
   ticket_barcode_base_url: 'http://ao-imac.local:4000/tickets/'
+
+stripe:
+  enabled: false

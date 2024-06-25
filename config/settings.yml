@@ -60,3 +60,6 @@ ebics:
   enabled: true
   url: https://ebics.multivia-suite.de/ebicsweb/ebicsweb
   host_id: MULTIVIA
+
+stripe:
+  enabled: true
