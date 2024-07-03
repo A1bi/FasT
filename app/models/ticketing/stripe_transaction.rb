@@ -10,6 +10,7 @@ module Ticketing
     enum :method, %i[apple_pay google_pay]
 
     validates :type, :stripe_id, :amount, presence: true
+    validates :method, presence: true, if: :payment_intent?
     validates :amount, numericality: { other_than: 0 }
 
     class << self
