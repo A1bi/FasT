@@ -31,7 +31,8 @@ module Ticketing
     end
 
     def send_email(action)
-      OrderMailer.with(order: @order).public_send(action).deliver_later
+      # TODO: remove wait after https://github.com/rails/rails/pull/51426 is released with Rails 7.2
+      OrderMailer.with(order: @order).public_send(action).deliver_later(wait: 10.seconds)
     end
 
     def log_service
