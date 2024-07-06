@@ -16,7 +16,7 @@ export default class extends Controller {
   }
 
   saveSelectedSeats () {
-    this.seats[this.date] = this.selector.getSelectedSeatIds()
+    this.seats.exclusive[this.date] = this.selector.getSelectedSeatIds()
   }
 
   updateEvent (event) {
@@ -28,7 +28,8 @@ export default class extends Controller {
   updateDate () {
     if (this.date) this.saveSelectedSeats()
     this.date = this.dateTarget.value
-    this.selector.setSelectedSeats(this.seats[this.date])
+    this.selector.setSelectedSeats(this.seats.exclusive[this.date])
+    this.selector.markSeats(this.seats.taken[this.date], 'taken')
   }
 
   updateGroup (event) {
@@ -37,7 +38,7 @@ export default class extends Controller {
 
   applyToAllDates () {
     this.dateIdsValue.forEach(date => {
-      this.seats[date] = this.selector.getSelectedSeatIds()
+      this.seats.exclusive[date] = this.selector.getSelectedSeatIds()
     })
 
     window.alert('Die Blockungen wurden auf alle Termine angewandt.')
@@ -47,7 +48,7 @@ export default class extends Controller {
     this.saveSelectedSeats()
 
     fetch(this.element.dataset.updatePath, 'put', {
-      seats: this.seats
+      seats: this.seats.exclusive
     })
       .then(() => window.alert('Die Blockungen wurden erfolgreich gespeichert.'))
       .catch(() => window.alert('Beim Speichern ist ein unbekannter Fehler aufgetreten.'))

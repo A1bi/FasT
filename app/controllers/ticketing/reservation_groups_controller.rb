@@ -11,11 +11,6 @@ module Ticketing
     end
 
     def show
-      @seats = {}
-      @group.reservations.each do |reservation|
-        (@seats[reservation.date_id] ||= []) << reservation.seat_id
-      end
-
       @groups = Ticketing::ReservationGroup.order(:name)
       @events = Ticketing::Event.with_future_dates.with_seating
       @event = if params[:event_id].present?
@@ -23,6 +18,15 @@ module Ticketing
                else
                  @events.first
                end
+
+      @seats = {
+        exclusive: @group.reservations,
+        taken: @event.tickets.valid
+      }.transform_values do |scope|
+        scope.each_with_object({}) do |record, seats|
+          (seats[record.date_id] ||= []) << record.seat_id
+        end
+      end
     end
 
     def create

@@ -10,9 +10,7 @@ export default class extends Seating {
   async init () {
     await super.init()
 
-    for (const id in this.seats) {
-      this.setStatusForSeat(this.seats[id], 'available')
-    }
+    this.resetSeats()
 
     if (this.delegate && typeof (this.delegate.seatSelectorIsReady) === 'function') {
       this.delegate.seatSelectorIsReady()
@@ -30,23 +28,27 @@ export default class extends Seating {
     this.setStatusForSeat(seat, selected ? 'available' : 'exclusive')
   }
 
-  setSelectedSeats (seats = []) {
-    for (const seatId of this.selectedSeats) {
-      this.setStatusForSeat(this.seats[seatId], 'available')
-    }
-
-    this.selectedSeats = []
-
-    for (const seatId of seats) {
-      const seat = this.seats[seatId]
-      if (!seat) continue
-
-      this.selectedSeats.push(seatId)
-      this.setStatusForSeat(seat, 'exclusive')
-    }
+  setSelectedSeats (seatIds = []) {
+    this.resetSeats()
+    this.markSeats(seatIds, 'exclusive', seatId => this.selectedSeats.push(seatId))
   }
 
   getSelectedSeatIds () {
     return this.selectedSeats
+  }
+
+  resetSeats () {
+    this.selectedSeats = []
+    this.markSeats(Object.keys(this.seats), 'available')
+  }
+
+  markSeats (seatIds, status, callback) {
+    for (const seatId of seatIds) {
+      const seat = this.seats[seatId]
+      if (!seat) continue
+
+      this.setStatusForSeat(seat, status)
+      if (callback) callback(seatId)
+    }
   }
 }
