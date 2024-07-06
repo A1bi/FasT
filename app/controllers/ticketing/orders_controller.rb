@@ -109,13 +109,17 @@ module Ticketing
     def seats
       authorize @order
 
-      render_cached_json([:ticketing, :orders, :show, @order, @order.date.tickets]) do
-        [[:chosen, @order], [:taken, @order.date]]
-          .each_with_object({}) do |type, seats|
-          seats[type.first] = type.last.tickets.where(invalidated: false)
-                                  .filter_map { |t| t.seat&.id }
-        end
+      types = {
+        chosen: @order.tickets.valid,
+        taken: @order.date.tickets.valid,
+        exclusive: @order.date.reservations
+      }
+
+      seats = types.transform_values do |scope|
+        scope.where.associated(:seat).pluck(:seat_id)
       end
+
+      render json: seats
     end
 
     private

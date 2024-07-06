@@ -15,7 +15,7 @@ export default class extends Seating {
     const response = await fetch(path)
 
     if (this.container.matches('.chosen')) {
-      for (const type of ['taken', 'chosen']) {
+      for (const type of ['exclusive', 'taken', 'chosen']) {
         if (!response[type]) continue
 
         for (const id of response[type]) {
