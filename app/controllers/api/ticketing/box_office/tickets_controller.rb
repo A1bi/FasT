@@ -20,7 +20,8 @@ module Api
         private
 
         def find_tickets
-          @tickets = ::Ticketing::Ticket.find(params[:ids])
+          # where is necessary here (instead of find) because we need a relation later
+          @tickets = ::Ticketing::Ticket.where(id: params[:ids])
         end
 
         def printable_data
