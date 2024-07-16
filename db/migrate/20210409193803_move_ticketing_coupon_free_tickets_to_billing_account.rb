@@ -33,7 +33,9 @@ class MoveTicketingCouponFreeTicketsToBillingAccount < ActiveRecord::Migration[6
       end
     end
 
-    change_column_null :ticketing_coupons, :value_type, false
-    remove_column :ticketing_coupons, :free_tickets, :integer, default: 0
+    change_table :ticketing_coupons, bulk: true do |t|
+      t.change_null :value_type, false
+      t.remove :free_tickets, type: :integer, default: 0
+    end
   end
 end

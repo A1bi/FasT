@@ -10,9 +10,11 @@ class AddAssetsIdentifierToTicketingEvents < ActiveRecord::Migration[6.0]
       end
     end
 
-    change_column_null :ticketing_events, :identifier, false
-    change_column_null :ticketing_events, :assets_identifier, false
-    change_column_null :ticketing_events, :slug, false
+    change_table :ticketing_events, bulk: true do |t|
+      t.change_null :identifier, false
+      t.change_null :assets_identifier, false
+      t.change_null :slug, false
+    end
 
     remove_index :ticketing_events, :identifier
     remove_index :ticketing_events, :slug

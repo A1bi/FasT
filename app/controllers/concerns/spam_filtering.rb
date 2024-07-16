@@ -19,7 +19,7 @@ module SpamFiltering
 
   def filter_honeypot_spam
     # blank? will ignore newline control characters
-    return if params[:comment]&.length&.zero?
+    return if params[:comment] && params[:comment].empty?
 
     redirect_to root_path
   end
