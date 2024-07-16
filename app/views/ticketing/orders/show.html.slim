@@ -178,7 +178,7 @@ ruby:
     - if @order.event&.seating?
       .card.mb-2
         h3 Sitzplätze
-        = render 'application/ticketing/seating', event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[standalone chosen]
+        = render 'application/ticketing/seating', event: @order.event, seats_path: seats_ticketing_order_path(@order), class: %i[chosen]
 
     - if @order.purchased_coupons.any?
       .card.mb-2

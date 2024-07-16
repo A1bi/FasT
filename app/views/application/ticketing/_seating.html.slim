@@ -1,11 +1,12 @@
 ruby:
-  classes = local_assigns.fetch(:class, []) << :seating
+  mode = local_assigns.fetch(:mode, 'standalone')
+  classes = local_assigns.fetch(:class, []) + [:seating, mode]
   data = {
     event_id: local_assigns[:event]&.id,
     plan_path: (local_assigns[:event]&.seating || seating).plan.url(:stripped),
     seats_path: local_assigns[:seats_path],
     controller: 'ticketing--seating',
-    ticketing__seating_mode: local_assigns.fetch(:mode, 'standalone'),
+    ticketing__seating_mode: mode,
   }.compact
   data["#{js_controller_target[0]}-target"] = js_controller_target[1] if local_assigns.key?(:js_controller_target)
 

@@ -25,7 +25,7 @@
               = label_tag group.id, group.name
               = check_box_tag group.id, group.id
 
-      = render 'application/ticketing/seating', class: [:chooser, :stage, 'mt-2'], error_box: true, key: true, mode: :chooser, event: @event
+      = render 'application/ticketing/seating', class: [:stage, 'mt-2'], error_box: true, key: true, mode: :chooser, event: @event
 
   - else
     .no-seating Bei dieser Veranstaltung gilt freie Platzwahl.

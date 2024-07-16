@@ -1,3 +1,3 @@
 .d-flex.align-items-center.min-h-100vh.p-2
   .card.w-100: .seat_chooser data-controller='ticketing--box-office-seating'
-    = render 'application/ticketing/seating', class: %i[chooser stage], error_box: true, key: true, event: @event, mode: :chooser, js_controller_target: %w[ticketing--box-office-seating seating]
+    = render 'application/ticketing/seating', class: %i[stage], error_box: true, key: true, event: @event, mode: :chooser, js_controller_target: %w[ticketing--box-office-seating seating]

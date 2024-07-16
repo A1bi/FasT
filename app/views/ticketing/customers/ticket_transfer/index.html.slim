@@ -10,7 +10,7 @@
     .row: .col.w-100: .card
       div data-ticketing--ticket-transfer-target='seatTransfer'
         p.text-center Ihre bisherigen Plätze: #{@tickets.map { |t| content_tag(:b, t.seat.full_number)}.join(', ').html_safe }. Bitte wählen Sie <b>#{pluralize(@tickets.count, 'neuen Platz', plural: 'neue Plätze')}</b>.
-        = render 'application/ticketing/seating', class: %i[chooser stage], event: @order.event, error_box: true, key: true, mode: :chooser, js_controller_target: %w[ticketing--ticket-transfer seating]
+        = render 'application/ticketing/seating', class: %i[stage], event: @order.event, error_box: true, key: true, mode: :chooser, js_controller_target: %w[ticketing--ticket-transfer seating]
 
   .text-center.mt-1
     = button_tag 'abbrechen', data: { action: 'ticketing--ticket-transfer#returnToOrder' }, class: 'btn me-1'

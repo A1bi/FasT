@@ -15,7 +15,7 @@
       = render 'application/ticketing/date_select', dates: @event.dates, preselected_date: @event.dates.first, data: { ticketing__reservation_groups_target: 'date', action: 'ticketing--reservation-groups#updateDate' }
 
   .row: .col.w-100: .card.mb-2
-    = render 'application/ticketing/seating', class: [:selector], mode: :selector, event: @event, js_controller_target: %w[ticketing--reservation-groups seating]
+    = render 'application/ticketing/seating', mode: :selector, event: @event, js_controller_target: %w[ticketing--reservation-groups seating]
     .text-end.mt-2: a.btn.btn-sm data-action='ticketing--reservation-groups#applyToAllDates' auf alle Termine anwenden
     .text-center.mt-2 = submit_tag 'speichern', class: :btn, data: { action: 'ticketing--reservation-groups#submit' }
 

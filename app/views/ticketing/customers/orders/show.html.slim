@@ -75,7 +75,7 @@
       - if @order.tickets.first.seat.present?
         h2 Sitzplätze
         .row: .col.w-100
-          .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[standalone chosen]
+          .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[chosen]
 
     - if @order.purchased_coupons.any?
       h2 Bestellte Geschenkgutscheine

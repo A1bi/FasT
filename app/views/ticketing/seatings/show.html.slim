@@ -10,7 +10,7 @@
   .row
     .col-12.col-md-8
       .card
-        = render 'application/ticketing/seating', class: [:stage, :standalone], seating: @seating
+        = render 'application/ticketing/seating', class: [:stage], seating: @seating
         h3 Download
         p.text-center
           = link_to 'PDF', { format: :pdf }, class: 'btn btn-sm me-1'
