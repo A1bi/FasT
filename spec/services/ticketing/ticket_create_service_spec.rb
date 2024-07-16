@@ -37,7 +37,7 @@ RSpec.describe Ticketing::TicketCreateService do
     expect(order.tickets.map(&:type)).to eq([types[0], types[0], types[1]])
   end
 
-  it 'uses the correct seats order by number' do
+  it 'uses the correct seats ordered by number' do
     subject
     expect(order.tickets.map(&:seat)).to eq(seats)
   end

@@ -16,21 +16,6 @@ module Ticketing
     def execute
       return if date.nil? || ticket_params.blank?
 
-      if seating?
-        if seats.nil?
-          crumb = Sentry::Breadcrumb.new(
-            message: 'Unknown socket id', type: 'error', level: 'error'
-          )
-          order.errors.add(:base, 'Unknown socket id')
-        else
-          crumb = Sentry::Breadcrumb.new(
-            message: 'Received chosen seats from node', type: 'debug',
-            data: { seats: seats.dup }
-          )
-        end
-        Sentry.add_breadcrumb(crumb)
-      end
-
       build_tickets
     end
 
@@ -80,7 +65,7 @@ module Ticketing
           type: ticket_type,
           date:
         )
-        ticket.seat = seats.shift if seating?
+        ticket.seat = chosen_seats.next if seating?
       end
     end
 
@@ -100,13 +85,8 @@ module Ticketing
       )
     end
 
-    def seats
-      @seats ||= if params[:socket_id].blank?
-                   []
-                 else
-                   seat_ids = NodeApi.get_chosen_seats(params[:socket_id])
-                   Ticketing::Seat.where(id: seat_ids).order(:block_id, :number).to_a
-                 end
+    def chosen_seats
+      @chosen_seats ||= ChosenSeatsService.new(params[:socket_id])
     end
 
     def seating?
