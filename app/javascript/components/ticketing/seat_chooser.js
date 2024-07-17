@@ -123,11 +123,14 @@ export default class extends Seating {
     const number = this.getSeatsYetToChoose()
     const toggle = number > 0
 
-    if (toggle) {
-      togglePluralText(this.errorBox, number)
+    if (this.showErrorBox) {
+      if (toggle) {
+        togglePluralText(this.errorBox, number)
+      }
+      this.toggleErrorBox(toggle)
     }
 
-    this.toggleErrorBox(toggle)
+    return !toggle
   }
 
   toggleErrorBox (toggle) {
@@ -143,8 +146,14 @@ export default class extends Seating {
   }
 
   validate () {
-    this.updateErrorBox()
-    return this.getSeatsYetToChoose() < 1
+    this.showErrorBox = true
+    const validated = this.updateErrorBox()
+    if (!validated) {
+      // scrollIntoView does not work, it scrolls only the parent container because of the height constraint
+      const top = this.errorBox.getBoundingClientRect().top + window.scrollY - 100
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+    return validated
   }
 
   clickedSeat (seat) {
