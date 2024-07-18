@@ -20,7 +20,7 @@
           .info.justify-content-end: .segment
             i.bi.bi-clock-fill
             = l(date.date, format: '%H:%M')
-        - else
+        - elsif date.future?
           = render 'application/events/tickets_button', date:
     - if date.cancelled?
       .cancelled-banner = @event.past? ? 'entfallen' : 'entfällt'

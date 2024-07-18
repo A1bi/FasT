@@ -27,7 +27,7 @@ json.location do
 end
 
 json.offers event.ticket_types.except_exclusive do |type|
-  json.url new_ticketing_order_url(event.slug)
+  json.url new_ticketing_order_url(event.slug, date_id: date)
   json.name type.name
   json.category 'primary'
   json.price type.price
