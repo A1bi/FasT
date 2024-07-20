@@ -1,22 +1,11 @@
 select#date_id name='date' data=local_assigns[:data]
-  - cancelled = []
-  - sold_out = []
-  optgroup label='Bitte wählen Sie einen Termin'
-    - dates.each do |date|
-      - if date.cancelled?
-        - cancelled << date
-      - elsif date.sold_out? && !current_user&.admin?
-        - sold_out << date
-      - else
-        option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date) selected=(local_assigns[:preselected_date] == date)
-          = l date.date, format: '%A, %d. %B %Y, %H:%M'
-  - sold_out.any?
-    optgroup label='Folgende Aufführungen sind derzeit ausverkauft'
-      - sold_out.each do |date|
-        option value=date.id disabled=true
-          = l date.date, format: '%A, %d. %B %Y, %H:%M'
-  - cancelled.any?
-    optgroup label='Folgende Aufführungen entfallen'
-      - cancelled.each do |date|
-        option value=date.id disabled=true
-          = l date.date, format: '%A, %d. %B %Y, %H:%M'
+  - if local_assigns[:preselected_date].nil?
+    option(disabled selected) Bitte wählen Sie einen Termin
+  - dates.each do |date|
+    option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date) selected=(local_assigns[:preselected_date] == date) disabled=date_disabled?(date)
+      = l date.date, format: '%A, %d. %B %Y, %H:%M'
+      - if local_assigns.fetch(:show_availability, true)
+        - if date.cancelled?
+          |< (entfällt)
+        - elsif date.sold_out?
+          |< (ausverkauft)

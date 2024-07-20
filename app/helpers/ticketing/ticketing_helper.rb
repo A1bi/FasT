@@ -50,6 +50,10 @@ module Ticketing
       retail_printable_api_ticketing_order_path(order.signed_id(expires_in: 1.hour))
     end
 
+    def date_disabled?(date)
+      date.cancelled? || (date.sold_out? && !current_user&.admin?)
+    end
+
     def stripe_public_key
       Rails.application.credentials.stripe[Rails.env.production? ? 'live' : 'test'].public_key
     end

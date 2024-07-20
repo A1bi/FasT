@@ -158,7 +158,8 @@ module Ticketing
 
       @event = Ticketing::Event.find_by!(slug: params[:event_slug])
       @dates = @event.dates.upcoming
-      @preselected_date = @event.dates.find(params[:date_id]) if params[:date_id].present?
+      @preselected_date = preselected_date
+
       @ticket_types = @event.ticket_types.except_box_office.ordered_by_availability_and_price
     end
 
@@ -231,6 +232,13 @@ module Ticketing
         @billing_actions << :cash_refund_in_store if @order.is_a? Ticketing::Retail::Order
       end
       @billing_actions << :correction if current_user.admin?
+    end
+
+    def preselected_date
+      return if params[:date_id].blank?
+
+      date = @event.dates.find(params[:date_id])
+      date unless date.cancelled? || date.sold_out?
     end
 
     def order_scope

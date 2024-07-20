@@ -3,6 +3,8 @@
 module Ticketing
   module Customers
     class TicketTransferController < BaseController
+      helper TicketingHelper
+
       before_action :redirect_unauthenticated
 
       def index
