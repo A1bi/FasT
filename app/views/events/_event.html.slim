@@ -8,4 +8,8 @@
 
 = render 'page_nav'
 
+- if @announcement.present?
+  .container = render 'alert', type: :warning, class: 'mt-2'
+    = @announcement
+
 = yield :event_sections
