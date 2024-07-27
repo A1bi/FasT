@@ -164,6 +164,8 @@ de:
         subject: "Zahlungserinnerung"
       cancellation:
         subject: "Stornierung Ihrer Artikel"
+      date_cancellation:
+        subject: Ihre gebuchte Veranstaltung fällt leider aus
       tickets_changed:
         subject: "Ihre Umbuchung"
       item_subjects:

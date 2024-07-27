@@ -31,16 +31,16 @@
       .row: .col
         - if @order.date.cancelled?
           = render 'alert', type: :warning
-            p Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
+            | Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
             - if @transferable || @cancellable
-              ' Sie haben die Möglichkeit einer
+              |< Sie haben die Möglichkeit einer
               - if @transferable && @cancellable
-                ' Umbuchung oder Stornierung
+                |< Umbuchung oder Stornierung
               - elsif @transferable
-                ' Umbuchung
+                |< Umbuchung
               - else
-                ' Stornierung
-              | Ihrer Tickets.
+                |< Stornierung
+              |< Ihrer Tickets.
         .card: .table-responsive: table
           thead
             tr

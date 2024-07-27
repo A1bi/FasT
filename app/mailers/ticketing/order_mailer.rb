@@ -35,6 +35,11 @@ module Ticketing
       mail
     end
 
+    def date_cancellation
+      date_ids = @order.tickets.valid.pluck(:date_id)
+      mail if (@cancelled_dates = EventDate.cancelled.where(id: date_ids)).any?
+    end
+
     def tickets_changed
       mail
     end

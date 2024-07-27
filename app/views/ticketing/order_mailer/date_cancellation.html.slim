@@ -1,0 +1,7 @@
+| leider müssen wir Ihnen mitteilen, dass die Veranstaltung <b>„#{@order.event.name}“ am #{l @cancelled_dates.first.date, format: '%-d. %B %Y um %H.%M Uhr'}</b>, für die Sie Tickets bestellt hatten, <b>leider ausfallen muss</b>.
+
+p Über folgenden Link können Sie Ihre Tickets vollständig erstatten lassen: #{link_to 'Tickets stornieren', overview_url}.
+
+p Wir bitten die entstandenen Unannehmlichkeiten zu entschuldigen.
+
+p Mit freundlichen Grüßen
