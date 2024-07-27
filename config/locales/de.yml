@@ -166,6 +166,8 @@ de:
         subject: "Stornierung Ihrer Artikel"
       date_cancellation:
         subject: Ihre gebuchte Veranstaltung fällt leider aus
+      announcement:
+        subject: Abbruch der letzten Aufführung
       tickets_changed:
         subject: "Ihre Umbuchung"
       item_subjects:

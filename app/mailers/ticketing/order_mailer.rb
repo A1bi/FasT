@@ -40,6 +40,10 @@ module Ticketing
       mail if (@cancelled_dates = EventDate.cancelled.where(id: date_ids)).any?
     end
 
+    def announcement
+      mail
+    end
+
     def tickets_changed
       mail
     end
