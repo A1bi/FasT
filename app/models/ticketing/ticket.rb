@@ -58,14 +58,14 @@ module Ticketing
 
     def customer_cancellable?
       !cancelled? && (
-        (date.cancelled? && (date.date + REFUNDABLE_FOR_AFTER_DATE).future?) ||
+        ((date.cancelled? || exceptionally_customer_cancellable?) && (date.date + REFUNDABLE_FOR_AFTER_DATE).future?) ||
         (date.date - CANCELLABLE_UNTIL_BEFORE_DATE).future?
       )
     end
 
     def customer_transferable?
       !cancelled? && (
-        (!date.cancelled? && date.admission_time.future?) ||
+        (!date.cancelled? && (exceptionally_customer_cancellable? || date.admission_time.future?)) ||
         (date.cancelled? && date.event.dates.uncancelled.upcoming.any?)
       )
     end

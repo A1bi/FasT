@@ -1947,7 +1947,8 @@ CREATE TABLE public.ticketing_tickets (
     picked_up boolean DEFAULT false,
     resale boolean DEFAULT false,
     invalidated boolean DEFAULT false,
-    order_index integer DEFAULT 0 NOT NULL
+    order_index integer DEFAULT 0 NOT NULL,
+    exceptionally_customer_cancellable boolean DEFAULT false NOT NULL
 );
 
 
@@ -3970,6 +3971,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240727192449'),
 ('20240620212248'),
 ('20240515083436'),
 ('20240511152059'),

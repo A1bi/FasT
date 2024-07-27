@@ -72,7 +72,7 @@
                     = ticket.seat.full_number
                   - else
                     | Freie Platzwahl
-      - if @order.tickets.first.seat.present?
+      - if @order.tickets.first.seat.present? && @order.date.future?
         h2 Sitzplätze
         .row: .col.w-100
           .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[chosen]

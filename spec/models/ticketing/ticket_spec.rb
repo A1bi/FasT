@@ -51,6 +51,12 @@ RSpec.describe Ticketing::Ticket do
 
           it { is_expected.to be_truthy }
         end
+
+        context 'when ticket is exceptionally cancellable' do
+          before { ticket.update(exceptionally_customer_cancellable: true) }
+
+          it { is_expected.to be_truthy }
+        end
       end
 
       context 'when date is cancelled but refund period is over' do
@@ -65,6 +71,12 @@ RSpec.describe Ticketing::Ticket do
         before { create(:cancellation, tickets: [ticket]) }
 
         it { is_expected.to be_falsy }
+
+        context 'when ticket is exceptionally cancellable' do
+          before { ticket.update(exceptionally_customer_cancellable: true) }
+
+          it { is_expected.to be_falsy }
+        end
       end
     end
 
@@ -101,6 +113,12 @@ RSpec.describe Ticketing::Ticket do
           context 'when there is no other possible future date' do
             it { is_expected.to be_falsy }
           end
+        end
+
+        context 'when ticket is exceptionally cancellable' do
+          before { ticket.update(exceptionally_customer_cancellable: true) }
+
+          it { is_expected.to be_truthy }
         end
       end
     end
