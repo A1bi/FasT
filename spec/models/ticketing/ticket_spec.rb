@@ -121,6 +121,14 @@ RSpec.describe Ticketing::Ticket do
           it { is_expected.to be_truthy }
         end
       end
+
+      context 'when ticket is exceptionally cancellable but no other future date exists' do
+        let(:travel_to_date) { date.date + 1.minute }
+
+        before { ticket.update(exceptionally_customer_cancellable: true) }
+
+        it { is_expected.to be_falsy }
+      end
     end
   end
 end
