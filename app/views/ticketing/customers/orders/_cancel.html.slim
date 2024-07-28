@@ -13,7 +13,7 @@ h2 Stornierung Ihrer Tickets
       p Bitte geben Sie ein Konto an, auf das wir den zu erstattenden Betrag überweisen dürfen.
       .card
         - if @order.most_recent_bank_transaction.present?
-          = render 'form_field', form: f, attribute: :use_most_recent, label: 'Bankkonto der ursprünglichen Lastschrift verwenden', value: true, class: 'form-check'
+          = render 'form_field', form: f, attribute: :use_most_recent, label: 'Bankkonto der ursprünglichen Zahlung verwenden', value: true, class: 'form-check'
             = f.radio_button :use_most_recent, true, required: true,
                 data: { action: 'ticketing--refund#toggleBankDetails' }
             .form-text Kontoinhaber: #{@order.most_recent_bank_transaction.name}
