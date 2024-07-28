@@ -5,14 +5,13 @@ class EventsController < ApplicationController
 
   skip_authorization
 
-  before_action :find_event
+  prepend_before_action :find_event
 
   def show
     return head :not_found unless event_page_exists?(@event)
 
     @ticket_types = @event.ticket_types.except_exclusive
                           .ordered_by_availability_and_price
-    @announcement = announcement_alert_text if show_announcement_alert?
 
     render @event.identifier
   end

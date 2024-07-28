@@ -79,6 +79,13 @@ html lang=I18n.locale class="color-theme-#{color_theme_index}"
               li = link_to 'Mitglied werden', new_members_membership_application_path
 
     main
+      - if flash.key?(:announcement)
+        .alert.alert-warning.d-block.mb-0.px-0 role='alert'
+          .container.d-flex
+            i.bi.bi-megaphone-fill
+            div = flash[:announcement]
+        - flash.delete(:announcement)
+
       - flash.each do |type, msg|
         .container.my-2 = render 'alert', type:
           = msg

@@ -12,8 +12,6 @@ class StaticController < ApplicationController
     @upcoming_dates = Ticketing::EventDate.upcoming.order(date: :asc)
     @archived_events = Ticketing::Event.including_ticketing_disabled.archived.ordered_by_dates(:desc)
                                        .includes(:location)
-
-    flash.now[:warning] = announcement_alert_text if show_announcement_alert?
   end
 
   private
