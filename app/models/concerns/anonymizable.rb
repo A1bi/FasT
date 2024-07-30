@@ -12,13 +12,21 @@ module Anonymizable
       @anonymizable_columns || []
     end
 
+    def anonymizable
+      unanonymized
+    end
+
     def unanonymized
       where(anonymized_at: nil)
     end
   end
 
+  def anonymizable?
+    !anonymized?
+  end
+
   def anonymize!
-    return if anonymized?
+    return unless anonymizable?
 
     self.class.anonymizable_columns.each do |column|
       send("anonymize_#{column}")

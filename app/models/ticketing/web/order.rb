@@ -3,8 +3,11 @@
 module Ticketing
   module Web
     class Order < Ticketing::Order
+      include Anonymizable
+
       PAYMENT_DUE_AFTER = 1.week
       PAYMENT_OVERDUE_AFTER = 2.weeks
+      ANONYMIZE_AFTER = 6.weeks
 
       enum :pay_method, %i[charge transfer cash box_office stripe], suffix: :payment
       belongs_to :geolocation, foreign_key: :plz, primary_key: :postcode, inverse_of: false, optional: true
@@ -22,6 +25,14 @@ module Ticketing
                              exclusion: { in: %w[stripe], on: :create, unless: proc { Settings.stripe.enabled } }
 
       after_save :schedule_geolocation
+
+      class << self
+        def anonymizable
+          super.joins(tickets: :date)
+               .where(ticketing_event_dates: { date: ...ANONYMIZE_AFTER.ago })
+               .distinct
+        end
+      end
 
       def stripe_payment
         stripe_transactions.payments.first
@@ -51,6 +62,11 @@ module Ticketing
         return unless saved_change_to_plz? && geolocation.blank?
 
         Ticketing::GeolocatePostcodeJob.perform_later(plz)
+      end
+
+      def anonymizable?
+        super && billing_account.settled? &&
+          tickets.joins(:date).where(ticketing_event_dates: { date: ANONYMIZE_AFTER.ago.. }).none?
       end
     end
   end

@@ -72,6 +72,10 @@ module Ticketing
       id
     end
 
+    def anonymizable?
+      super && order.anonymized?
+    end
+
     private
 
     def anonymize_raw_source
