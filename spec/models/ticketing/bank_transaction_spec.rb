@@ -3,9 +3,14 @@
 require_shared_examples 'anonymizable'
 
 RSpec.describe Ticketing::BankTransaction do
+  let(:order) { instance_double(Ticketing::Web::Order, anonymized?: order_anonymized) }
+  let(:order_anonymized) { true }
+
   it_behaves_like 'anonymizable', %i[name iban] do
     let(:record) { create(:bank_transaction) }
     let(:records) { create_list(:bank_transaction, 2) }
+
+    before { [record, *records].each { |r| allow(r).to receive(:order).and_return(order) } }
   end
 
   describe '#anonymize!' do
@@ -25,8 +30,18 @@ RSpec.describe Ticketing::BankTransaction do
       }
     end
 
+    before { allow(transaction).to receive(:order).and_return(order) }
+
     it 'removes all anonymizable information from raw_source' do
       expect { subject }.to change(transaction, :raw_source).from(raw_source).to(anonymized_raw_source)
+    end
+
+    context 'when order is not anonymized yet' do
+      let(:order_anonymized) { false }
+
+      it 'does not change anything' do
+        expect { subject }.not_to change(transaction, :attributes)
+      end
     end
   end
 
