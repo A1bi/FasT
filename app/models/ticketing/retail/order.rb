@@ -13,6 +13,10 @@ module Ticketing
         pdf
       end
 
+      def anonymizable?
+        false
+      end
+
       private
 
       def sale_enabled_for_store

@@ -45,3 +45,17 @@ RSpec.shared_examples 'anonymizable' do |columns|
     end
   end
 end
+
+RSpec.shared_examples 'non-anonymizable order' do |order_factory|
+  describe '#anonymize!' do
+    subject { order.anonymize! }
+
+    let(:order) { create(order_factory, :with_tickets, tickets_count: 1) }
+
+    before { order.tickets.first.date.update(date: 7.weeks.ago) }
+
+    it 'does not anonymize this type of order' do
+      expect { subject }.not_to(change { order.reload.attributes })
+    end
+  end
+end

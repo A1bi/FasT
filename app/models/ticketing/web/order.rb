@@ -3,8 +3,6 @@
 module Ticketing
   module Web
     class Order < Ticketing::Order
-      include Anonymizable
-
       PAYMENT_DUE_AFTER = 1.week
       PAYMENT_OVERDUE_AFTER = 2.weeks
       ANONYMIZE_AFTER = 6.weeks
