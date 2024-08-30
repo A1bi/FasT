@@ -18,5 +18,6 @@ hr
 
   - unless @event.past?
     = render 'prices'
-    = render 'presale', retail: local_assigns[:retail]
+    - unless @event.free?
+      = render 'presale', retail: local_assigns[:retail]
 
