@@ -18,7 +18,7 @@
             td
               - letter.subscriber_lists.each do |list|
                 div = subscriber_list_with_count(list)
-              div: b Gesamt #{number_with_delimiter(letter.subscribers.count)} Empfänger
+              div: b Gesamt #{number_with_delimiter(letter.recipients.count)} Empfänger
             td
               - if letter.sent?
                 = l letter.sent_at, format: :long

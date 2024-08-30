@@ -7,12 +7,10 @@ module Newsletter
     include ActionView::Helpers::AssetTagHelper
 
     has_and_belongs_to_many :subscriber_lists
-    has_many :subscribers, -> { confirmed }, through: :subscriber_lists
+    has_many :recipients, -> { confirmed }, through: :subscriber_lists, source: :subscribers
     has_many :images, dependent: :destroy
 
     enum :status, %i[draft review sent]
-
-    alias_attribute :recipients, :subscribers
 
     validates :subject, presence: true
     validates :body_text, presence: true
