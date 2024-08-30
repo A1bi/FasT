@@ -103,7 +103,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       deny_access root_path
     else
-      flash[:warning] = t('application.login_required')
+      flash[:warning] = t('application.login_required') # rubocop:disable Rails/ActionControllerFlashBeforeRender
       redirect_to_login_form
     end
   end
