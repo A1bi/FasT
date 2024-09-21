@@ -53,7 +53,7 @@ gem 'ttfunk', '~> 1.7.0'
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
-  gem 'rspec-rails', '~> 6.1'
+  gem 'rspec-rails', '~> 7.0'
 end
 
 group :test do
