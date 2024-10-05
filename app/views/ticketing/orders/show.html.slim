@@ -131,10 +131,16 @@ ruby:
                   - else
                     td Freie Platzwahl
                   - if @show_check_ins
-                    td
-                      - if (check_in = ticket.check_ins.first)
-                        = l check_in.date, format: '%H:%M'
+                    td.text-center
+                      - if (check_in = ticket.check_ins.first).present?
+                        i.bi.bi-clipboard2-check.align-middle> title='Ticket gescannt'
+                        - if check_in.retroactive?
+                          em.small nachträglich
+                        - else
+                          = l check_in.date, format: '%H:%M'
                         small.d-block #{t(check_in.medium, scope: 'ticketing.orders.check_ins.media')}
+                      - else
+                        i.bi.bi-clipboard2-x title='Ticket nicht gescannt'
           small data-ticketing--tickets-table-target='noTicketsMessage' Bitte wählen Sie mindestens ein Ticket für eine Aktion aus.
           ruby:
             options = [
