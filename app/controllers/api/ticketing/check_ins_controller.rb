@@ -37,7 +37,7 @@ module Api
       end
 
       def seatings
-        ::Ticketing::Seating.find(events.pluck(:seating_id))
+        ::Ticketing::Seating.find(events.with_seating.pluck(:seating_id))
       end
 
       def auth_token
