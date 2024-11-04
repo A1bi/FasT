@@ -4,7 +4,7 @@ import { toggleDisplay, fetch } from 'components/utils'
 export default class extends Controller {
   static targets = [
     'furnaceLevelLabel', 'furnaceOffLabel', 'furnaceScaleStep', 'furnaceForm', 'furnaceLevelInput', 'spinner',
-    'stageTemperature', 'stageHumidity', 'stageUpdatedAt', 'costumesTemperature', 'costumesHumidity', 'costumesUpdatedAt'
+    'temperature', 'humidity', 'updatedAt'
   ]
 
   static values = {
@@ -12,7 +12,8 @@ export default class extends Controller {
     onPrompt: String,
     offPrompt: String,
     errorFetchMessage: String,
-    errorSetMessage: String
+    errorSetMessage: String,
+    locations: Array
   }
 
   async connect () {
@@ -60,12 +61,15 @@ export default class extends Controller {
   }
 
   async updateMeasurements (state) {
-    ['stage', 'costumes'].forEach(location => {
-      this[`${location}TemperatureTarget`].innerText = state.measurements[location].temperature.toLocaleString()
-      this[`${location}HumidityTarget`].innerText = Math.round(state.measurements[location].humidity)
-      const updatedAt = this.dayjs(state.measurements[location].updated_at)
-      this[`${location}UpdatedAtTarget`].innerText = updatedAt.fromNow()
-      this[`${location}UpdatedAtTarget`].title = updatedAt.toDate().toLocaleString()
+    this.locationsValue.forEach((location, i) => {
+      const locationState = state.measurements[location]
+      if (!locationState) return
+
+      this.temperatureTargets[i].innerText = locationState.temperature.toLocaleString()
+      this.humidityTargets[i].innerText = Math.round(locationState.humidity)
+      const updatedAt = this.dayjs(locationState.updated_at)
+      this.updatedAtTargets[i].innerText = updatedAt.fromNow()
+      this.updatedAtTargets[i].title = updatedAt.toDate().toLocaleString()
     })
   }
 
