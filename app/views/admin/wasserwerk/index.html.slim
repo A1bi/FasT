@@ -33,8 +33,12 @@
             h3 Bühne
             .temperature() <span data-admin--wasserwerk-target='stageTemperature'>–</span>°
             p title='Luftfeuchtigkeit' <span data-admin--wasserwerk-target='stageHumidity'>–</span> %H
+            p.small.text-body-secondary
+              ' Stand:
+              span data-admin--wasserwerk-target='stageUpdatedAt'
           .col-6.text-center
             h3 Kostümlager
             .temperature() <span data-admin--wasserwerk-target='costumesTemperature'>–</span>°
             p title='Luftfeuchtigkeit' <span data-admin--wasserwerk-target='costumesHumidity'>–</span> %H
+            p.small.text-body-secondary data-admin--wasserwerk-target='costumesUpdatedAt' –
         small.d-block.mt-2.text-center: em Werte werden automatisch aktualisiert

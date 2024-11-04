@@ -4,7 +4,7 @@ import { toggleDisplay, fetch } from 'components/utils'
 export default class extends Controller {
   static targets = [
     'furnaceLevelLabel', 'furnaceOffLabel', 'furnaceScaleStep', 'furnaceForm', 'furnaceLevelInput', 'spinner',
-    'stageTemperature', 'stageHumidity', 'costumesTemperature', 'costumesHumidity'
+    'stageTemperature', 'stageHumidity', 'stageUpdatedAt', 'costumesTemperature', 'costumesHumidity', 'costumesUpdatedAt'
   ]
 
   static values = {
@@ -16,6 +16,12 @@ export default class extends Controller {
   }
 
   async connect () {
+    this.dayjs = (await import('dayjs')).default
+    const relativeTime = (await import('dayjs-plugin-relative-time')).default
+    this.dayjs.extend(relativeTime)
+    const localeDe = (await import('dayjs-locale-de')).default
+    this.dayjs.locale(localeDe)
+
     this.spinnerVisible = true
 
     try {
@@ -35,7 +41,7 @@ export default class extends Controller {
     this.furnaceLevel = state.furnace.level
 
     this.updateFurnaceState()
-    this.updateTemperatures(state)
+    this.updateMeasurements(state)
   }
 
   updateFurnaceState (state) {
@@ -53,10 +59,13 @@ export default class extends Controller {
     if (this.hasFurnaceLevelInputTarget) this.furnaceLevelInputTarget.value = this.furnaceLevel
   }
 
-  updateTemperatures (state) {
+  async updateMeasurements (state) {
     ['stage', 'costumes'].forEach(location => {
-      this[`${location}TemperatureTarget`].innerText = state.temperatures[location].toLocaleString('de-DE')
-      this[`${location}HumidityTarget`].innerText = Math.round(state.humidities[location])
+      this[`${location}TemperatureTarget`].innerText = state.measurements[location].temperature.toLocaleString()
+      this[`${location}HumidityTarget`].innerText = Math.round(state.measurements[location].humidity)
+      const updatedAt = this.dayjs(state.measurements[location].updated_at)
+      this[`${location}UpdatedAtTarget`].innerText = updatedAt.fromNow()
+      this[`${location}UpdatedAtTarget`].title = updatedAt.toDate().toLocaleString()
     })
   }
 

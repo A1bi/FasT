@@ -8,6 +8,9 @@ pin '@rails/ujs', to: 'rails-ujs.esm.js', preload: true
 pin '@rails/actioncable', to: 'actioncable.esm.js'
 pin '@stripe/stripe-js', to: 'stripe-js.js' # @3.5.0
 pin 'chart.js' # @2.9.3
+pin 'dayjs' # @1.11.13
+pin 'dayjs-locale-de' # @1.11.13
+pin 'dayjs-plugin-relative-time' # @1.11.13
 pin 'filepond' # @4.28.2
 pin 'filepond-plugin-file-validate-type' # @1.2.6
 pin 'filepond-plugin-image-preview' # @4.6.7

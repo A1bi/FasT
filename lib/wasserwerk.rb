@@ -27,8 +27,18 @@ class Wasserwerk
     def fake_response
       {
         furnace: { level: 3 },
-        temperatures: { stage: 11.1, costumes: 22.2 },
-        humidities: { stage: 44.4, costumes: 55.5 }
+        measurements: {
+          stage: {
+            temperature: 11.1,
+            humidity: 44.4,
+            updated_at: 2.minutes.ago
+          },
+          costumes: {
+            temperature: 22.2,
+            humidity: 55.5,
+            updated_at: 3.minutes.ago
+          }
+        }
       }
     end
   end
