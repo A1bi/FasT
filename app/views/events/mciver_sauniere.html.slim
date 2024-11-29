@@ -1,0 +1,24 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 20,
+    poster_filename: 'McIverSauniere_Plakat'
+  }
+  styling = {
+    colors: ['000000', 'B76246', '2355CE', 'D19FA7', '988D92'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', title: 'Über das Konzert', details:
+    p Joanne McIver & Christophe Saunière besuchen uns ein zweites Mal auf unserer KulturBühne Altes Wasserwerk, diesmal mit einem neuen Programm, sehr zur Freude der Inzwischen großen Fan-Gemeinde in der Eifel.
+    p <b>Joanne McIver</b>, Schottin von der Insel Arran, spielt schottischen Dudelsack, Querflöte, irische Flöten und singt. Regelmäßig tritt sie für die Britische Botschaft in Paris auf. Es sind verträumte Melodien und mitreißende Titel, die uns das Herz öffnen.
+    p <b>Christophe Saunière</b>, Meister im Harfespiel, ist auf der ganzen Welt auf Tournee und wurde als Studiomusiker für Filme wie der „Englische Patient“, „Alien“, „Starwars“ oder „Titanic“ verpflichtet. Beim Royal Scotch National Orchestra spielte der Franzose fünf Jahre lang die „erste Harfe“.
+    p Wir hören ein musikalisches Epos, durchdrungen von keltischen Geschichten, von Wind und Wellen geprägte Landstriche, tellurische und maritime Magie: Diese Melodien vibrieren vor Inselpoesie. Eine authentische Reise, eine seltene Emotion!
+
+  = render 'tickets'
+  = render 'faq', details:

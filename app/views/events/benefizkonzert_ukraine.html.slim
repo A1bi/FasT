@@ -1,0 +1,24 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 20,
+    poster_filename: 'Benefizkonzert_Plakat'
+  }
+  styling = {
+    colors: ['D2AF84', '364233', 'FBEDD8', '771F0E', 'A26B22'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', title: 'Über die Künstlerin', details:
+    p <b>Kateryna Khomiakova</b> wurde 1996 in Czernowitz, Ukraine, geboren. Im Alter von 7 Jahren begann sie ihr Klavierstudium an der Czernowitzer Musikschule Nr. 3 in der Klasse von Halyna Tolmachova. 2010 setzte sie ihr Studium an der Mykola Lysenko Kyiv Specialised Music School bei Larysa Vakarina fort und trat 2013 in die Nationale Musikakademie der Ukraine ein, wo sie auch eine Assistentenstelle in der Klasse von Professor Tetiana Roshchyna annahm.
+    p Frau Khomiakova nahm an Meisterkursen von Georg Friedrich Schenck, Joanna Domanska, Boris Fedorov, Valery Kozlov, Mikhail Yanovitsky, Alfonso Soldano und Pierluigi Camiccia teil. Außerdem studierte sie Klavierspiel bei Mariana Prasol.
+    p Sie ist Preisträgerin zahlreicher internationaler Wettbewerbe. Dazu gehören der Internationale Wettbewerb für junge Pianisten in Erinnerung an Vladimir Horowitz (III. Preis) und der Bechstein-Wettbewerb (I. Preis).
+    p Ihre Tourneen mit ihrem Solo- und Kammermusikprogrammen führten sie durch die Ukraine, Kroatien und Italien.
+
+  = render 'tickets'
+  = render 'faq', details:

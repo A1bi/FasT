@@ -1,0 +1,56 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 0,
+    info_box: {
+      play: {
+        'Autor' => 'Daniel Kehlmann',
+        'Uraufführung' => '2017'
+      },
+      event: {
+        'Regie' => 'Susanne Schubert'
+      }
+    },
+    poster_filename: 'Heilig_Abend_Plakat'
+  }
+  styling = {
+    colors: ['223646', 'D1D7D7', '759DC4', '9FBAD4', '9FBAD4'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', details:
+    h3.mt-0 Ein Stück für zwei Schauspieler und eine Uhr
+    p Daniel Kehlmann ist der Autor des Schauspiel-Thrillers „Heilig Abend“, der am 2. Februar 2017 am Wiener Theater in der Josefstadt uraufgeführt wurde. Er sagt über sein Werk: „Das Stück ist ein Verhör zwischen einem Polizisten und einer Professorin, die er terroristischer Umtriebe verdächtigt.“
+    p Judith wird am Heiligen Abend, auf dem Weg zu ihren Eltern, verhaftet. Ihr wird vorgeworfen, zusammen mit ihrem Ex-Mann, einen Terroranschlag geplant zu haben, und zwar genau um Mitternacht am Heiligen Abend. Das Verhör beginnt um 22.30 Uhr, also 90 Minuten vor dem ihr vorgeworfenen Attentat, welches Thomas, Polizist und Verhörspezialist, in genau dieser Zeit verhindern möchte.
+    p Ein Verhör, ein Schlagabtausch, Systemkritik.
+
+  = render 'photos'
+
+  ruby:
+    cast = [
+      {
+        entries: [
+          {
+            title: 'Judith',
+            actors: 'Kirsten Roscher'
+          },
+          {
+            title: 'Thomas',
+            actors: 'Stephan Hilken'
+          },
+          {
+            title: 'Spielleitung und Soufflage',
+            actors: 'Susanne Schubert'
+          }
+        ]
+      }
+    ]
+  = render 'cast', cast:
+
+  = render 'tickets'
+  = render 'faq', details:
