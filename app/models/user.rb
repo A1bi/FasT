@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_person_name
 
   has_many :log_events, class_name: 'Ticketing::LogEvent', dependent: :nullify
+  has_many :web_authn_credentials, dependent: :destroy
 
   # rubocop:disable Rails/InverseOf
   has_many :access_grants, class_name: 'Doorkeeper::AccessGrant', foreign_key: :resource_owner_id,

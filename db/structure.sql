@@ -1,6 +1,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -8,6 +9,13 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
 
 --
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
@@ -2037,7 +2045,8 @@ CREATE TABLE public.users (
     permissions public.permission[],
     shared_email_accounts_authorized_for character varying[],
     gender public.gender,
-    membership_fee_payments_paused boolean DEFAULT false NOT NULL
+    membership_fee_payments_paused boolean DEFAULT false NOT NULL,
+    webauthn_id character varying
 );
 
 
@@ -2058,6 +2067,21 @@ CREATE SEQUENCE public.users_id_seq
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: web_authn_credentials; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.web_authn_credentials (
+    id character varying NOT NULL,
+    user_id bigint NOT NULL,
+    public_key bytea NOT NULL,
+    aaguid character varying,
+    sign_count integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -2888,6 +2912,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: web_authn_credentials web_authn_credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.web_authn_credentials
+    ADD CONSTRAINT web_authn_credentials_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: index_billing_acounts_on_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3525,6 +3557,13 @@ CREATE INDEX index_users_on_type ON public.users USING btree (type);
 
 
 --
+-- Name: index_web_authn_credentials_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_web_authn_credentials_on_user_id ON public.web_authn_credentials USING btree (user_id);
+
+
+--
 -- Name: newsletter_images fk_rails_038053fe4b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3941,6 +3980,14 @@ ALTER TABLE ONLY public.ticketing_orders
 
 
 --
+-- Name: web_authn_credentials fk_rails_e4426b25a8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.web_authn_credentials
+    ADD CONSTRAINT fk_rails_e4426b25a8 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: ticketing_check_ins fk_rails_e666ea82e7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3971,6 +4018,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250101155130'),
 ('20240727192449'),
 ('20240620212248'),
 ('20240515083436'),
