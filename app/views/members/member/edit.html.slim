@@ -32,3 +32,13 @@
           = f.label :password_confirmation, 'Neues Passwort wiederholen'
           = f.password_field :password_confirmation, autocomplete: :'new-password'
         .text-center = f.submit 'speichern', class: :btn
+    .card.mt-2 data-controller='web-authn' data-web-authn-create-options-path-value=web_authn_options_for_create_path data-web-authn-create-path-value=web_authn_create_path
+      h3 Passkeys
+      - current_user.web_authn_credentials.each do |credential|
+        .row
+          .col = credential.id
+          .col-auto: a.bi.bi-trash3-fill href=web_authn_destroy_path(credential) data={ method: 'delete', confirm: 'Möchten Sie diesen Passkey wirklich löschen?' }
+      .text-center
+        button.btn.mt-2 data-action='web-authn#create'
+          i.bi.bi-key-fill
+          |< Passkey hinzufügen

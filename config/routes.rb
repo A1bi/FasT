@@ -39,6 +39,12 @@ Rails.application.routes.draw do
     get 'logout', action: :destroy, as: :logout
   end
 
+  scope controller: :web_authn, as: :web_authn, path: 'webauthn' do
+    get :options_for_create
+    post :create
+    delete ':id', action: :destroy, as: :destroy
+  end
+
   direct(:eu_dispute_resolution) { 'https://ec.europa.eu/consumers/odr' }
 
   # resources

@@ -2,6 +2,7 @@
 
 pin 'application', preload: true
 
+pin '@github/webauthn-json/browser-ponyfill', to: '@github--webauthn-json--browser-ponyfill.js' # @2.1.1
 pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin '@rails/ujs', to: 'rails-ujs.esm.js', preload: true

@@ -28,6 +28,9 @@ de:
   internet_access_sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
     not_authorized: Ihr Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
+  web_authn:
+    created: Der Passkey wurde hinzugefügt.
+    destroyed: Der Passkey wurde gelöscht.
   admin:
     members:
       created: Das Mitglied wurde erfolgreich angelegt. Begrüßungs- und Aktivierungs-E-Mails wurden verschickt. Der erste Mitgliedsbeitrag wird in den kommenden Tagen eingezogen.
