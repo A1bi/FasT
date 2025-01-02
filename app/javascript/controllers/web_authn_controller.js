@@ -1,12 +1,19 @@
 import { Controller } from '@hotwired/stimulus'
-import { create as createCredential, parseCreationOptionsFromJSON } from '@github/webauthn-json/browser-ponyfill'
+import {
+  create as createCredential,
+  parseCreationOptionsFromJSON,
+  parseRequestOptionsFromJSON,
+  get as authWithCredential
+} from '@github/webauthn-json/browser-ponyfill'
 import { captureMessage } from 'components/sentry'
 import { fetch } from 'components/utils'
 
 export default class extends Controller {
   static values = {
     createOptionsPath: String,
-    createPath: String
+    createPath: String,
+    authOptionsPath: String,
+    authPath: String
   }
 
   async create () {
@@ -21,5 +28,15 @@ export default class extends Controller {
       captureMessage(error)
       window.alert('Beim Hinzufügen des Passkeys ist ein Fehler aufgetreten.')
     }
+  }
+
+  async auth () {
+    const optionsResponse = await fetch(this.authOptionsPathValue)
+    const options = parseRequestOptionsFromJSON({ publicKey: optionsResponse })
+
+    const challengeResponse = await authWithCredential(options)
+    const res = await fetch(this.authPathValue, 'POST', { credential: challengeResponse })
+
+    window.location = res.goto_path
   }
 }

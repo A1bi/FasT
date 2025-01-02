@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_login_form
-    session[:goto_after_login] = request.url
+    session[:goto_after_login] = request.fullpath
     redirect_to login_path
   end
 

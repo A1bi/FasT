@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   scope controller: :web_authn, as: :web_authn, path: 'webauthn' do
     get :options_for_create
     post :create
+    get :options_for_auth
+    post :auth
     delete ':id', action: :destroy, as: :destroy
   end
 
