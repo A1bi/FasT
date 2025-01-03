@@ -21,7 +21,7 @@
           = label_tag :remember, 'eingeloggt bleiben'
         .text-center = submit_tag 'login', class: :btn
 
-    .card.text-center.mt-2 data-controller='web-authn' data-web-authn-auth-options-path-value=web_authn_options_for_auth_path data-web-authn-auth-path-value=web_authn_auth_path
+    .card.text-center.mt-2 data-controller='web-authn' data-web-authn-auth-options-path-value=web_authn_options_for_auth_path data-web-authn-auth-path-value=web_authn_auth_path data-web-authn-autofill-value=1
       button.btn data-action='web-authn#auth'
         i.bi.bi-key-fill
         |< mit Passkey einloggen

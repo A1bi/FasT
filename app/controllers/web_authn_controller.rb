@@ -35,6 +35,7 @@ class WebAuthnController < ApplicationController
     flash.notice = t('.created')
     head :created
   rescue WebAuthn::Error => e
+    flash.alert = t('.create_failed')
     head :bad_request
     Sentry.capture_exception(e)
   end
@@ -62,7 +63,8 @@ class WebAuthnController < ApplicationController
     log_in_user(credential_record.user)
 
     render json: { goto_path: }
-  rescue WebAuthn::Error => e
+  rescue WebAuthn::Error, ActiveRecord::RecordNotFound => e
+    flash.alert = t('.auth_failed')
     head :bad_request
     Sentry.capture_exception(e)
   end

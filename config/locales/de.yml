@@ -31,6 +31,8 @@ de:
   web_authn:
     created: Der Passkey wurde hinzugefügt.
     destroyed: Der Passkey wurde gelöscht.
+    create_failed: Dieser Passkey konnte leider nicht registriert werden.
+    auth_failed: Dieser Passkey ist leider ungültig oder mit keinem Konto mehr verbunden.
   admin:
     members:
       created: Das Mitglied wurde erfolgreich angelegt. Begrüßungs- und Aktivierungs-E-Mails wurden verschickt. Der erste Mitgliedsbeitrag wird in den kommenden Tagen eingezogen.

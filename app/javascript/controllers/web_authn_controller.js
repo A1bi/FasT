@@ -9,15 +9,17 @@ import { captureMessage } from 'components/sentry'
 import { fetch } from 'components/utils'
 
 export default class extends Controller {
+  static targets = ['autofill']
   static values = {
     createOptionsPath: String,
     createPath: String,
     authOptionsPath: String,
-    authPath: String
+    authPath: String,
+    autofill: Boolean
   }
 
   async connect () {
-    if (await this.isConditionalMediationAvailable()) {
+    if (this.autofillValue && await this.isConditionalMediationAvailable()) {
       this.auth(true)
     }
   }
@@ -29,25 +31,41 @@ export default class extends Controller {
     try {
       const challengeResponse = await createCredential(options)
       await fetch(this.createPathValue, 'POST', { credential: challengeResponse })
-      window.location.reload()
-    } catch (error) {
-      captureMessage(error)
-      window.alert('Beim Hinzufügen des Passkeys ist ein Fehler aufgetreten.')
+    } catch (e) {
+      if (e.name !== 'NotAllowedError') {
+        captureMessage(e)
+        return
+      }
     }
+
+    window.location.reload()
   }
 
   async auth (conditionalMediation) {
+    if (this.abortController) this.abortController.abort()
+    this.abortController = new AbortController()
     const optionsResponse = await fetch(this.authOptionsPathValue)
     const options = parseRequestOptionsFromJSON({
       publicKey: optionsResponse,
+      signal: this.abortController.signal,
       // conditionalMediation might be an event object (Stimulus action), therefore we check === true
       mediation: conditionalMediation === true ? 'conditional' : 'optional'
     })
+    let challengeResponse
 
-    const challengeResponse = await authWithCredential(options)
-    const res = await fetch(this.authPathValue, 'POST', { credential: challengeResponse })
+    try {
+      challengeResponse = await authWithCredential(options)
+    } catch (e) {
+      if (e.name !== 'AbortError' && e.name !== 'NotAllowedError') captureMessage(e)
+      return
+    }
 
-    window.location = res.goto_path
+    try {
+      const res = await fetch(this.authPathValue, 'POST', { credential: challengeResponse })
+      window.location = res.goto_path
+    } catch (e) {
+      window.location.reload()
+    }
   }
 
   async isConditionalMediationAvailable () {
