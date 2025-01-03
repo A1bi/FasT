@@ -185,14 +185,14 @@ Rails.application.routes.draw do
     get 'geschenkgutscheine/bestellen' => 'ticketing/orders#new_coupons', as: :new_coupons_ticketing_order, type: :web
 
     namespace :members, path: 'mitglieder' do
-      resource :member, path: 'mitgliedschaft', controller: :member,
-                        only: %i[edit update] do
+      resource :member, path: 'mitgliedschaft', controller: :member, only: %i[edit update] do
         member do
           get 'aktivieren', action: :activate, as: :activate
-          patch 'finish_activation'
-          get 'passwort_vergessen', action: :forgot_password,
-                                    as: :forgot_password
-          post 'reset_password'
+          patch :finish_activation
+          get 'passwort-vergessen', action: :forgot_password, as: :forgot_password
+          post :finish_forgot_password
+          get 'passwort-zuruecksetzen', action: :reset_password, as: :reset_password
+          patch :finish_reset_password
         end
       end
 

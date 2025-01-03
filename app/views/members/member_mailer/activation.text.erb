@@ -2,8 +2,9 @@
 
 Sie haben ab sofort die Möglichkeit, sich in den Mitgliederbereich auf unserer Homepage einzuloggen. Dort finden Sie immer alle wichtigen vereinsinternen Informationen und Medien, beispielsweise unseren aktuellen Probenplan und Texte.
 
-Aktivieren Sie bitte zunächst Ihr Mitgliedskonto, indem Sie Ihr persönliches Passwort festlegen. Dazu klicken Sie einfach auf folgenden Link:
-<%= activate_members_member_url(code: @member.activation_code) %>
+Aktivieren Sie bitte zunächst Ihr Mitgliedskonto, indem Sie Ihr persönliches Passwort festlegen. Dazu klicken Sie einfach auf folgenden Link. Bitte beachten Sie, dass der Link nur eine Woche lang gültig ist.
+
+<%= activate_members_member_url(token: @member.generate_token_for(:activation)) %>
 
 Mit freundlichen Grüßen
 TheaterKultur Kaisersesch

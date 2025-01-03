@@ -52,13 +52,6 @@ RSpec.describe Members::MemberMailer do
     end
   end
 
-  shared_examples 'activation link' do
-    it 'contains a link to activate the account' do
-      member.set_activation_code
-      expect(mail.body.encoded).to match(%r{https?://.+code=#{member.activation_code}})
-    end
-  end
-
   describe '#welcome' do
     subject(:mail) { mailer.welcome }
 
@@ -119,9 +112,16 @@ RSpec.describe Members::MemberMailer do
 
     let(:subject) { 'Aktivierung' } # rubocop:disable RSpec/SubjectDeclaration
 
+    before do
+      allow(member).to receive(:generate_token_for).with(:activation).and_return('footoken')
+    end
+
     it_behaves_like 'an email addressed to a member'
     it_behaves_like 'an email addressed to a member without email address'
-    include_examples 'activation link'
+
+    it 'contains a link to activate the account' do
+      expect(mail.body.encoded).to match(%r{https?://.+token=footoken})
+    end
   end
 
   describe '#reset_password' do
@@ -129,8 +129,15 @@ RSpec.describe Members::MemberMailer do
 
     let(:subject) { 'Passwort zurücksetzen' } # rubocop:disable RSpec/SubjectDeclaration
 
+    before do
+      allow(member).to receive(:generate_token_for).with(:password_reset).and_return('tokenfoo')
+    end
+
     it_behaves_like 'an email addressed to a member'
     it_behaves_like 'an email addressed to a member without email address'
-    include_examples 'activation link'
+
+    it 'contains a link to reset the password' do
+      expect(mail.body.encoded).to match(%r{https?://.+token=tokenfoo})
+    end
   end
 end

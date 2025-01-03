@@ -77,6 +77,8 @@ de:
       email_not_found: Ein Konto mit dieser E-Mail-Adresse wurde nicht gefunden.
       password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
       password_changed: Ihr Passwort wurde geändert.
+      invalid_activation_token: Dieser Link ist leider abgelaufen. Bitte kontaktieren Sie info@theater-kaisersesch.de, um einen neuen Link anzufordern.
+      invalid_password_reset_token: Dieser Link ist leider abgelaufen. Bitte fordern Sie einen neuen Link über die "Passwort vergessen"-Funktion an.
     membership_applications:
       created_email: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend per E-Mail kontaktieren.
       created_other: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend telefonisch oder postalisch kontaktieren.

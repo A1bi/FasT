@@ -77,7 +77,6 @@ Members::MembershipFeeDebitSubmission.create(
 end
 
 member = Members::Member.new_from_membership_application(Members::MembershipApplication.last)
-member.reset_password
 member.save
 
 # newsletters

@@ -23,7 +23,6 @@ module Admin
 
     def create
       update_member
-      @member.reset_password
       return render :new unless @member.save
 
       send_welcome_email
@@ -56,9 +55,7 @@ module Admin
     end
 
     def reactivate
-      @member.last_login = nil
-      @member.reset_password
-      send_activation_email if @member.save
+      send_activation_email
 
       redirect_to admin_members_member_path(@member),
                   notice: t('.sent_activation_mail')

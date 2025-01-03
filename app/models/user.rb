@@ -21,11 +21,16 @@ class User < ApplicationRecord
                            dependent: :delete_all
   # rubocop:enable Rails/InverseOf
 
+  enum :group, { member: 0, admin: 1 }, integer_column: true
+
+  generates_token_for(:activation, expires_in: 1.week) { last_login }
+  generates_token_for(:password_reset, expires_in: 15.minutes) { password_salt.last(10) }
+
   validates :email, presence: true, on: :user_update
   validates :email, allow_blank: true, uniqueness: { case_sensitive: false }, email_format: true
   validates :password, length: { minimum: 6 }, if: :password_digest_changed?
 
-  enum :group, { member: 0, admin: 1 }, integer_column: true
+  before_create :set_random_password
 
   def self.alphabetically
     order(:last_name, :first_name)
@@ -44,21 +49,8 @@ class User < ApplicationRecord
     super(email.presence)
   end
 
-  def set_activation_code
-    self.activation_code = random_hash
-  end
-
-  def activate
-    self.activation_code = nil
-  end
-
   def logged_in
     self.last_login = Time.current
-  end
-
-  def reset_password
-    set_random_password
-    set_activation_code
   end
 
   def member?
@@ -80,10 +72,6 @@ class User < ApplicationRecord
   private
 
   def set_random_password
-    self.password = random_hash
-  end
-
-  def random_hash
-    SecureRandom.hex
+    self.password ||= SecureRandom.hex
   end
 end

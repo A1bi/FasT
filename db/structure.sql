@@ -2018,14 +2018,13 @@ ALTER SEQUENCE public.ticketing_tse_devices_id_seq OWNED BY public.ticketing_tse
 CREATE TABLE public.users (
     id bigint NOT NULL,
     email character varying,
-    password_digest character varying,
+    password_digest character varying NOT NULL,
     first_name character varying,
     last_name character varying,
     "group" integer DEFAULT 0,
     last_login timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    activation_code character varying,
     birthday date,
     nickname character varying,
     family_id bigint,
@@ -3508,13 +3507,6 @@ CREATE UNIQUE INDEX index_ticketing_tse_devices_on_serial_number ON public.ticke
 
 
 --
--- Name: index_users_on_activation_code; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_activation_code ON public.users USING btree (activation_code);
-
-
---
 -- Name: index_users_on_family_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4018,6 +4010,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250103121117'),
 ('20250101155130'),
 ('20240727192449'),
 ('20240620212248'),

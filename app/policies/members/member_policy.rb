@@ -43,15 +43,23 @@ module Members
     end
 
     def finish_activation?
-      true
+      activate?
     end
 
     def forgot_password?
       true
     end
 
+    def finish_forgot_password?
+      forgot_password?
+    end
+
     def reset_password?
       true
+    end
+
+    def finish_reset_password?
+      reset_password?
     end
 
     def permitted_attributes
