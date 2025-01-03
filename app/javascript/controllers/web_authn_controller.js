@@ -16,6 +16,12 @@ export default class extends Controller {
     authPath: String
   }
 
+  async connect () {
+    if (await this.isConditionalMediationAvailable()) {
+      this.auth(true)
+    }
+  }
+
   async create () {
     const optionsResponse = await fetch(this.createOptionsPathValue)
     const options = parseCreationOptionsFromJSON({ publicKey: optionsResponse })
@@ -30,13 +36,26 @@ export default class extends Controller {
     }
   }
 
-  async auth () {
+  async auth (conditionalMediation) {
     const optionsResponse = await fetch(this.authOptionsPathValue)
-    const options = parseRequestOptionsFromJSON({ publicKey: optionsResponse })
+    const options = parseRequestOptionsFromJSON({
+      publicKey: optionsResponse,
+      // conditionalMediation might be an event object (Stimulus action), therefore we check === true
+      mediation: conditionalMediation === true ? 'conditional' : 'optional'
+    })
 
     const challengeResponse = await authWithCredential(options)
     const res = await fetch(this.authPathValue, 'POST', { credential: challengeResponse })
 
     window.location = res.goto_path
+  }
+
+  async isConditionalMediationAvailable () {
+    if (!window.PublicKeyCredential?.isConditionalMediationAvailable) {
+      return Promise.resolve(false)
+    }
+
+    // eslint-disable-next-line compat/compat
+    return window.PublicKeyCredential.isConditionalMediationAvailable()
   }
 }
