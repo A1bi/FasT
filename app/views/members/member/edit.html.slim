@@ -36,8 +36,15 @@
       h3 Passkeys
       - current_user.web_authn_credentials.each do |credential|
         .row
-          .col = credential.id
-          .col-auto: a.bi.bi-trash3-fill href=web_authn_destroy_path(credential) data={ method: 'delete', confirm: 'Möchten Sie diesen Passkey wirklich löschen?' }
+          - if credential.provider_known?
+            .col-1.d-flex
+              img.w-100.d-dark-none src=credential.provider_icon_light
+              img.w-100.d-light-none src=credential.provider_icon_dark
+            .col = credential.provider_name
+          - else
+            .col Passkey #{credential.id.truncate(16)}
+          .col-auto.text-end = l(credential.created_at, format: :medium)
+          .col-auto: a.bi.bi-trash3-fill href=web_authn_destroy_path(credential) title='löschen' data={ method: 'delete', confirm: 'Möchten Sie diesen Passkey wirklich löschen?' }
       .text-center
         button.btn.mt-2 data-action='web-authn#create'
           i.bi.bi-key-fill

@@ -64,3 +64,11 @@
 }
 
 @include utility-class(mx-auto, (margin-left, margin-right), auto);
+
+@each $scheme in (light, dark) {
+  @media (prefers-color-scheme: $scheme) {
+    .d-#{$scheme}-none {
+      display: none;
+    }
+  }
+}
