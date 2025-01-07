@@ -3,4 +3,5 @@
 WebAuthn.configure do |config|
   config.origin = URI::Generic.build(**Settings.url_options.to_h, scheme: Settings.url_options[:protocol]).to_s
   config.rp_name = 'TheaterKultur Kaisersesch'
+  config.verify_attestation_statement = false
 end

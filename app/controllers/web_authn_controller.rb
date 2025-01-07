@@ -3,6 +3,8 @@
 class WebAuthnController < ApplicationController
   include UserSession
 
+  USER_VERIFICATION = 'required'
+
   before_action :authorize, except: %i[destroy]
 
   def options_for_create
@@ -12,8 +14,10 @@ class WebAuthnController < ApplicationController
       user: { id: current_user.webauthn_id, name: current_user.email, display_name: current_user.name.full },
       exclude: current_user.web_authn_credentials.pluck(:id),
       authenticator_selection: {
-        resident_key: 'required'
-      }
+        resident_key: 'required',
+        user_verification: USER_VERIFICATION
+      },
+      attestation: 'indirect'
     )
 
     session[:web_authn_create_challenge] = options.challenge
@@ -41,7 +45,9 @@ class WebAuthnController < ApplicationController
   end
 
   def options_for_auth
-    options = WebAuthn::Credential.options_for_get
+    options = WebAuthn::Credential.options_for_get(
+      user_verification: USER_VERIFICATION
+    )
 
     session[:web_authn_auth_challenge] = options.challenge
 
