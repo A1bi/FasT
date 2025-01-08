@@ -24,13 +24,14 @@
         .mb-2
           = f.label :email, 'E-Mail-Adresse'
           = f.email_field :email, autocomplete: :email, required: true
-        .mb-2
-          = f.label :password, 'Neues Passwort'
-          = f.password_field :password, autocomplete: :'new-password'
-          .form-text Freilassen, wenn Sie Ihr Passwort nicht ändern möchten.
-        .mb-2
-          = f.label :password_confirmation, 'Neues Passwort wiederholen'
-          = f.password_field :password_confirmation, autocomplete: :'new-password'
+        - unless current_user.web_authn_required?
+          .mb-2
+            = f.label :password, 'Neues Passwort'
+            = f.password_field :password, autocomplete: :'new-password'
+            .form-text Freilassen, wenn Sie Ihr Passwort nicht ändern möchten.
+          .mb-2
+            = f.label :password_confirmation, 'Neues Passwort wiederholen'
+            = f.password_field :password_confirmation, autocomplete: :'new-password'
         .text-center = f.submit 'speichern', class: :btn
     .card.mt-2 data-controller='web-authn' data-web-authn-create-options-path-value=web_authn_options_for_create_path data-web-authn-create-path-value=web_authn_create_path
       h3 Passkeys

@@ -69,6 +69,10 @@ class User < ApplicationRecord
     shared_email_accounts_authorized_for&.include? email
   end
 
+  def web_authn_required?
+    web_authn_credentials.any?
+  end
+
   private
 
   def set_random_password

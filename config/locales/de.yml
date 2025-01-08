@@ -23,7 +23,8 @@ de:
     confirmed: Vielen Dank! Sie haben Ihre Anmeldung zu unserem Newsletter erfolgreich bestätigt.
     destroyed: Sie haben sich erfolgreich vom Newsletter abgemeldet. Ihre Daten wurden gelöscht.
   sessions:
-    auth_error: E-Mail-Adresse oder Passwort falsch.
+    credentials_incorrect: E-Mail-Adresse oder Passwort falsch.
+    web_authn_required: Mit diesem Konto ist ein Passkey verknüpft. Ein Login ist daher ausschließlich per Passkey möglich.
     logout: Sie wurden erfolgreich ausgeloggt.
   internet_access_sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
@@ -77,6 +78,7 @@ de:
     member:
       activated: Ihr Mitgliedskonto wurde erfolgreich aktiviert.
       email_not_found: Ein Konto mit dieser E-Mail-Adresse wurde nicht gefunden.
+      web_authn_required: Mit diesem Konto ist ein Passkey verknüpft. Ein Zurücksetzen des Passwortes ist daher nicht möglich. Bitte wenden Sie sich an info@theater-kaisersesch.de, um Ihren Passkey zurückzusetzen.
       password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
       password_changed: Ihr Passwort wurde geändert.
       invalid_activation_token: Dieser Link ist leider abgelaufen. Bitte kontaktieren Sie info@theater-kaisersesch.de, um einen neuen Link anzufordern.

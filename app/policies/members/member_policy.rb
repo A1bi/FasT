@@ -55,7 +55,7 @@ module Members
     end
 
     def reset_password?
-      true
+      !record.web_authn_required?
     end
 
     def finish_reset_password?

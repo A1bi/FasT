@@ -30,8 +30,7 @@ module Members
       authorize(current_user, policy_class: MemberPolicy)
         .assign_attributes(permitted_attributes(current_user))
       if current_user.save(context: :user_update)
-        flash.notice = t('application.saved_changes')
-        redirect_to action: :edit
+        redirect_to({ action: :edit }, notice: t('application.saved_changes'))
       else
         render action: :edit
       end
@@ -45,14 +44,14 @@ module Members
       authorize Member
 
       if (member = Member.find_by_email(member_params[:email])).nil?
-        flash.alert = t('.email_not_found')
-        return redirect_to action: :forgot_password
+        return redirect_to({ action: :forgot_password }, alert: t('.email_not_found'))
+      elsif member.web_authn_required?
+        return redirect_to({ action: :forgot_password }, alert: t('.web_authn_required'))
       end
 
       MemberMailer.with(member:).reset_password.deliver_later
 
-      flash.notice = t('.password_reset')
-      redirect_to_login
+      redirect_to_login notice: t('.password_reset')
     end
 
     private
@@ -86,8 +85,8 @@ module Members
       redirect_to root_path, alert: t(".invalid_#{@token_purpose}_token")
     end
 
-    def redirect_to_login
-      redirect_to login_path
+    def redirect_to_login(options = {})
+      redirect_to login_path, options
     end
   end
 end
