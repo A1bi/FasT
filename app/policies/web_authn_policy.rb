@@ -6,7 +6,7 @@ class WebAuthnPolicy < ApplicationPolicy
   end
 
   def create?
-    user.present?
+    true
   end
 
   def options_for_auth?

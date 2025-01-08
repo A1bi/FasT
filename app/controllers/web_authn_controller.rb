@@ -6,13 +6,16 @@ class WebAuthnController < ApplicationController
   USER_VERIFICATION = 'required'
 
   before_action :authorize, except: %i[destroy]
+  before_action :ensure_user_present, only: %i[options_for_create create]
+
+  rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :handle_invalid_activation_token
 
   def options_for_create
-    current_user.update(webauthn_id: WebAuthn.generate_user_id) if current_user.webauthn_id.blank?
+    user.update(webauthn_id: WebAuthn.generate_user_id) if user.webauthn_id.blank?
 
     options = WebAuthn::Credential.options_for_create(
-      user: { id: current_user.webauthn_id, name: current_user.email, display_name: current_user.name.full },
-      exclude: current_user.web_authn_credentials.pluck(:id),
+      user: { id: user.webauthn_id, name: user.email, display_name: user.name.full },
+      exclude: user.web_authn_credentials.pluck(:id),
       authenticator_selection: {
         resident_key: 'required',
         user_verification: USER_VERIFICATION
@@ -29,15 +32,23 @@ class WebAuthnController < ApplicationController
     credential = WebAuthn::Credential.from_create(params[:credential])
     credential.verify(session[:web_authn_create_challenge])
 
-    current_user.web_authn_credentials.create!(
+    user.web_authn_credentials.create!(
       id: credential.id,
       public_key: credential.public_key,
       aaguid: credential.response.aaguid,
       sign_count: credential.sign_count
     )
 
-    flash.notice = t('.created')
-    head :created
+    if activation_token.present?
+      log_in_user(user)
+
+      flash.notice = t('.activated')
+      render json: { goto_path: members_root_path }
+
+    else
+      flash.notice = t('.created')
+      head :created
+    end
   rescue WebAuthn::Error => e
     flash.alert = t('.create_failed')
     head :bad_request
@@ -83,7 +94,23 @@ class WebAuthnController < ApplicationController
 
   private
 
+  def user
+    @user ||= activation_token.present? ? User.find_by_token_for!(:activation, activation_token) : current_user
+  end
+
+  def ensure_user_present
+    user_not_authorized if user.nil?
+  end
+
   def authorize(record = nil)
     super(record, policy_class: WebAuthnPolicy)
+  end
+
+  def activation_token
+    params[:activation_token]
+  end
+
+  def handle_invalid_activation_token
+    head :bad_request
   end
 end

@@ -1,3 +1,5 @@
 - title 'Mitgliedskonto aktivieren'
 
-= render 'password_form', post_url: finish_activation_members_member_path, message: 'Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen, mit dem Sie sich in Zukunft einloggen.'
+= render 'password_form', post_url: finish_activation_members_member_path, message: 'Bevor Sie sich das erste Mal im Mitgliederbereich umsehen, müssen Sie zunächst ein persönliches Passwort festlegen oder einen Passkey einrichten, mit dem Sie sich in Zukunft einloggen.'
+  .card.text-center.mt-2 data-controller='web-authn' data-web-authn-create-options-path-value=web_authn_options_for_create_path data-web-authn-create-path-value=web_authn_create_path data-web-authn-activation-token-value=params[:token]
+    = render 'passkey_button', action: 'create', label: 'mit Passkey aktivieren'

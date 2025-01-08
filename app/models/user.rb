@@ -30,7 +30,7 @@ class User < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { case_sensitive: false }, email_format: true
   validates :password, length: { minimum: 6 }, if: :password_digest_changed?
 
-  before_create :set_random_password
+  before_validation :set_random_password, on: :create
 
   def self.alphabetically
     order(:last_name, :first_name)
@@ -73,9 +73,15 @@ class User < ApplicationRecord
     web_authn_credentials.any?
   end
 
+  def reset_activation!
+    web_authn_credentials.destroy_all
+    set_random_password(force: true)
+    save
+  end
+
   private
 
-  def set_random_password
-    self.password ||= SecureRandom.hex
+  def set_random_password(force: false)
+    self.password = SecureRandom.hex if force || password.blank?
   end
 end

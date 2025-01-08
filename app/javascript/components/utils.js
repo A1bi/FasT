@@ -20,8 +20,16 @@ export const getAuthenticityToken = () => {
 }
 
 export const fetch = async (url, method = 'get', data, cache = 'default') => {
+  method = method.toUpperCase()
+
+  if (method === 'GET' && data) {
+    const params = new URLSearchParams(data)
+    url = `${url}?${params}`
+    data = null
+  }
+
   const response = await window.fetch(url, {
-    method: method.toUpperCase(),
+    method,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

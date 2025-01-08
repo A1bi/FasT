@@ -15,7 +15,8 @@ export default class extends Controller {
     createPath: String,
     authOptionsPath: String,
     authPath: String,
-    autofill: Boolean
+    autofill: Boolean,
+    activationToken: String
   }
 
   async connect () {
@@ -25,12 +26,14 @@ export default class extends Controller {
   }
 
   async create () {
-    const optionsResponse = await fetch(this.createOptionsPathValue)
+    const optionsResponse = await fetch(this.createOptionsPathValue, 'GET', {
+      activation_token: this.activationTokenValue
+    })
     const options = parseCreationOptionsFromJSON({ publicKey: optionsResponse })
+    let challengeResponse
 
     try {
-      const challengeResponse = await createCredential(options)
-      await fetch(this.createPathValue, 'POST', { credential: challengeResponse })
+      challengeResponse = await createCredential(options)
     } catch (e) {
       if (e.name !== 'NotAllowedError') {
         captureMessage(e)
@@ -38,7 +41,16 @@ export default class extends Controller {
       }
     }
 
-    window.location.reload()
+    const res = await fetch(this.createPathValue, 'POST', {
+      credential: challengeResponse,
+      activation_token: this.activationTokenValue
+    })
+
+    if (this.activationTokenValue) {
+      window.location = res.goto_path
+    } else {
+      window.location.reload()
+    }
   }
 
   async auth (conditionalMediation) {

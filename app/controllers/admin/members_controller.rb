@@ -55,6 +55,7 @@ module Admin
     end
 
     def reactivate
+      @member.reset_activation!
       send_activation_email
 
       redirect_to admin_members_member_path(@member),
