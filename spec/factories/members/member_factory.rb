@@ -2,10 +2,7 @@
 
 FactoryBot.define do
   factory :member, class: 'Members::Member', parent: :user do
-    first_name { 'John' }
-    last_name { 'Doe' }
     gender { :female }
-    sequence(:email) { |n| "member#{n}@example.com" }
     joined_at { Time.zone.today }
 
     trait :membership_fee_paid do
