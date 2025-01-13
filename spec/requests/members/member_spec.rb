@@ -8,12 +8,16 @@ RSpec.describe 'Members::Member' do
     let(:member) { create(:member) }
     let(:email) { member.email }
 
-    context 'with a known email address' do
+    shared_examples 'successful message' do
       it 'shows successful message' do
         subject
         expect(response).to redirect_to(login_path)
         expect(flash[:notice]).to include('zugeschickt')
       end
+    end
+
+    context 'with a known email address' do
+      include_examples 'successful message'
 
       it 'sends an email with instructions' do
         expect { subject }.to have_enqueued_mail(Members::MemberMailer, :reset_password)
@@ -24,9 +28,10 @@ RSpec.describe 'Members::Member' do
     context 'with an unknown email address' do
       let(:email) { 'foo@bar.com' }
 
-      it 'shows error' do
-        subject
-        expect(flash[:alert]).to include('nicht gefunden')
+      include_examples 'successful message'
+
+      it 'does not send an email with instructions' do
+        expect { subject }.not_to have_enqueued_mail(Members::MemberMailer)
       end
     end
 
