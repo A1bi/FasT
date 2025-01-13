@@ -11,14 +11,12 @@ module UserSession
 
   def log_in_user(user)
     self.current_user = user
-    self.permanently_authenticated_user = user if params[:remember].present?
     user.logged_in
     user.save
   end
 
   def log_out_user
     self.current_user = nil
-    self.permanently_authenticated_user = nil
   end
 
   def goto_path

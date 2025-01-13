@@ -16,9 +16,6 @@
           = password_field_tag :password, nil, autocomplete: 'current-password webauthn', required: true
           .invalid-feedback Bitte geben Sie Ihr Passwort ein.
         .text-end.mb-2 = link_to 'Passwort vergessen?', forgot_password_members_member_path
-        .form-check.mb-2
-          = check_box_tag :remember, nil, checked: true
-          = label_tag :remember, 'eingeloggt bleiben'
         .text-center = submit_tag 'login', class: :btn
 
     .card.text-center.mt-2 data-controller='web-authn' data-web-authn-auth-options-path-value=web_authn_options_for_auth_path data-web-authn-auth-path-value=web_authn_auth_path data-web-authn-autofill-value=1

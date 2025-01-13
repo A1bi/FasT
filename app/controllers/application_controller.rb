@@ -59,18 +59,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :user_signed_in?
 
-  def permanently_authenticated_user_id
-    cookies.encrypted[permanent_user_id_cookie_name]
-  end
-
-  def permanently_authenticated_user=(user)
-    if user.present?
-      cookies.permanent.encrypted[permanent_user_id_cookie_name] = user.id
-    else
-      cookies.delete permanent_user_id_cookie_name
-    end
-  end
-
   def event_page_exists?(event)
     template_exists?("events/#{event.identifier}")
   end
@@ -80,13 +68,9 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user
-    user_id = session[:user_id] ||= permanently_authenticated_user_id
-    return if user_id.nil?
+    return if session[:user_id].nil?
 
-    if (user = User.find_by(id: user_id)).nil?
-      session[:user_id] = self.permanently_authenticated_user = nil
-    end
-
+    session[:user_id] = nil if (user = User.find_by(id: session[:user_id])).nil?
     user
   end
 
@@ -122,9 +106,5 @@ class ApplicationController < ActionController::Base
         head :forbidden
       end
     end
-  end
-
-  def permanent_user_id_cookie_name
-    "_#{Rails.application.class.module_parent_name}_user_id"
   end
 end
