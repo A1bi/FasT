@@ -50,10 +50,6 @@ Rails/ApplicationRecord:
   Exclude:
     - lib/passbook/models/**/*.rb
 
-Rails/DynamicFindBy:
-  AllowedMethods:
-    - find_by_email
-
 # disable this because we mostly use native enums in Postgres
 Rails/EnumHash:
   Enabled: false

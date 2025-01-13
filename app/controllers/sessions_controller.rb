@@ -8,13 +8,13 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
-    if user&.web_authn_required?
+    if user.blank?
+      show_error('credentials_incorrect')
+    elsif user.web_authn_required?
       show_error('web_authn_required')
-    elsif user&.authenticate(params[:password])
+    else
       log_in_user(user)
       redirect_to goto_path
-    else
-      show_error('credentials_incorrect')
     end
   end
 
@@ -31,6 +31,6 @@ class SessionsController < ApplicationController
   end
 
   def user
-    @user ||= User.find_by_email(params[:email])
+    @user ||= User.authenticate_by(params.permit(:email, :password))
   end
 end

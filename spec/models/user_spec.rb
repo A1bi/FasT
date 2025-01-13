@@ -23,6 +23,38 @@ RSpec.describe User do
     end
   end
 
+  describe '.find_by' do
+    subject { described_class.find_by(attrs) }
+
+    let!(:user) { create(:user, email:) }
+    let(:email) { 'Abc@example.com' }
+    let(:attrs) { { email: } }
+
+    before { create(:user) }
+
+    context 'with matching case' do
+      it { is_expected.to eq(user) }
+    end
+
+    context 'with non-matching case' do
+      let(:email) { 'aBc@example.com' }
+
+      it { is_expected.to eq(user) }
+    end
+
+    context 'with non-matching other attributes' do
+      let(:attrs) { { email:, first_name: 'foo' } }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with all matching attributes' do
+      let(:attrs) { { email:, first_name: user.first_name } }
+
+      it { is_expected.to eq(user) }
+    end
+  end
+
   describe '#web_authn_required?' do
     subject { user.web_authn_required? }
 

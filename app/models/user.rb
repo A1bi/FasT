@@ -36,8 +36,11 @@ class User < ApplicationRecord
     order(:last_name, :first_name)
   end
 
-  def self.find_by_email(email)
-    find_by('LOWER(email) = ?', email.downcase)
+  def self.find_by(attrs)
+    attrs = attrs.with_indifferent_access
+    return super unless attrs.include?(:email)
+
+    where(attrs.except(:email)).find_by('LOWER(email) = ?', attrs[:email].downcase)
   end
 
   def nickname

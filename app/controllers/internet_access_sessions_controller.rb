@@ -27,7 +27,7 @@ class InternetAccessSessionsController < ApplicationController
   private
 
   def user
-    @user ||= User.find_by_email(params[:email])
+    @user ||= User.find_by(email: params[:email])
   end
 
   def session_ongoing?

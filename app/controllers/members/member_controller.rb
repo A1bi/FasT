@@ -43,7 +43,7 @@ module Members
     def finish_forgot_password
       authorize Member
 
-      if (member = Member.find_by_email(member_params[:email])).nil?
+      if (member = Member.find_by(email: member_params[:email])).nil?
         return redirect_to({ action: :forgot_password }, alert: t('.email_not_found'))
       elsif member.web_authn_required?
         return redirect_to({ action: :forgot_password }, alert: t('.web_authn_required'))
