@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
 
   def current_user=(user)
     @current_user = user
+    self.remembered_user = user
     session[:user_id] = user&.id
   end
 
@@ -68,10 +69,28 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user
-    return if session[:user_id].nil?
+    self.current_user = if session[:user_id].present?
+                          User.find_by(id: session[:user_id])
+                        else
+                          remembered_user
+                        end
+  end
 
-    session[:user_id] = nil if (user = User.find_by(id: session[:user_id])).nil?
-    user
+  def remembered_user
+    User.find_signed(cookies[remembered_user_cookie_name])
+  end
+
+  def remembered_user=(user)
+    if user.nil?
+      cookies.delete(remembered_user_cookie_name)
+      return
+    end
+
+    cookies.permanent[remembered_user_cookie_name] = {
+      value: user.signed_id(expires_in: 2.weeks),
+      http_only: true,
+      same_site: :strict
+    }
   end
 
   def set_sentry_context
@@ -106,5 +125,9 @@ class ApplicationController < ActionController::Base
         head :forbidden
       end
     end
+  end
+
+  def remembered_user_cookie_name
+    "_#{Rails.application.class.module_parent_name}_user_id"
   end
 end
