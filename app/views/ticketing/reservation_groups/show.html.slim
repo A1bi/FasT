@@ -1,5 +1,7 @@
 - title 'Sitzplätze blocken'
 
+- return if @event.nil?
+
 .container data-controller='ticketing--reservation-groups' data-ticketing--reservation-groups-seats-value=@seats.to_json data-ticketing--reservation-groups-date-ids-value=@event.dates.pluck(:id).to_json data-show-path=ticketing_reservation_group_path('') data-update-path=ticketing_reservation_group_path(@group)
   h1 Sitzplätze blocken
   .row: .col: .card.mb-2

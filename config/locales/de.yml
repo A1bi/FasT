@@ -210,6 +210,8 @@ de:
     reservation_groups:
       created: "Die Blockungsgruppe wurde erfolgreich erstellt."
       destroyed: "Die Blockungsgruppe wurde gelöscht."
+      no_group_exists: Es existieren noch keine Blockungsgruppen.
+      no_event_exists: Es stehen derzeit keine Veranstaltungen mit Sitzplan an. Es können daher keine Blockungen vorgenommen werden.
     statistics:
       chart_data:
         labels:

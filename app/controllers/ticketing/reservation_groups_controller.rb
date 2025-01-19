@@ -7,12 +7,16 @@ module Ticketing
     def index
       authorize Ticketing::ReservationGroup
       group = Ticketing::ReservationGroup.first
-      redirect_to ticketing_reservation_group_path(group) if group.present?
+      return redirect_to ticketing_reservation_group_path(group) if group.present?
+
+      flash.now[:info] = t('.no_group_exists')
     end
 
     def show
       @groups = Ticketing::ReservationGroup.order(:name)
       @events = Ticketing::Event.with_future_dates.with_seating
+      return flash.now[:info] = t('.no_event_exists') if @events.none?
+
       @event = if params[:event_id].present?
                  @events.find(params[:event_id])
                else
