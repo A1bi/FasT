@@ -88,8 +88,7 @@ class WebAuthnController < ApplicationController
 
   def destroy
     authorize(current_user.web_authn_credentials.find(params[:id])).destroy
-    flash.notice = t('.destroyed')
-    redirect_to edit_members_member_path
+    redirect_to edit_members_member_path, notice: t('.destroyed')
   end
 
   private

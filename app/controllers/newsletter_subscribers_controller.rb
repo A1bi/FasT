@@ -19,8 +19,7 @@ class NewsletterSubscribersController < ApplicationController
 
     @subscriber = create_subscriber
     if @subscriber.persisted?
-      flash.notice = t('.created')
-      redirect_to root_path
+      redirect_to root_path, notice: t('.created')
     else
       render :new
     end
@@ -38,8 +37,7 @@ class NewsletterSubscribersController < ApplicationController
 
   def destroy
     @subscriber.destroy
-    flash.notice = t('.destroyed')
-    redirect_to root_path
+    redirect_to root_path, notice: t('.destroyed')
   end
 
   private

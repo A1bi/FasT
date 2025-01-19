@@ -28,7 +28,7 @@ module Ticketing
 
         OrderMailer.with(order: @order).tickets_changed.deliver_later
 
-        flash[:notice] = t('.success')
+        flash.notice = t('.success')
         head :ok
       end
 

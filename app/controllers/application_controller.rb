@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  add_flash_types :warning
+
   class << self
     protected
 
@@ -106,14 +108,13 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       deny_access root_path
     else
-      flash[:warning] = t('application.login_required')
-      redirect_to_login_form
+      redirect_to_login_form warning: t('application.login_required')
     end
   end
 
-  def redirect_to_login_form
+  def redirect_to_login_form(options = {})
     session[:goto_after_login] = request.fullpath
-    redirect_to login_path
+    redirect_to login_path, options
   end
 
   def deny_access(redirect_path)

@@ -30,8 +30,7 @@ class GalleriesController < ApplicationController
   def update
     return render :edit unless @gallery.update(gallery_params)
 
-    flash.notice = t('application.saved_changes')
-    redirect_to edit_gallery_path(@gallery)
+    redirect_to edit_gallery_path(@gallery), notice: t('application.saved_changes')
   end
 
   def destroy

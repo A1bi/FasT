@@ -44,7 +44,7 @@ module Ticketing
 
       return head :unprocessable_entity unless ticket_transfer_service.execute
 
-      flash[:notice] = t('.updated')
+      flash.notice = t('.updated')
       head :ok
     end
 

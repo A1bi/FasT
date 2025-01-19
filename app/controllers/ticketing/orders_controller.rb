@@ -208,7 +208,7 @@ module Ticketing
     end
 
     def redirect_to_order_details(notice = nil)
-      flash[:notice] = t(notice, scope: %i[ticketing orders]) if notice
+      flash.notice = t(notice, scope: %i[ticketing orders]) if notice
       redirect_to ticketing_order_path(@order)
     end
 

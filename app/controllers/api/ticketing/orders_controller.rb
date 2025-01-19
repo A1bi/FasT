@@ -80,7 +80,7 @@ module Api
         return unless admin?
 
         key = ".created#{'_email' if @order.email.present?}"
-        flash[:notice] = t(key)
+        flash.notice = t(key)
       end
 
       def authorize_type
