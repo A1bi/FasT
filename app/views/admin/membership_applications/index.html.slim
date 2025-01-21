@@ -11,13 +11,13 @@
           tr.text-start
             th Nachname
             th Vorname
-            th Geburtstag
+            th Datum
         tbody
           - @open_applications.each do |application|
             tr
               td = link_to application.last_name, [:admin, application]
               td = link_to application.first_name, [:admin, application]
-              td = l application.birthday
+              td = l application.created_at.to_date
     - else
       = render 'alert', type: :info
         | Es liegen keine offenen Anträge vor.

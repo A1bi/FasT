@@ -21,6 +21,10 @@
       dl.md-horizontal
         dt Antragsnummer
         dd = @application.id
+        dt Antragsdatum
+        dd = l @application.created_at, format: :long
+
+        h3.w-100 Allgemeines
         dt Vorname
         dd = @application.first_name
         dt Nachname
