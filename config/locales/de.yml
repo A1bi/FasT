@@ -99,9 +99,6 @@ de:
         subject: Aktivierung Ihres Mitgliedskontos
       reset_password:
         subject: Passwort zurücksetzen
-    membership_fee_mailer:
-      debit_submission:
-        subject: Neue Sammellastschrift für Mitgliedsbeträge
     membership_application_mailer:
       submitted:
         subject: Ihr Mitgliedsantrag

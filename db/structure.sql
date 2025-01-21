@@ -370,7 +370,8 @@ ALTER SEQUENCE public.members_membership_applications_id_seq OWNED BY public.mem
 CREATE TABLE public.members_membership_fee_debit_submissions (
     id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    ebics_response jsonb
 );
 
 
@@ -4010,6 +4011,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250121223540'),
 ('20250103121117'),
 ('20250101155130'),
 ('20240727192449'),

@@ -8,7 +8,7 @@ module Members
     validates :amount, numericality: { greater_than: 0 }
 
     class << self
-      def unsubmitted
+      def submittable
         where(debit_submission: nil)
       end
     end

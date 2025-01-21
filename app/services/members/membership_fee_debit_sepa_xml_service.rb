@@ -5,7 +5,7 @@ module Members
     LOCAL_INSTRUMENT = 'COR1'
     BATCH_BOOKING = true
 
-    def initialize(submission:)
+    def initialize(submission)
       @submission = submission
     end
 

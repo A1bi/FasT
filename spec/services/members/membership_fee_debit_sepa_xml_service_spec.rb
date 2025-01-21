@@ -5,7 +5,7 @@ require 'support/xml'
 RSpec.describe Members::MembershipFeeDebitSepaXmlService do
   subject { service.xml }
 
-  let(:service) { described_class.new(submission:) }
+  let(:service) { described_class.new(submission) }
   let(:submission) { create(:membership_fee_debit_submission, payments:) }
   let(:payments) { create_list(:membership_fee_payment, 3, :with_sepa_mandate) }
 

@@ -3,17 +3,27 @@
 module Members
   class SubmitMembershipFeeDebitsJob < ApplicationJob
     def perform
-      return if unsubmitted_payments.none?
+      return unless Settings.ebics.enabled
 
-      submission = MembershipFeeDebitSubmission.create(payments: unsubmitted_payments)
+      payments.transaction do
+        payments.lock!
+        next if payments.none?
 
-      Members::MembershipFeeMailer.debit_submission(submission).deliver_later
+        submission = MembershipFeeDebitSubmission.create!(payments:)
+        xml = MembershipFeeDebitSepaXmlService.new(submission).xml
+        response = ebics_service.submit_debits(xml)
+        submission.update(ebics_response: response)
+      end
     end
 
     private
 
-    def unsubmitted_payments
-      @unsubmitted_payments ||= MembershipFeePayment.unsubmitted
+    def payments
+      @payments ||= MembershipFeePayment.submittable
+    end
+
+    def ebics_service
+      @ebics_service ||= Ticketing::EbicsService.new
     end
   end
 end

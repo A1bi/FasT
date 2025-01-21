@@ -1,9 +1,0 @@
-Eine neue Sammellastschrift für Mitgliedsbeträge liegt vor.
-
-Enthalten sind folgende Lastschriften:
-
-<% @submission.payments.find_each do |payment| %>
-<%= payment.member.name.full %> – <%= number_to_currency(payment.amount) %>
-<% end %>
-
-Gesamtbetrag: <%= number_to_currency(@submission.payments.sum(:amount)) %>
