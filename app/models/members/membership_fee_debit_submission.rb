@@ -6,5 +6,9 @@ module Members
                         foreign_key: :debit_submission_id,
                         inverse_of: :debit_submission,
                         dependent: :nullify
+
+    def sum
+      payments.sum(:amount)
+    end
   end
 end

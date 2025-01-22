@@ -75,7 +75,7 @@
         dt zuletzt bezahlt
         dd
           - if (last_payment = @member.membership_fee_payments.last).present?
-            = l last_payment.created_at.to_date, format: :long
+            = link_to_if policy(last_payment.debit_submission).show?, l(last_payment.created_at.to_date, format: :long), [:admin, last_payment.debit_submission]
             - if last_payment.failed?
               em.text-red<() (fehlgeschlagen)
             - elsif policy(last_payment).mark_as_failed?

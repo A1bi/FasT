@@ -80,6 +80,9 @@ Rails.application.routes.draw do
                 controller: :membership_fee_payments do
         patch :mark_as_failed, on: :member
       end
+      resources :members_membership_fee_debit_submissions,
+                path: 'mitgliedsbeitrag-lastschrifteinreichungen',
+                controller: :membership_fee_debit_submissions, only: %i[index show]
       resources :members_membership_applications, path: 'mitgliedsanträge', controller: :membership_applications,
                                                   only: %i[index show destroy]
       get 'wasserwerk' => 'wasserwerk#index'

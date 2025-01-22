@@ -1,0 +1,18 @@
+- title 'Mitgliedsbeiträge Lastschrifteinreichungen'
+
+.container
+  h1 Mitglieds&shy;beiträge
+  h2 Lastschrift&shy;einreichungen
+  .table-responsive: table
+    thead: tr
+      th.text-start ID
+      th Lastschriften
+      th.text-end Gesamtbetrag
+      th.text-end Datum
+    tbody.hover
+      - @submissions.each do |submission|
+        tr data-controller='linked-row' data-linked-row-path=admin_members_membership_fee_debit_submission_path(submission)
+          td ##{submission.id}
+          td.text-center = submission.payments.count
+          td.text-end = number_to_currency(submission.sum)
+          td.text-end = l submission.created_at.to_date

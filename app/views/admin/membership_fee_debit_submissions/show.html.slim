@@ -1,0 +1,33 @@
+- title 'Mitgliedsbeiträge Lastschrifteinreichung'
+
+.container
+  h1 Mitglieds&shy;beiträge
+  h2 Lastschrift&shy;einreichung ##{@submission.id}
+  .card
+    dl.md-horizontal
+      dt ID
+      dd = @submission.id
+      dt Datum
+      dd = l @submission.created_at.to_date, format: :long
+      dt Anzahl Lastschriften
+      dd = @submission.payments.count
+      dt Gesamtbetrag
+      dd = number_to_currency(@submission.sum)
+  h3 Lastschriften
+  .table-responsive: table
+    thead: tr
+      th Mitglied
+      th Mitgliedschaft verlängert bis
+      th.text-end Beitrag
+      th
+    tbody
+      - @submission.payments.includes(:member).merge(Members::Member.alphabetically).each do |payment|
+        tr
+          td = link_to_if policy(payment.member).show?, payment.member.name.sorted, [:admin, payment.member]
+          td.text-center = l payment.paid_until
+          td.text-end = number_to_currency(payment.amount)
+          td.text-end
+            - if payment.failed
+              span title='Lastschrift zurückgebucht' ❌
+            - else
+              span title='Lastschrift ausgeführt' ✅
