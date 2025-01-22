@@ -12,7 +12,13 @@ module Members
         submission = MembershipFeeDebitSubmission.create!(payments:)
         xml = MembershipFeeDebitSepaXmlService.new(submission).xml
         response = ebics_service.submit_debits(xml)
-        submission.update(ebics_response: response)
+
+        # reaching this line means debits have been successfully submitted to the bank,
+        # suppress any possible errors from here so the database transaction is committed and
+        # therefore this job will not run again with these payments and they will not be submitted again
+        suppress_in_production(StandardError) do
+          submission.update(ebics_response: response)
+        end
       end
     end
 

@@ -25,7 +25,13 @@ module Ticketing
 
         submission = BankSubmission.create!(transactions:)
         response = yield(submission)
-        submission.update(ebics_response: response)
+
+        # reaching this line means transactions have been successfully submitted to the bank,
+        # suppress any possible errors from here so the database transaction is committed and
+        # therefore this job will not run again with these transactions and they will not be submitted again
+        suppress_in_production(StandardError) do
+          submission.update(ebics_response: response)
+        end
       end
     end
 

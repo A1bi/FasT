@@ -161,5 +161,37 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
         expect { subject }.to raise_error(StandardError).and(not_change(Ticketing::BankSubmission, :count))
       end
     end
+
+    context 'when an error happens after EBICS submission' do
+      let!(:submittable_transactions) { create_list(:bank_debit, 2, :submittable) }
+      let(:submission) { build(:bank_submission, transactions: submittable_transactions) }
+      let(:exception) { StandardError.new('failed to update submission') }
+
+      before do
+        allow(Ticketing::BankSubmission).to receive(:create!) do
+          submission.save
+          submission
+        end
+        allow(submission).to receive(:update).and_raise(exception)
+      end
+
+      it 'does not raise an error' do
+        expect { subject }.not_to raise_error
+      end
+
+      it 'still creates a submission' do
+        expect { subject }.to change(Ticketing::BankSubmission, :count).by(1)
+      end
+
+      it 'still marks the transactions as submitted' do
+        subject
+        expect(submission.reload.transactions).to match_array(submittable_transactions)
+      end
+
+      it 'captures the error' do
+        expect(Sentry).to receive(:capture_exception).with(exception)
+        subject
+      end
+    end
   end
 end

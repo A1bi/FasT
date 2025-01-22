@@ -104,5 +104,37 @@ RSpec.describe Members::SubmitMembershipFeeDebitsJob do
         expect { subject }.to raise_error(StandardError).and(not_change(Members::MembershipFeeDebitSubmission, :count))
       end
     end
+
+    context 'when an error happens after EBICS submission' do
+      let!(:submittable_payments) { create_list(:membership_fee_payment, 2, :with_sepa_mandate) }
+      let(:submission) { build(:membership_fee_debit_submission, payments: submittable_payments) }
+      let(:exception) { StandardError.new('failed to update submission') }
+
+      before do
+        allow(Members::MembershipFeeDebitSubmission).to receive(:create!) do
+          submission.save
+          submission
+        end
+        allow(submission).to receive(:update).and_raise(exception)
+      end
+
+      it 'does not raise an error' do
+        expect { subject }.not_to raise_error
+      end
+
+      it 'still creates a debit submission' do
+        expect { subject }.to change(Members::MembershipFeeDebitSubmission, :count).by(1)
+      end
+
+      it 'still marks the payments as submitted' do
+        subject
+        expect(submission.reload.payments).to match_array(submittable_payments)
+      end
+
+      it 'captures the error' do
+        expect(Sentry).to receive(:capture_exception).with(exception)
+        subject
+      end
+    end
   end
 end
