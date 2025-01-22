@@ -33,7 +33,7 @@ class User < ApplicationRecord
   before_validation :set_random_password, on: :create
 
   def self.alphabetically
-    order(:last_name, :first_name)
+    order('LOWER(last_name)', 'LOWER(first_name)')
   end
 
   def self.find_by(attrs)
