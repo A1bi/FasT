@@ -21,7 +21,7 @@
       th.text-end Beitrag
       th
     tbody
-      - @submission.payments.includes(:member).merge(Members::Member.alphabetically).each do |payment|
+      - @submission.payments.joins(:member).merge(Members::Member.alphabetically).each do |payment|
         tr
           td = link_to_if policy(payment.member).show?, payment.member.name.sorted, [:admin, payment.member]
           td.text-center = l payment.paid_until
