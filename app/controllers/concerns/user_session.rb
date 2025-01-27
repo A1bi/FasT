@@ -13,10 +13,12 @@ module UserSession
     self.current_user = user
     user.logged_in
     user.save
+    flash.notice = t('sessions.logged_in', first_name: user.first_name) if user.first_name.present?
   end
 
   def log_out_user
     self.current_user = nil
+    flash.notice = t('sessions.logged_out')
   end
 
   def goto_path

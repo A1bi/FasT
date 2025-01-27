@@ -25,7 +25,8 @@ de:
   sessions:
     credentials_incorrect: Die eingegebene E-Mail-Adresse oder das Passwort ist nicht korrekt.
     web_authn_required: Mit diesem Konto ist ein Passkey verknüpft. Ein Login ist daher ausschließlich per Passkey möglich.
-    logout: Sie wurden erfolgreich ausgeloggt.
+    logged_in: Herzlich willkommen, %{first_name}.
+    logged_out: Sie wurden erfolgreich ausgeloggt.
   internet_access_sessions:
     auth_error: E-Mail-Adresse oder Passwort falsch.
     not_authorized: Ihr Mitgliedskonto ist nicht für die Nutzung des WLANs freigeschaltet.
@@ -78,11 +79,11 @@ de:
       member: "Mitglied"
     member:
       activated: Ihr Mitgliedskonto wurde erfolgreich aktiviert.
-      web_authn_required: Mit diesem Konto ist ein Passkey verknüpft. Ein Zurücksetzen des Passwortes ist daher nicht möglich. Bitte wenden Sie sich an info@theater-kaisersesch.de, um Ihren Passkey zurückzusetzen.
+      web_authn_required_html: Mit diesem Konto ist ein Passkey verknüpft. Ein Zurücksetzen des Passwortes ist daher nicht möglich. Bitte wenden Sie sich an <a href="mailto:info@theater-kaisersesch.de?subject=Passkey%20zur%c3%bccksetzen">info@theater-kaisersesch.de</a>, um Ihren Passkey zurückzusetzen.
       password_reset: Eine E-Mail mit weiteren Instruktionen wurde Ihnen zugeschickt.
       password_changed: Ihr Passwort wurde geändert.
-      invalid_activation_token: Dieser Link ist leider abgelaufen. Bitte kontaktieren Sie info@theater-kaisersesch.de, um einen neuen Link anzufordern.
-      invalid_password_reset_token: Dieser Link ist leider abgelaufen. Bitte fordern Sie einen neuen Link über die "Passwort vergessen"-Funktion an.
+      invalid_activation_token_html: Dieser Link ist abgelaufen. Bitte kontaktieren Sie <a href="mailto:info@theater-kaisersesch.de?subject=Mitgliedskonto%20aktivieren">info@theater-kaisersesch.de</a>, um einen neuen Link anzufordern.
+      invalid_password_reset_token_html: Dieser Link ist abgelaufen. Bitte fordern Sie hier auf dieser Seite einen neuen Link an.
     membership_applications:
       created_email: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend per E-Mail kontaktieren.
       created_other: Ihr Antrag wurde erfolgreich eingereicht. Wir werden diesen nun prüfen und Sie anschließend telefonisch oder postalisch kontaktieren.

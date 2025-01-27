@@ -44,7 +44,7 @@ module Members
       authorize Member
 
       if (member = Member.find_by(email: member_params[:email]))&.web_authn_required?
-        return redirect_to({ action: :forgot_password }, alert: t('.web_authn_required'))
+        return redirect_to({ action: :forgot_password }, alert: t('.web_authn_required_html'))
       end
 
       MemberMailer.with(member:).reset_password.deliver_later if member.present?
@@ -56,10 +56,12 @@ module Members
 
     def set_activation_token_purpose
       @token_purpose = :activation
+      @invalid_redirect_path = root_path
     end
 
     def set_password_reset_token_purpose
       @token_purpose = :password_reset
+      @invalid_redirect_path = forgot_password_members_member_path
     end
 
     def find_member_by_token
@@ -80,7 +82,7 @@ module Members
     end
 
     def handle_invalid_token
-      redirect_to root_path, alert: t(".invalid_#{@token_purpose}_token")
+      redirect_to @invalid_redirect_path, alert: t(".invalid_#{@token_purpose}_token_html")
     end
 
     def redirect_to_login(options = {})

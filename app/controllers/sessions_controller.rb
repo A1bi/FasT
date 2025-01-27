@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out_user
-    redirect_to root_path, notice: t('.logout')
+    redirect_to root_path
   end
 
   private
