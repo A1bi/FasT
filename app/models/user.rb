@@ -72,9 +72,11 @@ class User < ApplicationRecord
     shared_email_accounts_authorized_for&.include? email
   end
 
-  def web_authn_required?
+  def web_authn_set_up?
     web_authn_credentials.any?
   end
+
+  alias web_authn_required? web_authn_set_up?
 
   def reset_activation!
     web_authn_credentials.destroy_all

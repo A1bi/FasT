@@ -71,6 +71,22 @@ RSpec.describe User do
     end
   end
 
+  describe '#web_authn_set_up?' do
+    subject { user.web_authn_set_up? }
+
+    let(:user) { create(:user) }
+
+    context 'without any WebAuthn credentials present' do
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with some WebAuthn credentials present' do
+      before { create(:web_authn_credential, user:) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
   describe '#reset_activation!' do
     subject { user.reset_activation! }
 

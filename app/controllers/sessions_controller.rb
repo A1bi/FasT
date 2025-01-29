@@ -13,6 +13,9 @@ class SessionsController < ApplicationController
     elsif user.web_authn_required?
       show_error('web_authn_required')
     else
+      if user.try(:admin?) && !user.web_authn_set_up?
+        flash[:warning] = t('.limited_permissions_without_web_authn_html', web_authn_path: edit_members_member_path)
+      end
       log_in_user(user)
       redirect_to goto_path
     end
