@@ -8,7 +8,7 @@ RSpec.describe 'WebAuthn' do
   let(:params) { nil }
   let(:user) { create(:user) }
   let!(:existing_credential) { create(:web_authn_credential, user:) }
-  let(:fake_client) { WebAuthn::FakeClient.new(WebAuthn.configuration.origin) }
+  let(:fake_client) { WebAuthn::FakeClient.new(WebAuthn.configuration.allowed_origins.first) }
 
   before do
     stub_request(:get, 'https://github.com/passkeydeveloper/passkey-authenticator-aaguids/raw/refs/heads/main/combined_aaguid.json')
