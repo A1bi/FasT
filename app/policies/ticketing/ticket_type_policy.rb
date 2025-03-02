@@ -7,7 +7,7 @@ module Ticketing
     end
 
     def update?
-      create? && record.tickets.none?
+      create?
     end
 
     def destroy?
@@ -15,7 +15,11 @@ module Ticketing
     end
 
     def permitted_attributes
-      %i[name price info availability vat_rate]
+      if record.tickets.none?
+        %i[name price info availability vat_rate]
+      else
+        %i[name info availability]
+      end
     end
   end
 end
