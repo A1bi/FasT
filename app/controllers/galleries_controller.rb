@@ -45,6 +45,6 @@ class GalleriesController < ApplicationController
   end
 
   def gallery_params
-    params.require(:gallery).permit(:disclaimer, :title)
+    params.expect(gallery: %i[disclaimer title])
   end
 end

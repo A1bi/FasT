@@ -258,8 +258,7 @@ module Ticketing
     end
 
     def update_order_params
-      params.require(:ticketing_order)
-            .permit(:gender, :first_name, :last_name, :affiliation, :email, :phone, :plz, :pay_method)
+      params.expect(ticketing_order: %i[gender first_name last_name affiliation email phone plz pay_method])
     end
   end
 end

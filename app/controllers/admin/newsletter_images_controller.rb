@@ -22,7 +22,7 @@ module Admin
     end
 
     def newsletter_image_params
-      params.require(:newsletter_image).permit(:image)
+      expect(newsletter_image: [:image])
     end
   end
 end

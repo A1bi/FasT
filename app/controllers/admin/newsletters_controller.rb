@@ -70,8 +70,7 @@ module Admin
     end
 
     def newsletter_params
-      params.require(:newsletter_newsletter)
-            .permit(:subject, :body_html, :body_text, subscriber_list_ids: [])
+      params.expect(newsletter_newsletter: [:subject, :body_html, :body_text, { subscriber_list_ids: [] }])
     end
 
     def redirect_to_index

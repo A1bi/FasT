@@ -52,8 +52,8 @@ class NewsletterSubscribersController < ApplicationController
   end
 
   def newsletter_params
-    permitted = %w[last_name gender privacy_terms]
+    permitted = %i[last_name gender privacy_terms]
     permitted << :email if @subscriber.nil? || @subscriber.new_record?
-    params.require(:newsletter_subscriber).permit(permitted)
+    params.expect(newsletter_subscriber: permitted)
   end
 end

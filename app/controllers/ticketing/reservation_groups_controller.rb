@@ -82,7 +82,7 @@ module Ticketing
     end
 
     def group_params
-      params.require(:ticketing_reservation_group).permit(:name)
+      params.expect(ticketing_reservation_group: [:name])
     end
   end
 end

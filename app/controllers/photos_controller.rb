@@ -47,6 +47,6 @@ class PhotosController < ApplicationController
 
   def photo_params
     params[:photo][:image] = params[:photo][:image].last if params.dig(:photo, :image).is_a? Array
-    params.require(:photo).permit(:gallery_id, :position, :text, :image)
+    params.expect(photo: %i[gallery_id position text image])
   end
 end

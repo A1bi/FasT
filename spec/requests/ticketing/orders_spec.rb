@@ -12,7 +12,7 @@ RSpec.describe 'Ticketing::OrdersController' do
   describe 'PATCH #update' do
     subject { patch ticketing_order_path(order), params: }
 
-    let(:params) { { ticketing_order: { foo: :bar } } }
+    let(:params) { { ticketing_order: { first_name: 'John' } } }
 
     include_examples 'creates a log event', :updated
   end

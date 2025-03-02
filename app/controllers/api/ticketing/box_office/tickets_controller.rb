@@ -31,7 +31,7 @@ module Api
         end
 
         def ticket_params
-          params.require(:ticket).permit(:picked_up, :resale)
+          params.expect(ticket: %i[picked_up resale])
         end
 
         def update_tickets

@@ -30,9 +30,8 @@ module Members
     end
 
     def application_params
-      params.require(:members_membership_application)
-            .permit(:first_name, :last_name, :gender, :birthday, :email, :phone, :street, :plz,
-                    :city, :debtor_name, :iban)
+      params.expect(members_membership_application: %i[first_name last_name gender birthday email phone street plz
+                                                       city debtor_name iban])
     end
   end
 end
