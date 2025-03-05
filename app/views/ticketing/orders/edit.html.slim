@@ -19,4 +19,5 @@
         .mb-2
           = f.label :pay_method, 'Zahlungsart'
           = f.select(:pay_method, options_for_select(@pay_methods, @order.pay_method))
-        .text-center = f.submit 'speichern', class: :btn
+
+      .text-center = f.submit 'speichern', class: :btn
