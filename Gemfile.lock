@@ -147,7 +147,7 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
-    dry-schema (1.14.0)
+    dry-schema (1.14.1)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 1.0, >= 1.0.1)
       dry-core (~> 1.1)
@@ -168,7 +168,9 @@ GEM
       dry-initializer (~> 3.2)
       dry-schema (~> 1.14)
       zeitwerk (~> 2.6)
-    epics (2.7.0)
+    epics (2.8.0)
+      base64
+      bigdecimal
       faraday (>= 1.10.0)
       i18n (>= 1.1.0)
       nokogiri (>= 1.16.7)
@@ -237,7 +239,7 @@ GEM
     mime-types (3.6.0)
       logger
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0220)
+    mime-types-data (3.2025.0304)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
@@ -298,11 +300,11 @@ GEM
     prawn-qrcode (0.5.2)
       prawn (>= 1)
       rqrcode (>= 1.0.0)
-    prawn-svg (0.35.1)
+    prawn-svg (0.36.2)
       css_parser (~> 1.6)
       matrix (~> 0.4.2)
       prawn (>= 0.11.1, < 3)
-      rexml (>= 3.2.0, < 4)
+      rexml (>= 3.3.9, < 4)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.0)
@@ -312,10 +314,10 @@ GEM
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
-    pundit (2.4.0)
+    pundit (2.5.0)
       activesupport (>= 3.0.0)
     racc (1.8.1)
-    rack (3.1.10)
+    rack (3.1.11)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -361,7 +363,7 @@ GEM
       actionview (>= 5)
     redis (5.4.0)
       redis-client (>= 0.22.0)
-    redis-client (0.23.2)
+    redis-client (0.24.0)
       connection_pool
     regexp_parser (2.10.0)
     reline (0.6.0)
@@ -394,7 +396,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.2)
-    rubocop (1.73.1)
+    rubocop (1.73.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -407,9 +409,10 @@ GEM
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.38.1)
       parser (>= 3.3.1.0)
-    rubocop-factory_bot (2.26.1)
-      rubocop (~> 1.61)
-    rubocop-rails (2.30.2)
+    rubocop-factory_bot (2.27.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+    rubocop-rails (2.30.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -452,12 +455,12 @@ GEM
       nokogiri
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.3.9)
-      base64
-      connection_pool (>= 2.3.0)
-      logger
-      rack (>= 2.2.4)
-      redis-client (>= 0.22.2)
+    sidekiq (8.0.1)
+      connection_pool (>= 2.5.0)
+      json (>= 2.9.0)
+      logger (>= 1.6.2)
+      rack (>= 3.1.0)
+      redis-client (>= 0.23.2)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -514,7 +517,7 @@ GEM
       openssl (>= 2.2)
       safety_net_attestation (~> 0.4.0)
       tpm-key_attestation (~> 0.14.0)
-    webmock (3.25.0)
+    webmock (3.25.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -544,7 +547,7 @@ DEPENDENCIES
   dalli (~> 3.0)
   doorkeeper (~> 5.6)
   dry-validation
-  epics (~> 2.7.0)
+  epics (~> 2.8.0)
   factory_bot_rails (~> 6.4)
   ffaker (~> 2.13)
   httparty (~> 0.18)
@@ -558,10 +561,10 @@ DEPENDENCIES
   phony_rails (~> 0.15.0)
   prawn (~> 2.4.0)
   prawn-qrcode (~> 0.5.1)
-  prawn-svg (~> 0.35.0)
+  prawn-svg (~> 0.36.0)
   prawn-table (~> 0.2.1)
   puma (~> 6.0)
-  pundit (~> 2.4.0)
+  pundit (~> 2.5.0)
   rails (~> 8.0.0)
   record_tag_helper (~> 1.0.1)
   redis (~> 5.0)
@@ -579,7 +582,7 @@ DEPENDENCIES
   sentry-sidekiq
   sepa_king (~> 0.14.0)
   shoulda-matchers (~> 6.0)
-  sidekiq (~> 7.0)
+  sidekiq (~> 8.0)
   simplecov
   simpleidn (~> 0.2.1)
   slim
@@ -592,4 +595,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   2.5.22
+   2.6.5
