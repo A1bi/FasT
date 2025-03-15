@@ -13,7 +13,7 @@ module Ticketing
     end
 
     def execute
-      return if new_date.cancelled?
+      return if new_date.cancelled? || (@by_customer && !enough_seats_available?)
 
       ActiveRecord::Base.transaction do
         @updated_tickets = valid_tickets.filter_map { |ticket| update_ticket(ticket) }
@@ -63,6 +63,10 @@ module Ticketing
           [ticket.seat.node_hash(ticket.date.id, false)].to_h
         )
       end
+    end
+
+    def enough_seats_available?
+      new_date.number_of_available_seats >= tickets.count
     end
 
     def create_log_event
