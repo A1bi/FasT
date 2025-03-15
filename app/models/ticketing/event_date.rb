@@ -35,6 +35,10 @@ module Ticketing
       event.seating? ? event.seating.unreserved_seats_on_date(self).count : number_of_seats
     end
 
+    def number_of_available_seats
+      number_of_unreserved_seats - number_of_booked_seats
+    end
+
     def number_of_booked_seats
       statistics[:total]
     end

@@ -33,4 +33,38 @@ RSpec.describe Ticketing::EventDate do
 
     it { is_expected.to eq(Time.zone.parse('2021-06-22 19:18')) }
   end
+
+  describe '#number_of_booked_seats' do
+    subject { date.number_of_booked_seats }
+
+    let(:event) { create(:event, :complete, dates_count: 2) }
+    let(:date) { event.dates.last }
+
+    before do
+      create(:order, :with_tickets, event:, date:, tickets_count: 2)
+      create(:order, :with_tickets, event:, date: event.dates.first, tickets_count: 2)
+      order = create(:order, :with_tickets, event:, date:, tickets_count: 4)
+      cancellation = create(:cancellation)
+      order.tickets.last.update(cancellation:)
+    end
+
+    it { is_expected.to eq(5) }
+  end
+
+  describe '#number_of_available_seats' do
+    subject { date.number_of_available_seats }
+
+    let(:event) { create(:event, :complete, number_of_seats: 15) }
+    let(:date) { event.dates.first }
+
+    context 'without any booked seats' do
+      it { is_expected.to eq(15) }
+    end
+
+    context 'with booked seats' do
+      before { create(:order, :with_tickets, event:, date:, tickets_count: 2) }
+
+      it { is_expected.to eq(13) }
+    end
+  end
 end

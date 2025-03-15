@@ -22,6 +22,11 @@ module Ticketing
     private
 
     def build_tickets
+      unless enough_seats_available? || admin?
+        order.errors.add(:tickets, 'Not enough seats available')
+        return
+      end
+
       ticket_params.each do |type_id, number|
         next unless number.positive?
 
@@ -83,6 +88,10 @@ module Ticketing
         ticket_type:,
         value: number
       )
+    end
+
+    def enough_seats_available?
+      date.number_of_available_seats >= ticket_params.values.sum
     end
 
     def chosen_seats
