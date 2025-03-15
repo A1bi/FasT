@@ -3,6 +3,7 @@
 module Ticketing
   class TicketCreateService < BaseService
     include OrderingType
+    include Errors
 
     attr_accessor :order, :date
 
@@ -22,10 +23,7 @@ module Ticketing
     private
 
     def build_tickets
-      unless enough_seats_available? || admin?
-        order.errors.add(:tickets, 'Not enough seats available')
-        return
-      end
+      return add_error(:not_enough_seats_available) unless enough_seats_available? || admin?
 
       ticket_params.each do |type_id, number|
         next unless number.positive?
@@ -33,7 +31,7 @@ module Ticketing
         ticket_type = date.event.ticket_types.find_by(id: type_id)
 
         if ticket_type.blank?
-          order.errors.add(:tickets, 'Ticket type not found')
+          add_error(:unknown_ticket_type)
           next
         end
 
@@ -45,16 +43,11 @@ module Ticketing
 
     def validate_ticket_type(ticket_type, number)
       if ticket_type.box_office? && !box_office?
-        order.errors.add(:tickets,
-                         'Ticket type unavailable for this type of order')
-        return
+        return add_error(:ticket_type_unavailable_for_order_type)
 
       elsif ticket_type_credit_required?(ticket_type)
         unless ticket_type_credit_sufficient?(ticket_type, number)
-          order.errors.add(
-            :tickets,
-            'Remaining credit for exclusive ticket type not sufficient'
-          )
+          add_error(:remaining_credit_for_exclusive_ticket_type_insufficient)
           return
         end
 

@@ -54,7 +54,7 @@ RSpec.describe Ticketing::TicketCreateService do
 
     it 'adds an error to the order' do
       subject
-      expect(order.errors).to be_added(:tickets, 'Not enough seats available')
+      expect(service.errors).to include(:not_enough_seats_available)
     end
 
     context 'when in admin mode' do

@@ -3,6 +3,7 @@
 module Ticketing
   class OrderCreateService < BaseService
     include OrderingType
+    include Errors
 
     attr_accessor :current_box_office
 
@@ -42,8 +43,8 @@ module Ticketing
     private
 
     def validate_event
-      @order.errors.add(:event, 'Ticket sale currently disabled') if sale_disabled?
-      @order.errors.add(:event, 'Sold out') if sold_out?
+      add_error(:event_sale_disabled) if sale_disabled?
+      add_error(:event_sold_out) if sold_out?
     end
 
     def prepare_payment
@@ -55,7 +56,8 @@ module Ticketing
     end
 
     def create_items
-      TicketCreateService.new(@order, date, current_user, params).execute
+      ticket_create_service.execute
+      add_errors(ticket_create_service.errors)
       CouponCreateService.new(@order, current_user, order_params).execute
     end
 
@@ -80,9 +82,14 @@ module Ticketing
     end
 
     def finalize_order
+      return if errors?
+
       ActiveRecord::Base.transaction do
         contexts = [:create, (:unprivileged_order unless admin?)]
-        next unless @order.save(context: contexts)
+        unless @order.save(context: contexts)
+          add_error(:invalid_params)
+          next
+        end
 
         log_order_creation
 
@@ -112,6 +119,10 @@ module Ticketing
       return unless date&.event&.seating?
 
       NodeApi.update_seats_from_records(@order.tickets)
+    end
+
+    def ticket_create_service
+      @ticket_create_service ||= TicketCreateService.new(@order, date, current_user, params)
     end
 
     def billing_service

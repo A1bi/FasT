@@ -11,20 +11,34 @@ module Api
 
       private
 
-      def create_order(box_office: nil)
-        ::Ticketing::OrderCreateService.new(
-          order_params,
-          current_user:,
-          current_box_office: box_office
-        ).execute
+      def create_order
+        @order = order_create_service.execute
+        report_invalid_order if order_errors?
+      end
+
+      def order_errors?
+        order_create_service.errors?
       end
 
       def report_invalid_order
         Sentry.capture_message(
           'invalid order', extra: {
-            errors: @order.errors.messages
+            service_errors: order_create_service.errors,
+            validation_errors: @order.errors.messages
           }
         )
+      end
+
+      def order_create_service
+        @order_create_service ||= ::Ticketing::OrderCreateService.new(
+          order_params,
+          current_user:,
+          current_box_office:
+        )
+      end
+
+      def current_box_office
+        nil
       end
     end
   end

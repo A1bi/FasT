@@ -13,12 +13,8 @@ module Api
       def create
         return head :not_found unless type.in? %i[web admin retail]
 
-        @order = create_order
-
-        unless @order.persisted?
-          report_invalid_order
-          return head :bad_request
-        end
+        create_order
+        return head :bad_request if order_errors?
 
         suppress_in_production(StandardError) do
           create_newsletter_subscriber

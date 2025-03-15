@@ -25,10 +25,9 @@ module Api
         end
 
         def create
-          @order = create_order(box_office: current_box_office)
-          return if @order.persisted?
+          create_order
+          return unless order_errors?
 
-          report_invalid_order
           head :bad_request
         end
 
