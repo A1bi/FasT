@@ -14,7 +14,7 @@ module Api
         return head :not_found unless type.in? %i[web admin retail]
 
         create_order
-        return head :bad_request if order_errors?
+        return render status: :bad_request, json: errors_response if order_errors?
 
         suppress_in_production(StandardError) do
           create_newsletter_subscriber
@@ -35,6 +35,17 @@ module Api
       end
 
       private
+
+      def errors_response
+        {
+          errors: order_create_service.errors.map do |error|
+            {
+              key: error,
+              message: t("ticketing.orders.errors.#{error}", default: nil)
+            }
+          end
+        }
+      end
 
       def order_params
         params.permit(

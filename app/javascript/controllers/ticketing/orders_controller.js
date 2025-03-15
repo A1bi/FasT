@@ -292,15 +292,17 @@ export default class extends Controller {
 
       this.showNext()
       this.noFurtherActionsPossible()
-    } catch (error) {
+    } catch (response) {
       this.toggleModalBox(false)
 
       let msg
       let dismissable = true
-      switch (error.status) {
-        case 400:
-          msg = 'Leider gab es ein Problem bei der Verarbeitung Ihrer Angaben. Bitte prüfen Sie sie noch einmal und versuchen es erneut.'
+      switch (response.status) {
+        case 400: {
+          const error = response.data.errors.find(error => !!error.message)
+          msg = error ? error.message : 'Leider gab es ein Problem bei der Verarbeitung Ihrer Angaben. Bitte prüfen Sie sie noch einmal und versuchen es erneut.'
           break
+        }
         case 402:
           msg = 'Leider konnte Ihre Zahlung nicht ausgeführt werden. Bitte wählen Sie eine andere Zahlungsmethode und versuchen es erneut.'
           break

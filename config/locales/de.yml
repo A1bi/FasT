@@ -165,6 +165,8 @@ de:
           passbook: Apple Wallet
           box_office: Abendkassen-Ticket
           box_office_direct: Abendkasse direkt
+      errors:
+        not_enough_seats_available: Für Ihr gewünschtes Veranstaltungsdatum stehen nicht mehr ausreichend Plätze zur Verfügung. Möglicherweise wurden die Plätze in der Zwischenzeit von einer anderen Person gebucht.
     order_mailer:
       confirmation:
         subject: "Ihre Bestellung"
