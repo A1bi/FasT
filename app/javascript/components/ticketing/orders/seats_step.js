@@ -32,7 +32,7 @@ export default class extends Step {
   }
 
   validate () {
-    return !this.hasSeatingPlan || this.chooser.validate()
+    return (!this.hasSeatingPlan && this.sufficientSeatsAvailable) || (this.hasSeatingPlan && this.chooser.validate())
   }
 
   needsFullWidth () {
@@ -40,20 +40,24 @@ export default class extends Step {
   }
 
   nextBtnEnabled () {
-    return !!this.info.api.date && (!this.hasSeatingPlan || this.showSeatingBtn.matches('.d-none'))
+    return !!this.info.api.date && (
+      (this.hasSeatingPlan && this.showSeatingBtn.matches('.d-none')) ||
+      (!this.hasSeatingPlan && this.sufficientSeatsAvailable)
+    )
   }
 
   willMoveIn () {
-    this.choseDate()
-
-    if (!this.hasSeatingPlan) return
-
     if (this.numberOfSeats !== this.delegate.numberOfArticles) {
       this.numberOfSeats = this.delegate.numberOfArticles
-      togglePluralText(this.box.querySelector('.number_of_tickets'), this.numberOfSeats)
-      this.chooser.toggleErrorBox(false)
-      this.updateSeatingPlan()
+
+      if (this.hasSeatingPlan) {
+        togglePluralText(this.box.querySelector('.number_of_tickets'), this.numberOfSeats)
+        this.chooser.toggleErrorBox(false)
+        this.updateSeatingPlan()
+      }
     }
+
+    this.choseDate()
   }
 
   choseDate () {
@@ -63,6 +67,12 @@ export default class extends Step {
     this.info.api.date = selected.dataset.id
     this.info.internal.boxOfficePayment = 'boxOfficePayment' in selected.dataset
     this.info.internal.localizedDate = selected.textContent
+
+    const availableSeats = parseInt(selected.dataset.numberOfAvailableSeats)
+    this.sufficientSeatsAvailable = this.delegate.admin || availableSeats >= this.numberOfSeats
+    const errorBox = this.box.querySelector('.alert.insufficient-seats')
+    toggleDisplay(errorBox, !this.sufficientSeatsAvailable)
+    togglePluralText(errorBox, availableSeats)
 
     if (this.hasSeatingPlan) {
       this.updateSeatingPlan()

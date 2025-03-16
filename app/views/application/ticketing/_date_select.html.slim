@@ -2,10 +2,13 @@ select#date_id name='date' data=local_assigns[:data]
   - if local_assigns[:preselected_date].nil?
     option(disabled selected) Bitte wählen Sie einen Termin
   - dates.each do |date|
-    option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date) selected=(local_assigns[:preselected_date] == date) disabled=date_disabled?(date)
+    option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date) data-number-of-available-seats=date.number_of_available_seats selected=(local_assigns[:preselected_date] == date) disabled=date_disabled?(date)
       = l date.date, format: '%A, %d. %B %Y, %H:%M'
       - if local_assigns.fetch(:show_availability, true)
         - if date.cancelled?
           |< (entfällt)
         - elsif date.sold_out?
           |< (ausverkauft)
+
+= render 'alert', type: :alert, class: 'mt-2 d-none insufficient-seats'
+  .plural_text Für diesen Termin <span class="singular">ist</span><span class="plural">sind</span> nur noch <b class="singular">ein</b><b class="number plural"><span></span></b> <span class="singular">Platz</span><span class="plural">Plätze</span> und damit für Ihre Auswahl nicht ausreichend verfügbar.
