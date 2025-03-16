@@ -62,9 +62,9 @@ export default class extends Step {
 
   choseDate () {
     const selected = this.datesSelect.selectedOptions[0]
-    if (!selected) return
-
     this.info.api.date = selected.dataset.id
+    if (!this.info.api.date) return
+
     this.info.internal.boxOfficePayment = 'boxOfficePayment' in selected.dataset
     this.info.internal.localizedDate = selected.textContent
 
