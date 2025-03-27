@@ -5,7 +5,10 @@
     - event.header_gallery.photos.shuffle.each.with_index do |photo, j|
       = full_width_photo_tags(photo, class: [:photo, first_event && j.zero? ? :active : 'd-none'], alt: event.name, data: { event_identifier: event.identifier }, loading: 'lazy')
     .title data-event-identifier=event.identifier class=(:active if first_event)
-      = link_to event_path(event.slug)
+      - if event_page_exists?(event) || event.sale_started?
+        = link_to event_page_exists?(event) ? event_path(event.slug) : new_ticketing_order_path(event.slug)
+          = event_logo(event, inline_svg: true, tag: :h1)
+      - else
         = event_logo(event, inline_svg: true, tag: :h1)
     - first_event = false
 

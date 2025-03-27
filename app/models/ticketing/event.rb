@@ -71,7 +71,7 @@ module Ticketing
     end
 
     def sale_started?
-      sale_start.nil? || sale_start.past?
+      ticketing_enabled? && (sale_start.nil? || sale_start.past?)
     end
 
     alias sale_ended? past?
