@@ -22,6 +22,9 @@ body {
 h1, h2, h3 {
   @extend %my-2;
   @extend %text-center;
+}
+
+h1, h2, h3, h4 {
   word-wrap: break-word;
 }
 
@@ -39,6 +42,11 @@ h2 {
 h3 {
   @extend .f-mb;
   font-size: .75rem * $heading-size-multiplier;
+}
+
+h4 {
+  @extend %mt-2;
+  @extend %mb-1;
 }
 
 small, .small {
@@ -156,6 +164,28 @@ table {
 
     th[scope='row'] {
       @extend %text-start;
+    }
+  }
+}
+
+figure:has(blockquote) {
+  @extend %m-0;
+  @extend .card;
+}
+
+blockquote {
+  @extend %m-0;
+  @extend %mb-1;
+  @extend %ps-2;
+  font-size: 1.15rem;
+  border-left: 2px solid var(--body-color);
+
+  ~ figcaption {
+    font-size: .875em;
+    color: var(--secondary-body-color);
+
+    &::before {
+      content: '— ';
     }
   }
 }

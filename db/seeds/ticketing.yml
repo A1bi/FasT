@@ -108,3 +108,5 @@ events:
     name: In 80 Tagen um die Welt
   - identifier: schneewittchen_vier
     name: Schneewittchen und die 4 Siebenzwerge
+  - identifier: gedichte_im_dunkeln
+    name: Gedichte im Dunkeln

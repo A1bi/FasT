@@ -1,0 +1,53 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 70,
+    break_duration: 20,
+    poster_filename: 'Plakat',
+    info_box: {
+      event: {
+        'Text' => 'Eva Hoffmann, Jürgen de Bassmann',
+        'Musik' => 'Roland Gimmler'
+      }
+    }
+  }
+  styling = {
+    colors: ['020405', 'E1E4E5', 'D66B31', 'DFC3B1', 'E1E4E5'],
+    stroke_logo_dark: false
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', title: 'Ablauf', details:
+    h4 Begrüßung
+    p Sie lernen beide Autoren kennen und erfahren, was Sie bei <em>Gedichte im Dunkeln</em> erwartet.
+    p Sie wählen Ihren Platz und die Lichter werden gelöscht. Sie gewöhnen sich schnell an das Dämmerlicht. Ein Soundtrack aus Melodien, Beats und Samples stimmt Sie auf die Texte ein.
+    h4 Die Lesung beginnt
+    p Ihr Sehsinn legt währenddessen eine Pause ein. Dafür wird Ihr Gehör nun sensibler und nimmt die Nuancen der Texte intensiver wahr als sonst.
+    h4 Genießen Sie die Texte
+    p Die Lesung dauert etwa eine Stunde zzgl. einer Pause. Und keine Sorge! Auch wenn Sie den Raum der Lesung dazwischen kurz verlassen möchten, ist das problemlos und jederzeit möglich.
+    h4 Nachklang
+    p Nachdem Gedichte im Dunkeln zu Ende gegangen ist, tauschen Sie sich gerne bei einer Erfrischung mit anderen Gästen über die Lesung aus und lassen <em>Gedichte im Dunkeln</em> noch einmal Revue passieren.
+
+  hr
+
+  = render 'about', title: 'Über die Künstler'
+    p() <b>Jürgen de Bassmann</b> (* 1964), Ausbildung zum Sortimentsbuchhändler, Berufliche Stationen: Freier Journalist; Texter und Konzepter bei einer Werbeagentur; Texter; Beilagen- sowie Sachbuchredakteur in einem Zeitungsverlag; Finanzmarketing. Lebt und arbeitet als freier Autor im südlichen Rheinland-Pfalz.
+    p Seine Gedichte sind ausdrucksstark, bildreich und von fast barocker Wortmacht. In klarer metrischer Struktur erzählen sie fassbare Geschichten aus der inneren und äußeren Welt.
+
+    p() <b>Eva Hoffmann</b> (* 1977), studierte Theaterwissenschaft und Betriebswirtschaft in Mainz, verbrachte Auslandsjahre in New Hampshire und Valencia, arbeitete als freie Journalistin und aktuell als Schulbibliothekarin an ihrem Wohnort Neustadt an der Weinstraße sowie als Coach für Kreatives Schreiben.
+    p Sie schreibt subtile Prosalyrik, die Leser und Zuhörer durch ihre Kompaktheit und impulsive Kraft fasziniert.
+
+    p() <b>Roland Gimmler</b> (* 1964), ist Medienpädagoge, Kommunikationspsychologe, Erziehungswissenschaftler und Multiinstrumentalist. Der auch als <em>Dr. Funky P.</em> bekannte Frontman der Band <em>Annie Questions?</em> (Südpfälzer Musikpreis 2022) forscht und lehrt an der RPTU in Landau und lebt in Herxheimweyher.
+    p Seine Liebe zu genreübergreifendem Komponieren in einer Session mit sich und seinem Selbst – analytisch oder im Hier und Jetzt – hat ihn für dieses Projekt musikalische Landschaften entwickeln lassen.
+
+    figure
+      blockquote Die Texte von Eva Hoffmann und Jürgen de Bassmann lassen eintauchen in das Meer der Dichtkunst, das im Zerrinnen die Zeit auf einem Teller serviert.
+      figcaption Michael C. J. Landgraf, Schriftsteller und Generalsekretär des PEN-Zentrums Deutschland, im Vorwort zu <cite>Gedichte im Dunkeln</cite>
+
+
+  = render 'photos'
+  = render 'tickets'
+  = render 'faq', details:
