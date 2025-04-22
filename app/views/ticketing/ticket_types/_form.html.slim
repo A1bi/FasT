@@ -7,7 +7,7 @@
       = f.text_field :info
     - if policy(@type).permitted_attributes.include? :price
       = render 'form_field', form: f, attribute: :price, label: 'Preis', required: true
-      = f.number_field :price, step: :any, required: true
+        = f.number_field :price, step: :any, required: true
     = render 'form_field', form: f, attribute: :availability, label: 'Verfügbarkeit', required: true
       = f.select :availability, @type.class.availabilities.values.map { |a| [@type.class.human_enum_name(:availability, a), a] }, required: true
     - if policy(@type).permitted_attributes.include? :price
