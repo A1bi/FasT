@@ -14,7 +14,7 @@ RSpec.describe 'Ticketing::OrdersController' do
 
     let(:params) { { ticketing_order: { first_name: 'John' } } }
 
-    include_examples 'creates a log event', :updated
+    it_behaves_like 'creates a log event', :updated
   end
 
   describe 'POST #resend_confirmation' do
@@ -26,7 +26,7 @@ RSpec.describe 'Ticketing::OrdersController' do
         .with(a_hash_including(params: { order: }))
     end
 
-    include_examples 'creates a log event', :resent_confirmation
+    it_behaves_like 'creates a log event', :resent_confirmation
   end
 
   describe 'POST #resend_items' do
@@ -38,6 +38,6 @@ RSpec.describe 'Ticketing::OrdersController' do
         .with(a_hash_including(params: { order: }))
     end
 
-    include_examples 'creates a log event', :resent_items
+    it_behaves_like 'creates a log event', :resent_items
   end
 end

@@ -30,18 +30,18 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
     context 'with an already anonymized order' do
       let(:order) { create(:web_order, :with_tickets, :charge_payment, :anonymized) }
 
-      include_examples 'does not anonymize order'
+      it_behaves_like 'does not anonymize order'
     end
 
     context 'when there is one date and it is at least 6 weeks past' do
       before { order.tickets.first.date.update(date: 7.weeks.ago) }
 
-      include_examples 'anonymizes order'
+      it_behaves_like 'anonymizes order'
 
       context 'with unsettled billing' do
         before { order.billing_account.update(balance: 10) }
 
-        include_examples 'does not anonymize order'
+        it_behaves_like 'does not anonymize order'
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
         order.tickets.second.date.update(date: 8.weeks.ago)
       end
 
-      include_examples 'anonymizes order'
+      it_behaves_like 'anonymizes order'
     end
 
     context 'when at least one date is not 6 weeks past' do
@@ -65,11 +65,11 @@ RSpec.describe Ticketing::AnonymizeOrdersJob do
         order.tickets.first.date.update(date: 7.weeks.ago)
       end
 
-      include_examples 'does not anonymize order'
+      it_behaves_like 'does not anonymize order'
     end
 
     context 'when no dates are 6 weeks past' do
-      include_examples 'does not anonymize order'
+      it_behaves_like 'does not anonymize order'
     end
   end
 end

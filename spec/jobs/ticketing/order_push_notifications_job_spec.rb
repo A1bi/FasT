@@ -45,7 +45,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
       context 'with web order' do
         let(:order) { create(:web_order, :with_tickets) }
 
-        include_examples 'common payload'
+        it_behaves_like 'common payload'
 
         context 'with regular order' do
           it 'includes online in body' do
@@ -75,7 +75,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
           stub_const('Ticketing::TicketsRetailPdf', double.as_null_object)
         end
 
-        include_examples 'common payload'
+        it_behaves_like 'common payload'
 
         it 'includes retail store name in body' do
           expect(subscriptions).to all(receive(:push) do |payload|
@@ -88,7 +88,7 @@ RSpec.describe Ticketing::OrderPushNotificationsJob do
       context 'with box office order' do
         let(:order) { create(:box_office_order, :with_tickets) }
 
-        include_examples 'common payload'
+        it_behaves_like 'common payload'
 
         it 'includes box office in body' do
           expect(subscriptions).to all(receive(:push) do |payload|

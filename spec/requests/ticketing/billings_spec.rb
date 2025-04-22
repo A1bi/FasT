@@ -52,19 +52,19 @@ RSpec.describe 'Ticketing::BillingsController' do
             subject
           end
 
-          include_examples 'redirects to order details'
+          it_behaves_like 'redirects to order details'
         end
 
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not call any service'
+          it_behaves_like 'does not call any service'
         end
 
         context 'when unauthenticated' do
           let(:sign_in_user) { nil }
 
-          include_examples 'redirect unauthenticated'
+          it_behaves_like 'redirect unauthenticated'
         end
       end
 
@@ -80,19 +80,19 @@ RSpec.describe 'Ticketing::BillingsController' do
             subject
           end
 
-          include_examples 'redirects to order details'
+          it_behaves_like 'redirects to order details'
         end
 
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not call any service'
+          it_behaves_like 'does not call any service'
         end
 
         context 'when unauthenticated' do
           let(:sign_in_user) { nil }
 
-          include_examples 'redirect unauthenticated'
+          it_behaves_like 'redirect unauthenticated'
         end
       end
 
@@ -105,32 +105,32 @@ RSpec.describe 'Ticketing::BillingsController' do
             subject
           end
 
-          include_examples 'redirects to order details'
+          it_behaves_like 'redirects to order details'
         end
 
         context 'with an admin user' do
-          include_examples 'creates the billing'
+          it_behaves_like 'creates the billing'
         end
 
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
           context 'with a web order' do
-            include_examples 'does not call any service'
-            include_examples 'redirect unauthorized'
+            it_behaves_like 'does not call any service'
+            it_behaves_like 'redirect unauthorized'
           end
 
           context 'with a retail order' do
             let(:billable) { create(:retail_order, :with_purchased_coupons) }
 
-            include_examples 'creates the billing'
+            it_behaves_like 'creates the billing'
           end
         end
 
         context 'when unauthenticated' do
           let(:sign_in_user) { nil }
 
-          include_examples 'redirect unauthenticated'
+          it_behaves_like 'redirect unauthenticated'
         end
       end
 
@@ -145,20 +145,20 @@ RSpec.describe 'Ticketing::BillingsController' do
             subject
           end
 
-          include_examples 'redirects to order details'
+          it_behaves_like 'redirects to order details'
         end
 
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not call any service'
-          include_examples 'redirect unauthorized'
+          it_behaves_like 'does not call any service'
+          it_behaves_like 'redirect unauthorized'
         end
 
         context 'when unauthenticated' do
           let(:sign_in_user) { nil }
 
-          include_examples 'redirect unauthenticated'
+          it_behaves_like 'redirect unauthenticated'
         end
       end
     end
@@ -190,21 +190,21 @@ RSpec.describe 'Ticketing::BillingsController' do
             expect { subject }.to change { billable.reload.value }.by(2)
           end
 
-          include_examples 'redirects to coupon details'
+          it_behaves_like 'redirects to coupon details'
         end
 
         context 'with a retail user' do
           let(:sign_in_user) { sign_in(user: create(:retail_user)) }
 
-          include_examples 'does not change the balance'
-          include_examples 'redirect unauthorized'
+          it_behaves_like 'does not change the balance'
+          it_behaves_like 'redirect unauthorized'
         end
 
         context 'when unauthenticated' do
           let(:sign_in_user) { nil }
 
-          include_examples 'does not change the balance'
-          include_examples 'redirect unauthenticated'
+          it_behaves_like 'does not change the balance'
+          it_behaves_like 'redirect unauthenticated'
         end
       end
     end

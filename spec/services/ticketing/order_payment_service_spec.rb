@@ -37,23 +37,23 @@ RSpec.describe Ticketing::OrderPaymentService do
     end
 
     context 'with a web order' do
-      include_examples 'marks as paid'
-      include_examples 'creates a log event', :marked_as_paid
-      include_examples 'sends an email', :payment_received
+      it_behaves_like 'marks as paid'
+      it_behaves_like 'creates a log event', :marked_as_paid
+      it_behaves_like 'sends an email', :payment_received
     end
 
     context 'with a retail order' do
       let(:order) { create(:retail_order, :complete, :with_balance, :unpaid) }
 
-      include_examples 'marks as paid'
-      include_examples 'creates a log event', :marked_as_paid
+      it_behaves_like 'marks as paid'
+      it_behaves_like 'creates a log event', :marked_as_paid
     end
 
     context 'with an already paid order' do
       let(:order) { create(:web_order, :complete) }
 
-      include_examples 'does not create a log event'
-      include_examples 'does not send an email'
+      it_behaves_like 'does not create a log event'
+      it_behaves_like 'does not send an email'
 
       it 'does not create a billing' do
         expect { subject }.not_to change(Ticketing::Billing::Transaction, :count)
@@ -67,22 +67,22 @@ RSpec.describe Ticketing::OrderPaymentService do
     context 'with a web order' do
       let(:order) { create(:web_order, :complete, :unpaid) }
 
-      include_examples 'creates a log event', :sent_pay_reminder
-      include_examples 'sends an email', :pay_reminder
+      it_behaves_like 'creates a log event', :sent_pay_reminder
+      it_behaves_like 'sends an email', :pay_reminder
     end
 
     context 'with a retail order' do
       let(:order) { create(:retail_order, :complete, :unpaid) }
 
-      include_examples 'does not create a log event'
-      include_examples 'does not send an email'
+      it_behaves_like 'does not create a log event'
+      it_behaves_like 'does not send an email'
     end
 
     context 'with an already paid order' do
       let(:order) { create(:web_order, :complete) }
 
-      include_examples 'does not create a log event'
-      include_examples 'does not send an email'
+      it_behaves_like 'does not create a log event'
+      it_behaves_like 'does not send an email'
     end
   end
 end

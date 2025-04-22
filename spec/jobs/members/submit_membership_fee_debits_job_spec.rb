@@ -34,11 +34,11 @@ RSpec.describe Members::SubmitMembershipFeeDebitsJob do
         subject
       end
 
-      include_examples 'does nothing'
+      it_behaves_like 'does nothing'
     end
 
     context 'when no submittable payments exist' do
-      include_examples 'does nothing'
+      it_behaves_like 'does nothing'
     end
 
     context 'when any submittable payments exist' do
@@ -78,7 +78,7 @@ RSpec.describe Members::SubmitMembershipFeeDebitsJob do
       context 'when job is run twice' do
         before { described_class.perform_now }
 
-        include_examples 'does nothing'
+        it_behaves_like 'does nothing'
       end
     end
 

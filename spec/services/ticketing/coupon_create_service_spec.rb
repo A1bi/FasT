@@ -37,6 +37,6 @@ RSpec.describe Ticketing::CouponCreateService do
       end
     end
 
-    include_examples 'creates a log event for a new record', :created
+    it_behaves_like 'creates a log event for a new record', :created
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe Ticketing::OrderSearchService do
   context 'with an order number query' do
     let(:query) { order.number }
 
-    include_examples 'finds order'
+    it_behaves_like 'finds order'
   end
 
   context 'with a ticket number query' do
@@ -29,13 +29,13 @@ RSpec.describe Ticketing::OrderSearchService do
   context 'with a postcode query' do
     let(:query) { '12345' }
 
-    include_examples 'finds order'
+    it_behaves_like 'finds order'
   end
 
   context 'with a text query' do
     let(:query) { 'Freddie Mercury' }
 
-    include_examples 'finds order'
+    it_behaves_like 'finds order'
   end
 
   context 'when query does not match anything' do

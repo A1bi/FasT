@@ -94,7 +94,7 @@ RSpec.describe Ticketing::OrderCreateService do
         )
       end
 
-      include_examples 'creates a log event for a new record', :created do
+      it_behaves_like 'creates a log event for a new record', :created do
         let(:loggable) { order }
       end
     end
@@ -102,17 +102,17 @@ RSpec.describe Ticketing::OrderCreateService do
     context 'when params are invalid' do
       let(:address) { super().merge(email: 'foo') }
 
-      include_examples 'does not place the order'
+      it_behaves_like 'does not place the order'
     end
 
     context 'when order is invalid for other reasons (date cancelled in this case)' do
       before { event.dates.first.update(cancellation: build(:cancellation)) }
 
-      include_examples 'does not place the order'
+      it_behaves_like 'does not place the order'
     end
 
     context 'with a transfer payment' do
-      include_examples 'marks order as paid', false
+      it_behaves_like 'marks order as paid', false
     end
 
     context 'with charge payment' do
@@ -145,7 +145,7 @@ RSpec.describe Ticketing::OrderCreateService do
         expect(order.balance).to eq(0)
       end
 
-      include_examples 'marks order as paid', true
+      it_behaves_like 'marks order as paid', true
     end
 
     context 'with Stripe payment' do
@@ -168,7 +168,7 @@ RSpec.describe Ticketing::OrderCreateService do
         expect { subject }.not_to change(Ticketing::BankTransaction, :count)
       end
 
-      include_examples 'marks order as paid', true
+      it_behaves_like 'marks order as paid', true
     end
   end
 
@@ -188,6 +188,6 @@ RSpec.describe Ticketing::OrderCreateService do
       expect(store.billing_account.balance).to eq(-total_after_discount)
     end
 
-    include_examples 'marks order as paid', true
+    it_behaves_like 'marks order as paid', true
   end
 end

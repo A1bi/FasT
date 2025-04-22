@@ -47,7 +47,7 @@ RSpec.describe Ticketing::BoxOffice::PurchaseReceiptPdf do
     Prawn::Text::NBSP * number
   end
 
-  include_examples 'it has the correct number of pages', 1
+  it_behaves_like 'it has the correct number of pages', 1
 
   describe 'ticket items' do
     it 'contains descriptions for ticket items' do

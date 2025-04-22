@@ -75,29 +75,29 @@ RSpec.shared_examples 'tickets pdf renderer' do
   end
 
   context 'with one ticket' do
-    include_examples 'all pages have the correct layout'
-    include_examples 'renders the correct event information'
-    include_examples 'renders the correct ticket information'
+    it_behaves_like 'all pages have the correct layout'
+    it_behaves_like 'renders the correct event information'
+    it_behaves_like 'renders the correct ticket information'
   end
 
   context 'with three tickets' do
     let(:tickets_count) { 3 }
 
-    include_examples 'renders the correct ticket information'
+    it_behaves_like 'renders the correct ticket information'
   end
 
   context 'with four tickets' do
     let(:tickets_count) { 4 }
 
-    include_examples 'all pages have the correct layout'
-    include_examples 'renders the correct event information'
-    include_examples 'renders the correct ticket information'
+    it_behaves_like 'all pages have the correct layout'
+    it_behaves_like 'renders the correct event information'
+    it_behaves_like 'renders the correct ticket information'
   end
 
   context 'with nine tickets' do
     let(:tickets_count) { 9 }
 
-    include_examples 'renders the correct ticket information'
+    it_behaves_like 'renders the correct ticket information'
   end
 
   context 'with a cancelled ticket' do

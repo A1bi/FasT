@@ -59,7 +59,7 @@ RSpec.describe Ticketing::TicketCancelService do
         subject
       end
 
-      include_examples 'cancellation confirmation sending', nil
+      it_behaves_like 'cancellation confirmation sending', nil
     end
 
     context 'with refund requested' do
@@ -71,10 +71,10 @@ RSpec.describe Ticketing::TicketCancelService do
         subject
       end
 
-      include_examples 'cancellation confirmation sending', :foo_transaction
+      it_behaves_like 'cancellation confirmation sending', :foo_transaction
     end
 
-    include_examples 'creates a log event', :cancelled_tickets do
+    it_behaves_like 'creates a log event', :cancelled_tickets do
       let(:loggable) { order }
       let(:info) { { count: 3, reason: } }
     end
@@ -82,7 +82,7 @@ RSpec.describe Ticketing::TicketCancelService do
     context 'with a cancellation by customer' do
       let(:reason) { :self_service }
 
-      include_examples 'creates a log event', :cancelled_tickets_by_customer do
+      it_behaves_like 'creates a log event', :cancelled_tickets_by_customer do
         let(:loggable) { order }
         let(:info) { { count: 3 } }
       end

@@ -45,8 +45,8 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     end
 
     context 'without coupons to redeem' do
-      include_examples 'renders totals'
-      include_examples 'no redeemed coupons'
+      it_behaves_like 'renders totals'
+      it_behaves_like 'no redeemed coupons'
     end
 
     context 'with coupons to redeem' do
@@ -77,13 +77,13 @@ RSpec.describe 'Api::Ticketing::OrdersController' do
     context 'with an invalid coupon to redeem' do
       let(:coupons) { create_list(:coupon, 1, :expired) }
 
-      include_examples 'no redeemed coupons'
+      it_behaves_like 'no redeemed coupons'
     end
 
     context 'with an event with seating plan' do
       let(:event) { create(:event, :complete, :with_seating) }
 
-      include_examples 'renders totals'
+      it_behaves_like 'renders totals'
     end
   end
 end

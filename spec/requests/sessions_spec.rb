@@ -19,7 +19,7 @@ RSpec.describe 'Sessions' do
     context 'with a regular user' do
       let(:user) { create(:user, password:) }
 
-      include_examples 'does not show a warning'
+      it_behaves_like 'does not show a warning'
     end
 
     context 'with an admin' do
@@ -28,7 +28,7 @@ RSpec.describe 'Sessions' do
       context 'when WebAuthn credentials exist' do
         before { create(:web_authn_credential, user:) }
 
-        include_examples 'does not show a warning'
+        it_behaves_like 'does not show a warning'
       end
 
       context 'when WebAuthn credentials do not exist' do

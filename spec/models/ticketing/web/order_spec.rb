@@ -29,13 +29,13 @@ RSpec.describe Ticketing::Web::Order do
     context 'with charge payment' do
       let(:pay_method) { :charge_payment }
 
-      include_examples 'no error on pay_method'
+      it_behaves_like 'no error on pay_method'
     end
 
     context 'with Stripe payment' do
       let(:pay_method) { :stripe_payment }
 
-      include_examples 'no error on pay_method'
+      it_behaves_like 'no error on pay_method'
 
       context 'with existing order' do
         subject! { create(:web_order, :complete, :stripe_payment) }

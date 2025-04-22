@@ -41,7 +41,7 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
     end
 
     context 'when no transactions are submittable' do
-      include_examples 'does nothing'
+      it_behaves_like 'does nothing'
     end
 
     context 'when only debits are submittable' do
@@ -135,7 +135,7 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
       context 'when job is run twice' do
         before { described_class.perform_now }
 
-        include_examples 'does nothing'
+        it_behaves_like 'does nothing'
       end
     end
 

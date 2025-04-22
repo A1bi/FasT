@@ -18,13 +18,13 @@ RSpec.shared_examples 'spam honeypot' do |model|
     context 'when comment is not empty' do
       let(:comment) { 'foo' }
 
-      include_examples 'spam request handling', model
+      it_behaves_like 'spam request handling', model
     end
 
     context 'when comment is a newline' do
       let(:comment) { "\n" }
 
-      include_examples 'spam request handling', model
+      it_behaves_like 'spam request handling', model
     end
   end
 end
@@ -40,14 +40,14 @@ RSpec.shared_examples 'spam param filter' do |model, field_name, max_length|
     context 'when field contains a URL' do
       let(:value) { 'hello foo https://example.com hey' }
 
-      include_examples 'spam request handling', model
+      it_behaves_like 'spam request handling', model
     end
 
     if max_length
       context 'when field is longer than max_length' do
         let(:value) { "hello foo #{'a' * max_length}" }
 
-        include_examples 'spam request handling', model
+        it_behaves_like 'spam request handling', model
       end
     end
   end

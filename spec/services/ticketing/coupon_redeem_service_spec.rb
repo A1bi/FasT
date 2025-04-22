@@ -126,7 +126,7 @@ RSpec.describe Ticketing::CouponRedeemService do
       context 'when free tickets coupon redemption is not desired' do
         let(:execution_params) { { free_tickets: false } }
 
-        include_examples 'does not redeem free tickets'
+        it_behaves_like 'does not redeem free tickets'
       end
     end
   end
@@ -240,7 +240,7 @@ RSpec.describe Ticketing::CouponRedeemService do
   end
 
   context 'with coupons with mixed value types' do
-    include_examples 'mixed redemption'
+    it_behaves_like 'mixed redemption'
   end
 
   context 'when executed multiple times with different params' do
@@ -250,7 +250,7 @@ RSpec.describe Ticketing::CouponRedeemService do
       order.save
     end
 
-    include_examples 'mixed redemption'
+    it_behaves_like 'mixed redemption'
   end
 
   context 'with a coupon already added to this order previously' do

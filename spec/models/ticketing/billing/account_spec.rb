@@ -43,7 +43,7 @@ RSpec.describe Ticketing::Billing::Account do
     context 'with zero amount' do
       let(:amount) { 0 }
 
-      include_examples 'does not update balance or create transaction'
+      it_behaves_like 'does not update balance or create transaction'
     end
   end
 
@@ -52,11 +52,11 @@ RSpec.describe Ticketing::Billing::Account do
       let(:amount) { 10 }
       let(:transferred_amount) { amount * (negative ? -1 : 1) }
 
-      include_examples 'updates the balance'
-      include_examples 'creates a transaction'
+      it_behaves_like 'updates the balance'
+      it_behaves_like 'creates a transaction'
     end
 
-    include_examples 'amount is zero'
+    it_behaves_like 'amount is zero'
   end
 
   shared_examples 'balance method' do
@@ -105,7 +105,7 @@ RSpec.describe Ticketing::Billing::Account do
         account.save
       end
 
-      include_examples 'transfer of amount'
+      it_behaves_like 'transfer of amount'
     end
 
     context 'when depositing twice' do
@@ -117,7 +117,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:amount) { 10 }
       let(:transferred_amount) { amount * 2 }
 
-      include_examples 'updates the balance'
+      it_behaves_like 'updates the balance'
     end
   end
 
@@ -131,7 +131,7 @@ RSpec.describe Ticketing::Billing::Account do
         account.save
       end
 
-      include_examples 'transfer of amount', true
+      it_behaves_like 'transfer of amount', true
     end
 
     context 'when withdrawing twice' do
@@ -143,7 +143,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:amount) { 10 }
       let(:transferred_amount) { -amount * 2 }
 
-      include_examples 'updates the balance'
+      it_behaves_like 'updates the balance'
     end
   end
 
@@ -159,9 +159,9 @@ RSpec.describe Ticketing::Billing::Account do
     let(:note_key) { :foobar }
 
     shared_examples 'updates the balance and creates transaction' do
-      include_examples 'updates the balance'
-      include_examples 'creates a transaction'
-      include_examples 'amount is zero'
+      it_behaves_like 'updates the balance'
+      it_behaves_like 'creates a transaction'
+      it_behaves_like 'amount is zero'
 
       it 'sets the participant' do
         subject
@@ -176,7 +176,7 @@ RSpec.describe Ticketing::Billing::Account do
       context 'when recipient is sender' do
         let(:recipient) { sender }
 
-        include_examples 'does not update balance or create transaction'
+        it_behaves_like 'does not update balance or create transaction'
       end
     end
 
@@ -185,7 +185,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:participant) { recipient }
       let(:transferred_amount) { -amount }
 
-      include_examples 'updates the balance and creates transaction'
+      it_behaves_like 'updates the balance and creates transaction'
     end
 
     context 'when checking the recipient\'s account' do
@@ -193,7 +193,7 @@ RSpec.describe Ticketing::Billing::Account do
       let(:participant) { sender }
       let(:transferred_amount) { amount }
 
-      include_examples 'updates the balance and creates transaction'
+      it_behaves_like 'updates the balance and creates transaction'
     end
   end
 
@@ -204,7 +204,7 @@ RSpec.describe Ticketing::Billing::Account do
     let(:expectation_positive) { false }
     let(:expectation_negative) { true }
 
-    include_examples 'balance method'
+    it_behaves_like 'balance method'
   end
 
   describe '#credit?' do
@@ -214,7 +214,7 @@ RSpec.describe Ticketing::Billing::Account do
     let(:expectation_positive) { true }
     let(:expectation_negative) { false }
 
-    include_examples 'balance method'
+    it_behaves_like 'balance method'
   end
 
   describe '#settled?' do
@@ -224,6 +224,6 @@ RSpec.describe Ticketing::Billing::Account do
     let(:expectation_positive) { false }
     let(:expectation_negative) { false }
 
-    include_examples 'balance method'
+    it_behaves_like 'balance method'
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe 'Members::Member' do
     end
 
     context 'with a known email address' do
-      include_examples 'successful message'
+      it_behaves_like 'successful message'
 
       it 'sends an email with instructions' do
         expect { subject }.to have_enqueued_mail(Members::MemberMailer, :reset_password)
@@ -28,7 +28,7 @@ RSpec.describe 'Members::Member' do
     context 'with an unknown email address' do
       let(:email) { 'foo@bar.com' }
 
-      include_examples 'successful message'
+      it_behaves_like 'successful message'
 
       it 'does not send an email with instructions' do
         expect { subject }.not_to have_enqueued_mail(Members::MemberMailer)

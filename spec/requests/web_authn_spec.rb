@@ -66,13 +66,13 @@ RSpec.describe 'WebAuthn' do
     context 'with authenticated user' do
       before { sign_in(user:) }
 
-      include_examples 'returns valid options'
+      it_behaves_like 'returns valid options'
     end
 
     context 'with activation token' do
       let(:params) { { activation_token: user.generate_token_for(:activation) } }
 
-      include_examples 'returns valid options'
+      it_behaves_like 'returns valid options'
     end
   end
 
@@ -99,8 +99,8 @@ RSpec.describe 'WebAuthn' do
         expect(flash[:notice]).to include('erfolgreich aktiviert')
       end
 
-      include_examples 'creates a credential'
-      include_examples 'user login'
+      it_behaves_like 'creates a credential'
+      it_behaves_like 'user login'
     end
 
     context 'with an invalid challenge response' do
@@ -128,7 +128,7 @@ RSpec.describe 'WebAuthn' do
         expect(flash[:notice]).to include('wurde hinzugefügt')
       end
 
-      include_examples 'creates a credential'
+      it_behaves_like 'creates a credential'
     end
   end
 
@@ -171,10 +171,10 @@ RSpec.describe 'WebAuthn' do
     context 'with a valid challenge response' do
       it 'returns goto path' do
         subject
-        expect(response.parsed_body).to eq('goto_path' => members_root_path)
+        expect(response.parsed_body).to eq('goto_path' => root_path)
       end
 
-      include_examples 'user login'
+      it_behaves_like 'user login'
     end
 
     context 'with an invalid challenge response' do

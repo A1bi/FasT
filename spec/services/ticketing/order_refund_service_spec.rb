@@ -44,7 +44,7 @@ RSpec.describe Ticketing::OrderRefundService do
         )
       end
 
-      include_examples 'without credit'
+      it_behaves_like 'without credit'
     end
 
     context 'when only submitted bank transactions exist' do
@@ -63,8 +63,8 @@ RSpec.describe Ticketing::OrderRefundService do
           .to eq(previous.attributes.slice('name', 'iban'))
       end
 
-      include_examples 'creates a new bank transaction with the correct amount'
-      include_examples 'without credit'
+      it_behaves_like 'creates a new bank transaction with the correct amount'
+      it_behaves_like 'without credit'
     end
 
     context 'when no bank transactions exist' do
@@ -93,8 +93,8 @@ RSpec.describe Ticketing::OrderRefundService do
       it { is_expected.to be_falsy }
     end
 
-    include_examples 'creates a new bank transaction with the correct amount'
-    include_examples 'without credit'
+    it_behaves_like 'creates a new bank transaction with the correct amount'
+    it_behaves_like 'without credit'
   end
 
   context 'with Stripe payment' do
@@ -109,6 +109,6 @@ RSpec.describe Ticketing::OrderRefundService do
       subject
     end
 
-    include_examples 'without credit'
+    it_behaves_like 'without credit'
   end
 end

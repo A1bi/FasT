@@ -29,6 +29,6 @@ RSpec.describe Ticketing::OrderMailer do
   describe '#confirmation' do
     subject(:mail) { mailer.confirmation }
 
-    include_examples 'basic email properties', 'Ihre Bestellung'
+    it_behaves_like 'basic email properties', 'Ihre Bestellung'
   end
 end

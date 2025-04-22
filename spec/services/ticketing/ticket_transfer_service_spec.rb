@@ -20,12 +20,12 @@ RSpec.describe Ticketing::TicketTransferService do
     end
   end
 
-  include_examples 'changes dates'
+  it_behaves_like 'changes dates'
 
   context 'when not enough seats are available' do
     before { event.update(number_of_seats: 1) }
 
-    include_examples 'changes dates'
+    it_behaves_like 'changes dates'
 
     context 'when in customer mode' do
       let(:by_customer) { true }

@@ -12,8 +12,8 @@ RSpec.describe Ticketing::CouponPdf do
 
   include_context 'when loading of SVG files'
 
-  include_examples 'it has the correct number of pages', 1
-  include_examples 'all pages have the correct layout'
+  it_behaves_like 'it has the correct number of pages', 1
+  it_behaves_like 'all pages have the correct layout'
 
   it 'contains the correct coupon information' do
     expect(text_analysis.strings).to include('Gutschein', coupon.code, '12,34 ', '€')

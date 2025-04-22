@@ -72,7 +72,7 @@ RSpec.describe 'Ticketing::TicketsController' do
         end
       end
 
-      include_examples 'general cancellation'
+      it_behaves_like 'general cancellation'
     end
 
     context 'with a retail store user' do
@@ -82,7 +82,7 @@ RSpec.describe 'Ticketing::TicketsController' do
 
       before { user.store.billing_account.update(balance: -100) }
 
-      include_examples 'general cancellation'
+      it_behaves_like 'general cancellation'
 
       context 'with refund wanted' do
         before { params[:retail_refund] = true }

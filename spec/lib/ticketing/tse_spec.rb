@@ -172,13 +172,13 @@ RSpec.describe Ticketing::Tse do
     describe '#send_command' do
       subject { service.send_command(command_name, params) }
 
-      include_examples 'common command sending'
+      it_behaves_like 'common command sending'
     end
 
     describe '#send_admin_command' do
       subject { service.send_admin_command(command_name, params) }
 
-      include_examples 'common command sending'
+      it_behaves_like 'common command sending'
 
       it 'sends the base64 encoded admin password as part of the params' do
         expect_payload_param(:Password, 'Zm9vYWRtaW4=')
@@ -188,7 +188,7 @@ RSpec.describe Ticketing::Tse do
     describe '#send_time_admin_command' do
       subject { service.send_time_admin_command(command_name, params) }
 
-      include_examples 'common command sending'
+      it_behaves_like 'common command sending'
 
       it 'sends the base64 encoded time admin password as part of the params' do
         expect_payload_param(:Password, 'YmFydGltZQ==')

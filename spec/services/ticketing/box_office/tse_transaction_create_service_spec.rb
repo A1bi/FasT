@@ -163,7 +163,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '54.06_0.00_0.00_0.00_0.00' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'finishes the transaction'
+        it_behaves_like 'finishes the transaction'
       end
 
       context 'with the reduced VAT rate' do
@@ -174,7 +174,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '0.00_54.06_0.00_0.00_0.00' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'finishes the transaction'
+        it_behaves_like 'finishes the transaction'
       end
 
       context 'with the zero VAT rate' do
@@ -185,7 +185,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '0.00_0.00_0.00_0.00_54.06' }
         let(:payments) { '54.06:Bar' }
 
-        include_examples 'finishes the transaction'
+        it_behaves_like 'finishes the transaction'
       end
 
       context 'with multiple different VAT rates' do
@@ -202,7 +202,7 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         let(:vat_totals) { '10.18_24.11_0.00_0.00_0.00' }
         let(:payments) { '34.29:Bar' }
 
-        include_examples 'finishes the transaction'
+        it_behaves_like 'finishes the transaction'
       end
 
       describe 'payments' do
@@ -219,14 +219,14 @@ RSpec.describe Ticketing::BoxOffice::TseTransactionCreateService do
         context 'with cash payment' do
           let(:payments) { '7.38:Bar' }
 
-          include_examples 'finishes the transaction'
+          it_behaves_like 'finishes the transaction'
         end
 
         context 'with cashless payment' do
           let(:pay_method) { 'electronic_cash' }
           let(:payments) { '7.38:Unbar' }
 
-          include_examples 'finishes the transaction'
+          it_behaves_like 'finishes the transaction'
         end
       end
     end

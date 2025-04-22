@@ -56,7 +56,7 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.to change(order.billing_account, :balance).by(ticket_price)
       end
 
-      include_examples 'money transfer' do
+      it_behaves_like 'money transfer' do
         let(:amount) { ticket_price }
       end
     end
@@ -75,7 +75,7 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.to change(order.billing_account, :balance).by(diff)
       end
 
-      include_examples 'money transfer' do
+      it_behaves_like 'money transfer' do
         let(:amount) { diff }
       end
     end
@@ -89,19 +89,19 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.to change(order.billing_account, :balance).from(previous_balance).to(0)
       end
 
-      include_examples 'money transfer' do
+      it_behaves_like 'money transfer' do
         let(:amount) { -previous_balance }
       end
     end
 
     context 'with a positive balance' do
-      include_examples 'settles balance'
+      it_behaves_like 'settles balance'
     end
 
     context 'with a negative balance' do
       let(:previous_balance) { -44 }
 
-      include_examples 'settles balance'
+      it_behaves_like 'settles balance'
     end
   end
 
@@ -124,7 +124,7 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(35)
       end
 
-      include_examples 'sets transaction note', 'bank_charge_payment'
+      it_behaves_like 'sets transaction note', 'bank_charge_payment'
     end
 
     context 'with a positive order balance' do
@@ -134,7 +134,7 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.to change { order.open_bank_transaction.reload.amount }.to eq(-15)
       end
 
-      include_examples 'sets transaction note', 'transfer_refund'
+      it_behaves_like 'sets transaction note', 'transfer_refund'
     end
 
     context 'without an open bank transaction' do
@@ -184,13 +184,13 @@ RSpec.describe Ticketing::OrderBillingService do
       end
 
       context 'with Apple Pay' do
-        include_examples 'sets transaction note', 'apple_pay_payment'
+        it_behaves_like 'sets transaction note', 'apple_pay_payment'
       end
 
       context 'with Google Pay' do
         let(:stripe_method) { :google_pay }
 
-        include_examples 'sets transaction note', 'google_pay_payment'
+        it_behaves_like 'sets transaction note', 'google_pay_payment'
       end
     end
 
@@ -214,13 +214,13 @@ RSpec.describe Ticketing::OrderBillingService do
       end
 
       context 'with Apple Pay' do
-        include_examples 'sets transaction note', 'apple_pay_refund'
+        it_behaves_like 'sets transaction note', 'apple_pay_refund'
       end
 
       context 'with Google Pay' do
         let(:stripe_method) { :google_pay }
 
-        include_examples 'sets transaction note', 'google_pay_refund'
+        it_behaves_like 'sets transaction note', 'google_pay_refund'
       end
     end
 
@@ -258,7 +258,7 @@ RSpec.describe Ticketing::OrderBillingService do
         )
       end
 
-      include_examples 'sets transaction note', 'cash_in_store'
+      it_behaves_like 'sets transaction note', 'cash_in_store'
     end
 
     context 'with a positive balance' do
@@ -273,7 +273,7 @@ RSpec.describe Ticketing::OrderBillingService do
     context 'with a web order' do
       let(:order) { create(:web_order, :with_purchased_coupons) }
 
-      include_examples 'does not change the balance'
+      it_behaves_like 'does not change the balance'
     end
   end
 
@@ -283,7 +283,7 @@ RSpec.describe Ticketing::OrderBillingService do
     context 'with a web order' do
       let(:order) { create(:web_order, :with_purchased_coupons) }
 
-      include_examples 'does not change the balance'
+      it_behaves_like 'does not change the balance'
     end
 
     context 'with a retail order' do
@@ -292,7 +292,7 @@ RSpec.describe Ticketing::OrderBillingService do
       context 'with a negative balance' do
         let(:previous_balance) { -55 }
 
-        include_examples 'does not change the balance'
+        it_behaves_like 'does not change the balance'
       end
 
       context 'with a positive balance' do
@@ -300,7 +300,7 @@ RSpec.describe Ticketing::OrderBillingService do
           expect { subject }.to change(order.billing_account, :balance).from(previous_balance).to(0)
         end
 
-        include_examples 'sets transaction note', 'cash_refund_in_store'
+        it_behaves_like 'sets transaction note', 'cash_refund_in_store'
       end
     end
   end
@@ -315,19 +315,19 @@ RSpec.describe Ticketing::OrderBillingService do
           .from(previous_balance).to(previous_balance + amount)
       end
 
-      include_examples 'sets transaction note', 'correction'
+      it_behaves_like 'sets transaction note', 'correction'
     end
 
     context 'with a positive amount' do
       let(:amount) { 22 }
 
-      include_examples 'adjusts balance'
+      it_behaves_like 'adjusts balance'
     end
 
     context 'with a negative amount' do
       let(:amount) { -44 }
 
-      include_examples 'adjusts balance'
+      it_behaves_like 'adjusts balance'
     end
   end
 
@@ -339,13 +339,13 @@ RSpec.describe Ticketing::OrderBillingService do
         expect { subject }.not_to(change { coupon.reload.value })
       end
 
-      include_examples 'does not change the balance'
+      it_behaves_like 'does not change the balance'
     end
 
     context 'with a coupon without credit' do
       let(:coupon) { create(:coupon) }
 
-      include_examples 'changes neither order nor coupon balance'
+      it_behaves_like 'changes neither order nor coupon balance'
     end
 
     context 'with a coupon with credit' do
@@ -361,11 +361,11 @@ RSpec.describe Ticketing::OrderBillingService do
           )
         end
 
-        include_examples 'sets transaction note', 'redeemed_coupon'
+        it_behaves_like 'sets transaction note', 'redeemed_coupon'
       end
 
       context 'when order has credit' do
-        include_examples 'changes neither order nor coupon balance'
+        it_behaves_like 'changes neither order nor coupon balance'
       end
 
       context 'when order has balance greather than coupon credit' do

@@ -75,50 +75,50 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let!(:existing_transaction) { create(:bank_transaction, :received) }
     let(:sha) { existing_transaction.raw_source_sha }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
   context 'when transaction is a direct debit' do
     let(:mref) { 'foo' }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
   context 'when no transaction are returned from the bank' do
     let(:transactions) { [] }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
-  include_examples 'matches transaction'
+  it_behaves_like 'matches transaction'
 
   context 'with reference missing keyword' do
     let(:reference) { order.number.to_s }
 
-    include_examples 'matches transaction'
+    it_behaves_like 'matches transaction'
   end
 
   context 'with reference including too many numbers' do
     let(:reference) { "1#{order.number}" }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
   context 'with reference not matching anything' do
     let(:reference) { '987654' }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
   context 'when order is already paid' do
     let(:order) { create(:order, :complete) }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 
   context 'when order balance does not match transaction amount' do
     let(:amount) { 999 }
 
-    include_examples 'does not match transaction'
+    it_behaves_like 'does not match transaction'
   end
 end

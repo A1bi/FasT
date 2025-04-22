@@ -30,27 +30,27 @@ RSpec.describe Members::Member do
     context 'when membership is cancelled' do
       let(:member) { create(:member, :membership_cancelled) }
 
-      include_examples 'no renewal'
+      it_behaves_like 'no renewal'
     end
 
     context 'when membership is not due for renewal' do
       let(:member) { create(:member, :membership_fee_paid) }
 
-      include_examples 'no renewal'
+      it_behaves_like 'no renewal'
     end
 
     context 'when no membership fee payment has been made before' do
       let(:member) { create(:member) }
       let(:paid_until) { 6.months.after(Time.zone.yesterday) }
 
-      include_examples 'renewal'
+      it_behaves_like 'renewal'
     end
 
     context 'when membership is due for renewal' do
       let(:member) { create(:member, membership_fee_paid_until: 4.days.ago) }
       let(:paid_until) { 6.months.after(4.days.ago).to_date }
 
-      include_examples 'renewal'
+      it_behaves_like 'renewal'
     end
   end
 end
