@@ -1,0 +1,31 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 60,
+    break_duration: 30,
+    info_box: {
+      event: {
+        'Leitung' => 'Brigitte Unterrainer'
+      }
+    },
+    poster_filename: 'Plakat'
+  }
+  styling = {
+    colors: ['F4F1EF', 'AB7634', '16010C', 'DB9163', 'C4C7C8'],
+    stroke_logo_dark: true
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', title: 'Über das Konzert', details:
+    p Im <b>Spielkreis für Alte Musik Trier</b>, hervorgegangen aus einem Kreis für Hausmusik, haben sich Liebhaber der Musik des Mittelalters und der Renaissancemusik zusammengefunden. Das Repertoire umfasst Lieder, Motetten und Instrumentalstücke aus der Zeit des 12. bis 16. Jahrhundert.
+    p Die Instrumente sind Kopien historischer Vorbilder: Blockflöten, Krummhörner, Cornamusen, Gemshörner, Schalmei, Pommern, Dulzian, Posaune, Gambe, Fidel, Laute, Psalter, Kastenleier, Scheitholt, Schlagwerk.
+    p Die Musik dieser Zeit wurde nicht für den Konzertsaal geschrieben, sondern war Unterhaltungs- oder Hausmusik. Je nach den Möglichkeiten und Fähigkeiten der Mitwirkenden wurde die Instrumentierung zusammengestellt.
+    p Das Improvisieren ist ein wesentlicher Bestandteil der Musik dieser Zeit. Dies gilt besonders für die Musik der Spielleute. Sie wurde lange Zeit nur mündlich überliefert.
+    p Angesichts eines heutigen perfektionierten Musikbetriebs liegt dem Ensemble der Reiz dieser Musik in der freien Gestaltung und Improvisation, und so versteht der Spielkreis den Sinn seiner öffentlichen Darbietungen: Musik zum Selbermachen vorzustellen.
+
+  = render 'photos'
+  = render 'tickets'
+  = render 'faq', details:
