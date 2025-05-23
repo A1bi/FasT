@@ -216,7 +216,9 @@ export default class {
   setStatusForSeat (seat, status) {
     seat.classList.remove(`status-${seat.dataset.status}`)
     seat.classList.add('status-' + status)
-    seat.querySelector('use').setAttribute('xlink:href', `#seat-${status}`)
+    const use = seat.querySelector('use')
+    const attr = use.hasAttribute('xlink:href') ? 'xlink:href' : 'href'
+    use.setAttribute(attr, `#seat-${status}`)
     seat.dataset.status = status
   }
 

@@ -28,7 +28,7 @@ export default class extends Seating {
     this.setStatusForSeat(seat, selected ? 'available' : 'exclusive')
   }
 
-  setSelectedSeats (seatIds = []) {
+  setSelectedSeats (seatIds) {
     this.resetSeats()
     this.markSeats(seatIds, 'exclusive', seatId => this.selectedSeats.push(seatId))
   }
@@ -42,7 +42,7 @@ export default class extends Seating {
     this.markSeats(Object.keys(this.seats), 'available')
   }
 
-  markSeats (seatIds, status, callback) {
+  markSeats (seatIds = [], status, callback) {
     for (const seatId of seatIds) {
       const seat = this.seats[seatId]
       if (!seat) continue
