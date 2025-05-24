@@ -112,3 +112,5 @@ events:
     name: Gedichte im Dunkeln
   - identifier: sankt_martin_gans
     name: Sankt Martin und seine Gans
+  - identifier: feuerzangenbowle
+    name: Die Feuerzangenbowle
