@@ -2,9 +2,13 @@ h3 Preise
 - if @event.free?
   p <b>Der Eintritt ist frei.</b> Bitte reservieren Sie Ihre Freikarten <a href="#{new_ticketing_order_path(@event.slug)}">hier</a>.
 - else
-  - @ticket_types.universal.each do |type|
-    .card.mb-2: .row
-      .col-8
-        = type.name
-        small.d-block = type.info
-      .col-4.f-lbi.text-end = number_to_currency(type.price)
+  .card
+    ul.style-none.d-flex.flex-wrap.flex-gap-1
+      - @ticket_types.universal.each do |type|
+        li.d-flex.w-100
+          i.bi.bi-ticket-detailed.me-1
+          .d-flex.justify-content-space-between.w-100
+            div
+              = type.name
+              .small = type.info
+            .f-lbi = number_to_currency(type.price)

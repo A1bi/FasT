@@ -1,5 +1,5 @@
 .d-flex.align-items-center class=local_assigns[:class]
   i.bi.bi-geo-alt-fill.me-1
   div
-    = event.location.name
+    .f-lbi = event.location.name
     small.d-block = link_to_if local_assigns[:link_to_map], event.location.address, event_path(event.slug, anchor: 'anfahrt')

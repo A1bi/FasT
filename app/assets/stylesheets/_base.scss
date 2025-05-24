@@ -223,6 +223,10 @@ iframe {
   border-bottom: 1px solid $black;
 }
 
+.bg-primary {
+  background: var(--body-bg);
+}
+
 .plane {
   > *:first-child {
     @extend %mt-0;

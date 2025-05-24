@@ -15,9 +15,7 @@ hr
     = question_answer 'Wo erhalte ich Tickets?' do
       - if details[:retail_sale]
         p Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path(@event.slug)} bestellen oder Sie besuchen eine unserer folgenden Vorverkaufsstellen:
-        ul.mb-0
-          li: a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
-          li: a href='http://layaa.de' Buchhandlung Layaa-Laulhé, Cochem
+        .ps-1 = render 'retail_stores'
       - else
         p Tickets können Sie bequem von zu Hause aus #{link_to 'online', new_ticketing_order_path(@event.slug)} bestellen.
 

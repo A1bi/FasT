@@ -1,14 +1,16 @@
-p.mt-2
-  - sale_start = l(@event.sale_start, format: '%-d. %B %Y')
+h3 Vorverkauf
+- sale_start = l(@event.sale_start, format: '%-d. %B %Y')
+.card
+  .text-center.mb-2
+    .px-4.py-1.bg-primary.d-sm-block.d-md-inline-block ab <b>#{sale_start}</b>
+  .d-flex.flex-wrap.flex-gap-1
+    .d-flex.flex-gap-1.w-100
+      i.bi.bi-hand-index-thumb
+      = link_to 'Online', new_ticketing_order_path(@event.slug)
+    .d-flex.flex-gap-1.w-100
+      i.bi.bi-telephone
+      div
+        span Hotline
+        a.small.d-block href='tel:+492653282709' (02653) 282709
   - if local_assigns[:retail]
-    | Tickets <b>ab #{sale_start}</b> hier online und in folgenden Vorverkaufsstellen:
-  - else
-    | Tickets <b>ab #{sale_start}</b> hier im Online-Vorverkauf.
-- if local_assigns[:retail]
-  ul.style-none.ps-2
-    li.d-flex.align-items-center
-      i.bi.bi-geo-alt-fill.me-1
-      a href='https://buchhandlung-walgenbach.de' Buchhandlung Walgenbach, Kaisersesch
-    li.d-flex.align-items-center
-      i.bi.bi-geo-alt-fill.me-1
-      a href='https://layaa.de' Buchhandlung Layaa-Laulhé, Cochem
+    .mt-1 = render 'retail_stores'

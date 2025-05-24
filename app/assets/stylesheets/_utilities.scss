@@ -34,7 +34,7 @@
 @include utility-set(text, text-align, (start: left, center: center, end: right), true);
 @include utility-set(d, display, (block, inline, inline-block, flex, none), true);
 @include utility-set(align-items, align-items, (start, center, end, stretch));
-@include utility-set(justify-content, justify-content, (start, center, end));
+@include utility-set(justify-content, justify-content, (start, center, end, space-between));
 @include utility-set(align, vertical-align, (middle));
 @include utility-set(w, width, (100: 100%));
 @include utility-set(h, height, (100: 100%, 50vh: 50vh, 100vh: 100vh));
@@ -61,6 +61,8 @@
 
     @include utility-class(#{$abbreviation}-#{$step}, $property, spacing($step));
   }
+
+  @include utility-class(flex-gap-#{$step}, gap, spacing($step));
 }
 
 @include utility-class(mx-auto, (margin-left, margin-right), auto);
