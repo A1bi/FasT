@@ -2,9 +2,9 @@
 
 module Ticketing
   class WebPushNotificationsJob < ApplicationJob
-    def perform(subscription, data:)
+    def perform(subscription, notification:)
       WebPush.payload_send(
-        message: data.to_json,
+        message: message(notification).to_json,
         endpoint: subscription.endpoint,
         p256dh: subscription.p256dh,
         auth: subscription.auth,
@@ -20,6 +20,17 @@ module Ticketing
       raise unless e.response.is_a?(Net::HTTPBadRequest)
 
       subscription.destroy
+    end
+
+    private
+
+    def message(notification)
+      {
+        web_push: 8030,
+        notification:,
+        # TODO: remove this after grace period for service worker updates
+        **notification
+      }
     end
   end
 end

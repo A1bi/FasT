@@ -15,7 +15,6 @@ export default class extends Controller {
     if (!this.supported) return
 
     this.serviceWorkerRegistration = await navigator.serviceWorker.register('/ticketing_service_worker.js')
-    this.serviceWorkerRegistration.active.postMessage('opened_app')
 
     this.updateSelf()
 

@@ -8,8 +8,8 @@ module Ticketing
       validates :endpoint, :p256dh, :auth, presence: true
       validates :endpoint, uniqueness: true
 
-      def push(data)
-        Ticketing::WebPushNotificationsJob.perform_later(self, data:)
+      def push(notification)
+        Ticketing::WebPushNotificationsJob.perform_later(self, notification:)
       end
     end
   end

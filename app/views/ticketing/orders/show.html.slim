@@ -10,7 +10,7 @@ ruby:
     ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]]
   ]
 
-.container
+.container data-controller='ticketing--app-badge'
   h1 Bestellung
   .row
     .col-12.col-md-8

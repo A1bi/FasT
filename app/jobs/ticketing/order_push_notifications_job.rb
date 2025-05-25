@@ -9,7 +9,7 @@ module Ticketing
       @admin = admin
 
       subscriptions.find_each do |subscription|
-        subscription.push(title:, body:, order_url:)
+        subscription.push(notification)
       end
     end
 
@@ -17,6 +17,18 @@ module Ticketing
 
     def subscriptions
       Ticketing::PushNotifications::WebSubscription.all
+    end
+
+    def notification
+      {
+        title:,
+        body:,
+        navigate:,
+        silent: false,
+        mutable: true,
+        # TODO: remove this after grace period for service worker updates
+        order_url: navigate
+      }
     end
 
     def title
@@ -38,7 +50,7 @@ module Ticketing
       )
     end
 
-    def order_url
+    def navigate
       ticketing_order_url(@order)
     end
 
