@@ -275,13 +275,14 @@ de:
     row: "Reihe"
     seat: "Sitz"
     entrance: "Eingang"
-    website: "www.theater-kaisersesch.de"
+    website: <a href="https://www.theater-kaisersesch.de">www.theater-kaisersesch.de</a>
     date: "Datum"
     begins: "Beginn"
     opens: "Einlass"
     location: "Veranstaltungsort"
     free_seating: "Freie Platzwahl"
-    additional_info: "Sie haben Fragen oder möchten umbuchen?\nMelden Sie sich gerne bei uns:\n<b>www.theater-kaisersesch.de</b> oder <b>(02653) 28 27 09</b>"
+    additional_info_web: "Sie möchten umbuchen oder stornieren?\nEinfach den QR-Code scannen oder im PDF anklicken."
+    additional_info_retail: "Sie haben Fragen, möchten umbuchen oder stornieren?\nRufen Sie uns gerne an: <b>(02653) 28 27 09</b>"
   coupon_pdf:
     title: Gutschein
     code: Gutscheincode

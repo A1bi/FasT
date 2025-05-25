@@ -99,12 +99,11 @@ module Ticketing
       start = cursor
       table = draw_info_table(labels, values)
 
-      float do
-        move_up start - cursor - 12
-        text_box t(:additional_info), size: FONT_SIZES[:tiny],
-                                      inline_format: true,
-                                      at: [table.width, cursor]
-      end
+      return if (key = additional_info_key(ticket)).nil?
+
+      text_box t(key), size: FONT_SIZES[:tiny], inline_format: true,
+                       height: start - cursor, valign: :bottom,
+                       at: [table.width, start]
     end
 
     def draw_location_info(ticket)
@@ -156,7 +155,13 @@ module Ticketing
 
     def draw_logo
       draw_stamp(:logo, nil, true) do
-        svg_image 'pdf/logo_bw_l3.svg', width: bounds.width * 0.8, position: :right, vposition: :bottom
+        font_size FONT_SIZES[:tiny] do
+          text_width = width_of_inline_formatted_string(t(:website))
+          bounding_box([0, cursor], width: bounds.width, height: cursor - FONT_SIZES[:tiny] - 5) do
+            svg_image 'pdf/logo_bw_l3.svg', width: text_width * 1.012, position: :right, vposition: :bottom
+          end
+          text_box t(:website), inline_format: true, align: :right, valign: :bottom
+        end
       end
     end
 
@@ -213,6 +218,15 @@ module Ticketing
 
     def includes_links?
       false
+    end
+
+    def additional_info_key(ticket)
+      case ticket.order
+      when Web::Order
+        :additional_info_web
+      when Retail::Order
+        :additional_info_retail
+      end
     end
 
     def i18n_scope
