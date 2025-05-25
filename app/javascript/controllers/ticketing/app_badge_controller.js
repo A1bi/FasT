@@ -12,6 +12,8 @@ export default class extends Controller {
   }
 
   openedApp () {
+    if (!this.serviceWorkerRegistration.active) return
+
     this.serviceWorkerRegistration.active.postMessage('opened_app')
   }
 }

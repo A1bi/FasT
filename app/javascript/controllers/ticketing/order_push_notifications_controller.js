@@ -14,14 +14,16 @@ export default class extends Controller {
   async connect () {
     if (!this.supported) return
 
-    this.serviceWorkerRegistration = await navigator.serviceWorker.register('/ticketing_service_worker.js')
+    this.serviceWorkerRegistration = await navigator.serviceWorker.getRegistration('/ticketing_service_worker.js')
+    if (!this.serviceWorkerRegistration || !this.serviceWorkerRegistration.active) {
+      this.serviceWorkerRegistration = await navigator.serviceWorker.register('/ticketing_service_worker.js')
+
+      if (window.Notification.permission === 'granted') {
+        this.subscribe()
+      }
+    }
 
     this.updateSelf()
-
-    // workaround for Mobile Safari Web Push endpoints expiring after a while
-    if (this.mobileSafari && window.Notification.permission === 'granted') {
-      this.subscribe()
-    }
   }
 
   async requestNotificationsPermission () {
@@ -58,9 +60,5 @@ export default class extends Controller {
     return window.Notification &&
            window.Notification.requestPermission &&
            window.PushManager
-  }
-
-  get mobileSafari () {
-    return /Mobile\/\w+ Safari/.test(navigator.userAgent)
   }
 }
