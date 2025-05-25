@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module AuthenticationHelpers
-  def sign_in(user: build(:user), permissions: nil, admin: false)
+  def sign_in(user: build(:user), permissions: nil, admin: false, web_authn: false)
     user.permissions = permissions if permissions.present?
     user.group = :admin if admin
+    allow(user).to receive(:web_authn_set_up?).and_return(true) if web_authn
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user) # rubocop:disable RSpec/AnyInstance
   end
 

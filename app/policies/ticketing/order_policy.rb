@@ -43,7 +43,7 @@ module Ticketing
     end
 
     def update?
-      user_admin? && record.is_a?(Web::Order)
+      update_web_order?
     end
 
     def edit?
@@ -55,18 +55,22 @@ module Ticketing
     end
 
     def send_pay_reminder?
-      user_admin?
+      update_web_order?
     end
 
     def resend_confirmation?
-      user_admin?
+      update_web_order?
     end
 
     def resend_items?
-      user_admin?
+      update_web_order?
     end
 
     private
+
+    def update_web_order?
+      user_admin? && record.is_a?(Web::Order)
+    end
 
     def retail_order?
       record.try(:store) && record.store == user_retail_store

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Members::Member' do
+RSpec.describe 'Members::MembersController' do
   describe 'POST #finish_forgot_password' do
     subject { post finish_forgot_password_members_member_path(params) }
 

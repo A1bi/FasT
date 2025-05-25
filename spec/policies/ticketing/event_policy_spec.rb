@@ -4,7 +4,7 @@ RSpec.describe Ticketing::EventPolicy do
   subject { described_class }
 
   let(:event) { create(:event, :complete, dates_count: 1) }
-  let(:user) { build(:user, permissions: %i[ticketing_events_update]) }
+  let(:user) { build(:user, :with_web_authn, permissions: %i[ticketing_events_update]) }
 
   permissions :update_seating? do
     context 'without any tickets already present' do

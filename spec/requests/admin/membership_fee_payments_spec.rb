@@ -9,7 +9,7 @@ RSpec.describe 'Admin::MembershipFeePaymentsController' do
     let(:member) { create(:member, :membership_fee_paid) }
     let(:payment) { create(:membership_fee_payment, member:) }
 
-    before { sign_in(permissions: %i[members_update]) }
+    before { sign_in(permissions: %i[members_update], web_authn: true) }
 
     it 'marks the payment as failed' do
       expect { subject }.to change { payment.reload.failed }.to(true)

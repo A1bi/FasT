@@ -7,11 +7,10 @@ RSpec.describe 'Ticketing::StatisticsController' do
   describe 'GET #map_data' do
     subject { get ticketing_statistics_map_data_path(format: :json) }
 
-    let(:user) { build(:user, :admin) }
     let(:geolocations) { create_list(:geolocation, 3) }
 
     before do
-      sign_in(user:)
+      sign_in(admin: true, web_authn: true)
 
       create_orders(1, 2)
       create(:web_order, :complete, plz: '99999')

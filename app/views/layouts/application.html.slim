@@ -48,21 +48,29 @@ html lang=I18n.locale class="color-theme-#{color_theme_index}"
           li
             | Vorverkauf
             ul
-              li = link_to 'Bestellungen', ticketing_orders_path
-              li = link_to 'Zahlungen', ticketing_payments_path
-              li = link_to 'Statistik', ticketing_statistics_path
-              li = link_to 'Gutscheine', ticketing_coupons_path
+              - if policy(Ticketing::Order).index?
+                li = link_to 'Bestellungen', ticketing_orders_path
+              - if policy(Ticketing::Order).mark_as_paid?
+                li = link_to 'Zahlungen', ticketing_payments_path
+              - if policy([:ticketing, :statistics]).index?
+                li = link_to 'Statistik', ticketing_statistics_path
+              - if policy(Ticketing::Coupon).index?
+                li = link_to 'Gutscheine', ticketing_coupons_path
               - if policy(Ticketing::Event).index?
                 li = link_to 'Veranstaltungen', ticketing_events_path
-              li = link_to 'Sitzpläne', ticketing_seatings_path
-              li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
+              - if policy(Ticketing::Seating).index?
+                li = link_to 'Sitzpläne', ticketing_seatings_path
+              - if policy(Ticketing::ReservationGroup).index?
+                li = link_to 'Sitzplätze blocken', ticketing_reservation_groups_path
 
         - elsif current_user&.retail?
           li
             | Vorverkaufsstelle
             ul
-              li = link_to 'Bestellungen', ticketing_orders_path
-              li = link_to 'Statistik', ticketing_statistics_path
+              - if policy(Ticketing::Order).index?
+                li = link_to 'Bestellungen', ticketing_orders_path
+              - if policy([:ticketing, :statistics]).index?
+                li = link_to 'Statistik', ticketing_statistics_path
               li = link_to 'Logout', logout_path
 
         - if current_user&.member?

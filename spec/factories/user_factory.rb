@@ -10,5 +10,9 @@ FactoryBot.define do
     trait :admin do
       group { :admin }
     end
+
+    trait :with_web_authn do
+      web_authn_credentials { build_list(:web_authn_credential, 1) }
+    end
   end
 end

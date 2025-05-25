@@ -3,6 +3,7 @@ de:
     login_required: "Bitte loggen Sie sich ein, um diese Aktion auszuführen."
     access_denied: "Sie haben nicht die erforderlichen Rechte für diese Aktion."
     saved_changes: "Ihre Änderungen wurden erfolgreich gespeichert."
+    limited_permissions_without_web_authn_html: Einige Funktionen stehen aus Sicherheitsgründen nur mit verknüpftem Passkey zur Verfügung. Bitte fügen Sie <a href="%{web_authn_path}">hier</a> einen Passkey zu Ihrem Konto hinzu.
     submit:
       create: erstellen
       save: speichern
@@ -25,7 +26,6 @@ de:
   sessions:
     credentials_incorrect: Die eingegebene E-Mail-Adresse oder das Passwort ist nicht korrekt.
     web_authn_required: Mit diesem Konto ist ein Passkey verknüpft. Ein Login ist daher ausschließlich per Passkey möglich.
-    limited_permissions_without_web_authn_html: Einige Funktionen stehen aus Sicherheitsgründen nur mit verknüpftem Passkey zur Verfügung. Bitte fügen Sie <a href="%{web_authn_path}">hier</a> einen Passkey zu Ihrem Konto hinzu.
     logged_in: Herzlich willkommen, %{first_name}.
     logged_out: Sie wurden erfolgreich ausgeloggt.
   internet_access_sessions:

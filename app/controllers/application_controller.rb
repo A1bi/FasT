@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   before_action :set_sentry_context
+  before_action :set_web_authn_warning
   prepend_before_action :reset_goto
   after_action :verify_authorized
 
@@ -102,6 +103,13 @@ class ApplicationController < ActionController::Base
       id: current_user.id,
       email: current_user.email
     )
+  end
+
+  def set_web_authn_warning
+    return unless user_signed_in? && current_user.try(:admin?) && !current_user.web_authn_set_up?
+
+    flash.now[:warning] = t('application.limited_permissions_without_web_authn_html',
+                            web_authn_path: edit_members_member_path)
   end
 
   def user_not_authorized

@@ -3,7 +3,7 @@
 module Admin
   class WasserwerkPolicy < ApplicationPolicy
     def index?
-      user_permitted?(:wasserwerk_read)
+      user_permitted?(:wasserwerk_read, web_authn_required: false)
     end
 
     def update?

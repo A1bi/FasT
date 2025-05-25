@@ -3,11 +3,11 @@
 module Ticketing
   class SeatingPolicy < ApplicationPolicy
     def index?
-      user_admin?
+      user_admin?(web_authn_required: false)
     end
 
     def show?
-      user_admin?
+      index?
     end
   end
 end

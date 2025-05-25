@@ -7,7 +7,7 @@ RSpec.describe 'Ticketing::OrdersController' do
   let(:order) { create(:web_order, :with_purchased_coupons) }
   let(:loggable) { order }
 
-  before { sign_in(admin: true) }
+  before { sign_in(admin: true, web_authn: true) }
 
   describe 'PATCH #update' do
     subject { patch ticketing_order_path(order), params: }

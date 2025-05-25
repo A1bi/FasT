@@ -14,7 +14,7 @@ class StaticPolicy < ApplicationPolicy
   end
 
   def logo_generator?
-    user_admin?
+    user_admin?(web_authn_required: false)
   end
 
   def privacy?

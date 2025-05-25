@@ -13,7 +13,7 @@ RSpec.describe 'Ticketing::BillingsController' do
                       settle_balance: nil, refund_in_retail_store: nil, adjust_balance: nil)
     end
     let(:refund_service) { instance_double(Ticketing::OrderRefundService, execute: nil) }
-    let(:sign_in_user) { sign_in(admin: true) }
+    let(:sign_in_user) { sign_in(admin: true, web_authn: true) }
 
     before { sign_in_user }
 

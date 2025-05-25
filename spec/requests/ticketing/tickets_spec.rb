@@ -41,7 +41,7 @@ RSpec.describe 'Ticketing::TicketsController' do
     end
 
     context 'with an admin user' do
-      let(:user) { build(:user, :admin) }
+      let(:user) { build(:user, :admin, :with_web_authn) }
       let(:order) { create(:order, :with_tickets, tickets_count: 3) }
       let(:order2) { create(:order, :with_tickets, tickets_count: 1) }
 

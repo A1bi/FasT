@@ -3,7 +3,7 @@
 module Ticketing
   class EventPolicy < ApplicationPolicy
     def index?
-      user_permitted?(:ticketing_events_read)
+      user_permitted?(:ticketing_events_read, web_authn_required: false)
     end
 
     def show?

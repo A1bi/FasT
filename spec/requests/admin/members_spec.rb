@@ -8,7 +8,7 @@ RSpec.describe 'Admin::MembersController' do
 
     let(:member) { create(:member, :membership_fee_payments_paused) }
 
-    before { sign_in(permissions: %i[members_update]) }
+    before { sign_in(permissions: %i[members_update], web_authn: true) }
 
     it 'unpauses membership fee payments' do
       expect { subject }.to change { member.reload.membership_fee_payments_paused }.to(false)
