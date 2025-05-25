@@ -12,20 +12,22 @@
       table
         thead
           tr
-            th
             th Nachname
             th Vorname
+            th
         tbody
           - @members.each do |member|
             tr
-              td.text-center width='15%'
+              td.align-middle = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
+              td.align-middle = link_to_if policy(member).show?, member.name.first, [:admin, member]
+              td.text-center width='20%'
                 - if member.in_family?
-                  span> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
+                  span.cursor-help> title='Dieses Mitglied ist Teil einer Familie' 👨‍👩‍👧‍👦
                 - if member.admin?
-                  span> title='Dieses Mitglied ist Teil des Vorstandes' 👑
+                  span.cursor-help> title='Dieses Mitglied ist Teil des Vorstandes' 👑
                 - if member.membership_cancelled?
-                  span> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
+                  span.cursor-help> title='Für dieses Mitglied ist eine Kündigung vorgemerkt' ❌
                 - if member.membership_fee_payments_paused?
-                  span> title='Bei diesem Mitglied ist die letzte Zahlung des Mitgliedsbeitrages fehlgeschlagen' ‼️
-              td = link_to_if policy(member).show?, member.name.last_with_title_sorted, [:admin, member]
-              td = link_to_if policy(member).show?, member.name.first, [:admin, member]
+                  span.cursor-help> title='Bei diesem Mitglied ist die letzte Zahlung des Mitgliedsbeitrages fehlgeschlagen' ‼️
+                - if member.web_authn_set_up?
+                  span.cursor-help> title='Passkey eingerichtet' 🔑

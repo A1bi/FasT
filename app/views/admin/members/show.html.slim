@@ -91,6 +91,12 @@
         dd = l @member.joined_at, format: :long
         dt Im Vorstand
         dd = @member.admin? ? 'Ja' : 'Nein'
+        dt Passkeys
+        dd
+          - if @member.web_authn_set_up?
+            = @member.web_authn_credentials.count
+          - else
+            em keine
         dt Letzter Login
         dd = last_login_time @member
         dt Familie
