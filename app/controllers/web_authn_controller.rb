@@ -29,6 +29,8 @@ class WebAuthnController < ApplicationController
   end
 
   def create
+    return head :bad_request if params[:credential].blank?
+
     credential = WebAuthn::Credential.from_create(params[:credential])
     credential.verify(session[:web_authn_create_challenge])
 

@@ -35,10 +35,8 @@ export default class extends Controller {
     try {
       challengeResponse = await createCredential(options)
     } catch (e) {
-      if (e.name !== 'NotAllowedError') {
-        captureMessage(e)
-        return
-      }
+      if (e.name !== 'NotAllowedError') captureMessage(e)
+      return
     }
 
     const res = await fetch(this.createPathValue, 'POST', {
