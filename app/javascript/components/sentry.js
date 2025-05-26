@@ -1,4 +1,6 @@
 let baseUrl
+let key
+let projectId
 let dsn
 let eventId
 
@@ -55,7 +57,7 @@ const itemPayload = (item) => {
 const sendEnvelope = async (item) => {
   if (window.location.href.match(/https?:\/\/localhost/)) return
 
-  const url = `${baseUrl}/api/1/envelope/`
+  const url = `${baseUrl}/api/${projectId}/envelope/?sentry_version=7&sentry_key=${key}`
   const envelope = [envelopeHeaders(), itemHeaders(), itemPayload(item)]
   const body = envelope.map(d => JSON.stringify(d)).join('\n')
 
@@ -116,6 +118,8 @@ export const addBreadcrumb = (data) => {
 
 export const init = (options) => {
   baseUrl = options.dsn.replace(/(https:\/\/).+?@(.+?)\/.+/, '$1$2')
+  key = options.dsn.replace(/https:\/\/(.+?)@.+/, '$1')
+  projectId = options.dsn.replace(/.+\/(\d+)$/, '$1')
   dsn = options.dsn
 
   window.addEventListener('error', e => captureException(e, 'onerror'))
