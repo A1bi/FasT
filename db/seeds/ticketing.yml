@@ -114,3 +114,7 @@ events:
     name: Sankt Martin und seine Gans
   - identifier: feuerzangenbowle
     name: Die Feuerzangenbowle
+  - identifier: weihnachten_muh
+    name: Weihnachten bei Buddenbrooks & Weihnachten mit Augenzwinkern
+  - identifier: alles_ausser_kultur
+    name: ALLES – außer Kultur

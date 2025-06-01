@@ -1,0 +1,22 @@
+ruby:
+  details = {
+    retail_sale: true,
+    catering: true,
+    duration: 130,
+    break_duration: 20,
+    poster_filename: 'Plakat'
+  }
+
+= render 'header'
+
+= render 'event'
+  = render 'about', details:
+    p Wir freuen uns, Angelika Dormeyer und Arwed Werner vom <a href="https://muh-theater.de">Muh-Theater Kliding</a> wieder zu Gast auf unserer KulturBühne Altes Wasserwerk begrüßen zu dürfen.
+    p Die beiden bieten ein zweigeteiltes Programm bestehend aus:
+    ol
+      li Die szenische Kostümlesung des Weihnachtskapitels aus Thomas Manns „Buddenbrooks“, einer interaktiven Einführung in den Roman, einer Diashow über das Haus in Lübeck inkl. Musikeinspielungen.
+      li.mt-2 Nach der Pause präsentieren sie ein einstündiges satirisches Weihnachtsprogramm mit Sketchen, Puppen, Rezitationen aus Werken zeitgenössischer und bereits verstorbener, berühmter Dichter.
+    p Der Abend birgt Spaßgarantie!
+
+  = render 'tickets', retail: details[:retail_sale]
+  = render 'faq', details:
