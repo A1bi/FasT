@@ -8,6 +8,7 @@ de:
       create: erstellen
       save: speichern
     btn_delete: "löschen"
+    none: keine
   genders:
     female: weiblich
     male: männlich

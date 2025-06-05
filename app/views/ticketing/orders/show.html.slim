@@ -2,13 +2,48 @@
 
 ruby:
   scope = %i[ticketing orders]
-  overview = [
+  common_details = [
     ['Nummer', @order.number, :number],
     ['aufgegeben', l(@order.created_at, format: '%d. %B %Y, %H:%M Uhr')],
     ['Artikel', @order.items.size],
     ['Gesamtbetrag', number_to_currency(@order.total)],
-    ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]]
+    ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]],
+    ['eingelöste Gutscheine', redeemed_coupon_list(@order)]
   ]
+
+  case @order
+  when Ticketing::Retail::Order
+    title = 'Buchung in Vorverkaufsstelle'
+    order_details = [
+      ['Vorverkaufsstelle', @order.store.name]
+    ]
+  when Ticketing::BoxOffice::Order
+    title = 'Buchung an Abendkasse'
+    order_details = [
+      ['Abendkasse', @order.box_office.name]
+    ]
+  when Ticketing::Web::Order
+    title = 'Online-Bestellung'
+
+    plz_info = @order.plz
+    if @order.geolocation.present?
+      location = @order.geolocation.cities.join(', ')
+      if @order.geolocation.districts.any?
+        location += " – #{@order.geolocation.districts[0..2].join(', ')}"
+      end
+      plz_info += " (#{location})"
+    end
+
+    order_details = [
+      ['Nachname', @order.last_name],
+      ['Vorname', @order.first_name],
+      ['Zugehörigkeit', @order.affiliation],
+      ['E-Mail', @order.email],
+      ['Telefon', (@order.phone || '').phony_formatted],
+      ['PLZ', plz_info],
+      (['Zahlungsart', order_pay_method(@order)] unless @order.total.zero?)
+    ].compact
+  end
 
 .container data-controller='ticketing--app-badge'
   h1 Bestellung
@@ -18,59 +53,9 @@ ruby:
         = render 'alert', type: 'warning'
           | Diese Bestellung wurde anonymisiert.
 
-      .card.mb-2
-        = render 'show_overview_table', overview: overview
-
-        ruby:
-          if @order.is_a? Ticketing::Retail::Order
-            title = 'Buchung in Vorverkaufsstelle'
-            overview = [
-              ['Vorverkaufsstelle', @order.store.name]
-            ]
-          elsif @order.is_a? Ticketing::BoxOffice::Order
-            title = 'Buchung an Abendkasse'
-            overview = [
-              ['Abendkasse', @order.box_office.name]
-            ]
-          elsif @order.is_a? Ticketing::Web::Order
-            title = 'Online-Bestellung'
-
-            plz_info = @order.plz
-            if @order.geolocation.present?
-              location = @order.geolocation.cities.join(', ')
-              if @order.geolocation.districts.any?
-                location += " – #{@order.geolocation.districts[0..2].join(', ')}"
-              end
-              plz_info += " (#{location})"
-            end
-
-            overview = [
-              ['Nachname', @order.last_name],
-              ['Vorname', @order.first_name],
-              ['Zugehörigkeit', @order.affiliation],
-              ['E-Mail', @order.email],
-              ['Telefon', (@order.phone || '').phony_formatted],
-              ['PLZ', plz_info]
-            ]
-            unless @order.total.zero?
-              payment = [
-                ['Zahlungsart', order_pay_method(@order)]
-              ]
-            end
-          end
-        = render 'show_overview_table', title: title, overview: overview
-
-        - if payment
-          = render 'show_overview_table', title: 'Zahlung', overview: payment
-
       .card
-        h3 Eingelöste Gutscheine
-        - if @order.redeemed_coupons.any?
-          ul
-          - @order.redeemed_coupons.each do |coupon|
-            li = link_to_if(policy(coupon).show?, coupon.recipient.presence || "##{coupon.id}", coupon)
-        - else
-          em.d-block Es wurden keine Gutscheine eingelöst.
+        = render 'show_overview_table', overview: common_details
+        = render 'show_overview_table', title:, overview: order_details
 
     .col-12.col-md-4: .card
       h3 Aktionen
