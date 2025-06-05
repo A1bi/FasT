@@ -1,0 +1,17 @@
+h3 Protokoll
+table
+  thead
+    - if events.any?
+      tr
+        th Datum
+        th Aktion
+        th Benutzer
+  tbody
+    - if events.any?
+      - events.reverse_order.each do |event|
+        tr
+          td.date = l event.created_at, format: :medium
+          td = translate_log_event(event)
+          td = event.user.name&.full if event.user.present?
+    - else
+      tr: td.text-center(colspan=3): em Keine Protokolleinträge vorhanden.
