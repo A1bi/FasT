@@ -65,7 +65,7 @@ module Ticketing
     def date
       return if @order.date.blank?
 
-      I18n.l(@order.date.date, format: '%-d. %B')
+      I18n.l(@order.date.date, format: :short_date_only)
     end
 
     def coupons_sold?

@@ -3,7 +3,7 @@ select#date_id name='date' data=local_assigns[:data]
     option(disabled selected) Bitte wählen Sie einen Termin
   - dates.each do |date|
     option value=date.id data-id=date.id data-box-office-payment=(3.days.from_now > date.date) data-number-of-available-seats=date.number_of_available_seats selected=(local_assigns[:preselected_date] == date) disabled=date_disabled?(date)
-      = l date.date, format: '%A, %d. %B %Y, %H:%M'
+      = l date.date, format: :long_weekday
       - if local_assigns.fetch(:show_availability, true)
         - if date.cancelled?
           |< (entfällt)

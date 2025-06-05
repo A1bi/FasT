@@ -41,7 +41,7 @@
               td.text-end = number_to_currency(submission.transactions.debits.sum(:amount).abs)
               td.text-end = number_to_currency(submission.transactions.transfers.sum(:amount).abs)
               td.text-end
-                = l(submission.created_at, format: '%d.%m.%y, %H:%M')
+                = l(submission.created_at, format: :medium)
                 - if policy(submission).file?
                   = link_to ticketing_payments_bank_submission_file_path(submission), data:, class: 'ms-1'
                     i.bi.bi-cloud-arrow-down-fill

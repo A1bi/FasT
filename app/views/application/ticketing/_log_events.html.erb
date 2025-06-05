@@ -17,7 +17,7 @@
     <% else %>
       <% events.reverse_order.each do |event| %>
         <tr>
-          <td class="date"><%= l event.created_at, format: "%d.%m.%y, %H:%M" %></td>
+          <td class="date"><%= l event.created_at, format: :medium %></td>
           <td><%= translate_log_event(event) %></td>
           <td><%= event.user.name&.full if event.user.present? %></td>
         </tr>

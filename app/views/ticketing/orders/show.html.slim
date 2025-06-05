@@ -4,7 +4,7 @@ ruby:
   scope = %i[ticketing orders]
   common_details = [
     ['Nummer', @order.number, :number],
-    ['aufgegeben', l(@order.created_at, format: '%d. %B %Y, %H:%M Uhr')],
+    ['aufgegeben', l(@order.created_at, format: :long)],
     ['Artikel', @order.items.size],
     ['Gesamtbetrag', number_to_currency(@order.total)],
     ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]],
@@ -109,7 +109,7 @@ ruby:
                   td.name = ticket.type.name
                   td.amount = number_to_currency ticket.price
                   td.date
-                    = l ticket.date.date, format: '%-d. %B'
+                    = l ticket.date.date, format: :short
                     small.d-block = link_to ticket.event.name, ticketing_statistics_path(ticket.event.slug), title: 'Statistik für Veranstaltung'
                   - if ticket.seat.present?
                     td = ticket.seat.full_number

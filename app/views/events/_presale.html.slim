@@ -1,5 +1,5 @@
 h3 Vorverkauf
-- sale_start = l(@event.sale_start, format: '%-d. %B %Y')
+- sale_start = l(@event.sale_start, format: :short_date_only)
 .card
   .text-center.mb-2
     .px-4.py-1.bg-primary.d-sm-block.d-md-inline-block ab <b>#{sale_start}</b>

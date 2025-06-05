@@ -10,7 +10,7 @@ tr.top
   tr
     td
       | „#{ticket.event.name}“<br>
-      = l ticket.date.date, format: '%A, den %-d. %B %Y um %H.%M Uhr'
+      = l ticket.date.date, format: :long_weekday
     - if ticket.seat.present?
       td = ticket.seat.full_number
     - else

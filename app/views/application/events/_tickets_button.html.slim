@@ -4,7 +4,7 @@
 - elsif date.event.sale_not_yet_started?
   button.btn.w-100(disabled)
     small.d-inline-block Tickets ab
-    small.d-inline-block =< l(date.event.sale_start, format: '%-d. %B')
+    small.d-inline-block =< l(date.event.sale_start, format: :short_date_only)
 - elsif date.event.ticketing_enabled?
   - label = t("ticketing.events.#{date.event.free? ? 'free_tickets' : 'tickets'}")
   = link_to(label, new_ticketing_order_path(date.event.slug, date_id: date), class: 'btn w-100')

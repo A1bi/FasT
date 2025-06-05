@@ -9,7 +9,7 @@
       dt Mitgliedsnummer
       dd: tt = current_user.number
       dt Beitrittsdatum
-      dd = l current_user.joined_at, format: '%-d. %B %Y'
+      dd = l current_user.joined_at, format: :long
       - if current_user.membership_fee_paid_until.present?
           dt Mitgliedsbeitrag bezahlt bis
           dd = l current_user.membership_fee_paid_until, format: :long

@@ -1,4 +1,4 @@
-leider müssen wir Ihnen mitteilen, dass die Veranstaltung „<%= @order.event.name %>“ am <%= l @cancelled_dates.first.date, format: '%-d. %B %Y um %H.%M Uhr' %>, für die Sie Tickets bestellt hatten, leider ausfallen muss.
+leider müssen wir Ihnen mitteilen, dass die Veranstaltung „<%= @order.event.name %>“ am <%= l @cancelled_dates.first.date, format: :long_weekday %>, für die Sie Tickets bestellt hatten, leider ausfallen muss.
 
 Über folgenden Link können Sie Ihre Tickets vollständig erstatten lassen: <%= overview_url %>
 

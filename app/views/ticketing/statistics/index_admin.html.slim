@@ -32,7 +32,7 @@ hr
     .row
       - @event.dates.each do |date|
         .col-12.col-md-6: .card
-          h3 = l date.date, format: '%A, %d. %B, %H:%M'
+          h3 = l date.date, format: :long_weekday
           = render 'application/ticketing/seating', event: @event, seats_path: ticketing_statistics_seats_path(date), class: %i[availability]
 
 hr

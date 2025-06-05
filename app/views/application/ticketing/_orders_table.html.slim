@@ -40,10 +40,10 @@
               - if :date.in?(additional_columns)
                 td
                   - if order.date.present?
-                    = l order.date.date, format: '%-d. %B'
+                    = l order.date.date, format: :short
                     small.d-block = order.event.name
               - if :balance.in?(additional_columns)
                 td.text-end = number_to_currency(-order.balance)
-              td.text-end = l order.created_at, format: '%d.%m.%y, %H:%M'
+              td.text-end = l order.created_at, format: :medium
     - else
       em.text-center.d-block Keine Bestellungen vorhanden.

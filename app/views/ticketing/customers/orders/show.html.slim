@@ -60,7 +60,7 @@
                       = image_tag('add_to_wallet.png', width: '100')
                 td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
                   | „#{ticket.event.name}“<br>
-                  div = l ticket.date.date, format: '%-d. %B %Y, %H:%M'
+                  div = l ticket.date.date, format: :long_weekday
                   - if !ticket.cancelled? && ticket.date.cancelled?
                     .text-red Termin entfällt
                 td

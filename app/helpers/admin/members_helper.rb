@@ -5,7 +5,7 @@ module Admin
     def last_login_time(member)
       return tag.em t('admin.members.never_logged_in') if member.last_login.nil?
 
-      l member.last_login, format: '%-d. %B %Y, %H:%M Uhr'
+      l member.last_login, format: :long
     end
 
     def obfuscated_mandate_iban(mandate)

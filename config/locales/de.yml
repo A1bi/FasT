@@ -488,14 +488,17 @@ de:
     subject: Betreff
   time:
     formats:
+      long_weekday: "%A, %-d. %B %Y, %H:%M Uhr"
+      long: "%-d. %B %Y, %H:%M Uhr"
       medium: "%d.%m.%y, %H:%M"
-      long: "%e. %B %Y, %H:%M Uhr"
-      cast: "%e. %B"
+      short: "%-d. %B, %H:%M"
+      short_date_only: "%-d. %B"
+      cast: "%-d. %B"
   date:
     formats:
       default: "%d.%m.%Y"
-      long: "%e. %B %Y"
-      short: "%e. %b"
+      long: "%-d. %B %Y"
+      short: "%-d. %b"
     month_names:
       -
       - Januar

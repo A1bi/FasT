@@ -1,4 +1,4 @@
-| leider konnten wir zu Ihrer #{order_with_number(@order)} vom #{l @order.created_at, format: '%d.%m.%Y'} bisher keinen Zahlungseingang feststellen.
+| leider konnten wir zu Ihrer #{order_with_number(@order)} vom #{l @order.created_at.to_date} bisher keinen Zahlungseingang feststellen.
 
 = render 'items', billing: true
 
