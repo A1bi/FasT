@@ -9,9 +9,9 @@ module Ticketing
     end
 
     def execute
-      update_node_with_tickets(@order.tickets) do
-        @order.destroy.destroyed?
-      end
+      tickets = @order.tickets.records
+      @order.destroy
+      update_node_with_tickets(tickets)
     end
   end
 end
