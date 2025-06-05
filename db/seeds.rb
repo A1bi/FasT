@@ -178,6 +178,9 @@ def create_tickets(order, coupons = [])
       order.redeemed_coupons << coupon
     end
   end
+
+  order.update_total
+  order.withdraw_from_account(order.total, :order_created)
 end
 
 ticketing_seeds[:geolocations].each do |geolocation|
@@ -202,16 +205,18 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
     pay_method: Ticketing::Web::Order.pay_methods.keys.sample
   )
 
+  create_tickets(order, coupons)
+
   if order.charge_payment?
     order.bank_transactions.new(
       name: FFaker::NameDE.name,
       iban: 'DE89370400440532013000',
-      amount: 15
+      amount: -order.balance
     )
+    order.deposit_into_account(-order.balance, :bank_charge_payment)
   end
 
-  create_tickets(order, coupons)
-
+  order.update_paid
   order.save
 
   Ticketing::OrderPaymentService.new(order).mark_as_paid unless order.charge_payment? || [true, false].sample
@@ -223,6 +228,8 @@ end
 
   create_tickets(order)
 
+  order.transfer_to_account(store, order.balance, :cash_in_store)
+  order.update_paid
   order.save
 end
 
