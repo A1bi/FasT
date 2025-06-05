@@ -223,7 +223,7 @@ module Ticketing
     def prepare_billing_actions
       @billing_actions = []
       if @order.billing_account.credit?
-        if @order.stripe_payment?
+        if @order.try(:stripe_payment?)
           @billing_actions << :refund_via_stripe
         elsif current_user.admin?
           @billing_actions << :refund_to_most_recent_bank_account if @order.bank_transactions.any?

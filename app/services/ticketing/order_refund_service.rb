@@ -10,7 +10,7 @@ module Ticketing
       @params = params
       return unless @order.billing_account.credit?
 
-      if @order.stripe_payment?
+      if @order.try(:stripe_payment?)
         billing_service.settle_balance_with_stripe
 
       else
@@ -48,7 +48,7 @@ module Ticketing
     end
 
     def billing_service
-      Ticketing::OrderBillingService.new(@order)
+      OrderBillingService.new(@order)
     end
   end
 end

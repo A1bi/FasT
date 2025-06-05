@@ -4,7 +4,7 @@ h2 Stornierung Ihrer Tickets
 
 = form_with url: order_overview_cancel_path(params[:signed_info]), method: :post, html: { novalidate: true }, class: :refund, data: { controller: 'ticketing--refund', confirm: 'Sind Sie sicher, die gesamte Bestellung zu stornieren?' } do |f|
   - if @refundable
-    - if @order.stripe_payment?
+    - if @order.try(:stripe_payment?)
       p Der zu erstattende Betrag wird per <b>#{order_pay_method(@order)}</b> zurückgezahlt.
     - elsif @order.open_bank_transaction.present?
       p Der zu erstattende Betrag wird auf das ursprüngliche Konto zurücküberwiesen.

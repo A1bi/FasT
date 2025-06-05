@@ -27,7 +27,7 @@ module Ticketing
     end
 
     def settle_balance_with_stripe(payment_method_id: nil)
-      return unless @order.is_a?(Web::Order) && @order.stripe_payment?
+      return unless @order.try(:stripe_payment?)
 
       if @order.billing_account.outstanding?
         transaction = StripePaymentCreateService.new(@order, payment_method_id).execute

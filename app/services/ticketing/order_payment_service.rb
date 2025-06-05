@@ -18,7 +18,7 @@ module Ticketing
     end
 
     def send_reminder
-      return unless web_order? && !@order.paid?
+      return unless @order.is_a?(Web::Order) && !@order.paid?
 
       send_email(:pay_reminder)
       log_service.send_pay_reminder
@@ -36,10 +36,6 @@ module Ticketing
 
     def log_service
       LogEventCreateService.new(@order, current_user: @current_user)
-    end
-
-    def web_order?
-      @order.is_a?(Web::Order)
     end
   end
 end

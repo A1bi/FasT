@@ -152,7 +152,7 @@ ruby:
                 .form-check
                   = check_box_tag :refund, nil, true, data: { action: 'ticketing--tickets-table#toggleRefundDetails' }
                   = label_tag :refund, 'Rückzahlung veranlassen'
-                - if !@order.is_a?(Ticketing::Web::Order) || !@order.stripe_payment?
+                - unless @order.try(:stripe_payment?)
                   - if @order.bank_transactions.any?
                     .form-check data-ticketing--tickets-table-target='refundDetails'
                       = check_box_tag :use_most_recent, nil, true, data: { action: 'ticketing--tickets-table#toggleBankDetails', ticketing__tickets_table_target: 'bankDetailsCheckbox' }
@@ -189,7 +189,7 @@ ruby:
     .card.mb-2 = render 'application/ticketing/billing_transactions', record: @order, amount_label: 'Betrag', number_placeholder: '-10,00', number_step: 'any'
 
     - if current_user.admin?
-      - if @order.is_a?(Ticketing::Web::Order) && @order.stripe_payment?
+      - if @order.try(:stripe_payment?)
         .card.mb-2
           h3 Transaktionen mit Stripe
           .table-responsive: table
