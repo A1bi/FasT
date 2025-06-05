@@ -5,7 +5,7 @@ module Passbook
     extend ActiveSupport::Concern
 
     class_methods do
-      def has_passbook_pass(options = {}) # rubocop:disable Naming/PredicateName
+      def has_passbook_pass(options = {}) # rubocop:disable Naming/PredicatePrefix
         has_one (options[:attribute] || :passbook_pass),
                 class_name: 'Passbook::Models::Pass',
                 as: :assignable, dependent: :destroy

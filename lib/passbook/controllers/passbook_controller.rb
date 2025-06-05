@@ -84,7 +84,7 @@ module Passbook
       end
 
       def passes_updated_since
-        Time.zone.at(params[:passesUpdatedSince].to_i || 0)
+        Time.zone.at(params[:passesUpdatedSince].to_i)
       end
     end
   end

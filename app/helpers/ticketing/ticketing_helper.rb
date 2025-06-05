@@ -65,7 +65,7 @@ module Ticketing
     end
 
     def sign_number(number, formatted_number)
-      "#{number.positive? ? '+' : ''}#{formatted_number}"
+      "#{'+' if number.positive?}#{formatted_number}"
     end
   end
 end

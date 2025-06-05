@@ -4,7 +4,7 @@ module Anonymizable
   extend ActiveSupport::Concern
 
   class_methods do
-    def is_anonymizable(columns:) # rubocop:disable Naming/PredicateName
+    def is_anonymizable(columns:) # rubocop:disable Naming/PredicatePrefix
       @anonymizable_columns = columns
     end
 

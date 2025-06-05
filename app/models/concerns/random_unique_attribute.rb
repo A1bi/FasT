@@ -4,7 +4,7 @@ module RandomUniqueAttribute
   extend ActiveSupport::Concern
 
   module ClassMethods
-    # rubocop:disable Naming/PredicateName
+    # rubocop:disable Naming/PredicatePrefix
     def has_random_unique_number(attr, max:, min: 0)
       max -= min
       set_attr attr do
@@ -18,7 +18,7 @@ module RandomUniqueAttribute
         SecureRandom.hex(length)
       end
     end
-    # rubocop:enable Naming/PredicateName
+    # rubocop:enable Naming/PredicatePrefix
 
     protected
 

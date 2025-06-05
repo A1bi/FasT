@@ -9,9 +9,6 @@ class ContactMessage
   validates :email, email_format: true
 
   def mail
-    return false unless valid?
-
-    ContactMessageMailer.contact_message(name, email, phone, subject, content).deliver_later
-    true
+    ContactMessageMailer.contact_message(name, email, phone, subject, content).deliver_later if valid?
   end
 end

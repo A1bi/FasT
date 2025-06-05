@@ -37,16 +37,16 @@ module Ticketing
         data = decode_data(data)
         info = Ticketing::SignedInfoBinary.read(data)
       rescue StandardError
-        return false
+        return
       end
 
       key = find(info.signing_key_id)
-      return false unless key.verify(info.data_to_sign, info.signature)
+      return unless key.signature_valid?(info.data_to_sign, info.signature)
 
       info
     end
 
-    def verify(data, signature)
+    def signature_valid?(data, signature)
       generate_digest(data) == signature
     end
 
