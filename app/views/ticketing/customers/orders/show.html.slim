@@ -28,7 +28,7 @@
   - else
     - if @order.tickets.any?
       h2 Bestellte Tickets
-      .row: .col
+      .row: .col.w-100
         - if @order.date.cancelled?
           = render 'alert', type: :warning
             | Bitte beachten Sie, dass Ihr gebuchter Termin leider entfällt.
@@ -57,16 +57,15 @@
                   tt = ticket.number
                   - if show_wallet? && !ticket.cancelled?
                     .mt-1 = link_to order_overview_wallet_path(ticket.signed_info(authenticated: true))
-                      = image_tag('add_to_wallet.png', width: '100')
+                      = image_tag('add_to_wallet.svg')
                 td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
                   | „#{ticket.event.name}“<br>
-                  div = l ticket.date.date, format: :long_weekday
+                  .small = l ticket.date.date, format: :long_weekday
                   - if !ticket.cancelled? && ticket.date.cancelled?
                     .text-red Termin entfällt
                 td
                   = ticket.type.name
-                  br
-                  = number_to_currency ticket.price
+                  .small = number_to_currency ticket.price
                 td
                   - if ticket.seat.present?
                     = ticket.seat.full_number
