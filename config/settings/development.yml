@@ -11,6 +11,9 @@ secure_session_cookie?: false
 
 imagemagick_path: /opt/ImageMagick/bin/
 
+admin:
+  web_authn_required: false
+
 ticketing:
   ticket_barcode_base_url: 'http://ao-imac.local:4000/tickets/'
 

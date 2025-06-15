@@ -14,6 +14,9 @@ members:
   membership_application_admin_notification_email: info@theater-kaisersesch.de
   embedded_calendar_token: HsbRn8sPcJ5GkmE5
 
+admin:
+  web_authn_required: true
+
 ticketing:
   target_bank_account:
     name: TheaterKultur Kaisersesch e. V.

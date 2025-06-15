@@ -22,6 +22,10 @@ Config.setup do |config|
       required(:embedded_calendar_token).filled(:string)
     end
 
+    required(:admin).schema do
+      required(:web_authn_required).filled(:bool)
+    end
+
     required(:ticketing).schema do
       required(:ticket_barcode_base_url).filled
       required(:target_bank_account).schema do

@@ -106,7 +106,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_web_authn_warning
-    return unless user_signed_in? && current_user.try(:admin?) && !current_user.web_authn_set_up?
+    return unless Settings.admin.web_authn_required && user_signed_in? && current_user.try(:admin?) &&
+                  !current_user.web_authn_set_up?
 
     flash.now[:warning] = t('application.limited_permissions_without_web_authn_html',
                             web_authn_path: edit_members_member_path)

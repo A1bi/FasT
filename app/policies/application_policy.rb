@@ -61,11 +61,11 @@ class ApplicationPolicy
 
   private
 
-  def user_permitted?(action, web_authn_required: true)
+  def user_permitted?(action, web_authn_required: Settings.admin.web_authn_required)
     user&.permitted?(action) && (!web_authn_required || user.web_authn_set_up?)
   end
 
-  def user_admin?(web_authn_required: true)
+  def user_admin?(web_authn_required: Settings.admin.web_authn_required)
     user.try(:admin?) && (!web_authn_required || user.web_authn_set_up?)
   end
 
