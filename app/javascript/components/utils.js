@@ -15,6 +15,19 @@ export const togglePluralText = (box, number) => {
   box.querySelectorAll(':scope .number span').forEach(el => { el.textContent = number })
 }
 
+export const slideToggle = (el, toggle) => {
+  if (toggle) {
+    el.style.maxHeight = `${el.scrollHeight}px`
+    el.addEventListener('transitionend', event => {
+      if (event.propertyName !== 'max-height' || !event.target.style.maxHeight) return
+      el.classList.add('visible')
+    }, { once: true })
+  } else {
+    el.classList.remove('visible')
+    setTimeout(() => { el.style.maxHeight = null }, 0)
+  }
+}
+
 export const getAuthenticityToken = () => {
   return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 }

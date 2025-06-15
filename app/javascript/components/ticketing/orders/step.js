@@ -31,10 +31,6 @@ export default class {
     this.box.classList.add(left ? 'step-left' : 'step-right', 'step-animating')
   }
 
-  slideToggle (target, toggle) {
-    this.delegate.slideToggle(target, toggle)
-  }
-
   updateInfoFromFields () {
     if (!this.form) return
 

@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import Seating from 'components/ticketing/seating'
-import { toggleDisplay, togglePluralText } from 'components/utils'
+import { slideToggle, togglePluralText } from 'components/utils'
 
 export default class extends Seating {
   constructor (container, delegate, zoomable, privileged) {
@@ -134,11 +134,7 @@ export default class extends Seating {
   }
 
   toggleErrorBox (toggle) {
-    if (typeof (this.delegate.slideToggle) === 'function') {
-      this.delegate.slideToggle(this.errorBox, toggle)
-    } else {
-      toggleDisplay(this.errorBox, toggle)
-    }
+    slideToggle(this.errorBox, toggle)
   }
 
   getSeatsYetToChoose () {

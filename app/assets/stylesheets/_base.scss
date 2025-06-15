@@ -282,6 +282,19 @@ dl {
   cursor: move;
 }
 
+.slidable {
+  max-height: 0px;
+  transition: max-height .5s;
+
+  &.visible {
+    max-height: inherit !important;
+  }
+
+  &:not(.visible) {
+    overflow-y: hidden;
+  }
+}
+
 @include media-query(md) {
   html {
     font-size: 20px;

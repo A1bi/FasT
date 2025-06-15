@@ -31,19 +31,6 @@
   transition: max-width .5s;
   max-width: 100%;
 
-  .slidable {
-    max-height: 0px;
-    transition: max-height .5s;
-
-    &.visible {
-      max-height: inherit !important;
-    }
-
-    &:not(.visible) {
-      overflow-y: hidden;
-    }
-  }
-
   .fadeable {
     opacity: 0;
     transition: opacity .5s;

@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplayIfExists } from 'components/utils'
+import { toggleDisplayIfExists, slideToggle } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -10,7 +10,7 @@ export default class extends Step {
         if (!radio.checked) return
         this.info.api.method = radio.value
         const chargeDataBox = this.box.querySelector('.charge_data')
-        this.slideToggle(chargeDataBox, this.methodIsCharge)
+        slideToggle(chargeDataBox, this.methodIsCharge)
         chargeDataBox.querySelectorAll(':scope input').forEach(el => { el.disabled = !this.methodIsCharge })
         this.delegate.updateBtns()
       })

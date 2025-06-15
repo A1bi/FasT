@@ -3,7 +3,7 @@ import SeatChooser from 'components/ticketing/seat_chooser'
 import { fetch, toggleDisplay } from 'components/utils'
 
 export default class extends Controller {
-  static targets = ['date', 'reservationGroup', 'seatTransfer', 'seating']
+  static targets = ['date', 'reservationGroup', 'seatTransfer', 'seating', 'submit']
 
   initialize () {
     if (this.hasSeatingTarget) {
@@ -40,9 +40,8 @@ export default class extends Controller {
     this.seatTransferVisible = !!this.date
     if (!this.date) return
 
-    this.chooser.setDateAndNumberOfSeats(
-      this.date, this.tickets.length, () => {}
-    )
+    this.chooser.setDateAndNumberOfSeats(this.date, this.tickets.length, () => {})
+    this.submitTarget.disabled = false
   }
 
   async enableReservationGroups () {
@@ -61,16 +60,9 @@ export default class extends Controller {
   }
 
   async finishTransfer (event) {
-    if (!this.date) return window.alert('Bitte wählen Sie ein neues Datum aus.')
-
-    if (this.chooser && this.chooser.getSeatsYetToChoose() > 0) {
-      const msg = this.tickets.length > 1 ? `${this.tickets.length} neue Sitzplätze` : 'Ihren neuen Sitzplatz'
-      return window.alert(`Bitte wählen Sie ${msg}.`)
-    }
-
-    if (!window.confirm(event.currentTarget.dataset.confirmMsg)) return
-
     if (!this.chooser || this.chooser.validate()) {
+      if (!window.confirm(event.currentTarget.dataset.confirmMsg)) return
+
       try {
         await this.makeRequestWithAction('update', 'patch')
         this.returnToOrder()

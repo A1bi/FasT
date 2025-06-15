@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { togglePluralText, toggleDisplay, fetch } from 'components/utils'
+import { togglePluralText, toggleDisplay, slideToggle, fetch } from 'components/utils'
 import SeatChooser from 'components/ticketing/seat_chooser'
 
 export default class extends Step {
@@ -15,7 +15,7 @@ export default class extends Step {
 
       this.showSeatingBtn = this.box.querySelector('.show-seating-btn')
       this.showSeatingBtn.addEventListener('click', () => {
-        this.slideToggle(this.seatingBox, true)
+        slideToggle(this.seatingBox, true)
         toggleDisplay(this.showSeatingBtn, false)
         this.delegate.updateBtns()
       })

@@ -6,7 +6,7 @@ import AddressStep from 'components/ticketing/orders/address_step'
 import PaymentStep from 'components/ticketing/orders/payment_step'
 import ConfirmationStep from 'components/ticketing/orders/confirmation_step'
 import FinishStep from 'components/ticketing/orders/finish_step'
-import { toggleDisplay, toggleDisplayIfExists, togglePluralText, fetch } from 'components/utils'
+import { toggleDisplay, toggleDisplayIfExists, togglePluralText, slideToggle, fetch } from 'components/utils'
 
 export default class extends Controller {
   static values = {
@@ -180,19 +180,6 @@ export default class extends Controller {
   hideModalAlert () {
     this.toggleModalBox(false)
     toggleDisplay(this.modalAlert, false)
-  }
-
-  slideToggle (target, toggle) {
-    if (toggle) {
-      target.style.maxHeight = `${target.scrollHeight}px`
-      target.addEventListener('transitionend', event => {
-        if (event.propertyName !== 'max-height' || !event.target.style.maxHeight) return
-        target.classList.add('visible')
-      }, { once: true })
-    } else {
-      target.classList.remove('visible')
-      setTimeout(() => { target.style.maxHeight = null }, 0)
-    }
   }
 
   updateCurrentStep (inc) {
@@ -420,7 +407,7 @@ export default class extends Controller {
     if (this.expirationTimer.type === 0 && seconds < 1) {
       this.expirationTimer.type = 1
       seconds = this.expirationTimer.times[1]
-      this.slideToggle(this.expirationBox, true)
+      slideToggle(this.expirationBox, true)
     }
     if (this.expirationTimer.type === 1) {
       if (seconds < 1) {
@@ -437,7 +424,7 @@ export default class extends Controller {
   killExpirationTimer () {
     if (!this.expirationBox) return
     clearTimeout(this.expirationTimer.timer)
-    this.slideToggle(this.expirationBox, false)
+    slideToggle(this.expirationBox, false)
   }
 
   resetExpirationTimer () {
