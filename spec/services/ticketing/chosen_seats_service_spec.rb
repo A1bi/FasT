@@ -3,7 +3,7 @@
 RSpec.describe Ticketing::ChosenSeatsService do
   let(:service) { described_class.new(socket_id) }
   let(:socket_id) { 'foo_bar' }
-  let(:seating) { create(:seating, :with_seats, seat_count: 3) }
+  let(:seating) { create(:seating, :with_seats, seats_count: 3) }
   let(:seats) { seating.seats }
   let(:chosen_seats) { [seats[1], seats[0], seats[2]].pluck(:id) }
 

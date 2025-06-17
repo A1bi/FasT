@@ -8,7 +8,7 @@ RSpec.describe Ticketing::TicketCreateService do
   let(:event) { create(:event, :with_dates, :with_ticket_types, ticket_types_count: 2, seating:) }
   let(:date) { event.dates.first }
   let(:types) { event.ticket_types.order(price: :asc) }
-  let(:seating) { create(:seating, :with_seats, seat_count: 3) }
+  let(:seating) { create(:seating, :with_seats, seats_count: 3) }
   let(:seats) { seating.seats }
   let(:order_type) { :web }
   let(:socket_id) { 'fooby' }

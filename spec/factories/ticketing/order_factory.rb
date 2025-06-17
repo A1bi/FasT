@@ -12,10 +12,13 @@ FactoryBot.define do
       end
 
       before(:create) do |order, evaluator|
-        order.tickets = create_list(:ticket, evaluator.tickets_count,
-                                    order:,
-                                    date: evaluator.date || evaluator.event.dates.first,
-                                    type: evaluator.event.ticket_types.first)
+        seats = evaluator.event.seating? ? evaluator.event.seating.seats.to_a : []
+        evaluator.tickets_count.times do
+          order.tickets << create(:ticket, order:,
+                                           date: evaluator.date || evaluator.event.dates.first,
+                                           type: evaluator.event.ticket_types.first,
+                                           seat: seats.pop)
+        end
       end
     end
 
@@ -23,6 +26,12 @@ FactoryBot.define do
       before(:create) do |order|
         order.purchased_coupons = create_list(:coupon, 2, :credit,
                                               purchased_with_order: order)
+      end
+    end
+
+    trait :with_seating do
+      transient do
+        event { association :event, :complete, :with_seating, seats_count: tickets_count }
       end
     end
 

@@ -1,12 +1,11 @@
 h2 Umbuchung Ihrer Tickets
 p
   ' Sie haben die Möglichkeit, Ihre Tickets auf
-  - other_dates = @event.dates.uncancelled.upcoming.count > 1
-  - if other_dates && @event.seating?
+  - if @date_transferable && @seats_transferable
     ' ein anderes Datum und/oder einen anderen Sitzplatz
-  - elsif other_dates
+  - elsif @date_transferable
     ' ein anderes Datum
-  - elsif @event.seating?
+  - elsif @seats_transferable
     ' einen anderen Sitzplatz
   | umzubuchen.
 .text-center.mb-2 = link_to 'Tickets umbuchen', ticket_transfer_path, class: :btn

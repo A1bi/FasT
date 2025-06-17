@@ -16,7 +16,9 @@ module Ticketing
 
         @cancellable = web_order? && cancellable_tickets.any?
         @refundable = @cancellable && credit_after_cancellation?
-        @transferable = transferable_tickets.any?
+        @date_transferable = valid_tickets.any?(&:date_customer_transferable?)
+        @seats_transferable = valid_tickets.any?(&:seat_customer_transferable?)
+        @transferable = @date_transferable || @seats_transferable
       end
 
       def check_email
@@ -53,10 +55,6 @@ module Ticketing
 
       def cancellable_tickets
         valid_tickets.filter(&:customer_cancellable?)
-      end
-
-      def transferable_tickets
-        valid_tickets.filter(&:customer_transferable?)
       end
 
       def credit_after_cancellation?

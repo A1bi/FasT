@@ -63,14 +63,12 @@ module Ticketing
       )
     end
 
-    def customer_transferable?
-      !cancelled? && (
-        (!date.cancelled? && (
-          (exceptionally_customer_cancellable? && date.event.dates.uncancelled.upcoming.any?) ||
-          date.admission_time.future?)
-        ) ||
-        (date.cancelled? && date.event.dates.uncancelled.upcoming.any?)
-      )
+    def date_customer_transferable?
+      customer_transferable? && event.dates.uncancelled.upcoming.excluding(date).any?
+    end
+
+    def seat_customer_transferable?
+      customer_transferable? && event.seating?
     end
 
     def signed_info(params = {})
@@ -89,6 +87,10 @@ module Ticketing
 
     def seat_required?
       event&.seating?
+    end
+
+    def customer_transferable?
+      !cancelled? && (date.cancelled? || exceptionally_customer_cancellable? || date.admission_time.future?)
     end
 
     def seat_available

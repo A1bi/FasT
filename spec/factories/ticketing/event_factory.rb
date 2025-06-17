@@ -30,8 +30,9 @@ FactoryBot.define do
     end
 
     trait :with_seating do
+      transient { seats_count { 1 } }
       number_of_seats { nil }
-      seating
+      seating { association :seating, :with_seats, seats_count: }
     end
 
     trait :complete do
