@@ -1614,7 +1614,8 @@ CREATE TABLE public.ticketing_orders (
     box_office_id bigint,
     date_id bigint,
     affiliation character varying,
-    anonymized_at timestamp without time zone
+    anonymized_at timestamp without time zone,
+    last_pay_reminder_sent_at timestamp(6) without time zone
 );
 
 
@@ -4011,6 +4012,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250617185930'),
 ('20250121223540'),
 ('20250103121117'),
 ('20250101155130'),

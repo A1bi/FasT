@@ -18,9 +18,10 @@ module Ticketing
     end
 
     def send_reminder
-      return unless @order.is_a?(Web::Order) && !@order.paid?
+      return unless @order.is_a?(Web::Order) && !@order.paid? && @order.email.present?
 
       send_email(:pay_reminder)
+      @order.update(last_pay_reminder_sent_at: Time.current)
       log_service.send_pay_reminder
     end
 
