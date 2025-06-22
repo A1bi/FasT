@@ -20,8 +20,7 @@
             th.text-end Datum
         tbody.hover
           - orders.each do |order|
-            - classes = [(:cancelled if order.cancelled?), (:due if local_assigns[:show_due_state] && order.due?), (:overdue if local_assigns[:show_due_state] && order.overdue?)]
-            tr class=classes data-controller='linked-row' data-linked-row-path=ticketing_order_path(order)
+            tr class=[(:cancelled if order.cancelled?)] data-controller='linked-row' data-linked-row-path=ticketing_order_path(order)
               - if :checkbox.in?(additional_columns)
                 td: .form-check = check_box_tag 'orders[]', order.id
               td.text-center: tt = link_to order.number, ticketing_order_path(order)
@@ -44,6 +43,9 @@
                     small.d-block = order.event.name
               - if :balance.in?(additional_columns)
                 td.text-end = number_to_currency(-order.balance)
-              td.text-end = l order.created_at, format: :medium
+              td.text-end
+                - if local_assigns[:show_payment_overdue] && order.payment_overdue?
+                  i.bi.bi-exclamation-diamond-fill.text-red> title='Zahlung überfällig'
+                = l order.created_at, format: :medium
     - else
       em.text-center.d-block Keine Bestellungen vorhanden.

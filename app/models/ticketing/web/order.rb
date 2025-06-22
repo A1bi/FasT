@@ -3,7 +3,6 @@
 module Ticketing
   module Web
     class Order < Ticketing::Order
-      PAYMENT_DUE_AFTER = 1.week
       PAYMENT_OVERDUE_AFTER = 2.weeks
       ANONYMIZE_AFTER = 6.weeks
 
@@ -36,12 +35,8 @@ module Ticketing
         stripe_transactions.payments.first
       end
 
-      def due?
-        !paid? && transfer_payment? && PAYMENT_DUE_AFTER.after(created_at).past?
-      end
-
-      def overdue?
-        due? && PAYMENT_OVERDUE_AFTER.after(created_at).past?
+      def payment_overdue?
+        !paid? && transfer_payment? && PAYMENT_OVERDUE_AFTER.after(created_at).past?
       end
 
       def update_total

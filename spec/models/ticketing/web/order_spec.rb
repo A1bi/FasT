@@ -58,80 +58,32 @@ RSpec.describe Ticketing::Web::Order do
     end
   end
 
-  describe '#due?' do
-    subject { order.due? }
+  describe '#payment_overdue?' do
+    subject { order.payment_overdue? }
 
-    let(:paid) { false }
-
-    before do
-      stub_const("#{described_class}::PAYMENT_DUE_AFTER", 1.week)
-      order.update(paid:)
-    end
-
-    context 'with not yet due order' do
-      let(:order) { create(:web_order, :complete, :transfer_payment) }
-
-      it { is_expected.to be_falsy }
-    end
-
-    context 'with due order' do
-      let(:order) { create(:web_order, :complete, :transfer_payment, created_at: 8.days.ago) }
-
-      it { is_expected.to be_truthy }
-
-      context 'with paid order' do
-        let(:paid) { true }
-
-        it { is_expected.to be_falsy }
-      end
-    end
-
-    context 'with a due order with cash payment' do
-      let(:order) { create(:web_order, :complete, :cash_payment, created_at: 8.days.ago) }
-
-      it { is_expected.to be_falsy }
-    end
-  end
-
-  describe '#overdue?' do
-    subject { order.overdue? }
-
-    let(:paid) { false }
-
-    before do
-      stub_const("#{described_class}::PAYMENT_DUE_AFTER", 1.week)
-      stub_const("#{described_class}::PAYMENT_OVERDUE_AFTER", 2.weeks)
-      order.update(paid:)
-    end
+    let(:order) { build(:web_order, :unpaid, created_at:) }
+    let(:created_at) { Time.current }
 
     context 'with not yet overdue order' do
-      let(:order) { create(:web_order, :complete, :transfer_payment) }
-
       it { is_expected.to be_falsy }
     end
 
-    context 'with due but not overdue order' do
-      let(:order) { create(:web_order, :complete, :transfer_payment, created_at: 8.days.ago) }
-
-      it { is_expected.to be_falsy }
-    end
-
-    context 'with due order' do
-      let(:order) { create(:web_order, :complete, :transfer_payment, created_at: 15.days.ago) }
+    context 'with overdue order' do
+      let(:created_at) { 15.days.ago }
 
       it { is_expected.to be_truthy }
 
       context 'with paid order' do
-        let(:paid) { true }
+        before { order.paid = true }
 
         it { is_expected.to be_falsy }
       end
-    end
 
-    context 'with a due order with cash payment' do
-      let(:order) { create(:web_order, :complete, :cash_payment, created_at: 15.days.ago) }
+      context 'with cash payment' do
+        let(:order) { build(:web_order, :unpaid, :cash_payment, created_at:) }
 
-      it { is_expected.to be_falsy }
+        it { is_expected.to be_falsy }
+      end
     end
   end
 end

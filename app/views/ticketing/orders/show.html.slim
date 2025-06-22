@@ -7,7 +7,7 @@ ruby:
     ['aufgegeben', l(@order.created_at, format: :long)],
     ['Artikel', @order.items.size],
     ['Gesamtbetrag', number_to_currency(@order.total)],
-    ['bezahlt', @order.paid ? 'ja' : 'nein', [(:due if @order.due?), (:overdue if @order.overdue?)]],
+    ['bezahlt', @order.paid ? 'ja' : 'nein'],
     ['eingelöste Gutscheine', redeemed_coupon_list(@order)]
   ]
 
@@ -52,6 +52,9 @@ ruby:
       - if @order.anonymized?
         = render 'alert', type: 'warning'
           | Diese Bestellung wurde anonymisiert.
+      - elsif @order.payment_overdue?
+        = render 'alert', type: 'warning'
+          | Die Zahlung dieser Bestellung ist überfällig.
 
       .card
         = render 'show_overview_table', overview: common_details

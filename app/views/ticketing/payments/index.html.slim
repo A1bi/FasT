@@ -51,11 +51,11 @@
     h2 Unbezahlte Bestellungen
     = form_tag ticketing_payments_mark_as_paid_path, method: :patch, class: [:unpaid_orders]
       - additional_columns = %i[checkbox balance]
-      = render 'application/ticketing/orders_table', table_title: 'Überweisung', orders: @orders[:unpaid][:transfer], cache_key: [:payments, :unpaid, :transfer], additional_columns: additional_columns, show_due_state: true, class: :transfer
-      = render 'application/ticketing/orders_table', table_title: 'Barzahlung', orders: @orders[:unpaid][:cash], cache_key: [:payments, :unpaid, :cash], additional_columns: additional_columns, class: :cash
-      = render 'application/ticketing/orders_table', table_title: 'Zahlung an der Abendkasse', orders: @orders[:unpaid][:box_office], cache_key: [:payments, :unpaid, :box_office], additional_columns: additional_columns, class: :box_office
+      = render 'application/ticketing/orders_table', table_title: 'Überweisung', orders: @orders[:unpaid][:transfer], cache_key: [:payments, :unpaid, :transfer], additional_columns:, show_payment_overdue: true, class: :transfer
+      = render 'application/ticketing/orders_table', table_title: 'Barzahlung', orders: @orders[:unpaid][:cash], cache_key: [:payments, :unpaid, :cash], additional_columns:, class: :cash
+      = render 'application/ticketing/orders_table', table_title: 'Zahlung an der Abendkasse', orders: @orders[:unpaid][:box_office], cache_key: [:payments, :unpaid, :box_office], additional_columns:, class: :box_office
       - if @orders[:unpaid][:other].any?
-        = render 'application/ticketing/orders_table', table_title: 'sonstige', orders: @orders[:unpaid][:other], cache_key: [:payments, :unpaid, :other], additional_columns: additional_columns
+        = render 'application/ticketing/orders_table', table_title: 'sonstige', orders: @orders[:unpaid][:other], cache_key: [:payments, :unpaid, :other], additional_columns:
       .text-end.mb-2 = submit_tag 'als bezahlt markieren', data: { disable_with: 'Einen Moment bitte...', confirm: 'Möchten Sie diese Bestellungen wirklich als bezahlt markieren?' }, class: :btn
   - cache [:credit, @orders[:credit]]
     = render 'application/ticketing/orders_table', table_title: 'Bestellungen mit Guthaben', orders: @orders[:credit], additional_columns: %i[balance]
