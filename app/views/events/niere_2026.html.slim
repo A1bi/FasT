@@ -1,0 +1,25 @@
+ruby:
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Kathrin',
+          actors: ['Susanne Schubert']
+        },
+        {
+          title: 'Arnold',
+          actors: ['Gerd Röser', 'Thomas Ellerich']
+        },
+        {
+          title: 'Götz',
+          actors: ['Walter Loreth']
+        },
+        {
+          title: 'Diana',
+          actors: ['Daniela Gödert', 'Simone Spies']
+        }
+      ]
+    }
+  ]
+= render 'niere', cast:
+  .card Das Stück wurde auf der KulturBühne Altes Wasserwerk bereits #{link_to '2024', event_path('die-niere')} aufgeführt. Dies ist eine Wiederaufnahme.

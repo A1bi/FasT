@@ -1,0 +1,42 @@
+ruby:
+  details = {
+    retail_sale: false,
+    catering: true,
+    duration: 90,
+    break_duration: 30,
+    info_box: {
+      play: {
+        'Autor' => 'Stefan Vögel',
+        'Uraufführung' => '2018'
+      },
+      event: {
+        'Regie' => 'Stephan Hilken',
+        'Regieassistenz' => 'Kirsten Roscher'
+      }
+    },
+    poster_filename: 'Niere_Plakat'
+  }
+  styling = {
+    colors: ['8FDCFA', 'BC5FD3', '1A1A1A', '4D4D4D', '1A1A1A'],
+    footer_color: 2,
+    stroke_logo_dark: true
+  }
+
+= render 'header'
+
+= render 'event', styling:
+  = render 'about', details:
+    p Kathrin braucht eine neue Niere. Ihr Mann Arnold soll ihr seine spenden, doch leider hat der erfolgreiche Architekt nicht nur keine Zeit dafür, sondern auch Angst vor einer Organspende. Er zögert. Beider Freund Götz erklärt sich sofort bereit, als Spender einzuspringen, wodurch ein irrwitziger Kampf um die Niere ausbricht. Sowohl Diana, Götz' Ehefrau, als auch Arnold fühlen sich übergangen.
+    p Uraufgeführt wurde „Die Niere” am 4. März 2018 in der Komödie am Kurfürstendamm, Berlin.
+    h3 Stefan Vögel
+    p Geboren 1969 in Österreich, studierte er zunächst Wirtschaftsinformatik, wandte sich aber dann dem Theater zu. Seit 1993 ist er als erfolgreicher Autor, Schauspieler und Kaberettist tätig. Erste Erfolge feierte Stefan Vögel mit seinem in Mundart verfassten Kabarettstück „Grüß Gott in Voradelberg”.
+    p Seine Komödie „Arthur & Claire” wurde 2017 von Miguel Alexandre verfilmt, 2019 entstand unter der Regie von Michael Kreihsl die Verfilmung des Stückes „Die Niere” unter dem Titel „Risiken und Nebenwirkungen”.
+    p „Es gibt ihn tatsächlich, den jungen, deutschsprachigen Komödienschreiber, der alle dramaturgischen, psychologischen und komödiantischen Regeln beherrscht. Stefan Vögel ist ein Ass in der pointierten Dialogführung ohne billige Effekte.” <em>(Die Welt)</em>
+    = yield
+
+  = render 'photos'
+
+  = render 'cast', cast:
+
+  = render 'tickets'
+  = render 'faq', details:

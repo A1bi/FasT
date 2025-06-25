@@ -118,3 +118,15 @@ events:
     name: Weihnachten bei Buddenbrooks & Weihnachten mit Augenzwinkern
   - identifier: alles_ausser_kultur
     name: ALLES – außer Kultur
+  - identifier: notte_italiana
+    name: Una Notte Italiana
+  - identifier: bitte_mit_udo
+    name: "Trio P! – Piccolo Palazzo: Aber bitte mit Udo"
+  - identifier: heilig_abend_2025
+    assets_identifier: heilig_abend
+    slug: heilig-abend-2025
+    name: Heilig Abend
+  - identifier: niere_2026
+    assets_identifier: niere
+    slug: die-niere-2026
+    name: Die Niere
