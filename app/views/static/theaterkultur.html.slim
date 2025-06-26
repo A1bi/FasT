@@ -6,21 +6,27 @@
 .container
   h1 Theater<wbr>Kultur Kaisers&shy;esch
 
-  .row: .col: p Unser gemeinnütziger Verein widmet sich seit 2009 der Förderung und Pflege von Kunst und Kultur im Eifelstädtchen Kaisersesch und der Region im Landkreis Cochem-Zell. Hinsichtlich Mitwirkenden und Projekten sind wir kontinuierlich gewachsen: Aus dem ursprünglichen Wunsch in Kaisersesch die <b>„Freilichtbühne am schiefen Turm“</b> zu beleben und zu bespielen ist ein Drei-Sparten-Theater erwachsen mit Sommernachtstheater, Kammerspiel und Kinder- und Jugendtheater. Zudem unterhalten wir mit dem <b>„Alten Wasserwerk“</b> eine eigene Kulturbühne für Kleinkunst.
-
   video.d-block.w-100(controls playsinline preload='none' poster='https://www.theater-kaisersesch.de/uploads/videos/imagefilm_thumb.jpg')
     source src='https://www.theater-kaisersesch.de/uploads/videos/imagefilm_h265.mp4' type='video/mp4; codecs=hvc1'
     source src='https://www.theater-kaisersesch.de/uploads/videos/imagefilm_vp9.webm' type='video/webm; codecs=vp9'
     source src='https://www.theater-kaisersesch.de/uploads/videos/imagefilm_h264.mp4' type='video/mp4'
 
+  .row: .col: p Unser gemeinnütziger Verein widmet sich seit 2009 der Förderung und Pflege von Kunst und Kultur im Eifelstädtchen Kaisersesch und der Region im Landkreis Cochem-Zell. Hinsichtlich Mitwirkenden und Projekten sind wir kontinuierlich gewachsen: Aus dem ursprünglichen Wunsch in Kaisersesch die <b>„Freilichtbühne am schiefen Turm“</b> zu beleben und zu bespielen ist ein Drei-Sparten-Theater erwachsen mit Sommernachtstheater, Kammerspiel und Kinder- und Jugendtheater. Zudem unterhalten wir mit dem <b>„Alten Wasserwerk“</b> eine eigene Kulturbühne für Kleinkunst.
+
   h2 Sommernachts&shy;theater
-  .row: .col: p Herzstück und Aushängeschild unseres Vereins ist das jährliche Sommernachtstheater unseres Großensembles <b>„Freilichtbühne am schiefen Turm“</b>. Im Ortskern spielen wir im Schatten des schiefen Kirchturms, dem Wahrzeichen Kaiserseschs, auf der Bühne vor dem alten Kinosaal Freilichttheater mit bis zu 80 Mitwirkenden und nahezu 2.000 Zuschauern pro Saison. Eine Übersicht über unsere bisherigen Sommernachtstheater-Produktionen bietet unser #{link_to 'Archiv', root_path(anchor: :archiv)}.
   .row: .col.w-100 = image_tag 'content/sommernachtstheater.jpg', alt: 'Sommernachtstheater', class: 'w-100'
+  .row: .col
+    p Herzstück und Aushängeschild unseres Vereins ist das jährliche Sommernachtstheater unseres Großensembles <b>„Freilichtbühne am schiefen Turm“</b>. Im Ortskern spielen wir im Schatten des schiefen Kirchturms, dem Wahrzeichen Kaiserseschs, auf der Bühne vor dem alten Kinosaal Freilichttheater mit bis zu 80 Mitwirkenden und nahezu 2.000 Zuschauern pro Saison.
+    = render 'events', title: 'vergangene Sommernachtstheater', ensemble: 'Sommernachtstheater'
 
   h2 Kammerspiel
-  .row: .col: p Seit einigen Jahren erarbeiten wir neben den großen Produktionen auch Ensemblestücke in kleinerer Besetzung. Mit unserer Inszenierung von Yasmina Rezas „Gott des Gemetzels“ haben wir im Frühjahr 2019 unsere KulturBühne Altes Wasserwerk eröffnet und in Rheinland-Pfalz und Nordrhein-Westfalen schon einige Gastspiele gegeben. Eine Übersicht über unsere bisherigen Ensemble-Produktionen bietet unser #{link_to 'Archiv', root_path(anchor: :archiv)}.
   .row: .col.w-100 = image_tag 'content/kammerensemble.jpg', alt: 'Kammerspiel', class: 'w-100'
+  .row: .col
+    p Seit einigen Jahren erarbeiten wir neben den großen Produktionen auch Ensemblestücke in kleinerer Besetzung. Mit unserer Inszenierung von Yasmina Rezas „Gott des Gemetzels“ haben wir im Frühjahr 2019 unsere KulturBühne Altes Wasserwerk eröffnet und in Rheinland-Pfalz und Nordrhein-Westfalen schon einige Gastspiele gegeben.
+    = render 'events', title: 'vergangene Kammerspiele', ensemble: 'Kammerensemble'
 
   h2 Kinder- und Jugendtheater
-  .row: .col: p Seit 2015 haben wir eine Kinder- und Jugendabteilung und führen jährlich Jugendstücke für Kinder und Junggebliebene auf. Die Stücke werden entweder selbst entwickelt oder bekannte Stoffe gemeinsam variiert und adaptiert. Unsere Vereinsjugend schnuppert erste Bühnenluft und sammelt Erfahrungen für die große Freilichtbühne oder das Kammerspiel. Die Nachwuchsförderung liegt uns besonders am Herzen und wurde mit dem Kulturförderpreis des Landkreises Cochem-Zell 2022 ausgezeichnet. Eine Übersicht über unsere bisherigen Jugendtheater-Produktionen bietet unser #{link_to 'Archiv', root_path(anchor: :archiv)}.
   .row: .col.w-100 = image_tag 'content/kindertheater.jpg', alt: 'Kinder- und Jugendtheater', class: 'w-100'
+  .row: .col
+    p Seit 2015 haben wir eine Kinder- und Jugendabteilung und führen jährlich Jugendstücke für Kinder und Junggebliebene auf. Die Stücke werden entweder selbst entwickelt oder bekannte Stoffe gemeinsam variiert und adaptiert. Unsere Vereinsjugend schnuppert erste Bühnenluft und sammelt Erfahrungen für die große Freilichtbühne oder das Kammerspiel. Die Nachwuchsförderung liegt uns besonders am Herzen und wurde mit dem Kulturförderpreis des Landkreises Cochem-Zell 2022 ausgezeichnet.
+    = render 'events', title: 'vergangene Kinder- und Jugendtheaterstücke', ensemble: 'Kinder- und Jugendtheater'

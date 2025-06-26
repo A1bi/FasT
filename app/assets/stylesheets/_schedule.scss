@@ -1,11 +1,6 @@
-.schedule {
+.schedule, .archive {
   &, .tickets {
     position: relative;
-  }
-
-  &:not(.schedule-sm) .row > *:nth-child(1) {
-    @extend %text-center;
-    @extend .text-red;
   }
 
   &.cancelled {
@@ -14,8 +9,35 @@
     }
   }
 
-  &.schedule-sm.cancelled {
-    text-decoration: line-through;
+  &.schedule-sm {
+    .date {
+      @extend %d-block;
+      @extend .justify-content-start;
+      font-size: 1.2rem;
+    }
+
+    .cancelled {
+      text-decoration: line-through;
+    }
+  }
+
+  &:not(.schedule-sm) .row > *:nth-child(1) {
+    @extend %text-end;
+    @extend .text-red;
+  }
+
+  &.archive {
+    .date {
+      @extend %flex-column;
+    }
+  }
+
+  &.archive-sm {
+    .title {
+      @include media-query(md) {
+        font-size: 1.25rem;
+      }
+    }
   }
 
   .row {
@@ -25,60 +47,6 @@
 
     > * {
       @extend %py-0;
-    }
-
-    .day, .year {
-      @extend .f-li;
-      font-weight: 700;
-      line-height: .9;
-    }
-
-    .day {
-      font-size: 2.5rem;
-    }
-
-    .year {
-      font-size: 1.75rem;
-    }
-
-    .date {
-      @extend %text-start;
-      @extend .f-lbi;
-      font-size: 1.2rem;
-    }
-
-    .info {
-      @extend %d-flex;
-      @extend %flex-wrap;
-      column-gap: spacing(2);
-
-      .segment {
-        @extend %d-flex;
-        @extend %align-items-center;
-
-        &.location i {
-          margin-right: 3px;
-        }
-
-        i {
-          margin-right: 5px;
-        }
-      }
-    }
-
-    .title {
-      @extend .f-mb;
-      @extend %m-0;
-      @extend %black-links;
-      font-size: 1.25rem;
-
-      @include media-query(md) {
-        font-size: 1rem * $heading-size-multiplier;
-      }
-    }
-
-    .tickets.col-4 .btn {
-      font-size: calc(min(1rem, 3vw)); // calc -> workaround for SassC complaining about min
     }
 
     > *:nth-child(3) {
@@ -91,6 +59,68 @@
         }
       }
     }
+  }
+
+  .date .day, .year {
+    line-height: .9;
+  }
+
+  .date {
+    @extend %d-flex;
+    @extend %align-items-end;
+    @extend %flex-column;
+    @extend .f-lbi;
+
+    .day {
+      font-size: 2.5rem;
+    }
+
+    @include media-query(md) {
+      justify-content: end;
+      flex-direction: row-reverse;
+
+      .day {
+        padding-left: 5px;
+      }
+    }
+  }
+
+  .year {
+    font-size: 1.75rem;
+  }
+
+  .info {
+    @extend %d-flex;
+    @extend %flex-wrap;
+    column-gap: spacing(2);
+
+    .segment {
+      @extend %d-flex;
+      @extend %align-items-center;
+
+      &.location i {
+        margin-right: 3px;
+      }
+
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .title {
+    @extend .f-mb;
+    @extend %m-0;
+    @extend %black-links;
+    font-size: 1.25rem;
+
+    @include media-query(md) {
+      font-size: 1rem * $heading-size-multiplier;
+    }
+  }
+
+  .tickets.col-4 .btn {
+    font-size: calc(min(1rem, 3vw)); // calc -> workaround for SassC complaining about min
   }
 
   .cancelled-banner {

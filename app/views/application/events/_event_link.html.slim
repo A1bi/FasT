@@ -1,0 +1,8 @@
+- if event_page_exists?(event)
+  = link_to event_path(event.slug)
+    = event.name
+    span.text-nowrap
+      | &nbsp;
+      i.bi.bi-chevron-right
+- else
+  = event.name

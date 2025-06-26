@@ -22,7 +22,7 @@
         .col-3.col-md-2
           = l date.date, format: '%A'
           .date
-            .day = l date.date, format: '%-d'
+            .day = l date.date, format: '%d'
             .month = l date.date, format: '%B'
           .d-block = l date.date, format: '%H:%M'
         .col-9.col-md-7
@@ -34,15 +34,7 @@
             .segment.location
               i.bi.bi-geo-alt-fill
               = date.event.location.name
-          .title
-            - if event_page_exists?(date.event)
-              = link_to event_path(date.event.slug)
-                = date.event.name
-                span.text-nowrap
-                  | &nbsp;
-                  i.bi.bi-chevron-right
-            - else
-              = date.event.name
+          .title = render 'application/events/event_link', event: date.event
           .subtitle = date.event.info['subtitle']
         .col-12.col-md-3.tickets
           = render 'application/events/tickets_button', date:
