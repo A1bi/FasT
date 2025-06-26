@@ -26,7 +26,7 @@ module Ticketing
       attrs = [
         :name, :identifier, :assets_identifier, :slug, :location_id, :number_of_seats,
         :sale_start, :admission_duration, :ticketing_enabled,
-        { info: %i[archived subtitle main_gallery_id header_gallery_id external_sale_url] }
+        { info: %i[archived ensemble subtitle main_gallery_id header_gallery_id external_sale_url] }
       ]
       attrs << :seating_id if update_seating?
       attrs

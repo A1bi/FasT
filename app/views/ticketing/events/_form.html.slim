@@ -22,6 +22,9 @@
 
     h3 Informationen für Unterseite
     = f.fields_for :info do |ff|
+      = render 'form_field', form: ff, attribute: :ensemble, label: 'Ensemble'
+        = ff.text_field :ensemble, value: @event.info['ensemble'], list: 'ensembles'
+        datalist#ensembles = options_for_select(@ensembles)
       = render 'form_field', form: ff, attribute: :subtitle, label: 'Untertitel'
         = ff.text_field :subtitle, value: @event.info['subtitle']
       = render 'form_field', form: ff, attribute: :main_gallery_id, label: 'Hauptfotogalerie'

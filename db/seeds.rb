@@ -123,6 +123,8 @@ events.each.with_index do |event_info, i|
     sale_start: event_date_base - 2.months,
     info: {
       archived: true,
+      subtitle: FFaker::Lorem.sentence,
+      ensemble: ['Sommernachtstheater', 'Kammerensemble', 'Kinder- und Jugendtheater'].sample,
       **event_info.fetch(:info, {})
     }
   )

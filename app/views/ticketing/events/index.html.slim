@@ -18,7 +18,9 @@
           td
             - if event.dates.any?
               = l event.dates.first.date, format: '%Y'
-          td = link_to event.name, event
+          td
+            = link_to event.name, event
+            .small = event.info['ensemble']
           td.d-sm-none = event.location.name
           td
             - if event.info['archived']

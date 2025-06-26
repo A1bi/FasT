@@ -23,6 +23,8 @@
       dd: tt = @event.slug
       dt Ort
       dd = @event.location.name
+      dt Ensemble
+      dd = @event.info['ensemble']
       dt Untertitel
       dd = @event.info['subtitle']
       - if @event.main_gallery.present?

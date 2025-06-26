@@ -5,6 +5,7 @@ module Ticketing
     before_action :find_event, only: %i[show edit update]
     before_action :prepare_new, only: %i[new create]
     before_action :find_galleries, only: %i[new create edit update]
+    before_action :find_ensembles, only: %i[new create edit update]
 
     def index
       @events = authorize(events_scope.ordered_by_dates(:desc))
@@ -40,6 +41,10 @@ module Ticketing
 
     def find_galleries
       @galleries = Gallery.order(title: :asc)
+    end
+
+    def find_ensembles
+      @ensembles = Event.including_ticketing_disabled.pluck(Arel.sql("DISTINCT(info->>'ensemble')"))
     end
 
     def event_params
