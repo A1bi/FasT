@@ -4,7 +4,7 @@
 
     [class^='col-'] {
       @extend %d-flex;
-      flex-direction: column;
+      @extend %flex-column;
       row-gap: 1rem;
 
       .photo {

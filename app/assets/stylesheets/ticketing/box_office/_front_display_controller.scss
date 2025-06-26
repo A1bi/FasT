@@ -1,8 +1,8 @@
 [data-controller='ticketing--box-office--front-display'] {
   @extend %d-flex;
+  @extend %flex-column;
   @extend %text-center;
   @extend %h-100vh;
-  flex-direction: column;
 
   .slides {
     position: relative;
@@ -13,11 +13,11 @@
   [data-ticketing--box-office--front-display-target='tips'],
   [data-ticketing--box-office--front-display-target='qrCode'] {
     @extend %d-flex;
+    @extend %flex-column;
     @extend %w-100, %h-100;
     position: absolute;
     opacity: 0;
     transition: opacity 1s;
-    flex-direction: column;
 
     &.visible {
       opacity: 1;

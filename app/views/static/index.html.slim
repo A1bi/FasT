@@ -21,16 +21,19 @@
       .row
         .col-3.col-md-2
           = l date.date, format: '%A'
-          .day = l date.date, format: '%-d'
-          = l date.date, format: '%B'
+          .date
+            .day = l date.date, format: '%-d'
+            .month = l date.date, format: '%B'
+          .d-block = l date.date, format: '%H:%M'
         .col-9.col-md-7
           .info
+            - if date.event.info['ensemble'].present?
+              .segment
+                i.bi.bi-flag-fill
+                = date.event.info['ensemble']
             .segment.location
               i.bi.bi-geo-alt-fill
               = date.event.location.name
-            .segment
-              i.bi.bi-clock-fill
-              = l date.date, format: '%H:%M'
           .title
             - if event_page_exists?(date.event)
               = link_to event_path(date.event.slug)

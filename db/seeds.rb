@@ -108,6 +108,7 @@ events.each.with_index do |event_info, i|
     event_date_base = (events.count - i).years.ago
     past = true
   end
+  event_date_base = event_date_base.change(hour: rand(17..20), minute: 0)
 
   with_seating = i >= events.count - 1
 

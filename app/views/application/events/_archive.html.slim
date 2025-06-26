@@ -1,13 +1,17 @@
 - events.each do |event|
   - dates = event.dates.uncancelled
   - first_date = dates.first.date
-  .card.schedule.mb-2 data-items-reveal-target='item': .row
-    .col-3.col-md-2
-      = l first_date, format: '%B'
+  .card.schedule.archive.mb-2 data-items-reveal-target='item': .row
+    .col-3.col-md-2.date
+      .month = l first_date, format: '%B'
       .year = l first_date, format: '%Y'
     .col-9.col-md-10
       .title = link_to_if event_page_exists?(event), event.name, event_path(event.slug)
       .info
+        - if event.info['ensemble'].present?
+          .segment
+            i.bi.bi-flag-fill
+            = event.info['ensemble']
         .segment.location
           i.bi.bi-geo-alt-fill
           = event.location.name

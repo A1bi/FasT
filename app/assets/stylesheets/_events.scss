@@ -39,7 +39,7 @@
 
 .info-cards {
   @extend %d-flex;
-  flex-direction: column;
+  @extend %flex-column;
   gap: 1rem;
 
   dl {
