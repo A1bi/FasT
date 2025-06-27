@@ -171,7 +171,15 @@ RSpec.describe Ticketing::Event do
       past_not_archived_event.dates.first.update(date: 1.day.ago)
     end
 
-    it { is_expected.to contain_exactly(partially_cancelled_event, past_event) }
+    context 'when excluding upcoming events' do
+      it { is_expected.to contain_exactly(partially_cancelled_event, past_event) }
+    end
+
+    context 'when including upcoming events' do
+      subject { described_class.archived(including_upcoming: true) }
+
+      it { is_expected.to contain_exactly(partially_cancelled_event, past_event, future_event, partially_future_event) }
+    end
   end
 
   describe '#sold_out?' do

@@ -46,9 +46,11 @@ module Ticketing
         where.not(seating: nil)
       end
 
-      def archived
-        join_dates.merge(EventDate.past.uncancelled).where("(info->>'archived')::boolean = ?", true)
-                  .where.not(id: with_future_dates)
+      def archived(including_upcoming: false)
+        dates = EventDate.uncancelled
+        dates = dates.past unless including_upcoming
+        relation = join_dates.merge(dates).where("(info->>'archived')::boolean = ?", true)
+        including_upcoming ? relation : relation.where.not(id: with_future_dates)
       end
 
       private
