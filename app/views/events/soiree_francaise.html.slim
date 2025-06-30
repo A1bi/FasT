@@ -6,17 +6,13 @@ ruby:
     break_duration: 20,
     poster_filename: 'Plakat'
   }
+  styling = nil
+  cast = nil
 
-= render 'header'
-
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Ein Eifeler mit französischer Seele', nav_title: 'Über den Künstler', details:
     p Schuld daran, dass Günter Hochgürtel schon mit 20 Jahren anfing, französische Chansons zu singen, war der große Georges Moustaki, der vor kurzem im Alter von 79 Jahren verstarb. Ende der 1970-er Jahre, als seine Altersgenossen Bands wie Deep Purple oder die Stones bewunderten, mühte sich der Eifeler abseits des Zeitgeistes damit ab, Moustakis selbstironisch-poetische Ballade „Le métèque“ auf der Gitarre einzustudieren. Und im Laufe der Jahre kamen immer mehr Chansons hinzu.
     p Der Eifeler Liedermacher, seit fast drei Jahrzehnten mit der Mundartband „Wibbelstetz“ unterwegs und seit längerem auch als Solist mit eigenen hochdeutschen Liedern erfolgreich, hat jetzt eine neue CD aufgenommen. Diesmal allerdings nicht mit eigenen Werken, sondern mit seinen Lieblingschansons. „Ich habe ja eine Urgroßmutter, die aus Frankreich stammt. Vielleicht stammt meine Vorliebe für die gallischen Nachbarn ja daher“, meint der Songpoet.
     p Den Anstoß zu dieser Produktion gab die Ehefrau des Sängers. Sie sagte, dass er die Chansons unbedingt aufnehmen müsse, denn im Fall seines vorzeitigen Ablebens könne sie sie nicht mehr hören - und das wäre eine Schande. Bereits auf seiner ersten Solo-CD „Troubadour“ hatte Hochgürtel einige französische Lieder von Jacques Brel und Georges Moustaki platziert, eingespielt ohne Begleitmusiker.
     p Auf „Mon âme francaise – meine französische Seele“, wie das druckfrische Album betitelt ist, hat Günter Hochgürtel mit Taato Gomez (Gitarre), Thomas Wille (Bass), Wolf Simon (Schlagzeug) und Pete Haazer (Akkordeon) handverlesene Berufsmusiker um sich versammelt, die die zwölf Stücke an nur zwei Tage quasi live im Bonner Hansahaus-Studio eingespielt haben. Neben bekannten Stücken wie „La maladie d’amour“ (Michel Sardou) oder „La Ballade des gens heureux“ (Gerard Lenorman) gibt es richtige französische Lagerfeuerlieder, die der Eifeler Musiker bei seinem Freund Daniel Pellegrino in Carqueiranne (Côte d’Azur) erlernte.
     p Natürlich macht es auf den ersten Blick nicht viel Sinn, dass ein Eifeler französische Lieder singt und sie auch noch auf CD pressen lässt. Auch wenn das Linksrheinische lange Zeit unter napoleonischer Herrschaft stand. Dem hält Günter Hochgürtel entgegen: „Ich hatte und habe weiterhin viel Spaß daran, diese wundervollen Chansons zu singen, die bei uns die Deutschland leider kaum noch zu hören sind. Und alles andere, liebe Freunde, schert mich nicht.“
-
-  = render 'photos'
-  = render 'tickets'
-  = render 'faq', details:

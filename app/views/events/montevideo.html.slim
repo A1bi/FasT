@@ -10,187 +10,179 @@ ruby:
       }
     }
   }
+  styling = nil
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Professor Dr. Traugott Hermann Nägler',
+          actors: ['Stephan Hilken']
+        },
+        {
+          title: 'Marianne, seine Frau',
+          doubles: [
+            {
+              actor: 'Simone Spies',
+              dates: [0, 1, 2]
+            },
+            {
+              actor: 'Kirsten Roscher',
+              dates: [3, 4, 5]
+            }
+          ]
+        },
+        {
+          title: 'Pastor Riesling',
+          actors: ['Jürgen Knaup']
+        },
+        {
+          title: 'Martha',
+          actors: ['Nina Lübke']
+        },
+        {
+          title: 'Herbert Kraft',
+          actors: ['Mario Haas']
+        },
+        {
+          title: 'Bürgermeister',
+          doubles: [
+            {
+              actor: 'Otto Krechel',
+              dates: [1, 3, 5]
+            },
+            {
+              actor: 'Eugen Weiten',
+              dates: [0, 2, 4]
+            }
+          ]
+        },
+        {
+          title: 'Madame de la Rocco',
+          doubles: [
+            {
+              actor: 'Maria Oster',
+              dates: [0, 1, 2]
+            },
+            {
+              actor: 'Claudia Scholz',
+              dates: [3, 4, 5]
+            }
+          ]
+        },
+        {
+          title: 'Anwalt',
+          doubles: [
+            {
+              actor: 'Dieter Stein',
+              dates: [1, 2, 4]
+            },
+            {
+              actor: 'Gerd Röser',
+              dates: [0, 3, 5]
+            }
+          ]
+        },
+        {
+          title: 'Belinda',
+          actors: ['Christiane Lares']
+        },
+        {
+          title: 'Mädchen in Montevideo',
+          actors: ['Sirin Roscher',
+                   'Sarah-Céline Schubert',
+                   'Marie Fuhrmann',
+                   'Kira Roscher']
+        },
+        {
+          title: 'Taxifahrer',
+          actors: ['Thomas Ellerich']
+        },
+        {
+          title: 'Postbote',
+          actors: ['Werner Lutz']
+        },
+        {
+          title: 'weitere Darsteller',
+          actors: ['Liesel Hesse',
+                   'Margret Zeimetz',
+                   'Susanne Schubert',
+                   'Uli Hesse',
+                   'Matthias Schnitzler',
+                   'Michaela Müller',
+                   'Gottfried Hagen',
+                   'Renate Schüller',
+                   'Blanka Sauer',
+                   'Anja Fuhrmann',
+                   'Mitglieder der Blaskapelle und des Schützenvereins Kaisersesch']
+        }
+      ]
+    },
+    {
+      title: 'Kinder der Familie Nägler',
+      entries: [
+        {
+          title: 'Atlanta',
+          actors: ['Lena Schmitz']
+        },
+        {
+          title: 'Fricka',
+          actors: ['Hjördis Gödelt']
+        },
+        {
+          title: 'Parsifal',
+          actors: ['Robby Sauer']
+        },
+        {
+          title: 'Gudrun',
+          actors: ['Lina Ramler']
+        },
+        {
+          title: 'Brunhild',
+          actors: ['Theresa Göbel']
+        },
+        {
+          title: 'Wotan',
+          actors: ['Morten Roscher']
+        },
+        {
+          title: 'Edda',
+          actors: ['Melina Bons']
+        },
+        {
+          title: 'Oktavia',
+          actors: ['Hannah Regnier']
+        },
+        {
+          title: 'Nona',
+          actors: ['Nele Fuhrmann']
+        },
+        {
+          title: 'Freya',
+          actors: ['Sophie Meiers']
+        },
+        {
+          title: 'Lohengrin',
+          actors: ['Saskia Beicht']
+        },
+        {
+          title: 'Decimus',
+          doubles: [
+            {
+              actor: 'Cécile Lares',
+              dates: [0, 1, 2]
+            },
+            {
+              actor: 'Annalena Keller',
+              dates: [3, 4, 5]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Am Anfang des 3. Aktes doziert der untadelige Professor Traugott Hermann Nägler: „Moral kennt keine Ferien. Hat man sie, ist sie wie ein undurchdringlicher Mantel. Keine Versuchung kann ihn durchdringen.“
     p Genau diese Moralvorstellungen werden auf eine harte Probe gestellt, als er erfährt, dass seine Schwester, die er vor vielen Jahren aus der Familie verstoßen hatte, weil sie als Siebzehnjährige ein uneheliches Kind bekam, gestorben ist und seiner ältesten Tochter Atlanta ein Haus in Montevideo vermacht hat. Zusätzlich hat seine verstorbene Schwester aus Rache in ihrem Testament eine Klausel eingebaut, die die Tugendhaftigkeit des Professors gehörig ins Wanken bringt.
     p Nicht umsonst heißt der Untertitel dieses Stückes „Traugotts Versuchung“. In seinem klassischen Boulevardstück „Das Haus in Montevideo“ stellt Curt Goetz die Moral des beginnenden 20. Jahrhunderts auf den Prüfstand.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Professor Dr. Traugott Hermann Nägler',
-            actors: ['Stephan Hilken']
-          },
-          {
-            title: 'Marianne, seine Frau',
-            doubles: [
-              {
-                actor: 'Simone Spies',
-                dates: [0, 1, 2]
-              },
-              {
-                actor: 'Kirsten Roscher',
-                dates: [3, 4, 5]
-              }
-            ]
-          },
-          {
-            title: 'Pastor Riesling',
-            actors: ['Jürgen Knaup']
-          },
-          {
-            title: 'Martha',
-            actors: ['Nina Lübke']
-          },
-          {
-            title: 'Herbert Kraft',
-            actors: ['Mario Haas']
-          },
-          {
-            title: 'Bürgermeister',
-            doubles: [
-              {
-                actor: 'Otto Krechel',
-                dates: [1, 3, 5]
-              },
-              {
-                actor: 'Eugen Weiten',
-                dates: [0, 2, 4]
-              }
-            ]
-          },
-          {
-            title: 'Madame de la Rocco',
-            doubles: [
-              {
-                actor: 'Maria Oster',
-                dates: [0, 1, 2]
-              },
-              {
-                actor: 'Claudia Scholz',
-                dates: [3, 4, 5]
-              }
-            ]
-          },
-          {
-            title: 'Anwalt',
-            doubles: [
-              {
-                actor: 'Dieter Stein',
-                dates: [1, 2, 4]
-              },
-              {
-                actor: 'Gerd Röser',
-                dates: [0, 3, 5]
-              }
-            ]
-          },
-          {
-            title: 'Belinda',
-            actors: ['Christiane Lares']
-          },
-          {
-            title: 'Mädchen in Montevideo',
-            actors: ['Sirin Roscher',
-                     'Sarah-Céline Schubert',
-                     'Marie Fuhrmann',
-                     'Kira Roscher']
-          },
-          {
-            title: 'Taxifahrer',
-            actors: ['Thomas Ellerich']
-          },
-          {
-            title: 'Postbote',
-            actors: ['Werner Lutz']
-          },
-          {
-            title: 'weitere Darsteller',
-            actors: ['Liesel Hesse',
-                     'Margret Zeimetz',
-                     'Susanne Schubert',
-                     'Uli Hesse',
-                     'Matthias Schnitzler',
-                     'Michaela Müller',
-                     'Gottfried Hagen',
-                     'Renate Schüller',
-                     'Blanka Sauer',
-                     'Anja Fuhrmann',
-                     'Mitglieder der Blaskapelle und des Schützenvereins Kaisersesch']
-          }
-        ]
-      },
-      {
-        title: 'Kinder der Familie Nägler',
-        entries: [
-          {
-            title: 'Atlanta',
-            actors: ['Lena Schmitz']
-          },
-          {
-            title: 'Fricka',
-            actors: ['Hjördis Gödelt']
-          },
-          {
-            title: 'Parsifal',
-            actors: ['Robby Sauer']
-          },
-          {
-            title: 'Gudrun',
-            actors: ['Lina Ramler']
-          },
-          {
-            title: 'Brunhild',
-            actors: ['Theresa Göbel']
-          },
-          {
-            title: 'Wotan',
-            actors: ['Morten Roscher']
-          },
-          {
-            title: 'Edda',
-            actors: ['Melina Bons']
-          },
-          {
-            title: 'Oktavia',
-            actors: ['Hannah Regnier']
-          },
-          {
-            title: 'Nona',
-            actors: ['Nele Fuhrmann']
-          },
-          {
-            title: 'Freya',
-            actors: ['Sophie Meiers']
-          },
-          {
-            title: 'Lohengrin',
-            actors: ['Saskia Beicht']
-          },
-          {
-            title: 'Decimus',
-            doubles: [
-              {
-                actor: 'Cécile Lares',
-                dates: [0, 1, 2]
-              },
-              {
-                actor: 'Annalena Keller',
-                dates: [3, 4, 5]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'

@@ -11,85 +11,77 @@ ruby:
       }
     }
   }
+  styling = nil
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Mrs. Margaret Wilberforce',
+          actors: ['Catrin Drogi']
+        },
+        {
+          title: 'Prof. Marcus',
+          actors: ['Gerd Röser']
+        },
+        {
+          title: 'Dr. Courtenay',
+          actors: ['Dieter Stein']
+        },
+        {
+          title: 'Willie Knoxton',
+          actors: ['Thomas Ellerich']
+        },
+        {
+          title: 'Louis Harvey',
+          actors: ['Stephan Hilken']
+        },
+        {
+          title: 'Gwendolyn Livingstone',
+          actors: ['Maria Oster']
+        },
+        {
+          title: 'Harriet Plimshead',
+          actors: ['Susanne Schubert']
+        },
+        {
+          title: 'Adele Townsend',
+          actors: ['Michaela Venus']
+        },
+        {
+          title: 'Griselda Cooke',
+          actors: ['Nina Lübke']
+        },
+        {
+          title: 'Polizist 1',
+          doubles: [
+            {
+              actor: 'Uli Hesse',
+              dates: [0, 2, 3, 4, 5]
+            },
+            {
+              actor: 'Otto Krechel',
+              dates: [1]
+            }
+          ]
+        },
+        {
+          title: 'Polizist 2',
+          actors: ['Werner Lutz']
+        },
+        {
+          title: 'Special Guest',
+          actors: ['David Davies']
+        },
+        {
+          title: 'Taxifahrer',
+          actors: ['Dr. Alois Scheid']
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p In einem nahezu friedlichen Idyll wohnt die alte Witwe Margaret Wilberforce. Sie fühlt sich in ihrem großen, in die Jahre gekommenen Haus alleine und sehnt sich nach einem Untermieter. Leider liegt ihr Haus an einer vielbefahrenen Bahnstrecke, weshalb es ihr bislang noch nicht geglückt ist, eines der leer stehenden Zimmer zu vermieten. Doch plötzlich taucht der verschrobene Professor Marcus auf und gibt sich von der Lage des Domizils und der bescheidenen Kammer vollkommen begeistert. Auch die alte Dame ist begeistert, denn der Professor kündigt an, mit seinen Freunden in dem Zimmer musizieren zu wollen.
     p Freilich sind die Instrumente nur Tarnung und die Streichmusik ertönt lediglich von der Schallplatte. Gerne würde das Quartett auch seelenruhig seinen genialen Bankraub planen, wenn nicht die Witwe Wilberforce mit ihren überdrehten Freundinnen in übertriebener Fürsorge als Störfaktoren allgegenwärtig wären.
     p Als sie dem Quartett schliesslich auf die Schliche kommt, bleibt den Ganoven nur ein Ausweg: Margaret Wilberforce muss weg. Von vielen Verwicklungen begleitet, türmen sich die Leichen auf der Bühne, doch ist auch die freundliche, alte Lady dabei?
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Mrs. Margaret Wilberforce',
-            actors: ['Catrin Drogi']
-          },
-          {
-            title: 'Prof. Marcus',
-            actors: ['Gerd Röser']
-          },
-          {
-            title: 'Dr. Courtenay',
-            actors: ['Dieter Stein']
-          },
-          {
-            title: 'Willie Knoxton',
-            actors: ['Thomas Ellerich']
-          },
-          {
-            title: 'Louis Harvey',
-            actors: ['Stephan Hilken']
-          },
-          {
-            title: 'Gwendolyn Livingstone',
-            actors: ['Maria Oster']
-          },
-          {
-            title: 'Harriet Plimshead',
-            actors: ['Susanne Schubert']
-          },
-          {
-            title: 'Adele Townsend',
-            actors: ['Michaela Venus']
-          },
-          {
-            title: 'Griselda Cooke',
-            actors: ['Nina Lübke']
-          },
-          {
-            title: 'Polizist 1',
-            doubles: [
-              {
-                actor: 'Uli Hesse',
-                dates: [0, 2, 3, 4, 5]
-              },
-              {
-                actor: 'Otto Krechel',
-                dates: [1]
-              }
-            ]
-          },
-          {
-            title: 'Polizist 2',
-            actors: ['Werner Lutz']
-          },
-          {
-            title: 'Special Guest',
-            actors: ['David Davies']
-          },
-          {
-            title: 'Taxifahrer',
-            actors: ['Dr. Alois Scheid']
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'

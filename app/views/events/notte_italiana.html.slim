@@ -15,12 +15,8 @@ ruby:
     colors: ['CDCDCD', 'D02C24', '719F5B', '264F13', 'FFFFFF'],
     stroke_logo_dark: false
   }
+  cast = nil
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Über das Konzert', details:
     p Dieser Abend bietet allen Italien-Liebhabern einen bunten Stilmix von Klassik bis Pop. Freuen Sie sich auf den Gesang der Mitglieder des <b>Genoveva-Chors Mayen</b>, unter der Leitung von Andreas Barth.
-
-  = render 'tickets'
-  = render 'faq', details:

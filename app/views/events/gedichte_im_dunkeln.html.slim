@@ -16,10 +16,9 @@ ruby:
     colors: ['020405', 'E1E4E5', 'D66B31', 'DFC3B1', 'E1E4E5'],
     stroke_logo_dark: false
   }
+  cast = nil
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Ablauf', details:
     h4 Begrüßung
     p Sie lernen beide Autoren kennen und erfahren, was Sie bei <em>Gedichte im Dunkeln</em> erwartet.
@@ -46,8 +45,3 @@ ruby:
     figure
       blockquote Die Texte von Eva Hoffmann und Jürgen de Bassmann lassen eintauchen in das Meer der Dichtkunst, das im Zerrinnen die Zeit auf einem Teller serviert.
       figcaption Michael C. J. Landgraf, Schriftsteller und Generalsekretär des PEN-Zentrums Deutschland, im Vorwort zu <cite>Gedichte im Dunkeln</cite>
-
-
-  = render 'photos'
-  = render 'tickets'
-  = render 'faq', details:

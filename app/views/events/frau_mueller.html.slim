@@ -12,10 +12,158 @@ ruby:
       }
     }
   }
+  styling = nil
+  cast = [
+    {
+      title: 'Die Klassenlehrerin',
+      entries: [
+        {
+          title: 'Sabine Müller',
+          actors: 'Pam Diederichs'
+        }
+      ]
+    },
+    {
+      title: 'Die Eltern',
+      entries: [
+        {
+          title: 'Jessica Höfel',
+          actors: 'Simone Spies'
+        },
+        {
+          title: 'Wolf Heider',
+          actors: 'Nadine Gründer'
+        },
+        {
+          title: 'Katja Grabowski',
+          actors: 'Kirsten Roscher'
+        },
+        {
+          title: 'Marina Jeskow',
+          actors: 'Walter Loreth'
+        },
+        {
+          title: 'Patrick Jeskow',
+          actors: 'Simone Spies'
+        }
+      ]
+    },
+    {
+      title: 'Die Putzkolonne',
+      entries: [
+        {
+          title: 'Mandy',
+          actors: 'Alina Spies'
+        },
+        {
+          title: 'Doreen',
+          actors: 'Emma Gödert'
+        },
+        {
+          title: 'Rico',
+          actors: 'Jakob Ellerich'
+        }
+      ]
+    },
+    {
+      title: 'Die Musiker',
+      entries: [
+        {
+          title: 'Sologesang',
+          actors: 'Alina Spies'
+        },
+        {
+          title: 'Schlagzeug',
+          actors: ['Stephan Hilken', 'Thomas Ellerich']
+        },
+        {
+          title: 'Klavier',
+          actors: 'Jakob Ellerich'
+        }
+      ]
+    },
+    {
+      title: 'Hinter den Kulissen',
+      entries: [
+        {
+          title: 'Regie',
+          actors: 'Susanne Schubert'
+        },
+        {
+          title: 'Soufflage',
+          actors: 'Maria Oster'
+        },
+        {
+          title: 'Technik (Licht / Ton)',
+          actors: [
+            'Jens Krämer & Team',
+            'Michael Lenz'
+          ]
+        },
+        {
+          title: 'Bühnenbild, Idee',
+          actors: 'Susanne Schubert'
+        },
+        {
+          title: 'Bühnenbild, Malerei',
+          actors: 'Willi Schrader'
+        },
+        {
+          title: 'Kulissenbau',
+          actors: [
+            'Helmut Mattern',
+            'Heinz Christ',
+            'Klaus Junglas',
+            'Klaus Herres',
+            'Matthias Schnitzler',
+            'Sigi Roscher',
+            'Uli Hesse',
+            'Josef Kreutz'
+          ]
+        },
+        {
+          title: 'Maske',
+          actors: 'alle Schauspieler selber'
+        },
+        {
+          title: 'Kostüme',
+          actors: 'alle Schauspieler selber'
+        },
+        {
+          title: 'Ausstattung / Requisiten',
+          actors: 'alle Schauspieler'
+        },
+        {
+          title: 'Bewirtung',
+          actors: 'Maria Oster & Team'
+        },
+        {
+          title: 'Öffentlichkeitsarbeit Medienkontakt / Werbung',
+          actors: [
+            'Maria Oster',
+            'Otto Krechel'
+          ]
+        },
+        {
+          title: 'Texte',
+          actors: 'Maria Oster'
+        },
+        {
+          title: 'Fotos',
+          actors: [
+            'Maria Oster',
+            'Susanne Schubert'
+          ]
+        },
+        {
+          title: 'Titelbild / Drucksachen',
+          actors: 'Susanne Schubert'
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Wir befinden uns in der Musikraum/Aula einer Grundschule im Osten Deutschlands.
     p Lutz Hübner: „Am Elternabend zeigt sich, wie solidarisch eine Gesellschaft wirklich ist und wie sie mit Erfolg und Niederlagen umgeht. Da werden keine Gefangenen gemacht und keine Konzessionen. Wessis haben was gegen die Lehrerin aus dem Osten, Ossis finden die Westkinder völlig verzogen, soziale Vermischung schön und gut, aber doch nicht in der Klasse meines Kindes! Und weil an Elternabenden nicht nur Eltern um ihre Kinder kämpfen, sondern auch immer die Eltern für sich selbst, ist man sich im Vorfeld des Treffens einig geworden: Es geht darum, die blöden Bälger irgendwie durchzukriegen! Frau Müller muss weg!“
@@ -23,159 +171,3 @@ ruby:
     h3 Die Autoren
     p() <b>Lutz Hübner</b>, geboren 1964 in Heilbronn, studierte Germanistik, Philosophie und Soziologie sowie Schauspiel an der Hochschule des Saarlandes für Musik und Theater. Seit 1996 arbeitet er als freiberuflicher Schriftsteller und Regisseur und ist einer der meistgespielten Dramatiker der Gegenwart auf deutschen Bühnen.
     p Verheiratet ist er mit <b>Sarah Nemitz</b>, beide leben in Berlin. Sie wurde in Düsseldorf geboren und wuchs in Köln auf. Dort studierte sie Tanz am Institut für Bühnentanz, anschließend Germanistik, Philosophie und Kunstgeschichte. Gemeinsam mit Ihrem Ehemann schreibt sie Dramen und Drehbücher.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        title: 'Die Klassenlehrerin',
-        entries: [
-          {
-            title: 'Sabine Müller',
-            actors: 'Pam Diederichs'
-          }
-        ]
-      },
-      {
-        title: 'Die Eltern',
-        entries: [
-          {
-            title: 'Jessica Höfel',
-            actors: 'Simone Spies'
-          },
-          {
-            title: 'Wolf Heider',
-            actors: 'Nadine Gründer'
-          },
-          {
-            title: 'Katja Grabowski',
-            actors: 'Kirsten Roscher'
-          },
-          {
-            title: 'Marina Jeskow',
-            actors: 'Walter Loreth'
-          },
-          {
-            title: 'Patrick Jeskow',
-            actors: 'Simone Spies'
-          }
-        ]
-      },
-      {
-        title: 'Die Putzkolonne',
-        entries: [
-          {
-            title: 'Mandy',
-            actors: 'Alina Spies'
-          },
-          {
-            title: 'Doreen',
-            actors: 'Emma Gödert'
-          },
-          {
-            title: 'Rico',
-            actors: 'Jakob Ellerich'
-          }
-        ]
-      },
-      {
-        title: 'Die Musiker',
-        entries: [
-          {
-            title: 'Sologesang',
-            actors: 'Alina Spies'
-          },
-          {
-            title: 'Schlagzeug',
-            actors: ['Stephan Hilken', 'Thomas Ellerich']
-          },
-          {
-            title: 'Klavier',
-            actors: 'Jakob Ellerich'
-          }
-        ]
-      },
-      {
-        title: 'Hinter den Kulissen',
-        entries: [
-          {
-            title: 'Regie',
-            actors: 'Susanne Schubert'
-          },
-          {
-            title: 'Soufflage',
-            actors: 'Maria Oster'
-          },
-          {
-            title: 'Technik (Licht / Ton)',
-            actors: [
-              'Jens Krämer & Team',
-              'Michael Lenz'
-            ]
-          },
-          {
-            title: 'Bühnenbild, Idee',
-            actors: 'Susanne Schubert'
-          },
-          {
-            title: 'Bühnenbild, Malerei',
-            actors: 'Willi Schrader'
-          },
-          {
-            title: 'Kulissenbau',
-            actors: [
-              'Helmut Mattern',
-              'Heinz Christ',
-              'Klaus Junglas',
-              'Klaus Herres',
-              'Matthias Schnitzler',
-              'Sigi Roscher',
-              'Uli Hesse',
-              'Josef Kreutz'
-            ]
-          },
-          {
-            title: 'Maske',
-            actors: 'alle Schauspieler selber'
-          },
-          {
-            title: 'Kostüme',
-            actors: 'alle Schauspieler selber'
-          },
-          {
-            title: 'Ausstattung / Requisiten',
-            actors: 'alle Schauspieler'
-          },
-          {
-            title: 'Bewirtung',
-            actors: 'Maria Oster & Team'
-          },
-          {
-            title: 'Öffentlichkeitsarbeit Medienkontakt / Werbung',
-            actors: [
-              'Maria Oster',
-              'Otto Krechel'
-            ]
-          },
-          {
-            title: 'Texte',
-            actors: 'Maria Oster'
-          },
-          {
-            title: 'Fotos',
-            actors: [
-              'Maria Oster',
-              'Susanne Schubert'
-            ]
-          },
-          {
-            title: 'Titelbild / Drucksachen',
-            actors: 'Susanne Schubert'
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'

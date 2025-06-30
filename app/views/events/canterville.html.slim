@@ -18,77 +18,67 @@ ruby:
     colors: ['C3523E', '000000', 'FFFFFF', '4B1A1C', 'FFFFFF'],
     stroke_logo_dark: true
   }
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Mr Hiram B. Otis',
+          actors: ['Mitko Dimitrov']
+        },
+        {
+          title: 'Mrs Betty Otis',
+          actors: ['Sonja Makhlis']
+        },
+        {
+          title: 'Virginia',
+          actors: ['Dascha Jost']
+        },
+        {
+          title: 'Louise',
+          actors: ['Nele Jischke']
+        },
+        {
+          title: 'Anna',
+          actors: ['Ida Butterick']
+        },
+        {
+          title: 'Sir Stanley',
+          actors: ['Lukas Baulig']
+        },
+        {
+          title: 'Sir Simon',
+          actors: ['Emma Böhm', 'Hanna Münnich', 'Victoria Crestenco']
+        },
+        {
+          title: 'Mrs Umney',
+          actors: ['Michelle Sturtz']
+        },
+        {
+          title: 'Cecil',
+          actors: ['Lukas Baulig']
+        },
+        {
+          title: 'Simon de Canterville',
+          actors: ['Sonja Makhlis']
+        },
+        {
+          title: 'Eleanor de Canterville',
+          actors: ['Klara Spies', 'Michelle Sturtz']
+        },
+        {
+          title: 'George',
+          actors: ['Mitko Dimitrov']
+        },
+        {
+          title: 'Gerald',
+          actors: ['Lukas Baulig']
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Das <b>Jugendensemble Carpe Diem</b> zeigt die berühmte Erzählung <b>„Das Gespenst von Canterville“</b> des irischen Schriftstellers <b>Oscar Wilde</b> in einer selbst erarbeiteten Bühnenfassung.
     p Der amerikanische Botschafter in England Hiram B. Otis zieht mit seiner Familie in das Schloss Canterville ein, das er trotz der Warnungen Lord Cantervilles vor einem Gespenst gekauft hat. Bei dem Gespenst handelt es sich um den berüchtigten Simon de Canterville, der vor genau 300 Jahren seine Frau brutal ermordete, und seither im Schloss sein Unwesen treibt. Sir Simon soll für zahlreiche Nervenzusammenbrüche oder gar Todesfälle verantwortlich sein und freut sich nun darauf, den „Yankees“ das Fürchten zu lehren. Doch die pragmatische amerikanische Familie zeigt sich wenig beeindruckt von Sir Simons Spukkünsten, dreht den Spies um und stürzt das alte Gespenst in eine Existenzkrise, aus der ihn nur die Liebe erlösen kann.
     p Die Geschichte vom Gespenst, das lernt die Menschen zu fürchten, ist gruselig, witzig und spannend zugleich, und wird von den Kindern und Jugendlichen originell und unterhaltsam erzählt. Geeignet für Menschen von 6 – 99 Jahren.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Mr Hiram B. Otis',
-            actors: ['Mitko Dimitrov']
-          },
-          {
-            title: 'Mrs Betty Otis',
-            actors: ['Sonja Makhlis']
-          },
-          {
-            title: 'Virginia',
-            actors: ['Dascha Jost']
-          },
-          {
-            title: 'Louise',
-            actors: ['Nele Jischke']
-          },
-          {
-            title: 'Anna',
-            actors: ['Ida Butterick']
-          },
-          {
-            title: 'Sir Stanley',
-            actors: ['Lukas Baulig']
-          },
-          {
-            title: 'Sir Simon',
-            actors: ['Emma Böhm', 'Hanna Münnich', 'Victoria Crestenco']
-          },
-          {
-            title: 'Mrs Umney',
-            actors: ['Michelle Sturtz']
-          },
-          {
-            title: 'Cecil',
-            actors: ['Lukas Baulig']
-          },
-          {
-            title: 'Simon de Canterville',
-            actors: ['Sonja Makhlis']
-          },
-          {
-            title: 'Eleanor de Canterville',
-            actors: ['Klara Spies', 'Michelle Sturtz']
-          },
-          {
-            title: 'George',
-            actors: ['Mitko Dimitrov']
-          },
-          {
-            title: 'Gerald',
-            actors: ['Lukas Baulig']
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'
-  = render 'faq', details:

@@ -1,237 +1,232 @@
-= render 'header'
+ruby:
+  details = nil
+  styling = nil
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Magdalena Reinprecht',
+          doubles: [
+            {
+              actor: 'Saskia Scharbach',
+              dates: [0, 1]
+            },
+            {
+              actor: 'Hannah Lehnen',
+              dates: [2, 3]
+            },
+            {
+              actor: 'Carla Wink',
+              dates: [4, 5]
+            }
+          ]
+        },
+        {
+          title: 'Mutter Reinprecht',
+          actors: ['Renate Schüller']
+        },
+        {
+          title: 'Klaas Reinprecht',
+          actors: ['Werner Lutz']
+        },
+        {
+          title: 'Wendel Reinprecht',
+          doubles: [
+            {
+              actor: 'Emil Johann',
+              dates: [0, 1]
+            },
+            {
+              actor: 'Tim Steffes',
+              dates: [2, 3]
+            },
+            {
+              actor: 'Frida Hartmann',
+              dates: [4, 5]
+            }
+          ]
+        },
+        {
+          title: 'Vigo',
+          actors: ['Thomas Ellerich']
+        },
+        {
+          title: 'Rasso',
+          actors: ['Morten Roscher']
+        },
+        {
+          title: 'Naldo',
+          actors: ['Stephan Hilken']
+        },
+        {
+          title: 'Luna; Leo, der Affe',
+          actors: ['Kirsten Roscher']
+        },
+        {
+          title: 'Safi',
+          actors: ['Michelle Sturz']
+        },
+        {
+          title: 'Tetzel',
+          actors: ['Gerd Röser']
+        },
+        {
+          title: 'Elsbeth Wallmann',
+          actors: ['Simone Spies']
+        },
+        {
+          title: 'Student Sephus',
+          actors: ['Jens Mindermann']
+        },
+        {
+          title: 'Student Franz',
+          actors: ['Lukas Franken']
+        },
+        {
+          title: 'Jodokus Thyrlin',
+          actors: ['Dieter Stein']
+        },
+        {
+          title: 'Veit Thyrlin',
+          actors: ['Markus Müller']
+        },
+        {
+          title: 'Luther',
+          actors: ['Karl-Heinz Lehner']
+        },
+        {
+          title: 'Wachmann Bartel',
+          doubles: [
+            {
+              actor: 'Josef Kreutz',
+              dates: [0, 1, 4, 5]
+            },
+            {
+              actor: 'Wilfried Bernauer',
+              dates: [2, 3]
+            }
+          ]
+        },
+        {
+          title: 'Müntzer',
+          actors: ['Stefan Gasser']
+        },
+        {
+          title: 'Buchdrucker Heinze; Altgläubiger',
+          actors: ['Otto Krechel']
+        },
+        {
+          title: 'Weltuntergangs-Gertrudt',
+          actors: ['Susanne Schubert']
+        },
+        {
+          title: 'Reiche',
+          actors: ['Magdalena Sturz']
+        },
+        {
+          title: 'Knecht Heinze',
+          actors: ['Noel Schönberg']
+        },
+        {
+          title: 'Sohn des Feuerkünstlers',
+          actors: ['Jakob Ellerich']
+        },
+        {
+          title: 'Feuerkünstler',
+          actors: ['Werner Lutz']
+        },
+        {
+          title: 'Händler Getreide u. Nüsse',
+          actors: ['Josef Kreutz']
+        },
+        {
+          title: 'Händler Salben u. Tinkturen',
+          actors: ['Wilfried Bernauer']
+        },
+        {
+          title: 'Händlerin Kräuterhexe',
+          actors: ['Gabi Bernauer']
+        },
+        {
+          title: 'Stoffhändlerin',
+          actors: ['Claudia Scholz']
+        },
+        {
+          title: 'Edelsteinhändler',
+          actors: ['Liam Scholz']
+        },
+        {
+          title: 'Musiker',
+          actors: ['Dorothea Kirsch', 'Sabine Ziegler', 'Annemarie Taßler']
+        },
+        {
+          title: 'Bürger, Bergleute, Nonnen, Mönche, Bauern',
+          doubles: [
+            {
+              actor: 'Uli Hesse',
+              dates: [2, 3, 4, 5]
+            },
+            {
+              actor: 'Gisela Lehner'
+            },
+            {
+              actor: 'Liesel Hesse'
+            },
+            {
+              actor: 'Maria Lehnen',
+              dates: [0, 1, 2, 3]
+            },
+            {
+              actor: 'Klara Steinkühler',
+              dates: [0, 1, 2, 3, 4]
+            },
+            {
+              actor: 'Renate Sommer',
+              dates: [0, 2, 3, 4, 5]
+            },
+            {
+              actor: 'Margit Fischer',
+              dates: [0, 1, 2, 3, 5]
+            },
+            {
+              actor: 'Monika Näckel',
+              dates: [0, 2, 3, 4, 5]
+            },
+            {
+              actor: 'Gerda Schnitzler',
+              dates: [1, 2, 3, 4, 5]
+            },
+            {
+              actor: 'Karlheinz Werr'
+            },
+            {
+              actor: 'Heidrun Bretz',
+              dates: [1, 4, 5]
+            },
+            {
+              actor: 'Dr. Elke Koller',
+              dates: [0, 1, 3, 4, 5]
+            },
+            {
+              actor: 'Renate Reifenrath',
+              dates: [0, 2, 3, 4, 5]
+            },
+            {
+              actor: 'Karl-Heinz Steffes-enn',
+              dates: [0, 1, 2, 3]
+            },
+            {
+              actor: 'Rolf Heidorn',
+              dates: [0, 1, 2, 3]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about'
     p Vor 500 Jahren veränderte sich die Welt dramatisch und unwiederbringlich: Gutenberg entwickelte die Buchdruckkunst, Kolumbus entdeckte Amerika und die revolutionären Gedanken Luthers traten von Deutschland aus ihren Siegeszug rund um den Globus an.
     p Anlässlich des 500. Reformationsjubiläums präsentiert die Freilichtbühne am schiefen Turm <b>„Magdalena Himmelstürmerin“</b> nach einem Roman aus der Lutherzeit von Rudolf Herfurtner. Das moderne deutsche Theaterstück erlebte vor wenigen Monaten seine umjubelte Uraufführung in München. Wir begleiten das blutjunge Mädchen Magdalena ein Stück auf seinem Lebensweg und erleben dadurch Geschichte: keinesfalls trocken oder belehrend, vielmehr als spannendes und pralles mittelalterliches Gemälde. So, wie die ganze Welt damals aus den Fugen geriet, erlebt auch sie in ihrer zunächst kleinen, überschaubaren Welt dramatische Entwicklungen und Umbrüche.
     p Als Martin Luther seine 95 Thesen an der Schlosskirche zu Wittenberg anschlägt, ist Magdalena 14 Jahre alt. Bei einem Bergwerksunglück hatte sie zuvor Vater und Bruder verloren. Sie kommt daraufhin zu ihrer Tante nach Wittenberg und erlebt in dieser Stadt eine ganz neue Welt: eine Welt der Gläubigen und Ungläubigen, der Händler und Glaukler, der Räuber und Henker, der Weltuntergangsprediger und Aufklärer. Dort tritt sie auch die großen Gegenspieler ihrer Zeit Ablassprediger Tetzel und dessen standhaften Kritiker Luther.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Magdalena Reinprecht',
-            doubles: [
-              {
-                actor: 'Saskia Scharbach',
-                dates: [0, 1]
-              },
-              {
-                actor: 'Hannah Lehnen',
-                dates: [2, 3]
-              },
-              {
-                actor: 'Carla Wink',
-                dates: [4, 5]
-              }
-            ]
-          },
-          {
-            title: 'Mutter Reinprecht',
-            actors: ['Renate Schüller']
-          },
-          {
-            title: 'Klaas Reinprecht',
-            actors: ['Werner Lutz']
-          },
-          {
-            title: 'Wendel Reinprecht',
-            doubles: [
-              {
-                actor: 'Emil Johann',
-                dates: [0, 1]
-              },
-              {
-                actor: 'Tim Steffes',
-                dates: [2, 3]
-              },
-              {
-                actor: 'Frida Hartmann',
-                dates: [4, 5]
-              }
-            ]
-          },
-          {
-            title: 'Vigo',
-            actors: ['Thomas Ellerich']
-          },
-          {
-            title: 'Rasso',
-            actors: ['Morten Roscher']
-          },
-          {
-            title: 'Naldo',
-            actors: ['Stephan Hilken']
-          },
-          {
-            title: 'Luna; Leo, der Affe',
-            actors: ['Kirsten Roscher']
-          },
-          {
-            title: 'Safi',
-            actors: ['Michelle Sturz']
-          },
-          {
-            title: 'Tetzel',
-            actors: ['Gerd Röser']
-          },
-          {
-            title: 'Elsbeth Wallmann',
-            actors: ['Simone Spies']
-          },
-          {
-            title: 'Student Sephus',
-            actors: ['Jens Mindermann']
-          },
-          {
-            title: 'Student Franz',
-            actors: ['Lukas Franken']
-          },
-          {
-            title: 'Jodokus Thyrlin',
-            actors: ['Dieter Stein']
-          },
-          {
-            title: 'Veit Thyrlin',
-            actors: ['Markus Müller']
-          },
-          {
-            title: 'Luther',
-            actors: ['Karl-Heinz Lehner']
-          },
-          {
-            title: 'Wachmann Bartel',
-            doubles: [
-              {
-                actor: 'Josef Kreutz',
-                dates: [0, 1, 4, 5]
-              },
-              {
-                actor: 'Wilfried Bernauer',
-                dates: [2, 3]
-              }
-            ]
-          },
-          {
-            title: 'Müntzer',
-            actors: ['Stefan Gasser']
-          },
-          {
-            title: 'Buchdrucker Heinze; Altgläubiger',
-            actors: ['Otto Krechel']
-          },
-          {
-            title: 'Weltuntergangs-Gertrudt',
-            actors: ['Susanne Schubert']
-          },
-          {
-            title: 'Reiche',
-            actors: ['Magdalena Sturz']
-          },
-          {
-            title: 'Knecht Heinze',
-            actors: ['Noel Schönberg']
-          },
-          {
-            title: 'Sohn des Feuerkünstlers',
-            actors: ['Jakob Ellerich']
-          },
-          {
-            title: 'Feuerkünstler',
-            actors: ['Werner Lutz']
-          },
-          {
-            title: 'Händler Getreide u. Nüsse',
-            actors: ['Josef Kreutz']
-          },
-          {
-            title: 'Händler Salben u. Tinkturen',
-            actors: ['Wilfried Bernauer']
-          },
-          {
-            title: 'Händlerin Kräuterhexe',
-            actors: ['Gabi Bernauer']
-          },
-          {
-            title: 'Stoffhändlerin',
-            actors: ['Claudia Scholz']
-          },
-          {
-            title: 'Edelsteinhändler',
-            actors: ['Liam Scholz']
-          },
-          {
-            title: 'Musiker',
-            actors: ['Dorothea Kirsch', 'Sabine Ziegler', 'Annemarie Taßler']
-          },
-          {
-            title: 'Bürger, Bergleute, Nonnen, Mönche, Bauern',
-            doubles: [
-              {
-                actor: 'Uli Hesse',
-                dates: [2, 3, 4, 5]
-              },
-              {
-                actor: 'Gisela Lehner'
-              },
-              {
-                actor: 'Liesel Hesse'
-              },
-              {
-                actor: 'Maria Lehnen',
-                dates: [0, 1, 2, 3]
-              },
-              {
-                actor: 'Klara Steinkühler',
-                dates: [0, 1, 2, 3, 4]
-              },
-              {
-                actor: 'Renate Sommer',
-                dates: [0, 2, 3, 4, 5]
-              },
-              {
-                actor: 'Margit Fischer',
-                dates: [0, 1, 2, 3, 5]
-              },
-              {
-                actor: 'Monika Näckel',
-                dates: [0, 2, 3, 4, 5]
-              },
-              {
-                actor: 'Gerda Schnitzler',
-                dates: [1, 2, 3, 4, 5]
-              },
-              {
-                actor: 'Karlheinz Werr'
-              },
-              {
-                actor: 'Heidrun Bretz',
-                dates: [1, 4, 5]
-              },
-              {
-                actor: 'Dr. Elke Koller',
-                dates: [0, 1, 3, 4, 5]
-              },
-              {
-                actor: 'Renate Reifenrath',
-                dates: [0, 2, 3, 4, 5]
-              },
-              {
-                actor: 'Karl-Heinz Steffes-enn',
-                dates: [0, 1, 2, 3]
-              },
-              {
-                actor: 'Rolf Heidorn',
-                dates: [0, 1, 2, 3]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'

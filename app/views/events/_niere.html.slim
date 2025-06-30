@@ -22,9 +22,7 @@ ruby:
     stroke_logo_dark: true
   }
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Kathrin braucht eine neue Niere. Ihr Mann Arnold soll ihr seine spenden, doch leider hat der erfolgreiche Architekt nicht nur keine Zeit dafür, sondern auch Angst vor einer Organspende. Er zögert. Beider Freund Götz erklärt sich sofort bereit, als Spender einzuspringen, wodurch ein irrwitziger Kampf um die Niere ausbricht. Sowohl Diana, Götz' Ehefrau, als auch Arnold fühlen sich übergangen.
     p Uraufgeführt wurde „Die Niere” am 4. März 2018 in der Komödie am Kurfürstendamm, Berlin.
@@ -33,10 +31,3 @@ ruby:
     p Seine Komödie „Arthur & Claire” wurde 2017 von Miguel Alexandre verfilmt, 2019 entstand unter der Regie von Michael Kreihsl die Verfilmung des Stückes „Die Niere” unter dem Titel „Risiken und Nebenwirkungen”.
     p „Es gibt ihn tatsächlich, den jungen, deutschsprachigen Komödienschreiber, der alle dramaturgischen, psychologischen und komödiantischen Regeln beherrscht. Stefan Vögel ist ein Ass in der pointierten Dialogführung ohne billige Effekte.” <em>(Die Welt)</em>
     = yield
-
-  = render 'photos'
-
-  = render 'cast', cast:
-
-  = render 'tickets'
-  = render 'faq', details:

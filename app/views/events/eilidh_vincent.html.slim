@@ -10,10 +10,9 @@ ruby:
     colors: ['F2A95A', '90593C', '2F59BF', '705845', '9C4947'],
     stroke_logo_dark: false
   }
+  cast = nil
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Eilidh', details:
     p „Eilidh”, die Kreation von Vincent und Eilidh, zwei Musikern, die sich zufällig am Musik-Konservatorium in Paris kennengelernt haben, ist ein Zeugnis für die harmonische Verschmelzung kultureller Einflüsse und gemeinsamer kreativer Bestrebungen. Vereint durch ihre Leidenschaft für Musikstile jenseits der klassischen Welt, begab sich das Duo auf die Reise, um ihre eigenen Lieder zu komponieren.
     p Vincent, ein vielseitiger Multiinstrumentalist, begann mit dem E-Bass und erweiterte sein Repertoire um Gitarre, Klavier und verschiedene andere Instrumente. Eilidh, Bass und Gesang, fügt dem Ganzen eine reiche Mischung aus ihrem französischen und schottischen Erbe hinzu.
@@ -36,7 +35,3 @@ ruby:
     p Eilidhs Verbindung zu ihren schottischen Wurzeln ist nach wie vor tief verwurzelt und wird durch häufige Reisen in die Heimat ihrer Vorfahren gestärkt. Ihre Kompositionen verweben auf subtile Weise die keltische Essenz mit ihrer Musik und schaffen eine harmonische Mischung aus Traditionen.
     p Abseits der Bühne erstreckt sich Eilidhs künstlerische Neigung auch auf visuelle Formen. Sie hat eine Leidenschaft für Collagen und Papierkunst und beweist damit eine vielseitige Kreativität, die ihren gesamten künstlerischen Ausdruck bereichert.
     p Eilidh Saunières Geschichte ist eine Geschichte des musikalischen Reichtums, der kulturellen Verschmelzung und einer tiefen Verbundenheit mit ihrem schottischen Erbe, die in jeder Note und jedem Strich ihrer künstlerischen Reise widerhallt.
-
-  = render 'photos'
-  = render 'tickets'
-  = render 'faq', details:

@@ -5,7 +5,12 @@
 
 - content_for :event_sections
   = yield
+  = render 'photos'
+  = render 'cast', cast:
+  = render 'tickets', retail: local_assigns.dig(:details, :retail_sale)
+  = render 'faq', details:
 
+= render 'header', small_outline: local_assigns[:header_small_outline]
 = render 'page_nav'
 
 - if @announcement.present?

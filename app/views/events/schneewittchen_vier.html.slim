@@ -15,63 +15,53 @@ ruby:
     colors: ['1F160C', 'FCF7F3', 'B23127', '80B35C', 'E0C3B1'],
     stroke_logo_dark: false
   }
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Schneewittchen',
+          actors: 'Nele Jischke'
+        },
+        {
+          title: 'Theo Tauberich / Zauberspiegel',
+          actors: 'Anike Jörg'
+        },
+        {
+          title: 'Die schöne Königin',
+          actors: 'Hanna Münnich'
+        },
+        {
+          title: 'Karl',
+          actors: 'Lukas Baulig'
+        },
+        {
+          title: 'Otto',
+          actors: 'Josef Abels'
+        },
+        {
+          title: 'Griselda',
+          actors: 'Ida Butterick'
+        },
+        {
+          title: 'Schnick',
+          actors: 'Victoria Crestenco'
+        },
+        {
+          title: 'Schnack',
+          actors: 'Johanna Pellenz'
+        },
+        {
+          title: 'Schnuck',
+          actors: 'Luisa Schäfer'
+        },
+        {
+          title: 'Schabernack',
+          actors: 'Magdalena Bretz'
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Nach Motiven der Gebrüder Grimm, erzählt vom Kinder- und Jugendtheater der TheaterKultur Kaisersesch, aufgeschrieben von Kirsten Roscher.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Schneewittchen',
-            actors: 'Nele Jischke'
-          },
-          {
-            title: 'Theo Tauberich / Zauberspiegel',
-            actors: 'Anike Jörg'
-          },
-          {
-            title: 'Die schöne Königin',
-            actors: 'Hanna Münnich'
-          },
-          {
-            title: 'Karl',
-            actors: 'Lukas Baulig'
-          },
-          {
-            title: 'Otto',
-            actors: 'Josef Abels'
-          },
-          {
-            title: 'Griselda',
-            actors: 'Ida Butterick'
-          },
-          {
-            title: 'Schnick',
-            actors: 'Victoria Crestenco'
-          },
-          {
-            title: 'Schnack',
-            actors: 'Johanna Pellenz'
-          },
-          {
-            title: 'Schnuck',
-            actors: 'Luisa Schäfer'
-          },
-          {
-            title: 'Schabernack',
-            actors: 'Magdalena Bretz'
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'
-  = render 'faq', details:

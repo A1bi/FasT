@@ -13,36 +13,28 @@ ruby:
     colors: ['0F0F27', 'EAE3E3', 'D59EC2', 'CFB8AC', 'ED70C0'],
     stroke_logo_dark: false
   }
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Gesang',
+          actors: 'Andreas Barth-Steinborn'
+        },
+        {
+          title: 'Trompete',
+          actors: 'Jonathan Beisiegel'
+        },
+        {
+          title: 'Piano',
+          actors: 'Uwe Kohls'
+        }
+      ]
+    }
+  ]
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Über das Konzert', details:
     h3 Eine Hommage an Udo Jürgens
     p() <b>„Trio P!“</b>, Andreas Barth-Steinborn (Gesang), Jonathan Beisiegel (Trompete) und Uwe Kohls (Piano), kommt nach Kaisersesch und nimmt Sie mit hinter die Kulissen von Udo Jürgens, des wohl größten deutschsprachigen Chansonniers. Wer war der Mensch? Welche Niederlagen, welche Liebestragödien inspirierten den großen Star für seine beispiellose Karriere?
     p Auf der KulturBühne Altes Wasserwerk erfahren wir Anekdoten und erhalten Einblicke aus dem Privatleben, seinen Lebenslügen, dem wahren, dem privaten Udo hinter der glitzernden Showfassade.
     p Das Trio hat natürlich auch Udos größte Hits im Gepäck. Wir reisen gemeinsam nach New York, steigen in einem ehrenwerten Haus ab und starten mit 66 Jahren noch einmal richtig durch. Nur Sie und das Trio P! ? Nein! <b>Aber bitte MIT UDO!</b>
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Gesang',
-            actors: 'Andreas Barth-Steinborn'
-          },
-          {
-            title: 'Trompete',
-            actors: 'Jonathan Beisiegel'
-          },
-          {
-            title: 'Piano',
-            actors: 'Uwe Kohls'
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets'
-  = render 'faq', details:

@@ -9,10 +9,9 @@ ruby:
     colors: ['1A1613', 'BBBBBB', 'E4D0C7', '948477', 'AFAABA'],
     stroke_logo_dark: false
   }
+  cast = nil
 
-= render 'header'
-
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Über das Konzert', details:
     p Maurice Lennon, Ciara Brennen und Chris Dawson verbinden ihre Auftrittserfahrung zu einem sehr dynamischen und vielfältigen Programm aus traditioneller und neu komponierter Musik.
     p Gemeinsam haben sie eine starke musikalische Partnerschaft gebildet und schlagen Wellen in der Welt der traditionellen irischen Musik. Ihre Live-Auftritte sind fesselnd, wobei jeder Musiker seine eigene einzigartige Stimme einbringt.
@@ -38,6 +37,3 @@ ruby:
     h4.mt-1.text-center Fiddle, Gesang, Nyckelharpa, Mandoline
     p Ciara stammt aus Dublin und begann das Geigenspiel in frühester Kindheit. Sie entwickelte sich zu einer begnadete Musikerin und Singer-Songwriterin und gewann alle irischen Titel in den Bereichen Geige, Sologesang und Lilting.
     p Mit 18 Jahren nahm Ciara an mehreren Tourneen von Comhaltas Ceolteori hEireann (CCE) teil, darunter die Tournee durch Großbritannien, die Tournee durch Nordamerika und Kanada und sie trat in mehreren europäischen Ländern auf.
-
-  = render 'tickets'
-  = render 'faq', details:

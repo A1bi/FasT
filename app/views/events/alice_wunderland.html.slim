@@ -1,100 +1,97 @@
-= render 'header'
+ruby:
+  details = nil
+  styling = nil
+  cast = [
+    {
+      entries: [
+        {
+          title: 'Alice',
+          actors: ['Michelle Sturtz', 'Emma Gödert', 'Johanna May', 'Katharina May', 'Maria Lehnen', 'Lorena Gorges', 'Lara Heins', 'Sophie Meiers']
+        },
+        {
+          title: 'Dorothy, Mrs. Robertson',
+          actors: ['Nele Fuhrmann']
+        },
+        {
+          title: 'Raupe',
+          actors: ['Yannik Gasser', 'Paulina Gorges', 'Cosima Heinrich', 'Nils Gilles']
+        },
+        {
+          title: 'Kaninchen',
+          actors: ['Valentin Heinrich']
+        },
+        {
+          title: 'Mr. Stockton, Herzkönig',
+          actors: ['Noel Schönberg']
+        },
+        {
+          title: 'Mutter, Herzkönigin',
+          actors: ['Melissa Gasser']
+        },
+        {
+          title: 'Maus, Fisch',
+          actors: ['Merle Bahr']
+        },
+        {
+          title: 'Dideldum',
+          actors: ['Michelle Kemler']
+        },
+        {
+          title: 'Dideldei',
+          actors: ['Jule Thelen']
+        },
+        {
+          title: 'Goggelmoggel',
+          actors: ['Tim Steffes']
+        },
+        {
+          title: 'Blume',
+          actors: ['Cosima Heinrich', 'Merle Bahr', 'Valentin Heinrich', 'Jakob Ellerich', 'Jakob Schmitz', 'Yannik Gasser']
+        },
+        {
+          title: 'Storch',
+          actors: ['Meike Fiedler', 'Melissa Gasser', 'Franziska Weber']
+        },
+        {
+          title: 'Hutmacher',
+          actors: ['Franziska Weber']
+        },
+        {
+          title: 'Schnapphase',
+          actors: ['Anna-Sophia Gorges']
+        },
+        {
+          title: 'Haselmaus',
+          actors: ['Cosima Heinrich']
+        },
+        {
+          title: 'Grinsekatze',
+          actors: ['Meike Fiedler']
+        },
+        {
+          title: 'Scharfrichter',
+          actors: ['Jakob Schmitz']
+        },
+        {
+          title: 'Herzbube',
+          actors: ['Jakob Ellerich']
+        },
+        {
+          title: 'Joker',
+          actors: ['Yannik Gasser']
+        },
+        {
+          title: 'Spielkartenarmee',
+          actors: ['Paulina Gorges', 'Cosima Heinrich', 'Nils Gilles', 'Merle Bahr', 'Michelle Kemler', 'Jule Thelen', 'Tim Steffes']
+        },
+        {
+          title: 'Flamingo',
+          actors: ['Nele Fuhrmann']
+        }
+      ]
+    }
+  ]
 
-= render 'event'
-  .container: .row: .col
+= render 'event', styling:, details:, cast:
+  = render 'about', details:
     p Eine Traumreise in zwei Akten inszeniert von Kirsten Roscher und Stephan Hilken für das Kinder- und Jugendtheater Kaisersesch.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        entries: [
-          {
-            title: 'Alice',
-            actors: ['Michelle Sturtz', 'Emma Gödert', 'Johanna May', 'Katharina May', 'Maria Lehnen', 'Lorena Gorges', 'Lara Heins', 'Sophie Meiers']
-          },
-          {
-            title: 'Dorothy, Mrs. Robertson',
-            actors: ['Nele Fuhrmann']
-          },
-          {
-            title: 'Raupe',
-            actors: ['Yannik Gasser', 'Paulina Gorges', 'Cosima Heinrich', 'Nils Gilles']
-          },
-          {
-            title: 'Kaninchen',
-            actors: ['Valentin Heinrich']
-          },
-          {
-            title: 'Mr. Stockton, Herzkönig',
-            actors: ['Noel Schönberg']
-          },
-          {
-            title: 'Mutter, Herzkönigin',
-            actors: ['Melissa Gasser']
-          },
-          {
-            title: 'Maus, Fisch',
-            actors: ['Merle Bahr']
-          },
-          {
-            title: 'Dideldum',
-            actors: ['Michelle Kemler']
-          },
-          {
-            title: 'Dideldei',
-            actors: ['Jule Thelen']
-          },
-          {
-            title: 'Goggelmoggel',
-            actors: ['Tim Steffes']
-          },
-          {
-            title: 'Blume',
-            actors: ['Cosima Heinrich', 'Merle Bahr', 'Valentin Heinrich', 'Jakob Ellerich', 'Jakob Schmitz', 'Yannik Gasser']
-          },
-          {
-            title: 'Storch',
-            actors: ['Meike Fiedler', 'Melissa Gasser', 'Franziska Weber']
-          },
-          {
-            title: 'Hutmacher',
-            actors: ['Franziska Weber']
-          },
-          {
-            title: 'Schnapphase',
-            actors: ['Anna-Sophia Gorges']
-          },
-          {
-            title: 'Haselmaus',
-            actors: ['Cosima Heinrich']
-          },
-          {
-            title: 'Grinsekatze',
-            actors: ['Meike Fiedler']
-          },
-          {
-            title: 'Scharfrichter',
-            actors: ['Jakob Schmitz']
-          },
-          {
-            title: 'Herzbube',
-            actors: ['Jakob Ellerich']
-          },
-          {
-            title: 'Joker',
-            actors: ['Yannik Gasser']
-          },
-          {
-            title: 'Spielkartenarmee',
-            actors: ['Paulina Gorges', 'Cosima Heinrich', 'Nils Gilles', 'Merle Bahr', 'Michelle Kemler', 'Jule Thelen', 'Tim Steffes']
-          },
-          {
-            title: 'Flamingo',
-            actors: ['Nele Fuhrmann']
-          }
-        ]
-      }
-    ]
-  = render 'cast', cast:

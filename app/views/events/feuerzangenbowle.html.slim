@@ -19,10 +19,55 @@ ruby:
     colors: ['2D0D03', 'EDC98C', 'E5887F', 'F3E4DA', 'C1AEE4'],
     stroke_logo_dark: false
   }
+  cast = [
+    {
+      title: 'Im Gasthof',
+      entries: [
+        { title: 'Justizrat Fleisch', actors: ['Christoph Baulig'] },
+        { title: 'Bankier Etzel', actors: ['Wolfgang Rudolph'] },
+        { title: 'Apotheker Fröbel', actors: ['Walter Loreth'] },
+        { title: 'Dr. med Hellwig', actors: ['Sabrina Jörg'] },
+        { title: 'Kaufmann Zimmermann', actors: ['Thomas Ellerich'] },
+        { title: 'Dr. Johannes Pfeiffer', actors: ['Lukas Baulig'] },
+        { title: 'Kellnerin', actors: ['Fenisia Rudolph'] }
+      ]
 
-= render 'header'
+    },
+    {
+      title: 'Lehrkörper',
+      entries: [
+        { title: 'Direktorin Knauer', actors: ['Claudia Scholz'] },
+        { title: 'Dr. Brett', actors: ['Walter Loreth'] },
+        { title: 'Prof. Crey', actors: ['Kirsten Roscher'] },
+        { title: 'Prof. Bömmel', actors: ['Christoph Baulig'] },
+        { title: 'Eva Knauer', actors: ['Sonja Makhlis'] },
+        { title: 'Oberschulrätin', actors: ['Sabrina Jörg'] }
+      ]
+    },
+    {
+      title: 'Schüler',
+      entries: [
+        { title: 'Hans Pfeiffer', actors: ['Lukas Baulig'] },
+        { title: 'Rudi Knebel', actors: ['Nils Kollig'] },
+        { title: 'Luck', actors: ['Emma Böhm'] },
+        { title: 'Husemann', actors: ['Daniela Gödert'] },
+        { title: 'Rosen', actors: ['Vincent Allkämper'] },
+        { title: 'Mellworm', actors: ['Hanna Münnich'] },
+        { title: 'Ackermann', actors: ['Heidrun Mengel'] },
+        { title: 'Hopfmann', actors: ['Barbara Näckel'] }
+      ]
+    },
+    {
+      title: 'Sonstige Rollen',
+      entries: [
+        { title: 'Frau Windscheid', actors: ['Simone Spies'] },
+        { title: 'Marion', actors: ['Cosima Heinrich'] },
+        { title: 'Schulsekretärin', actors: ['Gaby Bernauer'] }
+      ]
+    }
+  ]
 
-= render 'event', styling:
+= render 'event', styling:, details:, cast:
   = render 'about', details:
     p Beim Sommernachtstheater 2025 dürfen sich die Besucher auf diese beliebte, pointenreiche Komödie freuen, in deren Mittelpunkt die Schule als magischer Ort steht.
     p() <em>„Die Feuerzangenbowle“</em> erzählt humorvoll die Geschichte über den erfolgreichen Schriftsteller Dr. Johannes Pfeiffer, der in seiner Jugend nie die Schulbank gedrückt hat, da er privat unterrichtet wurde. Auf Anraten von Freunden entscheidet er sich, noch einmal das Leben als Schüler zu erleben – allerdings nicht an einer echten Schule, sondern als Erwachsener unter falschem Namen. Am Gymnasium in Kaisersheim nimmt er als „Hans Pfeiffer“ am Unterricht teil und sorgt dort für allerlei Chaos und lustige Verwicklungen, indem er sich als ungehorsamer aber äußerst cleverer Schüler ausgibt. Dabei erlebt er allerlei Streiche und bekommt Einblicke in die Eigenheiten des Schullebens.
@@ -30,58 +75,3 @@ ruby:
     h3 Unsere Inszenierung
     p Das auf dem gleichnamigen Roman (erschienen 1933) basierende Theaterstück <em>„Die Feuerzangenbowle“</em> gilt als Werk mit Kultcharakter und ist nicht mehr aus der deutschen Unterhaltungskultur weg zu denken.
     p Susanne Schubert inszeniert die Geschichte in die Zeit der Hoffnung und des Aufbaus der beginnenden 1950er Jahre. Alles scheint möglich, auch der risikolose Ausbruch aus dem alltäglichen Allerlei mit Verpflichtungen und engen Korsetts. Für Schubert ist das Stück eine Hommage an die Freundschaft zwischen der Hauptfigur Pfeiffer und den Mitschülern, in der Außenseiter selbstverständlich integriert und angenommen werden.
-
-  = render 'photos'
-
-  ruby:
-    cast = [
-      {
-        title: 'Im Gasthof',
-        entries: [
-          { title: 'Justizrat Fleisch', actors: ['Christoph Baulig'] },
-          { title: 'Bankier Etzel', actors: ['Wolfgang Rudolph'] },
-          { title: 'Apotheker Fröbel', actors: ['Walter Loreth'] },
-          { title: 'Dr. med Hellwig', actors: ['Sabrina Jörg'] },
-          { title: 'Kaufmann Zimmermann', actors: ['Thomas Ellerich'] },
-          { title: 'Dr. Johannes Pfeiffer', actors: ['Lukas Baulig'] },
-          { title: 'Kellnerin', actors: ['Fenisia Rudolph'] }
-        ]
-
-      },
-      {
-        title: 'Lehrkörper',
-        entries: [
-          { title: 'Direktorin Knauer', actors: ['Claudia Scholz'] },
-          { title: 'Dr. Brett', actors: ['Walter Loreth'] },
-          { title: 'Prof. Crey', actors: ['Kirsten Roscher'] },
-          { title: 'Prof. Bömmel', actors: ['Christoph Baulig'] },
-          { title: 'Eva Knauer', actors: ['Sonja Makhlis'] },
-          { title: 'Oberschulrätin', actors: ['Sabrina Jörg'] }
-        ]
-      },
-      {
-        title: 'Schüler',
-        entries: [
-          { title: 'Hans Pfeiffer', actors: ['Lukas Baulig'] },
-          { title: 'Rudi Knebel', actors: ['Nils Kollig'] },
-          { title: 'Luck', actors: ['Emma Böhm'] },
-          { title: 'Husemann', actors: ['Daniela Gödert'] },
-          { title: 'Rosen', actors: ['Vincent Allkämper'] },
-          { title: 'Mellworm', actors: ['Hanna Münnich'] },
-          { title: 'Ackermann', actors: ['Heidrun Mengel'] },
-          { title: 'Hopfmann', actors: ['Barbara Näckel'] }
-        ]
-      },
-      {
-        title: 'Sonstige Rollen',
-        entries: [
-          { title: 'Frau Windscheid', actors: ['Simone Spies'] },
-          { title: 'Marion', actors: ['Cosima Heinrich'] },
-          { title: 'Schulsekretärin', actors: ['Gaby Bernauer'] }
-        ]
-      }
-    ]
-  = render 'cast', cast:
-
-  = render 'tickets', retail: details[:retail_sale]
-  = render 'faq', details:

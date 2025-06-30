@@ -9,16 +9,13 @@ ruby:
     },
     poster_filename: 'Plakat'
   }
+  styling = nil
+  cast = nil
 
-= render 'header'
-
-= render 'event'
+= render 'event', styling:, details:, cast:
   = render 'about', title: 'Über das Konzert', details:
     p Moselfränkische Folksongs, Liedermacherstandards aller Art, Volkslieder, Französisches, Italienisches, Alteschlager, Rock ’n’ Roll, Arbeiterlieder, Wienerlieder und folkige Operettenballaden.
     p Ja, geht das denn? <em>Sooo</em> viele verschiedene Stile und Ausrichtungen in einem Programm?
     p Bei Manfred Pohlmann geht das. Und wie!
     p Vielseitigkeit ist keine Schande. Alles, was er singt, hat mit ihm und seinem Leben zu tun. Sein Begleiter und Freund Dirko Juchem ist ihm auf Saxophon, Flöte und als Percussionist sozusagen seine „Band“.
     p Lassen Sie sich überraschen!
-
-  = render 'tickets', retail: details[:retail_sale]
-  = render 'faq', details:
