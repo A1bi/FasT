@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'support/time'
+
 RSpec.describe Ticketing::DebitSepaXmlService do
   describe '#xml' do
     subject { service.xml }
@@ -19,7 +21,7 @@ RSpec.describe Ticketing::DebitSepaXmlService do
       expect(subject).to include('12.50', '13.00')
     end
 
-    it 'set the correct note' do
+    it 'sets the correct note' do
       expect(subject).to include("Vielen Dank für Ihre Bestellung mit der Nummer #{debit_austria.order.number}")
     end
 
@@ -29,6 +31,17 @@ RSpec.describe Ticketing::DebitSepaXmlService do
 
     it 'sets the correct number of transactions and their sum' do
       expect(subject).to include('<NbOfTxs>2</NbOfTxs>', '<CtrlSum>25.50</CtrlSum>')
+    end
+
+    it 'uses the correct message type' do
+      expect(subject).to include('<DrctDbtTxInf>').twice
+      expect(subject).not_to include('<CdtTrfTxInf>')
+    end
+
+    it 'sets the correct requested date' do
+      travel_to('2025-07-01') do
+        expect(subject).to include('<ReqdColltnDt>2025-07-02</ReqdColltnDt>')
+      end
     end
 
     context 'without any debits' do
