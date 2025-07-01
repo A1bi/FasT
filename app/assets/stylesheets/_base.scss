@@ -203,8 +203,10 @@ iframe {
   font-size: 1rem / $heading-size-multiplier;
 }
 
-.text-red {
-  color: $red;
+@each $name, $color in $text-colors {
+  .text-#{$name} {
+    color: $color;
+  }
 }
 
 .text-body-secondary {

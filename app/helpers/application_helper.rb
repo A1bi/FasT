@@ -4,6 +4,11 @@ module ApplicationHelper
   include RenderHelper
 
   NUM_COLOR_THEMES = 5
+  TICKET_AVAILABILITY_LEVELS = {
+    high: (31..),
+    medium: (16..30),
+    low: (..15)
+  }.freeze
 
   def title(page_title)
     content_for :title, page_title.to_s
@@ -71,6 +76,16 @@ module ApplicationHelper
   def event_logo_path(event)
     path = "events/#{event.assets_identifier}/title.svg"
     path if asset_exists?(path)
+  end
+
+  def ticket_availability_level(date)
+    TICKET_AVAILABILITY_LEVELS.find do |_, range|
+      range.include?(date.number_of_available_seats)
+    end.first
+  end
+
+  def max_ticket_availability_threshold
+    TICKET_AVAILABILITY_LEVELS[:high].min - 1
   end
 
   def inline_svg(filename)

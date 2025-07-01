@@ -8,6 +8,28 @@
 - elsif date.event.ticketing_enabled?
   - label = t("ticketing.events.#{date.event.free? ? 'free_tickets' : 'tickets'}")
   = link_to(label, new_ticketing_order_path(date.event.slug, date_id: date), class: 'btn w-100')
+  .ticket-availability
+    - case ticket_availability_level(date)
+      - when :low
+        i.bi.bi-circle-fill.text-red
+        div
+          .d-sm-none.d-md-inline.d-inline-schedule> nur noch
+          = pluralize(date.number_of_available_seats, 'Platz', 'Plätze')
+          .d-sm-none.d-md-inline.d-inline-schedule< frei
+      - when :medium
+        i.bi.bi-circle-fill.text-yellow
+        div
+          .d-sm-none.d-md-inline.d-inline-schedule> noch
+          | #{date.number_of_available_seats} Plätze
+          .d-sm-none.d-md-inline.d-inline-schedule< frei
+      - else
+        i.bi.bi-circle-fill.text-green
+        div
+          .d-sm-none.d-md-inline.d-inline-schedule> mehr als
+          | #{max_ticket_availability_threshold}
+          .d-sm-inline.d-md-none.d-none-schedule> +
+          | Plätze
+          .d-sm-none.d-md-inline.d-inline-schedule< frei
 - elsif (sale_url = date.event.info['external_sale_url']).present?
   = link_to sale_url, title: 'Tickets erhältlich über externen Anbieter', class: 'btn w-100'
     |> Tickets

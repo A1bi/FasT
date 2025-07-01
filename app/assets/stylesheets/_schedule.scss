@@ -139,4 +139,29 @@
     @extend %px-3;
     font-size: 1.3rem;
   }
+
+  .ticket-availability {
+    @extend %d-flex;
+    @extend %align-items-center;
+    @extend %justify-content-center;
+    font-size: .65rem;
+    padding: 4px;
+    gap: 5px;
+    border: 1px solid var(--body-bg);
+    border-top: 0;
+
+    i {
+      font-size: .5rem;
+    }
+  }
+
+  &:not(.schedule-sm) .ticket-availability {
+    .d-inline-schedule {
+      @extend .d-inline;
+    }
+
+    .d-none-schedule {
+      @extend .d-none;
+    }
+  }
 }

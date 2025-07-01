@@ -17,11 +17,18 @@ $media-queries: (
 
 $green: #78ff1f;
 $red: #ff5c5c;
+$yellow: #ffdb40;
 $black: #1F2034;
 $dark-gray: #666;
 $semi-gray: #999;
 $light-gray: #f2f2f2;
 $white: #ffffff;
+
+$text-colors: (
+  green: $green,
+  yellow: $yellow,
+  red: $red
+);
 
 $cta-color: $red;
 $cta-color-hover: darken($red, 10%);
