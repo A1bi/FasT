@@ -28,4 +28,14 @@ h2 Stornierung Ihrer Tickets
           = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
             = f.text_field :iban, required: true, data: { validate_iban: true }
 
+  = render 'alert', type: :info
+    ' Wenn Sie
+    - if @date_transferable && @seats_transferable
+      ' Ihre Sitzplätze oder den Termin ändern
+    - elsif @date_transferable
+      ' auf einen anderen Termin umbuchen
+    - elsif @seats_transferable
+      ' Ihre Sitzplätze ändern
+    | möchten, nutzen Sie bitte die Umbuchung weiter oben.
+
   .text-center.mt-2 = f.submit 'alle Tickets stornieren', class: :btn
