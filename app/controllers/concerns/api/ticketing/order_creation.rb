@@ -38,7 +38,7 @@ module Api
       end
 
       def current_box_office
-        nil
+        super if defined?(super)
       end
     end
   end
