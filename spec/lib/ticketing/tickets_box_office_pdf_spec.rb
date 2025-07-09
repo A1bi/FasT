@@ -4,7 +4,7 @@ require_shared_examples 'ticketing/tickets_pdf'
 
 RSpec.describe Ticketing::TicketsBoxOfficePdf do
   let(:ticket_medium) { 'box_office' }
-  let(:page_layout) { [841.89, 595.28] }
+  let(:page_layout) { [595.28, 841.89] }
 
   include_context 'when rendering tickets pdf'
 
