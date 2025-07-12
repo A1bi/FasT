@@ -18,6 +18,8 @@ json.tickets order.tickets do |ticket|
   json.date_id ticket.date.id.to_s
   json.type_id ticket.type_id.to_s
   json.seat_id ticket.seat&.id.to_s
+  json.cancelled ticket.cancelled?
+  json.cancel_reason ticket.cancellation&.reason
   json.call(ticket, :price, :picked_up, :resale)
 end
 
