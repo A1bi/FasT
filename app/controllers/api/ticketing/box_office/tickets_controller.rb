@@ -31,7 +31,9 @@ module Api
         end
 
         def ticket_params
-          params.expect(ticket: %i[picked_up resale])
+          @tickets.each_with_object({}) do |ticket, t_params|
+            t_params[ticket.id] = params.expect(ticket: %i[picked_up resale])
+          end
         end
 
         def update_tickets
