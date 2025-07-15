@@ -36,7 +36,7 @@
 @include utility-set(align-items, align-items, (start, center, end, stretch));
 @include utility-set(justify-content, justify-content, (start, center, end, space-between));
 @include utility-set(align, vertical-align, (middle));
-@include utility-set(w, width, (100: 100%));
+@include utility-set(w, width, (100: 100%, 100vw: 100vw));
 @include utility-set(h, height, (100: 100%, 50vh: 50vh, 100vh: 100vh));
 @include utility-set(min-h, min-height, (100: 100%, 100vh: 100vh));
 @include utility-set(flex, flex-wrap, (wrap));

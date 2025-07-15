@@ -1,16 +1,15 @@
 #backstage-tv {
-  &, .bottom-bar {
-    background: var(--body-bg);
-  }
+  background: var(--body-bg);
 
   &:not(.bottom-bar-visible) .bottom-bar {
     bottom: -50%;
     opacity: 0;
   }
 
-  .video-placeholder {
-    aspect-ratio: 16 / 9;
-    background: var(--secondary-bg-color);
+  .video video {
+    @extend %h-100vh;
+    @extend %w-100vw;
+    object-fit: cover;
   }
 
   .bottom-bar, .sticky-bar {
@@ -18,14 +17,16 @@
     bottom: 0;
   }
 
-  .seats, .clock {
-    background: var(--secondary-bg-color);
-  }
-
   .bottom-bar .content, .sticky-bar {
     @extend %p-3;
     @extend %d-flex;
     @extend %align-items-end;
+  }
+
+  .bottom-bar, .sticky-bar .clock {
+    --background-opacity: 85%;
+    background: color-mix(in srgb, var(--body-bg) var(--background-opacity), transparent);
+    backdrop-filter: blur(10px);
   }
 
   .bottom-bar {
@@ -56,6 +57,7 @@
       .seats {
         @extend %p-2;
         width: 30%;
+        background: var(--secondary-bg-color);
       }
     }
   }
@@ -99,6 +101,7 @@
       @extend %w-100;
       @extend %text-center;
       padding: 5px;
+      --background-opacity: 30%;
     }
   }
 }

@@ -1,5 +1,5 @@
 #backstage-tv data-controller='backstage-tv' data-action='click->backstage-tv#toggleFullscreen' data-backstage-tv-begin-date-value=@date.date.rfc2822 data-backstage-tv-admission-date-value=@date.admission_time.rfc2822
-  .video-placeholder
+  .video: video(data-backstage-tv-target='video' autoplay playsinline muted)
   .bottom-bar: .content
     .event
       = event_logo(@date.event, tag: :h1, inline_svg: true)

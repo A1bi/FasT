@@ -3,8 +3,16 @@ import { colorToRgbCss, generateColors } from 'components/dynamic_colors'
 import { toggleDisplay } from 'components/utils'
 import moment from 'moment/min/moment-with-locales'
 
+const PeerConnection = async (videoElement) => {
+  const pc = new RTCPeerConnection()
+  const transceiver = pc.addTransceiver('video', { direction: 'recvonly' })
+  const videoTrack = transceiver.receiver.track
+  videoElement.srcObject = new MediaStream([videoTrack])
+  return pc
+}
+
 export default class extends Controller {
-  static targets = ['admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo']
+  static targets = ['video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo']
   static values = {
     admissionDate: String,
     beginDate: String
@@ -17,12 +25,52 @@ export default class extends Controller {
     this.admissionDate = moment(this.admissionDateValue)
     this.beginDate = moment(this.beginDateValue)
 
+    this.playVideoStream()
     this.updateTimes()
     this.shuffleLogoColors()
 
     if (this.beginDate.isAfter()) {
       this.toggleBottomBar(true)
     }
+  }
+
+  async playVideoStream () {
+    const pc = await PeerConnection(this.videoTarget)
+    const ws = new WebSocket('ws://localhost:1984/api/ws?src=cam&media=video')
+
+    ws.addEventListener('open', async () => {
+      pc.addEventListener('icecandidate', ev => {
+        if (!ev.candidate) return
+        const msg = {
+          type: 'webrtc/candidate',
+          value: ev.candidate.candidate
+        }
+        ws.send(JSON.stringify(msg))
+      })
+
+      const offer = await pc.createOffer()
+      await pc.setLocalDescription(offer)
+      const msg = {
+        type: 'webrtc/offer',
+        value: pc.localDescription.sdp
+      }
+      ws.send(JSON.stringify(msg))
+    })
+
+    ws.addEventListener('message', ev => {
+      const msg = JSON.parse(ev.data)
+      if (msg.type === 'webrtc/candidate') {
+        pc.addIceCandidate({
+          candidate: msg.value,
+          sdpMid: '0'
+        })
+      } else if (msg.type === 'webrtc/answer') {
+        pc.setRemoteDescription({
+          type: 'answer',
+          sdp: msg.value
+        })
+      }
+    })
   }
 
   updateTimes () {
