@@ -1,4 +1,8 @@
 #backstage-tv {
+  @extend %w-100vw;
+  @extend %h-100vh;
+  position: relative;
+  overflow: hidden;
   background: var(--body-bg);
 
   &:not(.bottom-bar-visible) .bottom-bar {
@@ -7,8 +11,8 @@
   }
 
   .video video {
-    @extend %h-100vh;
     @extend %w-100vw;
+    @extend %h-100vh;
     object-fit: cover;
   }
 

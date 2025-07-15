@@ -3,14 +3,6 @@ import { colorToRgbCss, generateColors } from 'components/dynamic_colors'
 import { toggleDisplay } from 'components/utils'
 import moment from 'moment/min/moment-with-locales'
 
-const PeerConnection = async (videoElement) => {
-  const pc = new RTCPeerConnection()
-  const transceiver = pc.addTransceiver('video', { direction: 'recvonly' })
-  const videoTrack = transceiver.receiver.track
-  videoElement.srcObject = new MediaStream([videoTrack])
-  return pc
-}
-
 export default class extends Controller {
   static targets = ['video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo']
   static values = {
@@ -32,14 +24,25 @@ export default class extends Controller {
     if (this.beginDate.isAfter()) {
       this.toggleBottomBar(true)
     }
+
+    document.addEventListener('keyup', event => {
+      if (event.code !== 'Space') return
+
+      if (this.peerConnection) {
+        this.peerConnection.close()
+        this.peerConnection = null
+      } else {
+        this.playVideoStream()
+      }
+    })
   }
 
   async playVideoStream () {
-    const pc = await PeerConnection(this.videoTarget)
+    await this.initPeerConnection()
     const ws = new WebSocket('ws://localhost:1984/api/ws?src=cam&media=video')
 
     ws.addEventListener('open', async () => {
-      pc.addEventListener('icecandidate', ev => {
+      this.peerConnection.addEventListener('icecandidate', ev => {
         if (!ev.candidate) return
         const msg = {
           type: 'webrtc/candidate',
@@ -48,11 +51,11 @@ export default class extends Controller {
         ws.send(JSON.stringify(msg))
       })
 
-      const offer = await pc.createOffer()
-      await pc.setLocalDescription(offer)
+      const offer = await this.peerConnection.createOffer()
+      await this.peerConnection.setLocalDescription(offer)
       const msg = {
         type: 'webrtc/offer',
-        value: pc.localDescription.sdp
+        value: this.peerConnection.localDescription.sdp
       }
       ws.send(JSON.stringify(msg))
     })
@@ -60,17 +63,24 @@ export default class extends Controller {
     ws.addEventListener('message', ev => {
       const msg = JSON.parse(ev.data)
       if (msg.type === 'webrtc/candidate') {
-        pc.addIceCandidate({
+        this.peerConnection.addIceCandidate({
           candidate: msg.value,
           sdpMid: '0'
         })
       } else if (msg.type === 'webrtc/answer') {
-        pc.setRemoteDescription({
+        this.peerConnection.setRemoteDescription({
           type: 'answer',
           sdp: msg.value
         })
       }
     })
+  }
+
+  async initPeerConnection () {
+    this.peerConnection = new RTCPeerConnection()
+    const transceiver = this.peerConnection.addTransceiver('video', { direction: 'recvonly' })
+    const videoTrack = transceiver.receiver.track
+    this.videoTarget.srcObject = new MediaStream([videoTrack])
   }
 
   updateTimes () {
