@@ -1,0 +1,104 @@
+#backstage-tv {
+  &, .bottom-bar {
+    background: var(--body-bg);
+  }
+
+  &:not(.bottom-bar-visible) .bottom-bar {
+    bottom: -50%;
+    opacity: 0;
+  }
+
+  .video-placeholder {
+    aspect-ratio: 16 / 9;
+    background: var(--secondary-bg-color);
+  }
+
+  .bottom-bar, .sticky-bar {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .seats, .clock {
+    background: var(--secondary-bg-color);
+  }
+
+  .bottom-bar .content, .sticky-bar {
+    @extend %p-3;
+    @extend %d-flex;
+    @extend %align-items-end;
+  }
+
+  .bottom-bar {
+    @extend %w-100;
+    transition: bottom 1s, opacity .8s;
+
+    .content {
+      @extend %justify-content-space-between;
+      width: 80%;
+
+      .event {
+        width: 40%;
+
+        svg {
+          max-width: 250px;
+        }
+
+        svg * {
+          fill: var(--body-color) !important;
+          stroke: none !important;
+        }
+      }
+
+      .event {
+        width: 30%;
+      }
+
+      .seats {
+        @extend %p-2;
+        width: 30%;
+      }
+    }
+  }
+
+  .sticky-bar {
+    @extend %flex-wrap;
+    @extend %justify-content-end;
+    right: 0;
+    width: 25%;
+    max-width: 300px;
+
+    .logo {
+      @extend %w-100;
+      @extend %mb-1;
+      @extend %text-end;
+
+      svg {
+        g {
+          transition: fill 3s;
+        }
+
+        g:nth-of-type(4) * {
+          transform-box: fill-box;
+          transform-origin: center;
+          animation: rotate-diamond 4s infinite linear;
+        }
+
+        @keyframes rotate-diamond {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+    }
+
+    .clock {
+      @extend .ff-mono;
+      @extend %w-100;
+      @extend %text-center;
+      padding: 5px;
+    }
+  }
+}

@@ -50,10 +50,6 @@
       }
     }
 
-    .canvas, .key {
-      border: 1px solid $light-gray;
-    }
-
     svg {
       @extend %d-block;
       @extend %w-100;
@@ -145,6 +141,22 @@
       &.status-available, &.status-chosen, &.status-exclusive {
         cursor: pointer;
       }
+    }
+  }
+
+  &.minimal {
+    pointer-events: none;
+
+    .plan {
+      .top-bar {
+        @extend %d-none;
+      }
+    }
+  }
+
+  &:not(.minimal) {
+    .canvas, .key {
+      border: 1px solid $light-gray;
     }
   }
 }

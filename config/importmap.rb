@@ -18,6 +18,7 @@ pin 'filepond-plugin-image-preview' # @4.6.7
 pin 'glightbox' # @3.2.0
 pin 'mapbox-gl' # @1.11.0
 pin 'moment' # @2.29.4
+pin 'moment/min/moment-with-locales', to: 'moment--min--moment-with-locales.js' # @2.30.1
 pin 'qrcode-svg' # @4.30.4
 pin 'socket.io-client' # @4.4.1
 pin 'sortablejs' # @1.15.2

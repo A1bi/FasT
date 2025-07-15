@@ -1,0 +1,15 @@
+#backstage-tv data-controller='backstage-tv' data-action='click->backstage-tv#toggleFullscreen' data-backstage-tv-begin-date-value=@date.date.rfc2822 data-backstage-tv-admission-date-value=@date.admission_time.rfc2822
+  .video-placeholder
+  .bottom-bar: .content
+    .event
+      = event_logo(@date.event, tag: :h1, inline_svg: true)
+      p.f-lbi = l @date.date, format: :long
+      p.mb-0 data-backstage-tv-target='admissionIn' Einlass beginnt <span data-backstage-tv-target='admissionInTime'></span>.
+      p.mb-0 data-backstage-tv-target='beginsIn' Einlass hat begonnen.<br>Aufführung beginnt <span data-backstage-tv-target='beginsInTime'></span>.
+    .stats
+      p() <b>250</b> von 300 Tickets verkauft.
+      p.mb-0() <b>32</b> von 250 Zuschauern eingecheckt.
+    .seats data-backstage-tv-target='seating' = render 'application/ticketing/seating', event: @date.event, seats_path: ticketing_statistics_seats_path(@date), class: %i[minimal]
+  .sticky-bar
+    .logo data-backstage-tv-target='logo' = inline_svg('logos/l3_right.svg')
+    .clock data-backstage-tv-target='clock'

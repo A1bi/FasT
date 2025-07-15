@@ -261,6 +261,8 @@ Rails.application.routes.draw do
   resources :internet_access_sessions, path: :wlan, only: %i[new create],
                                        path_names: { new: '' }
 
+  get 'backstage-tv' => 'backstage_tv#index'
+
   use_doorkeeper do
     controllers token_info: 'doorkeeper/enhanced_token_info'
     skip_controllers :applications, :authorized_applications

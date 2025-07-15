@@ -3,7 +3,10 @@ meta.name = 'theme-color'
 document.querySelector('head').appendChild(meta)
 
 const updateThemeColor = () => {
-  const themeColor = window.getComputedStyle(document.querySelector('header')).backgroundColor
+  const header = document.querySelector('header')
+  if (!header) return
+
+  const themeColor = window.getComputedStyle(header).backgroundColor
   meta.content = themeColor
 
   const rulers = document.querySelectorAll('hr')
