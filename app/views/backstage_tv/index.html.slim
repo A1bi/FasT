@@ -9,7 +9,7 @@
     .stats
       p() <b data-backstage-tv-target='ticketsSold'>0</b> von <span data-backstage-tv-target='numberOfSeats'>0</span> Tickets verkauft.
       p.mb-0() <b data-backstage-tv-target='checkIns'>0</b> von <span data-backstage-tv-target='ticketsSold'>0</span> Zuschauern eingecheckt.
-    .seats data-backstage-tv-target='seating' = render 'application/ticketing/seating', event: @date.event, seats_path: ticketing_statistics_seats_path(@date), class: %i[minimal]
+    .seats = render 'application/ticketing/seating', event: @date.event, class: %i[minimal], mode: :custom, js_controller_target: %w[backstage-tv seating]
   .sticky-bar
     .logo data-backstage-tv-target='logo' = inline_svg('logos/l3_right.svg')
     .clock data-backstage-tv-target='clock'

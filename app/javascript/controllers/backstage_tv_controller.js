@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
+import SeatingStandalone from 'components/ticketing/seating_standalone'
 import { createSubscription } from 'components/actioncable'
 import { colorToRgbCss, generateColors } from 'components/dynamic_colors'
 import { toggleDisplay } from 'components/utils'
@@ -6,8 +7,8 @@ import moment from 'moment/min/moment-with-locales'
 
 export default class extends Controller {
   static targets = [
-    'video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo',
-    'ticketsSold', 'numberOfSeats', 'checkIns'
+    'video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'clock', 'logo',
+    'ticketsSold', 'numberOfSeats', 'checkIns', 'seating'
   ]
 
   static values = {
@@ -26,6 +27,9 @@ export default class extends Controller {
     this.playVideoStream()
     this.updateTimes()
     this.shuffleLogoColors()
+
+    this.seating = new SeatingStandalone(this.seatingTarget)
+    this.seating.init()
 
     if (this.beginDate.isAfter()) {
       this.toggleBottomBar(true)
@@ -52,6 +56,8 @@ export default class extends Controller {
           this.updateTicketStats(data)
         } else if ('check_ins' in data) {
           this.updateCheckInsStats(data)
+        } else if ('booked_seat_ids' in data) {
+          this.updateSeating(data)
         }
       }
     })
@@ -129,6 +135,18 @@ export default class extends Controller {
 
   updateCheckInsStats (data) {
     this.checkInsTarget.innerText = data.check_ins
+  }
+
+  updateSeating (data) {
+    this.setStatusForSeatIds(data.booked_seat_ids, 'taken')
+    this.setStatusForSeatIds(data.checked_in_seat_ids, 'chosen')
+  }
+
+  setStatusForSeatIds (ids, status) {
+    ids.forEach(id => {
+      const seat = this.seating.seats[id]
+      if (seat) this.seating.setStatusForSeat(seat, status)
+    })
   }
 
   toggleBottomBar (toggle) {

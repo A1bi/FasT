@@ -13,7 +13,7 @@ RSpec.describe BackstageTvChannel do
       expect(subject)
         .to have_stream_from(:ticketing_check_ins)
         .and(have_stream_from(:ticketing_tickets_sold))
-        .and(have_stream_from(:ticketing_seats_checked_in))
+        .and(have_stream_from(:ticketing_seats))
     end
 
     it 'enqueues initial update broadcastings' do

@@ -11,10 +11,10 @@ RSpec.describe Ticketing::BroadcastCheckInsJob do
     end
 
     context 'with imminent date' do
-      let(:event) { create(:event, :complete, dates_count: 2) }
-      let(:order) { create(:order, :with_tickets, tickets_count: 2, event:, date: event.dates.first) }
+      let(:event) { create(:event, :complete, :with_seating, dates_count: 2, seats_count: 4) }
+      let(:order) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.first) }
       let(:order_other_date) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.second) }
-      let!(:check_ins) { order.tickets.map { |ticket| create(:check_in, ticket:) } }
+      let!(:check_ins) { order.tickets.first(2).map { |ticket| create(:check_in, ticket:) } }
       let!(:check_ins_other_date) { order_other_date.tickets.map { |ticket| create(:check_in, ticket:) } }
 
       before do
@@ -24,8 +24,16 @@ RSpec.describe Ticketing::BroadcastCheckInsJob do
       end
 
       shared_examples 'check-in update broadcaster' do
-        it 'broadcasts check-in updates' do
-          expect { subject }.to(have_broadcasted_to(:ticketing_check_ins).with(check_ins: 2))
+        it 'broadcasts check-in count' do
+          expect { subject }.to have_broadcasted_to(:ticketing_check_ins).with(check_ins: 2)
+        end
+
+        it 'broadcasts checked in seat IDs' do
+          expect { subject }.to(
+            have_broadcasted_to(:ticketing_seats).with do |params|
+              expect(params[:booked_seat_ids]).to match_array(event.seating.seats.last(3).pluck(:id))
+              expect(params[:checked_in_seat_ids]).to match_array(event.seating.seats.last(2).pluck(:id))
+            end)
         end
       end
 
