@@ -57,7 +57,9 @@ export default class extends Controller {
         } else if ('check_ins' in data) {
           this.updateCheckInsStats(data)
         } else if ('booked_seat_ids' in data) {
-          this.updateSeating(data)
+          this.setStatusForSeatIds(data.booked_seat_ids, 'taken')
+        } else if ('checked_in_seat_ids' in data) {
+          this.setStatusForSeatIds(data.checked_in_seat_ids, 'chosen')
         }
       }
     })
@@ -135,11 +137,6 @@ export default class extends Controller {
 
   updateCheckInsStats (data) {
     this.checkInsTarget.innerText = data.check_ins
-  }
-
-  updateSeating (data) {
-    this.setStatusForSeatIds(data.booked_seat_ids, 'taken')
-    this.setStatusForSeatIds(data.checked_in_seat_ids, 'chosen')
   }
 
   setStatusForSeatIds (ids, status) {

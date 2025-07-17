@@ -30,8 +30,7 @@ RSpec.describe Ticketing::BroadcastCheckInsJob do
 
         it 'broadcasts checked in seat IDs' do
           expect { subject }.to(
-            have_broadcasted_to(:ticketing_seats).with do |params|
-              expect(params[:booked_seat_ids]).to match_array(event.seating.seats.last(3).pluck(:id))
+            have_broadcasted_to(:ticketing_seats_checked_in).with do |params|
               expect(params[:checked_in_seat_ids]).to match_array(event.seating.seats.last(2).pluck(:id))
             end)
         end

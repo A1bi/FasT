@@ -7,19 +7,13 @@ module Ticketing
       return if date.nil? || (check_ins.present? && check_ins.none? { |t| t.ticket.date == date })
 
       ActionCable.server.broadcast(:ticketing_check_ins, { check_ins: check_ins_count })
-      ActionCable.server.broadcast(:ticketing_seats, { booked_seat_ids:, checked_in_seat_ids: })
+      ActionCable.server.broadcast(:ticketing_seats_checked_in, { checked_in_seat_ids: })
     end
 
     private
 
     def check_ins_count
       unique_check_ins.count
-    end
-
-    def booked_seat_ids
-      return [] unless date.event.seating?
-
-      date.tickets.valid.pluck(:seat_id)
     end
 
     def checked_in_seat_ids

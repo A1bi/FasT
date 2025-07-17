@@ -11,9 +11,9 @@ RSpec.describe Ticketing::BroadcastTicketsSoldJob do
     end
 
     context 'with imminent date' do
-      let(:event) { create(:event, :complete, dates_count: 2) }
+      let(:event) { create(:event, :complete, :with_seating, dates_count: 2, seats_count: 4) }
       let!(:order) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.first) }
-      let!(:order_other_date) { create(:order, :with_tickets, tickets_count: 2, event:, date: event.dates.second) }
+      let!(:order_other_date) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.second) }
 
       before { event.dates.each.with_index { |date, i| date.update(date: i.hours.from_now) } }
 
@@ -23,6 +23,13 @@ RSpec.describe Ticketing::BroadcastTicketsSoldJob do
             have_broadcasted_to(:ticketing_tickets_sold)
               .with(tickets_sold: 3, number_of_seats: event.number_of_seats)
           )
+        end
+
+        it 'broadcasts booked seat IDs' do
+          expect { subject }.to(
+            have_broadcasted_to(:ticketing_seats_booked).with do |params|
+              expect(params[:booked_seat_ids]).to match_array(event.seating.seats.last(3).pluck(:id))
+            end)
         end
       end
 
