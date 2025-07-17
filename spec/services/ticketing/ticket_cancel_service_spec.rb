@@ -87,6 +87,10 @@ RSpec.describe Ticketing::TicketCancelService do
         let(:info) { { count: 3 } }
       end
     end
+
+    it 'queues a tickets sold broadcast' do
+      expect { subject }.to have_enqueued_job(Ticketing::BroadcastTicketsSoldJob).with(tickets:)
+    end
   end
 
   context 'when all tickets are already invalid' do

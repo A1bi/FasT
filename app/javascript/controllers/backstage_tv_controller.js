@@ -1,10 +1,15 @@
 import { Controller } from '@hotwired/stimulus'
+import { createSubscription } from 'components/actioncable'
 import { colorToRgbCss, generateColors } from 'components/dynamic_colors'
 import { toggleDisplay } from 'components/utils'
 import moment from 'moment/min/moment-with-locales'
 
 export default class extends Controller {
-  static targets = ['video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo']
+  static targets = [
+    'video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo',
+    'ticketsSold', 'numberOfSeats'
+  ]
+
   static values = {
     admissionDate: String,
     beginDate: String
@@ -17,6 +22,7 @@ export default class extends Controller {
     this.admissionDate = moment(this.admissionDateValue)
     this.beginDate = moment(this.beginDateValue)
 
+    this.subscribeToChannel()
     this.playVideoStream()
     this.updateTimes()
     this.shuffleLogoColors()
@@ -33,6 +39,18 @@ export default class extends Controller {
         this.peerConnection = null
       } else {
         this.playVideoStream()
+      }
+    })
+  }
+
+  async subscribeToChannel () {
+    this.subscription = createSubscription({
+      channel: 'BackstageTvChannel'
+    }, {
+      received: data => {
+        if (data.tickets_sold) {
+          this.updateTicketStats(data)
+        }
       }
     })
   }
@@ -100,6 +118,11 @@ export default class extends Controller {
     }
 
     setTimeout(() => this.updateTimes(), 1000)
+  }
+
+  updateTicketStats (data) {
+    this.ticketsSoldTargets.forEach(target => { target.innerText = data.tickets_sold })
+    this.numberOfSeatsTarget.innerText = data.number_of_seats
   }
 
   toggleBottomBar (toggle) {

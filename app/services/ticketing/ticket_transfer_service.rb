@@ -23,6 +23,7 @@ module Ticketing
 
         create_log_event
         update_seats_with_node
+        broadcast_tickets_sold(tickets: nil)
 
         true
       end

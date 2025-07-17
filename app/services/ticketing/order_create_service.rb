@@ -3,6 +3,7 @@
 module Ticketing
   class OrderCreateService < BaseService
     include OrderingType
+    include Broadcasting
     include Errors
 
     attr_accessor :current_box_office
@@ -99,6 +100,7 @@ module Ticketing
 
         suppress_in_production(StandardError) do
           send_push_notifications
+          broadcast_tickets_sold(tickets: @order.tickets)
         end
       end
     end

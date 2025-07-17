@@ -24,6 +24,7 @@ module Ticketing
       send_email(transaction) if send_customer_email
 
       update_node_with_tickets
+      broadcast_tickets_sold
     end
 
     private

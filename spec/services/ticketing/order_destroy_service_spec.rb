@@ -15,4 +15,8 @@ RSpec.describe Ticketing::OrderDestroyService do
     expect(NodeApi).to receive(:update_seats_from_records).with(tickets)
     subject
   end
+
+  it 'queues a tickets sold broadcast' do
+    expect { subject }.to have_enqueued_job(Ticketing::BroadcastTicketsSoldJob).with(tickets: nil)
+  end
 end

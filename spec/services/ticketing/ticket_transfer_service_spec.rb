@@ -22,6 +22,10 @@ RSpec.describe Ticketing::TicketTransferService do
 
   it_behaves_like 'changes dates'
 
+  it 'queues a tickets sold broadcast' do
+    expect { subject }.to have_enqueued_job(Ticketing::BroadcastTicketsSoldJob).with(tickets: nil)
+  end
+
   context 'when not enough seats are available' do
     before { event.update(number_of_seats: 1) }
 

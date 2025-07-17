@@ -5,6 +5,7 @@ module Ticketing
     class TicketsFromDifferentOrdersError < StandardError; end
 
     include NodeUpdating
+    include Broadcasting
 
     def initialize(tickets, current_user: nil)
       raise TicketsFromDifferentOrdersError if tickets.pluck(:order_id).uniq.count > 1
@@ -44,6 +45,10 @@ module Ticketing
 
     def update_node_with_tickets
       super(tickets)
+    end
+
+    def broadcast_tickets_sold(tickets: self.tickets)
+      super
     end
   end
 end

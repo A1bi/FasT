@@ -170,6 +170,12 @@ RSpec.describe Ticketing::OrderCreateService do
 
       it_behaves_like 'marks order as paid', true
     end
+
+    it 'queues a tickets sold broadcast' do
+      expect { subject }.to(have_enqueued_job(Ticketing::BroadcastTicketsSoldJob).with do |params|
+        expect(params[:tickets]).to eq(order.tickets)
+      end)
+    end
   end
 
   context 'with a retail order' do

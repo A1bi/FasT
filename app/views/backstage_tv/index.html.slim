@@ -7,8 +7,8 @@
       p.mb-0 data-backstage-tv-target='admissionIn' Einlass beginnt <span data-backstage-tv-target='admissionInTime'></span>.
       p.mb-0 data-backstage-tv-target='beginsIn' Einlass hat begonnen.<br>Aufführung beginnt <span data-backstage-tv-target='beginsInTime'></span>.
     .stats
-      p() <b>250</b> von 300 Tickets verkauft.
-      p.mb-0() <b>32</b> von 250 Zuschauern eingecheckt.
+      p() <b data-backstage-tv-target='ticketsSold'>0</b> von <span data-backstage-tv-target='numberOfSeats'>0</span> Tickets verkauft.
+      p.mb-0() <b>32</b> von <span data-backstage-tv-target='ticketsSold'>0</span> Zuschauern eingecheckt.
     .seats data-backstage-tv-target='seating' = render 'application/ticketing/seating', event: @date.event, seats_path: ticketing_statistics_seats_path(@date), class: %i[minimal]
   .sticky-bar
     .logo data-backstage-tv-target='logo' = inline_svg('logos/l3_right.svg')
