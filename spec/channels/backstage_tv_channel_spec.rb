@@ -16,8 +16,11 @@ RSpec.describe BackstageTvChannel do
         .and(have_stream_from(:ticketing_seats_checked_in))
     end
 
-    it 'enqueues initial update broadcasting' do
-      expect { subject }.to have_enqueued_job(Ticketing::BroadcastTicketsSoldJob)
+    it 'enqueues initial update broadcastings' do
+      expect { subject }.to(
+        have_enqueued_job(Ticketing::BroadcastTicketsSoldJob)
+        .and(have_enqueued_job(Ticketing::BroadcastCheckInsJob))
+      )
     end
   end
 end

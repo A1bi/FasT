@@ -33,6 +33,12 @@ RSpec.describe Ticketing::TicketCheckInJob do
         expect(check_in.medium).to eq('web')
       end
 
+      it 'queues a check-ins broadcast' do
+        expect { subject }.to(have_enqueued_job(Ticketing::BroadcastCheckInsJob).with do |params|
+          expect(params[:check_ins]).to contain_exactly(Ticketing::CheckIn.last)
+        end)
+      end
+
       context 'with an invalid date' do
         let(:date) { 'foobar' }
 

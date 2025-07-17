@@ -7,7 +7,7 @@ import moment from 'moment/min/moment-with-locales'
 export default class extends Controller {
   static targets = [
     'video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'seating', 'clock', 'logo',
-    'ticketsSold', 'numberOfSeats'
+    'ticketsSold', 'numberOfSeats', 'checkIns'
   ]
 
   static values = {
@@ -48,8 +48,10 @@ export default class extends Controller {
       channel: 'BackstageTvChannel'
     }, {
       received: data => {
-        if (data.tickets_sold) {
+        if ('tickets_sold' in data) {
           this.updateTicketStats(data)
+        } else if ('check_ins' in data) {
+          this.updateCheckInsStats(data)
         }
       }
     })
@@ -123,6 +125,10 @@ export default class extends Controller {
   updateTicketStats (data) {
     this.ticketsSoldTargets.forEach(target => { target.innerText = data.tickets_sold })
     this.numberOfSeatsTarget.innerText = data.number_of_seats
+  }
+
+  updateCheckInsStats (data) {
+    this.checkInsTarget.innerText = data.check_ins
   }
 
   toggleBottomBar (toggle) {
