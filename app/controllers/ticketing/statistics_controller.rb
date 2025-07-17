@@ -12,8 +12,6 @@ module Ticketing
 
     before_action :authorize
 
-    layout 'minimal', only: :check_ins
-
     def index
       @events = Event.ordered_by_dates(:desc)
 
@@ -81,8 +79,6 @@ module Ticketing
         }.symbolize_keys
       end
     end
-
-    def check_ins; end
 
     private
 

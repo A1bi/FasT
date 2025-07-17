@@ -17,9 +17,5 @@ module Ticketing
     def map_data?
       user_admin?
     end
-
-    def check_ins?
-      user_admin?
-    end
   end
 end
