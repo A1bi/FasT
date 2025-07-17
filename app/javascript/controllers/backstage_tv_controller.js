@@ -57,9 +57,11 @@ export default class extends Controller {
         } else if ('check_ins' in data) {
           this.updateCheckInsStats(data)
         } else if ('booked_seat_ids' in data) {
-          this.setStatusForSeatIds(data.booked_seat_ids, 'taken')
+          this.bookedSeatIds = data.booked_seat_ids
+          this.updateSeating()
         } else if ('checked_in_seat_ids' in data) {
-          this.setStatusForSeatIds(data.checked_in_seat_ids, 'chosen')
+          this.checkedInSeatIds = data.checked_in_seat_ids
+          this.updateSeating()
         }
       }
     })
@@ -139,11 +141,10 @@ export default class extends Controller {
     this.checkInsTarget.innerText = data.check_ins
   }
 
-  setStatusForSeatIds (ids, status) {
-    ids.forEach(id => {
-      const seat = this.seating.seats[id]
-      if (seat) this.seating.setStatusForSeat(seat, status)
-    })
+  updateSeating () {
+    this.seating.resetSeats()
+    this.seating.markSeats(this.bookedSeatIds, 'taken')
+    this.seating.markSeats(this.checkedInSeatIds, 'chosen')
   }
 
   toggleBottomBar (toggle) {

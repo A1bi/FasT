@@ -213,6 +213,20 @@ export default class {
     ['numbers', 'zoomed-in'].forEach(c => this.svg.classList.toggle(c, this.plan.matches('.zoomed')))
   }
 
+  resetSeats () {
+    this.markSeats(Object.keys(this.seats), 'available')
+  }
+
+  markSeats (seatIds = [], status, callback) {
+    for (const seatId of seatIds) {
+      const seat = this.seats[seatId]
+      if (!seat) continue
+
+      this.setStatusForSeat(seat, status)
+      if (callback) callback(seatId)
+    }
+  }
+
   setStatusForSeat (seat, status) {
     seat.classList.remove(`status-${seat.dataset.status}`)
     seat.classList.add('status-' + status)

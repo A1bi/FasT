@@ -39,16 +39,6 @@ export default class extends Seating {
 
   resetSeats () {
     this.selectedSeats = []
-    this.markSeats(Object.keys(this.seats), 'available')
-  }
-
-  markSeats (seatIds = [], status, callback) {
-    for (const seatId of seatIds) {
-      const seat = this.seats[seatId]
-      if (!seat) continue
-
-      this.setStatusForSeat(seat, status)
-      if (callback) callback(seatId)
-    }
+    super.resetSeats()
   }
 }
