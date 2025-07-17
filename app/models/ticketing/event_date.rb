@@ -20,6 +20,10 @@ module Ticketing
       def past
         where(date: ..Time.current)
       end
+
+      def imminent
+        upcoming(offset: 1.day).order(Arel.sql('abs(extract(epoch from (date - ?))) ASC', Time.current)).first
+      end
     end
 
     def sold_out?

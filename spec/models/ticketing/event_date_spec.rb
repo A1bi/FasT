@@ -25,6 +25,46 @@ RSpec.describe Ticketing::EventDate do
     end
   end
 
+  describe '.imminent' do
+    subject { described_class.imminent }
+
+    let!(:distant_date) { create(:event_date, date: 20.hours.from_now) }
+    let!(:date) { create(:event_date, date: 2.hours.from_now) }
+
+    before { create(:event_date, date: 30.hours.ago) }
+
+    it { is_expected.to eq(date) }
+
+    context 'with an imminent date slightly in the past' do
+      let(:date) { create(:event_date, date: 1.hour.ago) }
+
+      it { is_expected.to eq(date) }
+    end
+
+    context 'when the date is long past but still the closest' do
+      subject do
+        travel_to(16.hours.from_now) { super() }
+      end
+
+      it { is_expected.to eq(distant_date) }
+    end
+
+    context 'when we are closer to the next date' do
+      subject do
+        travel_to(6.hours.from_now) { super() }
+      end
+
+      it { is_expected.to eq(date) }
+    end
+
+    context 'without any dates upcoming' do
+      let(:date) { nil }
+      let(:distant_date) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#admission_time' do
     subject { date.admission_time }
 
