@@ -42,7 +42,7 @@
       width: 80%;
 
       .event {
-        width: 40%;
+        width: 30%;
 
         svg {
           max-width: 250px;
@@ -54,13 +54,9 @@
         }
       }
 
-      .event {
-        width: 30%;
-      }
-
       .seats {
         @extend %p-2;
-        width: 30%;
+        width: 35%;
         background: var(--secondary-bg-color);
       }
     }

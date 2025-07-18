@@ -144,7 +144,7 @@ export default class extends Controller {
   updateSeating () {
     this.seating.resetSeats()
     this.seating.markSeats(this.bookedSeatIds, 'taken')
-    this.seating.markSeats(this.checkedInSeatIds, 'chosen')
+    this.seating.markSeats(this.checkedInSeatIds, 'checked-in')
   }
 
   toggleBottomBar (toggle) {
