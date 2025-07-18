@@ -47,22 +47,39 @@ RSpec.describe Ticketing::TicketCreateService do
   context 'when not enough seats are available' do
     before { allow(date).to receive(:number_of_available_seats).and_return(2) }
 
-    it 'creates no tickets' do
-      subject
-      expect(order.tickets).to be_empty
-    end
-
-    it 'adds an error to the order' do
-      subject
-      expect(service.errors).to include(:not_enough_seats_available)
-    end
-
-    context 'when in admin mode' do
-      let(:order_type) { :admin }
+    context 'with seating' do
+      it 'adds no error to the order' do
+        subject
+        expect(service.errors).not_to include(:not_enough_seats_available)
+      end
 
       it 'creates tickets' do
         subject
         expect(order.tickets).not_to be_empty
+      end
+    end
+
+    context 'without seating' do
+      let(:seating) { nil }
+      let(:chosen_seats) { [] }
+
+      it 'creates no tickets' do
+        subject
+        expect(order.tickets).to be_empty
+      end
+
+      it 'adds an error to the order' do
+        subject
+        expect(service.errors).to include(:not_enough_seats_available)
+      end
+
+      context 'when in admin mode' do
+        let(:order_type) { :admin }
+
+        it 'creates tickets' do
+          subject
+          expect(order.tickets).not_to be_empty
+        end
       end
     end
   end

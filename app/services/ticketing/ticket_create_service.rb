@@ -23,7 +23,7 @@ module Ticketing
     private
 
     def build_tickets
-      return add_error(:not_enough_seats_available) unless enough_seats_available? || admin?
+      return add_error(:not_enough_seats_available) unless seating? || enough_seats_available? || admin?
 
       ticket_params.each do |type_id, number|
         next unless number.positive?
