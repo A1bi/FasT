@@ -23,7 +23,7 @@ module Ticketing
     end
 
     def unique_check_ins
-      @ticket_ids ||= CheckIn.where(ticket: date.tickets.valid).select(:ticket_id).distinct
+      @unique_check_ins ||= CheckIn.where(ticket: date.tickets.valid).select(:ticket_id).distinct
     end
 
     def date

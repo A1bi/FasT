@@ -29,7 +29,8 @@ RSpec.describe Ticketing::BroadcastTicketsSoldJob do
           expect { subject }.to(
             have_broadcasted_to(:ticketing_seats_booked).with do |params|
               expect(params[:booked_seat_ids]).to match_array(event.seating.seats.last(3).pluck(:id))
-            end)
+            end
+          )
         end
       end
 
