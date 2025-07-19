@@ -6,7 +6,6 @@ module Ticketing
       def subscribed
         stream_from :ticketing_check_ins
         stream_from :ticketing_tickets_sold
-        stream_from :ticketing_seats_booked
 
         Ticketing::BroadcastTicketsSoldJob.perform_later
         Ticketing::BroadcastCheckInsJob.perform_later

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Ticketing::BoxOffice::BoxOfficeChannel do
+RSpec.describe Ticketing::CheckpointChannel do
   before { stub_connection }
 
   describe '#subscribed' do
