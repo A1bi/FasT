@@ -62,4 +62,8 @@ RSpec.describe Ticketing::TicketUpdateService do
       expect { subject }.to raise_error(described_class::TicketsFromDifferentOrdersError)
     end
   end
+
+  it 'queues a tickets sold broadcast' do
+    expect { subject }.to have_enqueued_job(Ticketing::BroadcastTicketsSoldJob).with(tickets: [tickets[0], tickets[1]])
+  end
 end

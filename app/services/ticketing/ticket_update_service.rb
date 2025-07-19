@@ -32,6 +32,8 @@ module Ticketing
 
       log_service(order).update_ticket_types(tickets_updated_type)
       log_service(order).enable_resale_for_tickets(tickets_resale)
+
+      broadcast_tickets_sold(tickets: tickets_resale) if tickets_resale.any?
     end
 
     def updated_attr?(ticket, attr)

@@ -11,17 +11,21 @@ RSpec.describe Ticketing::BroadcastTicketsSoldJob do
     end
 
     context 'with imminent date' do
-      let(:event) { create(:event, :complete, :with_seating, dates_count: 2, seats_count: 4) }
-      let!(:order) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.first) }
+      let(:event) { create(:event, :complete, :with_seating, dates_count: 2, seats_count: 5) }
+      let!(:order) { create(:order, :with_tickets, tickets_count: 5, event:, date: event.dates.first) }
       let!(:order_other_date) { create(:order, :with_tickets, tickets_count: 3, event:, date: event.dates.second) }
 
-      before { event.dates.each.with_index { |date, i| date.update(date: i.hours.from_now) } }
+      before do
+        event.dates.each.with_index { |date, i| date.update(date: i.hours.from_now) }
+        order.tickets[3].update(resale: true)
+        create(:cancellation, tickets: [order.tickets[4]])
+      end
 
       shared_examples 'sold tickets update broadcaster' do
         it 'broadcasts sold tickets updates' do
           expect { subject }.to(
             have_broadcasted_to(:ticketing_tickets_sold)
-              .with(tickets_sold: 3, number_of_seats: event.number_of_seats)
+              .with(tickets_sold: 4, valid_tickets: 3, number_of_seats: event.number_of_seats)
           )
         end
 

@@ -15,6 +15,7 @@ module Ticketing
     def ticketing_tickets_sold_payload
       {
         tickets_sold: date.number_of_booked_seats,
+        valid_tickets: date.tickets.valid.count,
         number_of_seats: date.number_of_seats
       }
     end
