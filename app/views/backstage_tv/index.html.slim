@@ -7,7 +7,9 @@
       p.mb-0 data-backstage-tv-target='admissionIn' Einlass beginnt <span data-backstage-tv-target='admissionInTime'></span>.
       p.mb-0 data-backstage-tv-target='beginsIn' Einlass hat begonnen.<br>Aufführung beginnt <span data-backstage-tv-target='beginsInTime'></span>.
     .stats
-      p() <b data-backstage-tv-target='ticketsSold'>0</b> von <span data-backstage-tv-target='numberOfSeats'>0</span> Tickets verkauft.
+      p
+        <b data-backstage-tv-target='ticketsSold'>0</b> von <span data-backstage-tv-target='numberOfSeats'>0</span> Tickets verkauft.
+        span< data-backstage-tv-target='soldOut' Ausverkauft!
       p.mb-0() <b data-backstage-tv-target='checkIns'>0</b> von <span data-backstage-tv-target='ticketsSold'>0</span> Zuschauern eingecheckt.
     .seats = render 'application/ticketing/seating', event: @date.event, class: %i[minimal], mode: :custom, js_controller_target: %w[backstage-tv seating]
   .sticky-bar

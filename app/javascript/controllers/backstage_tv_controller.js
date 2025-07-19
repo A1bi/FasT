@@ -8,7 +8,7 @@ import moment from 'moment/min/moment-with-locales'
 export default class extends Controller {
   static targets = [
     'video', 'admissionIn', 'admissionInTime', 'beginsIn', 'beginsInTime', 'clock', 'logo',
-    'ticketsSold', 'numberOfSeats', 'checkIns', 'seating'
+    'ticketsSold', 'soldOut', 'numberOfSeats', 'checkIns', 'seating'
   ]
 
   static values = {
@@ -133,8 +133,13 @@ export default class extends Controller {
   }
 
   updateTicketStats (data) {
-    this.ticketsSoldTargets.forEach(target => { target.innerText = data.tickets_sold })
+    // account for resale tickets not yet cancelled, don't show more tickets than number of seats
+    const soldTickets = Math.min(data.tickets_sold, data.number_of_seats)
+    // also use number of sold tickets here instead of valid tickets
+    // this avoid confusion, because the number of tickets to check in might differ from sold tickets
+    this.ticketsSoldTargets.forEach(target => { target.innerText = soldTickets })
     this.numberOfSeatsTarget.innerText = data.number_of_seats
+    toggleDisplay(this.soldOutTarget, data.tickets_sold >= data.number_of_seats)
   }
 
   updateCheckInsStats (data) {
