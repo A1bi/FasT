@@ -1,6 +1,6 @@
 default: &default
   adapter: redis
-  path: /var/run/redis/redis.sock
+  path: <%= Settings.redis.path %>
 
 development:
   <<: *default

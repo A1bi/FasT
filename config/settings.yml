@@ -1,3 +1,6 @@
+redis:
+  path: /var/run/redis/redis.sock
+
 action_mailer:
   defaults:
     from: TheaterKultur Kaisersesch <noreply@theater-kaisersesch.de>
