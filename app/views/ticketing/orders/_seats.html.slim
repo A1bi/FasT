@@ -7,7 +7,7 @@
     = render 'application/ticketing/date_select', dates: @dates, preselected_date: @preselected_date
 
   - if @event.seating?
-    .text-center.show-seating-btn: button.btn Sitzplätze auswählen
+    button.btn.show-seating-btn.d-block.mx-auto disabled=true Sitzplätze auswählen
 
     .seat_chooser.slidable
       h3 Ihre Sitzplätze

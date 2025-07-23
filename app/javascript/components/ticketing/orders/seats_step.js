@@ -65,6 +65,8 @@ export default class extends Step {
     this.info.api.date = selected.dataset.id
     if (!this.info.api.date) return
 
+    if (this.hasSeatingPlan) this.showSeatingBtn.disabled = false
+
     this.info.internal.boxOfficePayment = 'boxOfficePayment' in selected.dataset
     this.info.internal.localizedDate = selected.textContent
 
