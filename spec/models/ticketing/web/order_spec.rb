@@ -70,6 +70,7 @@ RSpec.describe Ticketing::Web::Order do
     end
 
     it { is_expected.to contain_exactly(order) }
+    it { is_expected.to be_a ActiveRecord::Relation }
   end
 
   describe '#payment_overdue?' do

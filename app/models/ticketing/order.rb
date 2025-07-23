@@ -46,7 +46,7 @@ module Ticketing
       end
 
       def date_imminent
-        find(EventDate.imminent.tickets.valid.pluck(:order_id))
+        where(id: EventDate.imminent.tickets.valid.pluck(:order_id))
       end
 
       def with_tickets
