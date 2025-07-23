@@ -5,6 +5,8 @@ module Ticketing
     include Cancellable
     include Statistics
 
+    SOLD_OUT_THRESHOLD = 97
+
     belongs_to :event, proc { including_ticketing_disabled }, touch: true, inverse_of: :dates
     has_many :tickets, dependent: :nullify, foreign_key: :date_id, inverse_of: :date
     has_many :reservations, dependent: :destroy, foreign_key: :date_id, inverse_of: :date
@@ -27,8 +29,9 @@ module Ticketing
     end
 
     def sold_out?
-      threshold = past? ? 97 : 100
-      statistics[:percentage] >= threshold
+      return number_of_available_seats.zero? unless past?
+
+      statistics[:percentage] >= SOLD_OUT_THRESHOLD
     end
 
     def admission_time
@@ -40,11 +43,16 @@ module Ticketing
     end
 
     def number_of_available_seats
-      number_of_unreserved_seats - number_of_booked_seats
+      # use valid instead of sold because sold include resale tickets
+      number_of_unreserved_seats - number_of_valid_tickets
     end
 
-    def number_of_booked_seats
+    def number_of_sold_tickets
       statistics[:total]
+    end
+
+    def number_of_valid_tickets
+      tickets.valid.count
     end
 
     private
