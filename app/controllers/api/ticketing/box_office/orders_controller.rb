@@ -12,9 +12,9 @@ module Api
 
         def index
           @orders = ::Ticketing::Order.with_tickets.order(:last_name, :first_name)
-          return @orders = @orders.none unless params.keys.intersect?(%w[event_today unpaid recent q])
+          return @orders = @orders.none unless params.keys.intersect?(%w[date_imminent unpaid recent q])
 
-          @orders = @orders.event_today if params[:event_today].present?
+          @orders = @orders.date_imminent if params[:date_imminent].present?
           @orders = @orders.unpaid if params[:unpaid].present?
           @orders = recent_orders if params[:recent].present?
           @orders, @ticket = search_orders if params[:q].present?

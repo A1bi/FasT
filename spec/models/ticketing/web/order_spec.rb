@@ -58,6 +58,20 @@ RSpec.describe Ticketing::Web::Order do
     end
   end
 
+  describe '.date_imminent' do
+    subject { described_class.date_imminent }
+
+    let(:event) { create(:event, :complete, dates_count: 2) }
+    let!(:order) { create(:web_order, :with_tickets, event:, date: event.dates.first) }
+
+    before do
+      event.dates.each.with_index { |date, i| date.update(date: i.days.from_now) }
+      create(:web_order, :with_tickets, event:, date: event.dates.last)
+    end
+
+    it { is_expected.to contain_exactly(order) }
+  end
+
   describe '#payment_overdue?' do
     subject { order.payment_overdue? }
 

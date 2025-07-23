@@ -45,17 +45,8 @@ module Ticketing
         where(paid: false)
       end
 
-      def event_today
-        joins(tickets: :date)
-          .where(
-            ticketing_tickets: {
-              cancellation_id: nil
-            },
-            ticketing_event_dates: {
-              date: Time.zone.today.all_day
-            }
-          )
-          .distinct
+      def date_imminent
+        find(EventDate.imminent.tickets.valid.pluck(:order_id))
       end
 
       def with_tickets
