@@ -87,7 +87,7 @@ module Ticketing
     end
 
     def free?
-      ticket_types.count.positive? && ticket_types.sum(:price).zero?
+      ticket_types.any? && ticket_types.sum(:price).zero?
     end
 
     def seating?

@@ -48,7 +48,7 @@ module Members
     end
 
     def recurring_payment?(payment)
-      payment.member.membership_fee_payments.count > 1
+      payment.member.membership_fee_payments.many?
     end
 
     def translate(key, options = {})

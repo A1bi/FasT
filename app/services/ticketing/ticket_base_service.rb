@@ -8,7 +8,7 @@ module Ticketing
     include Broadcasting
 
     def initialize(tickets, current_user: nil)
-      raise TicketsFromDifferentOrdersError if tickets.pluck(:order_id).uniq.count > 1
+      raise TicketsFromDifferentOrdersError if tickets.pluck(:order_id).uniq.many?
 
       @tickets = tickets
       @current_user = current_user
