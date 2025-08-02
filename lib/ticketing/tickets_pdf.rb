@@ -68,8 +68,8 @@ module Ticketing
     def draw_event_info_for_date(date)
       create_event_info_stamp date.event
 
-      draw_stamp(:dates, date, true) do
-        draw_stamp(:events, date.event, false)
+      draw_stamp(:dates, date) do
+        draw_stamp(:events, date.event)
 
         move_down 15
 
@@ -154,7 +154,7 @@ module Ticketing
     end
 
     def draw_logo
-      draw_stamp(:logo, nil, true) do
+      draw_stamp(:logo) do
         font_size FONT_SIZES[:tiny] do
           text_width = width_of_inline_formatted_string(t(:website))
           bounding_box([0, cursor], width: bounds.width, height: cursor - FONT_SIZES[:tiny] - 5) do
