@@ -37,10 +37,12 @@
 
         .photo-placeholder {
           @extend %w-100, %h-100;
+          --pattern-opacity: .1;
           position: absolute;
           transition: opacity .5s linear;
           animation: photo-loading 1.25s linear infinite;
-          background: linear-gradient(to right, #eee 10%, #ddd 18%, #eee 33%);
+          background-color: var(--secondary-bg-color);
+          background-image: linear-gradient(to right, transparent 10%, rgba(black, var(--pattern-opacity)) 18%, transparent 33%);
           background-size: 1000px 1000px;
 
           @keyframes photo-loading {
@@ -50,6 +52,10 @@
             100% {
               background-position: 500px 0;
             }
+          }
+
+          @include media-dark-theme {
+            --pattern-opacity: .4;
           }
         }
       }
