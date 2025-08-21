@@ -2,6 +2,7 @@
 
 class Wasserwerk
   include HTTParty
+
   base_uri 'https://api.wasserwerk.theater-kaisersesch.de'
   headers 'Authorization' => "Bearer #{Rails.application.credentials.wasserwerk_api_token}"
 

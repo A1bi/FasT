@@ -2,6 +2,7 @@
 
 class Nominatim
   include HTTParty
+
   base_uri 'https://nominatim.openstreetmap.org'
 
   class << self
