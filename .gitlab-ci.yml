@@ -17,11 +17,11 @@ workflow:
     url: https://www.theater-kaisersesch.de
 
 .default-tags:
-  tags: [ruby-3.3]
+  tags: [ruby-3.4]
 
 .postgres:
   tags:
-    - ruby-3.2
+    - ruby-3.4
     - postgres
 
 .bundle: &bundle
