@@ -9,8 +9,8 @@ RSpec.describe Ticketing::SendPayRemindersJob do
       travel_to(second_run_at) { described_class.perform_now }
     end
 
-    def create_affected_order(*args)
-      create(:web_order, :complete, :unpaid, :transfer_payment, *args)
+    def create_affected_order(*)
+      create(:web_order, :complete, :unpaid, :transfer_payment, *)
     end
 
     let(:due_order) { create_affected_order(created_at: 8.days.ago) }
