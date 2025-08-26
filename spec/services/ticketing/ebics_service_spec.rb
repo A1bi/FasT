@@ -10,7 +10,7 @@ RSpec.describe Ticketing::EbicsService do
   let(:statement) { instance_double(Cmxl::Statement, transactions: [transaction]) }
   let(:transaction) { instance_double(Cmxl::Fields::Transaction) }
   let(:file) { instance_double(Pathname, open: 'foo') }
-  let(:credentials) { ActiveSupport::OrderedOptions.new(secret: 'a', user_id: 'b', partner_id: 'c') }
+  let(:credentials) { ActiveSupport::OrderedOptions.new }
 
   before do
     allow(Rails.root).to receive(:join).with('config/ebics.key').and_return(file)
