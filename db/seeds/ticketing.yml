@@ -130,3 +130,5 @@ events:
     assets_identifier: niere
     slug: die-niere-2026
     name: Die Niere
+  - identifier: zauberer_oz
+    name: Der Zauberer von Oz
