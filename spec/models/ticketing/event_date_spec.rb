@@ -101,6 +101,16 @@ RSpec.describe Ticketing::EventDate do
     context 'when date is in the future' do
       before { date.update(date: 1.day.from_now) }
 
+      context 'without seating' do
+        let(:event) { create(:event, :complete, number_of_seats: 2, dates_count: 1) }
+
+        context 'when date is overbooked' do
+          let(:tickets_count) { 3 }
+
+          it { is_expected.to be_truthy }
+        end
+      end
+
       context 'with seating' do
         let(:event) { create(:event, :complete, :with_seating, seats_count: 5, dates_count: 1) }
         let(:tickets_count) { 5 }

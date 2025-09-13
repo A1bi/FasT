@@ -29,7 +29,7 @@ module Ticketing
     end
 
     def sold_out?
-      return number_of_available_seats.zero? unless past?
+      return !number_of_available_seats.positive? unless past?
 
       statistics[:percentage] >= SOLD_OUT_THRESHOLD
     end
