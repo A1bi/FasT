@@ -8,7 +8,9 @@ module Ticketing
     before_action :find_ensembles, only: %i[new create edit update]
 
     def index
-      @events = authorize(events_scope.ordered_by_dates(:desc))
+      @events = authorize(events_scope.ordered_by_dates(:desc)).group_by do |event|
+        l(event.dates.first.date, format: '%Y')
+      end
     end
 
     def show; end

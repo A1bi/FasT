@@ -127,6 +127,7 @@ table {
   thead {
     th, td {
       border-bottom-width: 2px;
+      background: var(--body-bg);
     }
   }
 
@@ -295,6 +296,11 @@ dl {
   &:not(.visible) {
     overflow-y: hidden;
   }
+}
+
+.sticky-below-topbar {
+  position: sticky;
+  top: var(--topbar-logo-height);
 }
 
 @include media-query(md) {

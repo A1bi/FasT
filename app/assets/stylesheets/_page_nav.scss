@@ -1,7 +1,6 @@
 .page-nav {
   @extend %text-center;
-  position: sticky;
-  top: $top-bar-stuck-logo-height;
+  @extend .sticky-below-topbar;
   padding: .75rem 0;
   box-shadow: 0 2px 10px rgba($black, 0.07);
   background: var(--secondary-bg-color);
