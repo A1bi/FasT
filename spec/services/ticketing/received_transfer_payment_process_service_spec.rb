@@ -20,7 +20,8 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   let(:reference) { "Bestellung #{order.number}" }
   let(:sha) { 'abc123' }
   let(:mref) { nil }
-  let(:order) { create(:order, :complete, :unpaid, :with_balance) }
+  let(:orders) { create_list(:order, 3, :complete, :unpaid, :with_balance) }
+  let(:order) { orders[0] }
   let(:date) { Date.parse('2024-05-11') }
 
   before do
@@ -28,20 +29,28 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     travel_to(date)
   end
 
-  shared_examples 'matches transaction' do
-    it 'creates a matching bank transaction' do
+  shared_examples 'creates matching bank transaction' do
+    it 'creates one matching bank transaction' do
       expect { subject }.to change(Ticketing::BankTransaction, :count).by(1)
       t = Ticketing::BankTransaction.last
       expect(t.raw_source).to eq(transaction_details)
       expect(t.raw_source_sha).to eq(sha)
     end
+  end
+
+  shared_examples 'matches transaction' do
+    it_behaves_like 'creates matching bank transaction'
 
     it 'marks the order as paid' do
       expect { subject }.to(change { order.reload.paid }.to(true))
     end
 
-    it 'settles the orders\'s balance' do
+    it 'settles the order\'s balance' do
       expect { subject }.to(change { order.reload.balance }.to(0))
+    end
+
+    it 'does not touch the other orders' do
+      expect { subject }.not_to(change { orders[1..2].map { |o| o.reload.paid } })
     end
   end
 
@@ -120,5 +129,35 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let(:amount) { 999 }
 
     it_behaves_like 'does not match transaction'
+  end
+
+  context 'when two payments are combined into one' do
+    let(:paid_orders) { orders[..1] }
+    let(:amount) { -paid_orders.sum(&:balance) }
+    let(:reference) { "Bestellungen #{paid_orders.pluck(:number).join(' ')} 999999" }
+    let(:orders) do
+      orders = super()
+      orders[1].withdraw_from_account(123, nil)
+      orders
+    end
+
+    it_behaves_like 'creates matching bank transaction'
+
+    it 'marks the orders as paid' do
+      expect { subject }.to(change { paid_orders.map { |o| o.reload.paid } }.to([true] * paid_orders.count))
+    end
+
+    it 'settles the orders\' balance' do
+      expect { subject }.to(change { paid_orders.map { |o| o.reload.balance } }.to([0] * paid_orders.count))
+    end
+
+    it 'associates both orders with this new bank transaction' do
+      subject
+      expect(Ticketing::BankTransaction.last.orders).to eq(paid_orders)
+    end
+
+    it 'does not touch the other order' do
+      expect { subject }.not_to(change { orders[2].reload.paid })
+    end
   end
 end

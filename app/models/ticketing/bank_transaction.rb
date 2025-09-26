@@ -4,7 +4,7 @@ module Ticketing
   class BankTransaction < ApplicationRecord
     include Anonymizable
 
-    belongs_to :order
+    has_and_belongs_to_many :orders
     belongs_to :submission, class_name: 'BankSubmission', optional: true
 
     auto_strip_attributes :name, squish: true
@@ -73,7 +73,7 @@ module Ticketing
     end
 
     def anonymizable?
-      super && order.anonymized?
+      super && orders.all?(&:anonymized?)
     end
 
     private

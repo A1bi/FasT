@@ -950,7 +950,6 @@ CREATE TABLE public.ticketing_bank_transactions (
     id bigint NOT NULL,
     name character varying,
     iban character varying,
-    order_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     submission_id bigint,
@@ -978,6 +977,16 @@ CREATE SEQUENCE public.ticketing_bank_transactions_id_seq
 --
 
 ALTER SEQUENCE public.ticketing_bank_transactions_id_seq OWNED BY public.ticketing_bank_transactions.id;
+
+
+--
+-- Name: ticketing_bank_transactions_orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticketing_bank_transactions_orders (
+    bank_transaction_id bigint,
+    order_id bigint
+);
 
 
 --
@@ -2921,6 +2930,20 @@ ALTER TABLE ONLY public.web_authn_credentials
 
 
 --
+-- Name: idx_on_bank_transaction_id_f424773570; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_bank_transaction_id_f424773570 ON public.ticketing_bank_transactions_orders USING btree (bank_transaction_id);
+
+
+--
+-- Name: idx_on_order_id_bank_transaction_id_3b510bd977; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_on_order_id_bank_transaction_id_3b510bd977 ON public.ticketing_bank_transactions_orders USING btree (order_id, bank_transaction_id);
+
+
+--
 -- Name: index_billing_acounts_on_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3117,13 +3140,6 @@ CREATE INDEX index_photos_on_gallery_id ON public.photos USING btree (gallery_id
 
 
 --
--- Name: index_ticketing_bank_transactions_on_order_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_ticketing_bank_transactions_on_order_id ON public.ticketing_bank_transactions USING btree (order_id);
-
-
---
 -- Name: index_ticketing_bank_transactions_on_raw_source_sha; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3135,6 +3151,13 @@ CREATE UNIQUE INDEX index_ticketing_bank_transactions_on_raw_source_sha ON publi
 --
 
 CREATE INDEX index_ticketing_bank_transactions_on_submission_id ON public.ticketing_bank_transactions USING btree (submission_id);
+
+
+--
+-- Name: index_ticketing_bank_transactions_orders_on_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticketing_bank_transactions_orders_on_order_id ON public.ticketing_bank_transactions_orders USING btree (order_id);
 
 
 --
@@ -3774,6 +3797,14 @@ ALTER TABLE ONLY public.ticketing_log_events
 
 
 --
+-- Name: ticketing_bank_transactions_orders fk_rails_67f7ebba22; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_transactions_orders
+    ADD CONSTRAINT fk_rails_67f7ebba22 FOREIGN KEY (order_id) REFERENCES public.ticketing_orders(id);
+
+
+--
 -- Name: ticketing_bank_transactions fk_rails_684a6280d2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3926,14 +3957,6 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 
 
 --
--- Name: ticketing_bank_transactions fk_rails_d1b3471c1f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.ticketing_bank_transactions
-    ADD CONSTRAINT fk_rails_d1b3471c1f FOREIGN KEY (order_id) REFERENCES public.ticketing_orders(id);
-
-
---
 -- Name: ticketing_push_notifications_web_subscriptions fk_rails_d59495030f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3963,6 +3986,14 @@ ALTER TABLE ONLY public.ticketing_ticket_types
 
 ALTER TABLE ONLY public.ticketing_tickets
     ADD CONSTRAINT fk_rails_df38ae1276 FOREIGN KEY (date_id) REFERENCES public.ticketing_event_dates(id);
+
+
+--
+-- Name: ticketing_bank_transactions_orders fk_rails_df673aff4d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticketing_bank_transactions_orders
+    ADD CONSTRAINT fk_rails_df673aff4d FOREIGN KEY (bank_transaction_id) REFERENCES public.ticketing_bank_transactions(id);
 
 
 --
@@ -4012,6 +4043,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250926193854'),
 ('20250617185930'),
 ('20250121223540'),
 ('20250103121117'),

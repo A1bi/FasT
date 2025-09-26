@@ -2,7 +2,7 @@
 
 module Ticketing
   class ReceivedTransferPaymentProcessService
-    ORDER_NUMBER_PATTERN = /(^|[^\d]+)(\d{6})([^\d]+|$)/
+    ORDER_NUMBER_PATTERN = /([^\d]|\b)(\d{6})\b/
 
     def initialize
       @ebics_service = EbicsService.new
@@ -17,18 +17,22 @@ module Ticketing
             log 'Already processed, skipping.'
             next
           end
-          if (order = order_matching_transaction(transaction))&.lock!.nil?
-            log 'No matching order found, skipping.'
+          if (orders = orders_matching_transaction(transaction)).empty?
+            log 'No matching orders found, skipping.'
             next
           end
-          if transaction_amount_matches_order?(transaction, order)
+          orders.each(&:lock!)
+          if transaction_amount_matches_orders?(transaction, orders)
             log 'Amount does not match, skipping.'
             next
           end
 
-          BankTransaction.create!(order:, raw_source: transaction, raw_source_sha: transaction.sha)
-          OrderPaymentService.new(order).mark_as_paid
-          log "Marked order #{order.number} as paid."
+          BankTransaction.create!(orders:, raw_source: transaction, raw_source_sha: transaction.sha)
+
+          orders.each do |order|
+            OrderPaymentService.new(order).mark_as_paid
+            log "Marked order #{order.number} as paid."
+          end
         end
       end
     end
@@ -49,14 +53,14 @@ module Ticketing
       BankTransaction.where(raw_source_sha: transaction.sha).any?
     end
 
-    def order_matching_transaction(transaction)
-      return unless transaction.sepa['SVWZ'] =~ ORDER_NUMBER_PATTERN
-
-      Order.unpaid.find_by(number: Regexp.last_match(2))
+    def orders_matching_transaction(transaction)
+      transaction.sepa['SVWZ'].scan(ORDER_NUMBER_PATTERN).map do |match|
+        Order.unpaid.find_by(number: match[1])
+      end.compact
     end
 
-    def transaction_amount_matches_order?(transaction, order)
-      order.balance != -transaction.amount
+    def transaction_amount_matches_orders?(transaction, orders)
+      orders.sum(&:balance) != -transaction.amount
     end
 
     def log(msg)

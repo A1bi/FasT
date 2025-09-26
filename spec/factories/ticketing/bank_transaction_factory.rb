@@ -8,7 +8,16 @@ FactoryBot.define do
 
     name { 'John Doe' }
     iban { 'DE75512108001245126199' }
-    order factory: %i[web_order with_purchased_coupons]
+
+    trait :with_orders do
+      transient do
+        orders_count { 1 }
+      end
+
+      before(:create) do |transaction, evaluator|
+        transaction.orders = create_list(:web_order, evaluator.orders_count, :with_purchased_coupons)
+      end
+    end
 
     trait :with_amount do
       amount { 15 * (refund ? -1 : 1) }

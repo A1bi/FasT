@@ -42,7 +42,7 @@ module Ticketing
         refund_params[:use_most_recent] = params[:use_most_recent] == 'true'
 
         unless !credit_after_cancellation? || @order.try(:stripe_payment?) || refund_params[:use_most_recent] ||
-               BankTransaction.new(order: @order, **params.permit(:name, :iban)).valid?
+               @order.bank_transactions.new(**params.permit(:name, :iban)).valid?
           return redirect_to_order_overview alert: t('.incorrect_bank_details')
         end
 

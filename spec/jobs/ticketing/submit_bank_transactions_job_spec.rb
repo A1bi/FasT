@@ -14,9 +14,9 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
       allow(Ticketing::EbicsService).to receive(:new).and_return(ebics)
       allow(ebics).to receive_messages(submit_debits: %w[foo bar], submit_transfers: %w[bar foo])
       # create resources that should be ignored as they are not submittable
-      create(:bank_debit, :submitted)
-      create(:bank_refund, :submitted)
-      create(:bank_transaction, :received)
+      create(:bank_debit, :submitted, :with_orders)
+      create(:bank_refund, :submitted, :with_orders)
+      create(:bank_transaction, :received, :with_orders)
     end
 
     shared_examples 'does nothing' do
@@ -45,7 +45,7 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
     end
 
     context 'when only debits are submittable' do
-      let!(:debits) { create_list(:bank_debit, 2, :submittable) }
+      let!(:debits) { create_list(:bank_debit, 2, :submittable, :with_orders) }
 
       it 'creates one submission' do
         expect { subject }.to change(Ticketing::BankSubmission, :count).by(1)
@@ -71,7 +71,7 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
     end
 
     context 'when only refunds are submittable' do
-      let!(:refunds) { create_list(:bank_refund, 2, :submittable) }
+      let!(:refunds) { create_list(:bank_refund, 2, :submittable, :with_orders) }
 
       it 'creates one submission' do
         expect { subject }.to change(Ticketing::BankSubmission, :count).by(1)
@@ -97,8 +97,8 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
     end
 
     context 'when both debits and refunds are submittable' do
-      let!(:debits) { create_list(:bank_debit, 2, :submittable) }
-      let!(:refunds) { create_list(:bank_refund, 2, :submittable) }
+      let!(:debits) { create_list(:bank_debit, 2, :submittable, :with_orders) }
+      let!(:refunds) { create_list(:bank_refund, 2, :submittable, :with_orders) }
 
       it 'creates two submissions' do
         expect { subject }.to change(Ticketing::BankSubmission, :count).by(2)
@@ -162,8 +162,16 @@ RSpec.describe Ticketing::SubmitBankTransactionsJob do
       end
     end
 
+    context 'when some transactions lack orders' do
+      before { create(:bank_debit, :submittable) }
+
+      it 'creates no submissions' do
+        expect { subject }.to raise_error(StandardError).and(not_change(Ticketing::BankSubmission, :count))
+      end
+    end
+
     context 'when an error happens after EBICS submission' do
-      let!(:submittable_transactions) { create_list(:bank_debit, 2, :submittable) }
+      let!(:submittable_transactions) { create_list(:bank_debit, 2, :submittable, :with_orders) }
       let(:submission) { build(:bank_submission, transactions: submittable_transactions) }
       let(:exception) { StandardError.new('failed to update submission') }
 

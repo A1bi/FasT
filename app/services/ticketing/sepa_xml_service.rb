@@ -41,7 +41,7 @@ module Ticketing
 
     def remittance_information(transaction)
       I18n.t("ticketing.payments.submissions.#{transaction_type}_remittance_information",
-             number: transaction.order.number)
+             number: transaction.orders.pluck(:number).join(', '))
     end
   end
 end

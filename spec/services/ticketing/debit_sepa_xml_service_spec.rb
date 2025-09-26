@@ -9,9 +9,9 @@ RSpec.describe Ticketing::DebitSepaXmlService do
     let(:service) { described_class.new(submission) }
     let(:submission) { create(:bank_submission, transactions:) }
     let(:transactions) { [debit_austria, debit_norway, refund] }
-    let(:debit_austria) { create(:bank_debit, amount: 12.5, iban: 'AT483200000012345864') }
-    let(:debit_norway) { create(:bank_debit, amount: 13, iban: 'NO8330001234567') }
-    let(:refund) { create(:bank_refund, :submittable) }
+    let(:debit_austria) { create(:bank_debit, :with_orders, amount: 12.5, iban: 'AT483200000012345864') }
+    let(:debit_norway) { create(:bank_debit, :with_orders, amount: 13, iban: 'NO8330001234567') }
+    let(:refund) { create(:bank_refund, :with_orders, :submittable) }
 
     it 'includes all IBANs' do
       expect(subject).to include(debit_austria.iban, debit_norway.iban)
@@ -22,7 +22,7 @@ RSpec.describe Ticketing::DebitSepaXmlService do
     end
 
     it 'sets the correct note' do
-      expect(subject).to include("Vielen Dank für Ihre Bestellung mit der Nummer #{debit_austria.order.number}")
+      expect(subject).to include("Vielen Dank für Ihre Bestellung mit der Nummer #{debit_austria.orders.first.number}")
     end
 
     it 'does not include refunds' do

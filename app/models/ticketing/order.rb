@@ -29,7 +29,7 @@ module Ticketing
              class_name: 'Members::ExclusiveTicketTypeCreditSpending', dependent: :destroy, autosave: true
     has_many :box_office_payments,
              class_name: 'Ticketing::BoxOffice::OrderPayment', dependent: :nullify
-    has_many :bank_transactions, dependent: :nullify
+    has_and_belongs_to_many :bank_transactions
 
     validates :tickets, length: { maximum: NUM_TICKETS_MAX }
     validate :items_present
