@@ -87,7 +87,7 @@ module Passbook
 
     def zip(path)
       FileUtils.rm_f(path)
-      Zip::File.open(path, Zip::File::CREATE) do |zip_file|
+      Zip::File.open(path, create: true) do |zip_file|
         iterate_working_dir do |file|
           zip_file.add(File.basename(file), file)
         end
