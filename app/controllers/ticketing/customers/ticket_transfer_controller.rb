@@ -6,6 +6,8 @@ module Ticketing
       helper TicketingHelper
 
       before_action :redirect_unauthenticated
+      before_action :determine_transferability
+      before_action :ensure_transferability
 
       def index
         @tickets = valid_tickets
@@ -33,6 +35,10 @@ module Ticketing
       end
 
       private
+
+      def ensure_transferability
+        redirect_to_order_overview unless @transferable
+      end
 
       def node_seats
         valid_tickets.each_with_object({}) do |ticket, seats|

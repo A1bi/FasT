@@ -6,6 +6,7 @@ module Ticketing
       skip_authorization
 
       before_action :redirect_unauthenticated, except: %i[show check_email]
+      before_action :determine_transferability, only: :show
 
       WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/
 
@@ -16,9 +17,6 @@ module Ticketing
 
         @cancellable = web_order? && cancellable_tickets.any?
         @refundable = @cancellable && credit_after_cancellation?
-        @date_transferable = valid_tickets.any?(&:date_customer_transferable?)
-        @seats_transferable = valid_tickets.any?(&:seat_customer_transferable?)
-        @transferable = @date_transferable || @seats_transferable
       end
 
       def check_email

@@ -71,6 +71,17 @@
                     = ticket.seat.full_number
                   - else
                     | Freie Platzwahl
+
+        - unless @order.anonymized?
+          - if @order.is_a?(Ticketing::Web::Order)
+            - if @transferable
+              .text-center.mt-2
+                = link_to 'Umbuchung', ticket_transfer_path, class: :btn
+          - else
+            .mt-1 = render 'alert', type: :info
+              | Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
+              .mt-1 Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
+
       - if @order.tickets.first.seat.present? && @order.date.future?
         h2 Sitzplätze
         .row: .col.w-100
@@ -84,15 +95,6 @@
 
 - unless @order.anonymized?
   - if @order.is_a?(Ticketing::Web::Order)
-    - if @transferable
-      hr
-      .container: .row: .col = render 'transfer' if @transferable
     - if @cancellable
       hr
       .container: .row: .col = render 'cancel' if @cancellable
-
-  - else
-    .container.mt-1 = render 'alert', type: :warning
-      | Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
-      .mt-1 Rufen Sie uns diesbezüglich gerne an: <b>(02653) 28 27 09</b>.
-

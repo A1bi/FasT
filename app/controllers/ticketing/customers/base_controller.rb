@@ -27,6 +27,12 @@ module Ticketing
         @signed_info ||= Ticketing::SigningKey.verify_info(params[:signed_info])
       end
 
+      def determine_transferability
+        @date_transferable = valid_tickets.any?(&:date_customer_transferable?)
+        @seats_transferable = valid_tickets.any?(&:seat_customer_transferable?)
+        @transferable = (@date_transferable || @seats_transferable) && web_order?
+      end
+
       def valid_tickets
         @order.tickets.valid
       end
