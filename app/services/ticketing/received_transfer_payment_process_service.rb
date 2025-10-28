@@ -54,6 +54,8 @@ module Ticketing
     end
 
     def orders_matching_transaction(transaction)
+      return Order.none unless transaction.sepa.key?('SVWZ')
+
       transaction.sepa['SVWZ'].scan(ORDER_NUMBER_PATTERN).map do |match|
         Order.unpaid.find_by(number: match[1])
       end.compact

@@ -160,4 +160,10 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
       expect { subject }.not_to(change { orders[2].reload.paid })
     end
   end
+
+  context 'when reference is missing' do
+    let(:reference) { nil }
+
+    it_behaves_like 'does not match transaction'
+  end
 end
