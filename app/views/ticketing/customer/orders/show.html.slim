@@ -44,7 +44,6 @@
         .card: .table-responsive: table
           thead
             tr
-            tr
               th Nummer
               th Termin
               th Kategorie
@@ -56,7 +55,7 @@
                 td
                   tt = ticket.number
                   - if show_wallet? && !ticket.cancelled?
-                    .mt-1 = link_to order_overview_wallet_path(ticket.signed_info(authenticated: true))
+                    .mt-1 = link_to customer_order_overview_wallet_path(ticket.signed_info(authenticated: true))
                       = image_tag('add_to_wallet.svg')
                 td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
                   | „#{ticket.event.name}“<br>
@@ -76,7 +75,7 @@
           - if @order.is_a?(Ticketing::Web::Order)
             - if @transferable
               .text-center.mt-2
-                = link_to 'Umbuchung', ticket_transfer_path, class: :btn
+                = link_to 'Umbuchung', customer_ticket_transfer_path, class: :btn
           - else
             .mt-1 = render 'alert', type: :info
               | Da Ihre Bestellung nicht online aufgegeben wurde, ist eine Umbuchung oder Stornierung nur über unsere Hotline möglich.
@@ -85,7 +84,7 @@
       - if @order.tickets.first.seat.present? && @order.date.future?
         h2 Sitzplätze
         .row: .col.w-100
-          .card = render 'application/ticketing/seating', event: @order.event, seats_path: order_overview_seats_path(params[:signed_info]), class: %i[chosen]
+          .card = render 'application/ticketing/seating', event: @order.event, seats_path: customer_order_overview_seats_path(params[:signed_info]), class: %i[chosen]
 
     - if @order.purchased_coupons.any?
       h2 Bestellte Geschenkgutscheine

@@ -81,7 +81,7 @@ ruby:
         - if current_user.admin? && @order.event.present?
           li = link_to 'Neue Bestellung mit diesen Daten', { action: :new_privileged, event_slug: @order.event.slug, template_order_id: @order }
         - if Rails.env.development?
-          li = link_to 'Customer Self Service', order_overview_path(@order.signed_info(authenticated: true))
+          li = link_to 'Customer Self Service', customer_order_overview_path(@order.signed_info(authenticated: true))
 
   .row: .col.w-100
     - if @order.tickets.any?

@@ -6,7 +6,7 @@
   .row: .col
     p Um zu Ihrer Bestellübersicht zu gelangen, geben Sie bitte die E-Mail-Adresse ein, mit der diese Bestellung aufgegeben wurde.
     .card
-      = form_with url: order_overview_path(params[:signed_info]), method: :post do |f|
+      = form_with url: customer_order_overview_path(params[:signed_info]), method: :post do |f|
         = render 'form_field', form: f, attribute: :email, label: 'E-Mail-Adresse'
           = f.email_field :email
         .text-center = submit_tag :absenden, class: :btn

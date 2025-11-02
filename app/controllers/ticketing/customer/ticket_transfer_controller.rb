@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ticketing
-  module Customers
+  module Customer
     class TicketTransferController < BaseController
       helper TicketingHelper
 

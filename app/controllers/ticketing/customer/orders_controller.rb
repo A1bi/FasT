@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ticketing
-  module Customers
+  module Customer
     class OrdersController < BaseController
       skip_authorization
 
@@ -75,7 +75,7 @@ module Ticketing
       end
 
       def authenticated_overview_path
-        order_overview_path(@order.signed_info(authenticated: true))
+        customer_order_overview_path(@order.signed_info(authenticated: true))
       end
 
       def show_wallet?

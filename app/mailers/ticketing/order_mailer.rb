@@ -3,7 +3,7 @@
 module Ticketing
   class OrderMailer < ApplicationMailer
     helper TicketingHelper
-    helper Customers::OrdersHelper
+    helper Customer::OrdersHelper
 
     before_action :set_order
     before_action :prepare_tickets, :prepare_coupons
@@ -104,7 +104,7 @@ module Ticketing
     end
 
     def overview_url
-      @overview_url ||= order_overview_url(
+      @overview_url ||= customer_order_overview_url(
         @order.signed_info(authenticated: true)
       )
     end

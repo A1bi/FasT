@@ -1,6 +1,6 @@
 - title 'Tickets umbuchen'
 
-.container data={ controller: 'ticketing--ticket-transfer', tickets: @tickets.map { |t| t.id }, event_id: @event.id, init_path: ticket_transfer_init_path(params[:signed_info]), update_path: ticket_transfer_finish_path(params[:signed_info]), order_path: order_overview_path(params[:signed_info]) }
+.container data={ controller: 'ticketing--ticket-transfer', tickets: @tickets.map { |t| t.id }, event_id: @event.id, init_path: customer_ticket_transfer_init_path(params[:signed_info]), update_path: customer_ticket_transfer_finish_path(params[:signed_info]), order_path: customer_order_overview_path(params[:signed_info]) }
   h1 Tickets umbuchen
   .row: .col
     p.mb-0

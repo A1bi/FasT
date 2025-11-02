@@ -114,7 +114,7 @@ json.eventTicket do
       key: 'overviewUrl',
       label: 'Ticket umbuchen oder stornieren',
       value: 'Auf unserer Website haben Sie die Möglichkeit, Ihre Tickets ' \
-             "<a href=\"#{order_overview_url(signed_info)}\">umzubuchen oder zu stornieren</a>."
+             "<a href=\"#{customer_order_overview_url(signed_info)}\">umzubuchen oder zu stornieren</a>."
     },
     {
       key: 'hotline',

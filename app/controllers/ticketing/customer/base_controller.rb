@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Ticketing
-  module Customers
+  module Customer
     class BaseController < ApplicationController
       skip_authorization
 
@@ -42,11 +42,11 @@ module Ticketing
       end
 
       def redirect_unauthenticated
-        redirect_to order_overview_path(params[:signed_info]) unless @authenticated
+        redirect_to customer_order_overview_path(params[:signed_info]) unless @authenticated
       end
 
       def redirect_to_order_overview(options = {})
-        redirect_to order_overview_path(params[:signed_info]), options
+        redirect_to customer_order_overview_path(params[:signed_info]), options
       end
     end
   end

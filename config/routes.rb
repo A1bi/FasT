@@ -168,7 +168,7 @@ Rails.application.routes.draw do
       max_length = Ticketing::SigningKey.max_info_length
       info_regex = /[A-Za-z0-9\-_]{1,#{max_length}}/
 
-      scope path: ':signed_info', constraints: { signed_info: info_regex }, module: :customers do
+      scope path: ':signed_info', constraints: { signed_info: info_regex }, module: :customer, as: :customer do
         scope controller: :orders, as: :order_overview do
           get '/', action: :show
           post '/', action: :check_email
