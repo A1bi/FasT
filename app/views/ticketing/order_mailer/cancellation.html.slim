@@ -8,7 +8,7 @@
 - if @order.stripe_payment?
   p Der zu erstattende Betrag wird per <b>#{order_pay_method(@order)}</b> zurückgezahlt.
 
-- elsif @bank_transaction.present? && @bank_transaction.amount.negative?
+- elsif @bank_transaction.present? && @bank_transaction.refund?
   p Der Betrag von <b>#{number_to_currency(-@bank_transaction.amount)}</b> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
   table
     tr

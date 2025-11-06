@@ -114,4 +114,48 @@ RSpec.describe Ticketing::BankTransaction do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe '#debit?' do
+    subject { transaction.debit? }
+
+    context 'with a received transaction' do
+      let(:transaction) { build(:bank_transaction, :received, :with_amount) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with a positive amount' do
+      let(:transaction) { build(:bank_debit, :with_amount) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with a negative amount' do
+      let(:transaction) { build(:bank_refund, :with_amount) }
+
+      it { is_expected.to be_falsy }
+    end
+  end
+
+  describe '#refund?' do
+    subject { transaction.refund? }
+
+    context 'with a received transaction' do
+      let(:transaction) { build(:bank_transaction, :received, :with_amount) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with a positive amount' do
+      let(:transaction) { build(:bank_debit, :with_amount) }
+
+      it { is_expected.to be_falsy }
+    end
+
+    context 'with a negative amount' do
+      let(:transaction) { build(:bank_refund, :with_amount) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
 end

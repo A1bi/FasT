@@ -2,7 +2,7 @@ wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>
 
 <% if @order.stripe_payment? %>
 Der zu erstattende Betrag wird per <%= order_pay_method(@order) %> zurückgezahlt.
-<% elsif @bank_transaction.present? && @bank_transaction.amount.negative? %>
+<% elsif @bank_transaction.present? && @bank_transaction.refund? %>
 Der Betrag von <%= number_to_currency(-@bank_transaction.amount) %> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
 
 Kontoinhaber: <%= @bank_transaction.name %>

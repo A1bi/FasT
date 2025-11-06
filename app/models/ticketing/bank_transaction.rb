@@ -50,6 +50,14 @@ module Ticketing
       super(val.upcase)
     end
 
+    def debit?
+      !received? && amount.positive?
+    end
+
+    def refund?
+      !received? && amount.negative?
+    end
+
     def submitted?
       submission.present?
     end

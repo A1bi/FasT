@@ -234,7 +234,7 @@ ruby:
                       - if transaction.received?
                         | Erhaltene Überweisung
                       - else
-                        = transaction.amount.negative? ? 'Erstattung' : 'Lastschrift'
+                        = transaction.refund? ? 'Erstattung' : 'Lastschrift'
                     td.text-end = number_to_currency(transaction.amount.abs)
                     td.text-end
                       - if transaction.received?

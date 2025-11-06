@@ -13,7 +13,7 @@ module Ticketing
 
     def confirmation
       @pending_charge = @order.charge_payment? && @order.open_bank_transaction.present? &&
-                        @order.open_bank_transaction.amount.positive?
+                        @order.open_bank_transaction.debit?
       mail
     end
 
