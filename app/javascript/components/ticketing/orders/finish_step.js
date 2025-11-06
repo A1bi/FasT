@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay, toggleDisplayIfExists } from 'components/utils'
+import { toggleDisplay, toggleDisplayIfExists, formatCurrency } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -17,7 +17,7 @@ export default class extends Step {
     }
 
     if (this.delegate.retail) {
-      this.box.querySelector('.total').textContent = this.formatCurrency(this.delegate.placedOrder.total)
+      this.box.querySelector('.total').textContent = formatCurrency(this.delegate.placedOrder.total)
       this.box.querySelector('.number').textContent = this.delegate.placedOrder.tickets.length
       this.box.querySelector('a.details').href = this.delegate.orderDetailsPath
 

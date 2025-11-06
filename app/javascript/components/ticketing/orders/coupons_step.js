@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay, togglePluralText } from 'components/utils'
+import { toggleDisplay, togglePluralText, formatCurrency } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -38,13 +38,13 @@ export default class extends Step {
 
       this.info.api.coupons.push({ number, value })
       const lineItem = this.delegate.addLineItem('Geschenkgutschein', value, number)
-      couponRow.querySelector('.total span').textContent = this.formatCurrency(lineItem.total)
+      couponRow.querySelector('.total span').textContent = formatCurrency(lineItem.total)
     })
 
     togglePluralText(this.box.querySelector('.total .plural_text'), this.delegate.numberOfArticles)
 
     this.delegate.orderTotal = this.delegate.lineItems.reduce((acc, item) => acc + item.total, 0)
-    const formattedTotal = this.formatCurrency(this.delegate.orderTotal)
+    const formattedTotal = formatCurrency(this.delegate.orderTotal)
     this.box.querySelector('.total .total').textContent = formattedTotal
 
     this.delegate.updateBtns()

@@ -90,3 +90,7 @@ export const loadVendorStylesheet = (path) => {
     document.querySelector('head').appendChild(link)
   })
 }
+
+export const formatCurrency = (value) => {
+  return `${value.toFixed(2).toString().replace('.', ',')} €`
+}

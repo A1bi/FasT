@@ -76,10 +76,6 @@ export default class {
     return false
   }
 
-  formatCurrency (value) {
-    return `${value.toFixed(2).toString().replace('.', ',')} €`
-  }
-
   trackPiwikGoal (id, revenue) {
     try {
       _paq.push(['trackGoal', id, revenue])

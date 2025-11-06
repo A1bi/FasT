@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay, togglePluralText, fetch } from 'components/utils'
+import { toggleDisplay, togglePluralText, fetch, formatCurrency } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -69,7 +69,7 @@ export default class extends Step {
       this.delegate.orderDiscount = res.free_tickets_discount + res.credit_discount
 
       this.box.querySelector('.number .subtotal .total')
-        .textContent = this.formatCurrency(this.info.internal.subtotal)
+        .textContent = formatCurrency(this.info.internal.subtotal)
 
       this.updateDiscounts()
       this.delegate.updateBtns()
@@ -89,7 +89,7 @@ export default class extends Step {
       const number = parseInt(select.value)
       const lineItem = this.delegate.addLineItem(label, price, number)
 
-      typeBox.querySelector('.total').textContent = this.formatCurrency(lineItem.total)
+      typeBox.querySelector('.total').textContent = formatCurrency(lineItem.total)
       this.info.api.tickets[typeId] = number
     })
 
@@ -183,13 +183,13 @@ export default class extends Step {
     this.updateDiscountRow('credit', this.info.internal.creditDiscount)
 
     this.box.querySelector('.number .total .total')
-      .textContent = this.formatCurrency(this.delegate.orderTotal)
+      .textContent = formatCurrency(this.delegate.orderTotal)
   }
 
   updateDiscountRow (klass, discount) {
     const row = this.box.querySelector(`.discount.${klass}`)
     toggleDisplay(row, discount < 0)
-    row.querySelector('.amount').textContent = this.formatCurrency(discount)
+    row.querySelector('.amount').textContent = formatCurrency(discount)
   }
 
   nextBtnEnabled () {

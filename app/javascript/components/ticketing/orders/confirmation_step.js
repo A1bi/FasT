@@ -1,5 +1,5 @@
 import Step from 'components/ticketing/orders/step'
-import { toggleDisplay, togglePluralText } from 'components/utils'
+import { toggleDisplay, togglePluralText, formatCurrency } from 'components/utils'
 
 export default class extends Step {
   constructor (delegate) {
@@ -16,9 +16,9 @@ export default class extends Step {
       const row = this.lineItemTemplate.cloneNode(true)
 
       row.querySelector('.label').textContent = lineItem.label
-      row.querySelector('.price').textContent = this.formatCurrency(lineItem.price)
+      row.querySelector('.price').textContent = formatCurrency(lineItem.price)
       row.querySelector('.number').textContent = lineItem.number
-      row.querySelector('.total').textContent = this.formatCurrency(lineItem.total)
+      row.querySelector('.total').textContent = formatCurrency(lineItem.total)
 
       this.box.querySelector('.summary tbody').prepend(row)
     })
@@ -28,7 +28,7 @@ export default class extends Step {
     if (!this.delegate.getStepInfo('coupons')) return
 
     togglePluralText(this.box.querySelector('tr.total .plural_text'), this.delegate.numberOfArticles)
-    this.box.querySelector('tr.total td.total').textContent = this.formatCurrency(this.delegate.orderTotal)
+    this.box.querySelector('tr.total td.total').textContent = formatCurrency(this.delegate.orderTotal)
   }
 
   updateTicketSummary () {
@@ -42,12 +42,12 @@ export default class extends Step {
       const single = typeBox.querySelector('.single')
       if (typeBox.matches('.subtotal')) {
         togglePluralText(single, this.delegate.numberOfArticles)
-        total = this.formatCurrency(ticketsInfo.internal.subtotal)
+        total = formatCurrency(ticketsInfo.internal.subtotal)
       } else if (typeBox.matches('.discount')) {
         toggleDisplay(typeBox, this.delegate.orderDiscount !== 0)
-        total = this.formatCurrency(this.delegate.orderDiscount)
+        total = formatCurrency(this.delegate.orderDiscount)
       } else if (typeBox.matches('.total')) {
-        total = this.formatCurrency(this.delegate.orderTotal)
+        total = formatCurrency(this.delegate.orderTotal)
       }
       typeBox.querySelector('.total').textContent = total
     })
