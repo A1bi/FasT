@@ -267,8 +267,10 @@
 
 table {
   tr.cancelled {
-    color: #cccccc;
-    text-decoration: line-through;
+    &, label {
+      color: #cccccc;
+      text-decoration: line-through;
+    }
   }
 }
 

@@ -182,6 +182,10 @@ Rails.application.routes.draw do
           post :init
           patch :finish
         end
+
+        scope controller: :cancellation, path: 'stornieren', as: :cancellation do
+          get '/', action: :index
+        end
       end
     end
 

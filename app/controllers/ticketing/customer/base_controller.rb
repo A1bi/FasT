@@ -33,6 +33,14 @@ module Ticketing
         @transferable = (@date_transferable || @seats_transferable) && web_order?
       end
 
+      def determine_cancellability
+        @cancellable = web_order? && cancellable_tickets.any?
+      end
+
+      def cancellable_tickets
+        valid_tickets.filter(&:customer_cancellable?)
+      end
+
       def valid_tickets
         @order.tickets.valid
       end

@@ -7,16 +7,14 @@ module Ticketing
 
       before_action :redirect_unauthenticated, except: %i[show check_email]
       before_action :determine_transferability, only: :show
+      before_action :determine_cancellability, only: :show
 
       WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/
 
       helper Ticketing::TicketingHelper
 
       def show
-        return render :email_form unless @authenticated
-
-        @cancellable = web_order? && cancellable_tickets.any?
-        @refundable = @cancellable && credit_after_cancellation?
+        render :email_form unless @authenticated
       end
 
       def check_email
@@ -50,17 +48,6 @@ module Ticketing
       end
 
       private
-
-      def cancellable_tickets
-        valid_tickets.filter(&:customer_cancellable?)
-      end
-
-      def credit_after_cancellation?
-        @credit_after_cancellation ||= begin
-          refundable_sum = cancellable_tickets.sum(&:price)
-          (@order.balance + refundable_sum).positive?
-        end
-      end
 
       def seats_hash
         types = [[:chosen, @order], [:taken, @order.date]]
