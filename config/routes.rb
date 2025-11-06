@@ -185,6 +185,7 @@ Rails.application.routes.draw do
 
         scope controller: :cancellation, path: 'stornieren', as: :cancellation do
           get '/', action: :index
+          post :refund_amount
         end
       end
     end

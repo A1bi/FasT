@@ -9,6 +9,12 @@ module Ticketing
       before_action :determine_transferability, only: :index
 
       def index; end
+
+      def refund_amount
+        render json: {
+          amount: rand(10..1000)
+        }
+      end
     end
   end
 end

@@ -1,0 +1,32 @@
+- if @order.try(:stripe_payment?)
+  p.mb-0 Der Betrag wird per <b>#{order_pay_method(@order)}</b> zurückgezahlt.
+
+- elsif @order.open_bank_transaction.present?
+  - if @order.open_bank_transaction.debit?
+    p.mb-0 Bitte beachten Sie, dass die Erstattung mit Ihrer noch offenen Lastschrift verrechnet wird. Daher werden wir keine Rücküberweisung durchführen, sondern einfach einen geringeren bzw. gar keinen Betrag einziehen.
+  - else
+    p.mb-0 Der Betrag wird auf folgendes Konto zurücküberwiesen:
+    .p-2
+      | Kontoinhaber: #{@order.open_bank_transaction.name}<br>
+      | IBAN: <tt>#{obfuscated_iban(@order.open_bank_transaction.iban)}</tt>
+  = f.hidden_field :use_most_recent, value: true
+
+- else
+  p Bitte geben Sie ein Konto an, auf das wir den Betrag überweisen dürfen.
+
+  - if @order.most_recent_bank_transaction.present?
+    = render 'form_field', form: f, attribute: :use_most_recent, label: 'Bankkonto der ursprünglichen Zahlung verwenden', value: true, class: 'form-check'
+      = f.radio_button :use_most_recent, true, required: true,
+          data: { action: 'ticketing--customer--cancellation#toggleBankDetails' }
+      .form-text Kontoinhaber: #{@order.most_recent_bank_transaction.name}
+      .form-text IBAN: <tt>#{obfuscated_iban(@order.most_recent_bank_transaction.iban)}</tt>
+    = render 'form_field', form: f, attribute: :use_most_recent, label: 'Anderes Bankkonto verwenden', value: false, class: 'form-check'
+      = f.radio_button :use_most_recent, false, required: true,
+          data: { action: 'ticketing--customer--cancellation#toggleBankDetails' }
+
+  div data-ticketing--customer--cancellation-target='bankDetails' class=('d-none' if @order.most_recent_bank_transaction.present?)
+    = render 'form_required_caption'
+    = render 'form_field', form: f, attribute: :name, label: 'Kontoinhaber', required: true
+      = f.text_field :name, required: true
+    = render 'form_field', form: f, attribute: :iban, label: 'IBAN', required: true
+      = f.text_field :iban, required: true, data: { validate_iban: true }
