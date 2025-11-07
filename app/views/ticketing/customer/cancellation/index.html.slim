@@ -31,8 +31,10 @@
             tr class=classes
               td
                 .form-check
-                  = f.check_box 'ticket_ids', { multiple: true, id: "ticket_id_#{ticket.id}", disabled: ticket.cancelled?, data: { ticketing__customer__cancellation_target: 'ticketIdCheckbox', action: 'ticketing--customer--cancellation#ticketIdsChanged' } }, ticket.id
+                  = f.check_box 'ticket_ids', { multiple: true, id: "ticket_id_#{ticket.id}", disabled: !ticket.customer_cancellable?, data: { ticketing__customer__cancellation_target: 'ticketIdCheckbox', action: 'ticketing--customer--cancellation#ticketIdsChanged' } }, ticket.id
                   tt = label_tag "ticket_id_#{ticket.id}", ticket.number
+                - unless ticket.cancelled? || ticket.customer_cancellable?
+                  .small.text-red Stornierung nicht mehr möglich
               td
                 = f.label "ticket_id_#{ticket.id}", ticket.type.name, class: 'mb-0'
                 .small = number_to_currency ticket.price
