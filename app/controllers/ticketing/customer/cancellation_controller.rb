@@ -12,8 +12,18 @@ module Ticketing
 
       def refund_amount
         render json: {
-          amount: rand(10..1000)
+          amount: simulation_service.refund_amount
         }
+      end
+
+      private
+
+      def simulation_service
+        TicketCancelSimulationService.new(tickets_to_cancel)
+      end
+
+      def tickets_to_cancel
+        cancellable_tickets.where(id: params[:ticket_ids])
       end
     end
   end

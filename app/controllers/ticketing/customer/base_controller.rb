@@ -38,7 +38,7 @@ module Ticketing
       end
 
       def cancellable_tickets
-        valid_tickets.filter(&:customer_cancellable?)
+        Ticket.where(id: valid_tickets.filter(&:customer_cancellable?))
       end
 
       def valid_tickets

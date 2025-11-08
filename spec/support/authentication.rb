@@ -11,6 +11,10 @@ module AuthenticationHelpers
   def sign_in_api
     allow_any_instance_of(ApplicationController).to receive(:authenticate_or_request_with_http_token) # rubocop:disable RSpec/AnyInstance
   end
+
+  def authenticated_signed_info
+    order.signed_info(authenticated: true)
+  end
 end
 
 RSpec.configure do |config|
