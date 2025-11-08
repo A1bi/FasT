@@ -14,8 +14,8 @@ RSpec.describe Ticketing::TicketCancelSimulationService do
     order.save
   end
 
-  describe '#refund_amount' do
-    subject { service.refund_amount }
+  describe '#cancelled_value' do
+    subject { service.cancelled_value }
 
     it { is_expected.to eq(68) }
 
@@ -29,6 +29,20 @@ RSpec.describe Ticketing::TicketCancelSimulationService do
 
     it 'does not create a cancellation' do
       expect { subject }.not_to change(Ticketing::Cancellation, :count)
+    end
+  end
+
+  describe '#refund_amount' do
+    subject { service.refund_amount }
+
+    context 'with a settled balance' do
+      it { is_expected.to eq(68) }
+    end
+
+    context 'with an outstanding balance' do
+      before { order.withdraw_from_account(100, nil) }
+
+      it { is_expected.to eq(-32) }
     end
   end
 end

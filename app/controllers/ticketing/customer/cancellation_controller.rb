@@ -12,7 +12,8 @@ module Ticketing
 
       def refund
         render json: {
-          amount: refund_amount
+          cancelled_value: simulation_service.cancelled_value,
+          refund_amount:
         }
       end
 
@@ -32,7 +33,11 @@ module Ticketing
       private
 
       def refund_amount
-        TicketCancelSimulationService.new(tickets_to_cancel).refund_amount
+        simulation_service.refund_amount
+      end
+
+      def simulation_service
+        @simulation_service ||= TicketCancelSimulationService.new(tickets_to_cancel)
       end
 
       def tickets_to_cancel

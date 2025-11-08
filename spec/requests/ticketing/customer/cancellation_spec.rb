@@ -9,7 +9,9 @@ RSpec.describe 'Ticketing::Customer::CancellationController' do
     let(:params) { { ticket_ids: tickets.map(&:id) } }
     let(:order) { create(:web_order, :with_tickets, tickets_count: 4) }
     let(:tickets) { order.tickets[1..3] }
-    let(:amount_service) { instance_double(Ticketing::TicketCancelSimulationService, refund_amount: 123) }
+    let(:amount_service) do
+      instance_double(Ticketing::TicketCancelSimulationService, cancelled_value: 123, refund_amount: 456)
+    end
 
     before do
       order.tickets[1].update(cancellation: build(:cancellation))
@@ -25,7 +27,7 @@ RSpec.describe 'Ticketing::Customer::CancellationController' do
 
     it 'returns the amount from the service' do
       subject
-      expect(response.parsed_body).to eq('amount' => 123)
+      expect(response.parsed_body).to eq('cancelled_value' => 123, 'refund_amount' => 456)
     end
   end
 end

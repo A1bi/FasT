@@ -2,18 +2,24 @@
 
 module Ticketing
   class TicketCancelSimulationService < TicketBaseService
-    def refund_amount
-      initial_total = order.total
-      cancellation = Cancellation.new
+    def cancelled_value
+      @cancelled_value ||= begin
+        initial_total = order.total
+        cancellation = Cancellation.new
 
-      order.tickets.each do |ticket|
-        next unless ticket.in?(tickets)
+        order.tickets.each do |ticket|
+          next unless ticket.in?(tickets)
 
-        ticket.cancellation = cancellation
+          ticket.cancellation = cancellation
+        end
+        order.update_total
+
+        initial_total - order.total
       end
-      order.update_total
+    end
 
-      initial_total - order.total
+    def refund_amount
+      order.balance + cancelled_value
     end
 
     private

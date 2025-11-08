@@ -2,7 +2,8 @@ import { Controller } from '@hotwired/stimulus'
 import { fetch, toggleDisplay, formatCurrency } from 'components/utils'
 
 export default class extends Controller {
-  static targets = ['ticketIdCheckbox', 'instructions', 'refundAmountMessage', 'refundAmount', 'refundForm', 'bankDetails', 'submitButton']
+  static targets = ['ticketIdCheckbox', 'instructions', 'refundAmountMessage', 'refundAmountPositive',
+                    'refundAmountNegative', 'refundAmount', 'refundForm', 'bankDetails', 'submitButton']
   static values = {
     refundUrl: String
   }
@@ -22,8 +23,12 @@ export default class extends Controller {
     const refund = await fetch(this.refundUrlValue, 'post', {
       ticket_ids: this.ticketIds
     })
-    this.refundAmountTarget.textContent = formatCurrency(refund.amount)
-    toggleDisplay(this.refundFormTarget, refund.amount > 0)
+    const amount = formatCurrency(Math.abs(refund.refund_amount))
+    this.refundAmountTargets.forEach(target => { target.textContent = amount })
+    const positive = (refund.cancelled_value === 0 && refund.refund_amount === 0) || refund.refund_amount > 0
+    toggleDisplay(this.refundAmountPositiveTarget, positive)
+    toggleDisplay(this.refundAmountNegativeTarget, !positive)
+    toggleDisplay(this.refundFormTarget, refund.refund_amount > 0)
   }
 
   toggleBankDetails (event) {

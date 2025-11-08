@@ -47,7 +47,8 @@
     .row: .col: .card
       p.mb-0 data-ticketing--customer--cancellation-target='instructions' Bitte wählen Sie die Tickets aus, die Sie stornieren möchten, indem Sie bei diesen einen Haken setzen.
       .d-none data-ticketing--customer--cancellation-target='refundAmountMessage'
-        p.mb-0 Sie erhalten eine Erstattung in Höhe von <b data-ticketing--customer--cancellation-target="refundAmount">0,00 €</b>.
+        p.mb-0 data-ticketing--customer--cancellation-target="refundAmountPositive" Sie erhalten eine Erstattung in Höhe von <b data-ticketing--customer--cancellation-target="refundAmount">0,00 €</b>.
+        p.mb-0 data-ticketing--customer--cancellation-target="refundAmountNegative" Da Ihre Bestellung noch nicht bezahlt ist, bleibt nach der Stornierung ein offener Betrag von <b data-ticketing--customer--cancellation-target="refundAmount">0,00 €</b>.
 
       .mt-2.d-none data-ticketing--customer--cancellation-target='refundForm'
         = render 'refund_form', f:
