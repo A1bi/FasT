@@ -15,5 +15,12 @@ module Ticketing
 
       initial_total - order.total
     end
+
+    private
+
+    def order
+      # avoid side effects of overriding in-memory order totals used in later operations
+      @order ||= Order.find(super.id)
+    end
   end
 end
