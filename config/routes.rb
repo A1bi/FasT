@@ -172,7 +172,6 @@ Rails.application.routes.draw do
         scope controller: :orders, as: :order_overview do
           get '/', action: :show
           post '/', action: :check_email
-          post :cancel
           get '/wallet', action: :passbook_pass, as: :wallet
           get '/seats', action: :seats
         end
@@ -185,7 +184,8 @@ Rails.application.routes.draw do
 
         scope controller: :cancellation, path: 'stornieren', as: :cancellation do
           get '/', action: :index
-          post :refund_amount
+          post :refund
+          post '/', action: :cancel
         end
       end
     end

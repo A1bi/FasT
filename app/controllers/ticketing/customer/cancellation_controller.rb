@@ -10,20 +10,41 @@ module Ticketing
 
       def index; end
 
-      def refund_amount
+      def refund
         render json: {
-          amount: simulation_service.refund_amount
+          amount: refund_amount
         }
+      end
+
+      def cancel
+        return redirect_to_order_overview if tickets_to_cancel.none?
+
+        unless !refund_amount.positive? || @order.try(:stripe_payment?) || refund_params[:use_most_recent] ||
+               @order.bank_transactions.new(**params.permit(:name, :iban)).valid?
+          return redirect_to_order_overview alert: t('.incorrect_bank_details')
+        end
+
+        TicketCancelService.new(tickets_to_cancel, reason: :self_service).execute(refund: refund_params)
+
+        redirect_to_order_overview notice: t('.tickets_cancelled')
       end
 
       private
 
-      def simulation_service
-        TicketCancelSimulationService.new(tickets_to_cancel)
+      def refund_amount
+        TicketCancelSimulationService.new(tickets_to_cancel).refund_amount
       end
 
       def tickets_to_cancel
-        cancellable_tickets.where(id: params[:ticket_ids])
+        @tickets_to_cancel ||= cancellable_tickets.where(id: params[:ticket_ids])
+      end
+
+      def refund_params
+        @refund_params = begin
+          refund_params = params.permit(:name, :iban)
+          refund_params[:use_most_recent] = params[:use_most_recent] == 'true'
+          refund_params
+        end
       end
     end
   end

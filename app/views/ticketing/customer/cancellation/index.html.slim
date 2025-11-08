@@ -1,7 +1,7 @@
 - title 'Tickets stornieren'
 
 = form_with url: customer_cancellation_path, method: :post, html: { novalidate: true } do |f|
-  .container data={ controller: 'ticketing--customer--cancellation', ticketing__customer__cancellation_refund_amount_url_value: customer_cancellation_refund_amount_path }
+  .container data={ controller: 'ticketing--customer--cancellation', ticketing__customer__cancellation_refund_url_value: customer_cancellation_refund_path }
     h1 Tickets stornieren
 
     .row: .col
@@ -54,4 +54,4 @@
 
     .text-center.mt-1
       = link_to 'abbrechen', customer_order_overview_path, class: 'btn me-1'
-      = f.submit 'stornieren', data: { confirm_msg: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', ticketing__customer__cancellation_target: 'submitButton' }, class: :btn, disabled: true
+      = f.submit 'stornieren', data: { confirm: 'Möchten Sie die ausgewählten Tickets wirklich stornieren?', ticketing__customer__cancellation_target: 'submitButton' }, class: :btn, disabled: true

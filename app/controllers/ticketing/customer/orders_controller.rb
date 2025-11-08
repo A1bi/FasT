@@ -31,22 +31,6 @@ module Ticketing
         render json: seats_hash
       end
 
-      def cancel
-        return redirect_to_order_overview if cancellable_tickets.none?
-
-        refund_params = params.permit(:name, :iban)
-        refund_params[:use_most_recent] = params[:use_most_recent] == 'true'
-
-        unless !credit_after_cancellation? || @order.try(:stripe_payment?) || refund_params[:use_most_recent] ||
-               @order.bank_transactions.new(**params.permit(:name, :iban)).valid?
-          return redirect_to_order_overview alert: t('.incorrect_bank_details')
-        end
-
-        Ticketing::TicketCancelService.new(cancellable_tickets, reason: :self_service).execute(refund: refund_params)
-
-        redirect_to_order_overview notice: t('.tickets_cancelled')
-      end
-
       private
 
       def seats_hash

@@ -4,7 +4,7 @@ import { fetch, toggleDisplay, formatCurrency } from 'components/utils'
 export default class extends Controller {
   static targets = ['ticketIdCheckbox', 'instructions', 'refundAmountMessage', 'refundAmount', 'refundForm', 'bankDetails', 'submitButton']
   static values = {
-    refundAmountUrl: String
+    refundUrl: String
   }
 
   async ticketIdsChanged () {
@@ -19,7 +19,7 @@ export default class extends Controller {
       return
     }
 
-    const refund = await fetch(this.refundAmountUrlValue, 'post', {
+    const refund = await fetch(this.refundUrlValue, 'post', {
       ticket_ids: this.ticketIds
     })
     this.refundAmountTarget.textContent = formatCurrency(refund.amount)

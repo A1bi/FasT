@@ -3,8 +3,8 @@
 require 'support/authentication'
 
 RSpec.describe 'Ticketing::Customer::CancellationController' do
-  describe 'POST #refund_amount' do
-    subject { post customer_cancellation_refund_amount_path(authenticated_signed_info, params) }
+  describe 'POST #refund' do
+    subject { post customer_cancellation_refund_path(authenticated_signed_info, params) }
 
     let(:params) { { ticket_ids: tickets.map(&:id) } }
     let(:order) { create(:web_order, :with_tickets, tickets_count: 4) }
