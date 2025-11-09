@@ -1,17 +1,28 @@
-wir möchten Sie darauf hinweisen, dass <% if @order.cancelled? %>Ihre<% else %>ein Teil Ihrer<% end %> <%= order_with_number(@order) %> storniert wurde.
+hiermit bestätigen wir die Stornierung zu Ihrer <%= order_with_number(@order) %>.
 
-<% if @order.stripe_payment? %>
-Der zu erstattende Betrag wird per <%= order_pay_method(@order) %> zurückgezahlt.
-<% elsif @bank_transaction.present? && @bank_transaction.refund? %>
-Der Betrag von <%= number_to_currency(-@bank_transaction.amount) %> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
+<% if @cancellation.present? %>
+Folgende Artikel wurden storniert:
 
-Kontoinhaber: <%= @bank_transaction.name %>
-IBAN: <%= obfuscated_iban(@bank_transaction.iban) %>
+<%= render 'tickets_table', tickets: @cancellation.tickets %>
 <% end %>
 
-Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
+<% if @refund_transaction.is_a?(Ticketing::StripeTransaction) %>
+Die Erstattung in Höhe von <%= number_to_currency(@refund_transaction.amount) %> wird per <%= pay_method(@refund_transaction.method) %> zurückgezahlt.
+<% elsif @refund_transaction.is_a?(Ticketing::BankTransaction) && @refund_transaction.refund? %>
+Die Erstattung in Höhe von <%= number_to_currency(-@refund_transaction.amount) %> wird in den kommenden Tagen auf folgendes Konto überwiesen:
 
-<%= render 'items', billing: true, introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:' unless @order.cancelled? %>
+Kontoinhaber: <%= @refund_transaction.name %>
+IBAN: <%= obfuscated_iban(@refund_transaction.iban) %>
+<% elsif !@order.paid? && @order.transfer_payment? %>
+Durch die Stornierung reduziert sich der noch offene Betrag zu Ihrer Bestellung auf <%= order_balance(@order) %>. Wir möchten Sie bitten, diesen auf folgendes Konto zu überweisen:
 
+<%= render 'bank_details' %>
+<% end %>
+
+<% if @order.cancelled? %>
+Ihre Bestellung ist damit vollständig storniert.
+<% else %>
+<%= render 'items', introduction: 'Folgende Artikel wurden nicht storniert und sind weiterhin gültig:' %>
+<% end %>
 
 Mit freundlichen Grüßen

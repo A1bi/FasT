@@ -15,11 +15,15 @@ RSpec.describe Ticketing::TicketCancelService do
     allow(Ticketing::OrderRefundService).to receive(:new).and_return(refund_service)
   end
 
-  shared_examples 'cancellation confirmation sending' do |bank_transaction|
+  shared_examples 'cancellation confirmation sending' do |refund_transaction|
+    let(:cancellation) { create(:cancellation) }
+
+    before { allow(Ticketing::Cancellation).to receive(:create).and_return(cancellation) }
+
     it 'sends a cancellation confirmation email once per order with a bank transaction' do
       expect { subject }
         .to have_enqueued_mail(Ticketing::OrderMailer, :cancellation)
-        .with(a_hash_including(params: { reason:, order:, bank_transaction: }))
+        .with(a_hash_including(params: { reason:, order:, cancellation:, refund_transaction: }))
     end
   end
 

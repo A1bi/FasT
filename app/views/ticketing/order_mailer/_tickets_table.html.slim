@@ -6,7 +6,7 @@ tr.top
   td Kategorie
   td.amount Preis
 
-- @tickets.each do |ticket|
+- local_assigns.fetch(:tickets, @tickets).each do |ticket|
   tr
     td
       | „#{ticket.event.name}“<br>

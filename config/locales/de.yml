@@ -174,7 +174,7 @@ de:
       pay_reminder:
         subject: "Zahlungserinnerung"
       cancellation:
-        subject: "Stornierung Ihrer Artikel"
+        subject: "Stornierungsbestätigung"
       date_cancellation:
         subject: Ihre gebuchte Veranstaltung fällt leider aus
       announcement:

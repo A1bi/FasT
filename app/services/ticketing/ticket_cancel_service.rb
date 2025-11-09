@@ -11,7 +11,7 @@ module Ticketing
       return if uncancelled_tickets.none?
 
       update_order_balance(:cancellation) do
-        Cancellation.create(
+        @cancellation = Cancellation.create(
           reason: @reason,
           tickets: uncancelled_tickets
         )
@@ -42,8 +42,9 @@ module Ticketing
       log_service(order).cancel_tickets(uncancelled_tickets, reason: @reason)
     end
 
-    def send_email(bank_transaction)
-      OrderMailer.with(order:, reason: @reason.to_s, bank_transaction:).cancellation.deliver_later
+    def send_email(refund_transaction)
+      OrderMailer.with(order:, cancellation: @cancellation, reason: @reason.to_s, refund_transaction:)
+                 .cancellation.deliver_later
     end
   end
 end

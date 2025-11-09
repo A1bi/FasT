@@ -10,6 +10,8 @@ Kontoinhaber: <%= @order.most_recent_bank_transaction.name %>
 IBAN: <%= obfuscated_iban(@order.most_recent_bank_transaction.iban) %>
 Ihre Mandatsreferenznummer: <%= @order.most_recent_bank_transaction.mandate_id %>
 Unsere Gläubiger-ID: DE21ZZZ00001271843
+<% elsif @order.stripe_payment? %>
+Die Bestellung wurde per <%= order_pay_method(@order) %> bezahlt.
 <% elsif !@order.paid %>
 <% if @order.transfer_payment? %>
 Bitte überweisen Sie den Betrag von <%= order_balance(@order) %> auf folgendes Konto:

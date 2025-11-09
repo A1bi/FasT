@@ -42,8 +42,11 @@ module Ticketing
     end
 
     def order_pay_method(order)
-      pay_method = order.stripe_payment? ? order.stripe_payment.method : order.pay_method
-      t(pay_method, scope: 'ticketing.orders.pay_methods')
+      pay_method(order.stripe_payment? ? order.stripe_payment.method : order.pay_method)
+    end
+
+    def pay_method(method)
+      t(method, scope: 'ticketing.orders.pay_methods')
     end
 
     def order_retail_printable_path(order)

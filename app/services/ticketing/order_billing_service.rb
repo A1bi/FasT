@@ -37,6 +37,8 @@ module Ticketing
         payment = @order.stripe_payment
         withdraw_from_account(transaction.amount, "#{payment.method}_refund")
       end
+
+      transaction
     end
 
     def settle_balance_with_retail_account(note = :cash_in_store)

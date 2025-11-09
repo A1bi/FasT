@@ -1,4 +1,4 @@
-Ihre bestellten Artikel:
+<%= local_assigns.fetch(:introduction, 'Ihre bestellten Artikel:') %>
 
 <%= render 'tickets_table' %>
 <%= render 'coupons_table' %>

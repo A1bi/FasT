@@ -1,26 +1,30 @@
-' wir möchten Sie darauf hinweisen, dass
-- if @order.cancelled?
-  ' Ihre
-- else
-  ' ein Teil Ihrer
-' #{order_with_number(@order)} storniert wurde.
+| hiermit bestätigen wir die Stornierung zu Ihrer #{order_with_number(@order)}.
 
-- if @order.stripe_payment?
-  p Der zu erstattende Betrag wird per <b>#{order_pay_method(@order)}</b> zurückgezahlt.
+- if @cancellation.present?
+  p Folgende Artikel wurden storniert:
+  table#items
+    = render 'tickets_table', tickets: @cancellation.tickets
 
-- elsif @bank_transaction.present? && @bank_transaction.refund?
-  p Der Betrag von <b>#{number_to_currency(-@bank_transaction.amount)}</b> wird in den kommenden Tagen auf folgendes Konto zurücküberwiesen:
+- if @refund_transaction.is_a?(Ticketing::StripeTransaction)
+  p Die Erstattung in Höhe von <b>#{number_to_currency(@refund_transaction.amount)}</b> wird per <b>#{pay_method(@refund_transaction.method)}</b> zurückgezahlt.
+
+- elsif @refund_transaction.is_a?(Ticketing::BankTransaction) && @refund_transaction.refund?
+  p Die Erstattung in Höhe von <b>#{number_to_currency(-@refund_transaction.amount)}</b> wird in den kommenden Tagen auf folgendes Konto überwiesen:
   table
     tr
       td Kontoinhaber:
-      td = @bank_transaction.name
+      td = @refund_transaction.name
     tr
       td IBAN:
-      td = obfuscated_iban(@bank_transaction.iban)
+      td = obfuscated_iban(@refund_transaction.iban)
 
-p Die stornierten Artikel verlieren damit ihre Gültigkeit. Eine Rücksendung ist nicht notwendig. Bei weiteren Fragen wenden Sie sich gerne an uns.
+- elsif !@order.paid? && @order.transfer_payment?
+  p Durch die Stornierung reduziert sich der noch offene Betrag zu Ihrer Bestellung auf <b>#{order_balance(@order)}</b>. Wir möchten Sie bitten, diesen auf folgendes Konto zu überweisen:
+  = render 'bank_details'
 
-- unless @order.cancelled?
-  = render 'items', billing: true, introduction: 'Folgende nicht stornierte Artikel sind weiterhin gültig:'
+- if @order.cancelled?
+  p Ihre Bestellung ist damit vollständig storniert.
+- else
+  = render 'items', introduction: 'Folgende Artikel wurden nicht storniert und sind weiterhin gültig:'
 
 p Mit freundlichen Grüßen

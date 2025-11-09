@@ -1,4 +1,4 @@
-p = local_assigns[:introduction] || 'Ihre bestellten Artikel:'
+p = local_assigns.fetch(:introduction, 'Ihre bestellten Artikel:')
 
 table#items
   - if @tickets.any?

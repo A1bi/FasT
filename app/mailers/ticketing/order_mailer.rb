@@ -30,8 +30,9 @@ module Ticketing
     end
 
     def cancellation
+      @cancellation = params[:cancellation]
       @reason = params[:reason]
-      @bank_transaction = params[:bank_transaction]
+      @refund_transaction = params[:refund_transaction]
       mail
     end
 

@@ -19,6 +19,9 @@ p
         td Unsere Gläubiger-ID:
         td DE21ZZZ00001271843
 
+  - elsif @order.stripe_payment?
+    | Die Bestellung wurde per <b>#{order_pay_method(@order)}</b> bezahlt.
+
   - elsif !@order.paid
     - if @order.transfer_payment?
       | Bitte überweisen Sie den Betrag von <b>#{order_balance(@order)}</b> auf folgendes Konto:
