@@ -22,7 +22,7 @@
       .form-text IBAN: <tt>#{obfuscated_iban(@order.most_recent_bank_transaction.iban)}</tt>
     = render 'form_field', form: f, attribute: :use_most_recent, label: 'Anderes Bankkonto verwenden', value: false, class: 'form-check'
       = f.radio_button :use_most_recent, false, required: true,
-          data: { action: 'ticketing--customer--cancellation#toggleBankDetails' }
+          data: { action: 'ticketing--customer--cancellation#toggleBankDetails', ticketing__customer__cancellation_target: 'newBankDetailsButton' }
 
   div data-ticketing--customer--cancellation-target='bankDetails' class=('d-none' if @order.most_recent_bank_transaction.present?)
     = render 'form_required_caption'

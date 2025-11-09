@@ -3,7 +3,8 @@ import { fetch, toggleDisplay, formatCurrency } from 'components/utils'
 
 export default class extends Controller {
   static targets = ['ticketIdCheckbox', 'instructions', 'refundAmountMessage', 'refundAmountPositive',
-                    'refundAmountNegative', 'refundAmount', 'refundForm', 'bankDetails', 'submitButton']
+                    'refundAmountNegative', 'refundAmount', 'refundForm', 'newBankDetailsButton',
+                    'bankDetails', 'submitButton']
   static values = {
     refundUrl: String
   }
@@ -28,14 +29,20 @@ export default class extends Controller {
     const positive = (refund.cancelled_value === 0 && refund.refund_amount === 0) || refund.refund_amount > 0
     toggleDisplay(this.refundAmountPositiveTarget, positive)
     toggleDisplay(this.refundAmountNegativeTarget, !positive)
-    toggleDisplay(this.refundFormTarget, refund.refund_amount > 0)
+
+    const formEnabled = refund.refund_amount > 0
+    toggleDisplay(this.refundFormTarget, formEnabled)
+    this.toggleFormInputs(this.refundFormTarget, formEnabled)
+    this.toggleBankDetails()
   }
 
-  toggleBankDetails (event) {
-    const visible = event.currentTarget.value === 'false'
-    toggleDisplay(this.bankDetailsTarget, visible)
+  toggleBankDetails () {
+    toggleDisplay(this.bankDetailsTarget, this.newBankDetailsButtonTarget.checked)
+    this.toggleFormInputs(this.bankDetailsTarget, this.newBankDetailsButtonTarget.checked)
+  }
 
-    const inputs = this.bankDetailsTarget.querySelectorAll(':scope input')
-    inputs.forEach(input => { input.disabled = !visible })
+  toggleFormInputs (scope, toggle) {
+    const inputs = scope.querySelectorAll(':scope input')
+    inputs.forEach(input => { input.disabled = !toggle })
   }
 }
