@@ -93,9 +93,9 @@ ruby:
               tr
                 th: .form-check = check_box_tag :all_tickets, nil, nil, disabled: @order.tickets.uncancelled.none?, data: { action: 'ticketing--tickets-table#toggleAllCheckBoxes' }
                 th Nummer
+                th Termin
                 th Kategorie
                 th Preis
-                th Termin
                 th Sitz
                 - if @show_check_ins
                   th Einlass
@@ -109,11 +109,11 @@ ruby:
                     tt = ticket.number
                     - if ticket.resale && !ticket.cancelled?
                       small.d-block Weiterverkauf #{ticket.resold? ? 'erfolgreich' : 'möglich'}
-                  td.name = ticket.type.name
-                  td.amount = number_to_currency ticket.price
                   td.date
                     = l ticket.date.date, format: :short
                     small.d-block = link_to ticket.event.name, ticketing_statistics_path(ticket.event.slug), title: 'Statistik für Veranstaltung'
+                  td.name = ticket.type.name
+                  td.amount = number_to_currency ticket.price
                   - if ticket.seat.present?
                     td = ticket.seat.full_number
                   - else

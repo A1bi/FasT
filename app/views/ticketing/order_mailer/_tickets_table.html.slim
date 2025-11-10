@@ -2,8 +2,8 @@ tr.category
   td.hcen colspan='4' Tickets
 tr.top
   td Veranstaltung
-  td Sitz
   td Kategorie
+  td Sitz
   td.amount Preis
 
 - local_assigns.fetch(:tickets, @tickets).each do |ticket|
@@ -11,9 +11,9 @@ tr.top
     td
       | „#{ticket.event.name}“<br>
       = l ticket.date.date, format: :long_weekday
+    td = ticket.type.name
     - if ticket.seat.present?
       td = ticket.seat.full_number
     - else
       td Freie Platzwahl
-    td = ticket.type.name
     td.amount = number_to_currency(ticket.price)
