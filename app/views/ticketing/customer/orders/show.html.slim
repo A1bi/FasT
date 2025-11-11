@@ -19,7 +19,10 @@
       dt Zahlungsart
       dd = order_pay_method(@order)
       dt bezahlt
-      dd = @order.paid ? 'ja' : 'nein'
+      dd = @order.paid? ? 'ja' : 'nein'
+      - unless @order.paid?
+        dt offener Betrag
+        dd.text-red = number_to_currency(-@order.balance)
 
   - if @order.anonymized?
     .row: .col = render 'alert', type: :warning

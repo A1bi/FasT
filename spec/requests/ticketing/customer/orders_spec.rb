@@ -57,6 +57,13 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
     context 'with an unpaid order' do
       let(:order) { create(:web_order, :with_tickets, :unpaid) }
 
+      before { order.billing_account.update(balance: -14.52) }
+
+      it 'shows the outstanding amount' do
+        subject
+        expect(response.body).to include('bezahlt</dt><dd>nein', 'offener Betrag', '14,52 €')
+      end
+
       context 'with a device supporting Apple Wallet' do
         include_context 'with a device supporting Apple Wallet'
         it_behaves_like 'does not show wallet download buttons'
