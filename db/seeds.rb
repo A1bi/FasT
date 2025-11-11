@@ -195,6 +195,9 @@ ticketing_seeds[:geolocations].each do |geolocation|
 end
 postcodes = Ticketing::Geolocation.pluck(:postcode)
 
+pay_methods = Ticketing::Web::Order.pay_methods.keys
+pay_methods.delete('stripe') unless Settings.stripe.enabled
+
 ### web orders
 20.times do
   order = Ticketing::Web::Order.new(
@@ -205,7 +208,7 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
     phone: FFaker::PhoneNumberDE.phone_number,
     plz: postcodes.sample,
     affiliation: rand(3) == 2 ? FFaker::Company.name : nil,
-    pay_method: Ticketing::Web::Order.pay_methods.keys.sample
+    pay_method: pay_methods.sample
   )
 
   create_tickets(order, coupons)
@@ -217,6 +220,15 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
       amount: -order.balance
     )
     order.deposit_into_account(-order.balance, :bank_charge_payment)
+
+  elsif order.stripe_payment?
+    transaction = order.stripe_transactions.new(
+      type: :payment_intent,
+      stripe_id: SecureRandom.hex,
+      amount: order.balance,
+      method: Ticketing::StripeTransaction.methods.keys.sample
+    )
+    order.deposit_into_account(-order.balance, "#{transaction.method}_payment")
   end
 
   order.update_paid
@@ -226,7 +238,7 @@ postcodes = Ticketing::Geolocation.pluck(:postcode)
 end
 
 ### retail orders
-10.times do
+5.times do
   order = store.orders.new
 
   create_tickets(order)
