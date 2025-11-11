@@ -4,7 +4,7 @@
   ' wir bedanken uns herzlich für Ihr Interesse an unserem Newsletter.
 | <b>Bitte bestätigen Sie Ihre Anmeldung</b> nun noch durch einen Klick auf folgenden Button:
 
-p.buttons = link_to 'Anmeldung bestätigen', confirm_newsletter_subscriber_url(token: @subscriber.token)
+p.buttons = link_to 'Anmeldung bestätigen', confirm_newsletter_subscriber_url(token: @subscriber.token), class: 'btn'
 
 p Nach Ihrer Bestätigung sind Sie zu unserem Newsletter angemeldet und gehören somit in Zukunft immer zu den Ersten, die Neuigkeiten rund um unseren Verein erfahren. Ihre Einwilligung in den Versand unseres Newsletters ist <b>jederzeit widerruflich</b>. Der Newsletter-Versand erfolgt entsprechend unserer Datenschutzerklärung und nur zur Bewerbung unserer Neuigkeiten.
 

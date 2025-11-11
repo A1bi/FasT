@@ -87,16 +87,29 @@ html
         text-align: center;
       }
       .buttons {
-        padding: 30px 0;
+        padding: 10px 0;
         text-align: center;
       }
       .buttons a {
         display: inline-block;
-        padding: 15px 25px;
+        margin: 0 5px;
+      }
+      .buttons a, .buttons a img {
+        vertical-align: middle;
+      }
+      .buttons a.btn {
+        padding: 10px 20px;
         font-size: 14px;
         font-weight: bold;
-        background: #0064ec;
+        background: #ff5c5c;
         color: white;
+      }
+      .buttons a.btn:hover {
+        color: white;
+        background: #ff2929;
+      }
+      .buttons a.btn:active {
+        background: #c20000;
       }
       .coupon-code {
         font-family: monospace;

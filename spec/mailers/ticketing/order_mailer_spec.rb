@@ -29,7 +29,86 @@ RSpec.describe Ticketing::OrderMailer do
   describe '#confirmation' do
     subject(:mail) { mailer.confirmation }
 
+    before { allow(order).to receive(:signed_info).with(authenticated: true).and_return('boofar') }
+
     it_behaves_like 'basic email properties', 'Ihre Bestellung'
+
+    shared_examples 'payment independent elements' do
+      it 'contains the order action buttons' do
+        expect(mail.body.encoded).to include('Umbuchung', 'Stornierung', 'tickets/boofar')
+      end
+
+      it 'contains structured data' do
+        expect(mail.body.encoded).to include('application/ld+json', 'schema.org')
+      end
+    end
+
+    shared_examples 'paid elements' do
+      it 'attaches the tickets' do
+        expect(mail.attachments.first.filename).to eq('Tickets.pdf')
+        expect(mail.body.encoded).to include('Sie finden Ihre Tickets')
+      end
+
+      it 'includes a wallet button' do
+        expect(mail.body.encoded).to include('Apple Wallet', 'add_to_wallet.png')
+      end
+    end
+
+    context 'with a paid debit ticket order' do
+      let(:order) { create(:web_order, :with_tickets, :charge_payment) }
+      let(:debit) { order.open_bank_transaction }
+
+      before { debit.update(amount: 11.22) }
+
+      it 'contains the debit details' do
+        expect(mail.body.encoded).to include(
+          'Betrag von 11,22 =E2=82=AC', 'SEPA', debit.name, "XXX#{debit.iban[-3..]}"
+        )
+      end
+
+      it_behaves_like 'paid elements'
+      it_behaves_like 'payment independent elements'
+    end
+
+    context 'with paid stripe order' do
+      let(:order) { create(:web_order, :with_tickets, :stripe_payment) }
+
+      it_behaves_like 'paid elements'
+      it_behaves_like 'payment independent elements'
+
+      it 'mentions Stripe payment method' do
+        expect(mail.body.encoded).to include('per Apple Pay bezahlt')
+      end
+    end
+
+    context 'with an unpaid transfer ticket order' do
+      let(:order) { create(:web_order, :with_tickets, :unpaid) }
+
+      before do
+        order.billing_account.update(balance: -4.5)
+        allow(Settings.ticketing.target_bank_account).to receive(:iban).and_return('DE75512108001245126199')
+      end
+
+      it 'contains the transfer details' do
+        expect(mail.body.encoded).to include(
+          'Bitte =C3=BCberweisen Sie den Betrag von 4,50 =E2=82=AC',
+          Settings.ticketing.target_bank_account.name,
+          'DE75 5121 0800 1245 1261 99',
+          "Bestellung #{order.number}"
+        )
+      end
+
+      it 'does not attach the tickets' do
+        expect(mail.attachments).to be_empty
+        expect(mail.body.encoded).not_to include('Sie finden Ihre Tickets')
+      end
+
+      it 'does not include a wallet button' do
+        expect(mail.body.encoded).not_to include('Apple Wallet', 'add_to_wallet.png')
+      end
+
+      it_behaves_like 'payment independent elements'
+    end
   end
 
   describe '#cancellation' do

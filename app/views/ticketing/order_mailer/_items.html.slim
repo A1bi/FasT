@@ -11,7 +11,7 @@ table#items
 - if local_assigns[:billing]
   = render 'redeemed_coupons'
 
-- if attach_tickets?
+- if @tickets.any?
   = structured_data(@order)
   = render 'tickets_notes'
 

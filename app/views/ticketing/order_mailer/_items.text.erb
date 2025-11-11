@@ -7,9 +7,5 @@
   <%= render 'redeemed_coupons' %>
 <% end %>
 
-<% if attach_tickets? %>
-
-<%= render 'tickets_notes' %>
-<% end %>
-
+<%= render 'tickets_notes' if @tickets.any? %>
 <%= render 'coupons_notes' if attach_coupons? %>

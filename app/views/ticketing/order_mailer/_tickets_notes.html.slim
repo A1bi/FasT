@@ -1,11 +1,9 @@
-table.item-notes
-  tr
-    td
-      .hl Hinweise zu Ihren Tickets
-      p Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser E-Mail. Bitte zeigen Sie dieses bei der Einlasskontrolle auf Ihrem Smartphone oder ausgedruckt vor.
+- if attach_tickets?
+  p Sie finden Ihre Tickets als PDF-Dokument im Anhang dieser E-Mail. Bitte zeigen Sie dieses Dokument bei der Einlasskontrolle auf Ihrem Smartphone oder ausgedruckt vor.
 
-p.hcen
-  = link_to overview_url
-    = image_tag('/images/mail/add_to_wallet.png', height: 40, alt: 'Zu Apple Wallet hinzufügen')
-p.hcen style='margin-bottom: 15px;'
-  = link_to 'Tickets umbuchen oder stornieren', overview_url
+p.buttons
+  - if attach_tickets?
+    = link_to overview_url
+      = image_tag('/images/mail/add_to_wallet.png', height: 38, alt: 'Zu Apple Wallet hinzufügen')
+  = link_to 'Umbuchung', overview_url, class: 'btn'
+  = link_to 'Stornierung', overview_url, class: 'btn'
