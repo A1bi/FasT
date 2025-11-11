@@ -49,8 +49,12 @@ module Ticketing
         customer_order_overview_path(@order.signed_info(authenticated: true))
       end
 
+      def tickets_accessible?
+        @order.paid?
+      end
+
       def show_wallet?
-        @show_wallet ||= request.user_agent&.match?(WALLET_PATTERN)
+        @show_wallet ||= request.user_agent&.match?(WALLET_PATTERN) && tickets_accessible?
       end
       helper_method :show_wallet?
     end
