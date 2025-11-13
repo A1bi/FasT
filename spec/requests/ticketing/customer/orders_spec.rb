@@ -81,4 +81,67 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
       end
     end
   end
+
+  describe 'GET #tickets' do
+    subject do
+      get customer_order_overview_tickets_path(authenticated_signed_info, id: ticket_id, format:)
+      response
+    end
+
+    let(:order) { create(:web_order, :with_tickets, tickets_count: 1) }
+    let(:ticket) { order.tickets[0] }
+    let(:format) { :pdf }
+    let(:pdf) { instance_double(Ticketing::TicketsWebPdf, add_tickets: true, render: 'foopdf') }
+
+    before { allow(Ticketing::TicketsWebPdf).to receive(:new).and_return(pdf) }
+
+    context 'with an invalid ticket id' do
+      let(:ticket_id) { '999' }
+
+      it { is_expected.to have_http_status(:not_found) }
+    end
+
+    context 'with a valid ticket id' do
+      let(:ticket_id) { ticket.id }
+
+      it 'renders the ticket PDF' do
+        expect(pdf).to receive(:add_tickets) do |tickets|
+          expect(tickets).to contain_exactly(ticket)
+        end
+        expect(subject.content_type).to eq('application/pdf')
+      end
+
+      context 'when requesting a wallet pass' do
+        let(:format) { :pkpass }
+        let(:pass) { instance_double(Passbook::Pass) }
+
+        before do
+          ticket.create_passbook_pass
+          allow(Passbook::Pass).to receive(:new).and_return(pass)
+          allow(pass).to receive(:save) do
+            path = Passbook.destination_path
+            FileUtils.mkdir_p(path)
+            FileUtils.touch("#{path}/#{ticket.passbook_pass.filename}")
+          end
+        end
+
+        it 'returns a wallet pass' do
+          expect(pass).to receive(:save)
+          expect(subject.content_type).to eq('application/vnd.apple.pkpass')
+        end
+      end
+
+      context 'with an unpaid order' do
+        let(:order) { create(:web_order, :with_tickets, :unpaid) }
+
+        it { is_expected.to have_http_status(:forbidden) }
+      end
+
+      context 'when the ticket is cancelled' do
+        before { ticket.update(cancellation: build(:cancellation)) }
+
+        it { is_expected.to have_http_status(:not_found) }
+      end
+    end
+  end
 end

@@ -21,8 +21,22 @@ module Ticketing
         redirect_to request.path, alert: t('.wrong_email')
       end
 
-      def passbook_pass
-        send_file @ticket.passbook_pass(create: true).file_path, type: 'application/vnd.apple.pkpass'
+      def tickets
+        tickets = @order.tickets.valid.where(id: params[:id]) # we need a relation for TicketsWebPdf
+        ticket = tickets.first
+        return head :not_found if ticket.nil?
+        return head :forbidden unless tickets_accessible?
+
+        respond_to do |format|
+          format.pdf do
+            pdf = TicketsWebPdf.new
+            pdf.add_tickets(tickets)
+            send_data pdf.render, filename: 'Ticket.pdf', disposition: 'inline'
+          end
+          format.pkpass do
+            send_file ticket.passbook_pass(create: true).file_path, filename: 'Ticket.pkpass'
+          end
+        end
       end
 
       def seats

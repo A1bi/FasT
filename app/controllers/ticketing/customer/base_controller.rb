@@ -11,8 +11,8 @@ module Ticketing
 
       def find_records
         if signed_info.try(:ticket?)
-          @ticket = Ticketing::Ticket.find(signed_info.ticket.id)
-          @order = @ticket.order
+          ticket = Ticketing::Ticket.find(signed_info.ticket.id)
+          @order = ticket.order
         elsif signed_info.try(:order?)
           @order = Ticketing::Order.find(signed_info.order.id)
         else
