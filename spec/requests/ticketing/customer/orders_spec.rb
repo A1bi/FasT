@@ -7,8 +7,11 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
     subject { get customer_order_overview_path(signed_info), headers: }
 
     let(:order) { create(:web_order, :with_tickets) }
+    let(:ticket_ids) { order.tickets.pluck(:id) }
     let(:signed_info) { authenticated_signed_info }
     let(:headers) { nil }
+    let(:pdf_paths) { ticket_ids.map { |id| "tickets/#{id}.pdf" } }
+    let(:wallet_paths) { ticket_ids.map { |id| "tickets/#{id}.pkpass" } }
 
     shared_context 'with a device supporting Apple Wallet' do
       let(:headers) { { 'User-Agent' => 'iPhone' } }
@@ -17,8 +20,14 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
     shared_examples 'does not show wallet download buttons' do
       it 'does not show wallet download buttons' do
         subject
-        expect(response.body).not_to include('add_to_wallet')
-        expect(response.body).not_to match(%r{/tickets/.+/wallet})
+        expect(response.body).not_to include('add_to_wallet', *wallet_paths)
+      end
+    end
+
+    shared_examples 'does not show PDF download buttons' do
+      it 'does not show PDF download buttons' do
+        subject
+        expect(response.body).not_to include('file-earmark-arrow-down-fill', *pdf_paths)
       end
     end
 
@@ -41,6 +50,11 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
     end
 
     context 'with a paid order' do
+      it 'shows wallet download buttons' do
+        subject
+        expect(response.body).to include('file-earmark-arrow-down-fill', *pdf_paths)
+      end
+
       it_behaves_like 'does not show wallet download buttons'
 
       context 'with a device supporting Apple Wallet' do
@@ -48,8 +62,7 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
 
         it 'shows wallet download buttons' do
           subject
-          expect(response.body).to include('add_to_wallet')
-          expect(response.body).to match(%r{/tickets/.+/wallet})
+          expect(response.body).to include('add_to_wallet', *wallet_paths)
         end
       end
     end
@@ -63,6 +76,8 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
         subject
         expect(response.body).to include('bezahlt</dt><dd>nein', 'offener Betrag', '14,52 €')
       end
+
+      it_behaves_like 'does not show PDF download buttons'
 
       context 'with a device supporting Apple Wallet' do
         include_context 'with a device supporting Apple Wallet'

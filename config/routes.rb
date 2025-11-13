@@ -172,7 +172,7 @@ Rails.application.routes.draw do
         scope controller: :orders, as: :order_overview do
           get '/', action: :show
           post '/', action: :check_email
-          get '/wallet', action: :passbook_pass, as: :wallet
+          get '/tickets/:id', action: :ticket, as: :ticket
           get '/seats', action: :seats
         end
 

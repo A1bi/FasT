@@ -9,8 +9,6 @@ module Ticketing
       before_action :determine_transferability, only: :show
       before_action :determine_cancellability, only: :show
 
-      WALLET_PATTERN = /(Android|iP(hone|ad|od)|OS X|Windows Phone)/
-
       helper Ticketing::TicketingHelper
 
       def show
@@ -52,11 +50,7 @@ module Ticketing
       def tickets_accessible?
         @order.paid?
       end
-
-      def show_wallet?
-        @show_wallet ||= request.user_agent&.match?(WALLET_PATTERN) && tickets_accessible?
-      end
-      helper_method :show_wallet?
+      helper_method :tickets_accessible?
     end
   end
 end

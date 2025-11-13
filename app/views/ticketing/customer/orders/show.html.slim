@@ -57,9 +57,12 @@
               tr class=classes
                 td
                   tt = ticket.number
-                  - if show_wallet? && !ticket.cancelled?
-                    .mt-1 = link_to customer_order_overview_wallet_path(ticket.signed_info(authenticated: true))
-                      = image_tag('add_to_wallet.svg')
+                  - if tickets_accessible? && !ticket.cancelled?
+                    .my-1.d-flex.flex-gap-1.align-items-center
+                      = link_to customer_order_overview_ticket_path(params[:signed_info], ticket, format: :pdf), title: 'Ticket als PDF herunterladen'
+                        i.bi.bi-file-earmark-arrow-down-fill
+                      - if wallet_supported?
+                        = link_to image_tag('add_to_wallet.svg', alt: 'Zu Apple Wallet hinzufügen', width: 80), customer_order_overview_ticket_path(params[:signed_info], ticket, format: :pkpass), title: 'Ticket zu Apple Wallet hinzufügen', class: 'd-flex'
                 td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
                   | „#{ticket.event.name}“<br>
                   .small = l ticket.date.date, format: :long_weekday
