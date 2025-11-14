@@ -83,7 +83,7 @@
               small Alle Tickets:
               = link_to customer_order_overview_tickets_path(params[:signed_info], format: :pdf), title: 'Alle Tickets als PDF herunterladen'
                 i.bi.bi-file-earmark-arrow-down-fill
-              - if wallet_supported?
+              - if wallet_supported? && wallet_pass_bundle_available?(@order)
                 = link_to image_tag('add_to_wallet.svg', alt: 'Zu Apple Wallet hinzufügen', width: 80), customer_order_overview_tickets_path(params[:signed_info], format: :pkpasses), title: 'Alle Tickets zu Apple Wallet hinzufügen', class: 'd-flex'
 
         - unless @order.anonymized?

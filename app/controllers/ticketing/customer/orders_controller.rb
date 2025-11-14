@@ -50,7 +50,7 @@ module Ticketing
 
       def wallet_passes_file(tickets)
         stream = Zip::OutputStream.write_buffer do |zip|
-          tickets.each.with_index do |ticket, i|
+          tickets.first(10).each.with_index do |ticket, i|
             pass = ticket.passbook_pass(create: true)
             zip.put_next_entry("#{i}.pkpass")
             zip.write(File.binread(pass.file_path))

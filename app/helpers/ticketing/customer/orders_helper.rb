@@ -30,6 +30,10 @@ module Ticketing
       def wallet_supported?
         @wallet_supported ||= request.user_agent&.match?(WALLET_PATTERN)
       end
+
+      def wallet_pass_bundle_available?(order)
+        order.tickets.count <= 10 # Apple only supports a maximum of 10 passes per bundle
+      end
     end
   end
 end

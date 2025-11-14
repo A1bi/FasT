@@ -61,6 +61,18 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
         it 'shows wallet download buttons' do
           expect(subject.body).to include('add_to_wallet', *wallet_paths)
         end
+
+        it 'shows the button to download a wallet pass bundle' do
+          expect(subject.body).to include('tickets.pkpasses')
+        end
+
+        context 'with more than 10 tickets' do
+          let(:order) { create(:web_order, :with_tickets, tickets_count: 11) }
+
+          it 'does not show the button to download a wallet pass bundle' do
+            expect(subject.body).not_to include('tickets.pkpasses')
+          end
+        end
       end
     end
 
