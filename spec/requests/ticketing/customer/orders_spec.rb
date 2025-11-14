@@ -88,8 +88,7 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
       response
     end
 
-    let(:order) { create(:web_order, :with_tickets, tickets_count: 1) }
-    let(:ticket) { order.tickets[0] }
+    let(:order) { create(:web_order, :with_tickets, tickets_count: 2) }
     let(:format) { :pdf }
     let(:pdf) { instance_double(Ticketing::TicketsWebPdf, add_tickets: true, render: 'foopdf') }
 
@@ -102,6 +101,7 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
     end
 
     context 'with a valid ticket id' do
+      let(:ticket) { order.tickets[0] }
       let(:ticket_id) { ticket.id }
 
       it 'renders the ticket PDF' do
@@ -141,6 +141,39 @@ RSpec.describe 'Ticketing::Customer::OrdersController' do
         before { ticket.update(cancellation: build(:cancellation)) }
 
         it { is_expected.to have_http_status(:not_found) }
+      end
+    end
+
+    context 'with no ticket id' do
+      let(:ticket_id) { nil }
+
+      it 'renders the ticket PDF for all tickets' do
+        expect(pdf).to receive(:add_tickets) do |tickets|
+          expect(tickets).to match_array(order.tickets)
+        end
+        expect(subject.content_type).to eq('application/pdf')
+      end
+
+      context 'when requesting a wallet pass bundle' do
+        let(:format) { :pkpasses }
+        let(:passes) { order.tickets.map { instance_double(Passbook::Pass) } }
+
+        before do
+          allow(Passbook::Pass).to receive(:new).and_return(*passes)
+          order.tickets.each.with_index do |ticket, i|
+            ticket.create_passbook_pass
+            allow(passes[i]).to receive(:save) do
+              path = Passbook.destination_path
+              FileUtils.mkdir_p(path)
+              FileUtils.touch("#{path}/#{ticket.passbook_pass.filename}")
+            end
+          end
+        end
+
+        it 'returns a wallet pass bundle' do
+          expect(passes).to all(receive(:save))
+          expect(subject.content_type).to eq('application/vnd.apple.pkpasses')
+        end
       end
     end
   end

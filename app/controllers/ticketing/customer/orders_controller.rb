@@ -22,9 +22,9 @@ module Ticketing
       end
 
       def tickets
-        tickets = @order.tickets.valid.where(id: params[:id]) # we need a relation for TicketsWebPdf
-        ticket = tickets.first
-        return head :not_found if ticket.nil?
+        tickets = @order.tickets.valid
+        tickets.where!(id: params[:id]) if params[:id].present? # we need a relation for TicketsWebPdf
+        return head :not_found if tickets.none?
         return head :forbidden unless tickets_accessible?
 
         respond_to do |format|
@@ -34,7 +34,10 @@ module Ticketing
             send_data pdf.render, filename: 'Ticket.pdf', disposition: 'inline'
           end
           format.pkpass do
-            send_file ticket.passbook_pass(create: true).file_path, filename: 'Ticket.pkpass'
+            send_file tickets.first.passbook_pass(create: true).file_path, filename: 'Ticket.pkpass'
+          end
+          format.pkpasses do
+            send_data wallet_passes_file(tickets).read, filename: 'Tickets.pkpasses'
           end
         end
       end
@@ -44,6 +47,18 @@ module Ticketing
       end
 
       private
+
+      def wallet_passes_file(tickets)
+        stream = Zip::OutputStream.write_buffer do |zip|
+          tickets.each.with_index do |ticket, i|
+            pass = ticket.passbook_pass(create: true)
+            zip.put_next_entry("#{i}.pkpass")
+            zip.write(File.binread(pass.file_path))
+          end
+        end
+        stream.rewind
+        stream
+      end
 
       def seats_hash
         types = [[:chosen, @order], [:taken, @order.date]]

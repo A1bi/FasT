@@ -44,38 +44,47 @@
               - else
                 |< Stornierung
               |< Ihrer Tickets.
-        .card: .table-responsive: table
-          thead
-            tr
-              th Nummer
-              th Termin
-              th Kategorie
-              th Sitz
-          tbody
-            - @order.tickets.each do |ticket|
-              - classes = [:cancelled] if ticket.cancelled?
-              tr class=classes
-                td
-                  tt = ticket.number
-                  - if tickets_accessible? && !ticket.cancelled?
-                    .my-1.d-flex.flex-gap-1.align-items-center
-                      = link_to customer_order_overview_tickets_path(params[:signed_info], ticket, format: :pdf), title: 'Ticket als PDF herunterladen'
-                        i.bi.bi-file-earmark-arrow-down-fill
-                      - if wallet_supported?
-                        = link_to image_tag('add_to_wallet.svg', alt: 'Zu Apple Wallet hinzufügen', width: 80), customer_order_overview_tickets_path(params[:signed_info], ticket, format: :pkpass), title: 'Ticket zu Apple Wallet hinzufügen', class: 'd-flex'
-                td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
-                  | „#{ticket.event.name}“<br>
-                  .small = l ticket.date.date, format: :long_weekday
-                  - if !ticket.cancelled? && ticket.date.cancelled?
-                    .text-red Termin entfällt
-                td
-                  = ticket.type.name
-                  .small = number_to_currency ticket.price
-                td
-                  - if ticket.seat.present?
-                    = ticket.seat.full_number
-                  - else
-                    | Freie Platzwahl
+        .card
+          .table-responsive: table
+            thead
+              tr
+                th Nummer
+                th Termin
+                th Kategorie
+                th Sitz
+            tbody
+              - @order.tickets.each do |ticket|
+                - classes = [:cancelled] if ticket.cancelled?
+                tr class=classes
+                  td
+                    tt = ticket.number
+                    - if tickets_accessible? && !ticket.cancelled?
+                      .my-1.d-flex.flex-gap-1.align-items-center
+                        = link_to customer_order_overview_tickets_path(params[:signed_info], ticket, format: :pdf), title: 'Ticket als PDF herunterladen'
+                          i.bi.bi-file-earmark-arrow-down-fill
+                        - if wallet_supported?
+                          = link_to image_tag('add_to_wallet.svg', alt: 'Zu Apple Wallet hinzufügen', width: 80), customer_order_overview_tickets_path(params[:signed_info], ticket, format: :pkpass), title: 'Ticket zu Apple Wallet hinzufügen', class: 'd-flex'
+                  td class=('cancelled' if !ticket.cancelled? && ticket.date.cancelled?)
+                    | „#{ticket.event.name}“<br>
+                    .small = l ticket.date.date, format: :long_weekday
+                    - if !ticket.cancelled? && ticket.date.cancelled?
+                      .text-red Termin entfällt
+                  td
+                    = ticket.type.name
+                    .small = number_to_currency ticket.price
+                  td
+                    - if ticket.seat.present?
+                      = ticket.seat.full_number
+                    - else
+                      | Freie Platzwahl
+
+          - if tickets_accessible? && @order.tickets.valid.any?
+            .mt-1.d-flex.flex-gap-1.align-items-center
+              small Alle Tickets:
+              = link_to customer_order_overview_tickets_path(params[:signed_info], format: :pdf), title: 'Alle Tickets als PDF herunterladen'
+                i.bi.bi-file-earmark-arrow-down-fill
+              - if wallet_supported?
+                = link_to image_tag('add_to_wallet.svg', alt: 'Zu Apple Wallet hinzufügen', width: 80), customer_order_overview_tickets_path(params[:signed_info], format: :pkpasses), title: 'Alle Tickets zu Apple Wallet hinzufügen', class: 'd-flex'
 
         - unless @order.anonymized?
           - if @order.is_a?(Ticketing::Web::Order)
