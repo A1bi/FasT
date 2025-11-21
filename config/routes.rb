@@ -237,6 +237,10 @@ Rails.application.routes.draw do
 
         resources :check_ins, only: %i[index create]
 
+        namespace :check_ins do
+          resources :orders, only: %i[index]
+        end
+
         namespace :node do
           resources :events, only: :index
         end
