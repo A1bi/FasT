@@ -31,7 +31,7 @@ module Ticketing
       res = NodeApi.seating_request('setOriginalSeats', { seats: node_seats },
                                     params[:socket_id])
 
-      head res.read_body[:ok] ? :ok : :unprocessable_entity
+      head res.read_body[:ok] ? :ok : :unprocessable_content
     end
 
     def finish_transfer
@@ -42,7 +42,7 @@ module Ticketing
                                   socket_id: params[:socket_id],
                                   current_user:)
 
-      return head :unprocessable_entity unless ticket_transfer_service.execute
+      return head :unprocessable_content unless ticket_transfer_service.execute
 
       flash.notice = t('.updated')
       head :ok

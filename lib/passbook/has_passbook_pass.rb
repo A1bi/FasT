@@ -24,7 +24,7 @@ module Passbook
       end
 
       def update_passbook_pass
-        passbook_pass.update_file if passbook_pass.present?
+        passbook_pass.presence&.update_file
       end
     end
   end

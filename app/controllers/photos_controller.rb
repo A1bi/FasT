@@ -8,13 +8,13 @@ class PhotosController < ApplicationController
 
   def create
     @photo = authorize @photos.new(photo_params)
-    head @photo.save ? :no_content : :unprocessable_entity
+    head @photo.save ? :no_content : :unprocessable_content
   end
 
   def update
     success = @photo.update(photo_params)
     respond_to do |format|
-      format.json { head success ? :no_content : :unprocessable_entity }
+      format.json { head success ? :no_content : :unprocessable_content }
       format.html do
         return render :edit unless success
 

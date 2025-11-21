@@ -16,7 +16,7 @@ module Ticketing
 
       def init
         res = NodeApi.seating_request('setOriginalSeats', { seats: node_seats }, params[:socket_id])
-        head res.read_body[:ok] ? :ok : :unprocessable_entity
+        head res.read_body[:ok] ? :ok : :unprocessable_content
       end
 
       def finish
@@ -26,7 +26,7 @@ module Ticketing
                                                             socket_id: params[:socket_id],
                                                             by_customer: true,
                                                             current_user:)
-        return head :unprocessable_entity unless ticket_transfer_service.execute
+        return head :unprocessable_content unless ticket_transfer_service.execute
 
         OrderMailer.with(order: @order).tickets_changed.deliver_later
 

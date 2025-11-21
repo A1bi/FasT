@@ -16,7 +16,7 @@ module Api
           billing_account.deposit(params[:amount], params[:reason])
           return head :ok if billing_account.save
 
-          head :unprocessable_entity
+          head :unprocessable_content
         end
 
         private

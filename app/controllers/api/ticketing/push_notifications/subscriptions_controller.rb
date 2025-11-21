@@ -13,7 +13,7 @@ module Api
             user: current_user
           )
 
-          head registration.persisted? ? :no_content : :unprocessable_entity
+          head registration.persisted? ? :no_content : :unprocessable_content
         end
       end
     end
