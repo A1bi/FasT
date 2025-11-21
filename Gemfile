@@ -39,7 +39,7 @@ gem 'whenever', require: false
 gem 'jbuilder', '~> 2.10'
 gem 'matrix' # needed for prawn
 gem 'prawn-qrcode', '~> 0.5.1'
-gem 'prawn-svg', '~> 0.37.0'
+gem 'prawn-svg', '~> 0.38.0'
 gem 'prawn-table', '~> 0.2.1'
 gem 'record_tag_helper', '~> 1.0.1'
 gem 'roadie-rails', '~> 3.0'
@@ -60,7 +60,7 @@ end
 group :test do
   gem 'factory_bot_rails', '~> 6.4'
   gem 'pdf-inspector'
-  gem 'shoulda-matchers', '~> 6.0'
+  gem 'shoulda-matchers', '~> 7.0'
   gem 'simplecov', require: false
   gem 'webmock', '~> 3.0', require: false
 end
