@@ -4,7 +4,8 @@ class Wasserwerk
   include HTTParty
 
   base_uri 'https://api.wasserwerk.theater-kaisersesch.de'
-  headers 'Authorization' => "Bearer #{Rails.application.credentials.wasserwerk_api_token}"
+  headers 'Authorization' => "Bearer #{Rails.application.credentials.wasserwerk_api_token}",
+          'Content-Type' => 'application/json'
 
   class << self
     def state
@@ -19,7 +20,7 @@ class Wasserwerk
     def furnace_level=(level)
       return if Settings.wasserwerk.fake_api
 
-      response = patch('/furnace', body: { level: })
+      response = patch('/furnace', body: { level: }.to_json)
       raise 'Error' unless response.success?
     end
 
