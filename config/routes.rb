@@ -238,7 +238,9 @@ Rails.application.routes.draw do
         resources :check_ins, only: %i[index create]
 
         namespace :check_ins do
-          resources :orders, only: %i[index]
+          resources :orders, only: %i[index] do
+            post :mark_as_paid, on: :member
+          end
         end
 
         namespace :node do

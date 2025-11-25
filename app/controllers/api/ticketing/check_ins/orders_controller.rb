@@ -10,6 +10,12 @@ module Api
           @orders = ::Ticketing::Order.with_tickets.date_imminent
         end
 
+        def mark_as_paid
+          order = ::Ticketing::Order.find(params[:id])
+          ::Ticketing::OrderPaymentService.new(order).mark_as_paid
+          head :ok
+        end
+
         private
 
         def auth_token
