@@ -158,9 +158,15 @@ coupons = []
 end
 
 ## orders
-def create_tickets(order, coupons = [])
-  event = Ticketing::Event.ticketing_enabled.with_future_dates.sample
-  date = event.dates.sample
+def create_tickets(order, date_imminent: false, coupons: [])
+  if date_imminent
+    date = Ticketing::EventDate.imminent
+    event = date.event
+  else
+    event = Ticketing::Event.ticketing_enabled.with_future_dates.sample
+    date = event.dates.sample
+  end
+
   ticket_types = event.ticket_types.to_a.shuffle
   seats = event.seating.seats.to_a if event.seating?
 
@@ -199,7 +205,7 @@ pay_methods = Ticketing::Web::Order.pay_methods.keys
 pay_methods.delete('stripe') unless Settings.stripe.enabled
 
 ### web orders
-20.times do
+25.times do |i|
   order = Ticketing::Web::Order.new(
     first_name: FFaker::NameDE.first_name,
     last_name: FFaker::NameDE.last_name,
@@ -211,7 +217,7 @@ pay_methods.delete('stripe') unless Settings.stripe.enabled
     pay_method: pay_methods.sample
   )
 
-  create_tickets(order, coupons)
+  create_tickets(order, date_imminent: i < 10, coupons:)
 
   if order.charge_payment?
     order.bank_transactions.new(
