@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.array! @orders do |order|
-  json.call(order, :id, :first_name, :last_name, :paid)
+  json.call(order, :id, :first_name, :last_name, :paid, :balance)
   json.number order.number.to_s
 
   json.tickets order.tickets do |ticket|
