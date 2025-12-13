@@ -1,4 +1,4 @@
-| leider müssen wir Ihnen mitteilen, dass die Veranstaltung <b>„#{@order.event.name}“ am #{l @cancelled_dates.first.date, format: :long_weekday}</b>, für die Sie Tickets bestellt hatten, <b>leider ausfallen muss</b>.
+| leider müssen wir Ihnen mitteilen, dass die Veranstaltung <b>„#{@order.event.name}“ am #{l @cancelled_dates.first.date, format: :long_weekday}</b>, für die Sie Tickets bestellt hatten, #{@cancelled_dates.first.cancellation.reason} <b>leider ausfallen muss</b>.
 
 p Über folgenden Link können Sie Ihre Tickets vollständig erstatten lassen: #{link_to 'Tickets stornieren', overview_url}.
 
