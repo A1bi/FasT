@@ -4,6 +4,7 @@ class Nominatim
   include HTTParty
 
   base_uri 'https://nominatim.openstreetmap.org'
+  headers 'User-Agent' => 'FasT'
 
   class << self
     def cities_and_districts_for_postcode(postcode, country: 'DE')
