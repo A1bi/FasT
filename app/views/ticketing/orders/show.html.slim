@@ -229,7 +229,7 @@ ruby:
                       .ff-mono.small.text-body-secondary
                         div = obfuscated_iban(transaction.iban)
                         - if transaction.received?
-                          div = transaction.raw_source.dig('sepa', 'SVWZ')
+                          div = transaction.remittance_information
                     td
                       - if transaction.received?
                         | Erhaltene Überweisung

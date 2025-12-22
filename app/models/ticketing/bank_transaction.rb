@@ -80,6 +80,10 @@ module Ticketing
       id
     end
 
+    def remittance_information
+      camt_source&.dig('NtryDtls', 'TxDtls', 'RmtInf', 'Ustrd')
+    end
+
     def anonymizable?
       super && orders.all?(&:anonymized?)
     end

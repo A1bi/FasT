@@ -5,6 +5,7 @@ FactoryBot.define do
     transient do
       refund { false }
       bank_reference { 'foo' }
+      remittance_information { 'foo' }
     end
 
     name { 'John Doe' }
@@ -34,7 +35,12 @@ FactoryBot.define do
     end
 
     trait :received do
-      camt_source { { 'Amt' => 123, 'AcctSvcrRef' => bank_reference, 'BookgDt' => { 'Dt' => '2025-12-17' } } }
+      camt_source do
+        {
+          'Amt' => 123, 'AcctSvcrRef' => bank_reference, 'BookgDt' => { 'Dt' => '2025-12-17' },
+          'NtryDtls' => { 'TxDtls' => { 'RmtInf' => { 'Ustrd' => remittance_information } } }
+        }
+      end
     end
 
     factory :bank_debit

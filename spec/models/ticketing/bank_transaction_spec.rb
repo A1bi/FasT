@@ -164,4 +164,20 @@ RSpec.describe Ticketing::BankTransaction do
       it { is_expected.to be_truthy }
     end
   end
+
+  describe '#remittance_information' do
+    subject { transaction.remittance_information }
+
+    context 'with a received transaction' do
+      let(:transaction) { build(:bank_transaction, :received, remittance_information: 'foorem') }
+
+      it { is_expected.to eq('foorem') }
+    end
+
+    context 'with any other transaction' do
+      let(:transaction) { build(:bank_transaction) }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end
