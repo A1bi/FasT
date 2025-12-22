@@ -2,17 +2,18 @@
 
 module Ticketing
   class EbicsService
-    def statements(from, to = Time.zone.today)
-      sta = client.STA(from, to)
-      Cmxl.parse(sta, encoding: 'ISO-8859-1')
-    rescue Epics::Error::BusinessError => e
-      raise unless e.symbol == 'EBICS_NO_DOWNLOAD_DATA_AVAILABLE'
-
-      []
+    def statement_entries(from, to = Time.zone.today)
+      response = fetch_data do
+        client.C53(from.to_date, to.to_date)
+      end
+      extract_entries(response.map(&:statements))
     end
 
-    def transactions(from, to = Time.zone.today)
-      statements(from, to).map(&:transactions).flatten
+    def intraday_entries
+      response = fetch_data do
+        client.C52(Time.zone.today, Time.zone.today)
+      end
+      extract_entries(response.map(&:reports))
     end
 
     def submit_debits(xml)
@@ -24,6 +25,18 @@ module Ticketing
     end
 
     private
+
+    def extract_entries(response)
+      response.flatten.map(&:entries).flatten
+    end
+
+    def fetch_data
+      yield.map { |xml| SepaFileParser::String.parse(xml) }
+    rescue Epics::Error::BusinessError => e
+      raise unless e.symbol == 'EBICS_NO_DOWNLOAD_DATA_AVAILABLE'
+
+      []
+    end
 
     def client
       @client ||= Epics::Client.new(keys, credentials.secret, settings.url, settings.host_id,
