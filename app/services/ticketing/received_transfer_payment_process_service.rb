@@ -41,6 +41,12 @@ module Ticketing
 
     def statement_entries
       @ebics_service.statement_entries(fetch_from_date).select do |entry|
+        if entry.transactions.count != 1
+          Sentry.capture_message('bank statement entry does not contain exactly one transaction',
+                                 extra: { entry_bank_reference: entry.bank_reference })
+          next
+        end
+
         entry.credit? && entry.transactions[0].mandate_reference.blank?
       end
     end

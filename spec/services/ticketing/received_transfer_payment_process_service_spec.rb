@@ -19,8 +19,9 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     instance_double(SepaFileParser::Entry,
                     credit?: true, amount: amount.to_f, name: 'Johnny Doe', iban: 'DE75512108001245126199',
                     remittance_information: reference, bank_reference:,
-                    transactions: [entry_transaction], xml_data:)
+                    transactions: entry_transactions, xml_data:)
   end
+  let(:entry_transactions) { [entry_transaction] }
   let(:entry_transaction) do
     instance_double(SepaFileParser::Transaction, mandate_reference:)
   end
@@ -98,6 +99,19 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let(:mandate_reference) { 'fooref' }
 
     it_behaves_like 'does not match entry'
+  end
+
+  context 'when entry has more than one transaction' do
+    let(:entry_transactions) { [entry_transaction, entry_transaction] }
+
+    it_behaves_like 'does not match entry'
+
+    it 'creates a Sentry report' do
+      expect(Sentry).to receive(:capture_message)
+        .with('bank statement entry does not contain exactly one transaction',
+              extra: { entry_bank_reference: entry.bank_reference })
+      subject
+    end
   end
 
   context 'when no entries are returned from the bank' do
