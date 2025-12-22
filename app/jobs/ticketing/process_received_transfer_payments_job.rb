@@ -2,10 +2,10 @@
 
 module Ticketing
   class ProcessReceivedTransferPaymentsJob < ApplicationJob
-    def perform
+    def perform(intraday:)
       return unless Settings.ebics.enabled
 
-      ReceivedTransferPaymentProcessService.new.execute
+      ReceivedTransferPaymentProcessService.new.execute(intraday:)
     end
   end
 end

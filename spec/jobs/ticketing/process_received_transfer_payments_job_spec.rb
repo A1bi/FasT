@@ -2,9 +2,10 @@
 
 RSpec.describe Ticketing::ProcessReceivedTransferPaymentsJob do
   describe '#perform_now' do
-    subject { described_class.perform_now }
+    subject { described_class.perform_now(intraday:) }
 
     let(:service) { instance_double(Ticketing::ReceivedTransferPaymentProcessService, execute: true) }
+    let(:intraday) { true }
 
     before do
       allow(Settings.ebics).to receive(:enabled).and_return(enabled)
@@ -15,7 +16,7 @@ RSpec.describe Ticketing::ProcessReceivedTransferPaymentsJob do
       let(:enabled) { true }
 
       it 'calls the service' do
-        expect(service).to receive(:execute)
+        expect(service).to receive(:execute).with(intraday:)
         subject
       end
     end

@@ -8,8 +8,8 @@ module Ticketing
       @ebics_service = EbicsService.new
     end
 
-    def execute
-      statement_entries.each do |entry|
+    def execute(intraday: false)
+      statement_entries(intraday).each do |entry|
         log "Processing entry from '#{entry.name}': '#{entry.remittance_information&.truncate(30)}'..."
 
         BankTransaction.transaction do
@@ -39,8 +39,14 @@ module Ticketing
 
     private
 
-    def statement_entries
-      @ebics_service.statement_entries(fetch_from_date).select do |entry|
+    def statement_entries(intraday)
+      entries = if intraday
+                  @ebics_service.intraday_entries
+                else
+                  @ebics_service.statement_entries(fetch_from_date)
+                end
+
+      entries.select do |entry|
         if entry.transactions.count != 1
           Sentry.capture_message('bank statement entry does not contain exactly one transaction',
                                  extra: { entry_bank_reference: entry.bank_reference })

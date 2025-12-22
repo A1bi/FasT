@@ -3,10 +3,14 @@
 require 'support/time'
 
 RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
-  subject { service.execute }
+  subject { service.execute(intraday:) }
 
   let(:service) { described_class.new }
-  let(:ebics) { instance_double(Ticketing::EbicsService, statement_entries: entries) }
+  let(:intraday) { false }
+  let(:ebics) do
+    instance_double(Ticketing::EbicsService,
+                    statement_entries: entries, intraday_entries: entries)
+  end
   let(:entries) { [entry_debit, entry] }
   let(:entry_debit) do
     instance_double(SepaFileParser::Entry,
@@ -186,5 +190,21 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let(:reference) { nil }
 
     it_behaves_like 'does not match entry'
+  end
+
+  context 'when daily is requested' do
+    it 'fetches daily entries' do
+      expect(ebics).to receive(:statement_entries)
+      subject
+    end
+  end
+
+  context 'when intraday is requested' do
+    let(:intraday) { true }
+
+    it 'fetches intraday entries' do
+      expect(ebics).to receive(:intraday_entries).with(no_args)
+      subject
+    end
   end
 end

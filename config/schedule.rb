@@ -21,8 +21,12 @@ every :day, at: '10:30' do
   runner 'Members::RenewMembershipsJob.perform_later'
 end
 
-every :day, at: '08:00' do
-  runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later'
+every :day, at: '08:15' do
+  runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later(intraday: false)'
+end
+
+every :hour do
+  runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later(intraday: true)'
 end
 
 every :weekday, at: '09:00' do
