@@ -6,20 +6,29 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   subject { service.execute }
 
   let(:service) { described_class.new }
-  let(:ebics) { instance_double(Ticketing::EbicsService, transactions:) }
-  let(:transactions) { [transaction_debit, transaction] }
-  let(:transaction_debit) { instance_double(Cmxl::Fields::Transaction, credit?: false) }
-  let(:transaction) do
-    instance_double(Cmxl::Fields::Transaction,
-                    credit?: true, amount:, sha:, name: transaction_details['name'],
-                    sepa: { 'SVWZ' => reference, 'MREF' => mref }.compact,
-                    to_h: transaction_details)
+  let(:ebics) { instance_double(Ticketing::EbicsService, statement_entries: entries) }
+  let(:entries) { [entry_debit, entry] }
+  let(:entry_debit) do
+    instance_double(SepaFileParser::Entry,
+                    credit?: false, transactions: [entry_debit_transaction], xml_data:)
   end
-  let(:transaction_details) { { 'name' => 'Johnny Doe', 'iban' => 'DE75512108001245126199', 'amount' => amount.to_f } }
+  let(:entry_debit_transaction) do
+    instance_double(SepaFileParser::Transaction, mandate_reference: 'foomanref')
+  end
+  let(:entry) do
+    instance_double(SepaFileParser::Entry,
+                    credit?: true, amount: amount.to_f, name: 'Johnny Doe', iban: 'DE75512108001245126199',
+                    remittance_information: reference, bank_reference:,
+                    transactions: [entry_transaction], xml_data:)
+  end
+  let(:entry_transaction) do
+    instance_double(SepaFileParser::Transaction, mandate_reference:)
+  end
   let(:amount) { -order.balance }
   let(:reference) { "Bestellung #{order.number}" }
-  let(:sha) { 'abc123' }
-  let(:mref) { nil }
+  let(:bank_reference) { 'fooref' }
+  let(:mandate_reference) { '' }
+  let(:xml_data) { Nokogiri::XML.parse('<Ntry><foo>bar</foo></Ntry>') }
   let(:orders) { create_list(:order, 3, :complete, :unpaid, :with_balance) }
   let(:order) { orders[0] }
   let(:date) { Date.parse('2024-05-11') }
@@ -33,12 +42,11 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     it 'creates one matching bank transaction' do
       expect { subject }.to change(Ticketing::BankTransaction, :count).by(1)
       t = Ticketing::BankTransaction.last
-      expect(t.raw_source).to eq(transaction_details)
-      expect(t.raw_source_sha).to eq(sha)
+      expect(t.camt_source).to eq('foo' => 'bar')
     end
   end
 
-  shared_examples 'matches transaction' do
+  shared_examples 'matches entry' do
     it_behaves_like 'creates matching bank transaction'
 
     it 'marks the order as paid' do
@@ -54,7 +62,7 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     end
   end
 
-  shared_examples 'does not match transaction' do
+  shared_examples 'does not match entry' do
     it 'does not create any bank transactions' do
       expect { subject }.not_to change(Ticketing::BankTransaction, :count)
     end
@@ -66,7 +74,7 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
 
   context 'without existing received bank transactions' do
     it 'fetches transactions starting a week ago' do
-      expect(ebics).to receive(:transactions).with(date - 1.week)
+      expect(ebics).to receive(:statement_entries).with(date - 1.week)
       subject
     end
   end
@@ -75,60 +83,59 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
     let!(:existing_transaction) { create(:bank_transaction, :received) }
 
     it 'fetches transactions starting with the date of the last transaction' do
-      expect(ebics).to receive(:transactions).with(existing_transaction.raw_source['date'].to_date)
+      expect(ebics).to receive(:statement_entries).with(existing_transaction.camt_source['BookgDt']['Dt'].to_date)
       subject
     end
   end
 
-  context 'with existing received bank transactions with same hash' do
-    let!(:existing_transaction) { create(:bank_transaction, :received) }
-    let(:sha) { existing_transaction.raw_source_sha }
+  context 'with existing received bank transactions with same bank_reference' do
+    before { create(:bank_transaction, :received, bank_reference:) }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
-  context 'when transaction is a direct debit' do
-    let(:mref) { 'foo' }
+  context 'when entry is credit but actually the result of a debit performed by us' do
+    let(:mandate_reference) { 'fooref' }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
-  context 'when no transaction are returned from the bank' do
-    let(:transactions) { [] }
+  context 'when no entries are returned from the bank' do
+    let(:entries) { [] }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
-  it_behaves_like 'matches transaction'
+  it_behaves_like 'matches entry'
 
   context 'with reference missing keyword' do
     let(:reference) { order.number.to_s }
 
-    it_behaves_like 'matches transaction'
+    it_behaves_like 'matches entry'
   end
 
   context 'with reference including too many numbers' do
     let(:reference) { "1#{order.number}" }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
   context 'with reference not matching anything' do
     let(:reference) { '987654' }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
   context 'when order is already paid' do
     let(:order) { create(:order, :complete) }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
   context 'when order balance does not match transaction amount' do
     let(:amount) { 999 }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 
   context 'when two payments are combined into one' do
@@ -164,6 +171,6 @@ RSpec.describe Ticketing::ReceivedTransferPaymentProcessService do
   context 'when reference is missing' do
     let(:reference) { nil }
 
-    it_behaves_like 'does not match transaction'
+    it_behaves_like 'does not match entry'
   end
 end

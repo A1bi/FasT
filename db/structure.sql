@@ -955,8 +955,7 @@ CREATE TABLE public.ticketing_bank_transactions (
     submission_id bigint,
     amount numeric DEFAULT 0.0 NOT NULL,
     anonymized_at timestamp without time zone,
-    raw_source jsonb,
-    raw_source_sha bytea
+    camt_source jsonb
 );
 
 
@@ -3140,10 +3139,10 @@ CREATE INDEX index_photos_on_gallery_id ON public.photos USING btree (gallery_id
 
 
 --
--- Name: index_ticketing_bank_transactions_on_raw_source_sha; Type: INDEX; Schema: public; Owner: -
+-- Name: index_ticketing_bank_transactions_on_camt_source_AcctSvcrRef; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_ticketing_bank_transactions_on_raw_source_sha ON public.ticketing_bank_transactions USING btree (raw_source_sha);
+CREATE UNIQUE INDEX "index_ticketing_bank_transactions_on_camt_source_AcctSvcrRef" ON public.ticketing_bank_transactions USING btree (((camt_source ->> 'AcctSvcrRef'::text)));
 
 
 --
@@ -4043,6 +4042,7 @@ ALTER TABLE ONLY public.members_exclusive_ticket_type_credit_spendings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251222110358'),
 ('20250926193854'),
 ('20250617185930'),
 ('20250121223540'),

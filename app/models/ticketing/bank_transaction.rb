@@ -15,7 +15,6 @@ module Ticketing
     validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
     validates_with SEPA::IBANValidator, unless: :anonymized?
     validates :submission, absence: true, if: :received?
-    validates :raw_source_sha, presence: true, if: :received?
 
     class << self
       def open

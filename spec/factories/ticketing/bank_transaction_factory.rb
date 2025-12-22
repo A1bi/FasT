@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :bank_transaction, class: 'Ticketing::BankTransaction' do
     transient do
       refund { false }
+      bank_reference { 'foo' }
     end
 
     name { 'John Doe' }
@@ -33,7 +34,7 @@ FactoryBot.define do
     end
 
     trait :received do
-      camt_source { { 'Amt' => 123, 'AcctSvcrRef' => 'foo', 'BookgDt' => { 'Dt' => '2025-12-17' } } }
+      camt_source { { 'Amt' => 123, 'AcctSvcrRef' => bank_reference, 'BookgDt' => { 'Dt' => '2025-12-17' } } }
     end
 
     factory :bank_debit
