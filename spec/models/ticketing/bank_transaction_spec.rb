@@ -21,24 +21,24 @@ RSpec.describe Ticketing::BankTransaction do
   describe '#anonymize!' do
     subject { transaction.anonymize! }
 
-    let(:transaction) { create(:bank_transaction, :received, raw_source:) }
-    let(:raw_source) do
+    let(:transaction) { create(:bank_transaction, :received, camt_source:) }
+    let(:camt_source) do
       {
-        'amount' => 123, 'sub_fields' => { 'foo' => 'bar' }, 'entry_date' => '2024-05-14', 'information' => 'foobar',
-        'iban' => 'DE75512108001245126199', 'debit' => false, 'name' => 'John Doe', 'credit' => true,
-        'sepa' => { '123' => '456' }
+        'Amt' => 123, 'AcctSvcrRef' => 'foo', 'BookgDt' => { 'Dt' => '2025-12-17' },
+        'NtryDtls' => { 'TxDtls' => { 'RmtInf' => 'fooo', 'RltdPties' => { 'foo' => 'bar' }, 'CdtDbtInd' => 'bar' } }
       }
     end
-    let(:anonymized_raw_source) do
+    let(:anonymized_camt_source) do
       {
-        'amount' => 123, 'entry_date' => '2024-05-14', 'debit' => false, 'credit' => true
+        'Amt' => 123, 'AcctSvcrRef' => 'foo', 'BookgDt' => { 'Dt' => '2025-12-17' },
+        'NtryDtls' => { 'TxDtls' => { 'CdtDbtInd' => 'bar' } }
       }
     end
 
     before { allow(transaction).to receive(:orders).and_return(orders) }
 
-    it 'removes all anonymizable information from raw_source' do
-      expect { subject }.to change(transaction, :raw_source).from(raw_source).to(anonymized_raw_source)
+    it 'removes all anonymizable information from camt_source' do
+      expect { subject }.to change(transaction, :camt_source).from(camt_source).to(anonymized_camt_source)
     end
 
     context 'when not all orders are anonymized yet' do
@@ -50,19 +50,25 @@ RSpec.describe Ticketing::BankTransaction do
     end
   end
 
-  describe '#raw_source=' do
-    subject { transaction.raw_source = source }
+  describe '#camt_entry=' do
+    subject { transaction.camt_entry = entry }
 
     let(:transaction) { described_class.new }
-    let(:source_details) { { 'name' => 'foo', 'iban' => 'DE123', 'amount' => 123.45 } }
-    let(:source) { instance_double(Cmxl::Fields::Transaction, to_h: source_details) }
+    let(:xml) { Nokogiri::XML.parse('<Ntry><foo>bar</foo></Ntry>') }
+    let(:entry) do
+      instance_double(SepaFileParser::Entry, name: 'foo', iban: 'DE123', amount: 123.45, xml_data: xml)
+    end
 
-    it 'updates the transaction from source' do
+    it 'updates the transaction from the entry' do
       expect { subject }.to(
         change(transaction, :name).to('foo')
         .and(change(transaction, :iban).to('DE123'))
         .and(change(transaction, :amount).to(123.45))
       )
+    end
+
+    it 'updates camt_source' do
+      expect { subject }.to change(transaction, :camt_source).to('foo' => 'bar')
     end
   end
 

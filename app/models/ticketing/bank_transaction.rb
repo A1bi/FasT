@@ -9,7 +9,7 @@ module Ticketing
 
     auto_strip_attributes :name, squish: true
     auto_strip_attributes :iban, delete_whitespaces: true
-    is_anonymizable columns: %i[name iban raw_source]
+    is_anonymizable columns: %i[name iban camt_source]
 
     validates :name, presence: true, unless: :anonymized?
     validates :amount, numericality: { other_than: 0, if: proc { |c| c.submission.present? } }
@@ -19,7 +19,7 @@ module Ticketing
 
     class << self
       def open
-        where(submission: nil, raw_source: nil)
+        where(submission: nil, camt_source: nil)
       end
 
       def submittable
@@ -27,7 +27,7 @@ module Ticketing
       end
 
       def received
-        where.not(raw_source: nil)
+        where.not(camt_source: nil)
       end
 
       def transfers
@@ -66,14 +66,15 @@ module Ticketing
       !received? && !submitted?
     end
 
-    def raw_source=(source)
-      source = source.to_h
-      super
-      assign_attributes(source.slice('name', 'iban', 'amount'))
+    def camt_entry=(entry)
+      camt_source = Hash.from_xml(entry.xml_data.to_xml)['Ntry']
+      raise 'Empty camt_source received' if camt_source.blank?
+
+      assign_attributes(camt_source:, name: entry.name, iban: entry.iban, amount: entry.amount)
     end
 
     def received?
-      raw_source.present?
+      camt_source.present?
     end
 
     def mandate_id
@@ -86,8 +87,8 @@ module Ticketing
 
     private
 
-    def anonymize_raw_source
-      raw_source.except!('sub_fields', 'information', 'iban', 'details', 'name', 'sepa', 'bic')
+    def anonymize_camt_source
+      camt_source.dig('NtryDtls', 'TxDtls')&.except!('RltdPties', 'RmtInf')
     end
   end
 end

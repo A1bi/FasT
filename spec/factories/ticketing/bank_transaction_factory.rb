@@ -33,8 +33,7 @@ FactoryBot.define do
     end
 
     trait :received do
-      raw_source { { 'name' => 'foo', 'iban' => 'DE75512108001245126199', 'amount' => 123.45, 'date' => '2024-05-01' } }
-      raw_source_sha { FFaker::Crypto.sha256 }
+      camt_source { { 'Amt' => 123, 'AcctSvcrRef' => 'foo', 'BookgDt' => { 'Dt' => '2025-12-17' } } }
     end
 
     factory :bank_debit
