@@ -26,11 +26,11 @@ module Api
             .transactions
             .where('created_at > ?', start_date)
             .map do |transaction|
-            {
-              reason: translated_note_key(transaction),
-              amount: transaction.amount,
-              date: transaction.created_at.to_i
-            }
+              {
+                reason: translated_note_key(transaction),
+                amount: transaction.amount,
+                date: transaction.created_at.to_i
+              }
           end
         end
 
@@ -43,10 +43,10 @@ module Api
             .group('ticketing_box_office_purchase_items.purchasable_id')
             .sum('ticketing_box_office_purchase_items.number')
             .map do |item_id, number|
-            {
-              name: ::Ticketing::BoxOffice::Product.find(item_id).name,
-              number:
-            }
+              {
+                name: ::Ticketing::BoxOffice::Product.find(item_id).name,
+                number:
+              }
           end
         end
 

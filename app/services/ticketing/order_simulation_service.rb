@@ -81,7 +81,7 @@ module Ticketing
 
       group.reservations.where(date: event.dates)
            .each_with_object({}) do |reservation, seats|
-        (seats[reservation.date_id] ||= []) << reservation.seat_id
+             (seats[reservation.date_id] ||= []) << reservation.seat_id
       end
     end
   end

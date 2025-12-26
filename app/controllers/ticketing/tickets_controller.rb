@@ -80,8 +80,8 @@ module Ticketing
     def ticket_params
       params[:ticketing_tickets].permit!.to_h
                                 .each_with_object({}) do |(id, val), params|
-        ticket = params[id.to_i] = val.slice(:resale)
-        ticket[:type_id] = val[:type_id].to_i if val.key?(:type_id)
+                                  ticket = params[id.to_i] = val.slice(:resale)
+                                  ticket[:type_id] = val[:type_id].to_i if val.key?(:type_id)
       end
     end
 
