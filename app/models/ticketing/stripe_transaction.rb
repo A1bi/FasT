@@ -18,5 +18,11 @@ module Ticketing
         where(type: 'payment_intent')
       end
     end
+
+    def method
+      return super if payment_intent? || super.present?
+
+      order.stripe_transactions.payment_intent.first&.method
+    end
   end
 end
