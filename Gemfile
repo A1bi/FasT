@@ -51,6 +51,9 @@ gem 'sprockets-rails', '~> 3.4'
 gem 'prawn', '~> 2.4.0'
 gem 'ttfunk', '~> 1.7.0'
 
+# pin to 2.x until https://github.com/rails/rails/issues/56291 is fixed
+gem 'connection_pool', '~> 2.0'
+
 group :development, :test do
   gem 'byebug'
   gem 'ffaker', '~> 2.13'
