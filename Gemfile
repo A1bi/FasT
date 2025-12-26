@@ -8,7 +8,7 @@ gem 'rails', '~> 8.0.0'
 gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 8.0'
 
-gem 'apnotic', '~> 1.7.0'
+gem 'apnotic', '~> 1.8.0'
 gem 'auto_strip_attributes', '~> 2.6.0'
 gem 'bcrypt', '~> 3.1.16'
 gem 'bindata', '~> 2.5.0'
