@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'pg'
 gem 'puma', '~> 7.0'
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.1.0'
 gem 'redis', '~> 5.0'
 gem 'sidekiq', '~> 8.0'
 
