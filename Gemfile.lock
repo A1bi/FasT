@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (2.0.1)
-    action_text-trix (2.1.15)
+    action_text-trix (2.1.16)
       railties
     actioncable (8.1.1)
       actionpack (= 8.1.1)
@@ -90,7 +90,7 @@ GEM
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
     base64 (0.3.0)
-    bcrypt (3.1.20)
+    bcrypt (3.1.21)
     bigdecimal (3.3.1)
     bindata (2.5.1)
     bootsnap (1.20.1)
@@ -191,13 +191,13 @@ GEM
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
     ffaker (2.25.0)
-    ffi (1.17.2)
+    ffi (1.17.3)
     globalid (1.3.0)
       activesupport (>= 6.1)
     hashdiff (1.2.1)
     hashery (2.1.2)
     http-2 (1.1.1)
-    httparty (0.23.2)
+    httparty (0.24.0)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -291,7 +291,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.6.2)
+    pg (1.6.3)
     phony (3.0.2)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
@@ -316,7 +316,7 @@ GEM
     psych (5.3.1)
       date
       stringio
-    public_suffix (7.0.0)
+    public_suffix (7.0.1)
     puma (7.1.0)
       nio4r (~> 2.0)
     pundit (2.5.2)
@@ -420,7 +420,7 @@ GEM
     rubocop-factory_bot (2.28.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
-    rubocop-rails (2.34.2)
+    rubocop-rails (2.34.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)

@@ -30,7 +30,7 @@ module FasT
 
     config.encoding = 'utf-8'
 
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     config.action_dispatch.rescue_responses.merge!(
       'ActiveSupport::MessageVerifier::InvalidSignature' => :forbidden
