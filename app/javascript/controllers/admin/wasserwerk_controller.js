@@ -19,6 +19,7 @@ export default class extends Controller {
 
   static furnacePowerThreshold = 10
   static refreshPeriod = 30000
+  static acceleratedRefreshPeriod = 5000
   static furnaceSetGracePeriod = 60000
 
   async connect () {
@@ -31,8 +32,7 @@ export default class extends Controller {
     this.spinnerVisible = true
 
     try {
-      await this.fetchState()
-      window.setInterval(() => this.fetchState(), this.constructor.refreshPeriod)
+      await this.refreshState()
       this.spinnerVisible = false
     } catch (error) {
       window.alert(this.errorFetchMessageValue)
@@ -50,6 +50,14 @@ export default class extends Controller {
 
     this.updateFurnaceState()
     this.updateMeasurements(state)
+  }
+
+  async refreshState () {
+    window.clearTimeout(this.refreshTimer)
+    await this.fetchState()
+    const nextRefresh = this.withinFurnaceSetGracePeriod ?
+                          this.constructor.acceleratedRefreshPeriod : this.constructor.refreshPeriod
+    this.refreshTimer = window.setTimeout(() => this.refreshState(), nextRefresh)
   }
 
   updateFurnaceState (state) {
@@ -99,7 +107,7 @@ export default class extends Controller {
       try {
         await fetch(this.stateUrlValue, 'patch', { furnace: { level: newLevel } })
         this.furnaceLevelSetAt = new Date()
-        await this.fetchState()
+        await this.refreshState()
       } catch (error) {
         window.alert(this.errorSetMessageValue)
         throw error
