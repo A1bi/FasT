@@ -19,6 +19,7 @@ export default class extends Controller {
 
   static furnacePowerThreshold = 10
   static refreshPeriod = 30000
+  static furnaceSetGracePeriod = 60000
 
   async connect () {
     this.dayjs = (await import('dayjs')).default
@@ -68,7 +69,8 @@ export default class extends Controller {
     this.furnacePowerLabelTargets.forEach(target => { target.textContent = `${this.furnacePower} W` })
     toggleDisplay(this.furnacePowerOnLabelTarget, this.furnaceActualState)
     toggleDisplay(this.furnacePowerOffLabelTarget, !this.furnaceActualState)
-    toggleDisplay(this.furnacePowerMismatchAlertTarget, this.furnaceLevel > 0 && !this.furnaceActualState)
+    toggleDisplay(this.furnacePowerMismatchAlertTarget, !this.withinFurnaceSetGracePeriod &&
+                                                        this.furnaceLevel > 0 && !this.furnaceActualState)
   }
 
   async updateMeasurements (state) {
@@ -96,6 +98,7 @@ export default class extends Controller {
     } else {
       try {
         await fetch(this.stateUrlValue, 'patch', { furnace: { level: newLevel } })
+        this.furnaceLevelSetAt = new Date()
         await this.fetchState()
       } catch (error) {
         window.alert(this.errorSetMessageValue)
@@ -104,6 +107,10 @@ export default class extends Controller {
     }
 
     this.spinnerVisible = false
+  }
+
+  get withinFurnaceSetGracePeriod () {
+    return this.furnaceLevelSetAt && new Date() - this.furnaceLevelSetAt < this.constructor.furnaceSetGracePeriod
   }
 
   // eslint-disable-next-line accessor-pairs
