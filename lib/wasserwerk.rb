@@ -28,7 +28,10 @@ class Wasserwerk
 
     def fake_response
       {
-        furnace: { level: 3 },
+        furnace: {
+          level: 3,
+          power: 50
+        },
         measurements: {
           stage: {
             temperature: 11.1,

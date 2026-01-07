@@ -3,8 +3,9 @@ import { toggleDisplay, fetch } from 'components/utils'
 
 export default class extends Controller {
   static targets = [
-    'furnaceLevelLabel', 'furnaceOffLabel', 'furnaceScaleStep', 'furnaceForm', 'furnaceLevelInput', 'spinner',
-    'temperature', 'humidity', 'updatedAt'
+    'furnaceLevelLabel', 'furnaceOffLabel', 'furnaceScaleStep', 'furnaceForm', 'furnaceLevelInput',
+    'furnacePowerMismatchAlert', 'furnacePowerOnLabel', 'furnacePowerOffLabel', 'furnacePowerLabel',
+    'spinner', 'temperature', 'humidity', 'updatedAt'
   ]
 
   static values = {
@@ -15,6 +16,9 @@ export default class extends Controller {
     errorSetMessage: String,
     locations: Array
   }
+
+  static furnacePowerThreshold = 10
+  static refreshPeriod = 30000
 
   async connect () {
     this.dayjs = (await import('dayjs')).default
@@ -27,7 +31,7 @@ export default class extends Controller {
 
     try {
       await this.fetchState()
-      window.setInterval(() => this.fetchState(), 30000)
+      window.setInterval(() => this.fetchState(), this.constructor.refreshPeriod)
       this.spinnerVisible = false
     } catch (error) {
       window.alert(this.errorFetchMessageValue)
@@ -40,6 +44,8 @@ export default class extends Controller {
     if (!state) return
 
     this.furnaceLevel = state.furnace.level
+    this.furnacePower = state.furnace.power
+    this.furnaceActualState = this.furnacePower >= this.constructor.furnacePowerThreshold
 
     this.updateFurnaceState()
     this.updateMeasurements(state)
@@ -50,7 +56,7 @@ export default class extends Controller {
     toggleDisplay(this.furnaceOffLabelTarget, this.furnaceLevel === 0)
 
     if (this.furnaceLevel > 0) {
-      this.furnaceLevelLabelTarget.querySelector('strong span').innerText = this.furnaceLevel
+      this.furnaceLevelLabelTarget.querySelector('strong span').textContent = this.furnaceLevel
     }
 
     this.furnaceScaleStepTargets.forEach((step, i) => {
@@ -58,6 +64,11 @@ export default class extends Controller {
     })
 
     if (this.hasFurnaceLevelInputTarget) this.furnaceLevelInputTarget.value = this.furnaceLevel
+
+    this.furnacePowerLabelTargets.forEach(target => { target.textContent = `${this.furnacePower} W` })
+    toggleDisplay(this.furnacePowerOnLabelTarget, this.furnaceActualState)
+    toggleDisplay(this.furnacePowerOffLabelTarget, !this.furnaceActualState)
+    toggleDisplay(this.furnacePowerMismatchAlertTarget, this.furnaceLevel > 0 && !this.furnaceActualState)
   }
 
   async updateMeasurements (state) {
@@ -65,10 +76,10 @@ export default class extends Controller {
       const locationState = state.measurements[location]
       if (!locationState) return
 
-      this.temperatureTargets[i].innerText = locationState.temperature.toLocaleString()
-      this.humidityTargets[i].innerText = Math.round(locationState.humidity)
+      this.temperatureTargets[i].textContent = locationState.temperature.toLocaleString()
+      this.humidityTargets[i].textContent = Math.round(locationState.humidity)
       const updatedAt = this.dayjs(locationState.updated_at)
-      this.updatedAtTargets[i].innerText = updatedAt.fromNow()
+      this.updatedAtTargets[i].textContent = updatedAt.fromNow()
       this.updatedAtTargets[i].title = updatedAt.toDate().toLocaleString()
     })
   }

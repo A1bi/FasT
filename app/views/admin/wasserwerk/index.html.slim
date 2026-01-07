@@ -7,6 +7,9 @@
     .col-12.col-md-6
       .card.h-100
         h2 Ofen
+        .row.d-none(data-admin--wasserwerk-target='furnacePowerMismatchAlert'): .col-12
+          = render 'alert', type: :warning, class: 'mb-0'
+            | Es scheint, dass der Ofen aktuell nicht reagiert.
         .row
           .col-2
             .furnace-scale
@@ -15,6 +18,12 @@
           .col-10
             p.d-none data-admin--wasserwerk-target='furnaceLevelLabel' Der Ofen ist derzeit auf <strong>Stufe <span>2</span></strong> eingestellt.
             p.d-none data-admin--wasserwerk-target='furnaceOffLabel' Der Ofen ist derzeit <strong>ausgeschaltet</strong>.
+            p.d-none data-admin--wasserwerk-target='furnacePowerOnLabel'
+              i.bi.bi-fire.text-red>
+              | Er verbraucht gerade <b data-admin--wasserwerk-target='furnacePowerLabel'>0 W</b> Strom und ist somit <b>in Betrieb</b>.
+            p.d-none data-admin--wasserwerk-target='furnacePowerOffLabel'
+              i.bi.bi-snow2>
+              | Er verbraucht gerade <b data-admin--wasserwerk-target='furnacePowerLabel'>0 W</b> Strom und ist somit <b>nicht in Betrieb</b>.
         - if policy([:admin, :wasserwerk]).update?
           form data-admin--wasserwerk-target='furnaceForm' data-action='admin--wasserwerk#setFurnaceLevel'
             .row
