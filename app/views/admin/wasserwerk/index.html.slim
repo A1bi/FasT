@@ -35,6 +35,10 @@
                 input.btn type='submit' value='einstellen'
         .row.justify-content-end data-admin--wasserwerk-target='spinner': .col-auto
           = render 'spinner', class: 'dark'
+        = render 'alert', type: :info, class: 'mt-1'
+          .small Es kann einige Sekunden nach dem Einschalten dauern, bis der Ofen reagiert.
+          .small.mt-1 Nach dem Ausschalten wird der Ofen für einige Zeit weiter als <em>im Betrieb</em> angezeigt, da er erst nach der Abkühlung vollständig abschaltet.
+          .small.mt-1 Sollte der Ofen nicht reagieren, bitte prüfen, dass der Schiebeschalter auf der Rückseite mittig auf <em>Remote</em> steht.
     .col-12.col-md-6
       .card.h-100
         h2 Temperaturen
