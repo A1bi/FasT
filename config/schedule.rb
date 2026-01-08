@@ -25,7 +25,7 @@ every :day, at: '08:15' do
   runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later(intraday: false)'
 end
 
-every :hour do
+every :hour, at: '00:42' do
   runner 'Ticketing::ProcessReceivedTransferPaymentsJob.perform_later(intraday: true)'
 end
 
